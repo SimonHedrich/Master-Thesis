@@ -1,6 +1,6 @@
 .DS_Store
 data/*
-
+resources/SNPredictions_all*
 
 __pycache__/
 *.py[codz]
