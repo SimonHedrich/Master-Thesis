@@ -1,0 +1,225 @@
+85662682-67c1-4ecb-ba05-ba12e2df6b65;mammalia;carnivora;ursidae;ailuropoda;melanoleuca;giant panda
+90924dcf-2d47-4135-a236-f88e8c079dc8;mammalia;carnivora;ursidae;helarctos;malayanus;sun bear
+df6e4ef2-8d12-4925-a3f0-2c9fc6ba2b38;mammalia;carnivora;ursidae;melursus;ursinus;sloth bear
+796a6de7-4ce1-4bba-9d97-72597f3a5763;mammalia;carnivora;ursidae;tremarctos;ornatus;spectacled bear
+436ddfdd-bc43-44c3-a25d-34671d3430a0;mammalia;carnivora;ursidae;ursus;americanus;american black bear
+330bb1e9-84d6-4e41-afa9-938aee17ea29;mammalia;carnivora;ursidae;ursus;arctos;brown bear
+edcbe8f5-82e6-4af7-bed9-520915c3bbc8;mammalia;carnivora;ursidae;ursus;thibetanus;asiatic black bear
+7bef348d-37cf-4b5b-bf91-e4fe2dfc483c;mammalia;carnivora;ailuridae;ailurus;fulgens;red panda
+ee8d5a89-f82e-4323-80e2-0ffc9487ebaf;mammalia;carnivora;canidae;canis;lupus;grey wolf
+aaf3b049-36e6-46dd-9a07-8a580e9618b7;mammalia;carnivora;canidae;canis;latrans;coyote
+3d80f1d6-b1df-4966-9ff4-94053c7a902a;mammalia;carnivora;canidae;canis;familiaris;domestic dog
+36b9abce-005b-439a-858f-1660e5027ccb;mammalia;carnivora;canidae;canis;lupus dingo;dingo
+152e91ce-cadc-43ef-9d7a-084b7f752ebe;mammalia;carnivora;canidae;canis;mesomelas;black-backed jackal
+15abc3f7-7155-450e-a590-1730ee9a1adb;mammalia;carnivora;canidae;canis;aureus;golden jackal
+ac0e8ba7-7261-4d17-8645-11ed3d02165a;mammalia;carnivora;canidae;vulpes;vulpes;red fox
+ffe603fc-4920-4302-96d0-65f708bd5b2d;mammalia;carnivora;canidae;urocyon;cinereoargenteus;grey fox
+979cb74b-38b3-4d88-b828-c6091e64564a;mammalia;carnivora;canidae;lycaon;pictus;african wild dog
+a5105a31-78d8-4709-81d6-1aa6822ab86f;mammalia;carnivora;canidae;chrysocyon;brachyurus;maned wolf
+52674140-b07c-4a6e-9e2b-a48234018ef0;mammalia;carnivora;canidae;cuon;alpinus;dhole
+746d3e98-64af-4897-9cd3-c09b169a8c69;mammalia;carnivora;canidae;nyctereutes;procyonoides;raccoon dog
+723584af-fbd4-4839-84be-cd89acacc070;mammalia;carnivora;canidae;otocyon;megalotis;bat-eared fox
+5dad6c30-0034-4d20-80d7-afc4b6ad0fa7;mammalia;carnivora;canidae;lycalopex;;lycalopex species
+ddf59264-185a-4d35-b647-2785792bdf54;mammalia;carnivora;felidae;panthera;leo;lion
+aa73e0ac-973d-461d-914a-d2fa6e4b98a4;mammalia;carnivora;felidae;panthera;pardus;leopard
+e1c6c5b2-b808-4d50-bf01-90aa46f964c2;mammalia;carnivora;felidae;panthera;tigris;tiger
+9b7fea59-cfa3-499c-a420-bcf36277dcd8;mammalia;carnivora;felidae;panthera;onca;jaguar
+07153810-54e6-4a5c-85a4-1968d82def4c;mammalia;carnivora;felidae;panthera;uncia;snow leopard
+5a9b1344-2dd5-4162-9d85-77ee4648ad9c;mammalia;carnivora;felidae;acinonyx;jubatus;cheetah
+9c564562-9429-405c-8529-04cff7752282;mammalia;carnivora;felidae;puma;concolor;puma
+ba76d46e-25de-45e2-90a8-bd279b650f7c;mammalia;carnivora;felidae;lynx;rufus;bobcat
+11eaadc0-e38e-473f-be82-b97f0c0fc571;mammalia;carnivora;felidae;lynx;canadensis;canada lynx
+ea3fb6be-f489-4c8c-9002-bc2d0a22d007;mammalia;carnivora;felidae;lynx;lynx;eurasian lynx
+9212982e-8a58-4775-a6ac-e9a43110d8f5;mammalia;carnivora;felidae;felis;catus;domestic cat
+96debe9f-7452-42c9-87ae-2e6b37f78025;mammalia;carnivora;felidae;felis;silvestris;wild cat
+573c85b2-4dac-406f-bcd2-ab2448fd234c;mammalia;carnivora;felidae;leptailurus;serval;serval
+2e0df4cb-9598-4ef4-bfdf-e0bb36923e39;mammalia;carnivora;felidae;caracal;caracal;caracal
+44e7f637-f8db-4252-9804-7c200fd6516c;mammalia;carnivora;felidae;neofelis;nebulosa;clouded leopard
+6f5cfe6e-4d2f-4a39-b7eb-cffe6aef7de1;mammalia;carnivora;felidae;prionailurus;bengalensis;leopard cat
+05afbf7e-f878-4534-b08f-c97a02435474;mammalia;carnivora;felidae;leopardus;;leopardus species
+22976d14-d424-4f18-a67a-d8e1689cefcc;mammalia;carnivora;felidae;leopardus;pardalis;ocelot
+33aebad1-08bd-4d07-a82e-bdc55dc9e8ef;mammalia;carnivora;mustelidae;gulo;gulo;wolverine
+a4f40e31-17f6-45b7-8b9d-e32af92a24df;mammalia;carnivora;mustelidae;mellivora;capensis;honey badger
+e70effd7-855e-4ba3-966c-a4fbb74eab13;mammalia;carnivora;mustelidae;taxidea;taxus;american badger
+73baf300-5592-4ab5-9da8-7da898477934;mammalia;carnivora;mustelidae;meles;meles;eurasian badger
+a70c87e9-62bc-41c2-9e36-96fed9136046;mammalia;carnivora;mustelidae;lontra;canadensis;north american river otter
+0f132580-6fc9-4ffa-8e6d-39cdc00c359e;mammalia;carnivora;mustelidae;lutra;lutra;eurasian otter
+7f5c2e63-1b48-4a9d-a6e1-8c3d5f7b8066;mammalia;carnivora;mustelidae;enhydra;lutris;sea otter
+07709a39-6d4b-4973-bc8e-3543ce208611;mammalia;carnivora;mustelidae;pteronura;brasiliensis;giant otter
+7c82313a-008c-41c3-84ac-171e5796bd4a;mammalia;carnivora;mustelidae;neovison;vison;american mink
+ae7d1bde-3d29-41fc-a52f-5c6e087143df;mammalia;carnivora;mustelidae;pekania;pennanti;fisher
+6d0d096e-79b8-4fbe-90e1-044e41e24c2c;mammalia;carnivora;mustelidae;eira;barbara;tayra
+70038d11-882c-4c9a-8578-1782a68528c8;mammalia;carnivora;mustelidae;arctonyx;;hog badger genus
+43d7217e-9bc8-42d2-934f-dfdbbbaaf998;mammalia;carnivora;mustelidae;martes;;martes species
+7d6dbfa0-522c-4397-a59c-4b8439cad16b;mammalia;carnivora;mustelidae;mustela;;weasel species
+dce8d520-a3f6-4ed7-a434-bfe98f81a03d;mammalia;carnivora;hyaenidae;crocuta;crocuta;spotted hyaena
+2e5b35a8-563f-4372-9f32-cb869448c88a;mammalia;carnivora;hyaenidae;hyaena;hyaena;striped hyaena
+044f1882-218f-47d6-ae20-4dcb3005bb87;mammalia;carnivora;hyaenidae;parahyaena;brunnea;brown hyaena
+fa0d7796-5b11-450d-b15c-d49fdfe89d0e;mammalia;carnivora;hyaenidae;proteles;cristata;aardwolf
+b57debc1-dff2-48d3-a400-f2b5021e71b0;mammalia;carnivora;procyonidae;procyon;lotor;northern raccoon
+8888a7db-7693-44ff-a992-787b462b8c8f;mammalia;carnivora;procyonidae;bassariscus;astutus;ringtail
+1df7d5e4-16ac-4533-81f7-b2e6c8a0ff00;mammalia;carnivora;procyonidae;nasua;narica;white-nosed coati
+1d3bbcaa-f81a-41d9-8904-5cc8a505af32;mammalia;carnivora;procyonidae;nasua;nasua;south american coati
+becf3932-4ec8-4897-8d41-f9f248648794;mammalia;carnivora;procyonidae;potos;flavus;kinkajou
+ca79a481-7751-466f-83ac-7799efcd2aca;mammalia;carnivora;herpestidae;;;mongoose family
+8ff5f9db-dbd5-4ad3-a834-22ade546c36b;mammalia;carnivora;herpestidae;suricata;suricatta;meerkat
+9282b7e4-f3b0-4ef3-9741-cae7f7bd346a;mammalia;carnivora;mephitidae;mephitis;mephitis;striped skunk
+ada11e05-e29d-41f2-83e2-697ca5eadaee;mammalia;carnivora;mephitidae;spilogale;;spilogale species
+58bbfcec-c72c-4e59-a980-214cd62f9bd5;mammalia;carnivora;pinniped;;;pinniped clade
+c2e3f4a5-6789-4bcd-8efa-2345678901bc;mammalia;carnivora;phocidae;mirounga;;elephant seal
+d3f4a5b6-7890-4cde-9fab-3456789012cd;mammalia;carnivora;otariidae;;;eared seals
+e4a5b6c7-8901-4def-abcd-4567890123de;mammalia;carnivora;odobenidae;odobenus;rosmarus;walrus
+127278f5-8bf3-4f85-ba19-99e097f17f46;mammalia;carnivora;viverridae;civettictis;civetta;african civet
+b310c664-bb99-487b-9c54-fb0935165d29;mammalia;carnivora;viverridae;arctictis;binturong;binturong
+afa5f0f8-3a37-4381-97c9-d3832046ef59;mammalia;carnivora;viverridae;genetta;;genet genus
+49c5727a-c2ab-4942-925a-a6d4c28a1ce4;mammalia;carnivora;eupleridae;cryptoprocta;ferox;fossa
+5c7ce479-8a45-40b3-ae21-7c97dfae22f5;mammalia;cetartiodactyla;cervidae;odocoileus;virginianus;white-tailed deer
+febff896-db40-4ac8-bcfe-5bb99a600950;mammalia;cetartiodactyla;cervidae;odocoileus;hemionus;mule deer
+c5ce946f-8f0d-4379-992b-cc0982381f5e;mammalia;cetartiodactyla;cervidae;cervus;canadensis;elk
+eb3829b0-772e-4088-ae90-f11b9fe38284;mammalia;cetartiodactyla;cervidae;cervus;elaphus;red deer
+e415387d-26d7-4ef1-9c47-539870f7429b;mammalia;cetartiodactyla;cervidae;cervus;nippon;sika deer
+429257d4-3ef2-47fb-b849-66ee6c107346;mammalia;cetartiodactyla;cervidae;alces;alces;moose
+294ffd0a-220a-4d80-8e58-7b1ff62bdc32;mammalia;cetartiodactyla;cervidae;rangifer;tarandus;reindeer
+317171d7-d306-4e71-9a4a-33e62012076b;mammalia;cetartiodactyla;cervidae;capreolus;capreolus;european roe deer
+75e7ac24-a298-4a2f-bc12-9a153b08b7e6;mammalia;cetartiodactyla;cervidae;dama;dama;common fallow deer
+8221a31b-e2be-42d4-ac37-f39966d2d28c;mammalia;cetartiodactyla;cervidae;axis;axis;chital
+88a09b30-c677-4d40-9480-573d789ae60b;mammalia;cetartiodactyla;cervidae;hydropotes;inermis;water deer
+96d478d5-30c4-4857-81de-9ac46d132800;mammalia;cetartiodactyla;cervidae;rusa;unicolor;sambar
+a04c522f-8ca1-4c09-85b5-a0f29b8466a8;mammalia;cetartiodactyla;cervidae;muntiacus;;muntjac genus
+0dba69b2-dfd7-48af-8e64-e576cbda74c3;mammalia;cetartiodactyla;cervidae;mazama;americana;red brocket
+c134e0ab-cf96-45ec-bae6-60b94995f71b;mammalia;cetartiodactyla;bovidae;aepyceros;melampus;impala
+09fbf931-bbf0-4959-9df6-1082db578281;mammalia;cetartiodactyla;bovidae;connochaetes;taurinus;common wildebeest
+e79a4440-5f61-4e45-a297-8f4a1b251b02;mammalia;cetartiodactyla;bovidae;connochaetes;gnou;black wildebeest
+dc5dbe17-a8ca-40a6-ac6a-3b6b1d63e6d6;mammalia;cetartiodactyla;bovidae;eudorcas;thomsonii;thomson's gazelle
+8c48ed75-e275-4188-a6b1-55929d298e85;mammalia;cetartiodactyla;bovidae;nanger;granti;grant's gazelle
+15d23ca7-886e-4336-ae87-e364c0f50d3a;mammalia;cetartiodactyla;bovidae;antidorcas;marsupialis;springbok
+6038ccfc-94bd-4f04-9ec8-77a4f1fb78fe;mammalia;cetartiodactyla;bovidae;oryx;gazella;gemsbok
+fa099712-2ca2-4645-afc2-367b2a585852;mammalia;cetartiodactyla;bovidae;litocranius;walleri;gerenuk
+a6c4ef9a-d23f-49ca-97c6-4f859df0066e;mammalia;cetartiodactyla;bovidae;alcelaphus;buselaphus;hartebeest
+b0f1b993-d62c-4b55-b833-5e575a15df05;mammalia;cetartiodactyla;bovidae;kobus;ellipsiprymnus;waterbuck
+7a51d4c8-3b6f-4b95-9c14-8c1d2e7f3a33;mammalia;cetartiodactyla;bovidae;kobus;kob;kob
+6ffe2064-cabd-4fcb-8c1b-f168bf381aab;mammalia;cetartiodactyla;bovidae;tragelaphus;oryx;common eland
+d2e4f2d3-7182-48d1-a866-535904fe7692;mammalia;cetartiodactyla;bovidae;tragelaphus;strepsiceros;greater kudu
+7bfdcb3a-386b-4e47-9780-3fea47fa4e6e;mammalia;cetartiodactyla;bovidae;tragelaphus;angasii;nyala
+1ae5230b-5168-4491-ad4e-19583eb21b52;mammalia;cetartiodactyla;bovidae;tragelaphus;scriptus;bushbuck
+949bba95-56a5-4913-84b1-751551cde52e;mammalia;cetartiodactyla;bovidae;tragelaphus;eurycerus;bongo
+2032f6c0-3537-4316-a0d7-1e754d42ed80;mammalia;cetartiodactyla;bovidae;hippotragus;niger;sable antelope
+0c81e77b-f701-4a89-841d-77a63dd78a30;mammalia;cetartiodactyla;bovidae;hippotragus;equinus;roan antelope
+c582e165-1d76-4520-bea6-f2c516fbb0a2;mammalia;cetartiodactyla;bovidae;raphicerus;campestris;steenbok
+94f893d8-9b8b-4f93-92e3-841feadce53b;mammalia;cetartiodactyla;bovidae;madoqua;kirkii;kirk's dik-dik
+4d29815c-2b61-4595-a520-2441af567d64;mammalia;cetartiodactyla;bovidae;sylvicapra;grimmia;common duiker
+95a14da6-e52a-4b7c-ad5f-eebca60a0e30;mammalia;cetartiodactyla;bovidae;oreotragus;oreotragus;klipspringer
+da6a6c59-245d-4560-9724-3b36c074951d;mammalia;cetartiodactyla;bovidae;damaliscus;pygargus;blesbok
+34078f5f-1006-4a79-a62d-e5f0477abb53;mammalia;cetartiodactyla;bovidae;redunca;;reedbuck genus
+3e34492e-b6d2-4db9-925d-301beb639cad;mammalia;artiodactyla;bovidae;cephalophus;;cephalophus species
+f0bc62c2-1e46-49ae-85aa-e2d5a2e136d4;mammalia;cetartiodactyla;bovidae;ovis;canadensis;bighorn sheep
+0de8422e-f59d-4802-9e93-ab8559e43e55;mammalia;artiodactyla;bovidae;ovis;aries;domestic sheep
+80921fd4-335d-488e-96f3-cca25b40d5ed;mammalia;cetartiodactyla;bovidae;ovis;orientalis;mouflon
+af80ecfc-4048-4ae6-b0d5-66913090d777;mammalia;cetartiodactyla;bovidae;oreamnos;americanus;mountain goat
+7dcc8168-aea4-43cc-b724-88b1facc8984;mammalia;cetartiodactyla;bovidae;capra;ibex;alpine ibex
+189cdd40-b83d-48d1-a4fa-e43a104f2a23;mammalia;cetartiodactyla;bovidae;capra;aegagrus hircus;domestic goat
+d59fa681-5c7b-4700-9f18-de6c7739dc54;mammalia;cetartiodactyla;bovidae;rupicapra;rupicapra;northern chamois
+d8a9a77c-c66e-41f6-9134-0ce7d4b7cb3c;mammalia;artiodactyla;bovidae;antilope;cervicapra;blackbuck
+caa100ab-7792-4f35-8f95-17d8f8a99505;mammalia;cetartiodactyla;bovidae;boselaphus;tragocamelus;nilgai
+3f8a2b91-0e64-4a6c-b0e7-2a6c4e5d9f22;mammalia;cetartiodactyla;bovidae;saiga;tatarica;saiga
+9732cefb-6a08-49f6-b61e-b9a9054368c4;mammalia;cetartiodactyla;bovidae;syncerus;caffer;african buffalo
+539ebd55-081b-429a-9ae6-5a6a0f6999d4;mammalia;cetartiodactyla;bovidae;bison;bison;american bison
+18c5f185-04c8-43fc-9325-d38f7daa2700;mammalia;cetartiodactyla;bovidae;bison;bonasus;european bison
+aca65aaa-8c6d-4b69-94de-842b08b13bd6;mammalia;cetartiodactyla;bovidae;bos;taurus;domestic cattle
+9c2c6a6e-7d1b-4e47-9c2a-5d7d5b3e2a11;mammalia;cetartiodactyla;bovidae;bos;grunniens;yak
+5bb21a74-92cf-4eb8-b32c-a3b4e6f49d36;mammalia;artiodactyla;bovidae;bubalus;bubalis;domestic water buffalo
+7631afd3-ab8e-4e88-9243-2c21386595eb;mammalia;cetartiodactyla;hippopotamidae;hippopotamus;amphibius;hippopotamus
+2dca052b-dff5-4cc9-8072-1282c5713286;mammalia;cetartiodactyla;giraffidae;giraffa;camelopardalis;giraffe
+d372cda5-a8ca-4b7b-97ed-4e4fab9c9b4b;mammalia;cetartiodactyla;suidae;sus;scrofa;wild boar
+c150a21e-952d-4665-8a62-a319841c5a56;mammalia;artiodactyla;suidae;sus;scrofa scrofa;domestic pig
+ccd7d6d7-8eb2-4fdb-a6d6-f1970847e449;mammalia;cetartiodactyla;suidae;phacochoerus;africanus;common warthog
+9a52e12e-aa3c-4b25-9f1d-13b9d71106e7;mammalia;cetartiodactyla;suidae;potamochoerus;porcus;red river hog
+5acf63fb-339d-42b1-af7e-95f6151ae5fb;mammalia;cetartiodactyla;tayassuidae;pecari;tajacu;collared peccary
+a4f23daa-a66d-483c-94d4-3132aea33283;mammalia;artiodactyla;camelidae;camelus;dromedarius;dromedary camel
+71739522-c635-45d7-a8e9-6115b5615253;mammalia;cetartiodactyla;camelidae;lama;;llama genus
+00804e75-09ef-44e5-8984-85e365377d47;mammalia;cetartiodactyla;antilocapridae;antilocapra;americana;pronghorn
+5109acb4-e503-4147-a175-a3c6aa71f1e3;mammalia;perissodactyla;equidae;equus;caballus;domestic horse
+8a766598-fcfe-4c06-b899-7213f9b20dfa;mammalia;perissodactyla;equidae;equus;asinus;domestic donkey
+dd39bbd5-077c-482e-9d33-bd176116c870;mammalia;perissodactyla;equidae;equus;quagga;plains zebra
+3877192e-7bc5-4311-a737-0262ba9d3395;mammalia;perissodactyla;equidae;equus;grevyi;grevy's zebra
+e178c377-987c-4c7d-ac56-6adcea8d75e1;mammalia;perissodactyla;equidae;equus;zebra;mountain zebra
+c4238457-f534-4b89-99aa-d7c7624673ee;mammalia;perissodactyla;equidae;equus;hemionus;asiatic wild ass
+39e5ea73-38f1-454a-8054-7c67f20fbced;mammalia;perissodactyla;tapiridae;tapirus;terrestris;lowland tapir
+a31181bf-72d3-4b97-adfd-699097d9e99d;mammalia;perissodactyla;tapiridae;tapirus;indicus;malay tapir
+3ef8c05d-5dfc-470e-b1ef-19f75ac91e19;mammalia;perissodactyla;tapiridae;tapirus;bairdii;baird's tapir
+da1c91cc-61eb-4afb-962c-590995ca9beb;mammalia;perissodactyla;rhinocerotidae;;;rhinoceros family
+990ae9dd-7a59-4344-afcb-1b7b21368000;mammalia;primates;hominidae;homo;sapiens;human
+5ff4999d-7a3c-4ad8-bf3e-3664fd25a71f;mammalia;primates;hominidae;pan;troglodytes;chimpanzee
+1c350969-e1b5-492d-a706-79b935e9d6a4;mammalia;primates;hominidae;pongo;pygmaeus;bornean orangutan
+0c72ac0d-6ed4-40f4-90ba-215dd1a7de8e;mammalia;primates;cercopithecidae;chlorocebus;pygerythrus;vervet monkey
+497705f4-99c8-4560-a86d-e2e15905c19b;mammalia;primates;lemuridae;lemur;catta;ring-tailed lemur
+8a3d7c11-2e4f-4b3a-9c8e-1d5f6a7b9011;mammalia;primates;cercopithecidae;macaca;fuscata;japanese macaque
+8cb590c5-35c0-4352-91b5-96378ea98f72;mammalia;primates;cercopithecidae;mandrillus;leucophaeus;drill
+fd89b4fc-e307-49d9-bafc-adc6fb7a0a9c;mammalia;primates;cercopithecidae;erythrocebus;patas;patas monkey
+4d5c134b-1678-468a-96bd-f0d598d80914;mammalia;primates;daubentoniidae;daubentonia;madagascariensis;aye-aye
+6fcfa976-d335-4ad2-8aa7-d22be6411068;mammalia;primates;hominidae;gorilla;;gorilla species
+c58da361-68da-477b-b5e9-da668d18ec7b;mammalia;primates;cercopithecidae;papio;;baboon genus
+16698525-37b3-4726-ac28-fc1b0fb5ff9b;mammalia;primates;atelidae;alouatta;;howler monkey genus
+896f8689-2dca-48f6-9798-23bfda7096ee;mammalia;primates;cercopithecidae;presbytis;;leaf monkeys genus
+0f487b30-975d-49bd-bd20-db3dfa0bd931;mammalia;primates;cercopithecidae;cercocebus;;mangabeys genus
+8fa3d497-ec50-40bd-a61b-b546d7c2ce48;mammalia;primates;pitheciidae;callicebus;;callicebus genus
+bc0178de-d331-4a6e-84d7-f6e8d55b966d;mammalia;primates;cercopithecidae;macaca;;macaque species
+739de84b-ae2b-4857-afbb-75a3d14325d2;mammalia;primates;cercopithecidae;cercopithecus;;cercopithecus species
+2be46377-a47e-4b59-a2b1-1816d1d1ab97;mammalia;primates;cercopithecidae;colobus;;colobus species
+99d63cab-41b9-4e94-a13a-4ce435ff1684;mammalia;primates;atelidae;ateles;;ateles species
+c36a1356-00ec-4b63-b0ab-555543ad6c14;mammalia;primates;cebidae;cebus;;cebus species
+c4527cd8-0d70-4e7c-b4b6-4c784ac7e846;mammalia;primates;callitrichidae;saguinus;;saguinus species
+fcdc49c9-c4a8-41f5-97c2-e81d550fc355;mammalia;primates;lemuridae;eulemur;;eulemur species
+a12be0a5-ac69-4da2-a4c4-feda1d4a6f42;mammalia;primates;cebidae;saimiri;;saimiri species
+4e96e52d-486a-4839-9180-24ce625c602e;mammalia;primates;callitrichidae;callithrix;;callithrix species
+86f5b978-4f30-40cc-bd08-be9e3fba27a0;mammalia;rodentia;sciuridae;sciurus;carolinensis;eastern gray squirrel
+e07c537d-08b8-4c31-9768-51e4adf5a5ab;mammalia;rodentia;sciuridae;sciurus;niger;eastern fox squirrel
+16ec4010-f175-4de7-8a99-85aadec3963b;mammalia;rodentia;sciuridae;sciurus;griseus;western gray squirrel
+aba05f1e-020f-49ce-a5c3-528482e1c5ce;mammalia;rodentia;sciuridae;sciurus;vulgaris;eurasian red squirrel
+b3f3e9e3-440d-44df-9a89-081f276c8bdd;mammalia;rodentia;sciuridae;tamiasciurus;hudsonicus;red squirrel
+a72e70e6-4979-40fc-831d-74121cbc0b93;mammalia;rodentia;sciuridae;callospermophilus;lateralis;golden mantled ground squirrel
+d01f67fd-836b-4b25-89fc-2239e59f56b0;mammalia;rodentia;sciuridae;otospermophilus;beecheyi;california ground squirrel
+b9a7f328-3bb9-4326-9665-cc8ab5d870e1;mammalia;rodentia;sciuridae;marmota;monax;woodchuck
+6286f8b4-312f-4d04-a018-51a5d65be3f6;mammalia;rodentia;sciuridae;marmota;marmota;alpine marmot
+12aaee1d-c0e6-4c0c-ac13-5ff1eff8313a;mammalia;rodentia;sciuridae;marmota;flaviventris;yellow-bellied marmot
+fdc27cfb-3756-4794-992d-1d512f7c5474;mammalia;rodentia;sciuridae;cynomys;ludovicianus;arizona black-tailed prairie dog
+b34b243f-385d-4880-93b9-0c2526d012a7;mammalia;rodentia;erethizontidae;erethizon;dorsatum;north american porcupine
+872e96f1-7a77-4ed2-824a-22fcbb32f598;mammalia;rodentia;caviidae;hydrochoerus;hydrochaeris;capybara
+a1f9890b-851d-4740-a85a-c4ae4d06503a;mammalia;rodentia;cricetidae;ondatra;zibethicus;muskrat
+7a839b39-9916-45ec-a01b-d88d814a11ed;mammalia;rodentia;myocastoridae;myocastor;coypus;nutria
+93bd99ea-193d-4fec-ba55-e2dffd4621d8;mammalia;rodentia;sciuridae;tamias;;chipmunk genus
+26364870-549e-42e6-80e8-52bcba12bfe0;mammalia;rodentia;sciuridae;glaucomys;;glaucomys species
+4e6eb99a-baf0-4235-a7bc-1dd7b741b7c3;mammalia;rodentia;dasyproctidae;dasyprocta;;agouti genus
+43320a08-bf31-49a5-8213-f032311c5765;mammalia;rodentia;castoridae;castor;;beaver genus
+00049ff0-2ffa-4d82-8cf3-c861fbbfa9d5;mammalia;rodentia;muridae;rattus;;rattus genus
+9880b662-dc21-453b-aa2f-dd97338f623b;mammalia;rodentia;muridae;;;muridae family
+e4d1e892-0e4b-475a-a8ac-b5c3502e0d55;mammalia;rodentia;sciuridae;;;squirrel family
+523439f4-dee3-4f41-afea-edc0c891ef9c;mammalia;rodentia;cricetidae;;;cricetidae family
+9f332b69-49c6-43a1-aa71-c8888bc58d29;mammalia;rodentia;hystricidae;;;old world porcupine family
+edd1ca1c-aa03-4321-86fa-edc0fbbd50c7;mammalia;diprotodontia;macropodidae;osphranter;rufus;red kangaroo
+4639bc49-6f10-47e6-bdd4-4adf098afbcb;mammalia;diprotodontia;macropodidae;macropus;giganteus;eastern grey kangaroo
+3afdd398-39f2-430c-9301-74659d81044e;mammalia;diprotodontia;macropodidae;wallabia;bicolor;swamp wallaby
+e3f05a43-86b5-4736-bbf3-4f62e797302f;mammalia;diprotodontia;macropodidae;macropus;rufogriseus;red-necked wallaby
+a26bd8e5-e645-4a86-b487-a1345ec17911;mammalia;diprotodontia;macropodidae;setonix;brachyurus;quokka
+efddeab7-0f17-4ab0-a4e9-4853cc6c230e;mammalia;diprotodontia;vombatidae;vombatus;ursinus;common wombat
+51be2961-ffb2-4ccc-9289-47f66f187112;mammalia;diprotodontia;phascolarctidae;phascolarctos;cinereus;koala
+6ae1fb2f-ec83-4483-a7c9-0e4b49017f8a;mammalia;diprotodontia;macropodidae;;;kangaroo family
+1b30ddf8-22fb-40ff-9df6-6a8a0b6ccaa1;mammalia;monotremata;tachyglossidae;tachyglossus;aculeatus;short-beaked echidna
+55631055-3e0e-4b7a-9612-dedebe9f78b0;mammalia;proboscidea;elephantidae;loxodonta;africana;african elephant
+5033744e-5b47-40e4-b7b6-9fda865778a0;mammalia;proboscidea;elephantidae;elephas;maximus;asian elephant
+2b98dad0-1e0e-4488-9cbe-9c4777dd9eca;mammalia;pilosa;myrmecophagidae;myrmecophaga;tridactyla;giant anteater
+2713be86-5615-4576-b8a3-0e77bd0c16cb;mammalia;pilosa;bradypodidae;bradypus;variegatus;brown-throated sloth
+4cf44b41-e2b7-49dc-8197-c66c6a969614;mammalia;pilosa;megalonychidae;choloepus;hoffmanni;hoffmann's two-toed sloth
+b1cefdc9-af34-4f28-b077-1186dd6b5072;mammalia;pholidota;manidae;;;pangolin family
+07843615-e1fc-49d8-9821-fd1d7ff2e773;mammalia;cingulata;dasypodidae;dasypus;novemcinctus;nine-banded armadillo
+d23e77b7-0314-4129-b2e8-810e9c4771e7;mammalia;cingulata;chlamyphoridae;priodontes;maximus;giant armadillo
+5a565886-156e-4b19-a017-6a5bbae4df0f;mammalia;lagomorpha;leporidae;oryctolagus;cuniculus;european rabbit
+9a5d6ef5-887d-4060-8ef8-b7e54a7303de;mammalia;lagomorpha;leporidae;lepus;;hares and jackrabbits genus
+ce9a5481-b3f7-4e42-8b8b-382f601fded0;mammalia;lagomorpha;leporidae;lepus;europaeus;european hare
+cacc63d7-b949-4731-abce-a403ba76ee34;mammalia;lagomorpha;leporidae;sylvilagus;;cottontail rabbits genus
+667a4650-a141-4c4e-844e-58cdeaeb4ae1;mammalia;lagomorpha;leporidae;sylvilagus;floridanus;eastern cottontail
+9878f262-2131-4259-adb2-fcab40e8238c;mammalia;lagomorpha;ochotonidae;ochotona;;pikas genus
+7a5a9437-883c-4a5b-b7f9-1d90ec457f46;mammalia;tubulidentata;orycteropodidae;orycteropus;afer;aardvark
+ebe71a3a-68bb-48bd-b3d9-b6b311882cee;mammalia;hyracoidea;procaviidae;procavia;capensis;rock hyrax
+0a11c18f-e253-4651-bb1b-4c642e8a03a7;mammalia;eulipotyphla;erinaceidae;;;hedgehog family
+87be3a5c-e60a-4e7e-88c7-21544914d067;mammalia;didelphimorphia;didelphidae;;;opossum family

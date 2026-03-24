@@ -1,0 +1,479 @@
+common_name,scientific_name,level,image_count,mean_confidence,min_confidence,median_confidence
+aardvark,orycteropus afer,species,15,0.894,0.667,0.917
+aardwolf,proteles cristata,species,7,0.771,0.697,0.765
+abbott's duiker,cephalophus spadix,species,0,0.000,0.000,0.000
+aders' duiker,cephalophus adersi,species,0,0.000,0.000,0.000
+african buffalo,syncerus caffer,species,252,0.909,0.651,0.947
+african civet,civettictis civetta,species,23,0.849,0.679,0.860
+african elephant,loxodonta africana,species,368,0.946,0.651,0.986
+african striped weasel,poecilogale albinucha,species,0,0.000,0.000,0.000
+african wild dog,lycaon pictus,species,144,0.919,0.656,0.952
+agile wallaby,macropus agilis,species,60,0.823,0.651,0.816
+agouti genus,dasyprocta,genus,254,0.891,0.654,0.943
+alpine ibex,capra ibex,species,188,0.888,0.654,0.922
+alpine marmot,marmota marmota,species,7,0.761,0.652,0.750
+alpine musk deer,moschus chrysogaster,species,0,0.000,0.000,0.000
+american badger,taxidea taxus,species,133,0.889,0.650,0.927
+american bison,bison bison,species,333,0.910,0.658,0.958
+american black bear,ursus americanus,species,283,0.917,0.664,0.954
+american hog-nosed skunk,conepatus leuconotus,species,0,0.000,0.000,0.000
+american marten,martes americana,species,72,0.834,0.658,0.849
+american mink,neovison vison,species,6,0.729,0.679,0.725
+andean white-fronted capuchin,cebus yuracus,species,0,0.000,0.000,0.000
+angolan colobus,colobus angolensis,species,218,0.947,0.663,0.977
+arabian oryx,oryx leucoryx,species,0,0.000,0.000,0.000
+argali,ovis ammon,species,0,0.000,0.000,0.000
+argentine gray fox,lycalopex griseus,species,92,0.822,0.652,0.837
+arizona black-tailed prairie dog,cynomys ludovicianus,species,243,0.904,0.650,0.948
+asian badger,meles leucurus,species,0,0.000,0.000,0.000
+asian elephant,elephas maximus,species,87,0.904,0.651,0.949
+asian small-clawed otter,aonyx cinereus,species,0,0.000,0.000,0.000
+asiatic black bear,ursus thibetanus,species,2,0.710,0.705,0.716
+asiatic brush-tailed porcupine,atherurus macrourus,species,3,0.879,0.705,0.942
+asiatic golden cat,catopuma temminckii,species,4,0.770,0.664,0.730
+asiatic wild ass,equus hemionus,species,0,0.000,0.000,0.000
+assam macaque,macaca assamensis,species,0,0.000,0.000,0.000
+ateles species,ateles,genus,0,0.000,0.000,0.000
+aye-aye,daubentonia madagascariensis,species,0,0.000,0.000,0.000
+azaras's capuchin,sapajus cay,species,76,0.830,0.661,0.828
+baboon genus,papio,genus,271,0.862,0.653,0.885
+baird's tapir,tapirus bairdii,species,11,0.814,0.662,0.818
+banded civet,hemigalus derbyanus,species,2,0.861,0.844,0.879
+bandicoot,,higher,75,0.855,0.654,0.905
+banteng,bos javanicus,species,1,0.815,0.815,0.815
+barasingha,rucervus duvaucelii,species,0,0.000,0.000,0.000
+barbary macaque,macaca sylvanus,species,0,0.000,0.000,0.000
+bat-eared fox,otocyon megalotis,species,31,0.803,0.651,0.791
+bay duiker,cephalophus dorsalis,species,0,0.000,0.000,0.000
+bearded capuchin,sapajus libidinosus,species,0,0.000,0.000,0.000
+bearded pig,sus barbatus,species,25,0.908,0.653,0.972
+beaver genus,castor,genus,35,0.777,0.657,0.763
+beech marten,martes foina,species,0,0.000,0.000,0.000
+beisa oryx,oryx beisa,species,39,0.761,0.662,0.743
+bighorn sheep,ovis canadensis,species,216,0.913,0.651,0.961
+binturong,arctictis binturong,species,1,0.800,0.800,0.800
+black and rufous sengi,rhynchocyon petersi,species,4,0.863,0.719,0.909
+black mantle tamarin,saguinus nigricollis,species,0,0.000,0.000,0.000
+black wildebeest,connochaetes gnou,species,44,0.863,0.658,0.913
+black-backed jackal,canis mesomelas,species,33,0.863,0.656,0.884
+black-faced black spider monkey,ateles chamek,species,0,0.000,0.000,0.000
+black-fronted duiker,cephalophus nigrifrons,species,13,0.863,0.660,0.871
+black-handed tamarin,saguinus niger,species,0,0.000,0.000,0.000
+black-striped wallaby,macropus dorsalis,species,0,0.000,0.000,0.000
+black-tailed marmoset,mico melanurus,species,0,0.000,0.000,0.000
+blackbuck,antilope cervicapra,species,1,0.829,0.829,0.829
+blesbok,damaliscus pygargus,species,80,0.822,0.650,0.833
+blue duiker,philantomba monticola,species,1,0.761,0.761,0.761
+blue monkey,cercopithecus mitis,species,293,0.922,0.655,0.970
+blue sheep,pseudois nayaur,species,61,0.839,0.651,0.838
+bobcat,lynx rufus,species,407,0.911,0.652,0.962
+bolivian/peruvian squirrel monkey,saimiri boliviensis,species,23,0.741,0.664,0.742
+bongo,tragelaphus eurycerus,species,0,0.000,0.000,0.000
+bonnet macaque,macaca radiata,species,0,0.000,0.000,0.000
+bontebok,damaliscus pygargus,species,0,0.000,0.000,0.000
+bornean orangutan,pongo pygmaeus,species,115,0.921,0.674,0.953
+brazilian guinea pig,cavia aperea,species,0,0.000,0.000,0.000
+brazilian porcupine,coendou prehensilis,species,0,0.000,0.000,0.000
+brazilian squirrel,guerlinguetus brasiliensis,species,0,0.000,0.000,0.000
+brown bear,ursus arctos,species,153,0.916,0.674,0.962
+brown hyaena,parahyaena brunnea,species,0,0.000,0.000,0.000
+brown lemur,eulemur fulvus,species,1,0.887,0.887,0.887
+brown palm civet,paradoxurus jerdoni,species,0,0.000,0.000,0.000
+brown-throated sloth,bradypus variegatus,species,0,0.000,0.000,0.000
+brush-tailed rock wallaby,petrogale penicillata,species,108,0.907,0.651,0.964
+bush dog,speothos venaticus,species,1,0.829,0.829,0.829
+bushbuck,tragelaphus scriptus,species,302,0.914,0.650,0.953
+bushpig,potamochoerus larvatus,species,28,0.932,0.677,0.977
+bushy-tailed woodrat,neotoma cinerea,species,0,0.000,0.000,0.000
+cacomistle,bassariscus sumichrasti,species,0,0.000,0.000,0.000
+california ground squirrel,otospermophilus beecheyi,species,24,0.787,0.651,0.796
+callicebus genus,callicebus,genus,0,0.000,0.000,0.000
+callithrix species,callithrix,genus,0,0.000,0.000,0.000
+canada lynx,lynx canadensis,species,45,0.889,0.686,0.942
+cape clawless otter,aonyx capensis,species,0,0.000,0.000,0.000
+cape fox,vulpes chama,species,0,0.000,0.000,0.000
+cape grysbok,raphicerus melanotis,species,0,0.000,0.000,0.000
+capybara,hydrochoerus hydrochaeris,species,269,0.908,0.652,0.960
+caracal,caracal caracal,species,16,0.810,0.681,0.822
+carolina flying squirrel,glaucomys sabrinus,species,8,0.734,0.669,0.748
+cebus species,cebus,genus,6,0.674,0.654,0.674
+cephalophus species,cephalophus,genus,8,0.822,0.675,0.769
+cercopithecus species,cercopithecus,genus,0,0.000,0.000,0.000
+cheetah,acinonyx jubatus,species,274,0.951,0.655,0.979
+chequered sengi,rhynchocyon cirnei,species,0,0.000,0.000,0.000
+chimpanzee,pan troglodytes,species,48,0.869,0.662,0.903
+chinese ferret-badger,melogale moschata,species,2,0.896,0.864,0.929
+chinese goral,naemorhedus griseus,species,8,0.845,0.650,0.923
+chinese serow,capricornis milneedwardsii,species,25,0.759,0.655,0.728
+chinkara,gazella bennettii,species,0,0.000,0.000,0.000
+chipmunk genus,tamias,genus,209,0.895,0.654,0.928
+chital,axis axis,species,64,0.829,0.684,0.852
+clouded leopard,neofelis nebulosa,species,3,0.878,0.837,0.866
+collared peccary,pecari tajacu,species,204,0.969,0.710,0.990
+colobus species,colobus,genus,1,0.657,0.657,0.657
+colombian white-throated capuchin,cebus capucinus,species,116,0.781,0.654,0.782
+common duiker,sylvicapra grimmia,species,130,0.876,0.660,0.894
+common eland,tragelaphus oryx,species,227,0.917,0.664,0.945
+common fallow deer,dama dama,species,170,0.897,0.657,0.935
+common long-tailed macaque,macaca fascicularis,species,242,0.867,0.653,0.887
+common marmoset,callithrix jacchus,species,0,0.000,0.000,0.000
+common palm civet,paradoxurus hermaphroditus,species,32,0.855,0.661,0.887
+common palm squirrel,funambulus palmarum,species,0,0.000,0.000,0.000
+common ringtail possum,pseudocheirus peregrinus,species,5,0.733,0.652,0.712
+common squirrel monkey,saimiri sciureus,species,57,0.779,0.654,0.784
+common wallaroo,macropus robustus,species,146,0.915,0.660,0.961
+common warthog,phacochoerus africanus,species,56,0.941,0.667,0.979
+common wildebeest,connochaetes taurinus,species,262,0.920,0.654,0.941
+common wombat,vombatus ursinus,species,121,0.962,0.655,0.991
+common woolly monkey,lagothrix lagotricha,species,0,0.000,0.000,0.000
+corsac fox,vulpes corsac,species,0,0.000,0.000,0.000
+cottontail rabbits genus,sylvilagus,genus,73,0.813,0.656,0.821
+coyote,canis latrans,species,553,0.902,0.650,0.949
+crab-eating fox,cerdocyon thous,species,193,0.949,0.653,0.986
+crab-eating raccoon,procyon cancrivorus,species,36,0.893,0.675,0.947
+cricetidae family,cricetidae,family,1,0.788,0.788,0.788
+culpeo,lycalopex culpaeus,species,166,0.897,0.654,0.928
+de brazza's monkey,cercopithecus neglectus,species,0,0.000,0.000,0.000
+dent's monkey,cercopithecus denti,species,0,0.000,0.000,0.000
+desert warthog,phacochoerus aethiopicus,species,0,0.000,0.000,0.000
+dhole,cuon alpinus,species,51,0.948,0.692,0.967
+diana monkey,cercopithecus diana,species,0,0.000,0.000,0.000
+dingo,canis lupus dingo,species,10,0.850,0.654,0.940
+domestic cat,felis catus,species,450,0.882,0.651,0.921
+domestic cattle,bos taurus,species,977,0.888,0.650,0.931
+domestic dog,canis familiaris,species,289,0.874,0.652,0.898
+domestic donkey,equus asinus,species,136,0.895,0.657,0.917
+domestic goat,capra aegagrus hircus,species,443,0.877,0.650,0.902
+domestic horse,equus caballus,species,257,0.913,0.653,0.950
+domestic pig,sus scrofa scrofa,species,0,0.000,0.000,0.000
+domestic sheep,ovis aries,species,114,0.834,0.654,0.844
+domestic water buffalo,bubalus bubalis,species,0,0.000,0.000,0.000
+domestic water buffalo,bubalus arnee,species,0,0.000,0.000,0.000
+dorcas gazelle,gazella dorcas,species,16,0.829,0.652,0.861
+douglas's squirrel,tamiasciurus douglasii,species,142,0.896,0.664,0.938
+drill,mandrillus leucophaeus,species,0,0.000,0.000,0.000
+dromedary camel,camelus dromedarius,species,163,0.947,0.650,0.982
+dusky langur,trachypithecus obscurus,species,0,0.000,0.000,0.000
+eared seals,otariidae,family,0,0.000,0.000,0.000
+eastern cottontail,sylvilagus floridanus,species,20,0.833,0.654,0.862
+eastern fox squirrel,sciurus niger,species,268,0.929,0.660,0.961
+eastern gorilla,gorilla beringei,species,105,0.964,0.677,0.996
+eastern gray squirrel,sciurus carolinensis,species,372,0.896,0.657,0.939
+eastern grey kangaroo,macropus giganteus,species,247,0.910,0.653,0.953
+eastern lesser bamboo lemur,hapalemur griseus,species,0,0.000,0.000,0.000
+eastern lowland olingo,bassaricyon alleni,species,0,0.000,0.000,0.000
+eastern spotted skunk,spilogale putorius,species,1,0.738,0.738,0.738
+eastern tree hyrax,dendrohyrax validus,species,0,0.000,0.000,0.000
+elephant seal,mirounga,genus,0,0.000,0.000,0.000
+elk,cervus canadensis,species,77,0.876,0.676,0.904
+emperor tamarin,saguinus imperator,species,10,0.736,0.660,0.732
+eulemur species,eulemur,genus,3,0.726,0.669,0.685
+eurasian badger,meles meles,species,130,0.905,0.650,0.964
+eurasian lynx,lynx lynx,species,0,0.000,0.000,0.000
+eurasian otter,lutra lutra,species,2,0.743,0.664,0.821
+eurasian red squirrel,sciurus vulgaris,species,260,0.901,0.661,0.944
+european bison,bison bonasus,species,6,0.700,0.651,0.706
+european hare,lepus europaeus,species,49,0.854,0.667,0.872
+european rabbit,oryctolagus cuniculus,species,142,0.857,0.653,0.874
+european roe deer,capreolus capreolus,species,191,0.939,0.660,0.980
+fisher,pekania pennanti,species,146,0.848,0.652,0.871
+forest hog,hylochoerus meinertzhageni,species,0,0.000,0.000,0.000
+fossa,cryptoprocta ferox,species,2,0.815,0.747,0.883
+four-horned antelope,tetracerus quadricornis,species,0,0.000,0.000,0.000
+four-toed sengi,petrodromus tetradactylus,species,3,0.890,0.787,0.891
+françois's langur,trachypithecus francoisi,species,0,0.000,0.000,0.000
+gaur,bos gaurus,species,153,0.945,0.671,0.990
+gemsbok,oryx gazella,species,273,0.915,0.656,0.951
+genet genus,genetta,genus,89,0.794,0.654,0.800
+gerenuk,litocranius walleri,species,30,0.831,0.659,0.840
+giant anteater,myrmecophaga tridactyla,species,178,0.973,0.657,1.000
+giant armadillo,priodontes maximus,species,24,0.840,0.651,0.854
+giant ground pangolin,smutsia gigantea,species,1,0.733,0.733,0.733
+giant otter,pteronura brasiliensis,species,128,0.847,0.653,0.849
+giant panda,ailuropoda melanoleuca,species,8,0.867,0.716,0.947
+giraffe,giraffa camelopardalis,species,140,0.970,0.699,0.987
+goitered gazelle,gazella subgutturosa,species,0,0.000,0.000,0.000
+golden bamboo lemur,hapalemur aureus,species,0,0.000,0.000,0.000
+golden jackal,canis aureus,species,65,0.835,0.656,0.826
+golden mantled ground squirrel,callospermophilus lateralis,species,58,0.832,0.652,0.842
+golden snub-nosed monkey,rhinopithecus roxellana,species,40,0.806,0.652,0.788
+golden-mantle saddleback tamarin,saguinus tripartitus,species,0,0.000,0.000,0.000
+golden-rumped sengi,rhynchocyon chrysopygus,species,0,0.000,0.000,0.000
+gorilla species,gorilla,genus,1,0.947,0.947,0.947
+grant's gazelle,nanger granti,species,240,0.863,0.651,0.892
+greater bamboo lemur,prolemur simus,species,0,0.000,0.000,0.000
+greater glider,petauroides volans,species,0,0.000,0.000,0.000
+greater grison,galictis vittata,species,0,0.000,0.000,0.000
+greater hog badger,arctonyx collaris,species,41,0.834,0.655,0.850
+greater kudu,tragelaphus strepsiceros,species,324,0.898,0.657,0.937
+greater naked-tailed armadillo,cabassous tatouay,species,0,0.000,0.000,0.000
+green acouchi,myoprocta pratti,species,1,0.677,0.677,0.677
+grevy's zebra,equus grevyi,species,84,0.923,0.659,0.966
+grey fox,urocyon cinereoargenteus,species,421,0.929,0.654,0.968
+grey rhebok,pelea capreolus,species,0,0.000,0.000,0.000
+grey wolf,canis lupus,species,33,0.881,0.702,0.922
+grey-cheeked mangabey,lophocebus albigena,species,14,0.743,0.664,0.743
+grey-faced sengi,rhynchocyon udzungwensis,species,0,0.000,0.000,0.000
+guenther's dik-dik,madoqua guentheri,species,134,0.870,0.653,0.895
+guereza,colobus guereza,species,0,0.000,0.000,0.000
+hares and jackrabbits genus,lepus,genus,56,0.799,0.661,0.777
+hartebeest,alcelaphus buselaphus,species,215,0.937,0.655,0.976
+harvey's duiker,cephalophus harveyi,species,15,0.823,0.668,0.851
+hatinh langur,trachypithecus hatinhensis,species,11,0.742,0.655,0.717
+hedgehog family,erinaceidae,family,16,0.832,0.652,0.877
+hippopotamus,hippopotamus amphibius,species,103,0.887,0.660,0.911
+hoary fox,lycalopex vetulus,species,0,0.000,0.000,0.000
+hoffmann's two-toed sloth,choloepus hoffmanni,species,0,0.000,0.000,0.000
+hog badger genus,arctonyx,genus,0,0.000,0.000,0.000
+hog deer,axis porcinus,species,0,0.000,0.000,0.000
+honey badger,mellivora capensis,species,22,0.861,0.693,0.868
+hooded skunk,mephitis macroura,species,1,0.844,0.844,0.844
+howler monkey genus,alouatta,genus,78,0.798,0.653,0.792
+human,homo sapiens,species,258,0.895,0.504,0.953
+humboldt's white-fronted capuchin,cebus albifrons,species,4,0.764,0.670,0.830
+iberian lynx,lynx pardinus,species,19,0.816,0.661,0.775
+impala,aepyceros melampus,species,296,0.897,0.652,0.929
+indian crested porcupine,hystrix indica,species,13,0.866,0.654,0.903
+indian pangolin,manis crassicaudata,species,0,0.000,0.000,0.000
+island fox,urocyon littoralis,species,14,0.810,0.661,0.815
+jaguar,panthera onca,species,253,0.964,0.662,0.998
+jaguarundi,herpailurus yagouaroundi,species,36,0.842,0.689,0.849
+japanese macaque,macaca fuscata,species,0,0.000,0.000,0.000
+javan deer,rusa timorensis,species,1,0.759,0.759,0.759
+jungle cat,felis chaus,species,0,0.000,0.000,0.000
+ka'apor capuchin,cebus kaapori,species,0,0.000,0.000,0.000
+kangaroo family,macropodidae,family,561,0.835,0.651,0.833
+king colobus,colobus polykomos,species,0,0.000,0.000,0.000
+kinkajou,potos flavus,species,3,0.803,0.762,0.790
+kirk's dik-dik,madoqua kirkii,species,0,0.000,0.000,0.000
+kit fox,vulpes macrotis,species,11,0.767,0.655,0.741
+klipspringer,oreotragus oreotragus,species,0,0.000,0.000,0.000
+koala,phascolarctos cinereus,species,27,0.836,0.667,0.851
+kob,kobus kob,species,0,0.000,0.000,0.000
+l'hoest's monkey,allochrocebus lhoesti,species,57,0.889,0.657,0.901
+large indian civet,viverra zibetha,species,17,0.851,0.672,0.877
+large-headed capuchin,sapajus macrocephalus,species,75,0.815,0.653,0.807
+large-spotted civet,viverra megaspila,species,0,0.000,0.000,0.000
+leaf monkeys genus,presbytis,genus,49,0.852,0.657,0.882
+least weasel,mustela nivalis,species,0,0.000,0.000,0.000
+lechwe,kobus leche,species,0,0.000,0.000,0.000
+leopard,panthera pardus,species,165,0.923,0.661,0.962
+leopard cat,prionailurus bengalensis,species,76,0.847,0.670,0.855
+leopardus species,leopardus,genus,25,0.789,0.661,0.777
+lesser capybara,hydrochoerus isthmius,species,0,0.000,0.000,0.000
+lesser grison,galictis cuja,species,0,0.000,0.000,0.000
+lesser kudu,tragelaphus imberbis,species,0,0.000,0.000,0.000
+lesser oriental chevrotain,tragulus kanchil,species,0,0.000,0.000,0.000
+lion,panthera leo,species,254,0.964,0.652,0.993
+llama genus,lama,genus,324,0.853,0.651,0.879
+long-nosed bandicoot,perameles nasuta,species,50,0.757,0.651,0.741
+long-tailed weasel,mustela frenata,species,3,0.726,0.676,0.702
+lowland tapir,tapirus terrestris,species,208,0.941,0.652,0.987
+lycalopex species,lycalopex,genus,73,0.806,0.651,0.793
+macaque species,macaca,genus,721,0.845,0.651,0.855
+malay civet,viverra tangalunga,species,5,0.858,0.671,0.888
+malay tapir,tapirus indicus,species,8,0.938,0.733,0.999
+malayan porcupine,hystrix brachyura,species,73,0.897,0.672,0.932
+maned wolf,chrysocyon brachyurus,species,51,0.949,0.768,0.972
+mangabeys genus,cercocebus,genus,1,0.677,0.677,0.677
+marbled cat,pardofelis marmorata,species,1,0.719,0.719,0.719
+margarita island capuchin,sapajus apella,species,11,0.767,0.656,0.731
+maritime striped squirrel,tamiops maritimus,species,0,0.000,0.000,0.000
+marsh deer,blastocerus dichotomus,species,58,0.902,0.661,0.961
+martes species,martes,genus,332,0.798,0.651,0.798
+masked palm civet,paguma larvata,species,134,0.896,0.651,0.933
+meerkat,suricata suricatta,species,0,0.000,0.000,0.000
+mexican flying squirrel,glaucomys volans,species,1,0.684,0.684,0.684
+milne-edward's sifaka,propithecus edwardsi,species,0,0.000,0.000,0.000
+milne-edwards' macaque,macaca thibetana,species,8,0.849,0.682,0.868
+molina's hog-nosed skunk,conepatus chinga,species,0,0.000,0.000,0.000
+mona monkey,cercopithecus mona,species,0,0.000,0.000,0.000
+mongolian gazelle,procapra gutturosa,species,0,0.000,0.000,0.000
+mongoose family,herpestidae,family,106,0.788,0.654,0.786
+moose,alces alces,species,147,0.975,0.660,0.999
+mouflon,ovis orientalis,species,85,0.837,0.655,0.834
+mountain gazelle,gazella gazella,species,36,0.834,0.653,0.838
+mountain goat,oreamnos americanus,species,1,0.752,0.752,0.752
+mountain zebra,equus zebra,species,128,0.920,0.659,0.959
+moustached monkey,cercopithecus cephus,species,0,0.000,0.000,0.000
+mule deer,odocoileus hemionus,species,360,0.924,0.652,0.976
+muntjac genus,muntiacus,genus,211,0.884,0.651,0.931
+muridae family,muridae,family,31,0.783,0.666,0.774
+muskrat,ondatra zibethicus,species,30,0.754,0.652,0.756
+natal red duiker,cephalophus natalensis,species,0,0.000,0.000,0.000
+neotropical otter,lontra longicaudis,species,1,0.883,0.883,0.883
+nilgai,boselaphus tragocamelus,species,1,0.706,0.706,0.706
+nine-banded armadillo,dasypus novemcinctus,species,218,0.945,0.651,0.968
+north american porcupine,erethizon dorsatum,species,230,0.912,0.663,0.957
+north american river otter,lontra canadensis,species,222,0.811,0.654,0.811
+northern chamois,rupicapra rupicapra,species,175,0.895,0.652,0.936
+northern pig-tailed macaque,macaca leonina,species,5,0.822,0.726,0.812
+northern plains gray langur,semnopithecus entellus,species,2,0.721,0.699,0.743
+northern pudu,pudu mephistophiles,species,0,0.000,0.000,0.000
+northern quoll,dasyurus hallucatus,species,1,0.742,0.742,0.742
+northern raccoon,procyon lotor,species,222,0.936,0.653,0.984
+nubian ibex,capra nubiana,species,0,0.000,0.000,0.000
+nutria,myocastor coypus,species,372,0.889,0.651,0.934
+nyala,tragelaphus angasii,species,0,0.000,0.000,0.000
+ocelot,leopardus pardalis,species,326,0.929,0.661,0.965
+ogilby's duiker,cephalophus ogilbyi,species,0,0.000,0.000,0.000
+old world porcupine family,hystricidae,family,34,0.801,0.653,0.805
+opossum family,didelphidae,family,197,0.923,0.654,0.979
+oribi,ourebia ourebi,species,0,0.000,0.000,0.000
+owl-faced monkey,cercopithecus hamlyni,species,0,0.000,0.000,0.000
+palawan bearded pig,sus ahoenobarbus,species,1,0.985,0.985,0.985
+pallas's squirrel,callosciurus erythraeus,species,4,0.729,0.659,0.747
+pampas deer,ozotoceros bezoarticus,species,113,0.838,0.653,0.843
+panamanian white-faced capuchin,cebus imitator,species,0,0.000,0.000,0.000
+pangolin family,manidae,family,3,0.749,0.683,0.743
+parma wallaby,macropus parma,species,0,0.000,0.000,0.000
+patas monkey,erythrocebus patas,species,0,0.000,0.000,0.000
+persian fallow deer,dama mesopotamica,species,0,0.000,0.000,0.000
+peruvian woolly monkey,lagothrix cana,species,0,0.000,0.000,0.000
+peters' duiker,cephalophus callipygus,species,0,0.000,0.000,0.000
+phayre's leaf-monkey,trachypithecus phayrei,species,0,0.000,0.000,0.000
+philippine pangolin,manis culionensis,species,1,0.777,0.777,0.777
+pikas genus,ochotona,genus,99,0.814,0.651,0.798
+pine marten,martes martes,species,9,0.703,0.652,0.702
+pinniped clade,pinniped,family,0,0.000,0.000,0.000
+plains zebra,equus quagga,species,309,0.946,0.654,0.962
+poeppig's woolly monkey,lagothrix poeppigii,species,7,0.776,0.656,0.744
+prevost's squirrel,callosciurus prevostii,species,0,0.000,0.000,0.000
+pronghorn,antilocapra americana,species,334,0.955,0.652,0.998
+puku,kobus vardonii,species,146,0.846,0.651,0.867
+puma,puma concolor,species,208,0.958,0.659,0.994
+putty-nosed monkey,cercopithecus nictitans,species,0,0.000,0.000,0.000
+quokka,setonix brachyurus,species,6,0.783,0.666,0.798
+raccoon dog,nyctereutes procyonoides,species,15,0.825,0.678,0.847
+rattus genus,rattus,genus,35,0.758,0.652,0.732
+red acouchi,myoprocta acouchy,species,1,0.722,0.722,0.722
+red brocket,mazama americana,species,114,0.887,0.656,0.926
+red deer,cervus elaphus,species,509,0.876,0.653,0.906
+red fox,vulpes vulpes,species,246,0.944,0.652,0.975
+red kangaroo,osphranter rufus,species,22,0.788,0.669,0.752
+red panda,ailurus fulgens,species,13,0.868,0.678,0.894
+red river hog,potamochoerus porcus,species,1,0.918,0.918,0.918
+red squirrel,tamiasciurus hudsonicus,species,150,0.886,0.651,0.903
+red wolf,canis rufus,species,0,0.000,0.000,0.000
+red-bellied lemur,eulemur rubriventer,species,0,0.000,0.000,0.000
+red-bellied monkey,cercopithecus erythrogaster,species,0,0.000,0.000,0.000
+red-fronted brown lemur,eulemur rufifrons,species,1,0.763,0.763,0.763
+red-fronted gazelle,eudorcas rufifrons,species,0,0.000,0.000,0.000
+red-legged pademelon,thylogale stigmatica,species,42,0.800,0.657,0.809
+red-necked pademelon,thylogale thetis,species,56,0.825,0.652,0.834
+red-necked wallaby,macropus rufogriseus,species,61,0.843,0.672,0.845
+red-shanked douc langur,pygathrix nemaeus,species,21,0.903,0.654,0.953
+red-tailed monkey,cercopithecus ascanius,species,0,0.000,0.000,0.000
+reedbuck genus,redunca,genus,29,0.757,0.653,0.737
+reindeer,rangifer tarandus,species,9,0.865,0.667,0.890
+rhesus monkey,macaca mulatta,species,10,0.691,0.658,0.679
+rhinoceros family,rhinocerotidae,family,72,0.802,0.653,0.806
+ring-tailed lemur,lemur catta,species,0,0.000,0.000,0.000
+ringtail,bassariscus astutus,species,57,0.893,0.650,0.934
+roan antelope,hippotragus equinus,species,0,0.000,0.000,0.000
+rock cavy,kerodon rupestris,species,0,0.000,0.000,0.000
+rock hyrax,procavia capensis,species,21,0.764,0.657,0.757
+rodent,,higher,700,0.794,0.651,0.763
+rondon's marmoset,mico rondoni,species,0,0.000,0.000,0.000
+rusty-spotted cat,prionailurus rubiginosus,species,0,0.000,0.000,0.000
+sable antelope,hippotragus niger,species,34,0.788,0.652,0.781
+saddleback tamarin,leontocebus fuscicollis,species,0,0.000,0.000,0.000
+saguinus species,saguinus,genus,0,0.000,0.000,0.000
+saiga,saiga tatarica,species,0,0.000,0.000,0.000
+saimiri species,saimiri,genus,85,0.923,0.671,0.957
+sambar,rusa unicolor,species,173,0.918,0.653,0.974
+sea otter,enhydra lutris,species,0,0.000,0.000,0.000
+serval,leptailurus serval,species,72,0.937,0.680,0.976
+sharpe's grysbok,raphicerus sharpei,species,0,0.000,0.000,0.000
+short-beaked echidna,tachyglossus aculeatus,species,243,0.975,0.679,0.991
+short-eared dog,atelocynus microtis,species,15,0.955,0.820,0.991
+siberut macaque,macaca siberu,species,0,0.000,0.000,0.000
+side-striped jackal,canis adustus,species,4,0.760,0.669,0.764
+sika deer,cervus nippon,species,78,0.883,0.658,0.890
+silvery lutung,trachypithecus cristatus,species,0,0.000,0.000,0.000
+sitatunga,tragelaphus spekii,species,15,0.833,0.735,0.823
+sloth bear,melursus ursinus,species,0,0.000,0.000,0.000
+small indian civet,viverricula indica,species,11,0.836,0.703,0.872
+smooth-coated otter,lutrogale perspicillata,species,0,0.000,0.000,0.000
+snow leopard,panthera uncia,species,5,0.903,0.737,0.938
+south american coati,nasua nasua,species,311,0.900,0.652,0.947
+southern naked-tailed armadillo,cabassous unicinctus,species,0,0.000,0.000,0.000
+southern pig-tailed macaque,macaca nemestrina,species,374,0.904,0.654,0.950
+southern plains gray langur,semnopithecus dussumieri,species,212,0.867,0.650,0.893
+southern pudu,pudu puda,species,0,0.000,0.000,0.000
+southern tamandua,tamandua tetradactyla,species,41,0.830,0.668,0.823
+southern three-banded armadillo,tolypeutes matacus,species,0,0.000,0.000,0.000
+southern tree hyrax,dendrohyrax arboreus,species,0,0.000,0.000,0.000
+spectacled bear,tremarctos ornatus,species,23,0.859,0.670,0.889
+spectacled hare-wallaby,lagorchestes conspicillatus,species,1,0.764,0.764,0.764
+spilogale species,spilogale,genus,1,0.691,0.691,0.691
+spotted fanaloka,fossa fossana,species,2,0.858,0.841,0.874
+spotted hyaena,crocuta crocuta,species,266,0.943,0.656,0.977
+spotted paca,cuniculus paca,species,213,0.968,0.670,0.988
+spotted-necked otter,hydrictis maculicollis,species,0,0.000,0.000,0.000
+spotted-tailed quoll,dasyurus maculatus,species,22,0.852,0.655,0.834
+spring hare,pedetes capensis,species,0,0.000,0.000,0.000
+springbok,antidorcas marsupialis,species,134,0.874,0.661,0.901
+squirrel family,sciuridae,family,1405,0.780,0.650,0.765
+steenbok,raphicerus campestris,species,97,0.837,0.653,0.858
+stoat,mustela erminea,species,0,0.000,0.000,0.000
+striped hog-nosed skunk,conepatus semistriatus,species,1,0.974,0.974,0.974
+striped hyaena,hyaena hyaena,species,52,0.829,0.661,0.828
+striped polecat,ictonyx striatus,species,0,0.000,0.000,0.000
+striped skunk,mephitis mephitis,species,228,0.894,0.652,0.927
+stump-tailed macaque,macaca arctoides,species,92,0.872,0.651,0.883
+sugar glider,petaurus breviceps,species,0,0.000,0.000,0.000
+sumatran serow,capricornis sumatraensis,species,162,0.885,0.659,0.914
+sun bear,helarctos malayanus,species,22,0.875,0.700,0.901
+sunda clouded leopard,neofelis diardi,species,0,0.000,0.000,0.000
+sunda pangolin,manis javanica,species,0,0.000,0.000,0.000
+suni,nesotragus moschatus,species,32,0.868,0.662,0.875
+swamp wallaby,wallabia bicolor,species,214,0.932,0.655,0.977
+swift fox,vulpes velox,species,0,0.000,0.000,0.000
+takin,budorcas taxicolor,species,13,0.921,0.743,0.948
+tammar wallaby,macropus eugenii,species,5,0.753,0.670,0.743
+taruca,hippocamelus antisensis,species,0,0.000,0.000,0.000
+tayra,eira barbara,species,165,0.940,0.651,0.981
+thomson's gazelle,eudorcas thomsonii,species,301,0.924,0.680,0.971
+tiger,panthera tigris,species,170,0.990,0.747,0.999
+topi,damaliscus lunatus,species,50,0.843,0.661,0.842
+tufted deer,elaphodus cephalophus,species,5,0.857,0.684,0.954
+tufted ground squirrel,rheithrosciurus macrotis,species,7,0.787,0.689,0.756
+udzungwa red colobus,piliocolobus gordonorum,species,0,0.000,0.000,0.000
+variegated spider monkey,ateles hybridus,species,0,0.000,0.000,0.000
+variegated squirrel,sciurus variegatoides,species,0,0.000,0.000,0.000
+vervet monkey,chlorocebus pygerythrus,species,373,0.910,0.651,0.957
+walrus,odobenus rosmarus,species,0,0.000,0.000,0.000
+water chevrotain,hyemoschus aquaticus,species,0,0.000,0.000,0.000
+water deer,hydropotes inermis,species,0,0.000,0.000,0.000
+waterbuck,kobus ellipsiprymnus,species,199,0.906,0.657,0.943
+weasel species,mustela,genus,55,0.761,0.667,0.762
+western gorilla,gorilla gorilla,species,0,0.000,0.000,0.000
+western gray kangaroo,macropus fuliginosus,species,81,0.847,0.651,0.854
+western gray squirrel,sciurus griseus,species,220,0.929,0.653,0.971
+western mountain coati,nasuella olivacea,species,0,0.000,0.000,0.000
+western polecat,mustela putorius,species,0,0.000,0.000,0.000
+western red colobus,piliocolobus badius,species,0,0.000,0.000,0.000
+western spotted skunk,spilogale gracilis,species,4,0.813,0.663,0.829
+western tree hyrax,dendrohyrax dorsalis,species,0,0.000,0.000,0.000
+weyns's duiker,cephalophus weynsi,species,0,0.000,0.000,0.000
+whiptail wallaby,macropus parryi,species,18,0.823,0.668,0.834
+white-bellied duiker,cephalophus leucogaster,species,0,0.000,0.000,0.000
+white-bellied pangolin,phataginus tricuspis,species,0,0.000,0.000,0.000
+white-bellied spider monkey,ateles belzebuth,species,0,0.000,0.000,0.000
+white-faced saki,pithecia pithecia,species,0,0.000,0.000,0.000
+white-fronted lemur,eulemur albifrons,species,0,0.000,0.000,0.000
+white-nosed coati,nasua narica,species,81,0.835,0.663,0.835
+white-tailed antelope squirrel,ammospermophilus leucurus,species,87,0.815,0.652,0.805
+white-tailed deer,odocoileus virginianus,species,695,0.894,0.650,0.935
+white/crandall's saddleback tamarin,saguinus melanoleucus,species,0,0.000,0.000,0.000
+wild boar,sus scrofa,species,325,0.898,0.652,0.948
+wild cat,felis silvestris,species,36,0.799,0.657,0.814
+wild goat,capra aegagrus,species,4,0.700,0.673,0.718
+wolverine,gulo gulo,species,42,0.811,0.650,0.812
+woodchuck,marmota monax,species,220,0.910,0.656,0.948
+yak,bos grunniens,species,0,0.000,0.000,0.000
+yellow armadillo,euphractus sexcinctus,species,31,0.766,0.656,0.773
+yellow-backed duiker,cephalophus silvicultor,species,3,0.869,0.777,0.865
+yellow-bellied marmot,marmota flaviventris,species,189,0.892,0.651,0.925
+yellow-throated marten,martes flavigula,species,87,0.915,0.678,0.965
