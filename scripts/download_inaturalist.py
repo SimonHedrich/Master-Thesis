@@ -245,14 +245,14 @@ def download_s3_file(filename, dest_dir, use_boto3=False):
                 s3 = boto3.client(
                     "s3", region_name=S3_REGION, config=Config(signature_version=UNSIGNED)
                 )
-                obj = s3.head_object(Bucket=S3_BUCKET, Key=f"metadata/{filename}")
+                obj = s3.head_object(Bucket=S3_BUCKET, Key=filename)
                 total_size = obj["ContentLength"]
 
                 print(f"  Downloading {filename} via boto3 ({total_size / 1e9:.1f} GB)...")
                 with tqdm(total=total_size, unit="B", unit_scale=True, desc=filename) as pbar:
                     s3.download_file(
                         S3_BUCKET,
-                        f"metadata/{filename}",
+                        filename,
                         str(gz_path),
                         Callback=lambda bytes_transferred: pbar.update(bytes_transferred),
                     )
@@ -266,7 +266,7 @@ def download_s3_file(filename, dest_dir, use_boto3=False):
                 use_boto3 = False
 
         if not use_boto3:
-            url = f"{S3_BASE_URL}/metadata/{filename}"
+            url = f"{S3_BASE_URL}/{filename}"
             print(f"  Downloading {filename} via HTTPS...")
             resp = requests.get(url, stream=True)
             resp.raise_for_status()
@@ -281,15 +281,24 @@ def download_s3_file(filename, dest_dir, use_boto3=False):
     else:
         print(f"  Already downloaded: {gz_path.name}")
 
-    # Decompress
-    print(f"  Decompressing {filename}...")
-    with gzip.open(gz_path, "rb") as f_in, open(csv_path, "wb") as f_out:
-        while True:
-            chunk = f_in.read(1024 * 1024 * 64)  # 64 MB chunks
-            if not chunk:
-                break
-            f_out.write(chunk)
-    print(f"  Decompressed: {csv_path.name} ({csv_path.stat().st_size / 1e9:.1f} GB)")
+    # Decompress (or rename if the server returned plain text despite .gz URL)
+    # Check the first two bytes for the gzip magic number (0x1f 0x8b)
+    with open(gz_path, "rb") as f:
+        magic = f.read(2)
+
+    if magic == b"\x1f\x8b":
+        print(f"  Decompressing {filename}...")
+        with gzip.open(gz_path, "rb") as f_in, open(csv_path, "wb") as f_out:
+            while True:
+                chunk = f_in.read(1024 * 1024 * 64)  # 64 MB chunks
+                if not chunk:
+                    break
+                f_out.write(chunk)
+        print(f"  Decompressed: {csv_path.name} ({csv_path.stat().st_size / 1e9:.1f} GB)")
+    else:
+        # File was served uncompressed (AWS sometimes does transparent decompression)
+        print(f"  File already uncompressed, renaming {gz_path.name} → {csv_path.name}")
+        gz_path.rename(csv_path)
 
     return csv_path
 
@@ -504,7 +513,7 @@ def cmd_filter(args):
                 continue
 
             if taxon_id in matching_taxon_ids:
-                obs_to_taxon[row["observation_id"]] = taxon_id
+                obs_to_taxon[row["observation_uuid"]] = taxon_id
 
             if obs_count % 10_000_000 == 0:
                 print(f"    ...{obs_count:,} observations scanned, {len(obs_to_taxon):,} matched")
@@ -853,3 +862,320 @@ Examples:
 
 if __name__ == "__main__":
     main()
+
+
+"""
+python scripts/download_inaturalist.py filter        
+Loaded 225 target labels from 2026-03-19_student_model_labels.txt
+
+── Step 1: Load taxonomy ──
+  Loading taxa.csv...
+    ...500,000 taxa loaded
+    ...1,000,000 taxa loaded
+    ...1,500,000 taxa loaded
+  1,626,690 taxa loaded
+  Mammalia taxon_id: 40151
+  16,698 mammal taxa found
+  Resolving ancestry names for mammal taxa...
+
+── Step 2: Match taxa to target labels ──
+  7158 iNaturalist taxa matched to target labels
+  Target labels covered: 221 / 225
+  Uncovered (4):
+    - dingo
+    - domestic goat
+    - domestic pig
+    - pinniped clade
+
+  Example matches:
+    Cervus canadensis alashanicus (subspecies) → elk (subspecies)
+    Vulpes vulpes alpherakyi (subspecies) → red fox (subspecies)
+    Cervus canadensis sibiricus (subspecies) → elk (subspecies)
+    Cervus canadensis macneilli (subspecies) → elk (subspecies)
+    Callosciurus erythraeus styani (subspecies) → squirrel family (family)
+    Callosciurus erythraeus thai (subspecies) → squirrel family (family)
+    Apodemus agrarius coreae (subspecies) → muridae family (family)
+    Apodemus agrarius chejuensis (subspecies) → muridae family (family)
+    Tamiasciurus hudsonicus ventorum (subspecies) → red squirrel (subspecies)
+    Saguinus ursula (species) → saguinus species (genus)
+
+── Step 3: Stream observations.csv ──
+    ...10,000,000 observations scanned, 237,643 matched
+    ...20,000,000 observations scanned, 422,879 matched
+    ...30,000,000 observations scanned, 624,321 matched
+    ...40,000,000 observations scanned, 788,927 matched
+    ...50,000,000 observations scanned, 980,832 matched
+    ...60,000,000 observations scanned, 1,112,908 matched
+    ...70,000,000 observations scanned, 1,305,972 matched
+    ...80,000,000 observations scanned, 1,452,075 matched
+    ...90,000,000 observations scanned, 1,595,156 matched
+    ...100,000,000 observations scanned, 1,801,897 matched
+    ...110,000,000 observations scanned, 1,938,817 matched
+    ...120,000,000 observations scanned, 2,072,142 matched
+    ...130,000,000 observations scanned, 2,257,371 matched
+    ...140,000,000 observations scanned, 2,442,147 matched
+    ...150,000,000 observations scanned, 2,579,210 matched
+    ...160,000,000 observations scanned, 2,720,019 matched
+    ...170,000,000 observations scanned, 2,891,540 matched
+    ...180,000,000 observations scanned, 3,114,562 matched
+    ...190,000,000 observations scanned, 3,261,714 matched
+    ...200,000,000 observations scanned, 3,403,693 matched
+    ...210,000,000 observations scanned, 3,548,180 matched
+    ...220,000,000 observations scanned, 3,708,941 matched
+    ...230,000,000 observations scanned, 3,924,930 matched
+  233,286,559 observations scanned
+  4,003,990 observations match target taxa
+
+── Step 4: Stream photos.csv (filtering by license + species) ──
+    ...50,000,000 photos scanned, 0 kept
+    ...100,000,000 photos scanned, 0 kept
+    ...150,000,000 photos scanned, 0 kept
+    ...200,000,000 photos scanned, 0 kept
+    ...250,000,000 photos scanned, 0 kept
+    ...300,000,000 photos scanned, 0 kept
+    ...350,000,000 photos scanned, 0 kept
+    ...400,000,000 photos scanned, 0 kept
+  413,168,476 photos scanned
+  0 photos kept (commercially safe + target species)
+  0 photos skipped (unsafe license)
+
+  License distribution (for matched observations):
+
+── Writing filtered list ──
+  Written 0 entries to /Users/simonhedrich/Code/Master-Thesis/data/inaturalist/filtered_images_225.json
+  File size: 0.0 MB
+
+── Coverage Report ──
+  Target labels with images: 0 / 225
+
+  Top 20 classes:
+
+  Bottom 20 classes:
+
+  Still uncovered (225):
+    - aardvark
+    - aardwolf
+    - african buffalo
+    - african civet
+    - african elephant
+    - african wild dog
+    - agouti genus
+    - alpine ibex
+    - alpine marmot
+    - american badger
+    - american bison
+    - american black bear
+    - american mink
+    - arizona black-tailed prairie dog
+    - asian elephant
+    - asiatic black bear
+    - asiatic wild ass
+    - ateles species
+    - aye-aye
+    - baboon genus
+    - baird's tapir
+    - bat-eared fox
+    - beaver genus
+    - bighorn sheep
+    - binturong
+    - black wildebeest
+    - black-backed jackal
+    - blackbuck
+    - blesbok
+    - bobcat
+    - bongo
+    - bornean orangutan
+    - brown bear
+    - brown hyaena
+    - brown-throated sloth
+    - bushbuck
+    - california ground squirrel
+    - callicebus genus
+    - callithrix species
+    - canada lynx
+    - capybara
+    - caracal
+    - cebus species
+    - cephalophus species
+    - cercopithecus species
+    - cheetah
+    - chimpanzee
+    - chipmunk genus
+    - chital
+    - clouded leopard
+    - collared peccary
+    - colobus species
+    - common duiker
+    - common eland
+    - common fallow deer
+    - common warthog
+    - common wildebeest
+    - common wombat
+    - cottontail rabbits genus
+    - coyote
+    - cricetidae family
+    - dhole
+    - dingo
+    - domestic cat
+    - domestic cattle
+    - domestic dog
+    - domestic donkey
+    - domestic goat
+    - domestic horse
+    - domestic pig
+    - domestic sheep
+    - domestic water buffalo
+    - drill
+    - dromedary camel
+    - eared seals
+    - eastern cottontail
+    - eastern fox squirrel
+    - eastern gray squirrel
+    - eastern grey kangaroo
+    - elephant seal
+    - elk
+    - eulemur species
+    - eurasian badger
+    - eurasian lynx
+    - eurasian otter
+    - eurasian red squirrel
+    - european bison
+    - european hare
+    - european rabbit
+    - european roe deer
+    - fisher
+    - fossa
+    - gemsbok
+    - genet genus
+    - gerenuk
+    - giant anteater
+    - giant armadillo
+    - giant otter
+    - giant panda
+    - giraffe
+    - glaucomys species
+    - golden jackal
+    - golden mantled ground squirrel
+    - gorilla species
+    - grant's gazelle
+    - greater kudu
+    - grevy's zebra
+    - grey fox
+    - grey wolf
+    - hares and jackrabbits genus
+    - hartebeest
+    - hedgehog family
+    - hippopotamus
+    - hoffmann's two-toed sloth
+    - hog badger genus
+    - honey badger
+    - howler monkey genus
+    - human
+    - impala
+    - jaguar
+    - japanese macaque
+    - kangaroo family
+    - kinkajou
+    - kirk's dik-dik
+    - klipspringer
+    - koala
+    - kob
+    - leaf monkeys genus
+    - leopard
+    - leopard cat
+    - leopardus species
+    - lion
+    - llama genus
+    - lowland tapir
+    - lycalopex species
+    - macaque species
+    - malay tapir
+    - maned wolf
+    - mangabeys genus
+    - martes species
+    - meerkat
+    - mongoose family
+    - moose
+    - mouflon
+    - mountain goat
+    - mountain zebra
+    - mule deer
+    - muntjac genus
+    - muridae family
+    - muskrat
+    - nilgai
+    - nine-banded armadillo
+    - north american porcupine
+    - north american river otter
+    - northern chamois
+    - northern raccoon
+    - nutria
+    - nyala
+    - ocelot
+    - old world porcupine family
+    - opossum family
+    - pangolin family
+    - patas monkey
+    - pikas genus
+    - pinniped clade
+    - plains zebra
+    - pronghorn
+    - puma
+    - quokka
+    - raccoon dog
+    - rattus genus
+    - red brocket
+    - red deer
+    - red fox
+    - red kangaroo
+    - red panda
+    - red river hog
+    - red squirrel
+    - red-necked wallaby
+    - reedbuck genus
+    - reindeer
+    - rhinoceros family
+    - ring-tailed lemur
+    - ringtail
+    - roan antelope
+    - rock hyrax
+    - sable antelope
+    - saguinus species
+    - saiga
+    - saimiri species
+    - sambar
+    - sea otter
+    - serval
+    - short-beaked echidna
+    - sika deer
+    - sloth bear
+    - snow leopard
+    - south american coati
+    - spectacled bear
+    - spilogale species
+    - spotted hyaena
+    - springbok
+    - squirrel family
+    - steenbok
+    - striped hyaena
+    - striped skunk
+    - sun bear
+    - swamp wallaby
+    - tayra
+    - thomson's gazelle
+    - tiger
+    - vervet monkey
+    - walrus
+    - water deer
+    - waterbuck
+    - weasel species
+    - western gray squirrel
+    - white-nosed coati
+    - white-tailed deer
+    - wild boar
+    - wild cat
+    - wolverine
+    - woodchuck
+    - yak
+    - yellow-bellied marmot
+"""
