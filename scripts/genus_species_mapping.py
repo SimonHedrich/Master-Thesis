@@ -1,10 +1,10 @@
 """
-Create a mapping from genus-level labels to their constituent species.
+Create mappings from genus- and family-level labels to their constituent species.
 
-For the 37 genus-level labels in the 225-class student model label set, this
-script resolves the specific species within each genus. This is useful when
-searching for training images — searching by specific species name yields far
-more results than searching by genus alone.
+For the 37 genus-level and 12 family-level labels in the 225-class student model
+label set, this script resolves the specific species within each group. This is
+useful when searching for training images — searching by specific species name
+yields far more results than searching by genus or family alone.
 
 Data sources (in order of priority):
     1. SpeciesNet taxonomy (resources/speciesnet_taxonomy_release.txt) — local
@@ -18,8 +18,9 @@ Usage:
     # With observation counts from iNaturalist API
     python scripts/genus_species_mapping.py --include-inat-counts
 
-    # Custom output path
-    python scripts/genus_species_mapping.py --output reports/my_mapping.csv
+    # Custom output paths
+    python scripts/genus_species_mapping.py --output reports/my_genus_mapping.csv
+    python scripts/genus_species_mapping.py --family-output reports/my_family_mapping.csv
 """
 
 import argparse
@@ -41,6 +42,7 @@ LABELS_225 = REPO_ROOT / "resources" / "2026-03-19_student_model_labels.txt"
 SPECIESNET_TAXONOMY = REPO_ROOT / "resources" / "speciesnet_taxonomy_release.txt"
 INAT_TAXA = REPO_ROOT / "data" / "inaturalist" / "metadata" / "taxa.csv"
 DEFAULT_OUTPUT = REPO_ROOT / "reports" / "genus_species_mapping.csv"
+DEFAULT_FAMILY_OUTPUT = REPO_ROOT / "reports" / "family_species_mapping.csv"
 
 # ── Related Genera ───────────────────────────────────────────────────────────
 # Some genus labels consolidate multiple taxonomic genera. Derived from the
@@ -84,6 +86,29 @@ def load_genus_labels(label_path):
     return genera
 
 
+def load_family_labels(label_path):
+    """Load the label file and return family-level entries.
+
+    Family-level entries have a family set but genus and species empty.
+
+    Returns:
+        dict: {family_name: common_name} for all family-level labels.
+    """
+    families = {}
+    with open(label_path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split(";")
+            if len(parts) < 7:
+                continue
+            family, genus, species, common_name = parts[3], parts[4], parts[5], parts[6]
+            if family and not genus and not species:
+                families[family.lower()] = common_name
+    return families
+
+
 # ── SpeciesNet Taxonomy ──────────────────────────────────────────────────────
 
 
@@ -108,6 +133,36 @@ def query_speciesnet(target_genera):
             genus, species, common_name = parts[4].lower(), parts[5], parts[6]
             if genus in target_genera and species:
                 results.append({
+                    "genus": genus,
+                    "species": f"{genus} {species}".lower(),
+                    "common_name": common_name,
+                })
+    return results
+
+
+def query_speciesnet_families(target_families):
+    """Find species within target families from the SpeciesNet taxonomy.
+
+    Args:
+        target_families: set of family names (lowercase) to search for.
+
+    Returns:
+        list of dicts with keys: family, genus, species, common_name.
+    """
+    results = []
+    with open(SPECIESNET_TAXONOMY) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split(";")
+            if len(parts) < 7:
+                continue
+            family = parts[3].lower()
+            genus, species, common_name = parts[4].lower(), parts[5], parts[6]
+            if family in target_families and species:
+                results.append({
+                    "family": family,
                     "genus": genus,
                     "species": f"{genus} {species}".lower(),
                     "common_name": common_name,
@@ -183,6 +238,81 @@ def query_inat_taxa(target_genera):
                 break
 
     print(f"  Found {len(results)} species across matched genera")
+    return results
+
+
+def query_inat_taxa_families(target_families):
+    """Find species within target families from iNaturalist taxa.csv.
+
+    Args:
+        target_families: set of family names (lowercase) to search for.
+
+    Returns:
+        list of dicts with keys: family, genus, species, common_name, taxon_id.
+    """
+    if not INAT_TAXA.exists():
+        print(f"  [skip] iNaturalist taxa.csv not found at {INAT_TAXA}")
+        return []
+
+    print(f"  Parsing {INAT_TAXA.name} (~186 MB)...")
+
+    # Pass 1: find taxon_ids for target families, and genus taxon_ids for genus lookup
+    family_taxon_ids = {}  # taxon_id -> family_name
+    genus_taxon_ids = {}   # taxon_id -> genus_name
+    all_rows = []
+
+    with open(INAT_TAXA) as f:
+        reader = csv.DictReader(f, delimiter="\t")
+        for row in reader:
+            name = row["name"].lower()
+            rank = row["rank"]
+            taxon_id = row["taxon_id"]
+            active = row.get("active", "t")
+
+            if active == "f":
+                continue
+
+            if rank == "family" and name in target_families:
+                family_taxon_ids[taxon_id] = name
+
+            if rank == "genus":
+                genus_taxon_ids[taxon_id] = name
+
+            all_rows.append(row)
+
+    print(f"  Found {len(family_taxon_ids)} family taxon_ids out of {len(target_families)} target families")
+
+    # Pass 2: find species whose ancestry includes a target family
+    results = []
+    for row in all_rows:
+        if row["rank"] != "species":
+            continue
+        if row.get("active", "t") == "f":
+            continue
+
+        ancestry = row.get("ancestry", "")
+        if not ancestry:
+            continue
+
+        ancestor_ids = ancestry.split("/")
+        for aid in ancestor_ids:
+            if aid in family_taxon_ids:
+                family_name = family_taxon_ids[aid]
+                # Resolve genus from the direct parent (last ancestor before species)
+                genus_name = ""
+                if ancestor_ids:
+                    parent_id = ancestor_ids[-1]
+                    genus_name = genus_taxon_ids.get(parent_id, "")
+                results.append({
+                    "family": family_name,
+                    "genus": genus_name,
+                    "species": row["name"].lower(),
+                    "common_name": "",
+                    "taxon_id": row["taxon_id"],
+                })
+                break
+
+    print(f"  Found {len(results)} species across matched families")
     return results
 
 
@@ -394,18 +524,122 @@ def print_summary(rows, genera):
         print(f"\n⚠ Genera with NO species found: {', '.join(missing)}")
 
 
+# ── Family Mapping ────────────────────────────────────────────────────────────
+
+
+def build_family_mapping(families):
+    """Build the family-to-species mapping from all sources.
+
+    Args:
+        families: dict {family_name: common_name} from the label set.
+
+    Returns:
+        list of row dicts for the output CSV.
+    """
+    target_families = set(families.keys())
+
+    # Collect species from SpeciesNet
+    print("Querying SpeciesNet taxonomy for families...")
+    sn_results = query_speciesnet_families(target_families)
+    print(f"  Found {len(sn_results)} species entries")
+
+    # Collect species from iNaturalist taxa.csv
+    print("Querying iNaturalist taxa.csv for families...")
+    inat_results = query_inat_taxa_families(target_families)
+
+    # Merge: use (family, species) as key, prefer SpeciesNet common names
+    species_map = {}
+
+    for entry in sn_results:
+        key = (entry["family"], entry["species"])
+        species_map[key] = {
+            "family_label": families[entry["family"]],
+            "family_scientific": entry["family"],
+            "genus_scientific": entry["genus"],
+            "species_scientific": entry["species"],
+            "species_common_name": entry["common_name"],
+            "source": "speciesnet",
+            "inat_observation_count": "",
+        }
+
+    for entry in inat_results:
+        key = (entry["family"], entry["species"])
+        if key in species_map:
+            species_map[key]["source"] = "speciesnet+inat"
+        else:
+            species_map[key] = {
+                "family_label": families[entry["family"]],
+                "family_scientific": entry["family"],
+                "genus_scientific": entry.get("genus", ""),
+                "species_scientific": entry["species"],
+                "species_common_name": entry["common_name"],
+                "source": "inat",
+                "inat_observation_count": "",
+            }
+
+    # Sort by family, then species
+    rows = sorted(species_map.values(), key=lambda r: (r["family_scientific"], r["species_scientific"]))
+    return rows
+
+
+def write_family_output(rows, output_path):
+    """Write the family mapping to CSV."""
+    fieldnames = [
+        "family_label",
+        "family_scientific",
+        "genus_scientific",
+        "species_scientific",
+        "species_common_name",
+        "source",
+        "inat_observation_count",
+    ]
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def print_family_summary(rows, families):
+    """Print a summary of species counts per family."""
+    counts = {}
+    for row in rows:
+        f = row["family_scientific"]
+        counts[f] = counts.get(f, 0) + 1
+
+    print(f"\n{'Family Label':<35} {'Scientific':<20} {'Species Count':>13}")
+    print("-" * 70)
+    for family in sorted(families.keys()):
+        count = counts.get(family, 0)
+        marker = " ⚠" if count == 0 else ""
+        print(f"{families[family]:<35} {family:<20} {count:>13}{marker}")
+
+    total = sum(counts.values())
+    missing = [f for f in families if counts.get(f, 0) == 0]
+    print("-" * 70)
+    print(f"{'TOTAL':<35} {len(families)} families{' ':>5} {total:>5} species")
+    if missing:
+        print(f"\n⚠ Families with NO species found: {', '.join(missing)}")
+
+
 # ── CLI ──────────────────────────────────────────────────────────────────────
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Map genus-level labels to their constituent species.",
+        description="Map genus- and family-level labels to their constituent species.",
     )
     parser.add_argument(
         "--output", "-o",
         type=Path,
         default=DEFAULT_OUTPUT,
-        help=f"Output CSV path (default: {DEFAULT_OUTPUT.relative_to(REPO_ROOT)})",
+        help=f"Output CSV path for genus mapping (default: {DEFAULT_OUTPUT.relative_to(REPO_ROOT)})",
+    )
+    parser.add_argument(
+        "--family-output",
+        type=Path,
+        default=DEFAULT_FAMILY_OUTPUT,
+        help=f"Output CSV path for family mapping (default: {DEFAULT_FAMILY_OUTPUT.relative_to(REPO_ROOT)})",
     )
     parser.add_argument(
         "--include-inat-counts",
@@ -414,20 +648,26 @@ def main():
     )
     args = parser.parse_args()
 
-    # Step 1: Load genus labels
+    # ── Genus mapping ──
     print(f"Loading genus labels from {LABELS_225.name}...")
     genera = load_genus_labels(LABELS_225)
     print(f"  Found {len(genera)} genus-level labels")
 
-    # Step 2-4: Build the mapping
     rows = build_mapping(genera, include_inat_counts=args.include_inat_counts)
-
-    # Step 5: Write output
     write_output(rows, args.output)
     print(f"\nWrote {len(rows)} rows to {args.output.relative_to(REPO_ROOT)}")
-
-    # Summary
     print_summary(rows, genera)
+
+    # ── Family mapping ──
+    print(f"\n{'='*70}")
+    print(f"Loading family labels from {LABELS_225.name}...")
+    families = load_family_labels(LABELS_225)
+    print(f"  Found {len(families)} family-level labels")
+
+    family_rows = build_family_mapping(families)
+    write_family_output(family_rows, args.family_output)
+    print(f"\nWrote {len(family_rows)} rows to {args.family_output.relative_to(REPO_ROOT)}")
+    print_family_summary(family_rows, families)
 
 
 if __name__ == "__main__":

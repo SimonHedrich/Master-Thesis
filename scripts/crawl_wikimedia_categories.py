@@ -7,7 +7,7 @@ before using the curated files to download images.
 
 Usage:
     python scripts/crawl_wikimedia_categories.py
-    python scripts/crawl_wikimedia_categories.py --max-depth 2 --rate-limit 1.0
+    python scripts/crawl_wikimedia_categories.py --max-depth 2 --rate-limit 0.3
     python scripts/crawl_wikimedia_categories.py --resume
 
 Requirements:
@@ -24,12 +24,14 @@ import requests
 # Import shared utilities from download_supplementary
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from download_supplementary import (
+    FAMILY_SPECIES_MAP,
     GENUS_SPECIES_MAP,
     LABELS_225,
     REPO_ROOT,
     USER_AGENT,
     WIKI_API,
     RateLimiter,
+    load_family_species_mapping,
     load_genus_species_mapping,
     load_target_labels,
     sanitize_dirname,
@@ -38,73 +40,110 @@ from download_supplementary import (
 OUTPUT_DIR = REPO_ROOT / "reports" / "wikimedia_categories"
 
 
-def get_category_members(category, cmtype, rate_limiter, max_pages=20):
-    """Fetch all members of a Wikimedia Commons category (paginated).
+def _make_session():
+    """Create a requests.Session with proper headers for Wikimedia."""
+    session = requests.Session()
+    session.headers["User-Agent"] = USER_AGENT
+    return session
 
-    Args:
-        category: Category title, e.g. "Category:Orycteropus_afer"
-        cmtype: "subcat" for subcategories, "file" for files
-        rate_limiter: RateLimiter instance
-        max_pages: Safety cap on pagination
 
-    Returns:
-        List of member title strings.
+def _api_get(session, params, rate_limiter, max_retries=8):
+    """Make a rate-limited API request with retry logic for 429/maxlag/errors.
+
+    Returns parsed JSON or None on failure.
     """
-    all_titles = []
+    params.setdefault("maxlag", 5)
+    rate_limiter.wait()
+    for attempt in range(max_retries):
+        try:
+            resp = session.get(WIKI_API, params=params, timeout=30)
+            if resp.status_code == 429 or resp.status_code == 503:
+                retry_after = resp.headers.get("Retry-After")
+                wait = int(retry_after) if retry_after and retry_after.isdigit() else min(2 ** (attempt + 1), 60)
+                print(f"    Rate limited ({resp.status_code}), waiting {wait}s...", flush=True)
+                time.sleep(wait)
+                continue
+            resp.raise_for_status()
+            return resp.json()
+        except requests.exceptions.HTTPError:
+            wait = min(2 ** (attempt + 1), 60)
+            time.sleep(wait)
+            continue
+        except Exception as e:
+            print(f"    API error: {e}", flush=True)
+            break
+    return None
+
+
+def get_category_info(session, category, rate_limiter):
+    """Get file count for a category using prop=categoryinfo (single lightweight call).
+
+    Returns file count (int) or 0 on failure.
+    """
     params = {
         "action": "query",
-        "list": "categorymembers",
-        "cmtitle": category,
-        "cmtype": cmtype,
-        "cmlimit": 500,
+        "titles": category,
+        "prop": "categoryinfo",
+        "format": "json",
+    }
+    data = _api_get(session, params, rate_limiter)
+    if data is None:
+        return 0
+    pages = data.get("query", {}).get("pages", {})
+    for page in pages.values():
+        ci = page.get("categoryinfo", {})
+        return ci.get("files", 0)
+    return 0
+
+
+def get_subcategories_with_counts(session, category, rate_limiter, max_pages=20):
+    """Fetch subcategories AND their file counts in a single request using generators.
+
+    Uses generator=categorymembers + prop=categoryinfo to get subcategories
+    and their file counts in one API call per page.
+
+    Returns list of (subcat_title, file_count) tuples.
+    """
+    results = []
+    params = {
+        "action": "query",
+        "generator": "categorymembers",
+        "gcmtitle": category,
+        "gcmtype": "subcat",
+        "gcmlimit": 500,
+        "prop": "categoryinfo",
         "format": "json",
     }
 
     for _ in range(max_pages):
-        rate_limiter.wait()
-        data = None
-        for attempt in range(8):
-            try:
-                resp = requests.get(WIKI_API, params=params, timeout=30,
-                                    headers={"User-Agent": USER_AGENT})
-                if resp.status_code == 429:
-                    wait = min(2 ** (attempt + 1), 60)
-                    print(f"    Rate limited, waiting {wait}s...", flush=True)
-                    time.sleep(wait)
-                    continue
-                resp.raise_for_status()
-                data = resp.json()
-                break
-            except requests.exceptions.HTTPError:
-                wait = min(2 ** (attempt + 1), 60)
-                time.sleep(wait)
-                continue
-            except Exception as e:
-                print(f"    API error for {category} ({cmtype}): {e}", flush=True)
-                break
+        data = _api_get(session, params, rate_limiter)
         if data is None:
-            print(f"    Failed after retries: {category} ({cmtype})", flush=True)
+            print(f"    Failed after retries: {category} (subcats+info)", flush=True)
             break
 
-        members = data.get("query", {}).get("categorymembers", [])
-        all_titles.extend(m["title"] for m in members)
+        pages = data.get("query", {}).get("pages", {})
+        for page in pages.values():
+            title = page.get("title", "")
+            ci = page.get("categoryinfo", {})
+            file_count = ci.get("files", 0)
+            results.append((title, file_count))
 
         # Check for continuation
         cont = data.get("continue")
-        if cont and "cmcontinue" in cont:
-            params["cmcontinue"] = cont["cmcontinue"]
+        if cont and "gcmcontinue" in cont:
+            params["gcmcontinue"] = cont["gcmcontinue"]
         else:
             break
 
-    return all_titles
+    return results
 
 
-def crawl_category_tree(category, rate_limiter, max_depth=3, current_depth=0,
+def crawl_category_tree(session, category, rate_limiter, max_depth=3, current_depth=0,
                         visited=None, max_categories=200):
     """Recursively crawl a category tree.
 
     Returns list of (category_title, file_count, depth) tuples, in tree order.
-    Stops after visiting max_categories to avoid spending too long on huge trees.
+    Uses combined generator queries: 1 API call per node instead of 2.
     """
     if visited is None:
         visited = set()
@@ -114,35 +153,41 @@ def crawl_category_tree(category, rate_limiter, max_depth=3, current_depth=0,
         return []
     visited.add(category)
 
-    # Count files at this level
-    files = get_category_members(category, "file", rate_limiter)
-    file_count = len(files)
-
-    results = [(category, file_count, current_depth)]
-
-    # Recurse into subcategories if not at max depth
     if current_depth < max_depth:
-        subcats = get_category_members(category, "subcat", rate_limiter)
-        for subcat in subcats:
+        # Get subcategories AND their file counts in one call
+        subcats_with_counts = get_subcategories_with_counts(session, category, rate_limiter)
+        # Get file count for the current category
+        file_count = get_category_info(session, category, rate_limiter)
+        results = [(category, file_count, current_depth)]
+
+        for subcat_title, _ in subcats_with_counts:
             if len(visited) >= max_categories:
                 break
             sub_results = crawl_category_tree(
-                subcat, rate_limiter, max_depth, current_depth + 1,
+                session, subcat_title, rate_limiter, max_depth, current_depth + 1,
                 visited, max_categories,
             )
             results.extend(sub_results)
+    else:
+        # Leaf node: just get file count
+        file_count = get_category_info(session, category, rate_limiter)
+        results = [(category, file_count, current_depth)]
 
     return results
 
 
-def build_root_categories(labels, genus_map):
+def build_root_categories(labels, genus_map, family_map=None):
     """Build root Wikimedia categories to crawl for each label.
 
     Returns dict: {common_name: {"categories": [...], "scientific": str, "genus": str, "species": str}}
     """
+    if family_map is None:
+        family_map = {}
+
     result = {}
     for entry in labels:
         cn = entry["common_name"]
+        family = entry.get("family", "")
         genus = entry["genus"]
         species = entry["species"]
         categories = []
@@ -154,6 +199,9 @@ def build_root_categories(labels, genus_map):
         elif genus:
             # Genus-level: Category:Genus
             categories.append(f"Category:{genus.capitalize()}")
+        elif family and not genus and not species:
+            # Family-level: Category:Family
+            categories.append(f"Category:{family.capitalize()}")
 
         # For genus-level labels, also add species from genus_species_mapping.csv
         if cn in genus_map:
@@ -177,6 +225,17 @@ def build_root_categories(labels, genus_map):
                                 cat = f"Category:{parts[0].capitalize()}_{parts[1].lower()}"
                                 if cat not in categories:
                                     categories.append(cat)
+
+        # For family-level labels, add species from family_species_mapping.csv
+        if family and not genus and not species and cn in family_map:
+            for sp_row in family_map[cn]:
+                sci = sp_row["species_scientific"].strip()
+                if sci:
+                    parts = sci.split()
+                    if len(parts) >= 2:
+                        cat = f"Category:{parts[0].capitalize()}_{parts[1].lower()}"
+                        if cat not in categories:
+                            categories.append(cat)
 
         sci_name = f"{genus.capitalize()} {species.lower()}".strip() if genus else cn
         result[cn] = {
@@ -207,11 +266,11 @@ def main():
                         help="Path to labels file")
     parser.add_argument("--output-dir", type=str, default=str(OUTPUT_DIR),
                         help="Output directory for hierarchy files")
-    parser.add_argument("--rate-limit", type=float, default=1.0,
-                        help="Seconds between API calls (default: 1.0)")
+    parser.add_argument("--rate-limit", type=float, default=0.1,
+                        help="Seconds between API calls (default: 0.4)")
     parser.add_argument("--max-depth", type=int, default=2,
                         help="Max category depth to crawl (default: 2)")
-    parser.add_argument("--max-categories", type=int, default=100,
+    parser.add_argument("--max-categories", type=int, default=5000,
                         help="Max categories to crawl per label (default: 100)")
     parser.add_argument("--resume", action="store_true",
                         help="Skip labels that already have output files")
@@ -221,11 +280,13 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     rate_limiter = RateLimiter(min_interval=args.rate_limit)
+    session = _make_session()
 
     # Load data
     labels = load_target_labels(args.labels)
     genus_map = load_genus_species_mapping(GENUS_SPECIES_MAP)
-    root_cats = build_root_categories(labels, genus_map)
+    family_map = load_family_species_mapping(FAMILY_SPECIES_MAP)
+    root_cats = build_root_categories(labels, genus_map, family_map)
     print(f"Loaded {len(root_cats)} labels")
 
     total_categories = 0
@@ -253,7 +314,7 @@ def main():
         visited = set()
         for cat in info["categories"]:
             tree = crawl_category_tree(
-                cat, rate_limiter, max_depth=args.max_depth,
+                session, cat, rate_limiter, max_depth=args.max_depth,
                 current_depth=0, visited=visited,
                 max_categories=args.max_categories,
             )

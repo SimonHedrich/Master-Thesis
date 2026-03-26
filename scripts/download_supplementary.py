@@ -50,6 +50,7 @@ from tqdm import tqdm
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LABELS_225 = REPO_ROOT / "resources" / "2026-03-19_student_model_labels.txt"
 GENUS_SPECIES_MAP = REPO_ROOT / "reports" / "genus_species_mapping.csv"
+FAMILY_SPECIES_MAP = REPO_ROOT / "reports" / "family_species_mapping.csv"
 SUPP_DIR = REPO_ROOT / "data" / "supplementary"
 METADATA_DIR = SUPP_DIR / "metadata"
 IMAGES_DIR = SUPP_DIR / "images"
@@ -166,7 +167,7 @@ FLICKR_API = "https://www.flickr.com/services/rest/"
 # 4=CC-BY, 5=CC-BY-SA, 6=CC-BY-ND, 7=No known, 9=CC0, 10=PDM
 FLICKR_SAFE_LICENSES = "4,5,6,7,9,10"
 
-USER_AGENT = "MasterThesis-WildlifeDetection/1.0 (wildlife-detection-research) python-requests"
+USER_AGENT = "MasterThesis-WildlifeDetection/1.0 (https://github.com/simonhedrich; wildlife-detection-research) python-requests"
 
 
 # ── Shared Utilities ─────────────────────────────────────────────────────────
@@ -214,6 +215,26 @@ def load_genus_species_mapping(csv_path):
                 mapping[label] = []
             mapping[label].append({
                 "genus_scientific": row["genus_scientific"].strip(),
+                "species_scientific": row["species_scientific"].strip(),
+                "species_common_name": row.get("species_common_name", "").strip(),
+            })
+    return mapping
+
+
+def load_family_species_mapping(csv_path):
+    """Load family_species_mapping.csv. Returns {family_label: [species_rows]}."""
+    mapping = {}
+    if not Path(csv_path).exists():
+        return mapping
+    with open(csv_path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            label = row["family_label"].strip()
+            if label not in mapping:
+                mapping[label] = []
+            mapping[label].append({
+                "family_scientific": row["family_scientific"].strip(),
+                "genus_scientific": row.get("genus_scientific", "").strip(),
                 "species_scientific": row["species_scientific"].strip(),
                 "species_common_name": row.get("species_common_name", "").strip(),
             })
