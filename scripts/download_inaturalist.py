@@ -535,7 +535,7 @@ def cmd_filter(args):
         reader = csv.DictReader(f, delimiter="\t")
         for row in reader:
             photo_count += 1
-            obs_id = row.get("observation_id", "")
+            obs_id = row.get("observation_uuid", "")
 
             if obs_id not in matching_obs_ids:
                 if photo_count % 50_000_000 == 0:
@@ -543,7 +543,7 @@ def cmd_filter(args):
                 continue
 
             # Check license
-            license_str = (row.get("photo_license") or "").strip().lower()
+            license_str = (row.get("license") or "").strip().lower()
             license_counts[license_str] += 1
 
             if license_str not in SAFE_LICENSES:

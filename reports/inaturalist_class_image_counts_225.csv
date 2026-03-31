@@ -1,0 +1,226 @@
+common_name,scientific_name,level,total_images,commercially_safe,cc0,cc_by,cc_by_nc,cc_by_sa,cc_by_nd,cc_by_nc_sa,cc_by_nc_nd,other
+white-tailed deer,odocoileus virginianus,species,463529,61865,9238,52627,376408,3610,1127,6224,14295,0
+eastern gray squirrel,sciurus carolinensis,species,402406,47196,9393,37803,338631,1859,361,4870,9489,0
+squirrel family,sciuridae,family,379223,51099,8057,43042,299709,4131,1081,8826,14377,0
+mule deer,odocoileus hemionus,species,233505,29216,5167,24049,183005,2007,1206,2687,15384,0
+northern raccoon,procyon lotor,species,222123,23459,5083,18376,184574,3530,740,3056,6764,0
+coyote,canis latrans,species,187721,20071,4147,15924,156687,1893,630,2323,6117,0
+eastern cottontail,sylvilagus floridanus,species,185552,18329,3504,14825,158872,1412,284,2527,4128,0
+eastern fox squirrel,sciurus niger,species,176062,16646,2725,13921,153433,827,458,1410,3288,0
+red fox,vulpes vulpes,species,168081,20852,4178,16674,140002,1201,210,2018,3798,0
+domestic cat,felis catus,species,149953,20415,6889,13526,121462,1491,187,2038,4360,0
+cricetidae family,cricetidae,family,149094,18765,3750,15015,120275,1516,264,2563,5711,0
+beaver genus,castor,genus,138058,19634,3831,15803,112274,1117,470,1796,2767,0
+cottontail rabbits genus,sylvilagus,genus,135570,14164,2299,11865,114437,815,318,1733,4103,0
+eared seals,otariidae,family,115635,16725,2811,13914,91717,1519,171,2606,2897,0
+opossum family,didelphidae,family,110494,11832,2606,9226,92054,1671,392,1853,2692,0
+eurasian red squirrel,sciurus vulgaris,species,104556,15353,3694,11659,85546,560,53,1653,1391,0
+red squirrel,tamiasciurus hudsonicus,species,102616,11888,2295,9593,86922,464,148,1341,1853,0
+american black bear,ursus americanus,species,102304,10206,2303,7903,79411,476,197,3744,8270,0
+chipmunk genus,tamias,genus,96451,9974,1867,8107,80897,635,117,1330,3498,0
+european roe deer,capreolus capreolus,species,88903,13564,2591,10973,71919,611,112,1410,1287,0
+domestic dog,canis familiaris,species,87755,7615,1301,6314,76186,707,182,1001,2064,0
+hares and jackrabbits genus,lepus,genus,84438,11072,1719,9353,68106,630,217,1147,3266,0
+rattus genus,rattus,genus,80457,12804,2692,10112,62665,1186,125,1752,1925,0
+muridae family,muridae,family,78450,12176,2255,9921,62477,1206,158,1126,1307,0
+moose,alces alces,species,75154,10543,1701,8842,61998,451,80,737,1345,0
+wild boar,sus scrofa,species,70651,9244,1375,7869,57925,642,109,1292,1439,0
+muskrat,ondatra zibethicus,species,69956,8166,1386,6780,58628,478,103,1003,1578,0
+elk,cervus canadensis,species,68314,10484,1270,9214,54236,328,478,710,2078,0
+bobcat,lynx rufus,species,67151,6311,912,5399,55268,979,217,1319,3057,0
+california ground squirrel,otospermophilus beecheyi,species,67117,7590,1371,6219,55912,306,51,986,2272,0
+hedgehog family,erinaceidae,family,66874,8830,1554,7276,47333,478,47,9274,912,0
+koala,phascolarctos cinereus,species,66376,2698,387,2311,62015,744,275,392,252,0
+kangaroo family,macropodidae,family,66359,6602,1641,4961,54701,999,287,1343,2427,0
+woodchuck,marmota monax,species,60630,6249,1366,4883,52132,321,63,830,1035,0
+macaque species,macaca,genus,60532,9577,1246,8331,47106,697,53,1436,1663,0
+north american river otter,lontra canadensis,species,57653,7380,1321,6059,44740,238,129,740,4426,0
+grey fox,urocyon cinereoargenteus,species,57392,4941,850,4091,43674,464,175,1435,6703,0
+european rabbit,oryctolagus cuniculus,species,57030,10210,2097,8113,44280,579,69,954,938,0
+striped skunk,mephitis mephitis,species,55259,6173,1174,4999,44751,478,106,1017,2734,0
+european hare,lepus europaeus,species,44935,6836,1179,5657,36389,301,74,597,738,0
+nutria,myocastor coypus,species,43758,5398,894,4504,36231,348,76,763,942,0
+domestic cattle,bos taurus,species,40481,5049,777,4272,33682,445,68,627,610,0
+domestic horse,equus caballus,species,40463,4602,616,3986,34213,409,45,506,688,0
+bighorn sheep,ovis canadensis,species,40348,4512,811,3701,33796,182,133,705,1020,0
+north american porcupine,erethizon dorsatum,species,36524,4041,939,3102,30866,166,53,417,981,0
+eastern grey kangaroo,macropus giganteus,species,36398,3472,925,2547,30967,279,268,1029,383,0
+african elephant,loxodonta africana,species,35335,4734,987,3747,27804,622,166,434,1575,0
+american bison,bison bison,species,33539,4075,569,3506,27679,177,215,543,844,6
+mongoose family,herpestidae,family,33388,3861,585,3276,26940,807,276,559,945,0
+howler monkey genus,alouatta,genus,31289,4158,636,3522,24934,342,26,716,1113,0
+lion,panthera leo,species,30778,3810,672,3138,24394,399,35,350,1790,0
+short-beaked echidna,tachyglossus aculeatus,species,29642,2457,655,1802,25970,242,99,626,248,0
+white-nosed coati,nasua narica,species,28403,2670,348,2322,23600,328,42,960,803,0
+pronghorn,antilocapra americana,species,27238,3879,824,3055,21725,144,456,305,729,0
+red deer,cervus elaphus,species,26910,3149,636,2513,22432,189,40,424,676,0
+western gray squirrel,sciurus griseus,species,26438,2691,369,2322,14514,154,7,179,8893,0
+golden mantled ground squirrel,callospermophilus lateralis,species,26039,3194,510,2684,21553,147,142,381,622,0
+martes species,martes,genus,25607,3335,526,2809,21186,126,23,423,514,0
+plains zebra,equus quagga,species,24650,2966,588,2378,19691,637,186,345,825,0
+baboon genus,papio,genus,24090,2921,644,2277,19049,945,59,362,754,0
+brown bear,ursus arctos,species,23845,2913,565,2348,19659,163,24,510,576,0
+grey wolf,canis lupus,species,23595,2293,362,1931,20290,105,48,328,531,0
+swamp wallaby,wallabia bicolor,species,23408,2129,402,1727,20085,150,50,841,153,0
+agouti genus,dasyprocta,genus,23073,2389,396,1993,19346,253,7,531,547,0
+sea otter,enhydra lutris,species,22951,3360,691,2669,18445,127,14,415,590,0
+collared peccary,pecari tajacu,species,22701,2199,261,1938,18882,276,21,633,690,0
+weasel species,mustela,genus,22399,2977,523,2454,18527,138,19,291,447,0
+yellow-bellied marmot,marmota flaviventris,species,22333,2660,587,2073,18595,79,73,356,570,0
+eurasian badger,meles meles,species,22061,3635,859,2776,17496,171,46,318,395,0
+puma,puma concolor,species,22014,3183,228,2955,15925,93,37,494,2282,0
+domestic sheep,ovis aries,species,20715,2697,515,2182,17028,318,29,364,279,0
+elephant seal,mirounga,genus,20066,2603,564,2039,16239,133,22,342,727,0
+arizona black-tailed prairie dog,cynomys ludovicianus,species,18483,3012,358,2654,14478,113,73,203,604,0
+hippopotamus,hippopotamus amphibius,species,18279,2135,552,1583,14704,339,188,224,689,0
+common fallow deer,dama dama,species,18265,2686,651,2035,14583,149,22,558,267,0
+llama genus,lama,genus,18170,3068,410,2658,14285,180,27,339,271,0
+pikas genus,ochotona,genus,17754,1951,373,1578,14416,91,34,589,673,0
+impala,aepyceros melampus,species,17196,2272,475,1797,13387,573,170,234,560,0
+cebus species,cebus,genus,17190,2052,325,1727,14205,111,7,223,592,0
+callithrix species,callithrix,genus,16874,2077,221,1856,13595,511,1,377,313,0
+capybara,hydrochoerus hydrochaeris,species,16564,2780,417,2363,12984,199,3,277,321,0
+african buffalo,syncerus caffer,species,15996,2035,356,1679,12829,295,76,190,571,0
+rhinoceros family,rhinocerotidae,family,15466,1894,349,1545,12229,372,81,272,618,0
+common wombat,vombatus ursinus,species,15440,944,305,639,13960,54,20,334,128,0
+ateles species,ateles,genus,15420,1800,245,1555,12417,179,42,444,538,0
+common warthog,phacochoerus africanus,species,15176,1776,424,1352,12382,287,54,188,489,0
+brown-throated sloth,bradypus variegatus,species,14852,1826,259,1567,12197,169,11,274,375,0
+vervet monkey,chlorocebus pygerythrus,species,14351,1720,479,1241,11584,314,74,204,455,0
+northern chamois,rupicapra rupicapra,species,14134,1831,193,1638,11526,128,5,310,334,0
+leopard,panthera pardus,species,13671,1630,285,1345,10761,278,36,165,801,0
+old world porcupine family,hystricidae,family,13277,1436,185,1251,10257,959,190,142,293,0
+domestic donkey,equus asinus,species,13121,1474,244,1230,11039,167,14,230,197,0
+common wildebeest,connochaetes taurinus,species,13029,1673,447,1226,10181,366,100,167,542,0
+alpine marmot,marmota marmota,species,12860,2229,213,2016,9832,130,9,254,406,0
+lycalopex species,lycalopex,genus,12845,2111,359,1752,10054,96,43,356,185,0
+eurasian otter,lutra lutra,species,12774,1432,215,1217,10709,85,17,138,393,0
+ringtail,bassariscus astutus,species,12616,799,87,712,10783,335,8,200,491,0
+greater kudu,tragelaphus strepsiceros,species,12144,1448,338,1110,9640,388,101,193,374,0
+reindeer,rangifer tarandus,species,11763,1549,275,1274,9594,167,10,195,248,0
+muntjac genus,muntiacus,genus,11628,1635,300,1335,9411,76,12,169,325,0
+saimiri species,saimiri,genus,11559,1532,215,1317,9329,109,16,194,379,0
+waterbuck,kobus ellipsiprymnus,species,11286,1296,252,1044,9181,194,48,189,378,0
+mountain goat,oreamnos americanus,species,11065,1292,301,991,9164,90,22,285,212,0
+spotted hyaena,crocuta crocuta,species,11037,1277,228,1049,8914,233,13,135,465,0
+asian elephant,elephas maximus,species,10993,1813,224,1589,8583,138,6,188,265,0
+glaucomys species,glaucomys,genus,10492,936,123,813,9027,56,28,97,348,0
+rock hyrax,procavia capensis,species,10268,1360,304,1056,7916,501,79,193,219,0
+alpine ibex,capra ibex,species,9602,1366,120,1246,7730,86,2,270,148,0
+sika deer,cervus nippon,species,9507,1275,157,1118,7759,136,3,210,124,0
+fisher,pekania pennanti,species,9309,687,197,490,8293,15,21,55,238,0
+saguinus species,saguinus,genus,9244,1345,218,1127,7227,80,6,260,326,0
+cercopithecus species,cercopithecus,genus,8982,1167,229,938,6831,336,2,156,490,0
+chital,axis axis,species,8959,1250,161,1089,7127,77,30,175,300,0
+american badger,taxidea taxus,species,8594,972,149,823,7096,46,57,129,294,0
+cheetah,acinonyx jubatus,species,8386,869,139,730,6735,181,27,88,486,0
+jaguar,panthera onca,species,8105,745,88,657,6854,94,25,133,254,0
+tiger,panthera tigris,species,7965,1063,162,901,6427,79,10,155,231,0
+common eland,tragelaphus oryx,species,7701,849,130,719,6170,330,16,132,204,0
+hoffmann's two-toed sloth,choloepus hoffmanni,species,7433,855,124,731,6228,51,4,117,178,0
+sambar,rusa unicolor,species,7273,1188,130,1058,5609,92,10,178,196,0
+genet genus,genetta,genus,7212,720,91,629,5793,360,54,82,203,0
+south american coati,nasua nasua,species,6826,997,145,852,5343,107,4,152,223,0
+hartebeest,alcelaphus buselaphus,species,6721,693,114,579,5381,240,18,123,266,0
+golden jackal,canis aureus,species,6647,968,63,905,5261,54,44,130,190,0
+springbok,antidorcas marsupialis,species,5843,620,166,454,4539,331,38,114,201,0
+domestic water buffalo,bubalus bubalis,species,5760,991,106,885,4467,79,6,85,132,0
+steenbok,raphicerus campestris,species,5547,649,131,518,4244,312,94,85,163,0
+gemsbok,oryx gazella,species,5501,618,133,485,4268,294,12,102,207,0
+blesbok,damaliscus pygargus,species,5392,649,137,512,4105,395,46,120,77,0
+nyala,tragelaphus angasii,species,5286,724,144,580,4209,126,9,67,151,0
+klipspringer,oreotragus oreotragus,species,5270,463,129,334,4051,555,22,48,131,0
+common duiker,sylvicapra grimmia,species,5071,595,131,464,3824,356,137,43,116,0
+eulemur species,eulemur,genus,4592,780,161,619,3431,82,17,66,216,0
+lowland tapir,tapirus terrestris,species,4578,657,55,602,3633,36,1,118,133,0
+leopardus species,leopardus,genus,4372,573,89,484,3636,30,8,50,75,0
+african wild dog,lycaon pictus,species,4280,486,77,409,3400,63,22,66,243,0
+ocelot,leopardus pardalis,species,4240,434,33,401,3559,48,10,83,106,0
+colobus species,colobus,genus,4102,532,93,439,3267,44,5,73,181,0
+raccoon dog,nyctereutes procyonoides,species,4094,573,52,521,3390,7,2,69,53,0
+gorilla species,gorilla,genus,4032,518,80,438,3032,40,0,37,405,0
+leaf monkeys genus,presbytis,genus,4003,510,71,439,3238,23,2,56,174,0
+meerkat,suricata suricatta,species,3794,433,75,358,3095,83,21,75,87,0
+dromedary camel,camelus dromedarius,species,3782,427,41,386,3132,43,4,87,89,0
+bornean orangutan,pongo pygmaeus,species,3668,434,71,363,3034,21,7,38,134,0
+nilgai,boselaphus tragocamelus,species,3583,548,44,504,2840,35,34,52,74,0
+japanese macaque,macaca fuscata,species,3561,390,52,338,3078,22,0,23,48,0
+canada lynx,lynx canadensis,species,3528,450,83,367,2937,45,2,9,85,0
+giant anteater,myrmecophaga tridactyla,species,3460,437,38,399,2868,20,1,55,79,0
+ring-tailed lemur,lemur catta,species,3275,467,53,414,2615,34,15,50,94,0
+baird's tapir,tapirus bairdii,species,3195,479,45,434,2544,47,2,63,60,0
+reedbuck genus,redunca,genus,3180,335,45,290,2540,91,18,61,135,0
+spilogale species,spilogale,genus,3083,205,39,166,2218,28,10,254,368,0
+tayra,eira barbara,species,2988,291,46,245,2525,34,6,71,61,0
+giant otter,pteronura brasiliensis,species,2956,461,41,420,2208,27,3,81,176,0
+mountain zebra,equus zebra,species,2929,387,63,324,2280,137,2,68,55,0
+nine-banded armadillo,dasypus novemcinctus,species,2798,423,29,394,2255,47,0,22,51,0
+caracal,caracal caracal,species,2781,211,35,176,2341,147,27,30,25,0
+giraffe,giraffa camelopardalis,species,2751,199,55,144,2424,13,0,17,98,0
+red kangaroo,osphranter rufus,species,2745,343,22,321,2213,33,11,105,40,0
+blackbuck,antilope cervicapra,species,2736,414,28,386,2179,21,2,30,90,0
+chimpanzee,pan troglodytes,species,2648,365,89,276,2123,13,0,22,125,0
+thomson's gazelle,eudorcas thomsonii,species,2633,285,70,215,2203,8,3,33,101,0
+grant's gazelle,nanger granti,species,2576,372,43,329,2009,9,3,43,140,0
+quokka,setonix brachyurus,species,2533,301,34,267,1939,16,1,171,105,0
+kinkajou,potos flavus,species,2416,365,72,293,1918,23,17,32,61,0
+sable antelope,hippotragus niger,species,2397,294,84,210,1900,89,6,24,84,0
+serval,leptailurus serval,species,2365,224,25,199,1999,18,17,16,91,0
+eurasian lynx,lynx lynx,species,2330,387,56,331,1806,14,11,36,76,0
+roan antelope,hippotragus equinus,species,2242,159,45,114,1891,77,2,33,80,0
+european bison,bison bonasus,species,2233,308,50,258,1869,5,6,33,12,0
+water deer,hydropotes inermis,species,2171,194,18,176,1763,3,1,112,98,0
+pangolin family,manidae,family,2138,119,13,106,1933,0,0,16,70,0
+kob,kobus kob,species,2073,203,17,186,1747,6,0,15,102,0
+bat-eared fox,otocyon megalotis,species,2070,257,41,216,1609,73,0,38,93,0
+wild cat,felis silvestris,species,1981,236,15,221,1657,10,9,46,23,0
+red panda,ailurus fulgens,species,1971,215,21,194,1643,19,0,62,32,0
+walrus,odobenus rosmarus,species,1928,274,74,200,1390,2,0,9,253,0
+spectacled bear,tremarctos ornatus,species,1891,272,62,210,1497,8,4,39,71,0
+aardvark,orycteropus afer,species,1887,107,12,95,1326,195,160,39,60,0
+bushbuck,tragelaphus scriptus,species,1767,73,7,66,1626,6,0,6,56,0
+wolverine,gulo gulo,species,1737,181,13,168,1402,15,0,6,133,0
+maned wolf,chrysocyon brachyurus,species,1545,292,14,278,1131,26,0,26,70,0
+patas monkey,erythrocebus patas,species,1491,128,23,105,1282,6,0,13,62,0
+honey badger,mellivora capensis,species,1479,134,30,104,1190,62,2,18,73,0
+african civet,civettictis civetta,species,1419,95,13,82,1214,43,1,4,62,0
+black wildebeest,connochaetes gnou,species,1389,117,21,96,1080,120,17,22,33,0
+leopard cat,prionailurus bengalensis,species,1378,162,2,160,1165,7,3,24,17,0
+yak,bos grunniens,species,1284,204,42,162,1004,22,11,19,24,0
+sloth bear,melursus ursinus,species,1254,207,10,197,984,26,0,10,27,0
+grevy's zebra,equus grevyi,species,1158,157,5,152,913,8,3,38,39,0
+snow leopard,panthera uncia,species,1086,111,5,106,908,8,7,11,41,0
+sun bear,helarctos malayanus,species,1084,121,24,97,890,17,0,18,38,0
+gerenuk,litocranius walleri,species,1054,106,23,83,820,1,1,43,83,0
+giant panda,ailuropoda melanoleuca,species,1025,121,25,96,865,7,0,13,19,0
+brown hyaena,parahyaena brunnea,species,1003,114,34,80,787,40,16,5,41,0
+dhole,cuon alpinus,species,952,196,30,166,706,23,0,8,19,0
+callicebus genus,callicebus,genus,902,80,0,80,722,23,0,37,40,0
+asiatic black bear,ursus thibetanus,species,841,182,8,174,564,12,3,14,66,0
+striped hyaena,hyaena hyaena,species,818,80,3,77,706,3,0,6,23,0
+red river hog,potamochoerus porcus,species,789,72,1,71,663,3,0,7,44,0
+red brocket,mazama americana,species,780,105,6,99,651,5,0,11,8,0
+asiatic wild ass,equus hemionus,species,756,132,0,132,555,41,1,16,11,0
+bongo,tragelaphus eurycerus,species,696,57,4,53,604,3,0,10,22,0
+cephalophus species,cephalophus,genus,668,35,3,32,623,0,0,0,10,0
+mangabeys genus,cercocebus,genus,590,51,7,44,441,0,0,3,95,0
+saiga,saiga tatarica,species,560,81,50,31,458,7,0,8,6,0
+kirk's dik-dik,madoqua kirkii,species,501,84,20,64,377,3,1,11,25,0
+binturong,arctictis binturong,species,463,50,2,48,392,11,0,8,2,0
+malay tapir,tapirus indicus,species,440,68,6,62,345,7,0,12,8,0
+fossa,cryptoprocta ferox,species,433,69,3,66,274,22,6,27,35,0
+clouded leopard,neofelis nebulosa,species,268,91,3,88,157,6,1,5,8,0
+aye-aye,daubentonia madagascariensis,species,236,39,10,29,173,0,0,0,24,0
+hog badger genus,arctonyx,genus,216,11,0,11,197,0,0,6,2,0
+giant armadillo,priodontes maximus,species,213,24,5,19,178,1,0,2,8,0
+drill,mandrillus leucophaeus,species,143,21,0,21,118,0,0,4,0,0
+mouflon,ovis orientalis,species,3,0,0,0,3,0,0,0,0,0
+aardwolf,proteles cristata,species,0,0,0,0,0,0,0,0,0,0
+american mink,neovison vison,species,0,0,0,0,0,0,0,0,0,0
+black-backed jackal,canis mesomelas,species,0,0,0,0,0,0,0,0,0,0
+dingo,canis lupus dingo,species,0,0,0,0,0,0,0,0,0,0
+domestic goat,capra aegagrus hircus,species,0,0,0,0,0,0,0,0,0,0
+domestic pig,sus scrofa scrofa,species,0,0,0,0,0,0,0,0,0,0
+human,homo sapiens,species,0,0,0,0,0,0,0,0,0,0
+pinniped clade,pinniped,family,0,0,0,0,0,0,0,0,0,0
+red-necked wallaby,macropus rufogriseus,species,0,0,0,0,0,0,0,0,0,0
