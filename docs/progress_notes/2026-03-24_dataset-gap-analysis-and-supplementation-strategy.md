@@ -185,9 +185,101 @@ After all real-image sources are exhausted, synthetic data generation via LoRA-g
 
 ### Next Steps
 
-1. **Run iNaturalist S3 pipeline:** `python scripts/download_inaturalist.py metadata` → `download`
+1. ~~**Run iNaturalist S3 pipeline:** `python scripts/download_inaturalist.py metadata` → `download`~~ ✅ Done (see update below)
 2. **Download LILA BC images** with class balancing: `python scripts/download_lila_bc.py download --max-per-class 500`
 3. **Run MegaDetector** on downloaded images lacking bounding boxes
 4. **Add NACTI** to the LILA BC pipeline and rerun
 5. **Integrate Open Images V7 + COCO** for domestic species and megafauna
 6. **Merge all sources** with Danielle's dataset → unified dataset assembly (see [`docs/dataset-supplementation-plan.md`](../dataset-supplementation-plan.md), Step 6)
+
+---
+
+## Update 2026-03-31: iNaturalist Metadata Analysis Complete
+
+### Metadata download and analysis
+
+The iNaturalist S3 metadata was downloaded and analyzed using [`scripts/analyze_inaturalist_metadata.py`](../../scripts/analyze_inaturalist_metadata.py). The raw metadata CSVs are massive (25 GB observations, 45 GB photos, 178 MB taxa) — too large for a normal editor.
+
+**Taxa matching:** 7,158 iNaturalist taxa matched to 221 of 225 target classes. The 4 unmatched classes are: dingo, domestic goat, domestic pig, pinniped clade — these don't map cleanly to iNaturalist taxonomy entries.
+
+Full taxon mapping saved to [`reports/inaturalist_matched_taxa_225.csv`](../../reports/inaturalist_matched_taxa_225.csv).
+
+### Image counts by class and license
+
+| Metric | Count |
+|--------|------:|
+| Total matched photos | 6,816,962 |
+| Commercially safe (CC0 + CC-BY) | 831,050 |
+| Classes with any images | 216 / 225 |
+| Classes with commercially safe images | 215 / 225 |
+
+**License distribution (all matched photos):**
+
+| License | Count | Status |
+|---------|------:|--------|
+| CC-BY-NC | 5,566,509 | Excluded |
+| CC-BY | 678,971 | Safe |
+| CC-BY-NC-ND | 217,604 | Excluded |
+| CC0 | 152,079 | Safe |
+| CC-BY-NC-SA | 116,214 | Excluded |
+| CC-BY-SA | 68,368 | Excluded |
+| CC-BY-ND | 17,211 | Excluded |
+
+**Top 10 classes by total images:**
+
+| Class | Total | Commercially safe |
+|-------|------:|------------------:|
+| White-tailed deer | 463,529 | 61,865 |
+| Eastern gray squirrel | 402,406 | 47,196 |
+| Squirrel family | 379,223 | 51,099 |
+| Mule deer | 233,505 | 29,216 |
+| Northern raccoon | 222,123 | 23,459 |
+| Coyote | 187,721 | 20,071 |
+| Eastern cottontail | 185,552 | 18,329 |
+| Eastern fox squirrel | 176,062 | 16,646 |
+| Red fox | 168,081 | 20,852 |
+| Domestic cat | 149,953 | 20,415 |
+
+**Bottom 10 classes (with images):**
+
+| Class | Total | Commercially safe |
+|-------|------:|------------------:|
+| Kirk's dik-dik | 501 | 84 |
+| Binturong | 463 | 50 |
+| Malay tapir | 440 | 68 |
+| Fossa | 433 | 69 |
+| Clouded leopard | 268 | 91 |
+| Aye-aye | 236 | 39 |
+| Hog badger genus | 216 | 11 |
+| Giant armadillo | 213 | 24 |
+| Drill | 143 | 21 |
+| Mouflon | 3 | 0 |
+
+**9 classes with NO images:** aardwolf, American mink, black-backed jackal, dingo, domestic goat, domestic pig, human, pinniped clade, red-necked wallaby.
+
+Full per-class breakdown: [`reports/inaturalist_class_image_counts_225.csv`](../../reports/inaturalist_class_image_counts_225.csv).
+
+### Bugfix in download_inaturalist.py
+
+The original `filter` command in [`scripts/download_inaturalist.py`](../../scripts/download_inaturalist.py) produced 0 results due to two column-name mismatches in the photos.csv streaming step:
+- `observation_id` → should be `observation_uuid` (the actual column in photos.csv)
+- `photo_license` → should be `license` (the actual column in photos.csv)
+
+Both have been fixed. The `filter` command should now work correctly.
+
+### Metadata condensation
+
+The raw metadata CSVs are impractical to work with at 70 GB total. A `condense` subcommand was added to the analysis script:
+
+```bash
+python scripts/analyze_inaturalist_metadata.py condense
+```
+
+This streams through all three CSVs and writes filtered versions to `data/inaturalist/metadata/condensed/` containing only rows for the 225 target classes (~1.7% of the originals). Each file includes a `target_class` column mapping rows to the model label set.
+
+### Key takeaways
+
+1. **iNaturalist confirms its role as the highest-impact single source.** 831k commercially safe images across 215 classes, vs 3.2M from LILA BC across 115 classes. Combined they cover nearly the entire label set.
+2. **CC-BY-NC dominates** (82% of matched photos). Only 12% are commercially safe. This limits usable volume significantly but 831k images is still substantial.
+3. **Class imbalance mirrors LILA BC.** White-tailed deer alone has 62k safe images; drill has 21. Class-balanced sampling (`--max-per-class`) remains essential.
+4. **9 remaining zero-image classes** will need supplementary sources (COCO for domestic animals, Wikimedia for rare species, BioCLIP pseudo-labeling as last resort).
