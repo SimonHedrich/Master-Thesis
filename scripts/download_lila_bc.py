@@ -516,6 +516,7 @@ def build_filtered_list(args):
                 "file_name": img_info.get("file_name", ""),
                 "width": img_info.get("width"),
                 "height": img_info.get("height"),
+                "datetime": img_info.get("datetime"),  # None for Safari
                 "target_label": matched_label["common_name"],
                 "target_uuid": matched_label["uuid"],
                 "source_category": cat_name,
@@ -622,14 +623,43 @@ def cmd_download(args):
         filtered = [e for e in filtered if e["dataset"] == args.dataset]
         print(f"Filtered to dataset '{args.dataset}': {len(filtered)} images")
 
-    # Download
+    # Daytime filter: drop images captured outside daylight hours.
+    # Serengeti and WCS store a 'datetime' field; Safari has none (datetime=None).
+    # Images with no timestamp are kept — they'll be caught by the grayscale
+    # check in filter_dataset_quality.py heuristics if they turn out to be IR.
+    if args.daytime_only:
+        before = len(filtered)
+        daytime = []
+        no_ts = 0
+        for e in filtered:
+            dt_str = e.get("datetime")
+            if not dt_str:
+                no_ts += 1
+                daytime.append(e)  # no timestamp → keep, filter later by grayscale
+                continue
+            try:
+                hour = int(dt_str[11:13])  # "YYYY-MM-DD HH:MM:SS"
+                if args.daytime_start <= hour < args.daytime_end:
+                    daytime.append(e)
+            except (ValueError, IndexError):
+                daytime.append(e)  # unparseable → keep
+        filtered = daytime
+        night_dropped = before - len(filtered)
+        print(f"Daytime filter ({args.daytime_start:02d}:00–{args.daytime_end:02d}:00): "
+              f"kept {len(filtered)}, dropped {night_dropped} night images, "
+              f"{no_ts} kept without timestamp")
+
+    # Download — one subdirectory per target class, matching the layout of
+    # data/inaturalist/images and data/wikimedia/images.
     IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     to_download = []
     already_exists = 0
 
     for entry in filtered:
+        class_dir = IMAGES_DIR / entry["target_label"]
+        class_dir.mkdir(parents=True, exist_ok=True)
         fname = f"{entry['dataset']}_{entry['file_name'].replace('/', '_')}"
-        dest = IMAGES_DIR / fname
+        dest = class_dir / fname
         if dest.exists():
             already_exists += 1
         else:
@@ -698,7 +728,7 @@ def cmd_export(args):
 
     for entry in filtered:
         fname = f"{entry['dataset']}_{entry['file_name'].replace('/', '_')}"
-        img_path = IMAGES_DIR / fname
+        img_path = IMAGES_DIR / entry["target_label"] / fname
         if not img_path.exists():
             continue
 
@@ -794,6 +824,32 @@ def main():
         type=int,
         default=8,
         help="Parallel download workers (default: 8)",
+    )
+    sub_dl.add_argument(
+        "--daytime-only",
+        action="store_true",
+        default=True,
+        help="Skip images captured outside daylight hours (default: on)",
+    )
+    sub_dl.add_argument(
+        "--no-daytime-only",
+        dest="daytime_only",
+        action="store_false",
+        help="Disable daytime filter and download all images including night IR",
+    )
+    sub_dl.add_argument(
+        "--daytime-start",
+        type=int,
+        default=6,
+        metavar="HOUR",
+        help="Start of daytime window, inclusive, 24-h (default: 6)",
+    )
+    sub_dl.add_argument(
+        "--daytime-end",
+        type=int,
+        default=18,
+        metavar="HOUR",
+        help="End of daytime window, exclusive, 24-h (default: 18)",
     )
 
     # export command

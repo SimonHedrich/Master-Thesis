@@ -1,3 +1,15 @@
+OUTPUT_DIR := output
+
+# Run a Python script with nohup, logging to output/<timestamp>_<basename>.txt
+# Usage: make run SCRIPT=scripts/filter_wikimedia_categories.py
+run:
+	@mkdir -p $(OUTPUT_DIR)
+	@ts=$$(date +%Y%m%d_%H%M%S); \
+	base=$$(basename $(SCRIPT) .py); \
+	logfile=$(OUTPUT_DIR)/$${ts}_$${base}.txt; \
+	echo "Logging to $$logfile"; \
+	nohup python $(SCRIPT) 2>&1 | tee "$$logfile" &
+
 # Remote server configuration
 # REMOTE_HOST := gpu-server.taile550ef.ts.net
 REMOTE_HOST := gpu.local
@@ -26,3 +38,31 @@ sync:
 # Uses git to discover ignored files, then rsyncs each one preserving directory structure.
 sync-ignored:
 	@git ls-files --others --ignored --exclude-standard | rsync -avh --progress --ignore-existing --files-from=- . $(REMOTE_HOST):$(REMOTE_PATH)
+
+# Show available disk space
+df:
+	df -h .
+
+ncdu:
+	ncdu
+
+# ── Image quality filtering ───────────────────────────────────────────────────
+# Run each target in sequence: metadata → heuristics → megadetector → report
+# Override SOURCE to filter a single source, e.g.: make filter-metadata SOURCE=wikimedia
+
+SOURCE ?= all
+
+filter-metadata:
+	python scripts/filter_dataset_quality.py metadata --source $(SOURCE)
+
+filter-heuristics:
+	python scripts/filter_dataset_quality.py heuristics --source $(SOURCE)
+
+filter-megadetector:
+	python scripts/filter_dataset_quality.py megadetector --source $(SOURCE)
+
+filter-vlm:
+	python scripts/filter_dataset_quality.py vlm --source wikimedia
+
+filter-report:
+	python scripts/filter_dataset_quality.py report --source all

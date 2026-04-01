@@ -52,7 +52,7 @@ IMAGES_DIR = REPO_ROOT / "data" / "inaturalist" / "images"
 PROGRESS_FILE = IMAGES_DIR / ".download_progress.json"
 
 S3_BASE_URL = "https://inaturalist-open-data.s3.amazonaws.com"
-SAFE_LICENSES = {"cc0", "cc-by"}
+SAFE_LICENSES = {"cc0", "cc-by", "cc-by-sa"}
 IMAGE_SIZES = {"original": 2048, "large": 1024, "medium": 500, "small": 240}
 
 

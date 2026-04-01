@@ -166,6 +166,13 @@ BioCLIP 2 model weights are MIT-licensed.<sup>[44]</sup> Use it as a zero-shot c
 
 The Wikimedia Commons API allows filtering by license (CC0, CC-BY, Public Domain). For rare species like the aye-aye or drill, this can yield a small but high-quality set of images. CC-BY-SA images must be excluded to avoid copyleft risk.
 
+**Implemented reconnaissance pipeline (see [`docs/progress_notes/2026-03-30_wikimedia-category-crawling.md`](../docs/progress_notes/2026-03-30_wikimedia-category-crawling.md)):**
+
+1. `scripts/crawl_wikimedia_categories.py` — crawls the Wikimedia Commons category hierarchy for all 225 labels (up to depth 2, capped at 5000 categories per label), recording category names and file counts into `reports/wikimedia_categories/`. No images are downloaded at this stage.
+2. `scripts/filter_wikimedia_categories.py` — applies keyword-based cascade filtering to remove non-photographic categories (artwork, anatomy, maps, stamps, taxidermy, fossils, etc.), producing `reports/wikimedia_categories_filtered/`.
+
+The filtered output feeds a planned image downloader that will enumerate files per category, apply license filtering (CC0 / CC-BY / Public Domain only), download images, and pass them through MegaDetector v5 for bounding box generation.
+
 ---
 
 ## Step 6: Unified Dataset Assembly and Splitting
@@ -220,6 +227,10 @@ This sits within the optimal range for a 1–3M parameter YOLO-nano architecture
 | [`reports/class_counts_480.csv`](../reports/class_counts_480.csv) | Per-class image counts for the 480-class label set |
 | `scripts/download_lila_bc.py` | Download and process LILA BC datasets (Step 1) |
 | *(planned)* `scripts/gbif_gap_export.py` | GBIF API export for gap species (Step 2) |
+| `scripts/crawl_wikimedia_categories.py` | Crawl Wikimedia Commons category trees for all 225 labels (Step 5c recon) |
+| `scripts/filter_wikimedia_categories.py` | Filter raw category trees to remove non-photographic content (Step 5c recon) |
+| `reports/wikimedia_categories/` | Raw Wikimedia category trees, one .txt per label |
+| `reports/wikimedia_categories_filtered/` | Filtered category trees (non-photographic categories removed) |
 | *(planned)* `scripts/assemble_dataset.py` | Unified dataset assembly and splitting (Step 6) |
 
 ---

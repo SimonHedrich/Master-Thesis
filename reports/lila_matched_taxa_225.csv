@@ -1,0 +1,947 @@
+dataset_name,query,scientific_name,rank,target_class,match_type
+Biome Health Project Maasai Mara 2018,aardvark,orycteropus afer,species,aardvark,species
+Nkhotakota Camera Traps,aardvark,orycteropus afer,species,aardvark,species
+Snapshot Camdeboo,aardvarkantbear,orycteropus afer,species,aardvark,species
+Snapshot Enonkishu,aardvark,orycteropus afer,species,aardvark,species
+Snapshot Kgalagadi,aardvarkantbear,orycteropus afer,species,aardvark,species
+Snapshot Kruger,aardvarkantbear,orycteropus afer,species,aardvark,species
+Snapshot Mountain Zebra,aardvarkantbear,orycteropus afer,species,aardvark,species
+Snapshot Safari 2024 Expansion,aardvark,orycteropus afer,species,aardvark,species
+Snapshot Serengeti,aardvark,orycteropus afer,species,aardvark,species
+WCS Camera Traps,orycteropus afer,orycteropus afer,species,aardvark,species
+Biome Health Project Maasai Mara 2018,aardwolf,proteles cristatus,species,aardwolf,common_name
+Snapshot Camdeboo,aardwolf,proteles cristatus,species,aardwolf,common_name
+Snapshot Kruger,aardwolf,proteles cristatus,species,aardwolf,common_name
+Snapshot Mountain Zebra,aardwolf,proteles cristatus,species,aardwolf,common_name
+Snapshot Safari 2024 Expansion,aardwolf,proteles cristatus,species,aardwolf,common_name
+Snapshot Serengeti,aardwolf,proteles cristatus,species,aardwolf,common_name
+WCS Camera Traps,proteles cristata,proteles cristatus,species,aardwolf,species_synonym
+Biome Health Project Maasai Mara 2018,buffalo,syncerus caffer,species,african buffalo,species
+Nkhotakota Camera Traps,cape_buffalo,syncerus caffer caffer,subspecies,african buffalo,species
+Snapshot Camdeboo,buffalo,syncerus caffer,species,african buffalo,species
+Snapshot Enonkishu,buffalo,syncerus caffer,species,african buffalo,species
+Snapshot Kruger,buffalo,syncerus caffer,species,african buffalo,species
+Snapshot Mountain Zebra,buffalo,syncerus caffer,species,african buffalo,species
+Snapshot Safari 2024 Expansion,buffalo,syncerus caffer,species,african buffalo,species
+Snapshot Serengeti,buffalo,syncerus caffer,species,african buffalo,species
+WCS Camera Traps,syncerus caffer,syncerus caffer,species,african buffalo,species
+Nkhotakota Camera Traps,african_civet,civettictis civetta,species,african civet,species
+WCS Camera Traps,civettictis civetta,civettictis civetta,species,african civet,species
+Biome Health Project Maasai Mara 2018,elephant,loxodonta africana,species,african elephant,species
+Desert Lion Conservation Camera Traps,loxodanta africana,loxodonta africana,species,african elephant,species
+Nkhotakota Camera Traps,african_savanna_elephant,loxodonta africana,species,african elephant,species
+Snapshot Enonkishu,elephant,loxodonta africana,species,african elephant,species
+Snapshot Kruger,elephant,loxodonta africana,species,african elephant,species
+Snapshot Safari 2024 Expansion,elephant,loxodonta africana,species,african elephant,species
+Snapshot Serengeti,elephant,loxodonta africana,species,african elephant,species
+WCS Camera Traps,loxodonta africana,loxodonta africana,species,african elephant,species
+Snapshot Kruger,wilddog,lycaon pictus,species,african wild dog,species
+Snapshot Safari 2024 Expansion,wilddog,lycaon pictus,species,african wild dog,species
+Snapshot Serengeti,wilddog,lycaon pictus,species,african wild dog,species
+WCS Camera Traps,lycaon pictus,lycaon pictus,species,african wild dog,species
+Missouri Camera Traps,agouti,dasyprocta,genus,agouti genus,genus
+Missouri Camera Traps,coiban_agouti,dasyprocta coibae,species,agouti genus,genus
+Orinoquia Camera Traps,black_agouti,dasyprocta fuliginosa,species,agouti genus,genus
+Orinoquia Camera Traps,coiban_agouti,dasyprocta coibae,species,agouti genus,genus
+Orinoquia Camera Traps,orinoco_agouti,dasyprocta guamara,species,agouti genus,genus
+WCS Camera Traps,dasiprocta punctata,dasyprocta punctata,species,agouti genus,genus
+WCS Camera Traps,dasyprocta fuliginosa,dasyprocta fuliginosa,species,agouti genus,genus
+WCS Camera Traps,dasyprocta leporina,dasyprocta leporina,species,agouti genus,genus
+WCS Camera Traps,dasyprocta punctata,dasyprocta punctata,species,agouti genus,genus
+Caltech Camera Traps,badger,taxidea taxus,species,american badger,species
+Felidae Conservation Fund 2020-2025,american badger,taxidea taxus,species,american badger,species
+Idaho Camera Traps,badger,taxidea taxus,species,american badger,species
+WSU Lynx,taxidea taxus,taxidea taxus,species,american badger,species
+California Small Animals,american black bear,ursus americanus americanus,subspecies,american black bear,species
+ENA24,american black bear,ursus americanus,species,american black bear,species
+Felidae Conservation Fund 2020-2025,black bear,ursus americanus,species,american black bear,species
+Idaho Camera Traps,bear,ursus americanus,species,american black bear,species
+NACTI,ursus americanus,ursus americanus,species,american black bear,species
+Oregon Critters,black bear,ursus americanus,species,american black bear,species
+Seattle(ish) Camera Traps,bear,ursus americanus,species,american black bear,species
+WSU Lynx,ursus americanus,ursus americanus,species,american black bear,species
+California Small Animals,american mink,neogale vison,species,american mink,common_name
+WCS Camera Traps,elephas maximus,elephas maximus,species,asian elephant,species
+SWG Camera Traps,asiatic_black_bear,ursus thibetanus,species,asiatic black bear,species
+WCS Camera Traps,ursus thibetanus,ursus thibetanus,species,asiatic black bear,species
+WCS Camera Traps,ateles chamek,ateles chamek,species,ateles species,genus
+WCS Camera Traps,daubentonia madagascariensis,daubentonia madagascariensis,species,aye-aye,species
+Biome Health Project Maasai Mara 2018,baboon,papio anubis,species,baboon genus,genus
+Desert Lion Conservation Camera Traps,papio anubis,papio anubis,species,baboon genus,genus
+Nkhotakota Camera Traps,yellow_baboon,papio cynocephalus,species,baboon genus,genus
+Snapshot Camdeboo,baboon,papio,genus,baboon genus,genus
+Snapshot Enonkishu,baboon,papio,genus,baboon genus,genus
+Snapshot Karoo,baboon,papio,genus,baboon genus,genus
+Snapshot Kruger,baboon,papio,genus,baboon genus,genus
+Snapshot Mountain Zebra,baboon,papio,genus,baboon genus,genus
+Snapshot Safari 2024 Expansion,baboon,papio,genus,baboon genus,genus
+Snapshot Serengeti,baboon,papio,genus,baboon genus,genus
+WCS Camera Traps,papio anubis,papio anubis,species,baboon genus,genus
+WCS Camera Traps,papio cynocephalus,papio cynocephalus,species,baboon genus,genus
+WCS Camera Traps,tapirus bairdii,tapirus bairdii,species,baird's tapir,species
+Biome Health Project Maasai Mara 2018,bateared_fox,otocyon megalotis,species,bat-eared fox,species
+Desert Lion Conservation Camera Traps,otocyon megalotis,otocyon megalotis,species,bat-eared fox,species
+Snapshot Camdeboo,foxbateared,otocyon megalotis,species,bat-eared fox,species
+Snapshot Enonkishu,foxbateared,otocyon megalotis,species,bat-eared fox,species
+Snapshot Karoo,foxbateared,otocyon megalotis,species,bat-eared fox,species
+Snapshot Kgalagadi,foxbateared,otocyon megalotis,species,bat-eared fox,species
+Snapshot Kruger,foxbateared,otocyon megalotis,species,bat-eared fox,species
+Snapshot Mountain Zebra,foxbateared,otocyon megalotis,species,bat-eared fox,species
+Snapshot Safari 2024 Expansion,foxbateared,otocyon megalotis,species,bat-eared fox,species
+Snapshot Serengeti,batearedfox,otocyon megalotis,species,bat-eared fox,species
+WCS Camera Traps,otocyon megalotis,otocyon megalotis,species,bat-eared fox,species
+Idaho Camera Traps,bighorn sheep,ovis canadensis,species,bighorn sheep,species
+WSU Lynx,ovis canadensis,ovis canadensis,species,bighorn sheep,species
+SWG Camera Traps,binturong,arctictis binturong,species,binturong,species
+WCS Camera Traps,arctictis binturong,arctictis binturong,species,binturong,species
+Snapshot Camdeboo,wildebeestblack,connochaetes gnou,species,black wildebeest,species
+Snapshot Mountain Zebra,wildebeestblack,connochaetes gnou,species,black wildebeest,species
+Snapshot Safari 2024 Expansion,wildebeestblack,connochaetes gnou,species,black wildebeest,species
+Desert Lion Conservation Camera Traps,canis mesomelas,lupulella mesomelas,species,black-backed jackal,species_synonym
+WCS Camera Traps,canis mesomelas,lupulella mesomelas,species,black-backed jackal,species_synonym
+Snapshot Camdeboo,blesbok,damaliscus pygargus phillipsi,subspecies,blesbok,species
+Snapshot Mountain Zebra,blesbok,damaliscus pygargus phillipsi,subspecies,blesbok,species
+Snapshot Safari 2024 Expansion,blesbok,damaliscus pygargus phillipsi,subspecies,blesbok,species
+Snapshot Safari 2024 Expansion,bontebok,damaliscus pygargus,species,blesbok,species
+California Small Animals,bobcat,lynx rufus,species,bobcat,species
+Caltech Camera Traps,bobcat,lynx rufus,species,bobcat,species
+ENA24,bobcat,lynx rufus,species,bobcat,species
+Felidae Conservation Fund 2020-2025,bobcat,lynx rufus,species,bobcat,species
+Idaho Camera Traps,bobcat,lynx rufus,species,bobcat,species
+NACTI,lynx rufus,lynx rufus,species,bobcat,species
+Oregon Critters,bobcat,lynx rufus,species,bobcat,species
+Seattle(ish) Camera Traps,bobcat,lynx rufus,species,bobcat,species
+WSU Lynx,lynx rufus,lynx rufus,species,bobcat,species
+Desert Lion Conservation Camera Traps,hyaena brunnea,parahyaena brunnea,species,brown hyaena,species
+Snapshot Karoo,hyenabrown,parahyaena brunnea,species,brown hyaena,species
+Snapshot Kgalagadi,hyenabrown,parahyaena brunnea,species,brown hyaena,species
+Snapshot Mountain Zebra,hyenabrown,parahyaena brunnea,species,brown hyaena,species
+Snapshot Safari 2024 Expansion,hyenabrown,parahyaena brunnea,species,brown hyaena,species
+Snapshot Serengeti,hyenabrown,parahyaena brunnea,species,brown hyaena,species
+Biome Health Project Maasai Mara 2018,bushbuck,tragelaphus scriptus,species,bushbuck,species
+Snapshot Enonkishu,bushbuck,tragelaphus scriptus,species,bushbuck,species
+Snapshot Mountain Zebra,bushbuck,tragelaphus scriptus,species,bushbuck,species
+Snapshot Safari 2024 Expansion,bushbuck,tragelaphus scriptus,species,bushbuck,species
+Snapshot Serengeti,bushbuck,tragelaphus scriptus,species,bushbuck,species
+WCS Camera Traps,tragelaphus scriptus,tragelaphus scriptus,species,bushbuck,species
+California Small Animals,california ground squirrel,otospermophilus beecheyi,species,california ground squirrel,species
+NACTI,otospermophilus beecheyi,otospermophilus beecheyi,species,california ground squirrel,species
+Oregon Critters,california ground squirrel,otospermophilus beecheyi,species,california ground squirrel,species
+WSU Lynx,lynx canadensis,lynx canadensis,species,canada lynx,species
+Orinoquia Camera Traps,capybara,hydrochoerus hydrochaeris,species,capybara,species
+WCS Camera Traps,hydrochoerus hydrochaeris,hydrochoerus hydrochaeris,species,capybara,species
+Snapshot Camdeboo,caracal,caracal caracal,species,caracal,species
+Snapshot Karoo,caracal,caracal caracal,species,caracal,species
+Snapshot Kgalagadi,caracal,caracal caracal,species,caracal,species
+Snapshot Kruger,caracal,caracal caracal,species,caracal,species
+Snapshot Mountain Zebra,caracal,caracal caracal,species,caracal,species
+Snapshot Safari 2024 Expansion,caracal,caracal caracal,species,caracal,species
+Snapshot Serengeti,caracal,caracal caracal,species,caracal,species
+WCS Camera Traps,caracal caracal,caracal caracal,species,caracal,species
+WCS Camera Traps,cebus albifrons,cebus albifrons,species,cebus species,genus
+Snapshot Enonkishu,duiker,cephalophus,genus,cephalophus species,genus
+Snapshot Karoo,duiker,cephalophus,genus,cephalophus species,genus
+Snapshot Kruger,duikerrednatal,cephalophus natalensis,species,cephalophus species,genus
+Snapshot Mountain Zebra,duiker,cephalophus,genus,cephalophus species,genus
+Snapshot Safari 2024 Expansion,duikerrednatal,cephalophus natalensis,species,cephalophus species,genus
+Snapshot Serengeti,duiker,cephalophus,genus,cephalophus species,genus
+WCS Camera Traps,cephalophus harveyi,cephalophus harveyi,species,cephalophus species,genus
+WCS Camera Traps,cephalophus nigrifrons,cephalophus nigrifrons,species,cephalophus species,genus
+WCS Camera Traps,cephalophus silvicultor,cephalophus silvicultor,species,cephalophus species,genus
+WCS Camera Traps,cephalophus spadix,cephalophus spadix,species,cephalophus species,genus
+Nkhotakota Camera Traps,blue_monkey,cercopithecus mitis,species,cercopithecus species,genus
+Snapshot Safari 2024 Expansion,monkeysamango,cercopithecus mitis albogularis,subspecies,cercopithecus species,genus
+WCS Camera Traps,cercopithecus albogularis,cercopithecus erythrogaster,species,cercopithecus species,genus
+WCS Camera Traps,cercopithecus mitis,cercopithecus mitis,species,cercopithecus species,genus
+Biome Health Project Maasai Mara 2018,cheetah,acinonyx jubatus,species,cheetah,species
+Desert Lion Conservation Camera Traps,acinonyx jubatus,acinonyx jubatus,species,cheetah,species
+Snapshot Enonkishu,cheetah,acinonyx jubatus,species,cheetah,species
+Snapshot Kgalagadi,cheetah,acinonyx jubatus,species,cheetah,species
+Snapshot Kruger,cheetah,acinonyx jubatus,species,cheetah,species
+Snapshot Mountain Zebra,cheetah,acinonyx jubatus,species,cheetah,species
+Snapshot Safari 2024 Expansion,cheetah,acinonyx jubatus,species,cheetah,species
+Snapshot Serengeti,cheetah,acinonyx jubatus,species,cheetah,species
+WCS Camera Traps,acinonyx jubatus,acinonyx jubatus,species,cheetah,species
+WCS Camera Traps,pan troglodytes,pan troglodytes,species,chimpanzee,species
+ENA24,eastern chipmunk,tamias striatus,species,chipmunk genus,genus
+NACTI,unidentified chipmunk,tamias,genus,chipmunk genus,genus
+Ohio Small Animals,eastern_chipmunk,tamias striatus,species,chipmunk genus,genus
+WCS Camera Traps,neofelis nebulosa,neofelis nebulosa,species,clouded leopard,species
+Missouri Camera Traps,collared_peccary,pecari tajacu,species,collared peccary,species
+Orinoquia Camera Traps,collared_peccary,pecari tajacu,species,collared peccary,species
+WCS Camera Traps,pecari tajacu,pecari tajacu,species,collared peccary,species
+WCS Camera Traps,tayassu tajacu,pecari tajacu,species,collared peccary,species
+WCS Camera Traps,colobus angolensis,colobus angolensis,species,colobus species,genus
+Nkhotakota Camera Traps,common_duiker,sylvicapra grimmia,species,common duiker,species
+Snapshot Camdeboo,duikercommongrey,sylvicapra grimmia,species,common duiker,species
+Snapshot Kgalagadi,duikercommongrey,sylvicapra grimmia,species,common duiker,species
+Snapshot Kruger,duikercommongrey,sylvicapra grimmia,species,common duiker,species
+Snapshot Safari 2024 Expansion,duikercommongrey,sylvicapra grimmia,species,common duiker,species
+WCS Camera Traps,sylvicapra grimmia,sylvicapra grimmia,species,common duiker,species
+Biome Health Project Maasai Mara 2018,eland,tragelaphus oryx,species,common eland,species
+Nkhotakota Camera Traps,common_eland,tragelaphus oryx,species,common eland,species
+Snapshot Camdeboo,eland,tragelaphus oryx,species,common eland,species
+Snapshot Enonkishu,eland,tragelaphus oryx,species,common eland,species
+Snapshot Karoo,eland,tragelaphus oryx,species,common eland,species
+Snapshot Kgalagadi,eland,tragelaphus oryx,species,common eland,species
+Snapshot Mountain Zebra,eland,tragelaphus oryx,species,common eland,species
+Snapshot Safari 2024 Expansion,eland,tragelaphus oryx,species,common eland,species
+Snapshot Serengeti,eland,tragelaphus oryx,species,common eland,species
+WCS Camera Traps,tragelaphus oryx,tragelaphus oryx,species,common eland,species
+Snapshot Camdeboo,fallowdeer,dama dama,species,common fallow deer,species
+Snapshot Mountain Zebra,fallowdeer,dama dama,species,common fallow deer,species
+Snapshot Safari 2024 Expansion,fallowdeer,dama dama,species,common fallow deer,species
+Biome Health Project Maasai Mara 2018,warthog,phacochoerus africanus,species,common warthog,species
+Nkhotakota Camera Traps,common_warthog,phacochoerus africanus,species,common warthog,species
+Snapshot Enonkishu,warthog,phacochoerus africanus,species,common warthog,species
+Snapshot Kruger,warthog,phacochoerus africanus,species,common warthog,species
+Snapshot Mountain Zebra,warthog,phacochoerus africanus,species,common warthog,species
+Snapshot Safari 2024 Expansion,warthog,phacochoerus africanus,species,common warthog,species
+Snapshot Serengeti,warthog,phacochoerus africanus,species,common warthog,species
+WCS Camera Traps,phacochoerus africanus,phacochoerus africanus,species,common warthog,species
+Biome Health Project Maasai Mara 2018,wildebeest,connochaetes taurinus,species,common wildebeest,species
+Snapshot Enonkishu,wildebeest,connochaetes taurinus,species,common wildebeest,species
+Snapshot Karoo,wildebeestblue,connochaetes taurinus,species,common wildebeest,species
+Snapshot Kgalagadi,wildebeestblue,connochaetes taurinus,species,common wildebeest,species
+Snapshot Kruger,wildebeestblue,connochaetes taurinus,species,common wildebeest,species
+Snapshot Safari 2024 Expansion,wildebeestblue,connochaetes taurinus taurinus,subspecies,common wildebeest,species
+Snapshot Serengeti,wildebeest,connochaetes taurinus,species,common wildebeest,species
+WCS Camera Traps,connochaetes taurinus,connochaetes taurinus,species,common wildebeest,species
+California Small Animals,brush rabbit,sylvilagus bachmani,species,cottontail rabbits genus,genus
+California Small Animals,desert cottontail,sylvilagus audubonii,species,cottontail rabbits genus,genus
+California Small Animals,sylvilagus species,sylvilagus,genus,cottontail rabbits genus,genus
+Felidae Conservation Fund 2020-2025,brush rabbit,sylvilagus bachmani,species,cottontail rabbits genus,genus
+Felidae Conservation Fund 2020-2025,cottontail rabbit,sylvilagus,genus,cottontail rabbits genus,genus
+WCS Camera Traps,sylvilagus brasiliensis,sylvilagus brasiliensis,species,cottontail rabbits genus,genus
+California Small Animals,coyote,canis latrans,species,coyote,species
+Caltech Camera Traps,coyote,canis latrans,species,coyote,species
+ENA24,coyote,canis latrans,species,coyote,species
+Felidae Conservation Fund 2020-2025,coyote,canis latrans,species,coyote,species
+Idaho Camera Traps,coyote,canis latrans,species,coyote,species
+NACTI,canis latrans,canis latrans,species,coyote,species
+Oregon Critters,coyote,canis latrans,species,coyote,species
+Seattle(ish) Camera Traps,coyote,canis latrans,species,coyote,species
+WCS Camera Traps,canis latrans,canis latrans,species,coyote,species
+WSU Lynx,canis latrans,canis latrans,species,coyote,species
+California Small Animals,arvicolinae subfamily,arvicolinae,subfamily,cricetidae family,family
+California Small Animals,bushy-tailed woodrat,neotoma cinerea,species,cricetidae family,family
+California Small Animals,cactus mouse,peromyscus eremicus,species,cricetidae family,family
+California Small Animals,california vole,microtus californicus,species,cricetidae family,family
+California Small Animals,cricetidae family,cricetidae,family,cricetidae family,family
+California Small Animals,desert woodrat,neotoma lepida,species,cricetidae family,family
+California Small Animals,dusky-footed woodrat,neotoma fuscipes,species,cricetidae family,family
+California Small Animals,microtus species,microtus,genus,cricetidae family,family
+California Small Animals,neotoma species,neotoma,genus,cricetidae family,family
+California Small Animals,north american deermouse,peromyscus maniculatus,species,cricetidae family,family
+California Small Animals,northern grasshopper mouse,onychomys leucogaster,species,cricetidae family,family
+California Small Animals,peromyscus species,peromyscus,genus,cricetidae family,family
+California Small Animals,reithrodontomys species,reithrodontomys,genus,cricetidae family,family
+California Small Animals,sagebrush vole,lemmiscus curtatus,species,cricetidae family,family
+California Small Animals,sigmodon species,sigmodon,genus,cricetidae family,family
+NACTI,unidentified deer mouse,peromyscus,genus,cricetidae family,family
+NACTI,unidentified pack rat,neotoma,genus,cricetidae family,family
+Ohio Small Animals,meadow_vole,microtus pennsylvanicus,species,cricetidae family,family
+Ohio Small Animals,white-footed_mouse,peromyscus leucopus,species,cricetidae family,family
+Oregon Critters,neotoma species,neotoma,genus,cricetidae family,family
+WCS Camera Traps,peromyscus sp,peromyscus,genus,cricetidae family,family
+WCS Camera Traps,cuon alpinus,cuon alpinus,species,dhole,species
+California Small Animals,domestic cat,felis catus,species,domestic cat,species
+Caltech Camera Traps,cat,felis catus,species,domestic cat,species
+Desert Lion Conservation Camera Traps,felis catus,felis catus,species,domestic cat,species
+ENA24,domestic cat,felis catus,species,domestic cat,species
+Felidae Conservation Fund 2020-2025,domestic cat,felis catus,species,domestic cat,species
+Island Conservation Camera Traps,cat,felis catus,species,domestic cat,species
+Seattle(ish) Camera Traps,cat,felis catus,species,domestic cat,species
+Trail Camera Images of New Zealand Animals,cat,felis catus,species,domestic cat,species
+Wellington Camera Traps,cat,felis catus,species,domestic cat,species
+Biome Health Project Maasai Mara 2018,cattle,bos taurus,species,domestic cattle,species
+California Small Animals,domestic cattle,bos taurus,species,domestic cattle,species
+Caltech Camera Traps,cow,bos taurus,species,domestic cattle,species
+Desert Lion Conservation Camera Traps,bos taurus,bos taurus,species,domestic cattle,species
+Felidae Conservation Fund 2020-2025,cattle,bos taurus,species,domestic cattle,species
+Idaho Camera Traps,cattle,bos taurus,species,domestic cattle,species
+Island Conservation Camera Traps,cow,bos taurus,species,domestic cattle,species
+NACTI,bos taurus,bos taurus,species,domestic cattle,species
+Nkhotakota Camera Traps,domestic_cattle,bos taurus,species,domestic cattle,species
+Orinoquia Camera Traps,cattle,bos taurus,species,domestic cattle,species
+Snapshot Serengeti,cattle,bos taurus,species,domestic cattle,species
+Trail Camera Images of New Zealand Animals,cow,bos taurus,species,domestic cattle,species
+WCS Camera Traps,bos taurus,bos taurus,species,domestic cattle,species
+WSU Lynx,domestic cattle,bos taurus,species,domestic cattle,species
+Biome Health Project Maasai Mara 2018,domestic_dog,canis familiaris,species,domestic dog,species
+California Small Animals,domestic dog,canis familiaris,species,domestic dog,species
+Caltech Camera Traps,dog,canis familiaris,species,domestic dog,species
+ENA24,dog,canis familiaris,species,domestic dog,species
+Felidae Conservation Fund 2020-2025,domestic dog,canis familiaris,species,domestic dog,species
+Idaho Camera Traps,domestic dog,canis familiaris,species,domestic dog,species
+Island Conservation Camera Traps,dog,canis familiaris,species,domestic dog,species
+NACTI,canis familiaris,canis familiaris,species,domestic dog,species
+Nkhotakota Camera Traps,domestic_dog,canis familiaris familiaris,subspecies,domestic dog,species
+Oregon Critters,domestic dog,canis familiaris,species,domestic dog,species
+Orinoquia Camera Traps,domestic_dog,canis familiaris,species,domestic dog,species
+SWG Camera Traps,domestic_dog,canis familiaris,species,domestic dog,species
+Seattle(ish) Camera Traps,dog,canis familiaris,species,domestic dog,species
+Snapshot Safari 2024 Expansion,dogdomestic,canis familiaris,species,domestic dog,species
+Trail Camera Images of New Zealand Animals,dog,canis familiaris,species,domestic dog,species
+UNSW Predators,dingo,canis familiaris dingo,subspecies,domestic dog,species
+WCS Camera Traps,canis familiaris,canis familiaris,species,domestic dog,species
+WCS Camera Traps,canis lupus,canis familiaris,species,domestic dog,species
+Wellington Camera Traps,dog,canis familiaris,species,domestic dog,species
+Desert Lion Conservation Camera Traps,equus asinus,equus asinus,species,domestic donkey,species
+Island Conservation Camera Traps,donkey,equus asinus,species,domestic donkey,species
+ENA24,horse,equus caballus,species,domestic horse,species
+Felidae Conservation Fund 2020-2025,domestic horse,equus caballus,species,domestic horse,species
+Idaho Camera Traps,horse,equus caballus,species,domestic horse,species
+Orinoquia Camera Traps,domestic_horse,equus caballus,species,domestic horse,species
+Snapshot Safari 2024 Expansion,horsedomestic,equus caballus,species,domestic horse,species
+Trail Camera Images of New Zealand Animals,horse,equus caballus,species,domestic horse,species
+WCS Camera Traps,equus caballus,equus caballus,species,domestic horse,species
+WCS Camera Traps,horse,equus caballus,species,domestic horse,species
+WSU Lynx,domestic horse,equus caballus,species,domestic horse,species
+Trail Camera Images of New Zealand Animals,sheep,ovis aries,species,domestic sheep,species
+WCS Camera Traps,ovis aries,ovis aries,species,domestic sheep,species
+WCS Camera Traps,camelus dromedarius,camelus dromedarius,species,dromedary camel,species
+Trail Camera Images of New Zealand Animals,sealion,phocarctos hookeri,species,eared seals,family
+ENA24,eastern cottontail,sylvilagus floridanus,species,eastern cottontail,species
+NACTI,sylvilagus floridanus,sylvilagus floridanus,species,eastern cottontail,species
+Ohio Small Animals,eastern_cottontail,sylvilagus floridanus,species,eastern cottontail,species
+Seattle(ish) Camera Traps,rabbit,sylvilagus floridanus,species,eastern cottontail,species
+ENA24,eastern fox squirrel,sciurus niger cinereus,subspecies,eastern fox squirrel,species
+NACTI,sciurus niger,sciurus niger,species,eastern fox squirrel,species
+ENA24,eastern gray squirrel,sciurus carolinensis,species,eastern gray squirrel,species
+Felidae Conservation Fund 2020-2025,eastern grey squirrel,sciurus carolinensis,species,eastern gray squirrel,species
+NACTI,sciurus carolinensis,sciurus carolinensis,species,eastern gray squirrel,species
+Felidae Conservation Fund 2020-2025,tule elk,cervus canadensis nannodes,subspecies,elk,species
+Idaho Camera Traps,elk,cervus canadensis,species,elk,species
+NACTI,cervus canadensis,cervus canadensis,species,elk,species
+Oregon Critters,roosevelt elk,cervus canadensis roosevelti,subspecies,elk,species
+WSU Lynx,cervus canadensis,cervus canadensis,species,elk,species
+WCS Camera Traps,eulemur albifrons,eulemur albifrons,species,eulemur species,genus
+NACTI,meles meles,meles meles,species,eurasian badger,species
+Missouri Camera Traps,european_hare,lepus europaeus,species,european hare,species
+Trail Camera Images of New Zealand Animals,hare,lepus europaeus,species,european hare,species
+Trail Camera Images of New Zealand Animals,rabbit,oryctolagus cuniculus,species,european rabbit,species
+Idaho Camera Traps,fisher,pekania pennanti,species,fisher,species
+WCS Camera Traps,cryptoprocta ferox,cryptoprocta ferox,species,fossa,species
+Desert Lion Conservation Camera Traps,oryx gazella,oryx gazella,species,gemsbok,species
+Snapshot Camdeboo,gemsbokoryx,oryx gazella,species,gemsbok,species
+Snapshot Karoo,gemsbokoryx,oryx gazella,species,gemsbok,species
+Snapshot Kgalagadi,gemsbokoryx,oryx gazella,species,gemsbok,species
+Snapshot Mountain Zebra,gemsbokoryx,oryx gazella,species,gemsbok,species
+Snapshot Safari 2024 Expansion,oryx,oryx gazella,species,gemsbok,species
+Biome Health Project Maasai Mara 2018,genet,genetta genetta,species,genet genus,genus
+Desert Lion Conservation Camera Traps,genetta genetta,genetta genetta,species,genet genus,genus
+Nkhotakota Camera Traps,genet,genetta,genus,genet genus,genus
+Snapshot Camdeboo,genetcommonsmallspotted,genetta,genus,genet genus,genus
+Snapshot Kruger,genetcommonsmallspotted,genetta,genus,genet genus,genus
+Snapshot Mountain Zebra,genetcommonsmallspotted,genetta,genus,genet genus,genus
+Snapshot Safari 2024 Expansion,genetcapelargespotted,genetta tigrina,species,genet genus,genus
+Snapshot Safari 2024 Expansion,genetcommonsmallspotted,genetta genetta,species,genet genus,genus
+Snapshot Serengeti,genet,genetta,genus,genet genus,genus
+WCS Camera Traps,genetta genetta,genetta genetta,species,genet genus,genus
+WCS Camera Traps,genetta maculata,genetta maculata,species,genet genus,genus
+WCS Camera Traps,genetta servalina,genetta servalina,species,genet genus,genus
+WCS Camera Traps,genetta tigrina,genetta tigrina,species,genet genus,genus
+WCS Camera Traps,litocranius walleri,litocranius walleri,species,gerenuk,species
+Orinoquia Camera Traps,giant_anteater,myrmecophaga tridactyla,species,giant anteater,species
+WCS Camera Traps,myrmecophaga tridactyla,myrmecophaga tridactyla,species,giant anteater,species
+Orinoquia Camera Traps,giant_armadillo,priodontes maximus,species,giant armadillo,species
+WCS Camera Traps,priodontes maximus,priodontes maximus,species,giant armadillo,species
+Orinoquia Camera Traps,giant_otter,pteronura brasiliensis,species,giant otter,species
+WCS Camera Traps,pteronura brasiliensis,pteronura brasiliensis,species,giant otter,species
+Biome Health Project Maasai Mara 2018,giraffe,giraffa camelopardalis,species,giraffe,species
+Desert Lion Conservation Camera Traps,giraffa camelopardalis,giraffa camelopardalis,species,giraffe,species
+Snapshot Enonkishu,giraffe,giraffa camelopardalis,species,giraffe,species
+Snapshot Kruger,giraffe,giraffa camelopardalis,species,giraffe,species
+Snapshot Safari 2024 Expansion,giraffe,giraffa camelopardalis,species,giraffe,species
+Snapshot Serengeti,giraffe,giraffa camelopardalis,species,giraffe,species
+WCS Camera Traps,giraffa camelopardalis,giraffa camelopardalis,species,giraffe,species
+Oregon Critters,humboldt's flying squirrel,glaucomys oregonensis,species,glaucomys species,genus
+California Small Animals,golden mantled ground squirrel,callospermophilus lateralis,species,golden mantled ground squirrel,species
+Biome Health Project Maasai Mara 2018,gazelle_grants,nanger granti,species,grant's gazelle,species
+Snapshot Enonkishu,gazellegrants,nanger granti,species,grant's gazelle,species
+Snapshot Safari 2024 Expansion,gazellegrants,nanger granti,species,grant's gazelle,species
+Snapshot Serengeti,gazellegrants,nanger granti,species,grant's gazelle,species
+WCS Camera Traps,nanger granti,nanger granti,species,grant's gazelle,species
+Desert Lion Conservation Camera Traps,tragelaphus strepsiceros,tragelaphus strepsiceros,species,greater kudu,species
+Nkhotakota Camera Traps,greater_kudu,tragelaphus strepsiceros,species,greater kudu,species
+Snapshot Camdeboo,kudu,tragelaphus strepsiceros,species,greater kudu,species
+Snapshot Karoo,kudu,tragelaphus strepsiceros,species,greater kudu,species
+Snapshot Kgalagadi,kudu,tragelaphus strepsiceros,species,greater kudu,species
+Snapshot Kruger,kudu,tragelaphus strepsiceros,species,greater kudu,species
+Snapshot Mountain Zebra,kudu,tragelaphus strepsiceros,species,greater kudu,species
+WCS Camera Traps,tragelaphus strepsiceros,tragelaphus strepsiceros,species,greater kudu,species
+WCS Camera Traps,equus grevyi,equus grevyi,species,grevy's zebra,species
+California Small Animals,grey fox,urocyon cinereoargenteus,species,grey fox,species
+Caltech Camera Traps,fox,urocyon cinereoargenteus,species,grey fox,species
+ENA24,grey fox,urocyon cinereoargenteus,species,grey fox,species
+Felidae Conservation Fund 2020-2025,gray fox,urocyon cinereoargenteus,species,grey fox,species
+NACTI,urocyon cinereoargenteus,urocyon cinereoargenteus,species,grey fox,species
+Oregon Critters,gray fox,urocyon cinereoargenteus,species,grey fox,species
+WCS Camera Traps,urocyon cinereoargenteus,urocyon cinereoargenteus,species,grey fox,species
+Idaho Camera Traps,wolf,canis lupus,species,grey wolf,species
+NACTI,canis lupus,canis lupus,species,grey wolf,species
+WSU Lynx,canis lupus,canis lupus,species,grey wolf,species
+Biome Health Project Maasai Mara 2018,hare,lepus capensis,species,hares and jackrabbits genus,genus
+California Small Animals,black-tailed jackrabbit,lepus californicus,species,hares and jackrabbits genus,genus
+California Small Animals,lepus species,lepus,genus,hares and jackrabbits genus,genus
+Desert Lion Conservation Camera Traps,lepus capensis,lepus capensis,species,hares and jackrabbits genus,genus
+Felidae Conservation Fund 2020-2025,black-tailed jackrabbit,lepus californicus,species,hares and jackrabbits genus,genus
+NACTI,lepus americanus,lepus americanus,species,hares and jackrabbits genus,genus
+NACTI,lepus californicus,lepus californicus,species,hares and jackrabbits genus,genus
+Nkhotakota Camera Traps,scrub_hare,lepus saxatilis,species,hares and jackrabbits genus,genus
+Snapshot Camdeboo,harescrub,lepus saxatilis,species,hares and jackrabbits genus,genus
+Snapshot Enonkishu,haresavannah,lepus victoriae,species,hares and jackrabbits genus,genus
+Snapshot Karoo,hare,lepus,genus,hares and jackrabbits genus,genus
+Snapshot Kgalagadi,harecape,lepus capensis,species,hares and jackrabbits genus,genus
+Snapshot Kruger,hare,lepus,genus,hares and jackrabbits genus,genus
+Snapshot Mountain Zebra,hare,lepus,genus,hares and jackrabbits genus,genus
+Snapshot Safari 2024 Expansion,harecape,lepus capensis,species,hares and jackrabbits genus,genus
+Snapshot Safari 2024 Expansion,haresavannah,lepus saxatilis,species,hares and jackrabbits genus,genus
+Snapshot Safari 2024 Expansion,harescrub,lepus saxatilis,species,hares and jackrabbits genus,genus
+Snapshot Safari 2024 Expansion,hareunknown,lepus,genus,hares and jackrabbits genus,genus
+Snapshot Serengeti,hare,lepus,genus,hares and jackrabbits genus,genus
+WCS Camera Traps,lepus saxatilis,lepus saxatilis,species,hares and jackrabbits genus,genus
+WSU Lynx,lepus americanus,lepus americanus,species,hares and jackrabbits genus,genus
+Wellington Camera Traps,hare,lepus,genus,hares and jackrabbits genus,genus
+Biome Health Project Maasai Mara 2018,hartebeest_cokes,alcelaphus buselaphus cokii,subspecies,hartebeest,species
+Snapshot Camdeboo,hartebeestred,alcelaphus buselaphus caama,subspecies,hartebeest,species
+Snapshot Enonkishu,hartebeest,alcelaphus buselaphus,species,hartebeest,species
+Snapshot Karoo,hartebeestred,alcelaphus buselaphus caama,subspecies,hartebeest,species
+Snapshot Kgalagadi,hartebeestred,alcelaphus buselaphus caama,subspecies,hartebeest,species
+Snapshot Mountain Zebra,hartebeestred,alcelaphus buselaphus caama,subspecies,hartebeest,species
+Snapshot Safari 2024 Expansion,hartebeest,alcelaphus buselaphus,species,hartebeest,species
+Snapshot Safari 2024 Expansion,hartebeestred,alcelaphus buselaphus caama,subspecies,hartebeest,species
+Snapshot Serengeti,hartebeest,alcelaphus buselaphus,species,hartebeest,species
+WCS Camera Traps,alcelaphus buselaphus,alcelaphus buselaphus,species,hartebeest,species
+Trail Camera Images of New Zealand Animals,hedgehog,erinaceus europaeus europaeus,subspecies,hedgehog family,family
+WCS Camera Traps,atelerix albiventris,atelerix albiventris,species,hedgehog family,family
+Wellington Camera Traps,hedgehog,erinaceus europaeus,species,hedgehog family,family
+Biome Health Project Maasai Mara 2018,hippopotamus,hippopotamus amphibius,species,hippopotamus,species
+Snapshot Enonkishu,hippopotamus,hippopotamus amphibius,species,hippopotamus,species
+Snapshot Kruger,hippopotamus,hippopotamus amphibius,species,hippopotamus,species
+Snapshot Safari 2024 Expansion,hippopotamus,hippopotamus amphibius,species,hippopotamus,species
+Snapshot Serengeti,hippopotamus,hippopotamus amphibius,species,hippopotamus,species
+WCS Camera Traps,hippopotamus amphibius,hippopotamus amphibius,species,hippopotamus,species
+SWG Camera Traps,hog_badger,arctonyx collaris,species,hog badger genus,genus
+WCS Camera Traps,arctonyx collaris,arctonyx collaris,species,hog badger genus,genus
+WCS Camera Traps,arctonyx hoevenii,arctonyx hoevenii,species,hog badger genus,genus
+Desert Lion Conservation Camera Traps,mellivora capensis,mellivora capensis,species,honey badger,species
+Nkhotakota Camera Traps,honey_badger,mellivora capensis,species,honey badger,species
+Snapshot Kgalagadi,honeybadger,mellivora capensis,species,honey badger,species
+Snapshot Safari 2024 Expansion,honeybadger,mellivora capensis,species,honey badger,species
+Snapshot Serengeti,honeybadger,mellivora capensis,species,honey badger,species
+WCS Camera Traps,mellivora capensis,mellivora capensis,species,honey badger,species
+Orinoquia Camera Traps,unknown_howler_monkey,alouatta,genus,howler monkey genus,genus
+WCS Camera Traps,alouatta sara,alouatta sara,species,howler monkey genus,genus
+Channel Islands Camera Traps,human,homo sapiens,species,human,species
+ENA24,human,homo sapiens,species,human,species
+Idaho Camera Traps,human,homo sapiens,species,human,species
+Island Conservation Camera Traps,human,homo sapiens,species,human,species
+Nkhotakota Camera Traps,human,homo sapiens,species,human,species
+Oregon Critters,human,homo sapiens,species,human,species
+Orinoquia Camera Traps,human,homo sapiens,species,human,species
+SWG Camera Traps,human,homo sapiens,species,human,species
+Seattle(ish) Camera Traps,dan,homo sapiens,species,human,species
+Snapshot Camdeboo,human,homo sapiens,species,human,species
+Snapshot Enonkishu,human,homo sapiens,species,human,species
+Snapshot Karoo,human,homo sapiens,species,human,species
+Snapshot Kgalagadi,human,homo sapiens,species,human,species
+Snapshot Kruger,human,homo sapiens,species,human,species
+Snapshot Mountain Zebra,human,homo sapiens,species,human,species
+Snapshot Serengeti,human,homo sapiens,species,human,species
+Trail Camera Images of New Zealand Animals,human,homo sapiens,species,human,species
+WCS Camera Traps,human,homo sapiens,species,human,species
+Biome Health Project Maasai Mara 2018,impala,aepyceros melampus,species,impala,species
+Nkhotakota Camera Traps,impala,aepyceros melampus,species,impala,species
+Snapshot Enonkishu,impala,aepyceros melampus,species,impala,species
+Snapshot Kruger,impala,aepyceros melampus,species,impala,species
+Snapshot Safari 2024 Expansion,impala,aepyceros melampus,species,impala,species
+Snapshot Serengeti,impala,aepyceros melampus,species,impala,species
+WCS Camera Traps,aepyceros melampus,aepyceros melampus,species,impala,species
+Orinoquia Camera Traps,jaguar,panthera onca,species,jaguar,species
+WCS Camera Traps,panthera onca,panthera onca,species,jaguar,species
+Trail Camera Images of New Zealand Animals,wallaby,notamacropus,genus,kangaroo family,family
+WCS Camera Traps,potos flavus,potos flavus,species,kinkajou,species
+Biome Health Project Maasai Mara 2018,dikdik,madoqua kirkii,species,kirk's dik-dik,species
+Desert Lion Conservation Camera Traps,oreotragus oreotragus,oreotragus oreotragus,species,klipspringer,species
+Nkhotakota Camera Traps,klipspringer,oreotragus oreotragus,species,klipspringer,species
+Snapshot Camdeboo,klipspringer,oreotragus oreotragus,species,klipspringer,species
+Snapshot Enonkishu,klipspringer,oreotragus oreotragus,species,klipspringer,species
+Snapshot Karoo,klipspringer,oreotragus oreotragus,species,klipspringer,species
+Snapshot Kruger,klipspringer,oreotragus oreotragus,species,klipspringer,species
+Snapshot Mountain Zebra,klipspringer,oreotragus oreotragus,species,klipspringer,species
+Snapshot Safari 2024 Expansion,klipspringer,oreotragus oreotragus,species,klipspringer,species
+WCS Camera Traps,oreotragus oreotragus,oreotragus oreotragus,species,klipspringer,species
+WCS Camera Traps,presbytis femoralis,presbytis femoralis,species,leaf monkeys genus,genus
+WCS Camera Traps,presbytis sp,presbytis,genus,leaf monkeys genus,genus
+WCS Camera Traps,presbytis thomasi,presbytis thomasi,species,leaf monkeys genus,genus
+Biome Health Project Maasai Mara 2018,leopard,panthera pardus,species,leopard,species
+Desert Lion Conservation Camera Traps,panthera pardus,panthera pardus,species,leopard,species
+Nkhotakota Camera Traps,leopard,panthera pardus,species,leopard,species
+Snapshot Enonkishu,leopard,panthera pardus,species,leopard,species
+Snapshot Kgalagadi,leopard,panthera pardus,species,leopard,species
+Snapshot Kruger,leopard,panthera pardus,species,leopard,species
+Snapshot Mountain Zebra,leopard,panthera pardus,species,leopard,species
+Snapshot Safari 2024 Expansion,leopard,panthera pardus,species,leopard,species
+Snapshot Serengeti,leopard,panthera pardus,species,leopard,species
+WCS Camera Traps,panthera pardus,panthera pardus,species,leopard,species
+SWG Camera Traps,leopard_cat,prionailurus bengalensis,species,leopard cat,species
+WCS Camera Traps,prionailurus bengalensis,prionailurus bengalensis,species,leopard cat,species
+Orinoquia Camera Traps,margay,leopardus wiedii,species,leopardus species,genus
+WCS Camera Traps,leopardus sp,leopardus,genus,leopardus species,genus
+WCS Camera Traps,leopardus tigrinus,leopardus tigrinus,species,leopardus species,genus
+WCS Camera Traps,leopardus weidii,leopardus wiedii,species,leopardus species,genus
+WCS Camera Traps,leopardus wiedii,leopardus wiedii,species,leopardus species,genus
+Biome Health Project Maasai Mara 2018,lion,panthera leo,species,lion,species
+Biome Health Project Maasai Mara 2018,lion_female,panthera leo,species,lion,species
+Biome Health Project Maasai Mara 2018,lion_male,panthera leo,species,lion,species
+Desert Lion Conservation Camera Traps,panthera leo,panthera leo,species,lion,species
+Snapshot Enonkishu,lionfemale,panthera leo,species,lion,species
+Snapshot Enonkishu,lionmale,panthera leo,species,lion,species
+Snapshot Karoo,lionfemale,panthera leo,species,lion,species
+Snapshot Karoo,lionmale,panthera leo,species,lion,species
+Snapshot Kgalagadi,lionfemale,panthera leo,species,lion,species
+Snapshot Kruger,lionfemale,panthera leo,species,lion,species
+Snapshot Mountain Zebra,lionfemale,panthera leo,species,lion,species
+Snapshot Mountain Zebra,lionmale,panthera leo,species,lion,species
+Snapshot Safari 2024 Expansion,lioncub,panthera leo,species,lion,species
+Snapshot Safari 2024 Expansion,lionfemale,panthera leo,species,lion,species
+Snapshot Safari 2024 Expansion,lionmale,panthera leo,species,lion,species
+Snapshot Serengeti,lioncub,panthera leo,species,lion,species
+Snapshot Serengeti,lionfemale,panthera leo,species,lion,species
+Snapshot Serengeti,lionmale,panthera leo,species,lion,species
+WCS Camera Traps,panthera leo,panthera leo,species,lion,species
+Orinoquia Camera Traps,lowland_tapir,tapirus terrestris,species,lowland tapir,species
+WCS Camera Traps,tapirus terrestris,tapirus terrestris,species,lowland tapir,species
+WCS Camera Traps,lycalopex culpaeus,lycalopex culpaeus,species,lycalopex species,genus
+SWG Camera Traps,assam_or_rhesus_macaque,macaca,genus,macaque species,genus
+SWG Camera Traps,macaque_not_stump_tailed,macaca,genus,macaque species,genus
+SWG Camera Traps,pig_tailed_macaque,macaca nemestrina,species,macaque species,genus
+SWG Camera Traps,stump_tailed_macaque,macaca arctoides,species,macaque species,genus
+SWG Camera Traps,unidentified_macaque,macaca,genus,macaque species,genus
+WCS Camera Traps,macaca arctoides,macaca arctoides,species,macaque species,genus
+WCS Camera Traps,macaca assamensis,macaca assamensis,species,macaque species,genus
+WCS Camera Traps,macaca fascicularis,macaca fascicularis,species,macaque species,genus
+WCS Camera Traps,macaca mulatta,macaca mulatta,species,macaque species,genus
+WCS Camera Traps,macaca nemestrina,macaca nemestrina,species,macaque species,genus
+WCS Camera Traps,tapirus indicus,tapirus indicus,species,malay tapir,species
+WCS Camera Traps,cercocebus sanjei,cercocebus sanjei,species,mangabeys genus,genus
+NACTI,martes americana,martes americana,species,martes species,genus
+Oregon Critters,marten,martes americana,species,martes species,genus
+SWG Camera Traps,yellow_throated_marten,martes flavigula,species,martes species,genus
+WCS Camera Traps,martes flavigula,martes flavigula,species,martes species,genus
+WSU Lynx,martes americana,martes americana,species,martes species,genus
+Snapshot Camdeboo,meerkatsuricate,suricata suricatta,species,meerkat,species
+Snapshot Karoo,meerkatsuricate,suricata suricatta,species,meerkat,species
+Snapshot Kgalagadi,meerkatsuricate,suricata suricatta,species,meerkat,species
+Snapshot Safari 2024 Expansion,meerkat,suricata suricatta,species,meerkat,species
+Biome Health Project Maasai Mara 2018,mongoose_banded,mungos mungo,species,mongoose family,family
+Biome Health Project Maasai Mara 2018,mongoose_other,herpestidae,family,mongoose family,family
+Biome Health Project Maasai Mara 2018,mongoose_white_tailed,ichneumia albicauda,species,mongoose family,family
+Desert Lion Conservation Camera Traps,galerella sanguinea,herpestes sanguineus,species,mongoose family,family
+Nkhotakota Camera Traps,mongoose,herpestidae,family,mongoose family,family
+SWG Camera Traps,crab_eating_mongoose,urva urva,species,mongoose family,family
+Snapshot Camdeboo,mongooseegyptianlargegrey,herpestes ichneumon,species,mongoose family,family
+Snapshot Camdeboo,mongooseyellow,cynictis penicillata,species,mongoose family,family
+Snapshot Enonkishu,mongoose,herpestidae,family,mongoose family,family
+Snapshot Karoo,mongoosesmallcapegrey,herpestes pulverulentus,species,mongoose family,family
+Snapshot Karoo,mongooseyellow,cynictis penicillata,species,mongoose family,family
+Snapshot Mountain Zebra,mongooseyellow,cynictis penicillata,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongoose,herpestidae,family,mongoose family,family
+Snapshot Safari 2024 Expansion,mongoosebanded,mungos mungo,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongoosecapesmallgrey,herpestes pulverulentus,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongoosedwarf,helogale parvula,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongooseegyptianlargegrey,herpestes ichneumon,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongooseslender,herpestes sanguineus,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongoosesmallcapegrey,herpestes pulverulentus,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongooseunknown,herpestidae,family,mongoose family,family
+Snapshot Safari 2024 Expansion,mongoosewater,atilax paludinosus,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongoosewatermarsh,atilax paludinosus,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongoosewhitetailed,ichneumia albicauda,species,mongoose family,family
+Snapshot Safari 2024 Expansion,mongooseyellow,cynictis penicillata,species,mongoose family,family
+Snapshot Serengeti,mongoose,herpestidae,family,mongoose family,family
+WCS Camera Traps,atilax paludinosus,atilax paludinosus,species,mongoose family,family
+WCS Camera Traps,bdeogale crassicauda,bdeogale crassicauda,species,mongoose family,family
+WCS Camera Traps,bdeogale jacksoni,bdeogale jacksoni,species,mongoose family,family
+WCS Camera Traps,helogale parvula,helogale parvula,species,mongoose family,family
+WCS Camera Traps,herpestes sanguineus,herpestes sanguineus,species,mongoose family,family
+WCS Camera Traps,herpestes semitorquatus,urva semitorquata,species,mongoose family,family
+WCS Camera Traps,herpestes urva,urva urva,species,mongoose family,family
+WCS Camera Traps,ichneumia albicauda,ichneumia albicauda,species,mongoose family,family
+WCS Camera Traps,mungos mungo,mungos mungo,species,mongoose family,family
+California Small Animals,elk,alces alces,species,moose,species
+Idaho Camera Traps,moose,alces alces americanus,subspecies,moose,species
+NACTI,alces alces,alces alces,species,moose,species
+WSU Lynx,alces alces,alces alces,species,moose,species
+Missouri Camera Traps,mouflon,ovis ammon,species,mouflon,common_name
+WSU Lynx,oreamnos americanus,oreamnos americanus,species,mountain goat,species
+Desert Lion Conservation Camera Traps,equus zebra hartmannae,equus zebra hartmannae,subspecies,mountain zebra,species
+Snapshot Camdeboo,zebramountain,equus zebra,species,mountain zebra,species
+Snapshot Karoo,zebramountain,equus zebra,species,mountain zebra,species
+Snapshot Mountain Zebra,zebramountain,equus zebra,species,mountain zebra,species
+Snapshot Safari 2024 Expansion,zebramountain,equus zebra,species,mountain zebra,species
+Felidae Conservation Fund 2020-2025,mule deer,odocoileus hemionus,species,mule deer,species
+NACTI,odocoileus hemionus,odocoileus hemionus,species,mule deer,species
+Oregon Critters,black-tailed deer,odocoileus hemionus,species,mule deer,species
+Seattle(ish) Camera Traps,deer,odocoileus hemionus columbianus,subspecies,mule deer,species
+WSU Lynx,odocoileus hemionus,odocoileus hemionus,species,mule deer,species
+SWG Camera Traps,large_antlered_muntjac,muntiacus vuquangensis,species,muntjac genus,genus
+SWG Camera Traps,red_muntjac,muntiacus muntjak,species,muntjac genus,genus
+SWG Camera Traps,roosevelts_muntjac_group,muntiacus rooseveltorum,species,muntjac genus,genus
+SWG Camera Traps,unidentified_muntjac,muntiacus,genus,muntjac genus,genus
+WCS Camera Traps,muntiacus muntjak,muntiacus muntjak,species,muntjac genus,genus
+WCS Camera Traps,muntiacus rooseveltorum,muntiacus rooseveltorum,species,muntjac genus,genus
+WCS Camera Traps,muntiacus sp,muntiacus,genus,muntjac genus,genus
+WCS Camera Traps,muntiacus vuquangensis,muntiacus vuquangensis,species,muntjac genus,genus
+California Small Animals,house mouse,mus musculus,species,muridae family,family
+California Small Animals,muridae family,muridae,family,muridae family,family
+Missouri Camera Traps,wood_mouse,apodemus sylvaticus,species,muridae family,family
+SWG Camera Traps,unidentified_murid,muridae,family,muridae family,family
+Trail Camera Images of New Zealand Animals,mouse,mus,genus,muridae family,family
+WCS Camera Traps,colomys goslingi,colomys goslingi,species,muridae family,family
+WCS Camera Traps,deomys ferrugineus,deomys ferrugineus,species,muridae family,family
+WCS Camera Traps,hybomys univittatus,hybomys univittatus,species,muridae family,family
+WCS Camera Traps,hylomyscus stella,hylomyscus stella,species,muridae family,family
+WCS Camera Traps,malacomys longipes,malacomys longipes,species,muridae family,family
+WCS Camera Traps,mus minutoides,mus minutoides,species,muridae family,family
+WCS Camera Traps,oenomys hypoxanthus,oenomys hypoxanthus,species,muridae family,family
+WCS Camera Traps,praomys tullbergi,praomys tullbergi,species,muridae family,family
+WCS Camera Traps,thamnomys venustus,thamnomys venustus,species,muridae family,family
+WCS Camera Traps,unknown mouse or rat,muridae,family,muridae family,family
+Wellington Camera Traps,mouse,mus,genus,muridae family,family
+California Small Animals,muskrat,ondatra zibethicus,species,muskrat,species
+NACTI,dasypus novemcinctus,dasypus novemcinctus,species,nine-banded armadillo,species
+WCS Camera Traps,dasypus novemcinctus,dasypus novemcinctus,species,nine-banded armadillo,species
+California Small Animals,north american porcupine,erethizon dorsatum,species,north american porcupine,species
+Idaho Camera Traps,porcupine,erethizon dorsatum,species,north american porcupine,species
+NACTI,erethizon dorsatum,erethizon dorsatum,species,north american porcupine,species
+WSU Lynx,erethizon dorsatum,erethizon dorsatum,species,north american porcupine,species
+Felidae Conservation Fund 2020-2025,river otter,lontra canadensis,species,north american river otter,species
+NACTI,lontra canadensis,lontra canadensis,species,north american river otter,species
+Seattle(ish) Camera Traps,otter,lontra canadensis,species,north american river otter,species
+Trail Camera Images of New Zealand Animals,chamois,rupicapra rupicapra,species,northern chamois,species
+California Small Animals,northern raccoon,procyon lotor,species,northern raccoon,species
+Caltech Camera Traps,raccoon,procyon lotor,species,northern raccoon,species
+ENA24,northern raccoon,procyon lotor,species,northern raccoon,species
+Felidae Conservation Fund 2020-2025,raccoon,procyon lotor,species,northern raccoon,species
+Idaho Camera Traps,raccoon,procyon lotor,species,northern raccoon,species
+NACTI,procyon lotor,procyon lotor,species,northern raccoon,species
+Ohio Small Animals,raccoon,procyon lotor,species,northern raccoon,species
+Oregon Critters,northern raccoon,procyon lotor,species,northern raccoon,species
+Seattle(ish) Camera Traps,raccoon,procyon lotor,species,northern raccoon,species
+WCS Camera Traps,procyon lotor,procyon lotor,species,northern raccoon,species
+WSU Lynx,procyon lotor,procyon lotor,species,northern raccoon,species
+Snapshot Kruger,nyala,tragelaphus angasii,species,nyala,species
+Snapshot Safari 2024 Expansion,nyala,tragelaphus angasii,species,nyala,species
+Missouri Camera Traps,ocelot,leopardus pardalis,species,ocelot,species
+Orinoquia Camera Traps,ocelot,leopardus pardalis,species,ocelot,species
+WCS Camera Traps,leopardus pardalis,leopardus pardalis,species,ocelot,species
+Biome Health Project Maasai Mara 2018,porcupine,hystrix africaeaustralis,species,old world porcupine family,family
+Desert Lion Conservation Camera Traps,hystrix africaeaustralis,hystrix africaeaustralis,species,old world porcupine family,family
+Nkhotakota Camera Traps,cape_porcupine,hystrix africaeaustralis,species,old world porcupine family,family
+SWG Camera Traps,asiatic_brush_tailed_porcupine,atherurus macrourus,species,old world porcupine family,family
+SWG Camera Traps,malayan_porcupine,hystrix brachyura,species,old world porcupine family,family
+Snapshot Camdeboo,porcupine,hystrix africaeaustralis,species,old world porcupine family,family
+Snapshot Enonkishu,porcupine,hystrix cristata,species,old world porcupine family,family
+Snapshot Karoo,porcupine,hystrix africaeaustralis,species,old world porcupine family,family
+Snapshot Kgalagadi,porcupine,hystrix africaeaustralis,species,old world porcupine family,family
+Snapshot Kruger,porcupine,hystrix africaeaustralis,species,old world porcupine family,family
+Snapshot Mountain Zebra,porcupine,hystrix africaeaustralis,species,old world porcupine family,family
+Snapshot Safari 2024 Expansion,porcupine,hystrix cristata,species,old world porcupine family,family
+Snapshot Serengeti,porcupine,hystrix cristata,species,old world porcupine family,family
+WCS Camera Traps,atherurus africanus,atherurus africanus,species,old world porcupine family,family
+WCS Camera Traps,atherurus macrourus,atherurus macrourus,species,old world porcupine family,family
+WCS Camera Traps,hystrix africaeaustralis,hystrix africaeaustralis,species,old world porcupine family,family
+WCS Camera Traps,hystrix brachyura,hystrix brachyura,species,old world porcupine family,family
+WCS Camera Traps,hystrix cristata,hystrix cristata,species,old world porcupine family,family
+WCS Camera Traps,trichys fasciculata,trichys fasciculata,species,old world porcupine family,family
+WCS Camera Traps,unknown porcupine,hystricidae,family,old world porcupine family,family
+California Small Animals,virginia opossum,didelphis virginiana,species,opossum family,family
+Caltech Camera Traps,opossum,didelphis virginiana,species,opossum family,family
+ENA24,virginia opossum,didelphis virginiana,species,opossum family,family
+Felidae Conservation Fund 2020-2025,virginia opossum,didelphis virginiana,species,opossum family,family
+Missouri Camera Traps,common_opossum,didelphis marsupialis,species,opossum family,family
+NACTI,didelphis virginiana,didelphis virginiana,species,opossum family,family
+Ohio Small Animals,virginia_opossum,didelphis virginiana,species,opossum family,family
+Oregon Critters,virginia opossum,didelphis virginiana,species,opossum family,family
+Seattle(ish) Camera Traps,possum,didelphis virginiana,species,opossum family,family
+WCS Camera Traps,didelphis imperfecta,didelphis imperfecta,species,opossum family,family
+WCS Camera Traps,didelphis marsupialis,didelphis marsupialis,species,opossum family,family
+WCS Camera Traps,didelphis pernigra,didelphis pernigra,species,opossum family,family
+WCS Camera Traps,didelphis sp,didelphis,genus,opossum family,family
+WCS Camera Traps,didelphis virginiana,didelphis virginiana,species,opossum family,family
+WCS Camera Traps,lutreolina crassicaudata,lutreolina crassicaudata,species,opossum family,family
+WCS Camera Traps,metachirus nudicaudatus,metachirus nudicaudatus,species,opossum family,family
+WCS Camera Traps,metachirus nudicudatus,metachirus nudicaudatus,species,opossum family,family
+WCS Camera Traps,philander opossum,philander opossum,species,opossum family,family
+WCS Camera Traps,philander oppossum,philander opossum,species,opossum family,family
+SWG Camera Traps,pangolin,manis,genus,pangolin family,family
+Snapshot Safari 2024 Expansion,pangolin,manidae,family,pangolin family,family
+Snapshot Serengeti,pangolin,manidae,family,pangolin family,family
+WCS Camera Traps,manis javanica,manis javanica,species,pangolin family,family
+WCS Camera Traps,erythrocebus patas,erythrocebus patas,species,patas monkey,species
+Biome Health Project Maasai Mara 2018,zebra,equus quagga burchellii,subspecies,plains zebra,species
+Nkhotakota Camera Traps,plains_zebra,equus quagga,species,plains zebra,species
+Snapshot Enonkishu,zebra,equus quagga,species,plains zebra,species
+Snapshot Karoo,zebraburchells,equus quagga burchellii,subspecies,plains zebra,species
+Snapshot Kruger,zebraburchells,equus quagga burchellii,subspecies,plains zebra,species
+Snapshot Mountain Zebra,zebraburchells,equus quagga burchellii,subspecies,plains zebra,species
+Snapshot Safari 2024 Expansion,zebraburchells,equus quagga burchellii,subspecies,plains zebra,species
+Snapshot Safari 2024 Expansion,zebraplains,equus quagga,species,plains zebra,species
+Snapshot Serengeti,zebra,equus quagga,species,plains zebra,species
+WCS Camera Traps,equus quagga,equus quagga,species,plains zebra,species
+Idaho Camera Traps,pronghorn,antilocapra americana,species,pronghorn,species
+Caltech Camera Traps,mountain_lion,puma concolor,species,puma,species
+Felidae Conservation Fund 2020-2025,puma,puma concolor,species,puma,species
+Idaho Camera Traps,mountain lion,puma concolor,species,puma,species
+NACTI,puma concolor,puma concolor,species,puma,species
+Oregon Critters,cougar,puma concolor,species,puma,species
+Orinoquia Camera Traps,puma,puma,genus,puma,common_name
+WCS Camera Traps,puma concolor,puma concolor,species,puma,species
+WSU Lynx,puma concolor,puma concolor,species,puma,species
+California Small Animals,brown rat,rattus norvegicus,species,rattus genus,genus
+California Small Animals,house rat,rattus rattus,species,rattus genus,genus
+California Small Animals,rattus species,rattus,genus,rattus genus,genus
+Island Conservation Camera Traps,rat,rattus,genus,rattus genus,genus
+Missouri Camera Traps,spiny_rat,rattus praetor,species,rattus genus,genus
+NACTI,rattus rattus,rattus rattus,species,rattus genus,genus
+Ohio Small Animals,brown_rat,rattus norvegicus,species,rattus genus,genus
+Trail Camera Images of New Zealand Animals,rat,rattus,genus,rattus genus,genus
+WCS Camera Traps,rattus rattus,rattus rattus,species,rattus genus,genus
+WCS Camera Traps,rattus tiomanicus sabae,rattus tiomanicus,species,rattus genus,genus
+WCS Camera Traps,unknown rat,rattus,genus,rattus genus,genus
+Wellington Camera Traps,norway rat,rattus norvegicus,species,rattus genus,genus
+Wellington Camera Traps,rat,rattus,genus,rattus genus,genus
+Wellington Camera Traps,ship rat,rattus rattus,species,rattus genus,genus
+Missouri Camera Traps,red_brocket_deer,mazama americana,species,red brocket,species
+Orinoquia Camera Traps,red_brocket_deer,mazama americana,species,red brocket,species
+WCS Camera Traps,mazama americana,mazama americana,species,red brocket,species
+Missouri Camera Traps,red_deer,cervus elaphus,species,red deer,species
+NACTI,cervus elaphus,cervus elaphus,species,red deer,species
+ENA24,red fox,vulpes vulpes,species,red fox,species
+Felidae Conservation Fund 2020-2025,red fox,vulpes vulpes,species,red fox,species
+Missouri Camera Traps,red_fox,vulpes vulpes,species,red fox,species
+NACTI,vulpes vulpes,vulpes vulpes,species,red fox,species
+Oregon Critters,red fox,vulpes vulpes,species,red fox,species
+UNSW Predators,fox,vulpes vulpes,species,red fox,species
+Missouri Camera Traps,red_squirrel,tamiasciurus hudsonicus,species,red squirrel,species
+NACTI,tamiasciurus hudsonicus,tamiasciurus hudsonicus,species,red squirrel,species
+Biome Health Project Maasai Mara 2018,reedbuck,redunca arundinum,species,reedbuck genus,genus
+Nkhotakota Camera Traps,southern_reedbuck,redunca arundinum,species,reedbuck genus,genus
+Snapshot Camdeboo,reedbuckmountain,redunca fulvorufula,species,reedbuck genus,genus
+Snapshot Karoo,reedbuckmountain,redunca fulvorufula,species,reedbuck genus,genus
+Snapshot Kruger,reedbuck,redunca,genus,reedbuck genus,genus
+Snapshot Mountain Zebra,reedbuckmountain,redunca fulvorufula,species,reedbuck genus,genus
+Snapshot Safari 2024 Expansion,reedbuck,redunca,genus,reedbuck genus,genus
+Snapshot Safari 2024 Expansion,reedbuckmountain,redunca fulvorufula,species,reedbuck genus,genus
+Snapshot Serengeti,reedbuck,redunca,genus,reedbuck genus,genus
+Desert Lion Conservation Camera Traps,diceros bicornis,diceros bicornis,species,rhinoceros family,family
+Snapshot Enonkishu,rhinoceros,rhinocerotidae,family,rhinoceros family,family
+Snapshot Karoo,rhinocerosblack,diceros bicornis,species,rhinoceros family,family
+Snapshot Kruger,rhinoceros,rhinocerotidae,family,rhinoceros family,family
+Snapshot Mountain Zebra,rhinocerosblack,diceros bicornis,species,rhinoceros family,family
+Snapshot Mountain Zebra,rhinoceroswhite,ceratotherium simum,species,rhinoceros family,family
+Snapshot Safari 2024 Expansion,rhinocerosblack,diceros bicornis,species,rhinoceros family,family
+Snapshot Safari 2024 Expansion,rhinocerosunknown,rhinocerotidae,family,rhinoceros family,family
+Snapshot Safari 2024 Expansion,rhinoceroswhite,ceratotherium simum,species,rhinoceros family,family
+Snapshot Serengeti,rhinoceros,rhinocerotidae,family,rhinoceros family,family
+WCS Camera Traps,ceratotherium simum,ceratotherium simum,species,rhinoceros family,family
+WCS Camera Traps,dicerorhinus sumatrensis,dicerorhinus sumatrensis,species,rhinoceros family,family
+WCS Camera Traps,diceros bicornis,diceros bicornis,species,rhinoceros family,family
+California Small Animals,ringtail,bassariscus astutus,species,ringtail,species
+Nkhotakota Camera Traps,roan,hippotragus equinus,species,roan antelope,species
+Snapshot Kruger,roan,hippotragus equinus,species,roan antelope,species
+Snapshot Safari 2024 Expansion,roan,hippotragus equinus,species,roan antelope,species
+Desert Lion Conservation Camera Traps,procavia capensis,procavia capensis,species,rock hyrax,species
+Snapshot Safari 2024 Expansion,rockhyraxdassie,procavia capensis,species,rock hyrax,species
+WCS Camera Traps,procavia capensis,procavia capensis,species,rock hyrax,species
+Nkhotakota Camera Traps,sable,hippotragus niger,species,sable antelope,species
+Snapshot Safari 2024 Expansion,sable,hippotragus niger,species,sable antelope,species
+Orinoquia Camera Traps,unknown_squirrel_monkey,saimiri,genus,saimiri species,genus
+WCS Camera Traps,saimiri boliviensis,saimiri boliviensis,species,saimiri species,genus
+SWG Camera Traps,sambar,rusa unicolor,species,sambar,species
+WCS Camera Traps,rusa unicolor,rusa unicolor,species,sambar,species
+Biome Health Project Maasai Mara 2018,serval,leptailurus serval,species,serval,species
+Nkhotakota Camera Traps,serval,leptailurus serval,species,serval,species
+Snapshot Kruger,serval,leptailurus serval,species,serval,species
+Snapshot Safari 2024 Expansion,serval,leptailurus serval,species,serval,species
+Snapshot Serengeti,serval,leptailurus serval,species,serval,species
+WCS Camera Traps,leptailurus serval,leptailurus serval,species,serval,species
+Island Conservation Camera Traps,coati,nasua nasua,species,south american coati,species
+Orinoquia Camera Traps,south_american_coati,nasua nasua,species,south american coati,species
+WCS Camera Traps,nasua nasua,nasua nasua,species,south american coati,species
+WCS Camera Traps,tremarctos ornatus,tremarctos ornatus,species,spectacled bear,species
+California Small Animals,western spotted skunk,spilogale gracilis,species,spilogale species,genus
+Felidae Conservation Fund 2020-2025,spotted skunk,spilogale gracilis,species,spilogale species,genus
+Oregon Critters,western spotted skunk,spilogale gracilis,species,spilogale species,genus
+WCS Camera Traps,spilogale putorius,spilogale putorius,species,spilogale species,genus
+Biome Health Project Maasai Mara 2018,hyena_spotted,crocuta crocuta,species,spotted hyaena,species
+Desert Lion Conservation Camera Traps,crocuta crocuta,crocuta crocuta,species,spotted hyaena,species
+Nkhotakota Camera Traps,spotted_hyena,crocuta crocuta,species,spotted hyaena,species
+Snapshot Enonkishu,hyenaspotted,crocuta crocuta,species,spotted hyaena,species
+Snapshot Kgalagadi,hyenaspotted,crocuta crocuta,species,spotted hyaena,species
+Snapshot Kruger,hyenaspotted,crocuta crocuta,species,spotted hyaena,species
+Snapshot Safari 2024 Expansion,hyenaspotted,crocuta crocuta,species,spotted hyaena,species
+Snapshot Serengeti,hyenaspotted,crocuta crocuta,species,spotted hyaena,species
+WCS Camera Traps,crocuta crocuta,crocuta crocuta,species,spotted hyaena,species
+Desert Lion Conservation Camera Traps,antidorcas marsupialis,antidorcas marsupialis,species,springbok,species
+Snapshot Camdeboo,springbok,antidorcas marsupialis,species,springbok,species
+Snapshot Karoo,springbok,antidorcas marsupialis,species,springbok,species
+Snapshot Mountain Zebra,springbok,antidorcas marsupialis,species,springbok,species
+Snapshot Safari 2024 Expansion,springbok,antidorcas marsupialis,species,springbok,species
+California Small Animals,ammospermophilus species,ammospermophilus,genus,squirrel family,family
+California Small Animals,belding's ground squirrel,urocitellus beldingi beldingi,subspecies,squirrel family,family
+California Small Animals,douglas's squirrel,tamiasciurus douglasii,species,squirrel family,family
+California Small Animals,long-eared chipmunk,neotamias quadrimaculatus,species,squirrel family,family
+California Small Animals,merriam's chipmunk,neotamias merriami merriami,subspecies,squirrel family,family
+California Small Animals,mohave ground squirrel,xerospermophilus mohavensis,species,squirrel family,family
+California Small Animals,nelson's antelope squirrel,ammospermophilus nelsoni,species,squirrel family,family
+California Small Animals,neotamias species,neotamias,genus,squirrel family,family
+California Small Animals,otospermophilus species,otospermophilus,genus,squirrel family,family
+California Small Animals,round-tailed ground squirrel,xerospermophilus tereticaudus,species,squirrel family,family
+California Small Animals,sciuridae family,sciuridae,family,squirrel family,family
+California Small Animals,sciurus species,sciurus,genus,squirrel family,family
+California Small Animals,sonoma chipmunk,neotamias sonomae,species,squirrel family,family
+California Small Animals,white-tailed antelope squirrel,ammospermophilus leucurus,species,squirrel family,family
+California Small Animals,yellow-cheeked chipmunk,neotamias ochrogenys,species,squirrel family,family
+Caltech Camera Traps,squirrel,sciurus,genus,squirrel family,family
+Felidae Conservation Fund 2020-2025,merriam's chipmunk,neotamias merriami,species,squirrel family,family
+Felidae Conservation Fund 2020-2025,unknown squirrel,sciuridae,family,squirrel family,family
+Idaho Camera Traps,squirrel,sciurus,genus,squirrel family,family
+NACTI,unidentified sciurus,sciurus,genus,squirrel family,family
+Nkhotakota Camera Traps,squirrel,sciuridae,family,squirrel family,family
+Oregon Critters,douglas squirrel,tamiasciurus douglasii,species,squirrel family,family
+Oregon Critters,townsend's chipmunk,neotamias townsendii,species,squirrel family,family
+Orinoquia Camera Traps,northern_amazon_red_squirrel,sciurus igniventris,species,squirrel family,family
+SWG Camera Traps,black_giant_squirrel,ratufa bicolor,species,squirrel family,family
+SWG Camera Traps,flying_squirrel,pteromyini,tribe,squirrel family,family
+SWG Camera Traps,giant_flying_squirrel,petaurista,genus,squirrel family,family
+SWG Camera Traps,pallass_squirrel,callosciurus erythraeus,species,squirrel family,family
+SWG Camera Traps,red_cheeked_squirrel,dremomys rufigenis,species,squirrel family,family
+SWG Camera Traps,unidentified_squirrel,sciurus,genus,squirrel family,family
+SWG Camera Traps,unidentified_striped_squirrel,tamiops,genus,squirrel family,family
+Seattle(ish) Camera Traps,squirrel,sciurus,genus,squirrel family,family
+Snapshot Mountain Zebra,groundsquirrel,xerus,genus,squirrel family,family
+Snapshot Safari 2024 Expansion,groundsquirrel,sciuridae,family,squirrel family,family
+Snapshot Safari 2024 Expansion,squirrelground,sciuridae,family,squirrel family,family
+Snapshot Safari 2024 Expansion,squirreltree,sciuridae,family,squirrel family,family
+WCS Camera Traps,callosciurus erythraeus,callosciurus erythraeus,species,squirrel family,family
+WCS Camera Traps,callosciurus notatus,callosciurus notatus,species,squirrel family,family
+WCS Camera Traps,dremomys rufigenis,dremomys rufigenis,species,squirrel family,family
+WCS Camera Traps,funisciurus carruthersi,funisciurus carruthersi,species,squirrel family,family
+WCS Camera Traps,funisciurus pyrropus,funisciurus pyrropus,species,squirrel family,family
+WCS Camera Traps,heliosciurus rufobrachium,heliosciurus rufobrachium,species,squirrel family,family
+WCS Camera Traps,heliosciurus ruwenzorii,heliosciurus ruwenzorii,species,squirrel family,family
+WCS Camera Traps,hylopetes alboniger,hylopetes alboniger,species,squirrel family,family
+WCS Camera Traps,lariscus insignis,lariscus insignis,species,squirrel family,family
+WCS Camera Traps,microsciurus flaviventer,microsciurus flaviventer,species,squirrel family,family
+WCS Camera Traps,microsciurus mimulus,microsciurus mimulus,species,squirrel family,family
+WCS Camera Traps,paraxerus boehmi,paraxerus boehmi,species,squirrel family,family
+WCS Camera Traps,paraxerus cepapi,paraxerus cepapi,species,squirrel family,family
+WCS Camera Traps,paraxerus lucifer,paraxerus lucifer,species,squirrel family,family
+WCS Camera Traps,paraxerus ochraceus,paraxerus ochraceus,species,squirrel family,family
+WCS Camera Traps,paraxerus vexillarius,paraxerus vexillarius,species,squirrel family,family
+WCS Camera Traps,protoxerus stangeri,protoxerus stangeri,species,squirrel family,family
+WCS Camera Traps,ratufa bicolor,ratufa bicolor,species,squirrel family,family
+WCS Camera Traps,sciurus deppei,sciurus deppei,species,squirrel family,family
+WCS Camera Traps,sciurus gramatensis,sciurus granatensis,species,squirrel family,family
+WCS Camera Traps,sciurus ignitus,sciurus ignitus,species,squirrel family,family
+WCS Camera Traps,sciurus igniventris,sciurus igniventris,species,squirrel family,family
+WCS Camera Traps,sciurus sp,sciurus,genus,squirrel family,family
+WCS Camera Traps,sciurus spadiceus,sciurus spadiceus,species,squirrel family,family
+WCS Camera Traps,sundasciurus hippurus,sundasciurus hippurus,species,squirrel family,family
+WCS Camera Traps,unknown squirrel,sciuridae,family,squirrel family,family
+WCS Camera Traps,xerus erythropus,euxerus erythropus,species,squirrel family,family
+WCS Camera Traps,xerus rutilis,xerus rutilus,species,squirrel family,family
+WCS Camera Traps,xerus rutilus,xerus rutilus,species,squirrel family,family
+WSU Lynx,marmota caligata,marmota caligata,species,squirrel family,family
+Desert Lion Conservation Camera Traps,raphiceros campestris,raphicerus campestris,species,steenbok,species
+Snapshot Camdeboo,steenbok,raphicerus campestris,species,steenbok,species
+Snapshot Karoo,steenbok,raphicerus campestris,species,steenbok,species
+Snapshot Kgalagadi,steenbok,raphicerus campestris,species,steenbok,species
+Snapshot Kruger,steenbok,raphicerus campestris,species,steenbok,species
+Snapshot Mountain Zebra,steenbok,raphicerus campestris,species,steenbok,species
+Snapshot Safari 2024 Expansion,steenbok,raphicerus campestris,species,steenbok,species
+Snapshot Serengeti,steenbok,raphicerus campestris,species,steenbok,species
+WCS Camera Traps,raphicerus campestris,raphicerus campestris,species,steenbok,species
+Biome Health Project Maasai Mara 2018,hyena_striped,hyaena hyaena,species,striped hyaena,species
+Snapshot Safari 2024 Expansion,hyenastriped,hyaena hyaena,species,striped hyaena,species
+Snapshot Serengeti,hyenastriped,hyaena hyaena,species,striped hyaena,species
+WCS Camera Traps,hyaena hyaena,hyaena hyaena,species,striped hyaena,species
+California Small Animals,striped skunk,mephitis mephitis,species,striped skunk,species
+ENA24,striped skunk,mephitis mephitis,species,striped skunk,species
+Felidae Conservation Fund 2020-2025,striped skunk,mephitis mephitis,species,striped skunk,species
+NACTI,mephitis mephitis,mephitis mephitis,species,striped skunk,species
+Ohio Small Animals,striped_skunk,mephitis mephitis,species,striped skunk,species
+Oregon Critters,striped skunk,mephitis mephitis,species,striped skunk,species
+WSU Lynx,mephitis mephitis,mephitis mephitis,species,striped skunk,species
+SWG Camera Traps,sun_bear,helarctos malayanus,species,sun bear,species
+WCS Camera Traps,helarctos malayanus,helarctos malayanus,species,sun bear,species
+Orinoquia Camera Traps,tayra,eira barbara,species,tayra,species
+Orinoquia Camera Traps,unknown_tayra,eira barbara,species,tayra,species
+WCS Camera Traps,eira barbara,eira barbara,species,tayra,species
+Biome Health Project Maasai Mara 2018,gazelle_thomsons,eudorcas thomsonii,species,thomson's gazelle,species
+Snapshot Enonkishu,gazellethomsons,eudorcas thomsonii,species,thomson's gazelle,species
+Snapshot Safari 2024 Expansion,gazellethomsons,eudorcas thomsonii,species,thomson's gazelle,species
+Snapshot Serengeti,gazellethomsons,eudorcas thomsonii,species,thomson's gazelle,species
+WCS Camera Traps,eudorcas thomsonii,eudorcas thomsonii,species,thomson's gazelle,species
+WCS Camera Traps,panthera tigris,panthera tigris,species,tiger,species
+Biome Health Project Maasai Mara 2018,vervet_monkey,chlorocebus pygerythrus,species,vervet monkey,species
+Nkhotakota Camera Traps,vervet_monkey,chlorocebus pygerythrus,species,vervet monkey,species
+Snapshot Camdeboo,monkeyvervet,chlorocebus pygerythrus,species,vervet monkey,species
+Snapshot Enonkishu,monkeyvervet,chlorocebus pygerythrus,species,vervet monkey,species
+Snapshot Karoo,monkeyvervet,chlorocebus pygerythrus,species,vervet monkey,species
+Snapshot Kruger,monkeyvervet,chlorocebus pygerythrus,species,vervet monkey,species
+Snapshot Mountain Zebra,monkeyvervet,chlorocebus pygerythrus,species,vervet monkey,species
+Snapshot Safari 2024 Expansion,monkeyvervet,chlorocebus pygerythrus,species,vervet monkey,species
+Snapshot Serengeti,monkeyvervet,chlorocebus pygerythrus,species,vervet monkey,species
+WCS Camera Traps,chlorocebus pygerythrus,chlorocebus pygerythrus,species,vervet monkey,species
+Biome Health Project Maasai Mara 2018,waterbuck,kobus ellipsiprymnus,species,waterbuck,species
+Nkhotakota Camera Traps,common_waterbuck,kobus ellipsiprymnus ellipsiprymnus,subspecies,waterbuck,species
+Snapshot Enonkishu,waterbuck,kobus ellipsiprymnus,species,waterbuck,species
+Snapshot Kruger,waterbuck,kobus ellipsiprymnus,species,waterbuck,species
+Snapshot Safari 2024 Expansion,waterbuck,kobus ellipsiprymnus,species,waterbuck,species
+Snapshot Serengeti,waterbuck,kobus ellipsiprymnus,species,waterbuck,species
+WCS Camera Traps,kobus ellipsiprymnus,kobus ellipsiprymnus,species,waterbuck,species
+California Small Animals,stoat,mustela erminea,species,weasel species,genus
+California Small Animals,weasel species,mustela nivalis vulgaris,subspecies,weasel species,genus
+Idaho Camera Traps,ermine,mustela erminea,species,weasel species,genus
+NACTI,mustela erminea,mustela erminea,species,weasel species,genus
+Orinoquia Camera Traps,unknown_weasel,mustela,genus,weasel species,genus
+SWG Camera Traps,back_striped_weasel,mustela strigidorsa,species,weasel species,genus
+SWG Camera Traps,unidentified_weasel,mustela,genus,weasel species,genus
+SWG Camera Traps,yellow_bellied_weasel,mustela kathiah,species,weasel species,genus
+Trail Camera Images of New Zealand Animals,ferret,mustela furo,species,weasel species,genus
+Trail Camera Images of New Zealand Animals,stoat,mustela erminea,species,weasel species,genus
+Trail Camera Images of New Zealand Animals,weasel,mustela nivalis,species,weasel species,genus
+WCS Camera Traps,mustela kathiah,mustela kathiah,species,weasel species,genus
+WCS Camera Traps,mustela lutreolina,mustela lutreolina,species,weasel species,genus
+WCS Camera Traps,mustela strigidorsa,mustela strigidorsa,species,weasel species,genus
+California Small Animals,western gray squirrel,sciurus griseus,species,western gray squirrel,species
+Felidae Conservation Fund 2020-2025,western grey squirrel,sciurus griseus,species,western gray squirrel,species
+Oregon Critters,western gray squirrel,sciurus griseus,species,western gray squirrel,species
+Missouri Camera Traps,white-nosed_coati,nasua narica,species,white-nosed coati,species
+WCS Camera Traps,nasua narica,nasua narica,species,white-nosed coati,species
+ENA24,white_tailed_deer,odocoileus virginianus,species,white-tailed deer,species
+Missouri Camera Traps,white_tailed_deer,odocoileus virginianus,species,white-tailed deer,species
+NACTI,odocoileus virginianus,odocoileus virginianus,species,white-tailed deer,species
+Orinoquia Camera Traps,white-tailed_deer,odocoileus virginianus,species,white-tailed deer,species
+Trail Camera Images of New Zealand Animals,white_tailed_deer,odocoileus virginianus,species,white-tailed deer,species
+WCS Camera Traps,odocoileus virginianus,odocoileus virginianus,species,white-tailed deer,species
+WSU Lynx,odocoileus virginianus,odocoileus virginianus,species,white-tailed deer,species
+California Small Animals,wild boar,sus scrofa,species,wild boar,species
+Caltech Camera Traps,pig,sus scrofa,species,wild boar,species
+Felidae Conservation Fund 2020-2025,wild boar,sus scrofa,species,wild boar,species
+Island Conservation Camera Traps,pig,sus scrofa,species,wild boar,species
+Missouri Camera Traps,wild_boar,sus scrofa,species,wild boar,species
+NACTI,sus scrofa,sus scrofa,species,wild boar,species
+SWG Camera Traps,eurasian_wild_pig,sus scrofa,species,wild boar,species
+Trail Camera Images of New Zealand Animals,pig,sus scrofa,species,wild boar,species
+WCS Camera Traps,sus scrofa,sus scrofa,species,wild boar,species
+Wellington Camera Traps,pig,sus scrofa,species,wild boar,species
+WCS Camera Traps,felis silvestris,felis silvestris,species,wild cat,species
+ENA24,woodchuck,marmota monax,species,woodchuck,species
+Ohio Small Animals,woodchuck,marmota monax,species,woodchuck,species
+NACTI,marmota flaviventris,marmota flaviventris,species,yellow-bellied marmot,species
+WSU Lynx,marmota flaviventris,marmota flaviventris,species,yellow-bellied marmot,species
