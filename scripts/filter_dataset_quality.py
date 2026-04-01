@@ -597,70 +597,122 @@ def cmd_megadetector(args):
 
     try:
         import torch
+        from torch.utils.data import Dataset, DataLoader
         from PytorchWildlife.models import detection as pw_detection
-    except ImportError:
-        print("ERROR: pytorchwildlife not installed.\n"
+        from yolov5.utils.general import non_max_suppression, scale_boxes
+    except ImportError as exc:
+        print(f"ERROR: missing dependency: {exc}\n"
               "  Run: pip install pytorchwildlife")
         sys.exit(1)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"  Device: {device}")
     model = pw_detection.MegaDetectorV5(device=device, pretrained=True)
+    model.model.eval()
 
     conf_thresh = args.conf
     batch_size  = args.batch_size
+    num_workers = args.num_workers
 
     # Index entries for fast lookup
     entry_map = {e["filepath"]: e for e in pending}
-    paths     = list(entry_map)
+    rel_paths  = list(entry_map)
+    abs_paths  = [str(REPO_ROOT / p) for p in rel_paths]
 
-    failed = 0
-    for i in tqdm(range(0, len(paths), batch_size), desc="MegaDetector batches"):
-        batch_rels = paths[i : i + batch_size]
-        batch_abs  = [str(REPO_ROOT / p) for p in batch_rels]
+    # Custom dataset: accepts a flat list of file paths rather than a directory,
+    # bypassing pytorchwildlife's batch_image_detection which hardcodes num_workers=0
+    # and expects a directory string (causing silent fallback to per-image inference).
+    class _FileListDataset(Dataset):
+        def __init__(self, paths, transform):
+            self.paths = paths
+            self.transform = transform
 
-        try:
+        def __len__(self):
+            return len(self.paths)
+
+        def __getitem__(self, idx):
+            p = self.paths[idx]
+            img = Image.open(p).convert("RGB")
+            size = torch.tensor(img.size[::-1])  # (H, W)
+            if self.transform:
+                img = self.transform(img)
+            return img, p, size
+
+    dataset = _FileListDataset(abs_paths, model.transform)
+    loader  = DataLoader(
+        dataset,
+        batch_size=batch_size,
+        num_workers=num_workers,
+        pin_memory=(device == "cuda"),
+        prefetch_factor=2 if num_workers > 0 else None,
+        persistent_workers=(num_workers > 0),
+        shuffle=False,
+        drop_last=False,
+    )
+
+    failed   = 0
+    img_size = model.IMAGE_SIZE  # typically 1280 for MDv5
+    save_interval = max(1, 500 // batch_size)  # flush to disk roughly every 500 images
+
+    with torch.no_grad():
+        for batch_idx, (imgs, batch_abs, sizes) in enumerate(
+                tqdm(loader, desc="MegaDetector batches")):
+            imgs = imgs.to(device, non_blocking=True)
             with torch.autocast("cuda", enabled=(device == "cuda")):
-                results = model.batch_image_detection(batch_abs, batch_size=len(batch_abs))
-        except Exception as e:
-            # Fall back to per-image inference on batch error
-            results = []
-            for ap in batch_abs:
-                try:
-                    results.append(model.single_image_detection(ap))
-                except Exception:
-                    results.append(None)
+                raw = model.model(imgs)[0]
+            raw = raw.float().detach().cpu()
+            preds = non_max_suppression(raw, conf_thres=conf_thresh)
 
-        for rel, result in zip(batch_rels, results):
-            entry = entry_map[rel]
-            entry.setdefault("stages_done", []).append("megadetector")
+            for i, pred in enumerate(preds):
+                abs_p = batch_abs[i]
+                rel_p = str(Path(abs_p).relative_to(REPO_ROOT))
+                entry = entry_map[rel_p]
+                entry.setdefault("stages_done", []).append("megadetector")
 
-            if result is None:
-                entry["passed"]       = False
-                entry["stage_failed"] = "megadetector"
-                entry["reason"]       = "inference error"
-                failed += 1
-                continue
+                if pred is None or len(pred) == 0:
+                    entry["passed"]       = False
+                    entry["stage_failed"] = "megadetector"
+                    entry["reason"]       = f"no animal detected (conf ≥ {conf_thresh})"
+                    failed += 1
+                    continue
 
-            dets = _parse_md_result(result, conf_thresh, REPO_ROOT / rel)
-            if not dets:
-                entry["passed"]       = False
-                entry["stage_failed"] = "megadetector"
-                entry["reason"]       = f"no animal detected (conf ≥ {conf_thresh})"
-                failed += 1
-                continue
+                H, W = sizes[i].tolist()
+                pred_np = pred.numpy().copy()
+                pred_np[:, :4] = scale_boxes(
+                    [img_size] * 2, pred_np[:, :4], (H, W)
+                ).round()
 
-            best = max(dets, key=lambda d: d["conf"])
-            bbox = megadetector_to_yolo(best["bbox"])
-            if bbox_area(bbox) < MD_BBOX_MIN_AREA:
-                entry["passed"]       = False
-                entry["stage_failed"] = "megadetector"
-                entry["reason"]       = f"animal bbox area {bbox_area(bbox):.4f} < {MD_BBOX_MIN_AREA}"
-                failed += 1
-                continue
+                # Filter class 0 (animal) detections
+                animal_dets = [
+                    {"bbox": [float(x1/W), float(y1/H),
+                               float((x2-x1)/W), float((y2-y1)/H)],
+                     "conf": float(c)}
+                    for x1, y1, x2, y2, c, cls in pred_np
+                    if int(cls) == 0
+                ]
 
-            entry["bbox"]      = bbox
-            entry["bbox_conf"] = best["conf"]
+                if not animal_dets:
+                    entry["passed"]       = False
+                    entry["stage_failed"] = "megadetector"
+                    entry["reason"]       = f"no animal detected (conf ≥ {conf_thresh})"
+                    failed += 1
+                    continue
+
+                best = max(animal_dets, key=lambda d: d["conf"])
+                bbox = megadetector_to_yolo(best["bbox"])
+                if bbox_area(bbox) < MD_BBOX_MIN_AREA:
+                    entry["passed"]       = False
+                    entry["stage_failed"] = "megadetector"
+                    entry["reason"]       = (f"animal bbox area {bbox_area(bbox):.4f}"
+                                             f" < {MD_BBOX_MIN_AREA}")
+                    failed += 1
+                    continue
+
+                entry["bbox"]      = bbox
+                entry["bbox_conf"] = best["conf"]
+
+            if (batch_idx + 1) % save_interval == 0:
+                save_results(path, entries)
 
     save_results(path, entries)
     passed_count = len(pending) - failed
@@ -934,8 +986,10 @@ def main():
     p = sub.add_parser("megadetector",
                        help="MegaDetector v5 inference for animal detection + bbox generation")
     p.add_argument("--source", choices=SOURCES, required=True)
-    p.add_argument("--batch-size", type=int, default=16, metavar="N",
-                   help="Images per GPU batch (default: 16)")
+    p.add_argument("--batch-size", type=int, default=32, metavar="N",
+                   help="Images per GPU batch (default: 32)")
+    p.add_argument("--num-workers", type=int, default=4, metavar="N",
+                   help="DataLoader CPU worker processes for image prefetching (default: 4)")
     p.add_argument("--conf", type=float, default=MD_CONF_DEFAULT, metavar="T",
                    help=f"Animal detection confidence threshold (default: {MD_CONF_DEFAULT})")
     p.add_argument("--force", action="store_true",
