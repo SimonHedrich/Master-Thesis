@@ -25,8 +25,8 @@ Output line format (one JSON object per line):
   }
 
 Source overview:
-  gbif        — resources/GBIFImages/images/  (MegaDetector bboxes in SNPredictions_all.json)
-  inaturalist — data/inaturalist/images/       (quality_grade in condensed observations.csv)
+  gbif        — data/gbif/images/  (MegaDetector bboxes in SNPredictions_all.json)
+  inaturalist — data/inaturalist/images/       (quality_grade in observations.csv)
   wikimedia   — data/wikimedia/images/         (dimensions/mime in metadata.csv)
   lila_bc     — data/lila_bc/images/           (COCO-format bboxes in filtered_images_225.json)
   openimages  — data/supplementary_openimages/images/ (bboxes in metadata_catalog.csv)
@@ -64,12 +64,12 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 # ── Per-source paths ──────────────────────────────────────────────────────────
 
-GBIF_IMAGES_DIR       = REPO_ROOT / "resources" / "GBIFImages" / "images"
-GBIF_PREDICTIONS_JSON = REPO_ROOT / "resources" / "SNPredictions_all.json"
+GBIF_IMAGES_DIR       = REPO_ROOT / "data" / "gbif" / "images"
+GBIF_PREDICTIONS_JSON = REPO_ROOT / "data" / "gbif" / "metadata" / "SNPredictions_all.json"
 
 INAT_IMAGES_DIR       = REPO_ROOT / "data" / "inaturalist" / "images"
-INAT_PHOTOS_CSV       = REPO_ROOT / "data" / "inaturalist" / "metadata" / "condensed" / "photos.csv"
-INAT_OBS_CSV          = REPO_ROOT / "data" / "inaturalist" / "metadata" / "condensed" / "observations.csv"
+INAT_PHOTOS_CSV       = REPO_ROOT / "data" / "inaturalist" / "metadata" / "photos.csv"
+INAT_OBS_CSV          = REPO_ROOT / "data" / "inaturalist" / "metadata" / "observations.csv"
 
 WIKI_IMAGES_DIR       = REPO_ROOT / "data" / "wikimedia" / "images"
 WIKI_METADATA_CSV     = REPO_ROOT / "data" / "wikimedia" / "metadata.csv"
@@ -84,7 +84,7 @@ OI_CATALOG_CSV        = OI_DIR / "metadata_catalog.csv"
 
 # filter_results.jsonl lives next to the images dir for each source
 RESULTS_PATHS = {
-    "gbif":        REPO_ROOT / "resources" / "GBIFImages" / "filter_results.jsonl",
+    "gbif":        REPO_ROOT / "data" / "gbif" / "filter_results.jsonl",
     "inaturalist": REPO_ROOT / "data" / "inaturalist" / "filter_results.jsonl",
     "wikimedia":   REPO_ROOT / "data" / "wikimedia" / "filter_results.jsonl",
     "lila_bc":     REPO_ROOT / "data" / "lila_bc" / "filter_results.jsonl",
@@ -225,10 +225,17 @@ def _meta_gbif() -> list:
         data = json.load(f)
     predictions = data["predictions"]
 
+    # Images are stored in per-species subdirectories; build a filename→rel-path index
+    print("Indexing GBIF images on disk …")
+    filename_to_rel: dict[str, str] = {}
+    for img in GBIF_IMAGES_DIR.rglob("*"):
+        if img.is_file():
+            filename_to_rel[img.name] = img.relative_to(REPO_ROOT).as_posix()
+
     entries = []
     for pred in tqdm(predictions, desc="GBIF metadata", unit=" images"):
-        rel = f"resources/GBIFImages/images/{pred['filepath']}"
-        if not (REPO_ROOT / rel).exists():
+        rel = filename_to_rel.get(pred["filepath"])
+        if rel is None:
             continue   # not downloaded
 
         src = pred.get("prediction_source", "")

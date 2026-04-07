@@ -227,12 +227,15 @@ def main():
                         help="Skip images narrower than this (default: 300 px)")
     parser.add_argument("--workers", type=int, default=4,
                         help="Parallel download threads (default: 4, set to 1 to disable)")
+    parser.add_argument("--retry-failed", action="store_true",
+                        help="Ignore the failed-titles log and retry previously failed downloads")
     args = parser.parse_args()
 
     manifest_dir = Path(args.manifest_dir)
     output_dir = Path(args.output_dir)
     images_dir = output_dir / "images"
     metadata_csv = output_dir / "metadata.csv"
+    failed_log = output_dir / "failed_titles.txt"
 
     # Load all manifests
     print("Loading manifests…", flush=True)
@@ -242,18 +245,28 @@ def main():
         sys.exit(1)
     print(f"  {len(all_records):,} unique file titles across all labels")
 
+    # Load previously failed filenames so we don't waste API calls on them
+    failed_filenames: set[str] = set()
+    if not args.retry_failed and failed_log.exists():
+        failed_filenames = {line.strip() for line in failed_log.read_text(encoding="utf-8").splitlines() if line.strip()}
+        if failed_filenames:
+            print(f"  {len(failed_filenames):,} previously failed titles skipped (use --retry-failed to retry)")
+
     # Determine which files still need downloading
     pending = []
     already_done = 0
+    skipped_failed = 0
     for rec in all_records:
         filename = title_to_filename(rec["title"])
         dest = images_dir / rec["label_dir"] / filename
         if dest.exists():
             already_done += 1
+        elif filename in failed_filenames:
+            skipped_failed += 1
         else:
             pending.append(rec)
 
-    print(f"  {already_done:,} already downloaded, {len(pending):,} pending")
+    print(f"  {already_done:,} already downloaded, {skipped_failed:,} skipped (failed), {len(pending):,} pending")
 
     if not pending:
         print("Nothing to download.")
@@ -266,138 +279,148 @@ def main():
 
     skipped_license = 0
     skipped_size = 0
-
-    # Process in batches of 50 (Wikimedia API limit for multi-title queries)
-    batch_size = 50
-    batches = [pending[i:i + batch_size] for i in range(0, len(pending), batch_size)]
-
-    # ── Phase 1: fetch metadata via API, build download queue ─────────────────
-    download_queue: list[tuple[Path, str, dict]] = []  # (dest, url, row)
-
-    print("Fetching image metadata from API…", flush=True)
-    with tqdm(total=len(pending), desc="API", unit="file") as pbar:
-        for batch in batches:
-            titles = [rec["title"] for rec in batch]
-            def _norm_title(t):
-                return t.replace("_", " ")
-
-            rec_by_title = {_norm_title(rec["title"]): rec for rec in batch}
-
-            info_map = fetch_imageinfo_batch(session, titles, rate_limiter)
-
-            for title, info in info_map.items():
-                rec = rec_by_title.get(_norm_title(title))
-                if rec is None:
-                    pbar.update(1)
-                    continue
-
-                mime = info.get("mime", "")
-                if mime not in ("image/jpeg", "image/png", "image/webp", "image/tiff", "image/gif"):
-                    pbar.update(1)
-                    continue
-
-                width = info.get("width", 0)
-                if width < args.min_width:
-                    skipped_size += 1
-                    pbar.update(1)
-                    continue
-
-                ext = info.get("extmetadata", {})
-                lic_short = extract_extmetadata(ext, "LicenseShortName").strip()
-                if not lic_short or lic_short.lower() not in WIKI_SAFE_LICENSES:
-                    skipped_license += 1
-                    pbar.update(1)
-                    continue
-
-                url = info.get("url", "")
-                if not url:
-                    pbar.update(1)
-                    continue
-
-                filename = title_to_filename(title)
-                dest = images_dir / rec["label_dir"] / filename
-
-                if dest.exists():
-                    pbar.update(1)
-                    continue
-
-                row = {
-                    "filename": filename,
-                    "title": title,
-                    "url": url,
-                    "description_url": info.get("descriptionurl", ""),
-                    "label": rec["label"],
-                    "scientific_name": rec["scientific"],
-                    "genus": rec["genus"],
-                    "species": rec["species"],
-                    "wikimedia_category": rec["category"],
-                    "label_dir": rec["label_dir"],
-                    "width": width,
-                    "height": info.get("height", ""),
-                    "mime": mime,
-                    "size_bytes": info.get("size", ""),
-                    "upload_timestamp": info.get("timestamp", ""),
-                    "uploader": info.get("user", ""),
-                    "license_short": lic_short,
-                    "license_url": extract_extmetadata(ext, "LicenseUrl"),
-                    "artist": sanitize_csv_field(extract_extmetadata(ext, "Artist")),
-                    "image_description": sanitize_csv_field(extract_extmetadata(ext, "ImageDescription")),
-                    "date_taken": sanitize_csv_field(extract_extmetadata(ext, "DateTimeOriginal")),
-                    "gps_lat": extract_extmetadata(ext, "GPSLatitude"),
-                    "gps_lon": extract_extmetadata(ext, "GPSLongitude"),
-                }
-                download_queue.append((dest, url, row))
-                pbar.update(1)
-
-            # Titles not returned by the API
-            returned_titles = set(info_map.keys())
-            for rec in batch:
-                if rec["title"] not in returned_titles:
-                    pbar.update(1)
-
-    print(f"  {len(download_queue):,} images queued for download")
-
-    # ── Phase 2: download images (parallel or sequential) ────────────────────
     downloaded = 0
     failed = 0
 
+    def _norm_title(t: str) -> str:
+        return t.replace("_", " ")
+
     def _download_one(dest: Path, url: str, row: dict) -> bool:
         ok = download_image(url, dest)
-        if ok:
-            with catalog_lock:
+        with catalog_lock:
+            if ok:
                 catalog.append(row)
+            else:
+                with open(failed_log, "a", encoding="utf-8") as f:
+                    f.write(row["filename"] + "\n")
         return ok
 
     workers = max(1, args.workers)
     parallel = workers > 1
     mode_str = f"parallel, {workers} workers" if parallel else "sequential"
-    print(f"Downloading ({mode_str})…", flush=True)
 
-    with tqdm(total=len(download_queue), desc="Download", unit="img") as pbar:
-        if parallel:
-            with ThreadPoolExecutor(max_workers=workers) as executor:
-                futures = {
-                    executor.submit(_download_one, dest, url, row): (dest, url)
-                    for dest, url, row in download_queue
-                }
-                for future in as_completed(futures):
-                    try:
-                        ok = future.result()
-                    except Exception:
-                        ok = False
-                    if ok:
-                        downloaded += 1
-                    else:
-                        failed += 1
-                    pbar.update(1)
-        else:
-            for dest, url, row in download_queue:
-                ok = _download_one(dest, url, row)
-                if ok:
-                    downloaded += 1
+    # Process in batches of 50 (Wikimedia API limit for multi-title queries).
+    # Each batch fetches metadata, downloads images, and writes to CSV before
+    # moving on — so progress is saved continuously and restarts skip already-
+    # downloaded files without redoing any API work.
+    batch_size = 50
+    batches = [pending[i:i + batch_size] for i in range(0, len(pending), batch_size)]
+
+    print(f"Fetching metadata and downloading ({mode_str})…", flush=True)
+    with tqdm(total=len(pending), desc="Progress", unit="file") as pbar:
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            for batch in batches:
+                titles = [rec["title"] for rec in batch]
+                rec_by_title = {_norm_title(rec["title"]): rec for rec in batch}
+
+                info_map = fetch_imageinfo_batch(session, titles, rate_limiter)
+
+                # Build download queue for this batch
+                batch_queue: list[tuple[Path, str, dict]] = []
+                for title, info in info_map.items():
+                    rec = rec_by_title.get(_norm_title(title))
+                    if rec is None:
+                        pbar.update(1)
+                        continue
+
+                    mime = info.get("mime", "")
+                    if mime not in ("image/jpeg", "image/png", "image/webp", "image/tiff", "image/gif"):
+                        pbar.update(1)
+                        continue
+
+                    width = info.get("width", 0)
+                    if width < args.min_width:
+                        skipped_size += 1
+                        pbar.update(1)
+                        continue
+
+                    ext = info.get("extmetadata", {})
+                    lic_short = extract_extmetadata(ext, "LicenseShortName").strip()
+                    if not lic_short or lic_short.lower() not in WIKI_SAFE_LICENSES:
+                        skipped_license += 1
+                        pbar.update(1)
+                        continue
+
+                    url = info.get("url", "")
+                    if not url:
+                        pbar.update(1)
+                        continue
+
+                    filename = title_to_filename(title)
+                    dest = images_dir / rec["label_dir"] / filename
+
+                    if dest.exists():
+                        pbar.update(1)
+                        continue
+
+                    row = {
+                        "filename": filename,
+                        "title": title,
+                        "url": url,
+                        "description_url": info.get("descriptionurl", ""),
+                        "label": rec["label"],
+                        "scientific_name": rec["scientific"],
+                        "genus": rec["genus"],
+                        "species": rec["species"],
+                        "wikimedia_category": rec["category"],
+                        "label_dir": rec["label_dir"],
+                        "width": width,
+                        "height": info.get("height", ""),
+                        "mime": mime,
+                        "size_bytes": info.get("size", ""),
+                        "upload_timestamp": info.get("timestamp", ""),
+                        "uploader": info.get("user", ""),
+                        "license_short": lic_short,
+                        "license_url": extract_extmetadata(ext, "LicenseUrl"),
+                        "artist": sanitize_csv_field(extract_extmetadata(ext, "Artist")),
+                        "image_description": sanitize_csv_field(extract_extmetadata(ext, "ImageDescription")),
+                        "date_taken": sanitize_csv_field(extract_extmetadata(ext, "DateTimeOriginal")),
+                        "gps_lat": extract_extmetadata(ext, "GPSLatitude"),
+                        "gps_lon": extract_extmetadata(ext, "GPSLongitude"),
+                    }
+                    batch_queue.append((dest, url, row))
+
+                # Titles not returned by the API
+                returned_titles = set(info_map.keys())
+                for rec in batch:
+                    if rec["title"] not in returned_titles:
+                        pbar.update(1)
+
+                # Log all batch titles that weren't queued (not returned by API,
+                # wrong MIME, too small, bad license, empty URL) so they're
+                # skipped on re-runs instead of re-fetched every time.
+                queued_filenames = {row["filename"] for _, _, row in batch_queue}
+                with open(failed_log, "a", encoding="utf-8") as flog:
+                    for rec in batch:
+                        filename = title_to_filename(rec["title"])
+                        dest = images_dir / rec["label_dir"] / filename
+                        if filename not in queued_filenames and not dest.exists():
+                            flog.write(filename + "\n")
+
+                # Download this batch (parallel or sequential), then continue
+                if parallel:
+                    futures = {
+                        executor.submit(_download_one, dest, url, row): (dest, url)
+                        for dest, url, row in batch_queue
+                    }
+                    for future in as_completed(futures):
+                        try:
+                            ok = future.result()
+                        except Exception:
+                            ok = False
+                        if ok:
+                            downloaded += 1
+                        else:
+                            failed += 1
+                        pbar.update(1)
                 else:
-                    failed += 1
-                pbar.update(1)
+                    for dest, url, row in batch_queue:
+                        ok = _download_one(dest, url, row)
+                        if ok:
+                            downloaded += 1
+                        else:
+                            failed += 1
+                        pbar.update(1)
 
     catalog.close()
 
@@ -405,7 +428,7 @@ def main():
     print(f"  Downloaded : {downloaded:,}")
     print(f"  License-filtered : {skipped_license:,}")
     print(f"  Too small (<{args.min_width}px) : {skipped_size:,}")
-    print(f"  Failed : {failed:,}")
+    print(f"  Failed : {failed:,} (logged to {failed_log})")
     print(f"  Images  : {images_dir}/")
     print(f"  Metadata: {metadata_csv}")
 

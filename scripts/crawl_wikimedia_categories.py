@@ -30,6 +30,7 @@ from download_supplementary import (
     REPO_ROOT,
     USER_AGENT,
     WIKI_API,
+    WIKIMEDIA_CATEGORY_OVERRIDES,
     RateLimiter,
     load_family_species_mapping,
     load_genus_species_mapping,
@@ -192,10 +193,16 @@ def build_root_categories(labels, genus_map, family_map=None):
         species = entry["species"]
         categories = []
 
+        # Check manual override first (colloquial/common-name categories on Commons)
+        override_cats = WIKIMEDIA_CATEGORY_OVERRIDES.get(cn)
+        if override_cats:
+            categories = list(override_cats)
+
         if genus and species:
-            # Species-level: Category:Genus_species
-            cat = f"Category:{genus.capitalize()}_{species.lower()}"
-            categories.append(cat)
+            # Species-level: Category:Genus_species (spaces → underscores for subspecies trinomials)
+            cat = f"Category:{genus.capitalize()}_{species.lower().replace(' ', '_')}"
+            if cat not in categories:
+                categories.append(cat)
         elif genus:
             # Genus-level: Category:Genus
             categories.append(f"Category:{genus.capitalize()}")

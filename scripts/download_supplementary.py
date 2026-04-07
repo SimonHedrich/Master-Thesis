@@ -130,6 +130,16 @@ OPENIMAGES_OVERRIDES = {
     "capybara": "Capybara",
 }
 
+# Manual overrides: our label name -> list of Wikimedia Commons category titles to crawl
+# Use this when the auto-generated Category:Genus_species name doesn't exist on Commons
+# or points to the wrong/empty category (e.g. subspecies with colloquial category names,
+# family-level clades with different English forms, etc.)
+WIKIMEDIA_CATEGORY_OVERRIDES = {
+    "dingo": ["Category:Dingoes"],
+    # Category:Pinnipeds has 0 files; try the Latin taxonomic name used on Commons
+    "pinniped clade": ["Category:Pinnipedia"],
+}
+
 # ── COCO Label Mapping ────────────────────────────────────────────────────────
 
 # COCO category name -> list of our label common_names that map to it
