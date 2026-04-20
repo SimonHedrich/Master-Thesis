@@ -7,7 +7,7 @@ Each sample shows:
   - Fields: stage_failed, reason, bbox_conf, stages_done, vlm_caption (Wikimedia only)
 
 Usage:
-  python scripts/visualize_filter_results.py [--source wikimedia]
+  python scripts/dataset_quality/visualize_filter_results.py [--source wikimedia]
 
 Sources: wikimedia (default), gbif, inaturalist, openimages, lila_bc
 """
@@ -19,7 +19,7 @@ from pathlib import Path
 import fiftyone as fo
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 RESULTS_PATHS = {
     "wikimedia":  "data/wikimedia/filter_results.jsonl",

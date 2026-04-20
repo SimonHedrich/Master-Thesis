@@ -6,9 +6,9 @@ review and remove categories that aren't useful for training (anatomy, art, maps
 before using the curated files to download images.
 
 Usage:
-    python scripts/crawl_wikimedia_categories.py
-    python scripts/crawl_wikimedia_categories.py --max-depth 2 --rate-limit 0.3
-    python scripts/crawl_wikimedia_categories.py --resume
+    python scripts/wikimedia/1-crawl_wikimedia_categories.py
+    python scripts/wikimedia/1-crawl_wikimedia_categories.py --max-depth 2 --rate-limit 0.3
+    python scripts/wikimedia/1-crawl_wikimedia_categories.py --resume
 
 Requirements:
     pip install requests tqdm
@@ -22,7 +22,7 @@ from pathlib import Path
 import requests
 
 # Import shared utilities from download_supplementary
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from download_supplementary import (
     FAMILY_SPECIES_MAP,
     GENUS_SPECIES_MAP,

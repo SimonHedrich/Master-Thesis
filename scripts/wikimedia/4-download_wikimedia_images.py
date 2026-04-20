@@ -15,9 +15,9 @@ The metadata.csv is opened in append mode; already-downloaded images will not
 get duplicate rows as long as the file exists when the script starts.
 
 Usage:
-    python scripts/download_wikimedia_images.py
-    python scripts/download_wikimedia_images.py --rate-limit 0.5 --min-width 400
-    python scripts/download_wikimedia_images.py --manifest-dir reports/wikimedia_file_manifests
+    python scripts/wikimedia/4-download_wikimedia_images.py
+    python scripts/wikimedia/4-download_wikimedia_images.py --rate-limit 0.5 --min-width 400
+    python scripts/wikimedia/4-download_wikimedia_images.py --manifest-dir reports/wikimedia_file_manifests
 
 Requirements:
     pip install requests tqdm
@@ -35,17 +35,18 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from _image_utils import save_as_jpg
 from download_supplementary import RateLimiter, USER_AGENT, WIKI_API, WIKI_SAFE_LICENSES
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 MANIFEST_DIR = REPO_ROOT / "reports" / "wikimedia_file_manifests"
 OUTPUT_DIR = REPO_ROOT / "data" / "wikimedia"
 IMAGES_DIR = OUTPUT_DIR / "images"
 METADATA_CSV = OUTPUT_DIR / "metadata.csv"
 
 METADATA_FIELDS = [
-    "filename", "title", "url", "description_url",
+    "filename", "local_filename", "title", "url", "description_url",
     "label", "scientific_name", "genus", "species",
     "wikimedia_category", "label_dir",
     "width", "height", "mime", "size_bytes",
@@ -171,7 +172,7 @@ def sanitize_csv_field(value: str) -> str:
 # ── Image download ────────────────────────────────────────────────────────────
 
 def download_image(url: str, dest: Path, timeout: int = 60) -> bool:
-    """Download a single image. Returns True on success."""
+    """Download a single image and convert to JPEG. Returns True on success."""
     if dest.exists():
         return True
     try:
@@ -179,11 +180,7 @@ def download_image(url: str, dest: Path, timeout: int = 60) -> bool:
         resp.raise_for_status()
         if len(resp.content) < 100:
             return False
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        # Write to .tmp first to avoid partial files on interruption
-        tmp = dest.with_suffix(dest.suffix + ".tmp")
-        tmp.write_bytes(resp.content)
-        tmp.rename(dest)
+        save_as_jpg(resp.content, dest)
         return True
     except Exception:
         return False
@@ -258,7 +255,8 @@ def main():
     skipped_failed = 0
     for rec in all_records:
         filename = title_to_filename(rec["title"])
-        dest = images_dir / rec["label_dir"] / filename
+        local_filename = Path(filename).stem + ".jpg"
+        dest = images_dir / rec["label_dir"] / local_filename
         if dest.exists():
             already_done += 1
         elif filename in failed_filenames:
@@ -347,7 +345,8 @@ def main():
                         continue
 
                     filename = title_to_filename(title)
-                    dest = images_dir / rec["label_dir"] / filename
+                    local_filename = Path(filename).stem + ".jpg"
+                    dest = images_dir / rec["label_dir"] / local_filename
 
                     if dest.exists():
                         pbar.update(1)
@@ -355,6 +354,7 @@ def main():
 
                     row = {
                         "filename": filename,
+                        "local_filename": local_filename,
                         "title": title,
                         "url": url,
                         "description_url": info.get("descriptionurl", ""),
@@ -393,7 +393,8 @@ def main():
                 with open(failed_log, "a", encoding="utf-8") as flog:
                     for rec in batch:
                         filename = title_to_filename(rec["title"])
-                        dest = images_dir / rec["label_dir"] / filename
+                        local_filename = Path(filename).stem + ".jpg"
+                        dest = images_dir / rec["label_dir"] / local_filename
                         if filename not in queued_filenames and not dest.exists():
                             flog.write(filename + "\n")
 

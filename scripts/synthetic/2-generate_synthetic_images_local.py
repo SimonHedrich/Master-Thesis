@@ -16,18 +16,18 @@ Images are saved to: data/synthetic/<class_name>/
 
 Usage:
     # Single model
-    python scripts/generate_synthetic_images_local.py \\
+    python scripts/synthetic/2-generate_synthetic_images_local.py \\
         --class-name "binturong" \\
         --description "The binturong is long and heavy..." \\
         --n-images 5 \\
         --model flux-schnell
 
     # Run all three models sequentially (for easy comparison)
-    python scripts/generate_synthetic_images_local.py \\
-        --class-name "red_fox" \\
-        --description "..." \\
-        --n-images 3 \\
-        --model all
+python scripts/synthetic/2-generate_synthetic_images_local.py \\
+--class-name "red_fox" \\
+--description "..." \\
+--n-images 3 \\
+--model all
 
 Requirements:
     pip install torch torchvision diffusers transformers accelerate \\
@@ -53,22 +53,23 @@ from PIL import Image
 # Configuration
 # ---------------------------------------------------------------------------
 
-OUTPUT_BASE = Path(__file__).parent.parent / "data" / "synthetic"
+OUTPUT_BASE = Path(__file__).parent.parent.parent / "data" / "synthetic"
 
 AVAILABLE_MODELS = ("flux-schnell", "realvisxl-lightning", "sd35m")
 
 # Shared wildlife photography style suffix (mirrors the OpenRouter script).
 STYLE_SUFFIX = (
     "Professional wildlife photograph. Telephoto lens, sharp focus on the animal, "
-    "natural lighting, photorealistic, high resolution. The animal is the main subject "
-    "filling most of the frame. Natural habitat background."
+    "natural lighting, photorealistic, high resolution. Full body of the animal visible, "
+    "entire animal from head to tail fits within the frame. Natural habitat background."
 )
 
 # Negative prompt used by SDXL- and SD3-family models (FLUX does not use one).
 NEGATIVE_PROMPT = (
     "text, watermark, cartoon, illustration, painting, drawing, art, sketch, animated, CGI, render, "
     "3D, unrealistic, low quality, blurry, watermark, text, logo, multiple animals, "
-    "duplicate, deformed, ugly, bad anatomy, unnatural pose"
+    "duplicate, deformed, ugly, bad anatomy, unnatural pose, "
+    "close-up, closeup, portrait, head shot, face only, cropped body, partial animal, cut off limbs"
 )
 
 # ---------------------------------------------------------------------------
@@ -83,6 +84,34 @@ def build_prompt(class_name: str, description: str, max_chars: int = 800) -> str
         f"Species characteristics: {excerpt}. "
         f"{STYLE_SUFFIX}"
     )
+
+
+def build_clip_safe_prompt(class_name: str, description: str, tokenizer) -> str:
+    """Build a prompt that fits within CLIP's 77-token limit.
+
+    Trims the description to preserve the full style suffix, which has more
+    impact on image quality than extra description tokens.
+    """
+    MAX_TOKENS = 77
+    prefix = f"Realistic wildlife photograph of a {class_name}. Species characteristics: "
+    suffix = f". {STYLE_SUFFIX}"
+
+    prefix_ids = tokenizer.encode(prefix, add_special_tokens=False)
+    suffix_ids = tokenizer.encode(suffix, add_special_tokens=False)
+    available = MAX_TOKENS - 2 - len(prefix_ids) - len(suffix_ids)  # 2 for BOS/EOS
+
+    if available <= 0:
+        # Prefix + suffix already exceed limit — hard-truncate the full prompt
+        full = f"{prefix}{description.strip()}{suffix}"
+        ids = tokenizer.encode(full, add_special_tokens=True)[:MAX_TOKENS]
+        return tokenizer.decode(ids, skip_special_tokens=True)
+
+    desc_ids = tokenizer.encode(description.strip(), add_special_tokens=False)
+    if len(desc_ids) > available:
+        desc_ids = desc_ids[:available]
+        description = tokenizer.decode(desc_ids)
+
+    return f"{prefix}{description}{suffix}"
 
 
 # ---------------------------------------------------------------------------
@@ -329,8 +358,9 @@ def run_model(
     output_dir = output_base / class_name
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    prompt = build_prompt(class_name, description)
-    print(f"Prompt   : {prompt[:120]}…")
+    # Full prompt shown upfront; CLIP-safe variant rebuilt after pipeline load
+    full_prompt = build_prompt(class_name, description)
+    print(f"Prompt   : {full_prompt[:120]}…")
     print(f"Output   : {output_dir}")
     print()
 
@@ -338,6 +368,13 @@ def run_model(
     t_load = time.perf_counter()
     pipe = _LOADERS[model_key](compile_transformer=compile_model)
     print(f"Pipeline ready in {time.perf_counter() - t_load:.1f} s\n")
+
+    # CLIP encoders have a 77-token hard limit; rebuild the prompt using the
+    # pipeline's own tokenizer so the style suffix is never truncated.
+    if model_key in ("realvisxl-lightning", "sd35m"):
+        prompt = build_clip_safe_prompt(class_name, description, pipe.tokenizer)
+    else:
+        prompt = full_prompt
 
     generate_fn = _GENERATORS[model_key]
     saved = 0

@@ -36,13 +36,13 @@ Commercial license safety:
 
 Usage:
     # Step 1: Download metadata CSVs (~3 GB compressed, ~20 GB uncompressed)
-    python scripts/download_inaturalist.py metadata
+    python scripts/inaturalist/1-download_inaturalist.py metadata
 
     # Step 2: Filter for target species with commercial licenses
-    python scripts/download_inaturalist.py filter [--label-set 225|480]
+    python scripts/inaturalist/1-download_inaturalist.py filter [--label-set 225|480]
 
     # Step 3: Download the filtered images
-    python scripts/download_inaturalist.py download [--max-per-class 500] [--size medium]
+    python scripts/inaturalist/1-download_inaturalist.py download [--max-per-class 500] [--size medium]
 
 Requirements:
     pip install requests tqdm
@@ -64,7 +64,7 @@ from tqdm import tqdm
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 LABELS_225 = REPO_ROOT / "resources" / "2026-03-19_student_model_labels.txt"
 LABELS_480 = REPO_ROOT / "resources" / "2026-03-20_student_model_labels_extended.txt"
 INAT_DIR = REPO_ROOT / "data" / "inaturalist"
@@ -440,7 +440,7 @@ def cmd_filter(args):
         csv_path = METADATA_DIR / csv_name
         if not csv_path.exists():
             print(f"Metadata file not found: {csv_path}")
-            print("  Run 'python scripts/download_inaturalist.py metadata' first.")
+            print("  Run 'python scripts/inaturalist/1-download_inaturalist.py metadata' first.")
             sys.exit(1)
 
     # Load target labels
@@ -640,7 +640,7 @@ def cmd_download(args):
     filtered_path = INAT_DIR / f"filtered_images_{args.label_set}.json"
     if not filtered_path.exists():
         print(f"Filtered list not found: {filtered_path}")
-        print("  Run 'python scripts/download_inaturalist.py filter' first.")
+        print("  Run 'python scripts/inaturalist/1-download_inaturalist.py filter' first.")
         sys.exit(1)
 
     print(f"Loading filtered list from {filtered_path.name}...")
@@ -781,16 +781,16 @@ def main():
         epilog="""
 Examples:
     # Download metadata CSVs (~3 GB compressed)
-    python scripts/download_inaturalist.py metadata
+    python scripts/inaturalist/1-download_inaturalist.py metadata
 
     # Filter for 225-class targets with commercial licenses
-    python scripts/download_inaturalist.py filter
+    python scripts/inaturalist/1-download_inaturalist.py filter
 
     # Download images (max 500 per class, medium resolution)
-    python scripts/download_inaturalist.py download --max-per-class 500
+    python scripts/inaturalist/1-download_inaturalist.py download --max-per-class 500
 
     # Download larger images for higher quality training
-    python scripts/download_inaturalist.py download --max-per-class 500 --size large
+    python scripts/inaturalist/1-download_inaturalist.py download --max-per-class 500 --size large
         """,
     )
     parser.add_argument(
@@ -865,7 +865,7 @@ if __name__ == "__main__":
 
 
 """
-python scripts/download_inaturalist.py filter        
+python scripts/inaturalist/1-download_inaturalist.py filter        
 Loaded 225 target labels from 2026-03-19_student_model_labels.txt
 
 ── Step 1: Load taxonomy ──

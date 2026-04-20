@@ -6,8 +6,8 @@ against the 225 target classes in reports/class_counts_225.csv to produce
 a detailed coverage report.
 
 Usage:
-    python scripts/analyse_dataset_coverage.py
-    python scripts/analyse_dataset_coverage.py --verbose   # show per-class failure reasons
+    python scripts/dataset_quality/2-analyse_dataset_coverage.py
+    python scripts/dataset_quality/2-analyse_dataset_coverage.py --verbose   # show per-class failure reasons
 """
 
 import argparse
@@ -17,7 +17,7 @@ from pathlib import Path
 
 import pandas as pd
 
-REPO_ROOT = Path(__file__).parent.parent
+REPO_ROOT = Path(__file__).parent.parent.parent
 
 DATASETS = {
     "gbif": REPO_ROOT / "data/gbif/filter_results.jsonl",

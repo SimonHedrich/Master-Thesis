@@ -14,7 +14,7 @@ report covering:
   7. Image quality flags (corrupt files, extreme aspect ratios, tiny images)
 
 Usage:
-    python scripts/analyze_dataset_quality.py
+    python scripts/gbif/1-analyze_dataset_quality.py
 
 Output:
     reports/dataset_quality_report.txt   — human-readable summary
@@ -32,7 +32,7 @@ from pathlib import Path
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 IMAGES_DIR = REPO_ROOT / "resources" / "GBIFImages" / "images"
 LABELS_PATH = REPO_ROOT / "resources" / "SNPredictions_all.json"
 LABELS_225 = REPO_ROOT / "resources" / "2026-03-19_student_model_labels.txt"

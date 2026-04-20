@@ -3,10 +3,13 @@ Remove failed images from iNaturalist for classes with 'excellent' coverage stat
 
 Reads filter_results.jsonl to identify failed images, cross-references with
 coverage_analysis.csv to restrict deletion to excellent-status classes only.
+Use --all-classes to remove failed images from every class regardless of status.
 
 Usage:
-    python scripts/remove_failed_images.py             # dry run (no deletion)
-    python scripts/remove_failed_images.py --execute   # actually delete files
+    python scripts/dataset_quality/3-remove_failed_images.py                        # dry run, excellent only
+    python scripts/dataset_quality/3-remove_failed_images.py --execute              # delete, excellent only
+    python scripts/dataset_quality/3-remove_failed_images.py --all-classes          # dry run, all classes
+    python scripts/dataset_quality/3-remove_failed_images.py --all-classes --execute  # delete, all classes
 """
 
 import argparse
@@ -15,18 +18,22 @@ from pathlib import Path
 
 import pandas as pd
 
-REPO_ROOT = Path(__file__).parent.parent
+REPO_ROOT = Path(__file__).parent.parent.parent
 JSONL = REPO_ROOT / "data/inaturalist/filter_results.jsonl"
 COVERAGE_CSV = REPO_ROOT / "reports/coverage_analysis.csv"
 
 
-def main(execute: bool) -> None:
-    # ── 1. Load excellent classes ─────────────────────────────────
-    df = pd.read_csv(COVERAGE_CSV)
-    excellent = set(df[df["status"] == "excellent"]["common_name"].str.strip().str.lower())
-    print(f"Excellent classes: {len(excellent)}")
+def main(execute: bool, all_classes: bool) -> None:
+    # ── 1. Load class filter ──────────────────────────────────────
+    if all_classes:
+        excellent = None  # sentinel: no filtering
+        print("Targeting all classes (--all-classes).")
+    else:
+        df = pd.read_csv(COVERAGE_CSV)
+        excellent = set(df[df["status"] == "excellent"]["common_name"].str.strip().str.lower())
+        print(f"Excellent classes: {len(excellent)}")
 
-    # ── 2. Collect failed iNaturalist images in excellent classes ──
+    # ── 2. Collect failed iNaturalist images ──────────────────────
     candidates: list[Path] = []
     with open(JSONL) as f:
         for line in f:
@@ -44,8 +51,9 @@ def main(execute: bool) -> None:
                 cls = parts[parts.index("images") + 1].replace("_", " ")
             except (ValueError, IndexError):
                 continue
-            if cls in excellent:
-                candidates.append(REPO_ROOT / entry["filepath"])
+            if excellent is not None and cls not in excellent:
+                continue
+            candidates.append(REPO_ROOT / entry["filepath"])
 
     total = len(candidates)
     total_bytes = sum(p.stat().st_size for p in candidates if p.exists())
@@ -83,5 +91,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Remove failed iNaturalist images for excellent-status classes.")
     parser.add_argument("--execute", action="store_true",
                         help="Actually delete files (default is dry run)")
+    parser.add_argument("--all-classes", action="store_true",
+                        help="Remove failed images from all classes, not just excellent-status ones")
     args = parser.parse_args()
-    main(execute=args.execute)
+    main(execute=args.execute, all_classes=args.all_classes)

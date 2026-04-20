@@ -9,9 +9,9 @@ Two modes of exclusion:
                           together with ALL their indented subcategories.
 
 Usage:
-    python scripts/filter_wikimedia_categories.py
-    python scripts/filter_wikimedia_categories.py --input-dir reports/wikimedia_categories
-    python scripts/filter_wikimedia_categories.py --dry-run
+    python scripts/wikimedia/2-filter_wikimedia_categories.py
+    python scripts/wikimedia/2-filter_wikimedia_categories.py --input-dir reports/wikimedia_categories
+    python scripts/wikimedia/2-filter_wikimedia_categories.py --dry-run
 """
 
 import argparse
@@ -21,7 +21,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # Root path
 # ---------------------------------------------------------------------------
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 INPUT_DIR  = REPO_ROOT / "reports" / "wikimedia_categories"
 OUTPUT_DIR = REPO_ROOT / "reports" / "wikimedia_categories_filtered"

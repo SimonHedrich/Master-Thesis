@@ -13,9 +13,9 @@ By default the script resumes: labels whose .jsonl already exists are skipped.
 Use --force to re-scrape everything.
 
 Usage:
-    python scripts/scrape_wikimedia_file_list.py
-    python scripts/scrape_wikimedia_file_list.py --rate-limit 0.3
-    python scripts/scrape_wikimedia_file_list.py --force
+    python scripts/wikimedia/3-scrape_wikimedia_file_list.py
+    python scripts/wikimedia/3-scrape_wikimedia_file_list.py --rate-limit 0.3
+    python scripts/wikimedia/3-scrape_wikimedia_file_list.py --force
 
 Requirements:
     pip install requests tqdm
@@ -31,10 +31,10 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from download_supplementary import RateLimiter, USER_AGENT, WIKI_API
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 FILTERED_DIR = REPO_ROOT / "reports" / "wikimedia_categories_filtered"
 OUTPUT_DIR = REPO_ROOT / "reports" / "wikimedia_file_manifests"
 

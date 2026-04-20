@@ -16,7 +16,7 @@ import os
 import fiftyone as fo
 
 # ── Paths ────────────────────────────────────────────────────────────────────
-REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 IMAGES_DIR = os.path.join(REPO_ROOT, "resources", "GBIFImages", "images")
 LABELS_PATH = os.path.join(REPO_ROOT, "resources", "SNPredictions_all.json")
 

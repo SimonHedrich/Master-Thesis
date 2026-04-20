@@ -24,9 +24,9 @@ reports/genus_species_mapping.csv is intentionally not used: every genus it refe
 already has a level=genus entry in class_counts_225.csv, making it redundant.
 
 Usage (run from the repository root):
-    python scripts/organize_gbif.py            # move files (default)
-    python scripts/organize_gbif.py --copy     # copy instead of move
-    python scripts/organize_gbif.py --dry-run  # print actions without touching files
+    python scripts/gbif/2-organize_gbif.py            # move files (default)
+    python scripts/gbif/2-organize_gbif.py --copy     # copy instead of move
+    python scripts/gbif/2-organize_gbif.py --dry-run  # print actions without touching files
 """
 
 import argparse
@@ -35,7 +35,7 @@ import shutil
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 SRC_IMAGES   = REPO_ROOT / "resources" / "GBIFImages" / "images"
 DST_IMAGES   = REPO_ROOT / "data" / "gbif" / "images"

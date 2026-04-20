@@ -23,9 +23,9 @@ small JSON payload (~200 bytes) and is representative of actual usage.
 
 Usage
 -----
-    python scripts/probe_wikimedia_rate_limit.py
-    python scripts/probe_wikimedia_rate_limit.py --start-interval 0.5 --min-interval 0.05
-    python scripts/probe_wikimedia_rate_limit.py --probes 20 --cooldown 10
+    python scripts/wikimedia/probe_wikimedia_rate_limit.py
+    python scripts/wikimedia/probe_wikimedia_rate_limit.py --start-interval 0.5 --min-interval 0.05
+    python scripts/wikimedia/probe_wikimedia_rate_limit.py --probes 20 --cooldown 10
 
 Output
 ------
@@ -41,7 +41,7 @@ from pathlib import Path
 
 import requests
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from download_supplementary import USER_AGENT, WIKI_API
 
 # Lightweight probe query — small response, representative of real usage
@@ -205,8 +205,8 @@ def main():
         print(f"Recommendation: --rate-limit {recommended:.3f}  {note}")
         print()
         print("Set this in the download scripts:")
-        print(f"  python scripts/scrape_wikimedia_file_list.py  --rate-limit {recommended:.3f}")
-        print(f"  python scripts/download_wikimedia_images.py   --rate-limit {recommended:.3f}")
+        print(f"  python scripts/wikimedia/3-scrape_wikimedia_file_list.py  --rate-limit {recommended:.3f}")
+        print(f"  python scripts/wikimedia/4-download_wikimedia_images.py   --rate-limit {recommended:.3f}")
 
 
 if __name__ == "__main__":

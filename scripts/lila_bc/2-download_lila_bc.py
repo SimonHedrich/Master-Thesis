@@ -16,13 +16,13 @@ Pipeline:
 
 Usage:
     # Step 1: Download metadata and build the filtered image list
-    python scripts/download_lila_bc.py metadata
+    python scripts/lila_bc/2-download_lila_bc.py metadata
 
     # Step 2: Download the filtered images
-    python scripts/download_lila_bc.py download [--max-per-class 500] [--dataset serengeti|safari|wcs|all]
+    python scripts/lila_bc/2-download_lila_bc.py download [--max-per-class 500] [--dataset serengeti|safari|wcs|all]
 
     # Step 3: Export to YOLO format
-    python scripts/download_lila_bc.py export [--label-set 225|480]
+    python scripts/lila_bc/2-download_lila_bc.py export [--label-set 225|480]
 
 Requirements:
     pip install requests tqdm
@@ -44,9 +44,12 @@ import ijson
 import requests
 from tqdm import tqdm
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from _image_utils import save_as_jpg
+
 # ── Paths ────────────────────────────────────────────────────────────────────
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 LABELS_225 = REPO_ROOT / "resources" / "2026-03-19_student_model_labels.txt"
 LABELS_480 = REPO_ROOT / "resources" / "2026-03-20_student_model_labels_extended.txt"
 LILA_DIR = REPO_ROOT / "data" / "lila_bc"
@@ -582,12 +585,11 @@ def build_filtered_list(args):
 
 
 def download_image(url, dest_path):
-    """Download a single image. Returns True on success."""
+    """Download a single image and convert to JPEG. Returns True on success."""
     try:
         resp = requests.get(url, timeout=30)
         resp.raise_for_status()
-        with open(dest_path, "wb") as f:
-            f.write(resp.content)
+        save_as_jpg(resp.content, dest_path)
         return True
     except Exception:
         return False
@@ -598,7 +600,7 @@ def cmd_download(args):
     filtered_path = LILA_DIR / f"filtered_images_{args.label_set}.json"
     if not filtered_path.exists():
         print(f"✗ Filtered list not found: {filtered_path}")
-        print("  Run 'python scripts/download_lila_bc.py metadata' first.")
+        print("  Run 'python scripts/lila_bc/2-download_lila_bc.py metadata' first.")
         sys.exit(1)
 
     with open(filtered_path) as f:
@@ -659,7 +661,8 @@ def cmd_download(args):
         class_dir = IMAGES_DIR / entry["target_label"]
         class_dir.mkdir(parents=True, exist_ok=True)
         fname = f"{entry['dataset']}_{entry['file_name'].replace('/', '_')}"
-        dest = class_dir / fname
+        # Local file is always .jpg; source URL retains the original extension
+        dest = (class_dir / fname).with_suffix(".jpg")
         if dest.exists():
             already_exists += 1
         else:

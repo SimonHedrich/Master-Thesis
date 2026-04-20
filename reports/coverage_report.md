@@ -1,6 +1,6 @@
 # Dataset Coverage Report
 
-Generated: 2026-04-02  
+Generated: 2026-04-08  
 Target classes: **225**  
 Datasets: GBIF · iNaturalist · Wikimedia · Open Images  
 Quality buffer applied: **20%** (estimated post-filtering loss)

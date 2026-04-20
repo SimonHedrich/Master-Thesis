@@ -4,7 +4,7 @@ Generate synthetic wildlife images via OpenRouter (google/gemini-2.5-flash-image
 Images are saved to: data/synthetic/<class_name>/
 
 Usage:
-python scripts/generate_synthetic_images.py \
+python scripts/synthetic/1-generate_synthetic_images.py \
 --class-name "binturong" \
 --description "The binturong is A large, heavily built viverrid with long, coarse, dark black hair, tufted ears, a prehensile tail, and a somewhat bear-like face with white whiskers." \
 --n-images 5
@@ -31,7 +31,7 @@ from PIL import Image
 
 MODEL = "google/gemini-3.1-flash-image-preview"
 MODEL_KEYWORD = "gemini"  # Short label used in output filenames.
-OUTPUT_BASE = Path(__file__).parent.parent / "data" / "synthetic"
+OUTPUT_BASE = Path(__file__).parent.parent.parent / "data" / "synthetic"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 MAX_TRIES = 3
 
@@ -50,8 +50,8 @@ DEFAULT_IMAGE_SIZE = "0.5K"
 
 STYLE_SUFFIX = (
     "Professional wildlife photograph. Telephoto lens, sharp focus on the animal, "
-    "natural lighting, photorealistic, high resolution. The animal is the main subject "
-    "filling most of the frame. Natural habitat background. No text, no watermarks."
+    "natural lighting, photorealistic, high resolution. Full body of the animal visible, "
+    "entire animal from head to tail fits within the frame. Natural habitat background. No text, no watermarks."
 )
 
 
@@ -71,18 +71,22 @@ def build_prompt(class_name: str, description: str) -> str:
 def _fetch_cost(generation_id: str, headers: dict) -> float:
     """Query the OpenRouter generation stats endpoint to get the actual cost in USD."""
     # The stats endpoint may take a moment to populate after the generation completes.
-    time.sleep(1)
-    try:
-        r = requests.get(
-            "https://openrouter.ai/api/v1/generation",
-            headers=headers,
-            params={"id": generation_id},
-            timeout=15,
-        )
-        if r.ok:
-            return float(r.json().get("data", {}).get("total_cost", 0))
-    except Exception:
-        pass
+    # Retry with increasing delays to handle propagation lag.
+    for delay in (2, 4, 8):
+        time.sleep(delay)
+        try:
+            r = requests.get(
+                "https://openrouter.ai/api/v1/generation",
+                headers=headers,
+                params={"id": generation_id},
+                timeout=15,
+            )
+            if r.ok:
+                cost = float(r.json().get("data", {}).get("total_cost", 0))
+                if cost > 0:
+                    return cost
+        except Exception:
+            pass
     return 0.0
 
 
@@ -111,7 +115,7 @@ def generate_image(
         response = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=120)
 
         if response.status_code != 200:
-            print(f"FAILED (HTTP {response.status_code}): {response.text[:200]}")
+            print(f"FAILED (HTTP {response.status_code}): {response.text}")
             return None, 0.0
 
         result = response.json()

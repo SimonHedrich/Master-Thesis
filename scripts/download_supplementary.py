@@ -45,6 +45,9 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _image_utils import save_as_jpg
+
 # ── Paths ────────────────────────────────────────────────────────────────────
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -138,6 +141,18 @@ WIKIMEDIA_CATEGORY_OVERRIDES = {
     "dingo": ["Category:Dingoes"],
     # Category:Pinnipeds has 0 files; try the Latin taxonomic name used on Commons
     "pinniped clade": ["Category:Pinnipedia"],
+    # Taxonomic reclassification: old genus names / synonyms still used on Commons
+    "black-backed jackal": ["Category:Lupulella mesomelas"],   # reclassified from Canis
+    "red-necked wallaby": ["Category:Notamacropus rufogriseus"],  # reclassified from Macropus
+    "common eland": ["Category:Taurotragus oryx"],             # Tragelaphus oryx synonym
+    "fisher": ["Category:Martes pennanti"],                    # Pekania pennanti is new genus; Commons still uses Martes
+    "brown hyaena": ["Category:Hyaena brunnea"],               # Parahyaena brunnea synonym
+    # Subspecies / trinomial: Commons uses the full subspecies category
+    "domestic cat": ["Category:Felis silvestris catus"],       # Felis catus redirects to empty shell
+    "domestic dog": ["Category:Canis lupus familiaris"],       # Canis familiaris redirects to empty shell
+    "domestic horse": ["Category:Horses"],                     # Equus caballus / ferus caballus both empty on Commons
+    # Lump species: mouflon taxonomy split; Ovis orientalis has 0 files on Commons
+    "mouflon": ["Category:Ovis gmelini"],
 }
 
 # ── COCO Label Mapping ────────────────────────────────────────────────────────
@@ -378,7 +393,7 @@ def append_to_catalog(rows):
 
 
 def download_image(url, dest_path, timeout=30):
-    """Download a single image. Returns True on success."""
+    """Download a single image and convert to JPEG. Returns True on success."""
     if dest_path.exists():
         return True
     try:
@@ -386,9 +401,7 @@ def download_image(url, dest_path, timeout=30):
         resp.raise_for_status()
         if len(resp.content) < 100:
             return False
-        dest_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(dest_path, "wb") as f:
-            f.write(resp.content)
+        save_as_jpg(resp.content, dest_path)
         return True
     except Exception:
         return False
@@ -952,8 +965,7 @@ def cmd_wikimedia(args):
                         total_skipped += 1
                         continue
 
-                    ext = "jpg" if "jpeg" in img_info["url"].lower() or img_info["url"].lower().endswith(".jpg") else "png"
-                    fname = f"wiki_{pid}.{ext}"
+                    fname = f"wiki_{pid}.jpg"
                     dest = IMAGES_DIR / dir_name / fname
 
                     ok = download_image(img_info["url"], dest)

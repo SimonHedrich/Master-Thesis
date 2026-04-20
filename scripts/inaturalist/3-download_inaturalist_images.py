@@ -13,22 +13,22 @@ to delete everything and start over.
 
 Usage:
     # Download commercially safe images (default)
-    python scripts/download_inaturalist_images.py
+    python scripts/inaturalist/3-download_inaturalist_images.py
 
     # Download ALL images regardless of license
-    python scripts/download_inaturalist_images.py --all-licenses
+    python scripts/inaturalist/3-download_inaturalist_images.py --all-licenses
 
     # Limit per class for balanced datasets
-    python scripts/download_inaturalist_images.py --max-per-class 500
+    python scripts/inaturalist/3-download_inaturalist_images.py --max-per-class 500
 
     # Larger images
-    python scripts/download_inaturalist_images.py --size large
+    python scripts/inaturalist/3-download_inaturalist_images.py --size large
 
     # Start fresh (deletes existing images)
-    python scripts/download_inaturalist_images.py --from-scratch
+    python scripts/inaturalist/3-download_inaturalist_images.py --from-scratch
 
 Prerequisites:
-    python scripts/analyze_inaturalist_metadata.py condense
+    python scripts/inaturalist/2-analyze_inaturalist_metadata.py condense
 """
 
 import argparse
@@ -44,9 +44,12 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from _image_utils import save_as_jpg
+
 # ── Paths & Config ───────────────────────────────────────────────────────────
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 CONDENSED_PHOTOS = REPO_ROOT / "data" / "inaturalist" / "metadata" / "condensed" / "photos.csv"
 IMAGES_DIR = REPO_ROOT / "data" / "inaturalist" / "images"
 PROGRESS_FILE = IMAGES_DIR / ".download_progress.json"
@@ -67,7 +70,7 @@ def load_photos(all_licenses, max_per_class):
     """
     if not CONDENSED_PHOTOS.exists():
         print(f"ERROR: {CONDENSED_PHOTOS} not found.")
-        print("  Run: python scripts/analyze_inaturalist_metadata.py condense")
+        print("  Run: python scripts/inaturalist/2-analyze_inaturalist_metadata.py condense")
         sys.exit(1)
 
     print(f"Loading {CONDENSED_PHOTOS.name}...")
@@ -111,13 +114,11 @@ def load_photos(all_licenses, max_per_class):
 
 
 def download_image(url, dest_path):
-    """Download a single image. Returns (success, photo_id)."""
+    """Download a single image and convert to JPEG. Returns True on success."""
     try:
         resp = requests.get(url, timeout=30)
         resp.raise_for_status()
-        dest_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(dest_path, "wb") as f:
-            f.write(resp.content)
+        save_as_jpg(resp.content, dest_path)
         return True
     except Exception:
         return False
@@ -135,8 +136,8 @@ def build_download_list(photos, size):
 
     for p in photos:
         class_dir = p["target_class"].replace("/", "_")
-        fname = f"inat_{p['photo_id']}.{p['extension']}"
-        dest = IMAGES_DIR / class_dir / fname
+        # Local file is always .jpg; source URL still uses the original extension
+        dest = IMAGES_DIR / class_dir / f"inat_{p['photo_id']}.jpg"
 
         if dest.exists():
             already_exists += 1

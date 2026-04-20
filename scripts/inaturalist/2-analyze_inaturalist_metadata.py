@@ -13,8 +13,8 @@ Pipeline:
 Output: reports/inaturalist_class_image_counts.csv
 
 Usage:
-    python scripts/analyze_inaturalist_metadata.py
-    python scripts/analyze_inaturalist_metadata.py --label-set 480
+    python scripts/inaturalist/2-analyze_inaturalist_metadata.py
+    python scripts/inaturalist/2-analyze_inaturalist_metadata.py --label-set 480
 """
 
 import argparse
@@ -25,7 +25,7 @@ from pathlib import Path
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 LABELS_225 = REPO_ROOT / "resources" / "2026-03-19_student_model_labels.txt"
 LABELS_480 = REPO_ROOT / "resources" / "2026-03-20_student_model_labels_extended.txt"
 METADATA_DIR = REPO_ROOT / "data" / "inaturalist" / "metadata"
@@ -599,7 +599,7 @@ def main():
     for name in ["taxa.csv", "observations.csv", "photos.csv"]:
         if not (METADATA_DIR / name).exists():
             print(f"ERROR: {METADATA_DIR / name} not found.")
-            print("  Run: python scripts/download_inaturalist.py metadata")
+            print("  Run: python scripts/inaturalist/1-download_inaturalist.py metadata")
             sys.exit(1)
 
     label_path = LABELS_225 if args.label_set == "225" else LABELS_480

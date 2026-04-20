@@ -32,11 +32,11 @@ Source overview:
   openimages  — data/supplementary_openimages/images/ (bboxes in metadata_catalog.csv)
 
 Usage:
-    python scripts/filter_dataset_quality.py metadata    --source wikimedia
-    python scripts/filter_dataset_quality.py heuristics  --source wikimedia
-    python scripts/filter_dataset_quality.py megadetector --source wikimedia [--batch-size 16] [--conf 0.6]
-    python scripts/filter_dataset_quality.py vlm         --source wikimedia
-    python scripts/filter_dataset_quality.py report      --source all
+    python scripts/dataset_quality/1-filter_dataset_quality.py metadata    --source wikimedia
+    python scripts/dataset_quality/1-filter_dataset_quality.py heuristics  --source wikimedia
+    python scripts/dataset_quality/1-filter_dataset_quality.py megadetector --source wikimedia [--batch-size 16] [--conf 0.6]
+    python scripts/dataset_quality/1-filter_dataset_quality.py vlm         --source wikimedia
+    python scripts/dataset_quality/1-filter_dataset_quality.py report      --source all
 
 Requirements (base):
     pip install pillow opencv-python-headless tqdm numpy
@@ -60,7 +60,7 @@ from tqdm import tqdm
 # Allow Pillow to attempt loading—we want controlled failure, not silent truncation
 ImageFile.LOAD_TRUNCATED_IMAGES = False
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # ── Per-source paths ──────────────────────────────────────────────────────────
 

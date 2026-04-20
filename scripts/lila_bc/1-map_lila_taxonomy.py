@@ -15,14 +15,14 @@ Matching priority (highest to lowest):
   4. common    — LILA 'query' (common name) matches a target common_name
 
 Usage:
-    python scripts/map_lila_taxonomy.py
+    python scripts/lila_bc/1-map_lila_taxonomy.py
 """
 
 import csv
 from collections import defaultdict
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parent.parent
+REPO = Path(__file__).resolve().parent.parent.parent
 
 LILA_TAXONOMY = REPO / "data/lila_bc/metadata/lila-taxonomy-mapping_release.csv"
 CLASS_COUNTS   = REPO / "reports/class_counts_225.csv"
