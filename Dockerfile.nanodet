@@ -1,0 +1,88 @@
+# NanoDet-Plus-m training and inference environment
+#
+# NanoDet is not on PyPI and requires Python <3.12 (uses pkg_resources
+# and legacy mmdet patterns). We install from the official GitHub repo.
+#
+# NanoDet-Plus-m:
+#   - 1.17M parameters, 1.8MB (FP16), 30.4% COCO mAP
+#   - Native NCNN export for sub-20ms inference on ARM Cortex-A76
+#   - Config-YAML driven training (no Ultralytics-style auto-rebuild)
+#   - Head adaptation: set num_classes: 225 in YAML, train from scratch
+#
+# Usage:
+#   make nanodet-build
+#   make nanodet-smoke
+#   make nanodet-shell  (interactive — run training from /opt/nanodet/)
+FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3.11-venv \
+        python3.11-dev \
+        python3.11-distutils \
+        git \
+        make \
+        htop \
+        tmux \
+        curl \
+        gcc \
+        g++ \
+        cmake \
+        libgl1 \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3.11 -m venv /opt/venv \
+    && /opt/venv/bin/pip install --upgrade pip --quiet
+
+ENV PATH="/opt/venv/bin:$PATH"
+ENV PYTHONUNBUFFERED=1
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+# Install PyTorch (cu130) first — NanoDet's requirements.txt specifies a
+# broad version range; we pin to the same version as other environments.
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install \
+        --extra-index-url https://download.pytorch.org/whl/cu130 \
+        torch==2.11.0+cu130 \
+        torchvision==0.26.0+cu130 \
+        --quiet
+
+# Clone NanoDet (latest tag of the Plus branch) and install
+RUN git clone --depth 1 https://github.com/RangiLyu/nanodet.git /opt/nanodet
+
+WORKDIR /opt/nanodet
+
+# Install NanoDet dependencies; pytorch-lightning pinned because NanoDet
+# uses legacy LightningModule APIs removed in 2.x.
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install \
+        pytorch-lightning==1.9.5 \
+        pycocotools \
+        tensorboard \
+        onnx \
+        onnxruntime \
+        timm \
+        albumentations \
+        numpy \
+        pillow \
+        tqdm \
+        opencv-python-headless \
+        --quiet \
+    && pip install -e . --quiet
+
+# Set up the app working directory (repo is mounted here at runtime)
+WORKDIR /app
+
+ENV PYTHONPATH=/app/scripts:/opt/nanodet
+
+COPY scripts ./scripts
+
+CMD ["/bin/bash"]

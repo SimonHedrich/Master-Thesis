@@ -1,0 +1,1017 @@
+{
+  "task": "<DETAILED_CAPTION>",
+  "n_images": 200,
+  "models": {
+    "microsoft/Florence-2-base": {
+      "timing": {
+        "min_s": 0.09,
+        "mean_s": 0.118,
+        "median_s": 0.109,
+        "max_s": 0.43,
+        "imgs_per_sec": 8.45
+      },
+      "results": [
+        {
+          "filename": "oi_african_elephant_00001.jpg",
+          "elapsed_s": 0.247,
+          "caption": "The image shows a ceramic elephant figurine sitting atop a white plate, with two blue birds perched on either side of the plate. The elephant is a vibrant green color, and the plate is a pristine white."
+        },
+        {
+          "filename": "oi_african_elephant_00002.jpg",
+          "elapsed_s": 0.247,
+          "caption": "The image shows a statue of an elephant sitting atop a fountain surrounded by lush green grass, a bench, plants, trees, and a building in the background, with a clear blue sky above.<pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00003.jpg",
+          "elapsed_s": 0.247,
+          "caption": "The image shows an elephant standing in the water with its trunk up, surrounded by trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00004.jpg",
+          "elapsed_s": 0.247,
+          "caption": "The image shows a herd of elephants standing on top of a rocky beach, surrounded by water, grass, plants, and trees with a clear blue sky in the background.<pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00005.jpg",
+          "elapsed_s": 0.247,
+          "caption": "The image shows two elephants standing next to each other in front of a building with a gate, surrounded by rocks, plants, and trees.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00006.jpg",
+          "elapsed_s": 0.247,
+          "caption": "The image shows an elephant standing on top of a rock next to a fence, surrounded by lush green grass and plants. In the background, there are trees, a shed, and a clear blue sky.<pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00007.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a group of people standing around an elephant in front of a clock tower. The elephant is adorned with intricate designs and is surrounded by trees and a clear blue sky. The people are holding various objects in their hands, and there is a watermark in the bottom right corner of the image.<pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00008.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a man wearing a helmet and carrying a bag standing in front of a statue of an elephant, surrounded by plants, trees, lights, and a building in the background, with a dark sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00009.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a man standing next to an elephant in front of a wooden structure. The man is wearing a green and cream colored dress and is holding the elephant's trunk. To the left of the man is a wooden pole and a board attached to the wooden structure, and in the background there are a few trees."
+        },
+        {
+          "filename": "oi_african_elephant_00010.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows an elephant walking through a lush green field filled with plants and flowers, with trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00011.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a little girl standing in front of an elephant in Central Park, surrounded by trees and a railing. The sky is visible in the background, and there is a watermark on the image.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00012.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a black and white photo of the ancient Khajuraho temple in Hampi, Karnataka. It is a black-and-white image with a few people, sculptures, and a ladder in the foreground, and the sky in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00013.jpg",
+          "elapsed_s": 0.142,
+          "caption": "The image shows two elephants standing next to each other in the tall grass near a body of water, surrounded by trees in the background. The elephants are likely in the Okavango Delta, a popular destination for wildlife photography.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00014.jpg",
+          "elapsed_s": 0.142,
+          "caption": "The image shows an elephant standing in the grass near a body of water, surrounded by lush green grass and a few plants in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00015.jpg",
+          "elapsed_s": 0.142,
+          "caption": "The image shows a painting of an elephant on a black background, illuminated by a light painting of a tree. The elephant is painted in vibrant colors, with its trunk raised and its tusks curved in a graceful arc. Its eyes are closed, giving it a peaceful and serene look. The tree is lush and green, with a few leaves scattered around it. The light painting is a beautiful representation of the elephant, with the colors blending together to create a unique and captivating image."
+        },
+        {
+          "filename": "oi_african_elephant_00016.jpg",
+          "elapsed_s": 0.142,
+          "caption": "The image shows an elephant standing in the middle of a field, surrounded by trees, poles, wires, and vehicles. The sky is filled with clouds and there are various symbols and text on the screen.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00017.jpg",
+          "elapsed_s": 0.142,
+          "caption": "The image shows an elephant walking through tall grass next to a road, surrounded by trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00018.jpg",
+          "elapsed_s": 0.142,
+          "caption": "The image shows a stuffed elephant sitting on top of a wooden floor in front of a glass door. Through the glass door, we can see a wall with papers pasted on it, a table with various objects on it and a dustbin.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00019.jpg",
+          "elapsed_s": 0.111,
+          "caption": "The image shows two people riding on the back of an elephant in the water, with one person standing in the shallow water and the other sitting on the elephant's back. In the background, there are plants and trees visible.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00020.jpg",
+          "elapsed_s": 0.111,
+          "caption": "The image shows a group of people standing around an elephant adorned with garlands and lights, with pillars in the background and a ceiling at the top.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00021.jpg",
+          "elapsed_s": 0.111,
+          "caption": "The image shows a set of four black and white icons on a white background, with a green ribbon tied to one of the icons. The icons are arranged in a circle, with the text \"Hello Kitty\" written in the center.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00022.jpg",
+          "elapsed_s": 0.111,
+          "caption": "The image shows a group of people sitting at a bar with a large elephant head mounted on the wall. There are tables and chairs with bottles and other items on them, and a wooden wall with photo frames and other objects. In the background, there is a giraffe and a television, and lights on the ceiling."
+        },
+        {
+          "filename": "oi_african_elephant_00023.jpg",
+          "elapsed_s": 0.111,
+          "caption": "The image shows a herd of elephants walking across a dry grass covered field, with trees in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00024.jpg",
+          "elapsed_s": 0.111,
+          "caption": "The image shows an elephant standing next to a wooden fence, with trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00025.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows a group of three tuk tuk vehicles driving down a road next to a sign that reads \"Bondala National Park\" with a hoarding featuring an elephant and a person in the foreground. In the background, there are trees, poles, and a clear blue sky."
+        },
+        {
+          "filename": "oi_african_elephant_00026.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows an elephant standing in a pen with hay in its mouth, surrounded by a wall and a door in the background. The elephant is standing on the grass, and there is a rope in the foreground.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00027.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows a group of people riding on the backs of elephants through a river, with lush green grass on the right side and trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00028.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows a large inflatable elephant statue sitting atop a rock in a park, surrounded by lush green grass and trees in the background. There are a few people and other objects scattered around the park, and a board with text on it in the foreground.<pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00029.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows a graveyard with a statue of an elephant on top of a tombstone surrounded by flower bouquets and trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00030.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows two women riding on the back of an elephant, with a man standing at the bottom of the image holding a stick. The background is dark, and there are a few people visible in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00031.jpg",
+          "elapsed_s": 0.098,
+          "caption": "The image shows a group of people walking through a field of tall grass, wearing backpacks and hats. In the background, there are trees and an elephant, and the sky is visible at the top of the image."
+        },
+        {
+          "filename": "oi_african_elephant_00032.jpg",
+          "elapsed_s": 0.098,
+          "caption": "The image shows an elephant standing in the dirt near a tire, surrounded by rocks and a wall in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00033.jpg",
+          "elapsed_s": 0.098,
+          "caption": "The image shows an African elephant standing in tall grass with trees in the background and a clear blue sky above. The elephant is eating leaves from the grass, likely in the savannah.<pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00034.jpg",
+          "elapsed_s": 0.098,
+          "caption": "The image shows a car driving down a road with an elephant walking alongside it. There are a few people inside the car, and in the background there are trees and a clear blue sky.<pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00035.jpg",
+          "elapsed_s": 0.098,
+          "caption": "The image shows an elephant standing in the middle of a grassy field, surrounded by trees in the background. The elephant is standing on the ground, with its trunk raised and its tusks visible.<pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00036.jpg",
+          "elapsed_s": 0.098,
+          "caption": "The image shows an elephant walking across a dry grass covered field with trees in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00037.jpg",
+          "elapsed_s": 0.104,
+          "caption": "The image shows a man taking a photo of an elephant in a zoo. The man is standing on the ground, holding a camera in his hand, while a woman stands beside him. In the background, there are trees, a wall, and a clear blue sky.<pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00038.jpg",
+          "elapsed_s": 0.104,
+          "caption": "The image shows a statue of an elephant wearing sunglasses on its head, surrounded by trees, poles, and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00039.jpg",
+          "elapsed_s": 0.104,
+          "caption": "The image shows two elephants standing next to each other in front of a wall, with trees in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00040.jpg",
+          "elapsed_s": 0.104,
+          "caption": "The image shows a herd of elephants walking across a lush green field, surrounded by trees and hills in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00041.jpg",
+          "elapsed_s": 0.104,
+          "caption": "The image shows a woman wearing a blue shirt and black glasses standing next to an elephant in a zoo. The elephant is standing on the ground surrounded by grass, rocks, a wooden pole, a fence, a wall, some trees, and a clear blue sky.<pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00042.jpg",
+          "elapsed_s": 0.104,
+          "caption": "The image shows an elephant standing in the water near rocks, with its trunk visible in the foreground. The water is a deep blue color, and the rocks are a light gray. The elephant is standing in a shallow pool of water, with the sun reflecting off the surface."
+        },
+        {
+          "filename": "oi_african_elephant_00043.jpg",
+          "elapsed_s": 0.119,
+          "caption": "The image shows an elephant standing in the grass with its trunk up, eating leaves from a tree. The sky is visible in the background, and there are a few trees scattered around the area.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00044.jpg",
+          "elapsed_s": 0.119,
+          "caption": "The image shows an elephant standing in a zoo enclosure surrounded by rocks, a fence, a wall, a pole, and trees.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00045.jpg",
+          "elapsed_s": 0.119,
+          "caption": "The image shows a large elephant statue sitting atop a green field, surrounded by a group of people standing on the ground. On the left side of the image, there is a wooden pole and a metal fence, and in the background, there are pipes and a wall. At the top of the roof, there appears to be a roof with some ceiling lights."
+        },
+        {
+          "filename": "oi_african_elephant_00046.jpg",
+          "elapsed_s": 0.119,
+          "caption": "The image shows a herd of elephants walking across a lush green field next to a body of water, with the sky in the background. The elephants are walking in a line, with some of them walking towards the water. The grass is a vibrant green, and the sky is a bright blue.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00047.jpg",
+          "elapsed_s": 0.119,
+          "caption": "The image shows a group of people standing next to an elephant, with a woman in the center holding a flower bouquet. The woman is wearing a white dress and a hat, while the man on the elephant is sitting atop it. In the background, there are trees, a shed, a few people, poles, and the sky.<pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00048.jpg",
+          "elapsed_s": 0.119,
+          "caption": "The image shows a painting of a group of people riding on the backs of elephants, with a tree in the background and a sky above. The people are holding various objects in their hands, and there are animals in the foreground.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00049.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows a herd of elephants walking down a road next to each other, with trees on either side and a clear blue sky in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00050.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows two elephants walking down a dirt road surrounded by trees and grass, with a giraffe in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00051.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows two elephants standing next to each other in the grass, with a baby elephant in the foreground. The background is slightly blurred, giving the image a dreamy feel.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00052.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows an elephant standing in the middle of a forest, surrounded by trees. The elephant is in the center of the image, with the trees in the background providing a lush backdrop.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00053.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows two elephants standing next to each other in the grass, surrounded by a metal fence, a board, some stones, a vehicle on the ground, some poles, a group of trees, some buildings with windows, and a cloudy sky."
+        },
+        {
+          "filename": "oi_african_elephant_00054.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows an elephant playing in the water with a log in the foreground and rocks in the background. The elephant is surrounded by a pool of water, and there is text at the bottom of the image.<pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00055.jpg",
+          "elapsed_s": 0.101,
+          "caption": "The image shows an elephant standing in front of a building with pillars, surrounded by plants, grass, a fence, a chair, a board with text, a group of trees, and a cloudy sky.<pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00056.jpg",
+          "elapsed_s": 0.101,
+          "caption": "The image shows an elephant with its trunk up in the air, holding a branch in its trunk. The background is blurred, giving the focus to the elephant.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00057.jpg",
+          "elapsed_s": 0.101,
+          "caption": "The image shows an elephant standing in front of a group of people, with a woman standing beside it. The elephant is adorned with a garland and a bell, and the people around it are looking at it intently.<pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00058.jpg",
+          "elapsed_s": 0.101,
+          "caption": "The image shows a man holding a stick in his hand while standing next to a horse with a fire on its back. In the background there is a fence and trees, and at the bottom of the image there is text and a logo."
+        },
+        {
+          "filename": "oi_african_elephant_00059.jpg",
+          "elapsed_s": 0.101,
+          "caption": "The image shows a chocolate bar with an elephant on it, sitting on a wooden surface. The bar is a dark chocolate bar, with a picture of an elephant and some text on it.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00060.jpg",
+          "elapsed_s": 0.101,
+          "caption": "The image shows two stuffed elephants sitting on top of a desk, surrounded by a monitor, keyboard, mouse, wires, and other objects. In the background, there are monitors, a screen, and lights on the ceiling.<pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00061.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows a statue of an elephant with tusks in the middle of a field, surrounded by plants and trees in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00062.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows an elephant standing in the middle of a grassy field, surrounded by trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00063.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows a quilted wall hanging with a variety of animals and plants, including a lion, elephant, and other animals, as well as butterflies fluttering around them. The quilt is made of a soft, lightweight fabric, perfect for adding a touch of nature to any room."
+        },
+        {
+          "filename": "oi_african_elephant_00064.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows a group of people standing next to an elephant in the foreground, with trees, plants, poles, wires, and a clear blue sky in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00065.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows two rhinos in a zoo enclosure surrounded by a metal fence, a board with some text on it, some plants with flowers, a group of trees, some stones, a metal pole, a door, a wall and a cloudy sky.<pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00066.jpg",
+          "elapsed_s": 0.108,
+          "caption": "The image shows an elephant standing on top of a dirt field with trees in the background. The elephant is surrounded by lush green grass and the sky is visible above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00067.jpg",
+          "elapsed_s": 0.127,
+          "caption": "The image shows a painting of an elephant with a crown on its head, painted in a combination of green, yellow, and orange colors against a white background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00068.jpg",
+          "elapsed_s": 0.127,
+          "caption": "The image shows an open book with a painting of an elephant and a group of people on it. The painting is on the cover of the book and there is some text written on it, likely providing further information about the scene.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00069.jpg",
+          "elapsed_s": 0.127,
+          "caption": "The image shows a herd of elephants walking across a lush green field, surrounded by trees and plants. The sky is visible in the background, and there are a few rocks scattered around the field.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00070.jpg",
+          "elapsed_s": 0.127,
+          "caption": "The image shows two African elephants standing next to each other in the grass, surrounded by trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00071.jpg",
+          "elapsed_s": 0.127,
+          "caption": "The image shows an elephant standing next to another elephant in a zoo enclosure, surrounded by a fence and a wall in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00072.jpg",
+          "elapsed_s": 0.127,
+          "caption": "The image shows a drawing of an elephant and its baby standing next to each other on a grassy field, with a body of water in the background. The elephant is standing on the ground, with its trunk raised and its ears flapping in the wind. The baby elephant is smaller and has a light brown coat with white patches. The grass is lush and green, and the sky is a bright blue."
+        },
+        {
+          "filename": "oi_african_elephant_00073.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows a statue of an elephant sitting atop a stone wall, with a clear blue sky in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00074.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows a painting of a cheetah perched atop a tree, with three elephants in the foreground and a wall in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00075.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows a close up of an elephant's eye in black and white, captured by photographer David L. Houser. The eye is the focal point of the image, with its large, round eyes and long, curved eyelashes. Its skin is a light grey color, and its trunk is a darker shade of grey. The elephant's eyes are a deep, dark brown, and it is looking directly at the camera with a gentle expression."
+        },
+        {
+          "filename": "oi_african_elephant_00076.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows a sculpture of a woolly mammoth in front of a building, surrounded by poles with chains, steps, plants, trees, and a board with text and images. The sky is visible in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00077.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows a herd of African elephants walking across a lush green field, surrounded by trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00078.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows an elephant standing in the middle of a grassy field, surrounded by trees and a hill in the background. The elephant is standing on the ground, with a tree trunk visible on the right side of the image.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00079.jpg",
+          "elapsed_s": 0.123,
+          "caption": "The image shows an elephant standing in the middle of a dry grass field, surrounded by trees in the background. The elephant is likely on a safari, as it is likely a tourist attraction, as the image is likely taken during the day.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00080.jpg",
+          "elapsed_s": 0.123,
+          "caption": "The image shows a close up of an elephant's foot on a wooden platform, with its trunk and tusks visible. The background of the image is filled with stones, giving the impression of a natural setting.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00081.jpg",
+          "elapsed_s": 0.123,
+          "caption": "The image shows an elephant standing in the middle of a lush green field, surrounded by trees and plants. The sky is visible in the background, and there is a watermark on the image.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00082.jpg",
+          "elapsed_s": 0.123,
+          "caption": "The image shows an old black and white photo of an elephant walking across a dirt field, with the text \"The Elephant of the World\" at the bottom.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00083.jpg",
+          "elapsed_s": 0.123,
+          "caption": "The image shows an elephant walking across a lush green field, surrounded by trees and plants. The sky is visible in the background, and there is a wall behind the elephant.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00084.jpg",
+          "elapsed_s": 0.123,
+          "caption": "The image shows a man standing in front of a herd of elephants in the mud. He is wearing a green dress and a hat, and is holding something in his hand. Behind him, a group of people are standing and some are holding cameras, capturing the moment. In the background, there are trees and plants, and the water of the mud is visible at the bottom of the image."
+        },
+        {
+          "filename": "oi_african_elephant_00085.jpg",
+          "elapsed_s": 0.113,
+          "caption": "The image shows two elephants standing in the grass near a body of water, surrounded by lush green grass and trees in the background. The sky is filled with white, fluffy clouds, creating a peaceful atmosphere.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00086.jpg",
+          "elapsed_s": 0.113,
+          "caption": "The image shows an elephant walking down a dirt road with a stick in its mouth, surrounded by trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00087.jpg",
+          "elapsed_s": 0.113,
+          "caption": "The image shows a close up of a blue and white elephant statue in a mall, with a blurred background. The elephant is painted in a combination of blue, white and black colors.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00088.jpg",
+          "elapsed_s": 0.113,
+          "caption": "The image shows two elephants standing next to each other in front of a building, illuminated by lights and surrounded by a few people. The sky is visible in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00089.jpg",
+          "elapsed_s": 0.113,
+          "caption": "The image shows two men kneeling down next to an elephant in a zoo. The man on the left is wearing a blue t-shirt and cream pants, while the man in the middle is holding something in his hand. In the background, there is a mesh fencing, a few trees in green, and a white sky."
+        },
+        {
+          "filename": "oi_african_elephant_00090.jpg",
+          "elapsed_s": 0.113,
+          "caption": "The image shows a colorful elephant statue sitting atop a float in front of a building with windows, surrounded by light poles, wires, and a tree.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00091.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows an elephant standing next to a wooden fence in a zoo, surrounded by rocks and a tree trunk.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00092.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a group of people walking down a street next to an elephant, with two people holding sticks in their hands. In the background, there are people standing behind a fence, flags with poles, trees, and a dark sky. At the bottom of the image, there is text."
+        },
+        {
+          "filename": "oi_african_elephant_00093.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a man riding on the back of an elephant down a street, surrounded by a group of people walking alongside him. He is holding a drum in his hand and there are tents, buildings, trees, and a clear blue sky in the background.<pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00094.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows an elephant standing in the middle of a lush green forest, surrounded by tall trees and plants. The elephant is in the center of the image, with the trees providing a canopy of shade and the plants providing a vibrant contrast to the elephant's gray skin.<pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00095.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows an elephant standing next to a wooden pole in a zoo enclosure surrounded by trees, plants, and a person standing nearby. The elephant is likely at the Chiang Mai Zoo, as indicated by the sign boards in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00096.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows two statues of two people riding on the backs of elephants, with a wall in the background and buildings and trees in the distance. The sky is visible at the top of the image.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00097.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a large metal elephant statue sitting atop a lush green field, surrounded by a group of people standing on the ground, a board with some text on it, a trolley, and some trees.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00098.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a group of people riding on the backs of elephants, with one person wearing a hat. In the background, there are trees, hills, and a clear blue sky. At the bottom of the image, there is text.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00099.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows two cartoon elephants, one in red and one in blue, facing each other against a white background. The elephants are drawn in a cartoonish style, with bright colors and exaggerated features. The text \"Donkey and the Elephant\" is written in a bold font above them."
+        },
+        {
+          "filename": "oi_african_elephant_00100.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a herd of elephants walking through tall grass in the wild, surrounded by trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00101.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a colorful elephant statue sitting atop a lush green field, surrounded by trees, benches, vehicles, and buildings in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00102.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a yellow elephant statue sitting atop a brick wall, with a black bowl in the foreground and a few plants in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00103.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows an elephant standing in the middle of a forest, surrounded by trees and a sky with clouds in the background. At the bottom of the image there is text.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00104.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows an elephant standing in the middle of a lush green field, surrounded by trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00105.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows a brick wall with a painting of an elephant on it, surrounded by bricks and other objects on the ground.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00106.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows two elephants standing next to each other in a zoo enclosure surrounded by grass, wooden logs, wooden poles, a metal object, a group of people standing on the ground, a fence, a signboard, some trees, and a cloudy sky."
+        },
+        {
+          "filename": "oi_african_elephant_00107.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows a framed picture of an elephant with a bird perched on its trunk. The frame is made of wood and the elephant is painted in a vibrant blue color. The bird is a bright red color and is perched atop the elephant's trunk.<pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00108.jpg",
+          "elapsed_s": 0.102,
+          "caption": "The image shows two elephants standing next to a body of water, surrounded by lush green grass and trees in the background. The sky is visible above them, and there are a few birds scattered around the area.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00109.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows an elephant standing in tall grass in the middle of a field, surrounded by trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00110.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows a drawing of an African elephant standing next to a tree, with a paper in the background featuring text and a drawing. The elephant is drawn in detail, with its trunk raised and its tusks tucked in close to its body. The tree is tall and leafy, with branches reaching up towards the sky. The text on the paper is written in a bold font, and the drawing is detailed and lifelike."
+        },
+        {
+          "filename": "oi_african_elephant_00111.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows two elephants playing with each other in a zoo enclosure surrounded by grass, stones, a fence, a pole, and trees.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00112.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows a colorful elephant statue sitting on top of a lush green field, with a few people standing to the right of it. In the background, there are buildings, trees, and a dustbin.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00113.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows an elephant standing in a barn with its trunk up, surrounded by wooden objects and a wall in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00114.jpg",
+          "elapsed_s": 0.132,
+          "caption": "The image shows a large black elephant statue sitting atop a lush green field, with a board with text on it, a plant in a pot, a door, and a wall in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00115.jpg",
+          "elapsed_s": 0.116,
+          "caption": "The image shows a man in a green coat standing next to an elephant, holding a bottle in his hand. The background of the image is filled with trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00116.jpg",
+          "elapsed_s": 0.116,
+          "caption": "The image shows an elephant standing in the grass near a tree, surrounded by rocks, plants, and a fence. In the background, there are trees and a building.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00117.jpg",
+          "elapsed_s": 0.116,
+          "caption": "The image shows an elephant standing on top of a cement wall next to a tree, with a wooden fence and a few trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00118.jpg",
+          "elapsed_s": 0.116,
+          "caption": "The image shows an elephant standing in the middle of a grassy field, surrounded by trees and plants. The elephant is standing on the ground, with the grass and plants in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00119.jpg",
+          "elapsed_s": 0.116,
+          "caption": "The image shows a group of elephants walking down a street next to a building, with a few people standing on the right side of the image. In the background, there are trees, poles, and a clear sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00120.jpg",
+          "elapsed_s": 0.116,
+          "caption": "The image shows a card with a picture of an elephant and a rabbit on it, tied with a thread, sitting on a wooden surface. The card is part of the Stampin' Up UK Independent Demonstrator Pootles and is designed by Lori Tecler/Inking Aloud featuring stamps and dies from Lawn Fawn."
+        },
+        {
+          "filename": "oi_african_elephant_00121.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a painting of a monkey riding on the back of an elephant, with a tree in the background, a bird perched on the trunk, and a sky filled with clouds. The painting is titled \"The Elephant and the Monkey\" by the renowned artist, Ravi Shankar."
+        },
+        {
+          "filename": "oi_african_elephant_00122.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a colorful sculpture of an elephant on the side of a street, surrounded by people, chairs, tables, umbrellas, vehicles, buildings with windows, light poles, traffic signals, and other objects.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00123.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows an elephant walking through tall grass in the wild, surrounded by trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00124.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows an elephant standing in a pen with its trunk up, surrounded by a few pillars and a wall on the left side.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00125.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a wooden elephant statue sitting atop a cement block, with a paper on the floor and a wall in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00126.jpg",
+          "elapsed_s": 0.109,
+          "caption": "The image shows a statue of an elephant standing in the middle of a city street, surrounded by buildings, street poles, street lights, sign boards, motor vehicles on the road, bushes, and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00127.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows an elephant standing in the middle of a lush green field, surrounded by trees in the background. The elephant is likely in the Okavango Delta, a popular destination for tourists looking for a unique and beautiful sight.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00128.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows a group of elephants standing on top of a stage in a circus, with a person standing on the left side of the stage holding a rope. In the background, there are a few people standing and watching the elephants, and the image is in black and white."
+        },
+        {
+          "filename": "oi_african_elephant_00129.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows an elephant standing in the middle of a field, surrounded by trees and a cloudy sky. The elephant is throwing dust in the air, creating a black and white effect.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00130.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows a group of people looking at an elephant in a glass case. The elephant is surrounded by boards with text, lights, an air conditioner, and other objects.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00131.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows a herd of elephants walking across a lush green field, with a clear blue sky in the background. The elephants are in black and white, creating a stark contrast between the vibrant green of the grass and the dark sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00132.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows an elephant standing in the dirt near a tree, surrounded by grass and a wall in the background. The sky is visible above, and the elephant is eating grass.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00133.jpg",
+          "elapsed_s": 0.092,
+          "caption": "The image shows a drawing of an elephant on a piece of paper attached to a metal rod. The paper is white and the elephant is drawn in black ink.<pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00134.jpg",
+          "elapsed_s": 0.092,
+          "caption": "The image shows a herd of elephants walking across a dry grass covered field, with trees in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00135.jpg",
+          "elapsed_s": 0.092,
+          "caption": "The image shows a felt book with an elephant on it, featuring a green and brown color scheme. The elephant is painted on the cloth and has the word \"elephant\" written on it."
+        },
+        {
+          "filename": "oi_african_elephant_00136.jpg",
+          "elapsed_s": 0.092,
+          "caption": "The image shows a woman standing next to an elephant in a zoo, surrounded by a metal fence. In the background, there are trees and a clear blue sky.<pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00137.jpg",
+          "elapsed_s": 0.092,
+          "caption": "The image shows a statue of an elephant sitting atop a grass covered field, surrounded by people sitting on benches, trees, buildings, and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00138.jpg",
+          "elapsed_s": 0.092,
+          "caption": "The image shows an elephant standing next to a body of water in a grassy area surrounded by rocks.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00139.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows an elephant standing in the middle of a zoo enclosure surrounded by a fence, poles, plants, trees, rocks, and a road. The sky is visible in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00140.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a mural of an octopus painted on the side of a building in London, England. The mural is a vibrant and colorful piece of art, depicting an elephant with its tentacles spread out in a menacing pose. The colors used in the mural are bright and vivid, creating a striking contrast against the wall and the surrounding environment."
+        },
+        {
+          "filename": "oi_african_elephant_00141.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows an elephant with its trunk outstretched in the grass, surrounded by a fence and trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00142.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a sign in the middle of a forest with an elephant on it. The sign is attached to two poles and has text and an image of an elephant. In the background, there are trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00143.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a stone elephant statue in front of a sign that reads \"Asia Rock Art\" with a board attached to a pole in the background. The elephant is surrounded by lush green trees, creating a peaceful atmosphere.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00144.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a close up of an elephant with its trunk up, looking directly at the camera with a blurred background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00145.jpg",
+          "elapsed_s": 0.095,
+          "caption": "The image shows a large elephant float in the middle of a crowd of people, with people riding on it. The float is made of cardboard and is surrounded by buildings, trees, and a clear blue sky."
+        },
+        {
+          "filename": "oi_african_elephant_00146.jpg",
+          "elapsed_s": 0.095,
+          "caption": "The image shows an inflatable elephant statue in the middle of a park, surrounded by grass and trees. There are a few people in the background, and the sky is visible above them.<pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00147.jpg",
+          "elapsed_s": 0.095,
+          "caption": "The image shows an elephant standing in the water near a tree, surrounded by lush green plants.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00148.jpg",
+          "elapsed_s": 0.095,
+          "caption": "The image shows two people riding on the back of an elephant in a field, surrounded by lush green grass and tall trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00149.jpg",
+          "elapsed_s": 0.095,
+          "caption": "The image shows an elephant standing in the middle of a lush green field, surrounded by trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00150.jpg",
+          "elapsed_s": 0.095,
+          "caption": "The image shows two elephants standing next to each other in the water, surrounded by rocks and other objects in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00151.jpg",
+          "elapsed_s": 0.103,
+          "caption": "The image shows a woolly mammoth with its tusks standing on the ground, with a poster in the background featuring text and numbers.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00152.jpg",
+          "elapsed_s": 0.103,
+          "caption": "The image shows a man and a young boy standing next to an elephant in a zoo, with a railing in the foreground and a blurred background. The man is holding the boy in his arms, and there is a dog at the bottom of the image."
+        },
+        {
+          "filename": "oi_african_elephant_00153.jpg",
+          "elapsed_s": 0.103,
+          "caption": "The image shows a black and white photo of an elephant with its trunk up, its face clearly visible.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00154.jpg",
+          "elapsed_s": 0.103,
+          "caption": "The image shows a statue of an elephant standing on top of a cement floor, with a wall and railing in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00155.jpg",
+          "elapsed_s": 0.103,
+          "caption": "The image shows an elephant standing in front of a red wall, with a plant in a pot to its right and various objects in the background. The elephant is standing on the floor, and the wall behind it is a deep red color.<pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00156.jpg",
+          "elapsed_s": 0.103,
+          "caption": "The image shows two elephants standing in front of a fence with a banner attached to two wooden poles. The fence is surrounded by lush green grass and plants with colorful flowers. In the background, there are trees, a shed, and a clear blue sky."
+        },
+        {
+          "filename": "oi_african_elephant_00157.jpg",
+          "elapsed_s": 0.112,
+          "caption": "The image shows a man walking an elephant down a road, wearing a hat and holding a stick in his hand. On the right side of the image there are wooden logs, and in the background there are trees and a house.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00158.jpg",
+          "elapsed_s": 0.112,
+          "caption": "The image shows a group of people riding on the back of an elephant, with a person wearing a hat in the foreground. In the background, there are trees, grass, and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00159.jpg",
+          "elapsed_s": 0.112,
+          "caption": "The image shows a magazine spread with a woman in a silver dress standing in front of a crowd of people, some of whom are holding cameras. There is an elephant in the background, as well as trees and a clear blue sky. The text on the magazine reads \"G Living Travel Magazine - August 2011\"."
+        },
+        {
+          "filename": "oi_african_elephant_00160.jpg",
+          "elapsed_s": 0.112,
+          "caption": "The image shows an elephant walking across a lush green field next to a river, with a person standing nearby. The sky is filled with clouds and the background is filled on a hill with trees.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00161.jpg",
+          "elapsed_s": 0.112,
+          "caption": "The image shows a woman sitting atop an elephant statue in the snow. She is wearing a jacket and jeans, and the background of the image includes stairs, a pillar, and a building with doors.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00162.jpg",
+          "elapsed_s": 0.112,
+          "caption": "The image shows an elephant standing in the water with its trunk up, surrounded by trees and a clear blue sky in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00163.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows an elephant standing in the grass with its trunk up, surrounded by trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00164.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows a group of elephants sitting on top of a lush green field, surrounded by trees and buildings in the background. The sky is filled with white, fluffy clouds, creating a peaceful atmosphere.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00165.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows a close up of an elephant's eye, with its wrinkled skin and large, dark eyes. Its ears are perked up and its mouth is slightly open, revealing its sharp teeth. Its trunk is long and curved, and its ears are pointed."
+        },
+        {
+          "filename": "oi_african_elephant_00166.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows a man standing next to an elephant on a stage, illuminated by lights in the background. He is wearing a gold dress, and there are a few people in the audience watching the performance.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00167.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows a herd of elephants walking down a dirt road surrounded by trees and plants. The elephants are walking side by side, with the trees providing a backdrop.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00168.jpg",
+          "elapsed_s": 0.107,
+          "caption": "The image shows a baby elephant laying down in the dirt surrounded by trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00169.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a herd of elephants walking across a lush green field, with trees in the background. The elephants are walking in a line, with some of them drinking from the water. The grass is a vibrant green, and the trees are tall and full.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00170.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows an African elephant walking through tall grass with trees in the background. The elephant is surrounded by lush green grass and tall trees, creating a peaceful atmosphere.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00171.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a herd of elephants standing on top of a lush green field, surrounded by trees and plants. The elephants are in the foreground, with one adult elephant leading the way.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00172.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows two people riding on the back of an elephant down a river, surrounded by lush greenery and trees. In the background, there is a hut, likely part of a private elephant safari in Chiang Mai, Thailand.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00173.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a group of people riding on the back of an elephant, which is decorated with intricate designs and is surrounded by trees and buildings in the background. The sky is visible at the top of the image, and the people are holding cameras, capturing the moment of the circus elephant ride.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00174.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a painting of a woman standing next to an elephant, holding a bowl in her hands. The woman is wearing a traditional Thai dress and has a peaceful expression on her face. The elephant is standing in front of her, with its trunk raised in the air. The background of the painting is a light blue sky with white clouds."
+        },
+        {
+          "filename": "oi_african_elephant_00175.jpg",
+          "elapsed_s": 0.117,
+          "caption": "The image shows a man and woman riding on the back of an elephant down a road surrounded by trees, plants, and houses. The sky is filled with clouds and there is a pole with a wire running along the right side of the image.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00176.jpg",
+          "elapsed_s": 0.117,
+          "caption": "The image shows a woman riding on the back of an elephant adorned with flowers. She is wearing a red and white dress and is holding a child in her arms. To the right of the elephant is a red tent, and to the left is a railing. In the background, there are white tents, trees, and a clear blue sky."
+        },
+        {
+          "filename": "oi_african_elephant_00177.jpg",
+          "elapsed_s": 0.117,
+          "caption": "The image shows an elephant standing next to a tree in a zoo, surrounded by wooden logs, a metal rod fence, some stones, a pole and a group of trees. The elephant is likely at the Chiang Mai Zoo, as indicated by the photo credit.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00178.jpg",
+          "elapsed_s": 0.117,
+          "caption": "The image shows an adult elephant and her baby walking through the dirt, surrounded by trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00179.jpg",
+          "elapsed_s": 0.117,
+          "caption": "The image shows a man and woman standing next to an elephant on a dirt road surrounded by trees. The man is wearing goggles and the woman is wearing a bag. There are a few people in the background, some of whom are holding cameras.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00180.jpg",
+          "elapsed_s": 0.117,
+          "caption": "The image shows a man riding on the back of an elephant down a dirt road, with a shed in the background and many trees surrounding it. The man is holding a stick in his hand.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00181.jpg",
+          "elapsed_s": 0.105,
+          "caption": "The image shows a group of people riding on the backs of elephants in a zoo, surrounded by a wooden fence. The people are wearing different colored clothing and one of them is wearing a cap. In the background, there are many trees and a clear blue sky."
+        },
+        {
+          "filename": "oi_african_elephant_00182.jpg",
+          "elapsed_s": 0.105,
+          "caption": "The image shows an elephant behind a metal fence in a zoo, with trees in the background. The elephant is in the foreground, with the metal fence providing a barrier between the two.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00183.jpg",
+          "elapsed_s": 0.105,
+          "caption": "The image shows a statue of an elephant standing in front of a building with a tower in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00184.jpg",
+          "elapsed_s": 0.105,
+          "caption": "The image shows an elephant and a zebra walking down a dirt road surrounded by trees and a sky with clouds in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00185.jpg",
+          "elapsed_s": 0.105,
+          "caption": "The image shows an elephant walking through a lush green field with trees in the background and a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00186.jpg",
+          "elapsed_s": 0.105,
+          "caption": "The image shows two elephants standing in the grass with their tusks, surrounded by trees, hills, and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00187.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a man kneeling down next to an elephant in the dirt, wearing a red t-shirt, shorts, and shoes. In the background, there are trees and a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00188.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows two elephants standing in front of a crowd of people, some of whom are wearing caps. There is a railing in the foreground and steps with railings in the background, as well as chairs and a wall.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00189.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows a group of people riding on the backs of horses, with an elephant in the center. The people are holding weapons and other objects, and the sky is visible in the background. This image is a black and white drawing depicting the battle of the elephant, which was the first of the three armies of the Roman Empire."
+        },
+        {
+          "filename": "oi_african_elephant_00190.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows three elephants walking across a lush green field, surrounded by trees and a body of water in the background. The sky is visible at the top of the image, and there is some text at the bottom.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00191.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows an elephant standing next to a person on a dirt road surrounded by lush green grass and plants. The elephant is in the center of the image, with the person's legs visible at the bottom.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00192.jpg",
+          "elapsed_s": 0.115,
+          "caption": "The image shows two elephants playing in the water with each other, surrounded by steps and pillars in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00193.jpg",
+          "elapsed_s": 0.09,
+          "caption": "The image shows an elephant with a colorful painting on its face against a backdrop of a clear blue sky.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00194.jpg",
+          "elapsed_s": 0.09,
+          "caption": "The image shows two elephants playing in the water near each other, surrounded by lush green grass and trees in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00195.jpg",
+          "elapsed_s": 0.09,
+          "caption": "The image shows an elephant standing in front of a building with a wall and a pole in the background. The elephant is in the foreground, with the ground visible at the bottom."
+        },
+        {
+          "filename": "oi_african_elephant_00196.jpg",
+          "elapsed_s": 0.09,
+          "caption": "The image shows an African elephant standing in tall grass with trees in the background. The elephant is surrounded by lush green grass and tall trees, providing a peaceful and serene atmosphere."
+        },
+        {
+          "filename": "oi_african_elephant_00197.jpg",
+          "elapsed_s": 0.09,
+          "caption": "The image shows an elephant walking across a dirt field next to a body of water, with a wall on the right side, trees in the background, and a railing behind it."
+        },
+        {
+          "filename": "oi_african_elephant_00198.jpg",
+          "elapsed_s": 0.09,
+          "caption": "The image shows an elephant with a long trunk standing in front of a tree, with a watermark in the background.<pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00199.jpg",
+          "elapsed_s": 0.43,
+          "caption": "The image shows a group of people standing around an elephant in a zoo, surrounded by a railing, plants, trees, and buildings in the background with a clear blue sky above.<pad><pad><pad><pad><pad><pad><pad>"
+        },
+        {
+          "filename": "oi_african_elephant_00200.jpg",
+          "elapsed_s": 0.43,
+          "caption": "The image shows a statue of an elephant in the middle of a building, surrounded by plants and illuminated by lights. The building has pillars and a wall, and the ceiling is visible at the top of the image."
+        }
+      ]
+    }
+  }
+}

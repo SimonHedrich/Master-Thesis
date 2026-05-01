@@ -1,0 +1,70 @@
+# SpeciesNet two-stage teacher pipeline environment
+#
+# Python 3.11 is required because the speciesnet PyPI package constrains
+# to Python <3.13, and 3.11 is the most stable option for all dependencies.
+#
+# Provides: MegaDetector v5a (PytorchWildlife) + SpeciesNet EfficientNetV2-M
+#
+# Usage:
+#   make speciesnet-build
+#   make speciesnet-smoke
+#   make speciesnet-demo   IMAGE=path/to/image.jpg
+#   make speciesnet-labels DIR=data/training/ OUT=output/kd_soft_labels.jsonl
+FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu24.04
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        software-properties-common \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y --no-install-recommends \
+        python3.11 \
+        python3.11-venv \
+        python3.11-dev \
+        git \
+        make \
+        htop \
+        tmux \
+        curl \
+        libgl1 \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install all dependencies with pip directly (simpler than uv for a
+# Python-version-pinned auxiliary environment)
+# torch cu130: same version as the host for consistency
+RUN python3.11 -m venv /opt/venv \
+    && /opt/venv/bin/pip install --upgrade pip --quiet
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    /opt/venv/bin/pip install \
+        --extra-index-url https://download.pytorch.org/whl/cu130 \
+        torch==2.11.0+cu130 \
+        torchvision==0.26.0+cu130 \
+        --quiet
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    /opt/venv/bin/pip install \
+        speciesnet \
+        PytorchWildlife \
+        numpy \
+        pillow \
+        tqdm \
+        pandas \
+        opencv-python-headless \
+        --quiet
+
+ENV PATH="/opt/venv/bin:$PATH"
+ENV PYTHONPATH=/app/scripts
+ENV PYTHONUNBUFFERED=1
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+COPY scripts ./scripts
+
+CMD ["/bin/bash"]

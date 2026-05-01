@@ -1,0 +1,136 @@
+# NanoDet-Plus-m configuration — Wildlife 225-class detection
+#
+# Adapted from nanodet-plus-m_416.yml for the thesis wildlife taxonomy.
+# Changes from the COCO baseline:
+#   - num_classes: 80 → 225
+#   - class_names: (filled in at training time from labels file)
+#
+# Training (inside Dockerfile.nanodet):
+#   cd /opt/nanodet
+#   python tools/train.py /app/scripts/training/configs/nanodet-plus-m-wildlife225.yml
+#
+# NCNN export (for Raspberry Pi 5 deployment):
+#   python tools/export.py /app/scripts/training/configs/nanodet-plus-m-wildlife225.yml \
+#     --checkpoint workspace/nanodet_wildlife225/model_best/model_best.ckpt \
+#     --out_path output/nanodet_wildlife225_ncnn
+#
+# Class adaptation notes:
+#   NanoDet does NOT support Ultralytics-style auto-rebuild. A new config
+#   with num_classes: 225 is required. Backbone weights (ShuffleNetV2) can
+#   be reused from COCO pretraining; the detection head is randomly init.
+#   Load backbone-only with: pretrain_model_path pointing to the COCO
+#   backbone checkpoint (not the full NanoDet COCO checkpoint).
+
+save_dir: workspace/nanodet_wildlife225
+
+model:
+  arch:
+    name: NanoDetPlus
+    detach_epoch: 10
+    backbone:
+      name: ShuffleNetV2
+      model_size: "1.0x"
+      out_stages: [2, 3, 4]
+      activation: LeakyReLU
+      # Use COCO-pretrained backbone weights (head is incompatible, ignored)
+      # pretrain_model_path: /path/to/shufflenetv2_x1.0.pth
+    fpn:
+      name: GhostPAN
+      in_channels: [116, 232, 464]
+      out_channels: 96
+      kernel_size: 5
+      num_extra_level: 1
+      use_depthwise: True
+      activation: LeakyReLU
+    head:
+      name: NanoDetPlusHead
+      num_classes: 225        # ← wildlife taxonomy (vs 80 for COCO)
+      input_channel: 96
+      feat_channels: 96
+      stacked_convs: 2
+      kernel_size: 5
+      strides: [8, 16, 32, 64]
+      activation: LeakyReLU
+      reg_max: 7
+      norm_cfg:
+        type: BN
+      loss:
+        loss_qfl:
+          name: QualityFocalLoss
+          use_sigmoid: True
+          beta: 2.0
+          loss_weight: 1.0
+        loss_dfl:
+          name: DistributionFocalLoss
+          loss_weight: 0.25
+        loss_bbox:
+          name: GIoULoss
+          loss_weight: 2.0
+    # Auxiliary head for training stability (detach_epoch epochs only)
+    aux_head:
+      name: SimpleConvHead
+      num_classes: 225
+      input_channel: 192
+      feat_channels: 192
+      stacked_convs: 4
+      activation: LeakyReLU
+      reg_max: 7
+
+data:
+  train:
+    name: CocoDataset
+    img_path: data/training/images/train
+    ann_path: data/training/annotations/train_wildlife225.json
+    input_size: [416, 416]
+    keep_ratio: False
+    pipeline:
+      perspective: 0.0
+      scale: [0.6, 1.4]
+      stretch: [[1, 1], [1, 1]]
+      rotation: 0
+      shear: 0
+      translate: 0.2
+      flip: 0.5
+      brightness: 0.2
+      contrast: [0.6, 1.4]
+      saturation: [0.5, 1.2]
+      normalize: [[103.53, 116.28, 123.675], [57.375, 57.12, 58.395]]
+  val:
+    name: CocoDataset
+    img_path: data/training/images/val
+    ann_path: data/training/annotations/val_wildlife225.json
+    input_size: [416, 416]
+    keep_ratio: False
+    pipeline:
+      normalize: [[103.53, 116.28, 123.675], [57.375, 57.12, 58.395]]
+
+device:
+  gpu_ids: [0]
+  workers_per_gpu: 6
+  batchsize_per_gpu: 64
+
+schedule:
+  resume: ""
+  optimizer:
+    name: AdamW
+    lr: 0.001
+    weight_decay: 0.05
+  warmup:
+    name: linear
+    steps: 300
+    ratio: 0.0001
+  total_epochs: 300
+  lr_schedule:
+    name: CosineAnnealingLR
+    T_max: 300
+    eta_min: 0.00005
+  val_intervals: 10
+
+grad_clip: 35
+
+evaluator:
+  name: CocoDetectionEvaluator
+  save_key: mAP
+
+log:
+  interval: 10

@@ -19,8 +19,7 @@ Output line format (one JSON object per line):
     "passed":      true,
     "stage_failed": null,
     "reason":      null,
-    "bbox":        [x_center, y_center, w, h],   # YOLO normalized, or null
-    "bbox_conf":   0.87,                          # or null
+    "detections":  [{"bbox": [xc, yc, w, h], "conf": 0.87}, ...],  # YOLO normalized, sorted by conf desc; [] if none
     "stages_done": ["metadata", "heuristics"]
   }
 
@@ -28,8 +27,8 @@ Source overview:
   gbif        — data/gbif/images/  (MegaDetector bboxes in SNPredictions_all.json)
   inaturalist — data/inaturalist/images/       (quality_grade in observations.csv)
   wikimedia   — data/wikimedia/images/         (dimensions/mime in metadata.csv)
-  lila_bc     — data/lila_bc/images/           (COCO-format bboxes in filtered_images_225.json)
-  openimages  — data/supplementary_openimages/images/ (bboxes in metadata_catalog.csv)
+  openimages  — data/openimages/images/               (bboxes in metadata_catalog.csv)
+  images_cv   — data/images_cv/images/         (manually curated CV images; all pass metadata)
 
 Usage:
     python scripts/dataset_quality/1-filter_dataset_quality.py metadata    --source wikimedia
@@ -44,7 +43,6 @@ Requirements (base):
 Additional per stage:
     megadetector: pip install pytorchwildlife
     vlm:          pip install transformers timm einops
-    lila_bc meta: pip install ijson
 """
 
 import argparse
@@ -74,38 +72,38 @@ INAT_OBS_CSV          = REPO_ROOT / "data" / "inaturalist" / "metadata" / "obser
 WIKI_IMAGES_DIR       = REPO_ROOT / "data" / "wikimedia" / "images"
 WIKI_METADATA_CSV     = REPO_ROOT / "data" / "wikimedia" / "metadata.csv"
 
-LILA_DIR              = REPO_ROOT / "data" / "lila_bc"
-LILA_IMAGES_DIR       = LILA_DIR / "images"
-LILA_FILTERED_JSON    = LILA_DIR / "filtered_images_225.json"
-
-OI_DIR                = REPO_ROOT / "data" / "supplementary_openimages"
+OI_DIR                = REPO_ROOT / "data" / "openimages"
 OI_IMAGES_DIR         = OI_DIR / "images"
 OI_CATALOG_CSV        = OI_DIR / "metadata_catalog.csv"
+
+CV_IMAGES_DIR         = REPO_ROOT / "data" / "images_cv" / "images"
 
 # filter_results.jsonl lives next to the images dir for each source
 RESULTS_PATHS = {
     "gbif":        REPO_ROOT / "data" / "gbif" / "filter_results.jsonl",
     "inaturalist": REPO_ROOT / "data" / "inaturalist" / "filter_results.jsonl",
     "wikimedia":   REPO_ROOT / "data" / "wikimedia" / "filter_results.jsonl",
-    "lila_bc":     REPO_ROOT / "data" / "lila_bc" / "filter_results.jsonl",
-    "openimages":  REPO_ROOT / "data" / "supplementary_openimages" / "filter_results.jsonl",
+    "openimages":  REPO_ROOT / "data" / "openimages" / "filter_results.jsonl",
+    "images_cv":   REPO_ROOT / "data" / "images_cv" / "filter_results.jsonl",
 }
 
 # ── Thresholds ────────────────────────────────────────────────────────────────
 
-MIN_RESOLUTION     = 320    # pixels — shorter side
+MIN_RESOLUTION     = 256    # pixels — shorter side (iNat medium landscape shots land at ~281px)
 MAX_ASPECT_RATIO   = 4.0    # long / short side
 BLUR_THRESHOLD     = 100.0  # Laplacian variance; below this → blurry
 GRAYSCALE_STDEV    = 10.0   # std of per-channel means; below this → grayscale
 
-GBIF_MIN_SCORE     = 0.6    # SpeciesNet prediction_score minimum
-GBIF_ANIMAL_CONF   = 0.5    # MegaDetector animal detection confidence floor
-GBIF_MIN_BBOX_AREA = 0.01   # Minimum animal bbox fractional area (1 %)
+GBIF_MIN_SCORE             = 0.6    # SpeciesNet prediction_score minimum
+GBIF_ANIMAL_CONF           = 0.5    # Min confidence for an image to pass (primary detection)
+GBIF_ANIMAL_CONF_SECONDARY = 0.2    # Min confidence for secondary detections to be recorded
+GBIF_MIN_BBOX_AREA         = 0.01   # Minimum animal bbox fractional area (1 %)
 
-MD_CONF_DEFAULT    = 0.6    # Default MegaDetector acceptance threshold
+MD_CONF_PASS       = 0.5    # Image passes if any detection ≥ this threshold
+MD_CONF_SECONDARY  = 0.2    # Lower bound for secondary detections recorded alongside a passing image
 MD_BBOX_MIN_AREA   = 0.01   # Minimum animal bbox fractional area after MD inference
 
-INAT_ACCEPTED_GRADES = {"research"}
+INAT_ACCEPTED_GRADES = {"research", "needs_id"}  # needs_id = real photo, community ID pending
 
 VALID_MIMES = {"image/jpeg", "image/png"}
 
@@ -171,16 +169,20 @@ def bbox_area(bbox: list) -> float:
 
 # ── Entry constructors ────────────────────────────────────────────────────────
 
-def _pass_entry(filepath: str, *, bbox=None, bbox_conf=None, stages_done=None) -> dict:
-    return {
+def _pass_entry(filepath: str, *, detections=None, stages_done=None,
+                bbox=None, bbox_conf=None) -> dict:
+    entry = {
         "filepath":    filepath,
         "passed":      True,
         "stage_failed": None,
         "reason":      None,
-        "bbox":        bbox,
-        "bbox_conf":   bbox_conf,
+        "detections":  detections if detections is not None else [],
         "stages_done": stages_done or [],
     }
+    if bbox is not None:
+        entry["bbox"]      = bbox
+        entry["bbox_conf"] = bbox_conf
+    return entry
 
 
 def _fail_entry(filepath: str, stage: str, reason: str) -> dict:
@@ -189,8 +191,7 @@ def _fail_entry(filepath: str, stage: str, reason: str) -> dict:
         "passed":      False,
         "stage_failed": stage,
         "reason":      reason,
-        "bbox":        None,
-        "bbox_conf":   None,
+        "detections":  [],
         "stages_done": [stage],
     }
 
@@ -200,13 +201,18 @@ def _fail_entry(filepath: str, stage: str, reason: str) -> dict:
 # ══════════════════════════════════════════════════════════════════════════════
 
 def cmd_metadata(args):
+    if args.source == "all":
+        for source in RESULTS_PATHS:
+            a = argparse.Namespace(**vars(args)); a.source = source
+            cmd_metadata(a)
+        return
     source = args.source
     dispatch = {
         "gbif":        _meta_gbif,
         "inaturalist": _meta_inaturalist,
         "wikimedia":   _meta_wikimedia,
-        "lila_bc":     _meta_lila_bc,
         "openimages":  _meta_openimages,
+        "images_cv":   _meta_images_cv,
     }
     entries = dispatch[source]()
     path = RESULTS_PATHS[source]
@@ -250,84 +256,66 @@ def _meta_gbif() -> list:
                 f"prediction_score {score:.3f} < {GBIF_MIN_SCORE}"))
             continue
 
-        animal_dets = [
-            d for d in (pred.get("detections") or [])
-            if d.get("label") == "animal" and d.get("conf", 0.0) >= GBIF_ANIMAL_CONF
-        ]
-        if not animal_dets:
+        # Collect all animal dets above secondary threshold, sorted by confidence desc
+        all_animal_dets = sorted(
+            [d for d in (pred.get("detections") or [])
+             if d.get("label") == "animal" and d.get("conf", 0.0) >= GBIF_ANIMAL_CONF_SECONDARY],
+            key=lambda d: d["conf"], reverse=True,
+        )
+        if not all_animal_dets or all_animal_dets[0]["conf"] < GBIF_ANIMAL_CONF:
             entries.append(_fail_entry(rel, "metadata", "no animal detection"))
             continue
 
-        best = max(animal_dets, key=lambda d: d["conf"])
-        bbox = megadetector_to_yolo(best["bbox"])
-        if bbox_area(bbox) < GBIF_MIN_BBOX_AREA:
+        primary_bbox = megadetector_to_yolo(all_animal_dets[0]["bbox"])
+        if bbox_area(primary_bbox) < GBIF_MIN_BBOX_AREA:
             entries.append(_fail_entry(rel, "metadata",
-                f"animal bbox area {bbox_area(bbox):.4f} < {GBIF_MIN_BBOX_AREA}"))
+                f"animal bbox area {bbox_area(primary_bbox):.4f} < {GBIF_MIN_BBOX_AREA}"))
             continue
 
-        entries.append(_pass_entry(rel, bbox=bbox, bbox_conf=best["conf"],
-                                   stages_done=["metadata"]))
+        # Build final detections list: convert all to YOLO, drop those with tiny area
+        detections = []
+        for d in all_animal_dets:
+            b = megadetector_to_yolo(d["bbox"])
+            if bbox_area(b) >= GBIF_MIN_BBOX_AREA:
+                detections.append({"bbox": b, "conf": d["conf"]})
+
+        entries.append(_pass_entry(rel, detections=detections, stages_done=["metadata"]))
+
+    # Fallback: images were renamed after the initial metadata run.
+    # SNPredictions_all.json still uses original filenames so no matches are found.
+    # Create pass entries for all on-disk images; MegaDetector provides bboxes later.
+    if not entries and filename_to_rel:
+        print(f"  WARNING: {len(filename_to_rel):,} GBIF images on disk but none matched "
+              "SNPredictions_all.json.\n"
+              "  Images were likely renamed after the initial metadata stage ran.\n"
+              "  Creating pass entries for all on-disk images "
+              "(SpeciesNet prediction filters skipped).")
+        for rel in sorted(filename_to_rel.values()):
+            entries.append(_pass_entry(rel, stages_done=["metadata"]))
+
     return entries
 
 
 # ── iNaturalist ───────────────────────────────────────────────────────────────
 
 def _meta_inaturalist() -> list:
-    # Map photo_id (int) → relative path
+    # Images were originally saved as inat_<photo_id>.jpg but were later renamed
+    # to inat_<species>_<seq>.jpg by scripts/rename_dataset_images.py, which
+    # destroyed the photo_id→filename link needed to look up quality grades in
+    # photos.csv/observations.csv.  Pass all on-disk images; MegaDetector filters
+    # bad images in the megadetector stage.
     print("Scanning iNaturalist images …")
-    photo_to_rel: dict[int, str] = {}
+    entries = []
     for cls_dir in sorted(INAT_IMAGES_DIR.iterdir()):
         if not cls_dir.is_dir():
             continue
-        for img in cls_dir.iterdir():
-            if not img.name.startswith("inat_"):
+        for img in sorted(cls_dir.iterdir()):
+            if img.suffix.lower() not in {".jpg", ".jpeg", ".png"}:
                 continue
-            stem = img.stem[len("inat_"):]
-            try:
-                photo_to_rel[int(stem)] = img.relative_to(REPO_ROOT).as_posix()
-            except ValueError:
-                pass
-    print(f"  Found {len(photo_to_rel):,} images on disk")
-
-    # photos.csv: photo_id → observation_uuid (tab-separated, 6.8 M rows)
-    needed_ids = set(photo_to_rel)
-    photo_to_obs: dict[int, str] = {}
-    print("Streaming photos.csv for observation UUIDs …")
-    with open(INAT_PHOTOS_CSV, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f, delimiter="\t")
-        for row in tqdm(reader, desc="photos.csv", unit=" rows"):
-            try:
-                pid = int(row["photo_id"])
-            except (ValueError, KeyError):
-                continue
-            if pid in needed_ids:
-                photo_to_obs[pid] = row["observation_uuid"]
-    print(f"  Matched {len(photo_to_obs):,} photos → observations")
-
-    # observations.csv: observation_uuid → quality_grade (tab-separated, 4 M rows)
-    needed_obs = set(photo_to_obs.values())
-    obs_to_grade: dict[str, str] = {}
-    print("Streaming observations.csv for quality grades …")
-    with open(INAT_OBS_CSV, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f, delimiter="\t")
-        for row in tqdm(reader, desc="observations.csv", unit=" rows"):
-            uuid = row.get("observation_uuid", "")
-            if uuid in needed_obs:
-                obs_to_grade[uuid] = row.get("quality_grade", "")
-    print(f"  Resolved quality grades for {len(obs_to_grade):,} observations")
-
-    entries = []
-    for photo_id, rel in photo_to_rel.items():
-        obs_uuid = photo_to_obs.get(photo_id)
-        if obs_uuid is None:
-            entries.append(_fail_entry(rel, "metadata", "not in photos.csv"))
-            continue
-        grade = obs_to_grade.get(obs_uuid, "")
-        if grade not in INAT_ACCEPTED_GRADES:
-            entries.append(_fail_entry(rel, "metadata",
-                f"quality_grade '{grade}' ∉ {INAT_ACCEPTED_GRADES}"))
-        else:
+            rel = img.relative_to(REPO_ROOT).as_posix()
             entries.append(_pass_entry(rel, stages_done=["metadata"]))
+    print(f"  Found {len(entries):,} images on disk (quality_grade check skipped — "
+          "photo_id→filename mapping lost after rename)")
     return entries
 
 
@@ -377,56 +365,6 @@ def _meta_wikimedia() -> list:
     return entries
 
 
-# ── LILA BC ───────────────────────────────────────────────────────────────────
-
-def _meta_lila_bc() -> list:
-    if not LILA_FILTERED_JSON.exists():
-        print(f"WARNING: {LILA_FILTERED_JSON} not found — run download_lila_bc.py metadata first")
-        return []
-
-    # Scan disk first — the filtered JSON is 1.6 GB; only parse entries we need
-    if not LILA_IMAGES_DIR.exists() or not any(LILA_IMAGES_DIR.iterdir()):
-        print("No LILA BC images on disk yet — skipping (rerun after download_lila_bc.py download)")
-        return []
-
-    existing: set[str] = {p.name for p in LILA_IMAGES_DIR.iterdir() if p.is_file()}
-    print(f"Found {len(existing):,} LILA BC images on disk; streaming metadata …")
-
-    try:
-        import ijson
-    except ImportError:
-        print("ERROR: ijson not installed. Run: pip install ijson")
-        sys.exit(1)
-
-    entries = []
-    with open(LILA_FILTERED_JSON, "rb") as f:
-        for item in tqdm(ijson.items(f, "item"), desc="LILA BC metadata", unit=" entries"):
-            fname = f"{item['dataset']}_{item['file_name'].replace('/', '_')}"
-            if fname not in existing:
-                continue
-            rel = f"data/lila_bc/images/{fname}"
-
-            # Use ground-truth bboxes when available.
-            # COCO format: [x_min_px, y_min_px, w_px, h_px] — normalise by image dims.
-            bbox      = None
-            bbox_conf = None
-            if item.get("has_bbox") and item.get("bboxes"):
-                w_img = item.get("width", 0)
-                h_img = item.get("height", 0)
-                if w_img > 0 and h_img > 0:
-                    bb = item["bboxes"][0]
-                    xmin = bb[0] / w_img
-                    ymin = bb[1] / h_img
-                    bw   = bb[2] / w_img
-                    bh   = bb[3] / h_img
-                    bbox = [xmin + bw / 2.0, ymin + bh / 2.0, bw, bh]
-                    bbox_conf = 1.0  # ground-truth label
-
-            entries.append(_pass_entry(rel, bbox=bbox, bbox_conf=bbox_conf,
-                                       stages_done=["metadata"]))
-    return entries
-
-
 # ── Open Images ───────────────────────────────────────────────────────────────
 
 def _meta_openimages() -> list:
@@ -443,7 +381,7 @@ def _meta_openimages() -> list:
             label    = row["label"]
             filename = row["filename"]
             label_dir = label.replace(" ", "_")
-            rel = f"data/supplementary_openimages/images/{label_dir}/{filename}"
+            rel = f"data/openimages/images/{label_dir}/{filename}"
             if not (REPO_ROOT / rel).exists():
                 continue
 
@@ -457,11 +395,37 @@ def _meta_openimages() -> list:
     return entries
 
 
+# ── images_cv ─────────────────────────────────────────────────────────────────
+
+def _meta_images_cv() -> list:
+    """All images in images_cv are manually curated; pass all of them through."""
+    if not CV_IMAGES_DIR.exists():
+        print(f"WARNING: {CV_IMAGES_DIR} not found")
+        return []
+
+    entries = []
+    for img in sorted(CV_IMAGES_DIR.rglob("*")):
+        if not img.is_file():
+            continue
+        if img.suffix.lower() not in {".jpg", ".jpeg", ".png"}:
+            continue
+        rel = img.relative_to(REPO_ROOT).as_posix()
+        entries.append(_pass_entry(rel, stages_done=["metadata"]))
+
+    print(f"images_cv: {len(entries)} images found, all passed metadata")
+    return entries
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # Stage 1: heuristics
 # ══════════════════════════════════════════════════════════════════════════════
 
 def cmd_heuristics(args):
+    if args.source == "all":
+        for source in RESULTS_PATHS:
+            a = argparse.Namespace(**vars(args)); a.source = source
+            cmd_heuristics(a)
+        return
     path = RESULTS_PATHS[args.source]
     entries = load_results(path)
     if not entries:
@@ -565,6 +529,11 @@ def _check_image(path: Path) -> tuple[bool, str | None]:
 # ══════════════════════════════════════════════════════════════════════════════
 
 def cmd_megadetector(args):
+    if args.source == "all":
+        for source in RESULTS_PATHS:
+            a = argparse.Namespace(**vars(args)); a.source = source
+            cmd_megadetector(a)
+        return
     path = RESULTS_PATHS[args.source]
     entries = load_results(path)
     if not entries:
@@ -617,7 +586,8 @@ def cmd_megadetector(args):
     model = pw_detection.MegaDetectorV5(device=device, pretrained=True)
     model.model.eval()
 
-    conf_thresh = args.conf
+    conf_pass      = args.conf            # image must have ≥ 1 animal detection ≥ this
+    conf_secondary = args.conf_secondary  # NMS lower bound; all detections above this are recorded
     batch_size  = args.batch_size
     num_workers = args.num_workers
 
@@ -668,7 +638,7 @@ def cmd_megadetector(args):
             with torch.autocast("cuda", enabled=(device == "cuda")):
                 raw = model.model(imgs)[0]
             raw = raw.float().detach().cpu()
-            preds = non_max_suppression(raw, conf_thres=conf_thresh)
+            preds = non_max_suppression(raw, conf_thres=conf_secondary)
 
             for i, pred in enumerate(preds):
                 abs_p = batch_abs[i]
@@ -679,7 +649,7 @@ def cmd_megadetector(args):
                 if pred is None or len(pred) == 0:
                     entry["passed"]       = False
                     entry["stage_failed"] = "megadetector"
-                    entry["reason"]       = f"no animal detected (conf ≥ {conf_thresh})"
+                    entry["reason"]       = f"no animal detected (conf ≥ {conf_pass})"
                     failed += 1
                     continue
 
@@ -689,23 +659,25 @@ def cmd_megadetector(args):
                     [img_size] * 2, pred_np[:, :4], (H, W)
                 ).round()
 
-                # Filter class 0 (animal) detections
-                animal_dets = [
-                    {"bbox": [float(x1/W), float(y1/H),
-                               float((x2-x1)/W), float((y2-y1)/H)],
-                     "conf": float(c)}
-                    for x1, y1, x2, y2, c, cls in pred_np
-                    if int(cls) == 0
-                ]
+                # All class 0 detections above secondary threshold, sorted desc by conf
+                animal_dets = sorted(
+                    [{"bbox": [float(x1/W), float(y1/H),
+                                float((x2-x1)/W), float((y2-y1)/H)],
+                      "conf": float(c)}
+                     for x1, y1, x2, y2, c, cls in pred_np if int(cls) == 0],
+                    key=lambda d: d["conf"], reverse=True,
+                )
 
-                if not animal_dets:
+                # Image passes only if at least one detection clears the pass bar
+                pass_dets = [d for d in animal_dets if d["conf"] >= conf_pass]
+                if not pass_dets:
                     entry["passed"]       = False
                     entry["stage_failed"] = "megadetector"
-                    entry["reason"]       = f"no animal detected (conf ≥ {conf_thresh})"
+                    entry["reason"]       = f"no animal detected (conf ≥ {conf_pass})"
                     failed += 1
                     continue
 
-                best = max(animal_dets, key=lambda d: d["conf"])
+                best = pass_dets[0]  # highest-conf detection above pass threshold
                 bbox = megadetector_to_yolo(best["bbox"])
                 if bbox_area(bbox) < MD_BBOX_MIN_AREA:
                     entry["passed"]       = False
@@ -715,8 +687,16 @@ def cmd_megadetector(args):
                     failed += 1
                     continue
 
-                entry["bbox"]      = bbox
-                entry["bbox_conf"] = best["conf"]
+                # Record all secondary detections with sufficient area
+                detections = []
+                for d in animal_dets:
+                    b = megadetector_to_yolo(d["bbox"])
+                    if bbox_area(b) >= MD_BBOX_MIN_AREA:
+                        detections.append({"bbox": b, "conf": d["conf"]})
+
+                entry["bbox"]       = bbox
+                entry["bbox_conf"]  = best["conf"]
+                entry["detections"] = detections
 
             if (batch_idx + 1) % save_interval == 0:
                 save_results(path, entries)
@@ -819,6 +799,10 @@ def _parse_ultralytics_boxes(result, conf_thresh: float) -> list[dict]:
 # ══════════════════════════════════════════════════════════════════════════════
 
 def cmd_vlm(args):
+    if args.source == "all":
+        a = argparse.Namespace(**vars(args)); a.source = "wikimedia"
+        cmd_vlm(a)
+        return
     path = RESULTS_PATHS[args.source]
     entries = load_results(path)
     if not entries:
@@ -871,7 +855,8 @@ def cmd_vlm(args):
     vlm_model = AutoModelForCausalLM.from_pretrained(
         model_id,
         trust_remote_code=True,
-        torch_dtype=torch.float16 if device == "cuda" else torch.float32,
+        dtype=torch.float16 if device == "cuda" else torch.float32,
+        attn_implementation="eager",
     ).to(device)
     vlm_model.eval()
 
@@ -963,7 +948,7 @@ def cmd_report(args):
 # ══════════════════════════════════════════════════════════════════════════════
 
 def main():
-    SOURCES = ["gbif", "inaturalist", "wikimedia", "lila_bc", "openimages"]
+    SOURCES = ["gbif", "inaturalist", "wikimedia", "openimages", "images_cv"]
 
     parser = argparse.ArgumentParser(
         description=__doc__,
@@ -974,7 +959,7 @@ def main():
     # metadata
     p = sub.add_parser("metadata",
                        help="Generate filter_results.jsonl from source metadata (no GPU)")
-    p.add_argument("--source", choices=SOURCES, required=True)
+    p.add_argument("--source", choices=SOURCES + ["all"], required=True)
     p.add_argument("--force", action="store_true",
                    help="Overwrite existing filter_results.jsonl (always a full rebuild)")
     p.set_defaults(func=cmd_metadata)
@@ -982,7 +967,7 @@ def main():
     # heuristics
     p = sub.add_parser("heuristics",
                        help="Run per-image quality checks: corruption, resolution, blur, grayscale")
-    p.add_argument("--source", choices=SOURCES, required=True)
+    p.add_argument("--source", choices=SOURCES + ["all"], required=True)
     p.add_argument("--force", action="store_true",
                    help="Reset and re-run heuristics even for entries already processed")
     p.add_argument("--workers", type=int, default=min(8, __import__("os").cpu_count() or 1),
@@ -992,13 +977,15 @@ def main():
     # megadetector
     p = sub.add_parser("megadetector",
                        help="MegaDetector v5 inference for animal detection + bbox generation")
-    p.add_argument("--source", choices=SOURCES, required=True)
+    p.add_argument("--source", choices=SOURCES + ["all"], required=True)
     p.add_argument("--batch-size", type=int, default=32, metavar="N",
                    help="Images per GPU batch (default: 32)")
     p.add_argument("--num-workers", type=int, default=4, metavar="N",
                    help="DataLoader CPU worker processes for image prefetching (default: 4)")
-    p.add_argument("--conf", type=float, default=MD_CONF_DEFAULT, metavar="T",
-                   help=f"Animal detection confidence threshold (default: {MD_CONF_DEFAULT})")
+    p.add_argument("--conf", type=float, default=MD_CONF_PASS, metavar="T",
+                   help=f"Minimum confidence for an image to pass (default: {MD_CONF_PASS})")
+    p.add_argument("--conf-secondary", type=float, default=MD_CONF_SECONDARY, metavar="T",
+                   help=f"Lower confidence for recording secondary detections (default: {MD_CONF_SECONDARY})")
     p.add_argument("--force", action="store_true",
                    help="Reset and re-run MegaDetector even for entries already processed")
     p.set_defaults(func=cmd_megadetector)
@@ -1006,8 +993,8 @@ def main():
     # vlm
     p = sub.add_parser("vlm",
                        help="Florence-2 semantic rescue for Wikimedia borderline images")
-    p.add_argument("--source", choices=["wikimedia"], default="wikimedia",
-                   help="Only 'wikimedia' is supported (default: wikimedia)")
+    p.add_argument("--source", choices=["wikimedia", "all"], default="wikimedia",
+                   help="Source to process; 'all' runs wikimedia only (default: wikimedia)")
     p.add_argument("--force", action="store_true",
                    help="Reset and re-run VLM even for entries already processed")
     p.set_defaults(func=cmd_vlm)

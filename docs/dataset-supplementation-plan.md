@@ -29,7 +29,101 @@ Danielle's dataset (`resources/SNPredictions_all.json` + `resources/GBIFImages/i
 
 ---
 
+## Minimum Per-Class Image Threshold
+
+Based on transfer-learning and knowledge-distillation literature, the following per-class instance counts are the working targets for this pipeline.
+
+> **Instance** = one annotated animal occurrence (bounding box). For iNaturalist/GBIF images that typically contain one animal, images ≈ instances.
+
+| Scenario | Minimum instances/class |
+|---|---|
+| KD from SpeciesNet teacher (primary pipeline) | ~200–400 |
+| Direct fine-tuning of student (baseline) | ~400–800 |
+| Visually similar or long-tail species | 800+ |
+
+**Rationale:**
+- Fine-tuning a COCO-pretrained backbone requires far less data than training from scratch, because the backbone already encodes textures, edges, and animal-like shapes.
+- Knowledge distillation from SpeciesNet further lowers the threshold: the teacher's soft labels carry domain-relevant signal that effectively amplifies each training image.
+- Nano-scale student models (1–3 M parameters) overfit less readily than large models and therefore need proportionally fewer examples per class.
+
+**Class inclusion threshold:** A GBIF image count of **≥ 300** is used as a proxy for including a species in the target class set. This correlates with iNaturalist/supplementary availability and leaves headroom for quality filtering.
+
+Classes that remain below ~200 instances after all real-data supplementation steps (Steps 1–4) are candidates for synthetic generation or pseudo-labeling (Step 5).
+
+---
+
+## Special Case: Human Class
+
+The `human / homo sapiens` class requires a separate sourcing strategy from all other 224 classes because the standard quality-filter pipeline is incompatible with it: MegaDetector classifies humans in a dedicated detection class, separate from its "animal" class. Every human image therefore fails the pipeline's "no animal detected" check and is rejected. The 14 GBIF human images on disk all had zero images after filtering for this reason.
+
+### Sources investigated
+
+**iNaturalist open data (S3 export) — not viable**
+
+The iNaturalist public S3 bulk export (`s3://inaturalist-open-data/`) deliberately excludes Homo sapiens observations, almost certainly for privacy reasons (the export does not publish human location data). The taxon `Homo sapiens` exists in `taxa.csv` (taxon_id 43584) but zero observations appear in `observations.csv`.
+
+**Open Images V7 — tried and rejected**
+
+Open Images V7 has a `Person` class with ground-truth bounding boxes. However, after downloading with filters (person bbox area ≥ 5%, ≤ 2 person bboxes, no vehicle annotations), the images were dominated by close-up portraits and low-quality shots. OI annotations tend toward tightly framed, subject-centred photography that does not match the AX Visio deployment scenario.
+
+**COCO 2017 (first attempt) — tried and rejected**
+
+COCO 2017 was the first source attempted. The initial implementation filtered for:
+- No animal-supercategory annotations
+- Ranked by fewest indoor-supercategory annotations
+
+This produced unsuitable images because the `vehicle` supercategory was never excluded, the minimum person area threshold was 100 absolute px² (≈ 0.03% of a typical image), and there were no crowd, edge-margin, or person-count checks. The resulting images were dominated by urban street scenes with buses and motorcycles, crowd shots, and tiny background pedestrians.
+
+**COCO 2017 (revised, strict filters) — adopted**
+
+After adding the full set of selection and quality filters described below, COCO 2017 yields images that are suitable for the AX Visio use case: single or small groups of people visible at natural outdoor distances, not cropped or obscured.
+
+### Adopted pipeline: `scripts/download_coco_humans.py`
+
+Output: `data/coco_humans/images/human/coco_{image_id}.jpg`  
+Catalog: `data/coco_humans/metadata_catalog.csv` (same schema as Open Images)  
+Pipeline isolation: `data/coco_humans/` is not referenced by `1-filter_dataset_quality.py`, `2-analyse_dataset_coverage.py`, or `rename_dataset_images.py`. Human images are excluded from the standard quality filter by design.
+
+#### Selection filters (applied before download, from COCO annotation JSON)
+
+| Filter | Value | Problem addressed |
+|---|---|---|
+| Exclude `vehicle` supercategory | hard exclude | Buses, motorcycles, cars dominating the frame |
+| Exclude `animal` supercategory | hard exclude | Animals in the image |
+| Exclude `iscrowd = 1` annotations | hard exclude | Crowd shots (COCO crowd flag) |
+| Max total person annotations | ≤ 3 | Large groups of people |
+| Person bbox normalized area (floor) | ≥ 5% of image | Tiny background pedestrians |
+| Person bbox normalized area (ceiling) | ≤ 60% of image | Extreme close-ups |
+| Edge margin | ≥ 2% from all four edges | Cropped subjects at frame boundary |
+| Person bbox aspect ratio (h/w) | ≥ 0.5 | Horizontal / lying-down crops |
+| Indoor score (soft rank) | ascending | Prefer images without furniture/appliance/electronic annotations |
+| Person area (secondary sort) | descending | Among equally outdoor images, prefer the most prominent person |
+
+#### Post-download quality checks (same thresholds as `1-filter_dataset_quality.py`)
+
+Applied via `cv2` immediately after each download. Failed images are deleted and marked as failed (not retried):
+
+| Check | Threshold | Rationale |
+|---|---|---|
+| Minimum resolution | shorter side ≥ 256 px | Filter thumbnails or corrupted downloads |
+| Blur (Laplacian variance) | ≥ 100 on 512 × 512 grayscale thumbnail | Discard motion-blurred or out-of-focus frames |
+| Grayscale / IR detection | mean HSV saturation ≥ 15 | Discard near-grayscale or infrared images |
+
+#### Usage
+
+```bash
+# Fresh start (deletes progress + catalog from any previous run)
+python scripts/download_coco_humans.py --reset --target 50 --workers 4  # smoke test first
+
+# Full run (or resume after interruption)
+python scripts/download_coco_humans.py --target 2000
+```
+
+---
+
 ## Step 1: Download and Process LILA BC Datasets
+
+> **Decision: Not used.** After downloading a representative sample and reviewing the images, LILA BC camera trap data was found to be unsuitable for this use case. The images predominantly show animals at long range, partially occluded by vegetation, with motion blur from fast-moving triggers, and a large fraction captured under infrared night-vision conditions. The recognisable animal content per image is consistently low, making these images a poor match for the AX Visio binocular deployment scenario, which requires clear, daylight, close-to-mid-range shots. The dataset was removed and is not included in the training pipeline.
 
 **Priority: Highest. Impact: Covers most gap species. Risk: Lowest (CDLA-Permissive license).**
 

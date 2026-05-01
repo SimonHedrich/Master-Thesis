@@ -1,0 +1,89 @@
+# PicoDet-S training and inference environment (PaddlePaddle + PaddleDetection)
+#
+# PicoDet-S:
+#   - 0.99M parameters, 2.1MB, 30.6% COCO mAP
+#   - Fastest nano-class ARM CPU inference: 4.8ms on Cortex-A76 at 320×320
+#   - ESNet backbone with CSP-PAN neck; anchor-free FCOS-style head
+#   - Head adaptation: set num_classes: 225 in YAML, reuse COCO backbone weights
+#   - ONNX export: paddle2onnx → snpe-onnx-to-dlc for SNPE deployment
+#
+# Usage:
+#   make paddle-build
+#   make paddle-smoke
+#   make paddle-shell  (interactive — run training from /opt/PaddleDetection/)
+#
+# Training:
+#   cd /opt/PaddleDetection
+#   python tools/train.py -c /app/scripts/training/configs/picodet-s-wildlife225.yml
+#
+# ONNX export:
+#   python tools/export_model.py -c picodet-s-wildlife225.yml \
+#     -o weights=output/picodet_s_wildlife225/best_model
+#   python -m paddle2onnx --model_dir ./picodet_s_infer --opset_version 11 \
+#     --save_file picodet_s_wildlife225.onnx
+FROM nvidia/cuda:12.0.0-cudnn8-runtime-ubuntu22.04
+
+# Note: using Ubuntu 22.04 + CUDA 12.0 because PaddlePaddle GPU wheels are
+# built and tested against CUDA 11.x/12.0. The host NVIDIA driver (595.45.04)
+# is backward-compatible with CUDA 12.0 runtimes.
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        python3.10 \
+        python3.10-venv \
+        python3-pip \
+        git \
+        make \
+        htop \
+        tmux \
+        curl \
+        gcc \
+        g++ \
+        cmake \
+        libgl1 \
+        libglib2.0-0 \
+        libsm6 \
+        libxext6 \
+        libxrender1 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3.10 -m venv /opt/venv \
+    && /opt/venv/bin/pip install --upgrade pip --quiet
+
+ENV PATH="/opt/venv/bin:$PATH"
+ENV PYTHONUNBUFFERED=1
+ENV NVIDIA_VISIBLE_DEVICES=all
+ENV NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
+# PaddlePaddle GPU — compiled for CUDA 12.0
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install paddlepaddle-gpu==2.6.2.post120 \
+        -f https://www.paddlepaddle.org.cn/whl/linux/mkl/avx/stable.html \
+        --quiet
+
+# Install paddle2onnx for ONNX export pipeline
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install \
+        paddle2onnx \
+        numpy \
+        pillow \
+        tqdm \
+        opencv-python-headless \
+        pycocotools \
+        --quiet
+
+# Clone PaddleDetection (provides PicoDet configs and training tools)
+RUN git clone --depth 1 https://github.com/PaddlePaddle/PaddleDetection.git /opt/PaddleDetection
+
+WORKDIR /opt/PaddleDetection
+
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install -r requirements.txt --quiet \
+    && python setup.py install --quiet
+
+WORKDIR /app
+
+ENV PYTHONPATH=/app/scripts:/opt/PaddleDetection
+
+COPY scripts ./scripts
+
+CMD ["/bin/bash"]

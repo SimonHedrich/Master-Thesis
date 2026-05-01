@@ -181,7 +181,7 @@ COCO_SAFE_LICENSES = {4, 5, 6, 7, 8}
 
 WIKI_API = "https://commons.wikimedia.org/w/api.php"
 WIKI_SAFE_LICENSES = {
-    "cc0", "cc-zero", "public domain", "pd",
+    "cc0", "cc-zero", "public domain", "pd", "no restrictions",
     "cc by 4.0", "cc by 3.0", "cc by 2.0", "cc by 2.5",
     "cc-by-4.0", "cc-by-3.0", "cc-by-2.0", "cc-by-2.5",
     "cc by-sa 4.0", "cc by-sa 3.0", "cc by-sa 2.0", "cc by-sa 2.5",

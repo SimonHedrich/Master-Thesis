@@ -1,0 +1,3520 @@
+{
+  "orycteropus_afer": {
+    "common_name": "aardvark",
+    "scientific_name": "orycteropus afer",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Aardvark",
+    "wikipedia_file": "orycteropus_afer.txt",
+    "top_species": null
+  },
+  "proteles_cristata": {
+    "common_name": "aardwolf",
+    "scientific_name": "proteles cristata",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Aardwolf",
+    "wikipedia_file": "proteles_cristata.txt",
+    "top_species": null
+  },
+  "syncerus_caffer": {
+    "common_name": "african buffalo",
+    "scientific_name": "syncerus caffer",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/African_buffalo",
+    "wikipedia_file": "syncerus_caffer.txt",
+    "top_species": null
+  },
+  "civettictis_civetta": {
+    "common_name": "african civet",
+    "scientific_name": "civettictis civetta",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/African_civet",
+    "wikipedia_file": "civettictis_civetta.txt",
+    "top_species": null
+  },
+  "loxodonta_africana": {
+    "common_name": "african elephant",
+    "scientific_name": "loxodonta africana",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/African_elephant",
+    "wikipedia_file": "loxodonta_africana.txt",
+    "top_species": null
+  },
+  "lycaon_pictus": {
+    "common_name": "african wild dog",
+    "scientific_name": "lycaon pictus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/African_wild_dog",
+    "wikipedia_file": "lycaon_pictus.txt",
+    "top_species": null
+  },
+  "dasyprocta": {
+    "common_name": "agouti genus",
+    "scientific_name": "dasyprocta",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Agouti",
+    "wikipedia_file": "dasyprocta.txt",
+    "top_species": [
+      {
+        "scientific_name": "dasyprocta punctata",
+        "common_name": "Central American Agouti",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Central_American_agouti",
+        "wikipedia_file": "dasyprocta_punctata.txt",
+        "inat_observations": 16658,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "dasyprocta fuliginosa",
+        "common_name": "Black Agouti",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black_agouti",
+        "wikipedia_file": "dasyprocta_fuliginosa.txt",
+        "inat_observations": 1822,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "dasyprocta azarae",
+        "common_name": "Azara's Agouti",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Azara%27s_agouti",
+        "wikipedia_file": "dasyprocta_azarae.txt",
+        "inat_observations": 1799,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "dasyprocta leporina",
+        "common_name": "Red-rumped Agouti",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Red-rumped_agouti",
+        "wikipedia_file": "dasyprocta_leporina.txt",
+        "inat_observations": 1441,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "dasyprocta variegata",
+        "common_name": "Brown Agouti",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Brown_agouti",
+        "wikipedia_file": "dasyprocta_variegata.txt",
+        "inat_observations": 584,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "capra_ibex": {
+    "common_name": "alpine ibex",
+    "scientific_name": "capra ibex",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Alpine_ibex",
+    "wikipedia_file": "capra_ibex.txt",
+    "top_species": null
+  },
+  "marmota_marmota": {
+    "common_name": "alpine marmot",
+    "scientific_name": "marmota marmota",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Alpine_marmot",
+    "wikipedia_file": "marmota_marmota.txt",
+    "top_species": null
+  },
+  "taxidea_taxus": {
+    "common_name": "american badger",
+    "scientific_name": "taxidea taxus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/American_badger",
+    "wikipedia_file": "taxidea_taxus.txt",
+    "top_species": null
+  },
+  "bison_bison": {
+    "common_name": "american bison",
+    "scientific_name": "bison bison",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/American_bison",
+    "wikipedia_file": "bison_bison.txt",
+    "top_species": null
+  },
+  "ursus_americanus": {
+    "common_name": "american black bear",
+    "scientific_name": "ursus americanus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/American_black_bear",
+    "wikipedia_file": "ursus_americanus.txt",
+    "top_species": null
+  },
+  "neovison_vison": {
+    "common_name": "american mink",
+    "scientific_name": "neovison vison",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/American_mink",
+    "wikipedia_file": "neovison_vison.txt",
+    "top_species": null
+  },
+  "cynomys_ludovicianus": {
+    "common_name": "arizona black-tailed prairie dog",
+    "scientific_name": "cynomys ludovicianus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Black-tailed_prairie_dog",
+    "wikipedia_file": "cynomys_ludovicianus.txt",
+    "top_species": null
+  },
+  "elephas_maximus": {
+    "common_name": "asian elephant",
+    "scientific_name": "elephas maximus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Asian_elephant",
+    "wikipedia_file": "elephas_maximus.txt",
+    "top_species": null
+  },
+  "ursus_thibetanus": {
+    "common_name": "asiatic black bear",
+    "scientific_name": "ursus thibetanus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Asian_black_bear",
+    "wikipedia_file": "ursus_thibetanus.txt",
+    "top_species": null
+  },
+  "equus_hemionus": {
+    "common_name": "asiatic wild ass",
+    "scientific_name": "equus hemionus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Onager",
+    "wikipedia_file": "equus_hemionus.txt",
+    "top_species": null
+  },
+  "ateles": {
+    "common_name": "ateles species",
+    "scientific_name": "ateles",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Spider_monkey",
+    "wikipedia_file": "ateles.txt",
+    "top_species": [
+      {
+        "scientific_name": "ateles geoffroyi",
+        "common_name": "Central American Spider Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Geoffroy%27s_spider_monkey",
+        "wikipedia_file": "ateles_geoffroyi.txt",
+        "inat_observations": 10525,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "ateles chamek",
+        "common_name": "Black-faced Black Spider Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Peruvian_spider_monkey",
+        "wikipedia_file": "ateles_chamek.txt",
+        "inat_observations": 820,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "ateles belzebuth",
+        "common_name": "White-bellied Spider Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-bellied_spider_monkey",
+        "wikipedia_file": "ateles_belzebuth.txt",
+        "inat_observations": 348,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "ateles fusciceps",
+        "common_name": "Brown-headed Spider Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black-headed_spider_monkey",
+        "wikipedia_file": "ateles_fusciceps.txt",
+        "inat_observations": 348,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "ateles paniscus",
+        "common_name": "Guiana Spider Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Red-faced_spider_monkey",
+        "wikipedia_file": "ateles_paniscus.txt",
+        "inat_observations": 270,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "daubentonia_madagascariensis": {
+    "common_name": "aye-aye",
+    "scientific_name": "daubentonia madagascariensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Aye-aye",
+    "wikipedia_file": "daubentonia_madagascariensis.txt",
+    "top_species": null
+  },
+  "papio": {
+    "common_name": "baboon genus",
+    "scientific_name": "papio",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Baboon",
+    "wikipedia_file": "papio.txt",
+    "top_species": [
+      {
+        "scientific_name": "papio ursinus",
+        "common_name": "Chacma Baboon",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Chacma_baboon",
+        "wikipedia_file": "papio_ursinus.txt",
+        "inat_observations": 10483,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "papio anubis",
+        "common_name": "Olive Baboon",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Olive_baboon",
+        "wikipedia_file": "papio_anubis.txt",
+        "inat_observations": 6427,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "papio cynocephalus",
+        "common_name": "Yellow Baboon",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Yellow_baboon",
+        "wikipedia_file": "papio_cynocephalus.txt",
+        "inat_observations": 1580,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "papio hamadryas",
+        "common_name": "Hamadryas Baboon",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Hamadryas_baboon",
+        "wikipedia_file": "papio_hamadryas.txt",
+        "inat_observations": 722,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "papio papio",
+        "common_name": "Guinea Baboon",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Guinea_baboon",
+        "wikipedia_file": "papio_papio.txt",
+        "inat_observations": 358,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "tapirus_bairdii": {
+    "common_name": "baird's tapir",
+    "scientific_name": "tapirus bairdii",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Baird%27s_tapir",
+    "wikipedia_file": "tapirus_bairdii.txt",
+    "top_species": null
+  },
+  "otocyon_megalotis": {
+    "common_name": "bat-eared fox",
+    "scientific_name": "otocyon megalotis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Bat-eared_fox",
+    "wikipedia_file": "otocyon_megalotis.txt",
+    "top_species": null
+  },
+  "castor": {
+    "common_name": "beaver genus",
+    "scientific_name": "castor",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Castor",
+    "wikipedia_file": "castor.txt",
+    "top_species": [
+      {
+        "scientific_name": "castor canadensis",
+        "common_name": "American Beaver",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/North_American_beaver",
+        "wikipedia_file": "castor_canadensis.txt",
+        "inat_observations": 76068,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "castor fiber",
+        "common_name": "Eurasian Beaver",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Eurasian_beaver",
+        "wikipedia_file": "castor_fiber.txt",
+        "inat_observations": 25704,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "ovis_canadensis": {
+    "common_name": "bighorn sheep",
+    "scientific_name": "ovis canadensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Bighorn_sheep",
+    "wikipedia_file": "ovis_canadensis.txt",
+    "top_species": null
+  },
+  "arctictis_binturong": {
+    "common_name": "binturong",
+    "scientific_name": "arctictis binturong",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Binturong",
+    "wikipedia_file": "arctictis_binturong.txt",
+    "top_species": null
+  },
+  "connochaetes_gnou": {
+    "common_name": "black wildebeest",
+    "scientific_name": "connochaetes gnou",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Black_wildebeest",
+    "wikipedia_file": "connochaetes_gnou.txt",
+    "top_species": null
+  },
+  "canis_mesomelas": {
+    "common_name": "black-backed jackal",
+    "scientific_name": "canis mesomelas",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Black-backed_jackal",
+    "wikipedia_file": "canis_mesomelas.txt",
+    "top_species": null
+  },
+  "antilope_cervicapra": {
+    "common_name": "blackbuck",
+    "scientific_name": "antilope cervicapra",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Blackbuck",
+    "wikipedia_file": "antilope_cervicapra.txt",
+    "top_species": null
+  },
+  "damaliscus_pygargus": {
+    "common_name": "blesbok",
+    "scientific_name": "damaliscus pygargus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Blesbok",
+    "wikipedia_file": "damaliscus_pygargus.txt",
+    "top_species": null
+  },
+  "lynx_rufus": {
+    "common_name": "bobcat",
+    "scientific_name": "lynx rufus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Bobcat",
+    "wikipedia_file": "lynx_rufus.txt",
+    "top_species": null
+  },
+  "tragelaphus_eurycerus": {
+    "common_name": "bongo",
+    "scientific_name": "tragelaphus eurycerus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Bongo",
+    "wikipedia_file": "tragelaphus_eurycerus.txt",
+    "top_species": null
+  },
+  "pongo_pygmaeus": {
+    "common_name": "bornean orangutan",
+    "scientific_name": "pongo pygmaeus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Bornean_orangutan",
+    "wikipedia_file": "pongo_pygmaeus.txt",
+    "top_species": null
+  },
+  "ursus_arctos": {
+    "common_name": "brown bear",
+    "scientific_name": "ursus arctos",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Brown_bear",
+    "wikipedia_file": "ursus_arctos.txt",
+    "top_species": null
+  },
+  "parahyaena_brunnea": {
+    "common_name": "brown hyaena",
+    "scientific_name": "parahyaena brunnea",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Brown_hyena",
+    "wikipedia_file": "parahyaena_brunnea.txt",
+    "top_species": null
+  },
+  "bradypus_variegatus": {
+    "common_name": "brown-throated sloth",
+    "scientific_name": "bradypus variegatus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Brown-throated_sloth",
+    "wikipedia_file": "bradypus_variegatus.txt",
+    "top_species": null
+  },
+  "tragelaphus_scriptus": {
+    "common_name": "bushbuck",
+    "scientific_name": "tragelaphus scriptus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Bushbuck",
+    "wikipedia_file": "tragelaphus_scriptus.txt",
+    "top_species": null
+  },
+  "otospermophilus_beecheyi": {
+    "common_name": "california ground squirrel",
+    "scientific_name": "otospermophilus beecheyi",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/California_ground_squirrel",
+    "wikipedia_file": "otospermophilus_beecheyi.txt",
+    "top_species": null
+  },
+  "callicebus": {
+    "common_name": "callicebus genus",
+    "scientific_name": "callicebus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Callicebus",
+    "wikipedia_file": "callicebus.txt",
+    "top_species": [
+      {
+        "scientific_name": "callicebus nigrifrons",
+        "common_name": "Black-fronted Titi",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black-fronted_titi_monkey",
+        "wikipedia_file": "callicebus_nigrifrons.txt",
+        "inat_observations": 416,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callicebus personatus",
+        "common_name": "Northern Masked Titi",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Atlantic_titi_monkey",
+        "wikipedia_file": "callicebus_personatus.txt",
+        "inat_observations": 227,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callicebus melanochir",
+        "common_name": "Coastal Black-handed Titi",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Coastal_black-handed_titi_monkey",
+        "wikipedia_file": "callicebus_melanochir.txt",
+        "inat_observations": 32,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callicebus coimbrai",
+        "common_name": "Coimbra's Titi",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Coimbra_Filho%27s_titi_monkey",
+        "wikipedia_file": "callicebus_coimbrai.txt",
+        "inat_observations": 29,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callicebus barbarabrownae",
+        "common_name": "Blonde Titi",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Barbara_Brown%27s_titi_monkey",
+        "wikipedia_file": "callicebus_barbarabrownae.txt",
+        "inat_observations": 14,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "callithrix": {
+    "common_name": "callithrix species",
+    "scientific_name": "callithrix",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Callithrix",
+    "wikipedia_file": "callithrix.txt",
+    "top_species": [
+      {
+        "scientific_name": "callithrix penicillata",
+        "common_name": "Black-tufted-ear Marmoset",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black-tufted_marmoset",
+        "wikipedia_file": "callithrix_penicillata.txt",
+        "inat_observations": 4527,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callithrix jacchus",
+        "common_name": "Common Marmoset",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Common_marmoset",
+        "wikipedia_file": "callithrix_jacchus.txt",
+        "inat_observations": 4407,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callithrix geoffroyi",
+        "common_name": "Geoffroy’s Tufted-ear Marmoset",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-headed_marmoset",
+        "wikipedia_file": "callithrix_geoffroyi.txt",
+        "inat_observations": 1023,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callithrix aurita",
+        "common_name": "Buffy-tufted-ear Marmoset",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Buffy-tufted_marmoset",
+        "wikipedia_file": "callithrix_aurita.txt",
+        "inat_observations": 369,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callithrix kuhlii",
+        "common_name": "Wied's Black-tufted-ear Marmoset",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Wied%27s_marmoset",
+        "wikipedia_file": "callithrix_kuhlii.txt",
+        "inat_observations": 242,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "lynx_canadensis": {
+    "common_name": "canada lynx",
+    "scientific_name": "lynx canadensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Canada_lynx",
+    "wikipedia_file": "lynx_canadensis.txt",
+    "top_species": null
+  },
+  "hydrochoerus_hydrochaeris": {
+    "common_name": "capybara",
+    "scientific_name": "hydrochoerus hydrochaeris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Capybara",
+    "wikipedia_file": "hydrochoerus_hydrochaeris.txt",
+    "top_species": null
+  },
+  "caracal_caracal": {
+    "common_name": "caracal",
+    "scientific_name": "caracal caracal",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Caracal",
+    "wikipedia_file": "caracal_caracal.txt",
+    "top_species": null
+  },
+  "cebus": {
+    "common_name": "cebus species",
+    "scientific_name": "cebus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Gracile_capuchin_monkey",
+    "wikipedia_file": "cebus.txt",
+    "top_species": [
+      {
+        "scientific_name": "cebus imitator",
+        "common_name": "Central American White-faced Capuchin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Panamanian_white-faced_capuchin",
+        "wikipedia_file": "cebus_imitator.txt",
+        "inat_observations": 11554,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cebus yuracus",
+        "common_name": "Marañón white-fronted capuchin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mara%C3%B1%C3%B3n_white-fronted_capuchin",
+        "wikipedia_file": "cebus_yuracus.txt",
+        "inat_observations": 940,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cebus capucinus",
+        "common_name": "Colombian White-throated Capuchin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Colombian_white-faced_capuchin",
+        "wikipedia_file": "cebus_capucinus.txt",
+        "inat_observations": 630,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cebus malitiosus",
+        "common_name": "Santa Marta White-fronted Capuchin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Santa_Marta_white-fronted_capuchin",
+        "wikipedia_file": "cebus_malitiosus.txt",
+        "inat_observations": 396,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cebus versicolor",
+        "common_name": "Varied Capuchin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Varied_white-fronted_capuchin",
+        "wikipedia_file": "cebus_versicolor.txt",
+        "inat_observations": 384,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "cephalophus": {
+    "common_name": "cephalophus species",
+    "scientific_name": "cephalophus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Cephalophus",
+    "wikipedia_file": "cephalophus.txt",
+    "top_species": [
+      {
+        "scientific_name": "cephalophus silvicultor",
+        "common_name": "Light-backed Duiker",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Yellow-backed_duiker",
+        "wikipedia_file": "cephalophus_silvicultor.txt",
+        "inat_observations": 271,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cephalophus dorsalis",
+        "common_name": "Bay Duiker",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Bay_duiker",
+        "wikipedia_file": "cephalophus_dorsalis.txt",
+        "inat_observations": 133,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cephalophus spadix",
+        "common_name": "Abbott's Duiker",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Abbott%27s_duiker",
+        "wikipedia_file": "cephalophus_spadix.txt",
+        "inat_observations": 5,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cephalophus jentinki",
+        "common_name": "Jentink's Duiker",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Jentink%27s_duiker",
+        "wikipedia_file": "cephalophus_jentinki.txt",
+        "inat_observations": 3,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "cercopithecus": {
+    "common_name": "cercopithecus species",
+    "scientific_name": "cercopithecus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Guenon",
+    "wikipedia_file": "cercopithecus.txt",
+    "top_species": [
+      {
+        "scientific_name": "cercopithecus mitis",
+        "common_name": "Blue Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Blue_monkey",
+        "wikipedia_file": "cercopithecus_mitis.txt",
+        "inat_observations": 4481,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cercopithecus ascanius",
+        "common_name": "Red-tailed Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Red-tailed_monkey",
+        "wikipedia_file": "cercopithecus_ascanius.txt",
+        "inat_observations": 827,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cercopithecus mona",
+        "common_name": "Mona Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mona_monkey",
+        "wikipedia_file": "cercopithecus_mona.txt",
+        "inat_observations": 354,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cercopithecus neglectus",
+        "common_name": "De Brazza's Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/De_Brazza%27s_monkey",
+        "wikipedia_file": "cercopithecus_neglectus.txt",
+        "inat_observations": 321,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cercopithecus nictitans",
+        "common_name": "Putty-nosed Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Greater_spot-nosed_monkey",
+        "wikipedia_file": "cercopithecus_nictitans.txt",
+        "inat_observations": 231,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "acinonyx_jubatus": {
+    "common_name": "cheetah",
+    "scientific_name": "acinonyx jubatus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Cheetah",
+    "wikipedia_file": "acinonyx_jubatus.txt",
+    "top_species": null
+  },
+  "pan_troglodytes": {
+    "common_name": "chimpanzee",
+    "scientific_name": "pan troglodytes",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Chimpanzee",
+    "wikipedia_file": "pan_troglodytes.txt",
+    "top_species": null
+  },
+  "tamias": {
+    "common_name": "chipmunk genus",
+    "scientific_name": "tamias",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Tamias",
+    "wikipedia_file": "tamias.txt",
+    "top_species": [
+      {
+        "scientific_name": "tamias striatus",
+        "common_name": "Eastern Chipmunk",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Eastern_chipmunk",
+        "wikipedia_file": "tamias_striatus.txt",
+        "inat_observations": 94572,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "axis_axis": {
+    "common_name": "chital",
+    "scientific_name": "axis axis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Chital",
+    "wikipedia_file": "axis_axis.txt",
+    "top_species": null
+  },
+  "neofelis_nebulosa": {
+    "common_name": "clouded leopard",
+    "scientific_name": "neofelis nebulosa",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Clouded_leopard",
+    "wikipedia_file": "neofelis_nebulosa.txt",
+    "top_species": null
+  },
+  "pecari_tajacu": {
+    "common_name": "collared peccary",
+    "scientific_name": "pecari tajacu",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Collared_peccary",
+    "wikipedia_file": "pecari_tajacu.txt",
+    "top_species": null
+  },
+  "colobus": {
+    "common_name": "colobus species",
+    "scientific_name": "colobus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Black-and-white_colobus",
+    "wikipedia_file": "colobus.txt",
+    "top_species": [
+      {
+        "scientific_name": "colobus guereza",
+        "common_name": "Mantled Guereza",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mantled_guereza",
+        "wikipedia_file": "colobus_guereza.txt",
+        "inat_observations": 2219,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "colobus angolensis",
+        "common_name": "Angola Colobus",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Angola_colobus",
+        "wikipedia_file": "colobus_angolensis.txt",
+        "inat_observations": 577,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "colobus caudatus",
+        "common_name": "Mount Kilimanjaro Guereza",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mantled_guereza",
+        "wikipedia_file": "colobus_caudatus.txt",
+        "inat_observations": 418,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "colobus vellerosus",
+        "common_name": "White-thighed Colobus",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Ursine_colobus",
+        "wikipedia_file": "colobus_vellerosus.txt",
+        "inat_observations": 72,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "colobus polykomos",
+        "common_name": "King Colobus",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/King_colobus",
+        "wikipedia_file": "colobus_polykomos.txt",
+        "inat_observations": 51,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "sylvicapra_grimmia": {
+    "common_name": "common duiker",
+    "scientific_name": "sylvicapra grimmia",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Common_duiker",
+    "wikipedia_file": "sylvicapra_grimmia.txt",
+    "top_species": null
+  },
+  "tragelaphus_oryx": {
+    "common_name": "common eland",
+    "scientific_name": "tragelaphus oryx",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Common_eland",
+    "wikipedia_file": "tragelaphus_oryx.txt",
+    "top_species": null
+  },
+  "dama_dama": {
+    "common_name": "common fallow deer",
+    "scientific_name": "dama dama",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/European_fallow_deer",
+    "wikipedia_file": "dama_dama.txt",
+    "top_species": null
+  },
+  "phacochoerus_africanus": {
+    "common_name": "common warthog",
+    "scientific_name": "phacochoerus africanus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Common_warthog",
+    "wikipedia_file": "phacochoerus_africanus.txt",
+    "top_species": null
+  },
+  "connochaetes_taurinus": {
+    "common_name": "common wildebeest",
+    "scientific_name": "connochaetes taurinus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Blue_wildebeest",
+    "wikipedia_file": "connochaetes_taurinus.txt",
+    "top_species": null
+  },
+  "vombatus_ursinus": {
+    "common_name": "common wombat",
+    "scientific_name": "vombatus ursinus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Common_wombat",
+    "wikipedia_file": "vombatus_ursinus.txt",
+    "top_species": null
+  },
+  "sylvilagus": {
+    "common_name": "cottontail rabbits genus",
+    "scientific_name": "sylvilagus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Cottontail_rabbit",
+    "wikipedia_file": "sylvilagus.txt",
+    "top_species": [
+      {
+        "scientific_name": "sylvilagus audubonii",
+        "common_name": "Desert Cottontail",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Desert_cottontail",
+        "wikipedia_file": "sylvilagus_audubonii.txt",
+        "inat_observations": 51786,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "sylvilagus bachmani",
+        "common_name": "Brush Rabbit",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Brush_rabbit",
+        "wikipedia_file": "sylvilagus_bachmani.txt",
+        "inat_observations": 13494,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "sylvilagus palustris",
+        "common_name": "Marsh Rabbit",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Marsh_rabbit",
+        "wikipedia_file": "sylvilagus_palustris.txt",
+        "inat_observations": 10400,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "sylvilagus nuttallii",
+        "common_name": "Mountain Cottontail",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mountain_cottontail",
+        "wikipedia_file": "sylvilagus_nuttallii.txt",
+        "inat_observations": 7673,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "sylvilagus aquaticus",
+        "common_name": "Swamp Rabbit",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Swamp_rabbit",
+        "wikipedia_file": "sylvilagus_aquaticus.txt",
+        "inat_observations": 4929,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "canis_latrans": {
+    "common_name": "coyote",
+    "scientific_name": "canis latrans",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Coyote",
+    "wikipedia_file": "canis_latrans.txt",
+    "top_species": null
+  },
+  "cricetidae": {
+    "common_name": "cricetidae family",
+    "scientific_name": "cricetidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Cricetidae",
+    "wikipedia_file": "cricetidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "peromyscus leucopus",
+        "common_name": "White-footed Mouse",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-footed_mouse",
+        "wikipedia_file": "peromyscus_leucopus.txt",
+        "inat_observations": 8850,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "clethrionomys glareolus",
+        "common_name": "Bank Vole",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Bank_vole",
+        "wikipedia_file": "clethrionomys_glareolus.txt",
+        "inat_observations": 7875,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "sigmodon hispidus",
+        "common_name": "Hispid Cotton Rat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Hispid_cotton_rat",
+        "wikipedia_file": "sigmodon_hispidus.txt",
+        "inat_observations": 6437,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "microtus pennsylvanicus",
+        "common_name": "Eastern Meadow Vole",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Eastern_meadow_vole",
+        "wikipedia_file": "microtus_pennsylvanicus.txt",
+        "inat_observations": 6220,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "peromyscus sonoriensis",
+        "common_name": "Western Deer Mouse",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Western_deer_mouse",
+        "wikipedia_file": "peromyscus_sonoriensis.txt",
+        "inat_observations": 6004,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "cuon_alpinus": {
+    "common_name": "dhole",
+    "scientific_name": "cuon alpinus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Dhole",
+    "wikipedia_file": "cuon_alpinus.txt",
+    "top_species": null
+  },
+  "canis_lupus_dingo": {
+    "common_name": "dingo",
+    "scientific_name": "canis lupus dingo",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Dingo",
+    "wikipedia_file": "canis_lupus_dingo.txt",
+    "top_species": null
+  },
+  "felis_catus": {
+    "common_name": "domestic cat",
+    "scientific_name": "felis catus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Cat",
+    "wikipedia_file": "felis_catus.txt",
+    "top_species": null
+  },
+  "bos_taurus": {
+    "common_name": "domestic cattle",
+    "scientific_name": "bos taurus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Cattle",
+    "wikipedia_file": "bos_taurus.txt",
+    "top_species": null
+  },
+  "canis_familiaris": {
+    "common_name": "domestic dog",
+    "scientific_name": "canis familiaris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Dog",
+    "wikipedia_file": "canis_familiaris.txt",
+    "top_species": null
+  },
+  "equus_asinus": {
+    "common_name": "domestic donkey",
+    "scientific_name": "equus asinus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Donkey",
+    "wikipedia_file": "equus_asinus.txt",
+    "top_species": null
+  },
+  "capra_aegagrus_hircus": {
+    "common_name": "domestic goat",
+    "scientific_name": "capra aegagrus hircus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Goat",
+    "wikipedia_file": "capra_aegagrus_hircus.txt",
+    "top_species": null
+  },
+  "equus_caballus": {
+    "common_name": "domestic horse",
+    "scientific_name": "equus caballus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Horse",
+    "wikipedia_file": "equus_caballus.txt",
+    "top_species": null
+  },
+  "sus_scrofa_scrofa": {
+    "common_name": "domestic pig",
+    "scientific_name": "sus scrofa scrofa",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Pig",
+    "wikipedia_file": "sus_scrofa_scrofa.txt",
+    "top_species": null
+  },
+  "ovis_aries": {
+    "common_name": "domestic sheep",
+    "scientific_name": "ovis aries",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Sheep",
+    "wikipedia_file": "ovis_aries.txt",
+    "top_species": null
+  },
+  "bubalus_bubalis": {
+    "common_name": "domestic water buffalo",
+    "scientific_name": "bubalus bubalis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Water_buffalo",
+    "wikipedia_file": "bubalus_bubalis.txt",
+    "top_species": null
+  },
+  "mandrillus_leucophaeus": {
+    "common_name": "drill",
+    "scientific_name": "mandrillus leucophaeus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Drill",
+    "wikipedia_file": "mandrillus_leucophaeus.txt",
+    "top_species": null
+  },
+  "camelus_dromedarius": {
+    "common_name": "dromedary camel",
+    "scientific_name": "camelus dromedarius",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Dromedary",
+    "wikipedia_file": "camelus_dromedarius.txt",
+    "top_species": null
+  },
+  "otariidae": {
+    "common_name": "eared seals",
+    "scientific_name": "otariidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Eared_seal",
+    "wikipedia_file": "otariidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "zalophus californianus",
+        "common_name": "California Sea Lion",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/California_sea_lion",
+        "wikipedia_file": "zalophus_californianus.txt",
+        "inat_observations": 38470,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "arctocephalus forsteri",
+        "common_name": "Long-nosed Fur Seal",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Arctocephalus_forsteri",
+        "wikipedia_file": "arctocephalus_forsteri.txt",
+        "inat_observations": 10228,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "arctocephalus pusillus",
+        "common_name": "Brown Fur Seal",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Arctocephalus_pusillus",
+        "wikipedia_file": "arctocephalus_pusillus.txt",
+        "inat_observations": 8155,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "eumetopias jubatus",
+        "common_name": "Steller Sea Lion",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Steller_sea_lion",
+        "wikipedia_file": "eumetopias_jubatus.txt",
+        "inat_observations": 7989,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "zalophus wollebaeki",
+        "common_name": "Galápagos Sea Lion",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Gal%C3%A1pagos_sea_lion",
+        "wikipedia_file": "zalophus_wollebaeki.txt",
+        "inat_observations": 7937,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "sylvilagus_floridanus": {
+    "common_name": "eastern cottontail",
+    "scientific_name": "sylvilagus floridanus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Eastern_cottontail",
+    "wikipedia_file": "sylvilagus_floridanus.txt",
+    "top_species": null
+  },
+  "sciurus_niger": {
+    "common_name": "eastern fox squirrel",
+    "scientific_name": "sciurus niger",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Fox_squirrel",
+    "wikipedia_file": "sciurus_niger.txt",
+    "top_species": null
+  },
+  "sciurus_carolinensis": {
+    "common_name": "eastern gray squirrel",
+    "scientific_name": "sciurus carolinensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Eastern_gray_squirrel",
+    "wikipedia_file": "sciurus_carolinensis.txt",
+    "top_species": null
+  },
+  "macropus_giganteus": {
+    "common_name": "eastern grey kangaroo",
+    "scientific_name": "macropus giganteus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Eastern_grey_kangaroo",
+    "wikipedia_file": "macropus_giganteus.txt",
+    "top_species": null
+  },
+  "mirounga": {
+    "common_name": "elephant seal",
+    "scientific_name": "mirounga",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Elephant_seal",
+    "wikipedia_file": "mirounga.txt",
+    "top_species": [
+      {
+        "scientific_name": "mirounga angustirostris",
+        "common_name": "Northern Elephant Seal",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Northern_elephant_seal",
+        "wikipedia_file": "mirounga_angustirostris.txt",
+        "inat_observations": 11615,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "mirounga leonina",
+        "common_name": "Southern Elephant Seal",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Southern_elephant_seal",
+        "wikipedia_file": "mirounga_leonina.txt",
+        "inat_observations": 3614,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "cervus_canadensis": {
+    "common_name": "elk",
+    "scientific_name": "cervus canadensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Elk",
+    "wikipedia_file": "cervus_canadensis.txt",
+    "top_species": null
+  },
+  "eulemur": {
+    "common_name": "eulemur species",
+    "scientific_name": "eulemur",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/True_lemur",
+    "wikipedia_file": "eulemur.txt",
+    "top_species": [
+      {
+        "scientific_name": "eulemur fulvus",
+        "common_name": "Common Brown Lemur",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Common_brown_lemur",
+        "wikipedia_file": "eulemur_fulvus.txt",
+        "inat_observations": 954,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "eulemur rufifrons",
+        "common_name": "Red-fronted Brown Lemur",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Red-fronted_lemur",
+        "wikipedia_file": "eulemur_rufifrons.txt",
+        "inat_observations": 694,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "eulemur macaco",
+        "common_name": "Black Lemur",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black_lemur",
+        "wikipedia_file": "eulemur_macaco.txt",
+        "inat_observations": 450,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "eulemur rubriventer",
+        "common_name": "Red-bellied Lemur",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Red-bellied_lemur",
+        "wikipedia_file": "eulemur_rubriventer.txt",
+        "inat_observations": 361,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "eulemur coronatus",
+        "common_name": "Crowned Lemur",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Crowned_lemur",
+        "wikipedia_file": "eulemur_coronatus.txt",
+        "inat_observations": 320,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "meles_meles": {
+    "common_name": "eurasian badger",
+    "scientific_name": "meles meles",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/European_badger",
+    "wikipedia_file": "meles_meles.txt",
+    "top_species": null
+  },
+  "lynx_lynx": {
+    "common_name": "eurasian lynx",
+    "scientific_name": "lynx lynx",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Eurasian_lynx",
+    "wikipedia_file": "lynx_lynx.txt",
+    "top_species": null
+  },
+  "lutra_lutra": {
+    "common_name": "eurasian otter",
+    "scientific_name": "lutra lutra",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Eurasian_otter",
+    "wikipedia_file": "lutra_lutra.txt",
+    "top_species": null
+  },
+  "sciurus_vulgaris": {
+    "common_name": "eurasian red squirrel",
+    "scientific_name": "sciurus vulgaris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red_squirrel",
+    "wikipedia_file": "sciurus_vulgaris.txt",
+    "top_species": null
+  },
+  "bison_bonasus": {
+    "common_name": "european bison",
+    "scientific_name": "bison bonasus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/European_bison",
+    "wikipedia_file": "bison_bonasus.txt",
+    "top_species": null
+  },
+  "lepus_europaeus": {
+    "common_name": "european hare",
+    "scientific_name": "lepus europaeus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/European_hare",
+    "wikipedia_file": "lepus_europaeus.txt",
+    "top_species": null
+  },
+  "oryctolagus_cuniculus": {
+    "common_name": "european rabbit",
+    "scientific_name": "oryctolagus cuniculus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/European_rabbit",
+    "wikipedia_file": "oryctolagus_cuniculus.txt",
+    "top_species": null
+  },
+  "capreolus_capreolus": {
+    "common_name": "european roe deer",
+    "scientific_name": "capreolus capreolus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Roe_deer",
+    "wikipedia_file": "capreolus_capreolus.txt",
+    "top_species": null
+  },
+  "pekania_pennanti": {
+    "common_name": "fisher",
+    "scientific_name": "pekania pennanti",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Fisher",
+    "wikipedia_file": "pekania_pennanti.txt",
+    "top_species": null
+  },
+  "cryptoprocta_ferox": {
+    "common_name": "fossa",
+    "scientific_name": "cryptoprocta ferox",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Fossa",
+    "wikipedia_file": "cryptoprocta_ferox.txt",
+    "top_species": null
+  },
+  "oryx_gazella": {
+    "common_name": "gemsbok",
+    "scientific_name": "oryx gazella",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Gemsbok",
+    "wikipedia_file": "oryx_gazella.txt",
+    "top_species": null
+  },
+  "genetta": {
+    "common_name": "genet genus",
+    "scientific_name": "genetta",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Genet_(animal)",
+    "wikipedia_file": "genetta.txt",
+    "top_species": [
+      {
+        "scientific_name": "genetta genetta",
+        "common_name": "Northern Small-spotted Genet",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Common_genet",
+        "wikipedia_file": "genetta_genetta.txt",
+        "inat_observations": 2574,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "genetta fieldiana",
+        "common_name": "Rusty-spotted Genet",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Rusty-spotted_genet",
+        "wikipedia_file": "genetta_fieldiana.txt",
+        "inat_observations": 1621,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "genetta tigrina",
+        "common_name": "Cape Genet",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Cape_genet",
+        "wikipedia_file": "genetta_tigrina.txt",
+        "inat_observations": 706,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "genetta felina",
+        "common_name": "Southern Small-spotted Genet",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/South_African_small-spotted_genet",
+        "wikipedia_file": "genetta_felina.txt",
+        "inat_observations": 547,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "genetta servalina",
+        "common_name": "Servaline Genet",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Servaline_genet",
+        "wikipedia_file": "genetta_servalina.txt",
+        "inat_observations": 96,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "litocranius_walleri": {
+    "common_name": "gerenuk",
+    "scientific_name": "litocranius walleri",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Gerenuk",
+    "wikipedia_file": "litocranius_walleri.txt",
+    "top_species": null
+  },
+  "myrmecophaga_tridactyla": {
+    "common_name": "giant anteater",
+    "scientific_name": "myrmecophaga tridactyla",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Giant_anteater",
+    "wikipedia_file": "myrmecophaga_tridactyla.txt",
+    "top_species": null
+  },
+  "priodontes_maximus": {
+    "common_name": "giant armadillo",
+    "scientific_name": "priodontes maximus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Giant_armadillo",
+    "wikipedia_file": "priodontes_maximus.txt",
+    "top_species": null
+  },
+  "pteronura_brasiliensis": {
+    "common_name": "giant otter",
+    "scientific_name": "pteronura brasiliensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Giant_otter",
+    "wikipedia_file": "pteronura_brasiliensis.txt",
+    "top_species": null
+  },
+  "ailuropoda_melanoleuca": {
+    "common_name": "giant panda",
+    "scientific_name": "ailuropoda melanoleuca",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Giant_panda",
+    "wikipedia_file": "ailuropoda_melanoleuca.txt",
+    "top_species": null
+  },
+  "giraffa_camelopardalis": {
+    "common_name": "giraffe",
+    "scientific_name": "giraffa camelopardalis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Giraffe",
+    "wikipedia_file": "giraffa_camelopardalis.txt",
+    "top_species": null
+  },
+  "glaucomys": {
+    "common_name": "glaucomys species",
+    "scientific_name": "glaucomys",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/New_World_flying_squirrel",
+    "wikipedia_file": "glaucomys.txt",
+    "top_species": [
+      {
+        "scientific_name": "glaucomys volans",
+        "common_name": "Southern Flying Squirrel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Southern_flying_squirrel",
+        "wikipedia_file": "glaucomys_volans.txt",
+        "inat_observations": 5407,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "glaucomys sabrinus",
+        "common_name": "Northern Flying Squirrel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Northern_flying_squirrel",
+        "wikipedia_file": "glaucomys_sabrinus.txt",
+        "inat_observations": 2003,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "glaucomys oregonensis",
+        "common_name": "Humboldt's Flying Squirrel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Humboldt%27s_flying_squirrel",
+        "wikipedia_file": "glaucomys_oregonensis.txt",
+        "inat_observations": 823,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "canis_aureus": {
+    "common_name": "golden jackal",
+    "scientific_name": "canis aureus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Golden_jackal",
+    "wikipedia_file": "canis_aureus.txt",
+    "top_species": null
+  },
+  "callospermophilus_lateralis": {
+    "common_name": "golden mantled ground squirrel",
+    "scientific_name": "callospermophilus lateralis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Golden-mantled_ground_squirrel",
+    "wikipedia_file": "callospermophilus_lateralis.txt",
+    "top_species": null
+  },
+  "gorilla": {
+    "common_name": "gorilla species",
+    "scientific_name": "gorilla",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Gorilla",
+    "wikipedia_file": "gorilla.txt",
+    "top_species": [
+      {
+        "scientific_name": "gorilla gorilla",
+        "common_name": "Western Gorilla",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Western_gorilla",
+        "wikipedia_file": "gorilla_gorilla.txt",
+        "inat_observations": 1685,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "gorilla beringei",
+        "common_name": "Eastern Gorilla",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Eastern_gorilla",
+        "wikipedia_file": "gorilla_beringei.txt",
+        "inat_observations": 1233,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "nanger_granti": {
+    "common_name": "grant's gazelle",
+    "scientific_name": "nanger granti",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Grant%27s_gazelle",
+    "wikipedia_file": "nanger_granti.txt",
+    "top_species": null
+  },
+  "tragelaphus_strepsiceros": {
+    "common_name": "greater kudu",
+    "scientific_name": "tragelaphus strepsiceros",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Greater_kudu",
+    "wikipedia_file": "tragelaphus_strepsiceros.txt",
+    "top_species": null
+  },
+  "equus_grevyi": {
+    "common_name": "grevy's zebra",
+    "scientific_name": "equus grevyi",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Gr%C3%A9vy%27s_zebra",
+    "wikipedia_file": "equus_grevyi.txt",
+    "top_species": null
+  },
+  "urocyon_cinereoargenteus": {
+    "common_name": "grey fox",
+    "scientific_name": "urocyon cinereoargenteus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Gray_fox",
+    "wikipedia_file": "urocyon_cinereoargenteus.txt",
+    "top_species": null
+  },
+  "canis_lupus": {
+    "common_name": "grey wolf",
+    "scientific_name": "canis lupus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Wolf",
+    "wikipedia_file": "canis_lupus.txt",
+    "top_species": null
+  },
+  "lepus": {
+    "common_name": "hares and jackrabbits genus",
+    "scientific_name": "lepus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Hare",
+    "wikipedia_file": "lepus.txt",
+    "top_species": [
+      {
+        "scientific_name": "lepus californicus",
+        "common_name": "Black-tailed Jackrabbit",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black-tailed_jackrabbit",
+        "wikipedia_file": "lepus_californicus.txt",
+        "inat_observations": 23143,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lepus americanus",
+        "common_name": "Snowshoe Hare",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Snowshoe_hare",
+        "wikipedia_file": "lepus_americanus.txt",
+        "inat_observations": 21641,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lepus townsendii",
+        "common_name": "White-tailed Jackrabbit",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-tailed_jackrabbit",
+        "wikipedia_file": "lepus_townsendii.txt",
+        "inat_observations": 6874,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lepus timidus",
+        "common_name": "Mountain Hare",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mountain_hare",
+        "wikipedia_file": "lepus_timidus.txt",
+        "inat_observations": 6026,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lepus saxatilis",
+        "common_name": "Scrub Hare",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Cape_scrub_hare",
+        "wikipedia_file": "lepus_saxatilis.txt",
+        "inat_observations": 1482,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "alcelaphus_buselaphus": {
+    "common_name": "hartebeest",
+    "scientific_name": "alcelaphus buselaphus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Hartebeest",
+    "wikipedia_file": "alcelaphus_buselaphus.txt",
+    "top_species": null
+  },
+  "erinaceidae": {
+    "common_name": "hedgehog family",
+    "scientific_name": "erinaceidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Erinaceidae",
+    "wikipedia_file": "erinaceidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "erinaceus europaeus",
+        "common_name": "Common Hedgehog",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/European_hedgehog",
+        "wikipedia_file": "erinaceus_europaeus.txt",
+        "inat_observations": 44237,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "erinaceus roumanicus",
+        "common_name": "Northern White-breasted Hedgehog",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Northern_white-breasted_hedgehog",
+        "wikipedia_file": "erinaceus_roumanicus.txt",
+        "inat_observations": 12337,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "erinaceus concolor",
+        "common_name": "Southern White-breasted Hedgehog",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Southern_white-breasted_hedgehog",
+        "wikipedia_file": "erinaceus_concolor.txt",
+        "inat_observations": 1552,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "erinaceus amurensis",
+        "common_name": "Amur Hedgehog",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Amur_hedgehog",
+        "wikipedia_file": "erinaceus_amurensis.txt",
+        "inat_observations": 1007,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "atelerix algirus",
+        "common_name": "North African Hedgehog",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/North_African_hedgehog",
+        "wikipedia_file": "atelerix_algirus.txt",
+        "inat_observations": 795,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "hippopotamus_amphibius": {
+    "common_name": "hippopotamus",
+    "scientific_name": "hippopotamus amphibius",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Hippopotamus",
+    "wikipedia_file": "hippopotamus_amphibius.txt",
+    "top_species": null
+  },
+  "choloepus_hoffmanni": {
+    "common_name": "hoffmann's two-toed sloth",
+    "scientific_name": "choloepus hoffmanni",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Hoffmann%27s_two-toed_sloth",
+    "wikipedia_file": "choloepus_hoffmanni.txt",
+    "top_species": null
+  },
+  "arctonyx": {
+    "common_name": "hog badger genus",
+    "scientific_name": "arctonyx",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Hog_badger",
+    "wikipedia_file": "arctonyx.txt",
+    "top_species": [
+      {
+        "scientific_name": "arctonyx albogularis",
+        "common_name": "Northern Hog Badger",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Northern_hog_badger",
+        "wikipedia_file": "arctonyx_albogularis.txt",
+        "inat_observations": 64,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "arctonyx collaris",
+        "common_name": "Greater Hog Badger",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Greater_hog_badger",
+        "wikipedia_file": "arctonyx_collaris.txt",
+        "inat_observations": 56,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "arctonyx hoevenii",
+        "common_name": "Sumatran Hog Badger",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Sumatran_hog_badger",
+        "wikipedia_file": "arctonyx_hoevenii.txt",
+        "inat_observations": 0,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "mellivora_capensis": {
+    "common_name": "honey badger",
+    "scientific_name": "mellivora capensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Honey_badger",
+    "wikipedia_file": "mellivora_capensis.txt",
+    "top_species": null
+  },
+  "alouatta": {
+    "common_name": "howler monkey genus",
+    "scientific_name": "alouatta",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Howler_monkey",
+    "wikipedia_file": "alouatta.txt",
+    "top_species": [
+      {
+        "scientific_name": "alouatta palliata",
+        "common_name": "Mantled Howler Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mantled_howler",
+        "wikipedia_file": "alouatta_palliata.txt",
+        "inat_observations": 14893,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "alouatta pigra",
+        "common_name": "Yucatán Black Howler Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Yucat%C3%A1n_black_howler",
+        "wikipedia_file": "alouatta_pigra.txt",
+        "inat_observations": 3761,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "alouatta seniculus",
+        "common_name": "Colombian Red Howler Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Colombian_red_howler",
+        "wikipedia_file": "alouatta_seniculus.txt",
+        "inat_observations": 3106,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "alouatta caraya",
+        "common_name": "Black-and-gold Howler Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black_howler",
+        "wikipedia_file": "alouatta_caraya.txt",
+        "inat_observations": 2584,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "alouatta guariba",
+        "common_name": "Brown Howler Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Brown_howler",
+        "wikipedia_file": "alouatta_guariba.txt",
+        "inat_observations": 1439,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "homo_sapiens": {
+    "common_name": "human",
+    "scientific_name": "homo sapiens",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Human",
+    "wikipedia_file": "homo_sapiens.txt",
+    "top_species": null
+  },
+  "aepyceros_melampus": {
+    "common_name": "impala",
+    "scientific_name": "aepyceros melampus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Impala",
+    "wikipedia_file": "aepyceros_melampus.txt",
+    "top_species": null
+  },
+  "panthera_onca": {
+    "common_name": "jaguar",
+    "scientific_name": "panthera onca",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Jaguar",
+    "wikipedia_file": "panthera_onca.txt",
+    "top_species": null
+  },
+  "macaca_fuscata": {
+    "common_name": "japanese macaque",
+    "scientific_name": "macaca fuscata",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Japanese_macaque",
+    "wikipedia_file": "macaca_fuscata.txt",
+    "top_species": null
+  },
+  "macropodidae": {
+    "common_name": "kangaroo family",
+    "scientific_name": "macropodidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Macropodidae",
+    "wikipedia_file": "macropodidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "notamacropus rufogriseus",
+        "common_name": "Red-necked Wallaby",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Red-necked_wallaby",
+        "wikipedia_file": "notamacropus_rufogriseus.txt",
+        "inat_observations": 12821,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "macropus fuliginosus",
+        "common_name": "Western Grey Kangaroo",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Western_grey_kangaroo",
+        "wikipedia_file": "macropus_fuliginosus.txt",
+        "inat_observations": 11662,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "notamacropus agilis",
+        "common_name": "Agile Wallaby",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Agile_wallaby",
+        "wikipedia_file": "notamacropus_agilis.txt",
+        "inat_observations": 4426,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "thylogale billardierii",
+        "common_name": "Rufous-bellied Pademelon",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Tasmanian_pademelon",
+        "wikipedia_file": "thylogale_billardierii.txt",
+        "inat_observations": 3900,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "osphranter robustus",
+        "common_name": "Common Wallaroo",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Common_wallaroo",
+        "wikipedia_file": "osphranter_robustus.txt",
+        "inat_observations": 3762,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "potos_flavus": {
+    "common_name": "kinkajou",
+    "scientific_name": "potos flavus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Kinkajou",
+    "wikipedia_file": "potos_flavus.txt",
+    "top_species": null
+  },
+  "madoqua_kirkii": {
+    "common_name": "kirk's dik-dik",
+    "scientific_name": "madoqua kirkii",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Kirk%27s_dik-dik",
+    "wikipedia_file": "madoqua_kirkii.txt",
+    "top_species": null
+  },
+  "oreotragus_oreotragus": {
+    "common_name": "klipspringer",
+    "scientific_name": "oreotragus oreotragus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Klipspringer",
+    "wikipedia_file": "oreotragus_oreotragus.txt",
+    "top_species": null
+  },
+  "phascolarctos_cinereus": {
+    "common_name": "koala",
+    "scientific_name": "phascolarctos cinereus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Koala",
+    "wikipedia_file": "phascolarctos_cinereus.txt",
+    "top_species": null
+  },
+  "kobus_kob": {
+    "common_name": "kob",
+    "scientific_name": "kobus kob",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Kob",
+    "wikipedia_file": "kobus_kob.txt",
+    "top_species": null
+  },
+  "presbytis": {
+    "common_name": "leaf monkeys genus",
+    "scientific_name": "presbytis",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Presbytis",
+    "wikipedia_file": "presbytis.txt",
+    "top_species": [
+      {
+        "scientific_name": "presbytis siamensis",
+        "common_name": "White-thighed Surili",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-thighed_surili",
+        "wikipedia_file": "presbytis_siamensis.txt",
+        "inat_observations": 869,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "presbytis rubicunda",
+        "common_name": "Maroon Leaf Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Maroon_leaf_monkey",
+        "wikipedia_file": "presbytis_rubicunda.txt",
+        "inat_observations": 849,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "presbytis thomasi",
+        "common_name": "Thomas’s Langur",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Thomas%27s_langur",
+        "wikipedia_file": "presbytis_thomasi.txt",
+        "inat_observations": 424,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "presbytis femoralis",
+        "common_name": "Banded Surili",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Raffles%27_banded_langur",
+        "wikipedia_file": "presbytis_femoralis.txt",
+        "inat_observations": 347,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "presbytis robinsoni",
+        "common_name": "Robinson’s Banded Langur",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Robinson%27s_banded_langur",
+        "wikipedia_file": "presbytis_robinsoni.txt",
+        "inat_observations": 183,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "panthera_pardus": {
+    "common_name": "leopard",
+    "scientific_name": "panthera pardus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Leopard",
+    "wikipedia_file": "panthera_pardus.txt",
+    "top_species": null
+  },
+  "prionailurus_bengalensis": {
+    "common_name": "leopard cat",
+    "scientific_name": "prionailurus bengalensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Leopard_cat",
+    "wikipedia_file": "prionailurus_bengalensis.txt",
+    "top_species": null
+  },
+  "leopardus": {
+    "common_name": "leopardus species",
+    "scientific_name": "leopardus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Leopardus",
+    "wikipedia_file": "leopardus.txt",
+    "top_species": [
+      {
+        "scientific_name": "leopardus wiedii",
+        "common_name": "Margay",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Margay",
+        "wikipedia_file": "leopardus_wiedii.txt",
+        "inat_observations": 1252,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "leopardus geoffroyi",
+        "common_name": "Geoffroy's Cat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Geoffroy%27s_cat",
+        "wikipedia_file": "leopardus_geoffroyi.txt",
+        "inat_observations": 1080,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "leopardus guttulus",
+        "common_name": "Southern Tigrina",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Leopardus_guttulus",
+        "wikipedia_file": "leopardus_guttulus.txt",
+        "inat_observations": 315,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "leopardus pardinoides",
+        "common_name": "Clouded Tiger-Cat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Oncilla",
+        "wikipedia_file": "leopardus_pardinoides.txt",
+        "inat_observations": 282,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "leopardus guigna",
+        "common_name": "Guiña",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Kodkod",
+        "wikipedia_file": "leopardus_guigna.txt",
+        "inat_observations": 234,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "panthera_leo": {
+    "common_name": "lion",
+    "scientific_name": "panthera leo",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Lion",
+    "wikipedia_file": "panthera_leo.txt",
+    "top_species": null
+  },
+  "lama": {
+    "common_name": "llama genus",
+    "scientific_name": "lama",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Lama",
+    "wikipedia_file": "lama.txt",
+    "top_species": [
+      {
+        "scientific_name": "lama glama",
+        "common_name": "Llama",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Llama",
+        "wikipedia_file": "lama_glama.txt",
+        "inat_observations": 5827,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lama guanicoe",
+        "common_name": "Guanaco",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Guanaco",
+        "wikipedia_file": "lama_guanicoe.txt",
+        "inat_observations": 5534,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lama pacos",
+        "common_name": "Alpaca",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Alpaca",
+        "wikipedia_file": "lama_pacos.txt",
+        "inat_observations": 4684,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lama vicugna",
+        "common_name": "Vicuña",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Vicu%C3%B1a",
+        "wikipedia_file": "lama_vicugna.txt",
+        "inat_observations": 3387,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "tapirus_terrestris": {
+    "common_name": "lowland tapir",
+    "scientific_name": "tapirus terrestris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/South_American_tapir",
+    "wikipedia_file": "tapirus_terrestris.txt",
+    "top_species": null
+  },
+  "lycalopex": {
+    "common_name": "lycalopex species",
+    "scientific_name": "lycalopex",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/South_American_fox",
+    "wikipedia_file": "lycalopex.txt",
+    "top_species": [
+      {
+        "scientific_name": "lycalopex culpaeus",
+        "common_name": "Culpeo",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Culpeo",
+        "wikipedia_file": "lycalopex_culpaeus.txt",
+        "inat_observations": 3961,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lycalopex grisea",
+        "common_name": "Chilla",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Chilla",
+        "wikipedia_file": "lycalopex_grisea.txt",
+        "inat_observations": 2849,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lycalopex gymnocerca",
+        "common_name": "Pampas Fox",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Pampas_fox",
+        "wikipedia_file": "lycalopex_gymnocerca.txt",
+        "inat_observations": 2785,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lycalopex sechurae",
+        "common_name": "Sechuran Fox",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Sechuran_fox",
+        "wikipedia_file": "lycalopex_sechurae.txt",
+        "inat_observations": 299,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "lycalopex vetula",
+        "common_name": "Hoary Fox",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Hoary_fox",
+        "wikipedia_file": "lycalopex_vetula.txt",
+        "inat_observations": 119,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "macaca": {
+    "common_name": "macaque species",
+    "scientific_name": "macaca",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Macaque",
+    "wikipedia_file": "macaca.txt",
+    "top_species": [
+      {
+        "scientific_name": "macaca fascicularis",
+        "common_name": "Long-tailed Macaque",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Crab-eating_macaque",
+        "wikipedia_file": "macaca_fascicularis.txt",
+        "inat_observations": 22041,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "macaca mulatta",
+        "common_name": "Rhesus Macaque",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Rhesus_macaque",
+        "wikipedia_file": "macaca_mulatta.txt",
+        "inat_observations": 9684,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "macaca cyclopis",
+        "common_name": "Formosan Rock Macaque",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Formosan_rock_macaque",
+        "wikipedia_file": "macaca_cyclopis.txt",
+        "inat_observations": 6114,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "macaca radiata",
+        "common_name": "Bonnet Macaque",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Bonnet_macaque",
+        "wikipedia_file": "macaca_radiata.txt",
+        "inat_observations": 4095,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "macaca sylvanus",
+        "common_name": "Barbary Macaque",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Barbary_macaque",
+        "wikipedia_file": "macaca_sylvanus.txt",
+        "inat_observations": 2998,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "tapirus_indicus": {
+    "common_name": "malay tapir",
+    "scientific_name": "tapirus indicus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Malayan_tapir",
+    "wikipedia_file": "tapirus_indicus.txt",
+    "top_species": null
+  },
+  "chrysocyon_brachyurus": {
+    "common_name": "maned wolf",
+    "scientific_name": "chrysocyon brachyurus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Maned_wolf",
+    "wikipedia_file": "chrysocyon_brachyurus.txt",
+    "top_species": null
+  },
+  "cercocebus": {
+    "common_name": "mangabeys genus",
+    "scientific_name": "cercocebus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/White-eyelid_mangabey",
+    "wikipedia_file": "cercocebus.txt",
+    "top_species": [
+      {
+        "scientific_name": "cercocebus torquatus",
+        "common_name": "Red-capped Mangabey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Collared_mangabey",
+        "wikipedia_file": "cercocebus_torquatus.txt",
+        "inat_observations": 113,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cercocebus agilis",
+        "common_name": "Agile Mangabey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Agile_mangabey",
+        "wikipedia_file": "cercocebus_agilis.txt",
+        "inat_observations": 110,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cercocebus lunulatus",
+        "common_name": "White-naped mangabey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-naped_mangabey",
+        "wikipedia_file": "cercocebus_lunulatus.txt",
+        "inat_observations": 46,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cercocebus atys",
+        "common_name": "Smoky Mangabey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Sooty_mangabey",
+        "wikipedia_file": "cercocebus_atys.txt",
+        "inat_observations": 38,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cercocebus galeritus",
+        "common_name": "Tana River Crested Mangabey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Tana_River_mangabey",
+        "wikipedia_file": "cercocebus_galeritus.txt",
+        "inat_observations": 27,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "martes": {
+    "common_name": "martes species",
+    "scientific_name": "martes",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Marten",
+    "wikipedia_file": "martes.txt",
+    "top_species": [
+      {
+        "scientific_name": "martes foina",
+        "common_name": "Stone Marten",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Beech_marten",
+        "wikipedia_file": "martes_foina.txt",
+        "inat_observations": 8103,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "martes martes",
+        "common_name": "Eurasian Pine Marten",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/European_pine_marten",
+        "wikipedia_file": "martes_martes.txt",
+        "inat_observations": 5302,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "martes americana",
+        "common_name": "American Marten",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/American_marten",
+        "wikipedia_file": "martes_americana.txt",
+        "inat_observations": 2996,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "martes caurina",
+        "common_name": "Pacific Marten",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Pacific_marten",
+        "wikipedia_file": "martes_caurina.txt",
+        "inat_observations": 1456,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "martes flavigula",
+        "common_name": "Yellow-throated Marten",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Yellow-throated_marten",
+        "wikipedia_file": "martes_flavigula.txt",
+        "inat_observations": 1174,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "suricata_suricatta": {
+    "common_name": "meerkat",
+    "scientific_name": "suricata suricatta",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Meerkat",
+    "wikipedia_file": "suricata_suricatta.txt",
+    "top_species": null
+  },
+  "herpestidae": {
+    "common_name": "mongoose family",
+    "scientific_name": "herpestidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Mongoose",
+    "wikipedia_file": "herpestidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "urva auropunctata",
+        "common_name": "Small Indian Mongoose",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Small_Indian_mongoose",
+        "wikipedia_file": "urva_auropunctata.txt",
+        "inat_observations": 4357,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "mungos mungo",
+        "common_name": "Banded Mongoose",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Banded_mongoose",
+        "wikipedia_file": "mungos_mungo.txt",
+        "inat_observations": 3936,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "helogale parvula",
+        "common_name": "Common Dwarf Mongoose",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Common_dwarf_mongoose",
+        "wikipedia_file": "helogale_parvula.txt",
+        "inat_observations": 2530,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "cynictis penicillata",
+        "common_name": "Yellow Mongoose",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Yellow_mongoose",
+        "wikipedia_file": "cynictis_penicillata.txt",
+        "inat_observations": 2394,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "urva edwardsii",
+        "common_name": "Indian Grey Mongoose",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Indian_grey_mongoose",
+        "wikipedia_file": "urva_edwardsii.txt",
+        "inat_observations": 2237,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "alces_alces": {
+    "common_name": "moose",
+    "scientific_name": "alces alces",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Moose",
+    "wikipedia_file": "alces_alces.txt",
+    "top_species": null
+  },
+  "ovis_orientalis": {
+    "common_name": "mouflon",
+    "scientific_name": "ovis orientalis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Mouflon",
+    "wikipedia_file": "ovis_orientalis.txt",
+    "top_species": null
+  },
+  "oreamnos_americanus": {
+    "common_name": "mountain goat",
+    "scientific_name": "oreamnos americanus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Mountain_goat",
+    "wikipedia_file": "oreamnos_americanus.txt",
+    "top_species": null
+  },
+  "equus_zebra": {
+    "common_name": "mountain zebra",
+    "scientific_name": "equus zebra",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Mountain_zebra",
+    "wikipedia_file": "equus_zebra.txt",
+    "top_species": null
+  },
+  "odocoileus_hemionus": {
+    "common_name": "mule deer",
+    "scientific_name": "odocoileus hemionus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Mule_deer",
+    "wikipedia_file": "odocoileus_hemionus.txt",
+    "top_species": null
+  },
+  "muntiacus": {
+    "common_name": "muntjac genus",
+    "scientific_name": "muntiacus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Muntjac",
+    "wikipedia_file": "muntiacus.txt",
+    "top_species": [
+      {
+        "scientific_name": "muntiacus reevesi",
+        "common_name": "Reeves's Muntjac",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Reeves%27s_muntjac",
+        "wikipedia_file": "muntiacus_reevesi.txt",
+        "inat_observations": 7594,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "muntiacus vaginalis",
+        "common_name": "Northern Red Muntjac",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Northern_red_muntjac",
+        "wikipedia_file": "muntiacus_vaginalis.txt",
+        "inat_observations": 2346,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "muntiacus muntjak",
+        "common_name": "Southern Red Muntjac",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Southern_red_muntjac",
+        "wikipedia_file": "muntiacus_muntjak.txt",
+        "inat_observations": 293,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "muntiacus feae",
+        "common_name": "Fea's Muntjac",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Fea%27s_muntjac",
+        "wikipedia_file": "muntiacus_feae.txt",
+        "inat_observations": 21,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "muntiacus atherodes",
+        "common_name": "Bornean Yellow Muntjac",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Bornean_yellow_muntjac",
+        "wikipedia_file": "muntiacus_atherodes.txt",
+        "inat_observations": 12,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "muridae": {
+    "common_name": "muridae family",
+    "scientific_name": "muridae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Muridae",
+    "wikipedia_file": "muridae.txt",
+    "top_species": [
+      {
+        "scientific_name": "rattus norvegicus",
+        "common_name": "Brown Rat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Brown_rat",
+        "wikipedia_file": "rattus_norvegicus.txt",
+        "inat_observations": 33228,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "mus musculus",
+        "common_name": "House Mouse",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/House_mouse",
+        "wikipedia_file": "mus_musculus.txt",
+        "inat_observations": 19364,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "rattus rattus",
+        "common_name": "Black Rat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black_rat",
+        "wikipedia_file": "rattus_rattus.txt",
+        "inat_observations": 15793,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "apodemus sylvaticus",
+        "common_name": "European Wood Mouse",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Wood_mouse",
+        "wikipedia_file": "apodemus_sylvaticus.txt",
+        "inat_observations": 8927,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "apodemus agrarius",
+        "common_name": "Striped Field Mouse",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Striped_field_mouse",
+        "wikipedia_file": "apodemus_agrarius.txt",
+        "inat_observations": 4484,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "ondatra_zibethicus": {
+    "common_name": "muskrat",
+    "scientific_name": "ondatra zibethicus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Muskrat",
+    "wikipedia_file": "ondatra_zibethicus.txt",
+    "top_species": null
+  },
+  "boselaphus_tragocamelus": {
+    "common_name": "nilgai",
+    "scientific_name": "boselaphus tragocamelus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Nilgai",
+    "wikipedia_file": "boselaphus_tragocamelus.txt",
+    "top_species": null
+  },
+  "dasypus_novemcinctus": {
+    "common_name": "nine-banded armadillo",
+    "scientific_name": "dasypus novemcinctus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Nine-banded_armadillo",
+    "wikipedia_file": "dasypus_novemcinctus.txt",
+    "top_species": null
+  },
+  "erethizon_dorsatum": {
+    "common_name": "north american porcupine",
+    "scientific_name": "erethizon dorsatum",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/North_American_porcupine",
+    "wikipedia_file": "erethizon_dorsatum.txt",
+    "top_species": null
+  },
+  "lontra_canadensis": {
+    "common_name": "north american river otter",
+    "scientific_name": "lontra canadensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/North_American_river_otter",
+    "wikipedia_file": "lontra_canadensis.txt",
+    "top_species": null
+  },
+  "rupicapra_rupicapra": {
+    "common_name": "northern chamois",
+    "scientific_name": "rupicapra rupicapra",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Chamois",
+    "wikipedia_file": "rupicapra_rupicapra.txt",
+    "top_species": null
+  },
+  "procyon_lotor": {
+    "common_name": "northern raccoon",
+    "scientific_name": "procyon lotor",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Raccoon",
+    "wikipedia_file": "procyon_lotor.txt",
+    "top_species": null
+  },
+  "myocastor_coypus": {
+    "common_name": "nutria",
+    "scientific_name": "myocastor coypus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Nutria",
+    "wikipedia_file": "myocastor_coypus.txt",
+    "top_species": null
+  },
+  "tragelaphus_angasii": {
+    "common_name": "nyala",
+    "scientific_name": "tragelaphus angasii",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Nyala",
+    "wikipedia_file": "tragelaphus_angasii.txt",
+    "top_species": null
+  },
+  "leopardus_pardalis": {
+    "common_name": "ocelot",
+    "scientific_name": "leopardus pardalis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Ocelot",
+    "wikipedia_file": "leopardus_pardalis.txt",
+    "top_species": null
+  },
+  "hystricidae": {
+    "common_name": "old world porcupine family",
+    "scientific_name": "hystricidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Old_World_porcupine",
+    "wikipedia_file": "hystricidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "hystrix africaeaustralis",
+        "common_name": "Cape Porcupine",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Cape_porcupine",
+        "wikipedia_file": "hystrix_africaeaustralis.txt",
+        "inat_observations": 5960,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "hystrix cristata",
+        "common_name": "Crested Porcupine",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Crested_porcupine",
+        "wikipedia_file": "hystrix_cristata.txt",
+        "inat_observations": 3338,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "hystrix indica",
+        "common_name": "Indian Crested Porcupine",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Indian_crested_porcupine",
+        "wikipedia_file": "hystrix_indica.txt",
+        "inat_observations": 2241,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "hystrix brachyura",
+        "common_name": "East Asian Porcupine",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Malayan_porcupine",
+        "wikipedia_file": "hystrix_brachyura.txt",
+        "inat_observations": 1281,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "atherurus africanus",
+        "common_name": "African Brush-tailed Porcupine",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/African_brush-tailed_porcupine",
+        "wikipedia_file": "atherurus_africanus.txt",
+        "inat_observations": 115,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "didelphidae": {
+    "common_name": "opossum family",
+    "scientific_name": "didelphidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Opossum",
+    "wikipedia_file": "didelphidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "didelphis virginiana",
+        "common_name": "Virginia Opossum",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Virginia_opossum",
+        "wikipedia_file": "didelphis_virginiana.txt",
+        "inat_observations": 70418,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "didelphis marsupialis",
+        "common_name": "Southern Opossum",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Common_opossum",
+        "wikipedia_file": "didelphis_marsupialis.txt",
+        "inat_observations": 6267,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "didelphis albiventris",
+        "common_name": "White-eared Opossum",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-eared_opossum",
+        "wikipedia_file": "didelphis_albiventris.txt",
+        "inat_observations": 3995,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "didelphis aurita",
+        "common_name": "Big-eared Opossum",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Big-eared_opossum",
+        "wikipedia_file": "didelphis_aurita.txt",
+        "inat_observations": 1718,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "caluromys derbianus",
+        "common_name": "Derby's Woolly Opossum",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Derby%27s_woolly_opossum",
+        "wikipedia_file": "caluromys_derbianus.txt",
+        "inat_observations": 1083,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "manidae": {
+    "common_name": "pangolin family",
+    "scientific_name": "manidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Manidae",
+    "wikipedia_file": "manidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "manis pentadactyla",
+        "common_name": "Chinese Pangolin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Chinese_pangolin",
+        "wikipedia_file": "manis_pentadactyla.txt",
+        "inat_observations": 856,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "manis javanica",
+        "common_name": "Sunda Pangolin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Sunda_pangolin",
+        "wikipedia_file": "manis_javanica.txt",
+        "inat_observations": 256,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "smutsia temminckii",
+        "common_name": "Temminck's Ground Pangolin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Ground_pangolin",
+        "wikipedia_file": "smutsia_temminckii.txt",
+        "inat_observations": 250,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "phataginus tricuspis",
+        "common_name": "White-bellied Pangolin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-bellied_pangolin",
+        "wikipedia_file": "phataginus_tricuspis.txt",
+        "inat_observations": 212,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "smutsia gigantea",
+        "common_name": "Giant Ground Pangolin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Giant_pangolin",
+        "wikipedia_file": "smutsia_gigantea.txt",
+        "inat_observations": 80,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "erythrocebus_patas": {
+    "common_name": "patas monkey",
+    "scientific_name": "erythrocebus patas",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Common_patas_monkey",
+    "wikipedia_file": "erythrocebus_patas.txt",
+    "top_species": null
+  },
+  "ochotona": {
+    "common_name": "pikas genus",
+    "scientific_name": "ochotona",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Pika",
+    "wikipedia_file": "ochotona.txt",
+    "top_species": [
+      {
+        "scientific_name": "ochotona princeps",
+        "common_name": "American Pika",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/American_pika",
+        "wikipedia_file": "ochotona_princeps.txt",
+        "inat_observations": 11546,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "ochotona curzoniae",
+        "common_name": "Black-lipped Pika",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Plateau_pika",
+        "wikipedia_file": "ochotona_curzoniae.txt",
+        "inat_observations": 596,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "ochotona collaris",
+        "common_name": "Collared Pika",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Collared_pika",
+        "wikipedia_file": "ochotona_collaris.txt",
+        "inat_observations": 504,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "ochotona pallasii",
+        "common_name": "Pallas's Pika",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Pallas%27s_pika",
+        "wikipedia_file": "ochotona_pallasii.txt",
+        "inat_observations": 396,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "ochotona roylii",
+        "common_name": "Himalayan Pika",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Royle%27s_pika",
+        "wikipedia_file": "ochotona_roylii.txt",
+        "inat_observations": 337,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "pinniped": {
+    "common_name": "pinniped clade",
+    "scientific_name": "pinniped",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Pinniped",
+    "wikipedia_file": "pinniped.txt",
+    "top_species": []
+  },
+  "equus_quagga": {
+    "common_name": "plains zebra",
+    "scientific_name": "equus quagga",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Plains_zebra",
+    "wikipedia_file": "equus_quagga.txt",
+    "top_species": null
+  },
+  "antilocapra_americana": {
+    "common_name": "pronghorn",
+    "scientific_name": "antilocapra americana",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Pronghorn",
+    "wikipedia_file": "antilocapra_americana.txt",
+    "top_species": null
+  },
+  "puma_concolor": {
+    "common_name": "puma",
+    "scientific_name": "puma concolor",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Puma",
+    "wikipedia_file": "puma_concolor.txt",
+    "top_species": null
+  },
+  "setonix_brachyurus": {
+    "common_name": "quokka",
+    "scientific_name": "setonix brachyurus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Quokka",
+    "wikipedia_file": "setonix_brachyurus.txt",
+    "top_species": null
+  },
+  "nyctereutes_procyonoides": {
+    "common_name": "raccoon dog",
+    "scientific_name": "nyctereutes procyonoides",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Nyctereutes",
+    "wikipedia_file": "nyctereutes_procyonoides.txt",
+    "top_species": null
+  },
+  "rattus": {
+    "common_name": "rattus genus",
+    "scientific_name": "rattus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Rattus",
+    "wikipedia_file": "rattus.txt",
+    "top_species": [
+      {
+        "scientific_name": "rattus norvegicus",
+        "common_name": "Brown Rat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Brown_rat",
+        "wikipedia_file": "rattus_norvegicus.txt",
+        "inat_observations": 33228,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "rattus rattus",
+        "common_name": "Black Rat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black_rat",
+        "wikipedia_file": "rattus_rattus.txt",
+        "inat_observations": 15793,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "rattus fuscipes",
+        "common_name": "Australian Bush Rat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Bush_rat",
+        "wikipedia_file": "rattus_fuscipes.txt",
+        "inat_observations": 1939,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "rattus lutreolus",
+        "common_name": "Australian Swamp Rat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Australian_swamp_rat",
+        "wikipedia_file": "rattus_lutreolus.txt",
+        "inat_observations": 1094,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "rattus tanezumi",
+        "common_name": "Oriental House Rat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Tanezumi_rat",
+        "wikipedia_file": "rattus_tanezumi.txt",
+        "inat_observations": 646,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "mazama_americana": {
+    "common_name": "red brocket",
+    "scientific_name": "mazama americana",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red_brocket",
+    "wikipedia_file": "mazama_americana.txt",
+    "top_species": null
+  },
+  "cervus_elaphus": {
+    "common_name": "red deer",
+    "scientific_name": "cervus elaphus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red_deer",
+    "wikipedia_file": "cervus_elaphus.txt",
+    "top_species": null
+  },
+  "vulpes_vulpes": {
+    "common_name": "red fox",
+    "scientific_name": "vulpes vulpes",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red_fox",
+    "wikipedia_file": "vulpes_vulpes.txt",
+    "top_species": null
+  },
+  "osphranter_rufus": {
+    "common_name": "red kangaroo",
+    "scientific_name": "osphranter rufus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+    "wikipedia_file": "osphranter_rufus.txt",
+    "top_species": null
+  },
+  "ailurus_fulgens": {
+    "common_name": "red panda",
+    "scientific_name": "ailurus fulgens",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red_Panda",
+    "wikipedia_file": "ailurus_fulgens.txt",
+    "top_species": null
+  },
+  "potamochoerus_porcus": {
+    "common_name": "red river hog",
+    "scientific_name": "potamochoerus porcus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red_river_hog",
+    "wikipedia_file": "potamochoerus_porcus.txt",
+    "top_species": null
+  },
+  "tamiasciurus_hudsonicus": {
+    "common_name": "red squirrel",
+    "scientific_name": "tamiasciurus hudsonicus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red_squirrel",
+    "wikipedia_file": "tamiasciurus_hudsonicus.txt",
+    "top_species": null
+  },
+  "macropus_rufogriseus": {
+    "common_name": "red-necked wallaby",
+    "scientific_name": "macropus rufogriseus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Red-necked_wallaby",
+    "wikipedia_file": "macropus_rufogriseus.txt",
+    "top_species": null
+  },
+  "redunca": {
+    "common_name": "reedbuck genus",
+    "scientific_name": "redunca",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Reedbuck",
+    "wikipedia_file": "redunca.txt",
+    "top_species": [
+      {
+        "scientific_name": "redunca arundinum",
+        "common_name": "Southern Reedbuck",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Southern_reedbuck",
+        "wikipedia_file": "redunca_arundinum.txt",
+        "inat_observations": 1054,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "redunca redunca",
+        "common_name": "Bohor Reedbuck",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Bohor_reedbuck",
+        "wikipedia_file": "redunca_redunca.txt",
+        "inat_observations": 1010,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "redunca fulvorufula",
+        "common_name": "Mountain Reedbuck",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mountain_reedbuck",
+        "wikipedia_file": "redunca_fulvorufula.txt",
+        "inat_observations": 537,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "rangifer_tarandus": {
+    "common_name": "reindeer",
+    "scientific_name": "rangifer tarandus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Reindeer",
+    "wikipedia_file": "rangifer_tarandus.txt",
+    "top_species": null
+  },
+  "rhinocerotidae": {
+    "common_name": "rhinoceros family",
+    "scientific_name": "rhinocerotidae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Rhinoceros",
+    "wikipedia_file": "rhinocerotidae.txt",
+    "top_species": [
+      {
+        "scientific_name": "ceratotherium simum",
+        "common_name": "White Rhinoceros",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White_rhinoceros",
+        "wikipedia_file": "ceratotherium_simum.txt",
+        "inat_observations": 8240,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "diceros bicornis",
+        "common_name": "Black Rhinoceros",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black_rhinoceros",
+        "wikipedia_file": "diceros_bicornis.txt",
+        "inat_observations": 2976,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "rhinoceros unicornis",
+        "common_name": "Indian Rhinoceros",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Indian_rhinoceros",
+        "wikipedia_file": "rhinoceros_unicornis.txt",
+        "inat_observations": 2046,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "coelodonta antiquitatis",
+        "common_name": "Woolly Rhinoceros",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Woolly_rhinoceros",
+        "wikipedia_file": "coelodonta_antiquitatis.txt",
+        "inat_observations": 11,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "rhinoceros sondaicus",
+        "common_name": "Javan Rhinoceros",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Javan_rhinoceros",
+        "wikipedia_file": "rhinoceros_sondaicus.txt",
+        "inat_observations": 10,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "lemur_catta": {
+    "common_name": "ring-tailed lemur",
+    "scientific_name": "lemur catta",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Ring-tailed_lemur",
+    "wikipedia_file": "lemur_catta.txt",
+    "top_species": null
+  },
+  "bassariscus_astutus": {
+    "common_name": "ringtail",
+    "scientific_name": "bassariscus astutus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Ringtail",
+    "wikipedia_file": "bassariscus_astutus.txt",
+    "top_species": null
+  },
+  "hippotragus_equinus": {
+    "common_name": "roan antelope",
+    "scientific_name": "hippotragus equinus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Roan_antelope",
+    "wikipedia_file": "hippotragus_equinus.txt",
+    "top_species": null
+  },
+  "procavia_capensis": {
+    "common_name": "rock hyrax",
+    "scientific_name": "procavia capensis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Rock_hyrax",
+    "wikipedia_file": "procavia_capensis.txt",
+    "top_species": null
+  },
+  "hippotragus_niger": {
+    "common_name": "sable antelope",
+    "scientific_name": "hippotragus niger",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Sable_antelope",
+    "wikipedia_file": "hippotragus_niger.txt",
+    "top_species": null
+  },
+  "saguinus": {
+    "common_name": "saguinus species",
+    "scientific_name": "saguinus",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Tamarin",
+    "wikipedia_file": "saguinus.txt",
+    "top_species": [
+      {
+        "scientific_name": "saguinus geoffroyi",
+        "common_name": "Geoffroy’s Tamarin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Geoffroy%27s_tamarin",
+        "wikipedia_file": "saguinus_geoffroyi.txt",
+        "inat_observations": 1935,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "saguinus oedipus",
+        "common_name": "Cotton-headed Tamarin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Cotton-top_tamarin",
+        "wikipedia_file": "saguinus_oedipus.txt",
+        "inat_observations": 1330,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "saguinus nigricollis",
+        "common_name": "Black-mantled Tamarin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black-mantled_tamarin",
+        "wikipedia_file": "saguinus_nigricollis.txt",
+        "inat_observations": 867,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "saguinus leucopus",
+        "common_name": "Silvery-brown Tamarin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-footed_tamarin",
+        "wikipedia_file": "saguinus_leucopus.txt",
+        "inat_observations": 769,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "saguinus weddelli",
+        "common_name": "White-mantled Tamarin",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/White-mantled_tamarin",
+        "wikipedia_file": "saguinus_weddelli.txt",
+        "inat_observations": 691,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "saiga_tatarica": {
+    "common_name": "saiga",
+    "scientific_name": "saiga tatarica",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Saiga_antelope",
+    "wikipedia_file": "saiga_tatarica.txt",
+    "top_species": null
+  },
+  "saimiri": {
+    "common_name": "saimiri species",
+    "scientific_name": "saimiri",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Squirrel_monkey",
+    "wikipedia_file": "saimiri.txt",
+    "top_species": [
+      {
+        "scientific_name": "saimiri oerstedii",
+        "common_name": "Central American Squirrel Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Central_American_squirrel_monkey",
+        "wikipedia_file": "saimiri_oerstedii.txt",
+        "inat_observations": 3097,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "saimiri macrodon",
+        "common_name": "Ecuadorian Squirrel Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Ecuadorian_squirrel_monkey",
+        "wikipedia_file": "saimiri_macrodon.txt",
+        "inat_observations": 2236,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "saimiri boliviensis",
+        "common_name": "Black-capped Squirrel Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Black-capped_squirrel_monkey",
+        "wikipedia_file": "saimiri_boliviensis.txt",
+        "inat_observations": 1391,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "saimiri sciureus",
+        "common_name": "Common Squirrel Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Common_squirrel_monkey",
+        "wikipedia_file": "saimiri_sciureus.txt",
+        "inat_observations": 1152,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "saimiri cassiquiarensis",
+        "common_name": "Humboldt’s Squirrel Monkey",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Humboldt%27s_squirrel_monkey",
+        "wikipedia_file": "saimiri_cassiquiarensis.txt",
+        "inat_observations": 798,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "rusa_unicolor": {
+    "common_name": "sambar",
+    "scientific_name": "rusa unicolor",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Sambar",
+    "wikipedia_file": "rusa_unicolor.txt",
+    "top_species": null
+  },
+  "enhydra_lutris": {
+    "common_name": "sea otter",
+    "scientific_name": "enhydra lutris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Sea_otter",
+    "wikipedia_file": "enhydra_lutris.txt",
+    "top_species": null
+  },
+  "leptailurus_serval": {
+    "common_name": "serval",
+    "scientific_name": "leptailurus serval",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Serval",
+    "wikipedia_file": "leptailurus_serval.txt",
+    "top_species": null
+  },
+  "tachyglossus_aculeatus": {
+    "common_name": "short-beaked echidna",
+    "scientific_name": "tachyglossus aculeatus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Short-beaked_echidna",
+    "wikipedia_file": "tachyglossus_aculeatus.txt",
+    "top_species": null
+  },
+  "cervus_nippon": {
+    "common_name": "sika deer",
+    "scientific_name": "cervus nippon",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Sika_deer",
+    "wikipedia_file": "cervus_nippon.txt",
+    "top_species": null
+  },
+  "melursus_ursinus": {
+    "common_name": "sloth bear",
+    "scientific_name": "melursus ursinus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Sloth_bear",
+    "wikipedia_file": "melursus_ursinus.txt",
+    "top_species": null
+  },
+  "panthera_uncia": {
+    "common_name": "snow leopard",
+    "scientific_name": "panthera uncia",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Snow_leopard",
+    "wikipedia_file": "panthera_uncia.txt",
+    "top_species": null
+  },
+  "nasua_nasua": {
+    "common_name": "south american coati",
+    "scientific_name": "nasua nasua",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/South_American_coati",
+    "wikipedia_file": "nasua_nasua.txt",
+    "top_species": null
+  },
+  "tremarctos_ornatus": {
+    "common_name": "spectacled bear",
+    "scientific_name": "tremarctos ornatus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Spectacled_bear",
+    "wikipedia_file": "tremarctos_ornatus.txt",
+    "top_species": null
+  },
+  "spilogale": {
+    "common_name": "spilogale species",
+    "scientific_name": "spilogale",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Spotted_skunk",
+    "wikipedia_file": "spilogale.txt",
+    "top_species": [
+      {
+        "scientific_name": "spilogale leucoparia",
+        "common_name": "Desert Spotted Skunk",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Spotted_skunk",
+        "wikipedia_file": "spilogale_leucoparia.txt",
+        "inat_observations": 668,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "spilogale gracilis",
+        "common_name": "Western Spotted Skunk",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Western_spotted_skunk",
+        "wikipedia_file": "spilogale_gracilis.txt",
+        "inat_observations": 642,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "spilogale angustifrons",
+        "common_name": "Southern Spotted Skunk",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Southern_spotted_skunk",
+        "wikipedia_file": "spilogale_angustifrons.txt",
+        "inat_observations": 343,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "spilogale putorius",
+        "common_name": "Alleghanian Spotted Skunk",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Eastern_spotted_skunk",
+        "wikipedia_file": "spilogale_putorius.txt",
+        "inat_observations": 334,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "spilogale yucatanensis",
+        "common_name": "Yucatán Spotted Skunk",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Spilogale_yucatanensis",
+        "wikipedia_file": "spilogale_yucatanensis.txt",
+        "inat_observations": 146,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "crocuta_crocuta": {
+    "common_name": "spotted hyaena",
+    "scientific_name": "crocuta crocuta",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Spotted_hyena",
+    "wikipedia_file": "crocuta_crocuta.txt",
+    "top_species": null
+  },
+  "antidorcas_marsupialis": {
+    "common_name": "springbok",
+    "scientific_name": "antidorcas marsupialis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Springbok",
+    "wikipedia_file": "antidorcas_marsupialis.txt",
+    "top_species": null
+  },
+  "sciuridae": {
+    "common_name": "squirrel family",
+    "scientific_name": "sciuridae",
+    "level": "family",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Squirrel",
+    "wikipedia_file": "sciuridae.txt",
+    "top_species": [
+      {
+        "scientific_name": "tamias striatus",
+        "common_name": "Eastern Chipmunk",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Eastern_chipmunk",
+        "wikipedia_file": "tamias_striatus.txt",
+        "inat_observations": 94572,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "otospermophilus variegatus",
+        "common_name": "Rock Squirrel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Rock_squirrel",
+        "wikipedia_file": "otospermophilus_variegatus.txt",
+        "inat_observations": 26650,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "tamiasciurus douglasii",
+        "common_name": "Douglas's Squirrel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Douglas_squirrel",
+        "wikipedia_file": "tamiasciurus_douglasii.txt",
+        "inat_observations": 16339,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "sciurus aureogaster",
+        "common_name": "Red-bellied Squirrel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Mexican_gray_squirrel",
+        "wikipedia_file": "sciurus_aureogaster.txt",
+        "inat_observations": 13209,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "callosciurus erythraeus",
+        "common_name": "Pallas' Squirrel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Pallas%27s_squirrel",
+        "wikipedia_file": "callosciurus_erythraeus.txt",
+        "inat_observations": 12523,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "raphicerus_campestris": {
+    "common_name": "steenbok",
+    "scientific_name": "raphicerus campestris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Steenbok",
+    "wikipedia_file": "raphicerus_campestris.txt",
+    "top_species": null
+  },
+  "hyaena_hyaena": {
+    "common_name": "striped hyaena",
+    "scientific_name": "hyaena hyaena",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Striped_hyena",
+    "wikipedia_file": "hyaena_hyaena.txt",
+    "top_species": null
+  },
+  "mephitis_mephitis": {
+    "common_name": "striped skunk",
+    "scientific_name": "mephitis mephitis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Striped_skunk",
+    "wikipedia_file": "mephitis_mephitis.txt",
+    "top_species": null
+  },
+  "helarctos_malayanus": {
+    "common_name": "sun bear",
+    "scientific_name": "helarctos malayanus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Sun_bear",
+    "wikipedia_file": "helarctos_malayanus.txt",
+    "top_species": null
+  },
+  "wallabia_bicolor": {
+    "common_name": "swamp wallaby",
+    "scientific_name": "wallabia bicolor",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Swamp_wallaby",
+    "wikipedia_file": "wallabia_bicolor.txt",
+    "top_species": null
+  },
+  "eira_barbara": {
+    "common_name": "tayra",
+    "scientific_name": "eira barbara",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Tayra",
+    "wikipedia_file": "eira_barbara.txt",
+    "top_species": null
+  },
+  "eudorcas_thomsonii": {
+    "common_name": "thomson's gazelle",
+    "scientific_name": "eudorcas thomsonii",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Thomson%27s_gazelle",
+    "wikipedia_file": "eudorcas_thomsonii.txt",
+    "top_species": null
+  },
+  "panthera_tigris": {
+    "common_name": "tiger",
+    "scientific_name": "panthera tigris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Tiger",
+    "wikipedia_file": "panthera_tigris.txt",
+    "top_species": null
+  },
+  "chlorocebus_pygerythrus": {
+    "common_name": "vervet monkey",
+    "scientific_name": "chlorocebus pygerythrus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Vervet_monkey",
+    "wikipedia_file": "chlorocebus_pygerythrus.txt",
+    "top_species": null
+  },
+  "odobenus_rosmarus": {
+    "common_name": "walrus",
+    "scientific_name": "odobenus rosmarus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Walrus",
+    "wikipedia_file": "odobenus_rosmarus.txt",
+    "top_species": null
+  },
+  "hydropotes_inermis": {
+    "common_name": "water deer",
+    "scientific_name": "hydropotes inermis",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Water_deer",
+    "wikipedia_file": "hydropotes_inermis.txt",
+    "top_species": null
+  },
+  "kobus_ellipsiprymnus": {
+    "common_name": "waterbuck",
+    "scientific_name": "kobus ellipsiprymnus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Waterbuck",
+    "wikipedia_file": "kobus_ellipsiprymnus.txt",
+    "top_species": null
+  },
+  "mustela": {
+    "common_name": "weasel species",
+    "scientific_name": "mustela",
+    "level": "genus",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Weasel",
+    "wikipedia_file": "mustela.txt",
+    "top_species": [
+      {
+        "scientific_name": "mustela nivalis",
+        "common_name": "Least Weasel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Least_weasel",
+        "wikipedia_file": "mustela_nivalis.txt",
+        "inat_observations": 4903,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "mustela erminea",
+        "common_name": "Eurasian Stoat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Stoat",
+        "wikipedia_file": "mustela_erminea.txt",
+        "inat_observations": 4317,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "mustela richardsonii",
+        "common_name": "American Ermine",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/American_ermine",
+        "wikipedia_file": "mustela_richardsonii.txt",
+        "inat_observations": 3686,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "mustela putorius",
+        "common_name": "Western Polecat",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/European_polecat",
+        "wikipedia_file": "mustela_putorius.txt",
+        "inat_observations": 1989,
+        "wikipedia_found": true
+      },
+      {
+        "scientific_name": "mustela sibirica",
+        "common_name": "Siberian Weasel",
+        "wikipedia_url": "https://en.wikipedia.org/wiki/Siberian_weasel",
+        "wikipedia_file": "mustela_sibirica.txt",
+        "inat_observations": 1056,
+        "wikipedia_found": true
+      }
+    ]
+  },
+  "sciurus_griseus": {
+    "common_name": "western gray squirrel",
+    "scientific_name": "sciurus griseus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Western_gray_squirrel",
+    "wikipedia_file": "sciurus_griseus.txt",
+    "top_species": null
+  },
+  "nasua_narica": {
+    "common_name": "white-nosed coati",
+    "scientific_name": "nasua narica",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/White-nosed_coati",
+    "wikipedia_file": "nasua_narica.txt",
+    "top_species": null
+  },
+  "odocoileus_virginianus": {
+    "common_name": "white-tailed deer",
+    "scientific_name": "odocoileus virginianus",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/White-tailed_deer",
+    "wikipedia_file": "odocoileus_virginianus.txt",
+    "top_species": null
+  },
+  "sus_scrofa": {
+    "common_name": "wild boar",
+    "scientific_name": "sus scrofa",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Wild_boar",
+    "wikipedia_file": "sus_scrofa.txt",
+    "top_species": null
+  },
+  "felis_silvestris": {
+    "common_name": "wild cat",
+    "scientific_name": "felis silvestris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Wild_Cat",
+    "wikipedia_file": "felis_silvestris.txt",
+    "top_species": null
+  },
+  "gulo_gulo": {
+    "common_name": "wolverine",
+    "scientific_name": "gulo gulo",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Wolverine",
+    "wikipedia_file": "gulo_gulo.txt",
+    "top_species": null
+  },
+  "marmota_monax": {
+    "common_name": "woodchuck",
+    "scientific_name": "marmota monax",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Groundhog",
+    "wikipedia_file": "marmota_monax.txt",
+    "top_species": null
+  },
+  "bos_grunniens": {
+    "common_name": "yak",
+    "scientific_name": "bos grunniens",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Yak",
+    "wikipedia_file": "bos_grunniens.txt",
+    "top_species": null
+  },
+  "marmota_flaviventris": {
+    "common_name": "yellow-bellied marmot",
+    "scientific_name": "marmota flaviventris",
+    "level": "species",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Yellow-bellied_marmot",
+    "wikipedia_file": "marmota_flaviventris.txt",
+    "top_species": null
+  }
+}

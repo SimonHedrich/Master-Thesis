@@ -1,9 +1,11 @@
 """
-Analyse filtered image coverage per class across all four datasets.
+Analyse filtered image coverage per class across all datasets.
 
 Reads filter_results.jsonl from each dataset directory and cross-references
 against the 225 target classes in reports/class_counts_225.csv to produce
 a detailed coverage report.
+
+Datasets: gbif, inaturalist, wikimedia, openimages, images_cv
 
 Usage:
     python scripts/dataset_quality/2-analyse_dataset_coverage.py
@@ -23,7 +25,8 @@ DATASETS = {
     "gbif": REPO_ROOT / "data/gbif/filter_results.jsonl",
     "inaturalist": REPO_ROOT / "data/inaturalist/filter_results.jsonl",
     "wikimedia": REPO_ROOT / "data/wikimedia/filter_results.jsonl",
-    "openimages": REPO_ROOT / "data/supplementary_openimages/filter_results.jsonl",
+    "openimages": REPO_ROOT / "data/openimages/filter_results.jsonl",
+    "images_cv": REPO_ROOT / "data/images_cv/filter_results.jsonl",
 }
 
 CLASS_COUNTS_CSV = REPO_ROOT / "reports/class_counts_225.csv"
@@ -163,7 +166,7 @@ def write_md_report(
         "",
         f"Generated: {date.today().isoformat()}  ",
         f"Target classes: **{len(class_list)}**  ",
-        f"Datasets: GBIF · iNaturalist · Wikimedia · Open Images  ",
+        f"Datasets: GBIF · iNaturalist · Wikimedia · Open Images · images_cv  ",
         f"Quality buffer applied: **20%** (estimated post-filtering loss)",
         "",
     ]
@@ -209,8 +212,8 @@ def write_md_report(
         "Sorted by total passed images (highest first).  ",
         "**Buffer** = total × 0.80 (estimated usable). **Gap** = images still needed to reach 1,200 usable.",
         "",
-        "| # | Class | Scientific name | iNaturalist | GBIF | Open Images | Wikimedia | **Total** | Buffer | Gap | Status |",
-        "|--:|-------|-----------------|------------:|-----:|------------:|----------:|----------:|-------:|----:|--------|",
+        "| # | Class | Scientific name | iNaturalist | GBIF | Open Images | Wikimedia | images_cv | **Total** | Buffer | Gap | Status |",
+        "|--:|-------|-----------------|------------:|-----:|------------:|----------:|----------:|----------:|-------:|----:|--------|",
     ]
     df_by_total = df.sort_values("total_pass", ascending=False).reset_index(drop=True)
     for i, row in df_by_total.iterrows():
@@ -224,6 +227,7 @@ def write_md_report(
             f"| {int(row['gbif_pass']):,} "
             f"| {int(row['openimages_pass']):,} "
             f"| {int(row['wikimedia_pass']):,} "
+            f"| {int(row['images_cv_pass']):,} "
             f"| **{int(row['total_pass']):,}** "
             f"| {int(row['after_buffer']):,} "
             f"| {gap_str} "
@@ -240,8 +244,8 @@ def write_md_report(
         "",
         f"**{len(critical_df)} classes** with fewer than {TIER_LOW} passed images.",
         "",
-        "| Class | Scientific name | iNat | GBIF | OI | Wiki | Total | Gap |",
-        "|-------|-----------------|-----:|-----:|---:|-----:|------:|----:|",
+        "| Class | Scientific name | iNat | GBIF | OI | Wiki | CV | Total | Gap |",
+        "|-------|-----------------|-----:|-----:|---:|-----:|---:|------:|----:|",
     ]
     for _, row in critical_df.iterrows():
         lines.append(
@@ -251,6 +255,7 @@ def write_md_report(
             f"| {int(row['gbif_pass']):,} "
             f"| {int(row['openimages_pass']):,} "
             f"| {int(row['wikimedia_pass']):,} "
+            f"| {int(row['images_cv_pass']):,} "
             f"| {int(row['total_pass']):,} "
             f"| {int(row['gap']):,} |"
         )
@@ -261,8 +266,8 @@ def write_md_report(
         "",
         f"**{len(low_df)} classes** with {TIER_LOW}–{TIER_MARGINAL - 1} passed images.",
         "",
-        "| Class | Scientific name | iNat | GBIF | OI | Wiki | Total | Gap |",
-        "|-------|-----------------|-----:|-----:|---:|-----:|------:|----:|",
+        "| Class | Scientific name | iNat | GBIF | OI | Wiki | CV | Total | Gap |",
+        "|-------|-----------------|-----:|-----:|---:|-----:|---:|------:|----:|",
     ]
     for _, row in low_df.iterrows():
         lines.append(
@@ -272,6 +277,7 @@ def write_md_report(
             f"| {int(row['gbif_pass']):,} "
             f"| {int(row['openimages_pass']):,} "
             f"| {int(row['wikimedia_pass']):,} "
+            f"| {int(row['images_cv_pass']):,} "
             f"| {int(row['total_pass']):,} "
             f"| {int(row['gap']):,} |"
         )
@@ -334,6 +340,7 @@ def main(verbose: bool = False) -> None:
             "inaturalist_pass": ds_pass["inaturalist"],
             "wikimedia_pass": ds_pass["wikimedia"],
             "openimages_pass": ds_pass["openimages"],
+            "images_cv_pass": ds_pass["images_cv"],
             "total_pass": total_pass,
             "total_imgs": total_all,
             "after_buffer": after_buffer,
@@ -426,9 +433,9 @@ def _print_class_table(subset: pd.DataFrame, verbose: bool) -> None:
     if subset.empty:
         print("  (none)")
         return
-    header = f"  {'Class':<30s} {'Total':>6s} {'Buf':>5s} {'Gap':>5s}  {'iNat':>5s} {'GBIF':>5s} {'OI':>4s} {'Wiki':>4s}"
+    header = f"  {'Class':<30s} {'Total':>6s} {'Buf':>5s} {'Gap':>5s}  {'iNat':>5s} {'GBIF':>5s} {'OI':>4s} {'Wiki':>4s} {'CV':>4s}"
     print(header)
-    print(f"  {'─'*30} {'─'*6} {'─'*5} {'─'*5}  {'─'*5} {'─'*5} {'─'*4} {'─'*4}")
+    print(f"  {'─'*30} {'─'*6} {'─'*5} {'─'*5}  {'─'*5} {'─'*5} {'─'*4} {'─'*4} {'─'*4}")
     for _, row in subset.iterrows():
         gap_str = f"{int(row['gap']):,}" if row["gap"] > 0 else "ok"
         print(
@@ -439,7 +446,8 @@ def _print_class_table(subset: pd.DataFrame, verbose: bool) -> None:
             f"{int(row['inaturalist_pass']):>5,} "
             f"{int(row['gbif_pass']):>5,} "
             f"{int(row['openimages_pass']):>4,} "
-            f"{int(row['wikimedia_pass']):>4,}"
+            f"{int(row['wikimedia_pass']):>4,} "
+            f"{int(row['images_cv_pass']):>4,}"
         )
         if verbose and row["top_failure_reasons"]:
             print(f"    └─ failures: {row['top_failure_reasons']}")

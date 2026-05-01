@@ -97,8 +97,7 @@ IMAGE_SIZES = {
 }
 
 # ── Label Set Loading ────────────────────────────────────────────────────────
-# Reuses the same label file format as download_lila_bc.py:
-#   UUID;mammalia;order;family;genus;species;common_name
+# Label file format: UUID;mammalia;order;family;genus;species;common_name
 
 
 def load_target_labels(label_path):

@@ -9,7 +9,7 @@ Each sample shows:
 Usage:
   python scripts/dataset_quality/visualize_filter_results.py [--source wikimedia]
 
-Sources: wikimedia (default), gbif, inaturalist, openimages, lila_bc
+Sources: wikimedia (default), gbif, inaturalist, openimages
 """
 
 import argparse
@@ -25,8 +25,7 @@ RESULTS_PATHS = {
     "wikimedia":  "data/wikimedia/filter_results.jsonl",
     "gbif":       "data/gbif/filter_results.jsonl",
     "inaturalist":"data/inaturalist/filter_results.jsonl",
-    "openimages": "data/supplementary_openimages/filter_results.jsonl",
-    "lila_bc":    "data/lila_bc/filter_results.jsonl",
+    "openimages": "data/openimages/filter_results.jsonl",
 }
 
 

@@ -1,0 +1,67 @@
+[project]
+name = "wildlife-training"
+version = "0.1.0"
+description = "Training environment for wildlife object detection — KD pipeline for embedded inference"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    # Core DL stack — CUDA wheels resolved via [tool.uv.sources]
+    "torch>=2.11.0",
+    "torchvision>=0.26.0",
+
+    # Object detection — covers YOLOv8s, YOLO11n, YOLOv10n, YOLO12n, RT-DETR-L
+    "ultralytics>=8.4.33",
+
+    # Wildlife domain — MegaDetector v5 wrapper
+    "PytorchWildlife>=1.2.4",
+
+    # Training utilities
+    "pytorch-lightning>=2.6.1",
+    "mlflow>=3.0.0",
+
+    # Data & vision
+    "numpy>=2.0.0",
+    "pillow>=11.0.0",
+    # headless: no Qt/GTK GUI deps — functionally identical for all script usage
+    "opencv-python-headless>=4.10.0",
+    "tqdm>=4.66.0",
+    "pandas>=2.2.0",
+
+    # Utilities
+    "python-dotenv>=1.0.0",
+    "psutil>=6.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "black>=25.0.0",
+    "isort>=6.0.0",
+]
+
+# NanoDet and PaddlePaddle (PicoDet) are intentionally excluded — they have
+# incompatible build systems and are managed in separate environments.
+# See docs/progress_notes/2026-04-24_training-setup-and-model-smoke-test.md
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },
+    { index = "pytorch-cu130", marker = "sys_platform == 'linux'" },
+]
+torchvision = [
+    { index = "pytorch-cpu",   marker = "sys_platform == 'darwin'" },
+    { index = "pytorch-cu130", marker = "sys_platform == 'linux'" },
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["scripts"]

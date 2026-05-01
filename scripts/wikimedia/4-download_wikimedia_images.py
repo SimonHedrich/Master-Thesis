@@ -33,6 +33,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 import requests
+from requests.adapters import HTTPAdapter
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -66,7 +67,7 @@ def _make_session():
 
 
 def _api_get(session, params, rate_limiter, max_retries=8):
-    """Rate-limited GET with exponential back-off on 429/503."""
+    """Rate-limited GET with exponential back-off on 429/503 and network errors."""
     params.setdefault("maxlag", 5)
     rate_limiter.wait()
     for attempt in range(max_retries):
@@ -83,8 +84,9 @@ def _api_get(session, params, rate_limiter, max_retries=8):
         except requests.exceptions.HTTPError:
             time.sleep(min(2 ** (attempt + 1), 60))
         except Exception as e:
-            tqdm.write(f"  API error: {e}")
-            break
+            wait = min(2 ** (attempt + 1), 60)
+            tqdm.write(f"  API error (attempt {attempt + 1}/{max_retries}, retry in {wait}s): {e}")
+            time.sleep(wait)
     return None
 
 
@@ -171,19 +173,41 @@ def sanitize_csv_field(value: str) -> str:
 
 # ── Image download ────────────────────────────────────────────────────────────
 
-def download_image(url: str, dest: Path, timeout: int = 60) -> bool:
-    """Download a single image and convert to JPEG. Returns True on success."""
+def download_image(
+    url: str,
+    dest: Path,
+    timeout: int = 60,
+    max_retries: int = 3,
+    session: requests.Session | None = None,
+) -> bool | None:
+    """Download a single image and convert to JPEG.
+
+    Returns:
+        True  — success
+        False — permanent failure (404/410 from CDN, or response too small)
+        None  — transient failure (network error, server error, image decoding
+                error) after all retries exhausted; caller should not blacklist
+    """
     if dest.exists():
         return True
-    try:
-        resp = requests.get(url, timeout=timeout, headers={"User-Agent": USER_AGENT})
-        resp.raise_for_status()
-        if len(resp.content) < 100:
-            return False
-        save_as_jpg(resp.content, dest)
-        return True
-    except Exception:
-        return False
+    get = session.get if session is not None else requests.get
+    for attempt in range(max_retries):
+        try:
+            resp = get(url, timeout=timeout, headers={"User-Agent": USER_AGENT})
+            resp.raise_for_status()
+            if len(resp.content) < 100:
+                return False  # permanent: response body too small to be a real image
+            save_as_jpg(resp.content, dest)
+            return True
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code in (404, 410):
+                return False  # permanent: file gone from CDN
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt)
+        except Exception:
+            if attempt < max_retries - 1:
+                time.sleep(2 ** attempt)
+    return None  # transient: all retries exhausted, do not blacklist
 
 
 # ── CSV writer ────────────────────────────────────────────────────────────────
@@ -222,8 +246,8 @@ def main():
                         help="Minimum seconds between API calls (default: 0.5)")
     parser.add_argument("--min-width", type=int, default=150,
                         help="Skip images narrower than this (default: 300 px)")
-    parser.add_argument("--workers", type=int, default=4,
-                        help="Parallel download threads (default: 4, set to 1 to disable)")
+    parser.add_argument("--workers", type=int, default=16,
+                        help="Parallel download threads (default: 16, set to 1 to disable)")
     parser.add_argument("--retry-failed", action="store_true",
                         help="Ignore the failed-titles log and retry previously failed downloads")
     args = parser.parse_args()
@@ -280,22 +304,30 @@ def main():
     downloaded = 0
     failed = 0
 
+    workers = max(1, args.workers)
+    parallel = workers > 1
+    mode_str = f"parallel, {workers} workers" if parallel else "sequential"
+
+    # Shared session for image downloads with a connection pool sized to the
+    # worker count so each thread can keep a persistent connection to the CDN.
+    download_session = requests.Session()
+    download_session.headers["User-Agent"] = USER_AGENT
+    _adapter = HTTPAdapter(pool_connections=workers, pool_maxsize=workers + 4)
+    download_session.mount("https://", _adapter)
+    download_session.mount("http://", _adapter)
+
     def _norm_title(t: str) -> str:
         return t.replace("_", " ")
 
     def _download_one(dest: Path, url: str, row: dict) -> bool:
-        ok = download_image(url, dest)
+        ok = download_image(url, dest, session=download_session)
         with catalog_lock:
             if ok:
                 catalog.append(row)
-            else:
+            elif ok is False:  # permanent failure only — transient (None) is not blacklisted
                 with open(failed_log, "a", encoding="utf-8") as f:
                     f.write(row["filename"] + "\n")
-        return ok
-
-    workers = max(1, args.workers)
-    parallel = workers > 1
-    mode_str = f"parallel, {workers} workers" if parallel else "sequential"
+        return bool(ok)
 
     # Process in batches of 50 (Wikimedia API limit for multi-title queries).
     # Each batch fetches metadata, downloads images, and writes to CSV before
@@ -334,7 +366,10 @@ def main():
 
                     ext = info.get("extmetadata", {})
                     lic_short = extract_extmetadata(ext, "LicenseShortName").strip()
-                    if not lic_short or lic_short.lower() not in WIKI_SAFE_LICENSES:
+                    lic_norm = lic_short.lower()
+                    # Strip trailing locale suffix (e.g. "CC BY-SA 2.0 fr" → "cc by-sa 2.0")
+                    lic_base = lic_norm.rsplit(" ", 1)[0] if lic_norm.rsplit(" ", 1)[-1].isalpha() and len(lic_norm.rsplit(" ", 1)[-1]) <= 3 else lic_norm
+                    if not lic_short or (lic_norm not in WIKI_SAFE_LICENSES and lic_base not in WIKI_SAFE_LICENSES):
                         skipped_license += 1
                         pbar.update(1)
                         continue
@@ -386,17 +421,19 @@ def main():
                     if rec["title"] not in returned_titles:
                         pbar.update(1)
 
-                # Log all batch titles that weren't queued (not returned by API,
-                # wrong MIME, too small, bad license, empty URL) so they're
-                # skipped on re-runs instead of re-fetched every time.
-                queued_filenames = {row["filename"] for _, _, row in batch_queue}
-                with open(failed_log, "a", encoding="utf-8") as flog:
-                    for rec in batch:
-                        filename = title_to_filename(rec["title"])
-                        local_filename = Path(filename).stem + ".jpg"
-                        dest = images_dir / rec["label_dir"] / local_filename
-                        if filename not in queued_filenames and not dest.exists():
-                            flog.write(filename + "\n")
+                # Log batch titles that were definitively rejected by the API
+                # (wrong MIME, bad license, deleted pages). Only run when the API
+                # actually responded — an empty info_map means a transient API failure,
+                # not genuine missing files, so we must not blacklist those titles.
+                if info_map:
+                    queued_filenames = {row["filename"] for _, _, row in batch_queue}
+                    with open(failed_log, "a", encoding="utf-8") as flog:
+                        for rec in batch:
+                            filename = title_to_filename(rec["title"])
+                            local_filename = Path(filename).stem + ".jpg"
+                            dest = images_dir / rec["label_dir"] / local_filename
+                            if filename not in queued_filenames and not dest.exists():
+                                flog.write(filename + "\n")
 
                 # Download this batch (parallel or sequential), then continue
                 if parallel:

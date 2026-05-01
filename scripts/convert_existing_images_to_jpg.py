@@ -10,8 +10,6 @@ What it does:
   4. Updates metadata files to record the local filename/extension:
        - data/inaturalist/metadata/condensed/photos.csv  → adds local_extension = "jpg"
        - data/wikimedia/metadata.csv                     → adds local_filename  = stem + ".jpg"
-       - data/lila_bc/filtered_images_225.json           → adds local_extension = "jpg"
-       - data/lila_bc/filtered_images_480.json           → adds local_extension = "jpg"
 
 Usage:
     python scripts/convert_existing_images_to_jpg.py
@@ -21,7 +19,6 @@ Usage:
 
 import argparse
 import csv
-import json
 import sys
 from pathlib import Path
 
@@ -34,8 +31,7 @@ DATA_ROOT = REPO_ROOT / "data"
 IMAGE_DIRS = [
     DATA_ROOT / "inaturalist" / "images",
     DATA_ROOT / "wikimedia" / "images",
-    DATA_ROOT / "lila_bc" / "images",
-    DATA_ROOT / "supplementary_openimages" / "images",
+    DATA_ROOT / "openimages" / "images",
 ]
 
 # Extensions that need full re-encoding
@@ -172,37 +168,6 @@ def update_wikimedia_metadata_csv(dry_run: bool) -> int:
     return len(rows)
 
 
-def update_lila_bc_json(label_set: str, dry_run: bool) -> int:
-    """Add local_extension = 'jpg' to each record in filtered_images_{label_set}.json.
-
-    Returns number of records updated.
-    """
-    json_path = DATA_ROOT / "lila_bc" / f"filtered_images_{label_set}.json"
-    if not json_path.exists():
-        return 0
-
-    with open(json_path, encoding="utf-8") as f:
-        records = json.load(f)
-
-    if records and "local_extension" in records[0]:
-        print(f"  {json_path.name}: already has local_extension field, skipping")
-        return 0
-
-    print(f"  {json_path.name}: adding local_extension to {len(records):,} records")
-
-    if dry_run:
-        return len(records)
-
-    for rec in records:
-        rec["local_extension"] = "jpg"
-
-    tmp = json_path.with_suffix(".json.tmp")
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(records, f)
-    tmp.rename(json_path)
-    return len(records)
-
-
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 
@@ -277,11 +242,6 @@ def main():
     n = update_wikimedia_metadata_csv(dry_run=args.dry_run)
     if n:
         print(f"  ✓ wikimedia/metadata.csv: {n:,} rows {'would be' if args.dry_run else ''} updated")
-
-    for label_set in ("225", "480"):
-        n = update_lila_bc_json(label_set, dry_run=args.dry_run)
-        if n:
-            print(f"  ✓ filtered_images_{label_set}.json: {n:,} records {'would be' if args.dry_run else ''} updated")
 
     print("\nDone.")
 

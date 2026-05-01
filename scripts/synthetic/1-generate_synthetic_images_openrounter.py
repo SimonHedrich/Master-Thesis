@@ -16,6 +16,7 @@ Requirements:
 import argparse
 import base64
 import io
+import json
 import os
 import sys
 import time
@@ -55,11 +56,12 @@ STYLE_SUFFIX = (
 )
 
 
-def build_prompt(class_name: str, description: str) -> str:
-    description_excerpt = description.strip()[:600]
+def build_prompt(class_name: str, description: str, scenario: str | None = None) -> str:
+    description_excerpt = description.strip()[:400]
+    scene = f" Scene: {scenario}." if scenario else ""
     return (
         f"Generate a realistic wildlife photograph of a {class_name}. "
-        f"The animal has these characteristics: {description_excerpt}. "
+        f"The animal has these characteristics: {description_excerpt}.{scene} "
         f"{STYLE_SUFFIX}"
     )
 
@@ -143,6 +145,19 @@ def generate_image(
 # Main loop
 # ---------------------------------------------------------------------------
 
+def load_scenarios(scenarios_file: Path, class_name: str) -> list[str]:
+    with open(scenarios_file, encoding="utf-8") as f:
+        data = json.load(f)
+    # Try exact match first, then case-insensitive.
+    if class_name in data:
+        return data[class_name]
+    lower = class_name.lower()
+    for key, value in data.items():
+        if key.lower() == lower:
+            return value
+    return []
+
+
 def generate_images(
     class_name: str,
     description: str,
@@ -150,6 +165,7 @@ def generate_images(
     output_base: Path = OUTPUT_BASE,
     aspect_ratio: str = DEFAULT_ASPECT_RATIO,
     image_size: str = DEFAULT_IMAGE_SIZE,
+    scenarios_file: Path | None = None,
 ) -> None:
     load_dotenv()
     api_key = os.getenv("OPENROUTER_API_KEY", "").strip()
@@ -159,14 +175,24 @@ def generate_images(
             "Add your key to the .env file in the project root."
         )
 
+    scenarios: list[str] = []
+    if scenarios_file is not None:
+        scenarios = load_scenarios(scenarios_file, class_name)
+        if not scenarios:
+            print(f"Warning: no scenarios found for '{class_name}' in {scenarios_file}. "
+                  "Falling back to static prompt.")
+
     output_dir = output_base / class_name
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    prompt = build_prompt(class_name, description)
-    print(f"Model  : {MODEL}")
-    print(f"Output : {output_dir}")
-    print(f"Config : aspect_ratio={aspect_ratio}  image_size={image_size}")
-    print(f"Prompt : {prompt[:120]}...")
+    # Print a representative prompt (first scenario or static).
+    sample_scenario = scenarios[0] if scenarios else None
+    sample_prompt = build_prompt(class_name, description, sample_scenario)
+    print(f"Model    : {MODEL}")
+    print(f"Output   : {output_dir}")
+    print(f"Config   : aspect_ratio={aspect_ratio}  image_size={image_size}")
+    print(f"Scenarios: {len(scenarios)} loaded" if scenarios else "Scenarios: none (static prompt)")
+    print(f"Prompt   : {sample_prompt[:120]}...")
     print()
 
     total_cost = 0.0
@@ -175,6 +201,8 @@ def generate_images(
     for i in range(n_images):
         print(f"Generating image {i + 1}/{n_images} ...", end=" ", flush=True)
 
+        scenario = scenarios[i % len(scenarios)] if scenarios else None
+        prompt = build_prompt(class_name, description, scenario)
         img_bytes, request_cost = generate_image(prompt, api_key, aspect_ratio, image_size)
         total_cost += request_cost
 
@@ -224,6 +252,16 @@ def main() -> None:
         help=f"Resolution tier passed to OpenRouter image_config (default: {DEFAULT_IMAGE_SIZE}). "
              "4K costs more output tokens.",
     )
+    parser.add_argument(
+        "--scenarios-file",
+        type=Path,
+        default=None,
+        help=(
+            "Path to animal_scenario_prompts.json produced by 0-generate_scenario_prompts.py. "
+            "When provided, each image is generated with a different scene description cycled "
+            "from the pre-generated list for this species."
+        ),
+    )
     args = parser.parse_args()
 
     generate_images(
@@ -232,6 +270,7 @@ def main() -> None:
         n_images=args.n_images,
         aspect_ratio=args.aspect_ratio,
         image_size=args.image_size,
+        scenarios_file=args.scenarios_file,
     )
 
 
