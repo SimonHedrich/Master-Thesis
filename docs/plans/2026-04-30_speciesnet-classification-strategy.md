@@ -325,3 +325,67 @@ The multi-animal property of KD deserves explicit framing in the thesis:
 > "Unlike standard supervised training where unlabeled animal instances constitute false negatives and degrade the training signal, the knowledge distillation approach inherently benefits from multi-animal images: the teacher model provides bounding box and classification supervision for all visible animals, not only the labeled subject. This property — that soft-label KD inherits the teacher's detection completeness — may contribute to improved generalisation on complex natural scenes compared to direct fine-tuning."
 
 This is testable: compare KD performance on single-animal vs. multi-animal subsets of the training data. The `multi_animal` flag in the output makes this split trivial to reproduce.
+
+---
+
+## Implementation Notes (added 2026-05)
+
+This section records what was actually built and where the implementation diverged from
+the design above. The original design sections remain unchanged as the decision record.
+
+### Script 6 — deviations from plan
+
+**Compact integer indices instead of label strings.**
+The plan called for storing full `"uuid;mammalia;carnivora;…"` label strings in
+`speciesnet_scores` and `speciesnet_top1`. The implementation instead stores compact
+integer class indices (`speciesnet_top1_idx: 1787`) and a sparse score dict keyed by
+string-encoded integer (`{"1787": 0.52, "1291": 0.04, …}`). Only scores ≥ `--min-score`
+(default: 0.01) are retained — on average ~4 entries per detection, giving ~600× smaller
+files. The top-1 index is always present separately. Script 7 resolves indices to label
+strings at startup by loading the SpeciesNet classifier (`dict(clf.labels)`).
+
+**Person/vehicle detections not available.**
+The plan described tracking `has_human` and `n_person_detections`. In practice,
+`filter_results.jsonl["detections"]` stores only animal detections (MegaDetector
+category `"1"`) — earlier pipeline stages dropped person and vehicle bboxes and they
+cannot be recovered without re-running MegaDetector. These fields are omitted from the
+output; the `multi_animal` flag covers the multi-animal-image case.
+
+**OpenImages: no MegaDetector detections.**
+OpenImages images have no `detections` entries in `filter_results.jsonl` (their
+pre-annotated bboxes were handled differently in the metadata stage). All 7,405
+OpenImages records with `n_animal_detections=0` are expected to fail Script 7 as
+`"no_animal_detection"`. The 94 OpenImages records that do have detections are evaluated
+normally.
+
+**`speciesnet_classes.json` stores integer indices.**
+The file contains `[0, 1, 2, …, 2497]` rather than label strings, because
+`list(clf.labels)` returns the dict keys (integers) rather than the values. This is not
+an error in the output data — `speciesnet_scores` and `speciesnet_top1_idx` are
+self-consistent integer indices. Script 7 bypasses this file and loads labels directly
+from `clf.labels` as a dict.
+
+### Script 7 — implementation summary
+
+Script 7 (`scripts/dataset_quality/7-filter_speciesnet.py`) was implemented following
+this plan with the following additions:
+
+**Family-level classes in `classes_225.csv`.** The plan discussed only species-level
+and genus-level classes. The actual `classes_225.csv` contains 12 family-level entries
+(e.g., `cricetidae family`, `eared seals / otariidae`, `sciuridae family`). A third
+lookup table `family_to_225` handles these: SpeciesNet predictions are matched to a
+family-level 225 class when neither the genus nor genus+species match. The match-level
+logic for family-level expected classes mirrors the genus-level case: the highest
+achievable match is reported as `"species"` (meaning "best possible given label
+granularity") and always passes.
+
+**Two-phase delivery.**
+Phase 1 (default, no `--write`) produces statistics only — per-source and per-class
+pass/fail counts, fail-reason breakdown, match-level distribution, and `prob_225_sum`
+distribution stats. This allows validating the filter thresholds before committing
+changes to `filter_results.jsonl`. Phase 2 (`--write`) performs the in-place update
+atomically via a `.tmp` → `rename` pattern.
+
+**Configurable thresholds.** All three thresholds from the config table in the plan
+are exposed as CLI flags with the plan's defaults: `--md-conf 0.5`, `--sn-score 0.3`,
+`--family-fail-thresh 0.5`.

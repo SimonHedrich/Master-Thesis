@@ -295,8 +295,8 @@ classifier on every MegaDetector animal crop from images that completed the `cap
 stage (`passed=true` and `"caption_eval"` in `stages_done`).
 
 **Purpose: pure data capture.** No filtering decisions are made here. Script 7
-(`7-filter_speciesnet.py`) handles threshold-based pass/fail logic using this output and
-can be re-run with different thresholds without touching the expensive GPU inference.
+(`7-filter_speciesnet.py`) handles threshold-based pass/fail logic and can be re-run
+with different thresholds without touching the expensive GPU inference.
 
 ### What it does
 
@@ -305,16 +305,20 @@ For each qualifying image:
 2. For each animal detection in `filter_results.jsonl["detections"]`:
    - Skips detections below the MegaDetector confidence floor (default: 0.1)
    - Skips detections whose crop dimensions are smaller than `--min-crop` (default: 32 px)
-   - Otherwise runs SpeciesNet on the crop, using the cached bbox to skip internal detection
-3. Stores the full ~3537-class probability vector (`speciesnet_scores`) per detection
-4. Saves results to `data/{source}/speciesnet_results.jsonl`
+   - Otherwise runs SpeciesNet's EfficientNetV2-M classifier directly on the crop
+     (bypasses SpeciesNet's internal MegaDetector stage using the cached bbox)
+3. Saves per-detection scores and top-1 prediction to `data/{source}/speciesnet_results.jsonl`
+
+Image loading and crop preprocessing run in background threads (default: 8 workers) while
+the main thread dispatches GPU batches (default: 128 crops per forward pass), giving
+near-full GPU utilisation on a multi-core machine.
 
 ### Outputs
 
 | File | Description |
 |---|---|
-| `data/{source}/speciesnet_results.jsonl` | One record per image; includes per-detection scores and top-1 prediction |
-| `data/speciesnet_classes.json` | Full ordered SpeciesNet label list (written once); `speciesnet_scores[i]` corresponds to this list at index `i` |
+| `data/{source}/speciesnet_results.jsonl` | One record per image; per-detection scores and top-1 |
+| `data/speciesnet_classes.json` | Ordered SpeciesNet class indices (written once) |
 
 Per-image record structure:
 ```json
@@ -326,16 +330,14 @@ Per-image record structure:
       "detection_idx": 0,
       "bbox_norm": [0.916, 0.358, 0.168, 0.348],
       "megadetector_conf": 0.937,
-      "speciesnet_scores": [0.001, 0.91, ...],
-      "speciesnet_top1_idx": 123,
-      "speciesnet_top1": "uuid;mammalia;carnivora;canidae;vulpes;vulpes;red fox",
-      "speciesnet_top1_score": 0.91,
-      "speciesnet_prediction_source": "classifier",
-      "speciesnet_full_probs_available": true,
-      "crop_size_px": [108, 224],
+      "speciesnet_scores": {"1291": 0.872, "1787": 0.040, ...},
+      "speciesnet_top1_idx": 1291,
+      "speciesnet_top1": 1291,
+      "speciesnet_top1_score": 0.872,
+      "crop_size_px": [2264, 1189],
       "speciesnet_skipped": false,
       "skip_reason": null,
-      "inference_ms": 45.2
+      "inference_ms": 76.3
     }
   ],
   "n_animal_detections": 1,
@@ -343,27 +345,47 @@ Per-image record structure:
 }
 ```
 
+Skipped detections (low confidence, crop too small, preprocess failure) are recorded with
+`speciesnet_skipped: true` and a `skip_reason` string so the full detection history is
+preserved for analysis.
+
 ### Key design choices
 
-- **Cached bboxes:** `detections[i]["bbox"]` (`[xc, yc, w, h]` normalised, the same format
-  SpeciesNet uses internally) is passed directly to skip MegaDetector inside SpeciesNet.
-- **Geofencing disabled:** `SpeciesNet(geofence=False)` returns raw classifier probabilities
-  with no geographic post-processing, consistent with the project's geo-filtering policy
-  (geo-filtering is applied post-hoc at inference time, not during training data curation).
-- **Class manifest:** Storing 3537 class strings per detection would produce hundreds of GB
-  of output. Instead, labels are saved once to `data/speciesnet_classes.json`; each detection
-  stores a float score array indexed by position in that file.
-- **Full probability vector:** Required for correct 225-class probability projection in step 7.
-  Extracted from `pred["all_scores"]` or `logits → softmax` if exposed by the installed
-  SpeciesNet version; otherwise `speciesnet_full_probs_available: false`.
-- **Limitation:** `filter_results.jsonl["detections"]` stores only animal detections —
-  person and vehicle detections are dropped by the earlier filter pipeline. Human
-  co-occurrence tracking (`has_human`, `n_person_detections`) is not possible without
-  re-running MegaDetector.
-- **Resumable:** Already-classified images are skipped on restart. Results are flushed to
-  disk every 100 images.
+- **Compact integer indices instead of label strings.** Storing the full
+  `"uuid;mammalia;carnivora;…"` string for every detection across 400 k+ images would
+  add tens of GB. Instead, `speciesnet_scores` stores a sparse dict
+  `{str(class_idx): probability}` and `speciesnet_top1_idx` stores the integer index.
+  Script 7 resolves these indices to label strings by loading the SpeciesNet classifier
+  at startup.
+- **Sparse score storage.** Only probabilities ≥ `--min-score` (default: 0.01) are
+  retained — on average ~4 classes per detection. The top-1 result is always stored
+  separately. This gives ~600× smaller output vs. the full 2498-element vector while
+  preserving enough mass for the 225-class probability projection in Script 7.
+- **Geofencing disabled.** `SpeciesNet(geofence=False)` returns raw classifier
+  probabilities with no geographic post-processing, consistent with the project's
+  geo-filtering policy (applied post-hoc at inference, not during data curation).
+- **Person/vehicle detections not available.** `filter_results.jsonl["detections"]`
+  stores only animal detections (MegaDetector category `"1"`) — earlier pipeline stages
+  dropped person and vehicle detections. Human co-occurrence tracking (`has_human`,
+  `n_person_detections` as described in the strategy doc) is therefore not populated.
+- **Resumable.** Already-classified images are tracked by filepath; interrupted runs
+  continue from where they left off. Results are flushed every 100 images (`FLUSH_EVERY`).
+- **OpenImages limitation.** OpenImages entries have no MegaDetector detections in
+  `filter_results.jsonl` (pre-annotated bboxes were stored differently in the metadata
+  stage). Script 6 produced 7,405 zero-detection records for OpenImages; these are
+  expected and handled by Script 7 as `"no_animal_detection"` failures.
 
 Full design rationale: `docs/plans/2026-04-30_speciesnet-classification-strategy.md`
+
+### Classification results (as of 2026-05)
+
+| Source | Records | Classified | Notes |
+|---|---|---|---|
+| gbif | 39,388 | 39,388 | All classified |
+| inaturalist | 400,067 | 400,067 | 5,887 with ≥1 skipped detection |
+| wikimedia | 12,486 | 12,486 | 5 with ≥1 skipped detection |
+| images_cv | 5,501 | 5,501 | 9 with ≥1 skipped detection |
+| openimages | 7,499 | 94 | 7,405 have no MegaDetector detections |
 
 ### Usage
 
@@ -377,16 +399,145 @@ python scripts/dataset_quality/6-classify_speciesnet.py --source all
 # Force re-run from scratch
 python scripts/dataset_quality/6-classify_speciesnet.py --source inaturalist --force
 
-# Makefile shortcut
-make speciesnet-classify SOURCE=gbif
-make speciesnet-classify SOURCE=all
+# Re-encode existing full-vector files to sparse format (no GPU needed):
+python scripts/dataset_quality/6-classify_speciesnet.py --migrate-scores all
 ```
 
 Requirements: run inside `Dockerfile.speciesnet` (Python 3.11, `speciesnet` package).
 ```bash
 make speciesnet-build   # build the image once
-make speciesnet-classify SOURCE=all
+make speciesnet-start   # opens a bash shell inside the container
 ```
+
+---
+
+## SpeciesNet Filtering and 225-Class Mapping
+
+`scripts/dataset_quality/7-filter_speciesnet.py` reads the raw classification output from
+Script 6, applies the filtering rules from the strategy document, and optionally merges
+results back into `filter_results.jsonl`.
+
+**Two-phase design:**
+- **Phase 1 (default):** statistics-only dry run — computes all pass/fail decisions and
+  prints per-source and per-class summaries. No files are written.
+- **Phase 2 (`--write`):** after validating the statistics look sensible, merges a
+  `speciesnet_eval` block into `filter_results.jsonl` and updates `passed`/`stage_failed`.
+
+### What it does
+
+At startup, loads three reference tables once:
+
+| Table | Source | Purpose |
+|---|---|---|
+| `idx_to_label` | SpeciesNet classifier (`clf.labels`) | Resolve integer indices → `"uuid;mammalia;…"` strings |
+| `sn_taxonomy` | `resources/speciesnet_taxonomy_release.txt` | Look up family/order/class for expected species |
+| `class225` | `reports/classes_225.csv` | Map predicted genus/species/family → 225-class index |
+
+For each record in `speciesnet_results.jsonl`:
+
+1. **Failure gates** (in order):
+   - No animal detections → `"no_animal_detection"`
+   - Primary detection skipped (crop too small) → `"primary_crop_too_small"`
+   - Primary MegaDetector confidence < 0.5 → `"low_megadetector_confidence"`
+   - SpeciesNet top-1 score < 0.3 → `"low_speciesnet_confidence"`
+
+2. **Hierarchical match level** — compares the SpeciesNet top-1 prediction against the
+   directory label at each taxonomic rank:
+
+   | `match_level` | Condition | Default action |
+   |---|---|---|
+   | `species` | genus + species match (or best possible for genus/family-level classes) | PASS |
+   | `genus` | same genus, different species | PASS |
+   | `family` | same family, score < 0.5 | PASS (uncertain, trust directory label) |
+   | `family` | same family, score ≥ 0.5 | FAIL `"family_mismatch_high_confidence"` |
+   | `order` | same order | FAIL |
+   | `class` | both Mammalia | FAIL |
+   | `no_match` | otherwise | FAIL |
+
+   The family-match confidence threshold encodes the reasoning from the strategy doc:
+   a high-confidence family-level mismatch means SpeciesNet is *sure* it sees a different
+   genus — that is not a labelling ambiguity but a different animal.
+
+3. **225-class probability vector** — projects the sparse `speciesnet_scores` dict
+   onto a 225-element float vector. Lookup priority per SpeciesNet class:
+   species → genus → family (the 12 family-level classes in `classes_225.csv` such as
+   `cricetidae`, `otariidae`, `sciuridae` are handled via a dedicated `family_to_225`
+   lookup). `prob_225_sum` is the total probability mass mapped to any 225 class and
+   serves as an out-of-distribution diagnostic (≈ 0.0 means the image is entirely
+   outside the 225-class universe).
+
+4. **Multi-animal flag.** `multi_animal: true` when `n_animal_detections > 1`. These
+   images are not filtered — they provide richer soft labels for knowledge distillation
+   because the teacher classifies all visible animals, not just the labeled subject.
+   See strategy doc §Issue 2 for the KD research rationale.
+
+### Label resolution: why Script 7 loads SpeciesNet
+
+Script 6 stores compact integer class indices rather than full label strings to keep
+`speciesnet_results.jsonl` file sizes manageable (the 400 k-record inaturalist file is
+~306 MB; storing full strings would multiply this). Script 7 therefore needs to resolve
+those indices back to `"uuid;mammalia;carnivora;…"` strings. The only authoritative
+mapping is the SpeciesNet classifier's internal label list, accessed at startup via
+`dict(clf.labels)`. This means Script 7 must also run inside `Dockerfile.speciesnet`.
+
+### Output fields added to `filter_results.jsonl` (Phase 2, `--write`)
+
+```json
+{
+  "speciesnet_eval": {
+    "pass": true,
+    "reason": null,
+    "primary_detection": {
+      "detection_idx": 0,
+      "megadetector_conf": 0.937,
+      "speciesnet_top1_idx": 1291,
+      "speciesnet_top1_label": "uuid;mammalia;tubulidentata;orycteropodidae;orycteropus;afer;aardvark",
+      "speciesnet_top1_scientific": "orycteropus afer",
+      "speciesnet_top1_common": "aardvark",
+      "speciesnet_top1_score": 0.872,
+      "match_level": "species",
+      "matched_class_225_common": "orycteropus afer",
+      "matched_class_225_idx": 0,
+      "probs_225": [0.872, 0.0, ...],
+      "prob_225_sum": 0.89
+    },
+    "n_animal_detections": 2,
+    "multi_animal": true
+  }
+}
+```
+
+For rejected images, the top-level `passed`, `stage_failed`, `reason`, and `stages_done`
+fields are also updated, matching the convention used by earlier pipeline stages.
+
+### Usage
+
+```bash
+# Phase 1: statistics only — run inside Dockerfile.speciesnet
+python scripts/dataset_quality/7-filter_speciesnet.py --source gbif
+python scripts/dataset_quality/7-filter_speciesnet.py --source all
+
+# Phase 2: write results after validating statistics
+python scripts/dataset_quality/7-filter_speciesnet.py --source all --write
+
+# Adjust thresholds (all have defaults matching the strategy doc):
+python scripts/dataset_quality/7-filter_speciesnet.py --source gbif \
+    --md-conf 0.4 --sn-score 0.25 --family-fail-thresh 0.6
+```
+
+Requirements: run inside `Dockerfile.speciesnet` (same container as Script 6).
+
+### Threshold rationale
+
+| Parameter | Default | Reasoning |
+|---|---|---|
+| `--md-conf` | 0.5 | Below 0.5, MegaDetector is uncertain enough that the crop may not be a clean animal view. The lower 0.1 floor in Script 6 was for capture completeness; 0.5 is the filter threshold. |
+| `--sn-score` | 0.3 | A top-1 score below 0.3 provides little taxonomic signal — the classifier is effectively uniform over the top candidates. |
+| `--family-fail-thresh` | 0.5 | At ≥ 0.5, SpeciesNet is confident enough in a *different genus* that the family-level mismatch is more likely a labelling error than visual ambiguity between genera. |
+
+All thresholds can be adjusted without re-running Script 6. The `match_level` field in
+the output preserves the raw taxonomic comparison so thresholds can be revised post-hoc
+by re-running Script 7 alone.
 
 ---
 

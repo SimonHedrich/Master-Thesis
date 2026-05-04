@@ -558,15 +558,19 @@ def cmd_megadetector(args):
             reset_count += 1
         print(f"[megadetector] --force: reset {reset_count:,} entries, re-running …")
 
-    # Process images that: passed so far, haven't had MegaDetector run, and lack a bbox
+    # Process images that: passed so far, haven't had MegaDetector run, and lack a bbox.
+    # With --ignore-catalog-bbox also include entries with pre-existing catalog bboxes.
     pending = [e for e in entries
                if e["passed"]
                and "megadetector" not in e.get("stages_done", [])
-               and e.get("bbox") is None]
+               and (e.get("bbox") is None or args.ignore_catalog_bbox)]
 
     if not pending:
+        hint = ("  Tip: use --ignore-catalog-bbox to also process entries with catalog-provided bboxes.\n"
+                if any(e["passed"] and "megadetector" not in e.get("stages_done", []) and e.get("bbox") is not None
+                       for e in entries) else "")
         print("Nothing to process — all surviving images already have bboxes or were "
-              "already run through MegaDetector.")
+              "already run through MegaDetector.\n" + hint)
         return
 
     print(f"Running MegaDetector v5 on {len(pending):,} images …")
@@ -988,6 +992,9 @@ def main():
                    help=f"Lower confidence for recording secondary detections (default: {MD_CONF_SECONDARY})")
     p.add_argument("--force", action="store_true",
                    help="Reset and re-run MegaDetector even for entries already processed")
+    p.add_argument("--ignore-catalog-bbox", action="store_true",
+                   help="Also run MegaDetector on entries that already have a catalog-provided "
+                        "bbox (e.g. OpenImages).  MD result overwrites the catalog bbox.")
     p.set_defaults(func=cmd_megadetector)
 
     # vlm
