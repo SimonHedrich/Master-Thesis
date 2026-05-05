@@ -1,0 +1,233 @@
+class,trusted_quality_pass,trusted_sn_pass,trusted_sn_fail_count,trusted_sn_fail_reason,trusted_no_sn_result,unverified_sn_pass,effective_pool,tier
+squirrel family,31159,7942,23217,match_level_no_match,0,206,31365,4
+eastern gray squirrel,31099,15646,15452,match_level_no_match,1,0,31099,4
+white-tailed deer,24425,17187,7238,match_level_no_match,0,184,24609,4
+mule deer,18110,12709,5400,match_level_no_match,1,0,18110,4
+eastern fox squirrel,12436,6456,5980,match_level_no_match,0,0,12436,4
+eastern cottontail,11456,3567,7889,match_level_no_match,0,0,11456,4
+eurasian red squirrel,9929,2663,7266,match_level_no_match,0,0,9929,4
+eared seals,9261,0,9261,match_level_no_match,0,0,9261,4
+red fox,8524,3515,5009,match_level_no_match,0,181,8705,4
+cottontail rabbits genus,7757,2214,5543,match_level_no_match,0,0,7757,4
+unmatched,7715,0,7715,not_in_225_classes,0,0,7715,4
+macaque species,7557,2305,5252,match_level_no_match,0,0,7557,4
+red squirrel,7526,2360,5166,match_level_no_match,0,0,7526,4
+domestic cat,6980,3688,3292,match_level_no_match,0,179,7159,4
+chipmunk genus,6934,1753,5181,match_level_no_match,0,0,6934,4
+coyote,6865,3081,3784,match_level_no_match,0,0,6865,4
+kangaroo family,6137,1280,4857,match_level_no_match,0,0,6137,4
+european roe deer,6011,1547,4464,match_level_no_match,0,0,6011,4
+northern raccoon,5698,2154,3544,match_level_no_match,0,142,5840,4
+california ground squirrel,5627,1201,4426,match_level_no_match,0,0,5627,4
+elk,5517,3507,2010,match_level_no_match,0,0,5517,4
+european rabbit,5387,979,4406,match_level_no_match,2,37,5424,4
+cricetidae family,4917,24,4892,match_level_no_match,1,0,4917,4
+hares and jackrabbits genus,4836,987,3849,match_level_no_match,0,0,4836,4
+african elephant,4338,3303,1035,match_level_no_match,0,0,4338,4
+rattus genus,3954,65,3889,match_level_no_match,0,0,3954,4
+woodchuck,3872,1128,2744,match_level_no_match,0,0,3872,4
+moose,3508,1159,2348,match_level_no_match,1,0,3508,4
+american black bear,3436,1289,2145,match_level_no_match,2,0,3436,4
+muridae family,3371,51,3320,match_level_no_match,0,0,3371,4
+lion,3094,1590,1504,match_level_no_match,0,224,3318,4
+hedgehog family,3296,1,3294,match_level_no_match,1,0,3296,4
+muskrat,3253,52,3201,match_level_no_match,0,0,3253,4
+howler monkey genus,3206,169,3037,match_level_no_match,0,0,3206,4
+opossum family,3199,697,2502,match_level_no_match,0,0,3199,4
+plains zebra,2858,2451,407,match_level_no_match,0,337,3195,4
+bighorn sheep,3167,535,2632,match_level_order,0,0,3167,4
+nutria,3150,923,2227,match_level_no_match,0,0,3150,4
+european hare,3087,603,2484,match_level_no_match,0,0,3087,4
+golden mantled ground squirrel,2819,631,2188,match_level_no_match,0,0,2819,4
+north american river otter,2772,459,2313,match_level_no_match,0,0,2772,4
+eastern grey kangaroo,2680,618,2062,match_level_no_match,0,0,2680,4
+wild boar,2498,930,1568,match_level_no_match,0,104,2602,4
+domestic horse,2467,1215,1252,match_level_class,0,83,2550,4
+baboon genus,2486,881,1605,match_level_no_match,0,0,2486,4
+domestic cattle,2148,1566,582,match_level_no_match,0,211,2359,4
+american bison,2320,1105,1215,family_mismatch_high_confidence,0,0,2320,4
+pronghorn,2316,1065,1251,match_level_no_match,0,0,2316,4
+impala,2288,1563,725,match_level_no_match,0,0,2288,4
+white-nosed coati,2269,729,1540,match_level_no_match,0,0,2269,4
+mongoose family,2257,118,2139,match_level_no_match,0,0,2257,4
+beaver genus,2162,162,2000,match_level_no_match,0,0,2162,4
+llama genus,2085,125,1960,match_level_order,0,0,2085,4
+african buffalo,2051,718,1333,family_mismatch_high_confidence,0,0,2051,4
+domestic dog,2019,935,1084,match_level_no_match,0,0,2019,4
+western gray squirrel,1957,962,995,match_level_no_match,0,0,1957,4
+leopard,1186,646,540,match_level_no_match,0,748,1934,4
+north american porcupine,1914,481,1433,match_level_no_match,0,0,1914,4
+yellow-bellied marmot,1898,703,1195,match_level_no_match,0,0,1898,4
+bobcat,1861,899,962,match_level_no_match,0,0,1861,4
+agouti genus,1853,670,1183,match_level_no_match,0,0,1853,4
+cebus species,1819,67,1751,match_level_no_match,1,0,1819,4
+arizona black-tailed prairie dog,1800,827,973,match_level_no_match,0,0,1800,4
+weasel species,1795,88,1707,match_level_no_match,0,0,1795,4
+koala,1774,9,1765,match_level_no_match,0,5,1779,4
+elephant seal,1768,0,1768,match_level_no_match,0,0,1768,4
+capybara,1767,559,1208,match_level_no_match,0,0,1767,4
+short-beaked echidna,1767,1092,675,match_level_no_match,0,0,1767,4
+callithrix species,1736,3,1733,match_level_no_match,0,0,1736,4
+greater kudu,1732,577,1155,match_level_order,0,0,1732,4
+lycalopex species,1731,549,1182,family_mismatch_high_confidence,0,0,1731,4
+alpine marmot,1716,340,1376,match_level_no_match,0,0,1716,4
+red deer,1697,828,869,match_level_no_match,0,0,1697,4
+vervet monkey,1635,656,979,match_level_no_match,0,0,1635,4
+common wildebeest,1625,895,730,match_level_no_match,0,0,1625,4
+common fallow deer,1589,439,1150,family_mismatch_high_confidence,0,0,1589,4
+domestic sheep,1375,480,894,match_level_no_match,1,187,1562,4
+common warthog,1553,914,639,match_level_no_match,0,0,1553,4
+brown bear,1523,557,966,match_level_no_match,0,0,1523,4
+brown-throated sloth,1518,0,1518,match_level_no_match,0,0,1518,4
+rhinoceros family,1512,41,1471,match_level_no_match,0,0,1512,4
+pikas genus,1484,31,1453,match_level_no_match,0,0,1484,3
+waterbuck,1444,437,1007,match_level_order,0,0,1444,3
+hippopotamus,1319,298,1021,match_level_no_match,0,120,1439,3
+ateles species,1437,38,1399,match_level_no_match,0,0,1437,3
+cercopithecus species,1420,337,1083,match_level_no_match,0,0,1420,3
+collared peccary,1419,521,898,match_level_no_match,0,0,1419,3
+sea otter,1404,0,1404,match_level_no_match,0,0,1404,3
+swamp wallaby,1377,420,957,match_level_no_match,0,0,1377,3
+rock hyrax,1336,7,1329,match_level_class,0,0,1336,3
+saimiri species,1327,138,1189,match_level_no_match,0,0,1327,3
+asian elephant,1301,164,1134,family_mismatch_high_confidence,3,17,1318,3
+martes species,1298,145,1153,match_level_no_match,0,0,1298,3
+alpine ibex,1294,418,875,match_level_no_match,1,0,1294,3
+domestic donkey,1200,325,874,match_level_class,1,73,1273,3
+northern chamois,1269,315,954,match_level_no_match,0,0,1269,3
+spotted hyaena,1233,640,593,match_level_no_match,0,0,1233,3
+cheetah,1041,728,313,match_level_no_match,0,135,1176,3
+chital,1169,263,906,family_mismatch_high_confidence,0,0,1169,3
+sika deer,1136,354,782,family_mismatch_high_confidence,0,0,1136,3
+grey fox,1116,425,691,match_level_no_match,0,0,1116,3
+tiger,849,540,309,match_level_no_match,0,258,1107,3
+saguinus species,1065,5,1060,match_level_no_match,0,0,1065,3
+muntjac genus,1049,250,799,match_level_no_match,0,0,1049,3
+south american coati,1014,411,603,match_level_no_match,0,0,1014,3
+common eland,962,385,577,match_level_no_match,0,0,962,3
+nyala,957,277,680,low_speciesnet_confidence,0,0,957,3
+steenbok,957,167,790,match_level_no_match,0,0,957,3
+african wild dog,907,229,678,match_level_class,0,0,907,3
+eulemur species,880,2,878,match_level_no_match,0,0,880,3
+hartebeest,877,386,491,match_level_no_match,0,0,877,3
+sambar,851,274,577,family_mismatch_high_confidence,0,0,851,3
+reindeer,835,105,730,match_level_order,0,0,835,3
+blesbok,823,185,638,low_speciesnet_confidence,0,0,823,3
+gemsbok,818,438,380,low_speciesnet_confidence,0,0,818,3
+mountain goat,793,100,693,match_level_no_match,0,0,793,3
+golden jackal,781,304,477,low_speciesnet_confidence,0,0,781,3
+springbok,759,247,512,match_level_no_match,0,0,759,3
+common wombat,614,136,477,match_level_class,1,105,719,3
+klipspringer,701,68,633,match_level_no_match,0,0,701,3
+domestic water buffalo,694,57,637,family_mismatch_high_confidence,0,0,694,3
+leaf monkeys genus,693,74,619,match_level_no_match,0,0,693,3
+hoffmann's two-toed sloth,667,0,667,match_level_no_match,0,0,667,3
+striped skunk,666,101,565,match_level_no_match,0,0,666,3
+colobus species,663,117,546,match_level_no_match,0,0,663,3
+grey wolf,550,244,306,match_level_no_match,0,104,654,3
+gorilla species,550,82,468,match_level_class,0,59,609,3
+jaguar,561,436,125,match_level_no_match,0,0,561,3
+nilgai,549,64,485,match_level_no_match,0,0,549,3
+bornean orangutan,423,154,269,match_level_no_match,0,123,546,3
+giraffe,324,260,64,match_level_no_match,0,220,544,3
+grant's gazelle,528,294,234,family_mismatch_high_confidence,0,0,528,3
+reedbuck genus,514,65,449,match_level_order,0,0,514,3
+mountain zebra,483,407,76,match_level_no_match,0,0,483,2
+japanese macaque,481,126,355,low_speciesnet_confidence,0,0,481,2
+common duiker,472,66,406,match_level_order,0,0,472,2
+eurasian badger,460,76,384,match_level_no_match,0,0,460,2
+puma,452,181,271,match_level_no_match,0,0,452,2
+ring-tailed lemur,452,0,452,match_level_class,0,0,452,2
+thomson's gazelle,452,337,115,match_level_no_match,0,0,452,2
+blackbuck,448,0,448,match_level_no_match,0,0,448,2
+giant otter,442,112,330,match_level_no_match,0,0,442,2
+eurasian otter,434,26,408,match_level_no_match,0,0,434,2
+sable antelope,426,97,329,family_mismatch_high_confidence,0,0,426,2
+dromedary camel,420,108,309,match_level_order,3,0,420,2
+meerkat,412,1,411,match_level_no_match,0,0,412,2
+dingo,16,10,6,low_speciesnet_confidence,0,387,403,2
+bushbuck,391,181,210,match_level_order,0,0,391,2
+american badger,389,58,330,match_level_no_match,1,0,389,2
+red kangaroo,344,35,309,match_level_class,0,36,380,2
+glaucomys species,372,12,360,match_level_no_match,0,0,372,2
+quokka,366,18,348,match_level_class,0,0,366,2
+snow leopard,53,31,22,match_level_no_match,0,311,364,2
+giant anteater,355,114,241,match_level_no_match,0,0,355,2
+domestic goat,183,74,109,family_mismatch_high_confidence,0,154,337,2
+chimpanzee,335,30,305,match_level_no_match,0,0,335,2
+baird's tapir,323,61,262,match_level_no_match,0,0,323,2
+tayra,317,66,251,match_level_no_match,0,0,317,2
+red panda,197,36,161,match_level_no_match,0,100,297,2
+lowland tapir,294,100,194,match_level_class,0,0,294,2
+kob,289,79,210,family_mismatch_high_confidence,0,0,289,2
+roan antelope,278,43,235,match_level_no_match,0,0,278,2
+leopardus species,271,57,214,match_level_no_match,0,0,271,2
+european bison,265,82,183,family_mismatch_high_confidence,0,0,265,2
+nine-banded armadillo,240,110,130,match_level_no_match,0,0,240,2
+american mink,194,16,178,match_level_no_match,0,45,239,2
+old world porcupine family,238,55,183,match_level_no_match,0,0,238,2
+raccoon dog,232,3,229,match_level_no_match,0,0,232,2
+bat-eared fox,228,18,210,low_speciesnet_confidence,0,0,228,2
+genet genus,227,10,216,match_level_no_match,1,0,227,2
+kirk's dik-dik,215,120,95,match_level_order,0,0,215,2
+grevy's zebra,209,185,24,match_level_no_match,0,0,209,2
+dhole,202,46,156,match_level_class,0,0,202,2
+spectacled bear,201,21,180,match_level_no_match,0,0,201,2
+eurasian lynx,200,107,93,match_level_no_match,0,0,200,2
+serval,196,85,111,family_mismatch_high_confidence,0,0,196,2
+ringtail,186,10,176,match_level_no_match,0,0,186,2
+gerenuk,180,71,109,family_mismatch_high_confidence,0,0,180,2
+patas monkey,179,12,167,match_level_no_match,0,0,179,2
+giant panda,125,41,84,match_level_no_match,0,47,172,2
+caracal,171,16,155,match_level_no_match,0,0,171,2
+black wildebeest,170,51,119,family_mismatch_high_confidence,0,0,170,2
+canada lynx,166,47,119,match_level_no_match,0,0,166,2
+kinkajou,160,2,158,match_level_no_match,0,0,160,2
+walrus,158,0,158,match_level_no_match,0,0,158,2
+water deer,152,16,136,family_mismatch_high_confidence,0,0,152,2
+fisher,131,32,99,match_level_no_match,0,0,131,2
+black-backed jackal,127,72,55,low_speciesnet_confidence,0,0,127,2
+yak,127,44,83,match_level_class,0,0,127,2
+wild cat,126,54,72,match_level_no_match,0,0,126,2
+cephalophus species,124,17,107,match_level_order,0,0,124,2
+sloth bear,120,15,105,family_mismatch_high_confidence,0,0,120,2
+callicebus genus,119,0,119,match_level_no_match,0,0,119,2
+leopard cat,105,27,78,match_level_no_match,0,0,105,2
+striped hyaena,105,22,83,match_level_order,0,0,105,2
+asiatic black bear,104,35,69,match_level_no_match,0,0,104,2
+ocelot,99,43,56,match_level_no_match,0,0,99,1
+honey badger,97,6,91,match_level_no_match,0,0,97,1
+sun bear,83,18,65,low_speciesnet_confidence,0,14,97,1
+maned wolf,88,35,53,match_level_no_match,0,0,88,1
+asiatic wild ass,84,7,77,match_level_class,0,0,84,1
+fossa,79,6,73,low_speciesnet_confidence,0,0,79,1
+wolverine,69,10,59,match_level_no_match,0,0,69,1
+brown hyaena,68,5,63,low_speciesnet_confidence,0,0,68,1
+red brocket,62,18,44,family_mismatch_high_confidence,0,0,62,1
+pinniped clade,55,0,55,match_level_no_match,0,0,55,1
+aardvark,54,0,54,match_level_class,0,0,54,1
+mangabeys genus,54,12,42,match_level_no_match,0,0,54,1
+red river hog,53,16,37,low_speciesnet_confidence,0,0,53,1
+pangolin family,52,2,50,match_level_no_match,0,0,52,1
+saiga,50,0,50,match_level_no_match,0,0,50,1
+aardwolf,47,9,38,family_mismatch_high_confidence,0,0,47,1
+bongo,39,11,28,family_mismatch_high_confidence,0,0,39,1
+spilogale species,37,2,35,match_level_no_match,0,0,37,1
+binturong,36,0,36,match_level_no_match,0,0,36,1
+red-necked wallaby,30,15,15,match_level_class,0,0,30,1
+aye-aye,29,0,29,match_level_no_match,0,0,29,1
+african civet,28,6,22,match_level_order,0,0,28,1
+clouded leopard,25,0,25,family_mismatch_high_confidence,0,0,25,1
+drill,23,2,21,low_speciesnet_confidence,0,0,23,1
+malay tapir,21,9,12,match_level_no_match,0,0,21,1
+hog badger genus,18,3,15,match_level_class,0,0,18,1
+grevys zebra,16,0,16,not_in_225_classes,0,0,16,1
+domestic pig,15,10,5,match_level_no_match,0,0,15,1
+giant armadillo,11,2,9,match_level_no_match,0,0,11,1
+kirks dik-dik,11,0,11,not_in_225_classes,0,0,11,1
+bairds tapir,9,0,9,not_in_225_classes,0,0,9,1
+thomsons gazelle,9,0,9,not_in_225_classes,0,0,9,1
+grants gazelle,7,0,7,not_in_225_classes,0,0,7,1
+hoffmanns two-toed sloth,7,0,7,not_in_225_classes,0,0,7,1
+mouflon,6,2,4,family_mismatch_high_confidence,0,0,6,1
+human,5,0,5,match_level_no_match,0,0,5,1

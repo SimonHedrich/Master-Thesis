@@ -1,0 +1,94 @@
+class,tier,effective_pool,trusted_quality_pass,tsn_fail_reason,review_priority,review_notes
+human,1,5,5,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+mouflon,1,6,6,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+giant armadillo,1,11,11,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+domestic pig,1,15,15,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+dingo,2,403,16,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+hog badger genus,1,18,18,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+malay tapir,1,21,21,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+drill,1,23,23,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+clouded leopard,1,25,25,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+african civet,1,28,28,match_level_order,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+aye-aye,1,29,29,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+red-necked wallaby,1,30,30,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+binturong,1,36,36,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+spilogale species,1,37,37,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+bongo,1,39,39,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+aardwolf,1,47,47,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+saiga,1,50,50,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+pangolin family,1,52,52,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+snow leopard,2,364,53,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+red river hog,1,53,53,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+aardvark,1,54,54,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+mangabeys genus,1,54,54,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+pinniped clade,1,55,55,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+red brocket,1,62,62,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+brown hyaena,1,68,68,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+wolverine,1,69,69,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+fossa,1,79,79,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+sun bear,1,97,83,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+asiatic wild ass,1,84,84,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+maned wolf,1,88,88,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+honey badger,1,97,97,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+ocelot,1,99,99,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+asiatic black bear,2,104,104,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+leopard cat,2,105,105,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+striped hyaena,2,105,105,match_level_order,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+callicebus genus,2,119,119,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+sloth bear,2,120,120,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+cephalophus species,2,124,124,match_level_order,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+giant panda,2,172,125,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+wild cat,2,126,126,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+black-backed jackal,2,127,127,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+yak,2,127,127,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+fisher,2,131,131,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+water deer,2,152,152,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+walrus,2,158,158,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+kinkajou,2,160,160,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+canada lynx,2,166,166,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+black wildebeest,2,170,170,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+caracal,2,171,171,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+patas monkey,2,179,179,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+gerenuk,2,180,180,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+domestic goat,2,337,183,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+ringtail,2,186,186,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+american mink,2,239,194,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+serval,2,196,196,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+red panda,2,297,197,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+eurasian lynx,2,200,200,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+spectacled bear,2,201,201,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+dhole,2,202,202,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+grevy's zebra,2,209,209,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+kirk's dik-dik,2,215,215,match_level_order,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+genet genus,2,227,227,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+bat-eared fox,2,228,228,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+raccoon dog,2,232,232,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+old world porcupine family,2,238,238,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+nine-banded armadillo,2,240,240,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+european bison,2,265,265,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+leopardus species,2,271,271,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+roan antelope,2,278,278,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+kob,2,289,289,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+lowland tapir,2,294,294,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+tayra,2,317,317,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+baird's tapir,2,323,323,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+chimpanzee,2,335,335,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+red kangaroo,2,380,344,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+giant anteater,2,355,355,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+quokka,2,366,366,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+glaucomys species,2,372,372,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+american badger,2,389,389,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+bushbuck,2,391,391,match_level_order,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+meerkat,2,412,412,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+dromedary camel,2,420,420,match_level_order,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+sable antelope,2,426,426,family_mismatch_high_confidence,P1 HIGH,classifier confident it sees a different family — check every image for label errors
+eurasian otter,2,434,434,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+giant otter,2,442,442,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+blackbuck,2,448,448,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+puma,2,452,452,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+ring-tailed lemur,2,452,452,match_level_class,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+thomson's gazelle,2,452,452,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+eurasian badger,2,460,460,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
+common duiker,2,472,472,match_level_order,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+japanese macaque,2,481,481,low_speciesnet_confidence,P3 LOW,"classifier uncertain but not contradicting — verify each image, expect most to be correct"
+mountain zebra,2,483,483,match_level_no_match,P2 MED,classifier finds no 225-class match — verify species identity for each image
