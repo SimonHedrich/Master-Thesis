@@ -42,6 +42,8 @@ TRUSTED_SOURCES    = {"gbif", "inaturalist", "wikimedia"}
 UNVERIFIED_SOURCES = {"openimages", "images_cv"}
 ALL_SOURCES        = ["gbif", "inaturalist", "wikimedia", "openimages", "images_cv"]
 
+_CLASSES_225_PATH = REPO_ROOT / "reports" / "classes_225.csv"
+
 # Tier lower bounds: Tier 2 starts at 100, Tier 3 at 500, Tier 4 at 1500.
 _TIER_BOUNDARIES = [100, 500, 1500]
 
@@ -51,6 +53,28 @@ def _tier(n: int) -> int:
         if n < boundary:
             return i - 1
     return 4
+
+
+def _strip_apostrophe(name: str) -> str:
+    return name.replace("'", "").replace("’", "")
+
+
+def _build_canonical_lookup(classes_csv: Path) -> dict[str, str]:
+    """Return {stripped_name: canonical_name} for class names that contain apostrophes.
+
+    Used to merge ghost folder names (e.g. grevys_zebra) into their canonical
+    counterpart (grevy's zebra) during per-source accumulation.
+    """
+    if not classes_csv.exists():
+        return {}
+    lookup: dict[str, str] = {}
+    with open(classes_csv, encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            name = row["common_name"].strip().lower()
+            stripped = _strip_apostrophe(name)
+            if stripped != name:
+                lookup[stripped] = name
+    return lookup
 
 
 # ── Import helpers from script 7 ──────────────────────────────────────────────
@@ -118,6 +142,7 @@ def process_source(
     source: str,
     sn_index: dict[str, tuple[bool, str | None]],
     per_class: dict,
+    canonical_lookup: dict[str, str],
 ) -> None:
     """Stream filter_results.jsonl and accumulate per-class counts."""
     filter_path = REPO_ROOT / "data" / source / "filter_results.jsonl"
@@ -138,6 +163,7 @@ def process_source(
                 continue
 
             cls = Path(entry.get("filepath", "")).parent.name.lower().replace("_", " ")
+            cls = canonical_lookup.get(cls, cls)
             if not cls:
                 continue
 
@@ -317,6 +343,12 @@ def main() -> None:
 
     per_class: dict[str, dict] = defaultdict(_new_class_dict)
 
+    canonical_lookup = _build_canonical_lookup(_CLASSES_225_PATH)
+    if canonical_lookup:
+        print(f"Loaded {len(canonical_lookup)} ghost-name → canonical mappings from classes_225.csv.")
+    else:
+        print("classes_225.csv not found — ghost-name normalization disabled.")
+
     for source in ALL_SOURCES:
         sn_path = REPO_ROOT / "data" / source / "speciesnet_results.jsonl"
         if not sn_path.exists():
@@ -333,7 +365,7 @@ def main() -> None:
         print(f"  {len(sn_index):,} records indexed.")
 
         print(f"[{source}] Counting quality-pass images from filter_results.jsonl …")
-        process_source(source, sn_index, per_class)
+        process_source(source, sn_index, per_class, canonical_lookup)
 
     print(f"\nAggregating {len(per_class)} classes …")
     rows = _build_rows(per_class)

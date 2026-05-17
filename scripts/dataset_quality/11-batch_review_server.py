@@ -33,7 +33,11 @@ REPO_ROOT        = Path(__file__).resolve().parent.parent.parent
 REVIEW_QUEUE_CSV = REPO_ROOT / "reports" / "manual_review_queue.csv"
 DECISIONS_FILE   = REPO_ROOT / "reports" / "review_decisions.jsonl"
 CACHE_FILE       = REPO_ROOT / "reports" / "review_index.json"
+CLASSES_225_PATH = REPO_ROOT / "reports" / "classes_225.csv"
 DATA_DIR         = REPO_ROOT / "data"
+
+# Bump when the cache schema or class-name normalization logic changes.
+CACHE_VERSION = 2
 
 TRUSTED_SOURCES = ["inaturalist", "gbif", "wikimedia"]
 SOURCE_DISPLAY  = {
@@ -46,6 +50,47 @@ SOURCE_DISPLAY  = {
 }
 PRIORITY_ORDER = {"P1 HIGH": 0, "P2 MED": 1, "P3 LOW": 2}
 MAX_UNDO_BATCHES = 10
+
+SN_FAIL_CACHE_FILE     = REPO_ROOT / "reports" / "review_index_sn_fail.json"
+SN_FAIL_REASONS        = frozenset({"family_mismatch_high_confidence", "low_speciesnet_confidence"})
+TAXONOMY_PATH          = REPO_ROOT / "resources" / "speciesnet_taxonomy_release.txt"
+CLASS_DIST_CSV         = REPO_ROOT / "reports" / "class_distribution.csv"
+DEFAULT_MD_CONF        = 0.5
+DEFAULT_SN_SCORE       = 0.3
+DEFAULT_FAMILY_FAIL_THRESH = 0.5
+
+SN_FAIL_PRIORITY = {
+    "family_mismatch_high_confidence": "P1 HIGH",
+    "low_speciesnet_confidence":       "P2 MED",
+}
+SN_FAIL_NOTES = {
+    "family_mismatch_high_confidence":
+        "SN predicts same-family but wrong species — approve valid images of this species",
+    "low_speciesnet_confidence":
+        "SN confidence below threshold — approve if species is clearly visible",
+}
+
+# ── Ghost-class normalization ─────────────────────────────────────────────────
+
+def _strip_apostrophe(name: str) -> str:
+    return name.replace("'", "").replace("'", "")
+
+
+def _build_canonical_lookup() -> dict[str, str]:
+    """Return {stripped_name: canonical_name} for names that contain apostrophes."""
+    if not CLASSES_225_PATH.exists():
+        return {}
+    lookup: dict[str, str] = {}
+    with open(CLASSES_225_PATH, encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            name = row["common_name"].strip().lower()
+            stripped = _strip_apostrophe(name)
+            if stripped != name:
+                lookup[stripped] = name
+    return lookup
+
+
+_CANONICAL_LOOKUP: dict[str, str] = _build_canonical_lookup()
 
 # ── Global state ──────────────────────────────────────────────────────────────
 
@@ -77,7 +122,10 @@ def _source_mtimes() -> dict[str, float]:
     }
 
 
-def _scan_trusted_sources(queue_classes: set[str]) -> list[dict]:
+def _scan_trusted_sources(
+    queue_classes: set[str],
+    sn_fail_lookup: dict[str, str] | None = None,
+) -> list[dict]:
     items: list[dict] = []
     for source in TRUSTED_SOURCES:
         jsonl = DATA_DIR / source / "filter_results.jsonl"
@@ -95,7 +143,10 @@ def _scan_trusted_sources(queue_classes: set[str]) -> list[dict]:
                     continue
                 cls_dir = parts[3]
                 cls = cls_dir.replace("_", " ")
+                cls = _CANONICAL_LOOKUP.get(cls, cls)
                 if cls not in queue_classes:
+                    continue
+                if sn_fail_lookup is not None and entry["filepath"] not in sn_fail_lookup:
                     continue
                 items.append({
                     "filepath":   entry["filepath"],
@@ -115,22 +166,36 @@ def _scan_trusted_sources(queue_classes: set[str]) -> list[dict]:
     return items
 
 
-def _load_or_build_cache(class_info: dict) -> list[dict]:
+def _load_or_build_cache(
+    class_info: dict,
+    sn_fail_lookup: dict[str, str] | None = None,
+) -> list[dict]:
+    cache_file = SN_FAIL_CACHE_FILE if sn_fail_lookup is not None else CACHE_FILE
+    queue_classes = sorted(class_info.keys())
     mtimes = _source_mtimes()
-    if CACHE_FILE.exists():
+    if cache_file.exists():
         try:
-            cache = json.loads(CACHE_FILE.read_text(encoding="utf-8"))
-            if cache.get("mtimes") == mtimes:
+            cache = json.loads(cache_file.read_text(encoding="utf-8"))
+            if (cache.get("mtimes") == mtimes
+                    and cache.get("version") == CACHE_VERSION
+                    and cache.get("classes") == queue_classes):
                 items = cache["items"]
                 print(f"Loaded {len(items)} images from cache.", flush=True)
                 return items
         except Exception:
             pass
-    print("Building review index (first run, ~20 s) ...", flush=True)
-    items = _scan_trusted_sources(set(class_info.keys()))
+    mode_label = "SN-fail" if sn_fail_lookup is not None else "quality-pass"
+    print(f"Building {mode_label} review index (first run, ~30 s) ...", flush=True)
+    items = _scan_trusted_sources(set(class_info.keys()), sn_fail_lookup=sn_fail_lookup)
     try:
-        CACHE_FILE.write_text(
-            json.dumps({"mtimes": mtimes, "items": items}), encoding="utf-8"
+        cache_file.write_text(
+            json.dumps({
+                "version": CACHE_VERSION,
+                "mtimes":  mtimes,
+                "classes": queue_classes,
+                "items":   items,
+            }),
+            encoding="utf-8",
         )
         print(f"Cache saved ({len(items)} images).", flush=True)
     except Exception as exc:
@@ -156,13 +221,223 @@ def _load_decisions() -> set[str]:
     return set(last.keys())
 
 
+# ── SN-fail evaluation helpers ────────────────────────────────────────────────
+
+def _load_taxonomy_for_sn_eval() -> tuple[dict[int, str], dict[str, dict], dict[str, dict]]:
+    """Load speciesnet_taxonomy_release.txt.
+
+    Returns (idx_to_label, tax_by_genus_species, tax_by_genus).
+    idx_to_label[i] = the raw ';'-separated taxonomy string for integer class index i,
+    matching the speciesnet_top1_idx values in speciesnet_results.jsonl.
+    """
+    print("  Loading taxonomy ...", end=" ", flush=True)
+    idx_to_label: dict[int, str] = {}
+    by_gs:    dict[str, dict] = {}
+    by_genus: dict[str, dict] = {}
+
+    with open(TAXONOMY_PATH, encoding="utf-8") as f:
+        for idx, line in enumerate(f):
+            line = line.strip()
+            if not line:
+                continue
+            idx_to_label[idx] = line
+            parts = line.split(";", 6)
+            if len(parts) < 7:
+                continue
+            _, class_, order, family, genus, species, common = parts
+            rec = {
+                "class_":  class_.lower().strip(),
+                "order":   order.lower().strip(),
+                "family":  family.lower().strip(),
+                "genus":   genus.lower().strip(),
+                "species": species.lower().strip(),
+                "common":  common.strip().lower(),
+            }
+            g, s = rec["genus"], rec["species"]
+            if g and s:
+                by_gs[f"{g} {s}"] = rec
+            elif g:
+                by_genus.setdefault(g, rec)
+
+    print(f"{len(idx_to_label)} entries", flush=True)
+    return idx_to_label, by_gs, by_genus
+
+
+def _load_class225_for_sn_eval() -> dict[str, dict]:
+    """Load classes_225.csv → {common_name: {scientific_name, level}}."""
+    result: dict[str, dict] = {}
+    with open(CLASSES_225_PATH, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            common = row["common_name"].strip().lower()
+            result[common] = {
+                "scientific_name": row["scientific_name"].strip().lower(),
+                "level":           row["level"].strip(),
+            }
+    return result
+
+
+def _sn_fail_reason(
+    rec: dict,
+    idx_to_label: dict[int, str],
+    class225_by_common: dict[str, dict],
+    tax_by_gs: dict[str, dict],
+    tax_by_genus: dict[str, dict],
+) -> str | None:
+    """Return SN fail reason if the image has a target fail reason; None otherwise.
+
+    Target reasons: low_speciesnet_confidence, family_mismatch_high_confidence.
+    Mirrors the relevant branches of script 7's evaluate_record().
+    """
+    if rec.get("n_animal_detections", 0) == 0:
+        return None
+
+    primary = next(
+        (d for d in (rec.get("speciesnet_detections") or []) if d.get("detection_idx") == 0),
+        None,
+    )
+    if primary is None or primary.get("speciesnet_skipped"):
+        return None
+    if primary.get("megadetector_conf", 0.0) < DEFAULT_MD_CONF:
+        return None
+
+    top1_score = primary.get("speciesnet_top1_score", 0.0)
+    if top1_score < DEFAULT_SN_SCORE:
+        return "low_speciesnet_confidence"
+
+    # Resolve expected class taxonomy
+    expected_norm = rec.get("expected_common", "").lower().replace("_", " ").strip()
+    entry225 = class225_by_common.get(expected_norm)
+    if entry225 is None:
+        return None  # not_in_225_classes
+
+    sci_parts = entry225["scientific_name"].split()
+    exp_level   = entry225["level"]
+    exp_genus   = sci_parts[0] if sci_parts else ""
+    exp_species = " ".join(sci_parts[1:]) if len(sci_parts) > 1 else ""
+    exp_family  = sci_parts[0] if exp_level == "family" and sci_parts else ""
+
+    exp_tax = tax_by_gs.get(f"{exp_genus} {exp_species}") or tax_by_genus.get(exp_genus) or {}
+
+    # Resolve predicted taxonomy from integer index
+    top1_idx = primary.get("speciesnet_top1_idx")
+    if top1_idx is None:
+        return None
+    pred_label = idx_to_label.get(int(top1_idx))
+    if pred_label is None:
+        return None
+    parts = pred_label.split(";", 6)
+    if len(parts) < 6:
+        return None
+
+    pred_family  = parts[3].lower().strip()
+    pred_genus   = parts[4].lower().strip()
+    pred_species = parts[5].lower().strip()
+
+    # Match level check (mirrors _compute_match_level / _apply_match_rules from script 7)
+    if exp_level == "family":
+        # For family-level expected classes, a family match = best possible = pass
+        return None
+
+    if exp_level == "genus":
+        if pred_genus == exp_genus:
+            return None  # genus match → pass
+        exp_fam = exp_tax.get("family", "")
+        if pred_family == exp_fam and exp_fam:
+            if top1_score >= DEFAULT_FAMILY_FAIL_THRESH:
+                return "family_mismatch_high_confidence"
+        return None  # order/class/no_match — not a target reason
+
+    # Species-level expected class
+    if pred_genus == exp_genus:
+        return None  # species or genus match → pass
+    exp_fam = exp_tax.get("family", "")
+    if pred_family == exp_fam and exp_fam:
+        if top1_score >= DEFAULT_FAMILY_FAIL_THRESH:
+            return "family_mismatch_high_confidence"
+    return None  # order/class/no_match — not a target reason
+
+
+def _load_class_info_sn_fail() -> dict[str, dict]:
+    """Build class_info for SN-fail mode from class_distribution.csv.
+
+    Unlike _load_class_info() which reads manual_review_queue.csv (Tier 1/2 only),
+    this reads all classes with target SN fail reasons from the full distribution CSV,
+    so Track 1 / Tier 3 classes (asian elephant, chital, etc.) are included.
+    """
+    if not CLASS_DIST_CSV.exists():
+        raise FileNotFoundError(f"class_distribution.csv not found at {CLASS_DIST_CSV}")
+    info: dict[str, dict] = {}
+    with open(CLASS_DIST_CSV, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            reason = row.get("trusted_sn_fail_reason", "")
+            if reason not in SN_FAIL_REASONS:
+                continue
+            fail_count = int(row.get("trusted_sn_fail_count", 0))
+            if fail_count == 0:
+                continue
+            cls = row["class"].strip()
+            info[cls] = {
+                "tier":                 int(row["tier"]),
+                "effective_pool":       int(row["effective_pool"]),
+                "trusted_quality_pass": int(row["trusted_quality_pass"]),
+                "tsn_fail_reason":      reason,
+                "review_priority":      SN_FAIL_PRIORITY.get(reason, "P3 LOW"),
+                "review_notes":         SN_FAIL_NOTES.get(reason, ""),
+            }
+    return info
+
+
+def _build_sn_fail_lookup(
+    class225_by_common: dict[str, dict],
+    tax_by_gs: dict[str, dict],
+    tax_by_genus: dict[str, dict],
+    idx_to_label: dict[int, str],
+    queue_classes: set[str],
+) -> dict[str, str]:
+    """Stream speciesnet_results.jsonl for all sources → {filepath: fail_reason}
+    for quality-pass images that fail with a target SN reason."""
+    lookup: dict[str, str] = {}
+    for source in TRUSTED_SOURCES:
+        sn_path = DATA_DIR / source / "speciesnet_results.jsonl"
+        if not sn_path.exists():
+            continue
+        print(f"  SN-eval {source} ...", end=" ", flush=True)
+        n = 0
+        with open(sn_path, encoding="utf-8") as f:
+            for line in f:
+                rec = json.loads(line)
+                fp = rec.get("filepath", "")
+                cls_dir = fp.split("/")[3] if len(fp.split("/")) >= 4 else ""
+                cls = cls_dir.replace("_", " ")
+                cls = _CANONICAL_LOOKUP.get(cls, cls)
+                if cls not in queue_classes:
+                    continue
+                reason = _sn_fail_reason(rec, idx_to_label, class225_by_common, tax_by_gs, tax_by_genus)
+                if reason in SN_FAIL_REASONS:
+                    lookup[fp] = reason
+                    n += 1
+        print(f"{n} fail images", flush=True)
+    return lookup
+
+
 # ── Startup ───────────────────────────────────────────────────────────────────
 
 @app.on_event("startup")
 async def startup() -> None:
-    print("\n── Wildlife Batch Review Tool ────────────────────────", flush=True)
-    class_info = _load_class_info()
-    all_items  = _load_or_build_cache(class_info)
+    sn_fail = _state.get("sn_fail", False)
+    mode_label = "SN-Fail" if sn_fail else "Batch"
+    print(f"\n── Wildlife {mode_label} Review Tool ────────────────────────", flush=True)
+    if sn_fail:
+        class_info = _load_class_info_sn_fail()
+        idx_to_label, tax_by_gs, tax_by_genus = _load_taxonomy_for_sn_eval()
+        class225_by_common = _load_class225_for_sn_eval()
+        sn_fail_lookup = _build_sn_fail_lookup(
+            class225_by_common, tax_by_gs, tax_by_genus, idx_to_label, set(class_info.keys()),
+        )
+    else:
+        class_info = _load_class_info()
+        sn_fail_lookup = None
+    all_items  = _load_or_build_cache(class_info, sn_fail_lookup=sn_fail_lookup)
     decided    = _load_decisions()
 
     undecided = [it for it in all_items if it["filepath"] not in decided]
@@ -328,6 +603,11 @@ async def api_undo() -> JSONResponse:
     _state["class_idx"]      = entry["class_idx"]
     _state["within_cursor"]  = entry["within_cursor"]
     return JSONResponse({"ok": True})
+
+
+@app.get("/api/info")
+async def api_info() -> JSONResponse:
+    return JSONResponse({"sn_fail": _state.get("sn_fail", False)})
 
 
 @app.get("/image")
@@ -583,7 +863,7 @@ button:disabled { opacity: 0.3; cursor: default; }
 <div id="loader-screen">Loading images...</div>
 <div id="done-screen">
   <h1>&#10003; Review Complete</h1>
-  <p>All images in the manual review queue have been decided.</p>
+  <p id="done-msg">All images in the manual review queue have been decided.</p>
   <p style="margin-top:8px">Results saved to <code>reports/review_decisions.jsonl</code></p>
 </div>
 
@@ -620,7 +900,7 @@ let batchN     = 20;
 let canUndo    = false;
 
 // ── Init ──────────────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('btn-commit').addEventListener('click', commitBatch);
   document.getElementById('btn-undo').addEventListener('click', undoBatch);
   document.getElementById('btn-bbox').addEventListener('click', toggleBbox);
@@ -637,6 +917,18 @@ document.addEventListener('DOMContentLoaded', () => {
     batchN = parseInt(slBatch.value, 10);
     document.getElementById('sl-batch-val').textContent = slBatch.value;
   });
+
+  // Apply SN-fail mode branding
+  try {
+    const info = await fetch('/api/info').then(r => r.json());
+    if (info.sn_fail) {
+      const title = 'Wildlife SN-Fail Review';
+      document.title = title;
+      document.getElementById('logo').textContent = title;
+      const doneMsg = document.getElementById('done-msg');
+      if (doneMsg) doneMsg.textContent = 'All SN-fail images in the review queue have been decided.';
+    }
+  } catch (_) {}
 
   document.addEventListener('keydown', onKey);
   fetchBatch();
@@ -953,6 +1245,13 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Wildlife Image Batch Review Server")
     parser.add_argument("--host", default="0.0.0.0", help="Bind host (default: 0.0.0.0)")
     parser.add_argument("--port", type=int, default=8081, help="Port (default: 8081)")
+    parser.add_argument(
+        "--sn-fail", action="store_true",
+        help="Review SN-fail images only (family_mismatch_high_confidence / low_speciesnet_confidence)",
+    )
     args = parser.parse_args()
-    print(f"Starting batch review server — open http://<tailscale-ip>:{args.port} in your browser")
+    if args.sn_fail:
+        _state["sn_fail"] = True
+    mode = "SN-fail" if args.sn_fail else "batch"
+    print(f"Starting {mode} review server — open http://<tailscale-ip>:{args.port} in your browser")
     uvicorn.run(app, host=args.host, port=args.port, log_level="warning")

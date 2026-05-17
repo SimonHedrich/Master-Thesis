@@ -10,7 +10,13 @@ New columns added to the existing distribution:
   review_declined   — images declined during manual review
   effective_trusted — valid trusted-source images after applying tier-specific rules:
                         Tier 1/2  → review_approved only (all were reviewed; SN skipped)
-                        Tier 3    → trusted_sn_pass + review_approved (SN-fail images reviewed)
+                        Tier 3    → trusted_sn_pass + review_approved; except when SN is an
+                                    unreliable signal (tsp == 0, OR dominant fail reason is
+                                    match_level_no_match / match_level_class with <20% pass rate,
+                                    OR match_level_order with <15% pass rate) → use
+                                    trusted_quality_pass directly, same as Tier 4.
+                                    family_mismatch_high_confidence and low_speciesnet_confidence
+                                    classes remain conservative (tsp + review_approved).
                         Tier 4    → trusted_quality_pass (all assumed valid; no review applied)
   effective_pool    — effective_trusted + unverified_sn_pass  (replaces old effective_pool)
   final_tier        — tier based on effective_pool (100 / 500 / 1500)
@@ -40,6 +46,14 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 _TIER_BOUNDARIES = [100, 500, 1500]
+_CLASSES_225_PATH = REPO_ROOT / "reports" / "classes_225.csv"
+
+# SpeciesNet coverage-gap detection: if SN's dominant fail reason indicates the species
+# is simply out-of-distribution (no taxonomy match at all), treat SN-fail as noise and
+# fall back to trusted_quality_pass rather than the conservative tsp+app formula.
+_COVERAGE_GAP_FAIL_REASONS_STRICT = {"match_level_no_match", "match_level_class"}
+_COVERAGE_GAP_THRESHOLD_STRICT = 0.20   # <20% pass rate → SN has no useful signal
+_COVERAGE_GAP_THRESHOLD_ORDER  = 0.15   # tighter for match_level_order (SN sees order)
 
 
 def _tier(n: int) -> int:
@@ -49,8 +63,49 @@ def _tier(n: int) -> int:
     return 4
 
 
-def _class_from_filepath(fp: str) -> str:
-    return Path(fp).parent.name.lower().replace("_", " ")
+def _strip_apostrophe(name: str) -> str:
+    return name.replace("'", "").replace("'", "")
+
+
+def _build_canonical_lookup(classes_csv: Path) -> dict[str, str]:
+    """Return {stripped_name: canonical_name} for names that contain apostrophes."""
+    if not classes_csv.exists():
+        return {}
+    lookup: dict[str, str] = {}
+    with open(classes_csv, encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            name = row["common_name"].strip().lower()
+            stripped = _strip_apostrophe(name)
+            if stripped != name:
+                lookup[stripped] = name
+    return lookup
+
+
+def _class_from_filepath(fp: str, canonical_lookup: dict[str, str] | None = None) -> str:
+    name = Path(fp).parent.name.lower().replace("_", " ")
+    if canonical_lookup:
+        name = canonical_lookup.get(name, name)
+    return name
+
+
+# ── SpeciesNet coverage-gap helper ───────────────────────────────────────────
+
+def _is_sn_coverage_gap(tsp: int, tqp: int, fail_reason: str) -> bool:
+    """True when SpeciesNet's fail signal is noise, not evidence of a bad image.
+
+    This happens when SN was never trained on the species (coverage gap) and
+    its predictions have no taxonomic relationship to the expected class.
+    """
+    if tsp == 0:
+        return True
+    if tqp == 0:
+        return False
+    rate = tsp / tqp
+    if fail_reason in _COVERAGE_GAP_FAIL_REASONS_STRICT:
+        return rate < _COVERAGE_GAP_THRESHOLD_STRICT
+    if fail_reason == "match_level_order":
+        return rate < _COVERAGE_GAP_THRESHOLD_ORDER
+    return False
 
 
 # ── Review decisions ──────────────────────────────────────────────────────────
@@ -61,6 +116,8 @@ def load_decisions(decisions_path: Path) -> tuple[Counter, Counter]:
     Each filepath maintains a stack of decisions. 'undo' pops the stack.
     The final effective decision is the top of the stack.
     """
+    canonical_lookup = _build_canonical_lookup(_CLASSES_225_PATH)
+
     stacks: dict[str, list[str]] = defaultdict(list)
 
     with open(decisions_path, encoding="utf-8") as f:
@@ -84,7 +141,7 @@ def load_decisions(decisions_path: Path) -> tuple[Counter, Counter]:
     for fp, stack in stacks.items():
         if not stack:
             continue
-        cls = _class_from_filepath(fp)
+        cls = _class_from_filepath(fp, canonical_lookup)
         if stack[-1] == "approve":
             approved[cls] += 1
         else:
@@ -122,11 +179,20 @@ def build_rows(
         #             Only approved images are valid (review is the sole gate).
         #   Tier 3:   SN-pass images are valid without review.
         #             SN-fail images were queued for review; approved ones are added.
+        #             Coverage-gap exception: if _is_sn_coverage_gap() is True (SN was
+        #             never trained on this species), SN-fail is noise. Fall back to
+        #             trusted_quality_pass directly, same as Tier 4.
+        #             family_mismatch_high_confidence and low_speciesnet_confidence stay
+        #             conservative (tsp + app) because SN has a meaningful signal there.
         #   Tier 4:   No manual review applied; all trusted quality-pass images assumed valid.
         if tier in (1, 2):
             eff_trusted = app
         elif tier == 3:
-            eff_trusted = tsp + app
+            fail_reason = r.get("trusted_sn_fail_reason", "")
+            if _is_sn_coverage_gap(tsp, tqp, fail_reason):
+                eff_trusted = tqp
+            else:
+                eff_trusted = tsp + app
         else:  # tier 4
             eff_trusted = tqp
 
@@ -194,7 +260,7 @@ def write_md(
         "| Tier | Trusted source gate | Unverified source gate |",
         "|---:|---|---|",
         "| 1 & 2 | Manual review (SN skipped); `review_approved` only | SpeciesNet pass |",
-        "| 3 | SN-pass valid; SN-fail → review; `trusted_sn_pass + review_approved` | SpeciesNet pass |",
+        "| 3 | SN-pass valid; coverage-gap classes (no_match/class <20% or order <15% pass rate) → `trusted_quality_pass`; otherwise `trusted_sn_pass + review_approved` | SpeciesNet pass |",
         "| 4 | All quality-pass assumed valid; `trusted_quality_pass` | SpeciesNet pass |",
         "",
         "## Tier Summary\n",
