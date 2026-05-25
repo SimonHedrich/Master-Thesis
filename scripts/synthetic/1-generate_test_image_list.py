@@ -1,26 +1,32 @@
 """
-Generate per-image prompt files and index.jsonl for the synthetic wildlife image dataset.
+Generate per-image prompt files and test_index.jsonl for the synthetic test set.
+
+Covers all 225 classes × 50 images = 11,250 test images using a fixed prototypical
+shot schedule (the same 5-behavior design as the Band A val set).  Unlike the training
+script this uses species-adaptive behavior descriptions so arboreal, aquatic, and
+fossorial species are rendered in ecologically appropriate postures.
 
 Pipeline:
-  Stage 1 — LLM (OpenRouter) generates a structured scene profile per species, cached to
-             reports/synthetic_scene_profiles.json. Skipped on re-run unless --force.
-  Stage 2 — Deterministically expands the shot schedule into prompt .txt files and writes
-             data/synthetic/index.jsonl in a single final pass.
+  Stage 1 — LLM (OpenRouter) generates a structured scene profile per species, cached
+             to reports/synthetic_scene_profiles.json.  The 76 Band A/B profiles that
+             already exist are reused; only the ~149 new C/D classes trigger LLM calls.
+  Stage 2 — Deterministically expands the test shot schedule into prompt .txt files and
+             writes data/synthetic/test_index.jsonl.
 
 Outputs:
-    data/synthetic/prompts/{class_slug}/{nnn:03d}.txt  — one prompt file per image
-    data/synthetic/index.jsonl                         — metadata index (no prompt text)
-    reports/synthetic_scene_profiles.json              — cached LLM scene profiles
+    data/synthetic/test_prompts/{class_slug}/{nnn:03d}.txt
+    data/synthetic/test_index.jsonl
+    reports/synthetic_scene_profiles.json   (extended in-place)
 
 Usage:
     # Full run (requires OPENROUTER_API_KEY in .env or environment):
-    python scripts/synthetic/1-generate_image_list.py
+    python scripts/synthetic/1-generate_test_image_list.py
 
     # Smoke-test two classes without API key:
-    python scripts/synthetic/1-generate_image_list.py --classes walrus,kinkajou --skip-llm
+    python scripts/synthetic/1-generate_test_image_list.py --classes walrus,kinkajou --skip-llm
 
     # Regenerate prompts for one class:
-    python scripts/synthetic/1-generate_image_list.py --classes aardvark --force
+    python scripts/synthetic/1-generate_test_image_list.py --classes aardvark --force
 
 Requirements:
     pip install requests python-dotenv
@@ -32,9 +38,10 @@ import json
 import os
 import re
 import sys
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
-from math import ceil
 from pathlib import Path
 from typing import Optional
 
@@ -47,16 +54,18 @@ from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DESCRIPTIONS_CSV = PROJECT_ROOT / "reports" / "animal_descriptions.csv"
-WIKI_URLS_JSON = PROJECT_ROOT / "reports" / "wikipedia_urls.json"
-WIKI_DIR = PROJECT_ROOT / "data" / "wikipedia"
-PROFILES_JSON = PROJECT_ROOT / "reports" / "synthetic_scene_profiles.json"
-SYNTHETIC_DIR = PROJECT_ROOT / "data" / "synthetic"
-INDEX_JSONL = SYNTHETIC_DIR / "index.jsonl"
+WIKI_URLS_JSON   = PROJECT_ROOT / "reports" / "wikipedia_urls.json"
+INAT_COUNTS_CSV  = PROJECT_ROOT / "reports" / "inaturalist_class_image_counts_225.csv"
+WIKI_DIR         = PROJECT_ROOT / "data" / "wikipedia"
+PROFILES_JSON    = PROJECT_ROOT / "reports" / "synthetic_scene_profiles.json"
+SYNTHETIC_DIR    = PROJECT_ROOT / "data" / "synthetic"
+TEST_PROMPTS_DIR = SYNTHETIC_DIR / "test_prompts"
+TEST_INDEX_JSONL = SYNTHETIC_DIR / "test_index.jsonl"
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "google/gemini-3.1-flash-lite"
-MAX_TRIES = 3
-RETRY_DELAY = 5
+DEFAULT_MODEL  = "google/gemini-3.1-flash-lite"
+MAX_TRIES      = 3
+RETRY_DELAY    = 5
 
 # ---------------------------------------------------------------------------
 # Wikipedia section aliases
@@ -116,23 +125,23 @@ ANGLE_DESCRIPTIONS = {
 }
 
 DISTANCE_DESCRIPTIONS = {
-    "close": "Very close — animal fills approximately 50–70% of frame (telephoto at ~20–80 m)",
-    "medium": "Standard field view — animal fills approximately 20–40% of frame (~80–250 m telephoto)",
-    "far": "Animal at distance — fills less than 10% of frame (>250 m); habitat context dominant",
+    "close":        "Very close — animal fills approximately 50–70% of frame (telephoto at ~20–80 m)",
+    "medium":       "Standard field view — animal fills approximately 20–40% of frame (~80–250 m telephoto)",
+    "far":          "Animal at distance — fills less than 10% of frame (>250 m); habitat context dominant",
     "medium-close": "Between medium and close — animal fills approximately 35–50% of frame",
-    "medium-far": "Between medium and far — animal fills approximately 15–25% of frame",
+    "medium-far":   "Between medium and far — animal fills approximately 15–25% of frame",
     "close-medium": "Prominent in frame — animal fills approximately 40–55% of frame (binocular portrait)",
-    "varies": "Distance appropriate for the scene; natural field distance for this shot type",
+    "varies":       "Distance appropriate for the scene; natural field distance for this shot type",
 }
 
-LIGHTING_POOL = ["golden_hour", "overcast", "midday", "dappled", "backlit"]
 VAL_LIGHTING_POOL = ["overcast", "golden_hour"]
+LIGHTING_POOL = ["golden_hour", "overcast", "midday", "dappled", "backlit"]
 LIGHTING_DESCRIPTIONS = {
     "golden_hour": "Warm directional golden-hour light, long shadows, rich warm tones",
-    "overcast": "Soft diffuse overcast light, no hard shadows, even exposure across the scene",
-    "midday": "Harsh overhead midday sunlight, strong shadows",
-    "dappled": "Intermittent dappled light through canopy or foliage",
-    "backlit": "Sun behind the animal, rim lighting effect, partial silhouette",
+    "overcast":    "Soft diffuse overcast light, no hard shadows, even exposure across the scene",
+    "midday":      "Harsh overhead midday sunlight, strong shadows",
+    "dappled":     "Intermittent dappled light through canopy or foliage",
+    "backlit":     "Sun behind the animal, rim lighting effect, partial silhouette",
 }
 
 OCCLUSION_DESCRIPTIONS = {
@@ -144,42 +153,51 @@ OCCLUSION_DESCRIPTIONS = {
     "semi_submerged": "Lower body in water; upper body, back, and head visible above surface",
 }
 
-VAL_BEHAVIOR_DESCRIPTIONS = {
+# Species-adaptive test behavior descriptions.
+# Phrased to allow ecologically appropriate postures for every guild:
+# arboreal species can perch/hang, aquatic species can swim/wade, fossorial
+# species can emerge from burrows, etc.  The image generator picks the
+# posture that fits the species description and environment.
+TEST_BEHAVIOR_DESCRIPTIONS = {
     "standing_alert": (
-        "{name} standing fully upright and alert, head raised, ears forward, "
-        "scanning the surroundings with calm attentiveness"
+        "{name} stationary and alert, holding a posture natural for this species — "
+        "standing on the ground, perching on a branch, crouching on a rock, or "
+        "hanging from vegetation as appropriate — scanning its surroundings with "
+        "calm attentiveness"
     ),
     "walking": (
-        "{name} walking forward at a natural unhurried pace, mid-stride, "
-        "relaxed natural gait"
+        "{name} moving through its environment at an unhurried, natural pace — "
+        "walking, climbing, swimming, wading, or brachating as appropriate for "
+        "this species — mid-motion, relaxed"
     ),
     "eating_foraging": (
-        "{name} actively foraging and feeding naturally on species-appropriate food "
-        "in its primary habitat"
+        "{name} actively foraging or feeding in the posture typical for this species: "
+        "grazing on the ground, plucking fruit from a branch, digging at a burrow, "
+        "fishing at a water's edge, or any other ecologically appropriate feeding mode"
     ),
     "resting": (
-        "{name} resting comfortably, lying down or sitting, in a fully relaxed posture"
+        "{name} at rest in a posture natural for this species — lying down, "
+        "crouching, curled up, perched on a branch, hanging, or floating — "
+        "fully relaxed and undisturbed"
     ),
     "looking_at_camera": (
-        "{name} standing or sitting calmly, looking directly at the camera "
-        "with quiet awareness"
+        "{name} in a natural resting or alert position appropriate for this species, "
+        "oriented toward the camera with quiet awareness"
     ),
 }
 
-# Angle codes to cycle through for "varies" shot groups (partial vegetation)
 VARIES_ANGLES = [
     "eye_level", "low", "high", "side_profile",
     "three_quarter_front", "head_on", "rear", "three_quarter_rear",
     "low", "three_quarter_front",
 ]
-# Angle codes for Band B species_specific group
 SPECIES_SPECIFIC_ANGLES = [
     "eye_level", "low", "high", "side_profile", "head_on", "three_quarter_front",
 ]
 
 PINNIPED_OVERRIDE = [
-    {"scientific_name": "zalophus californianus", "common_name": "California Sea Lion",  "wikipedia_file": "zalophus_californianus.txt"},
-    {"scientific_name": "arctocephalus pusillus",  "common_name": "Cape Fur Seal",        "wikipedia_file": "arctocephalus_pusillus.txt"},
+    {"scientific_name": "zalophus californianus", "common_name": "California Sea Lion",   "wikipedia_file": "zalophus_californianus.txt"},
+    {"scientific_name": "arctocephalus pusillus",  "common_name": "Cape Fur Seal",         "wikipedia_file": "arctocephalus_pusillus.txt"},
     {"scientific_name": "mirounga leonina",        "common_name": "Southern Elephant Seal","wikipedia_file": "mirounga_leonina.txt"},
     {"scientific_name": "mirounga angustirostris", "common_name": "Northern Elephant Seal","wikipedia_file": "mirounga_angustirostris.txt"},
     {"scientific_name": "phoca vitulina",          "common_name": "Harbour Seal",          "wikipedia_file": "phoca_vitulina.txt"},
@@ -192,9 +210,9 @@ PINNIPED_OVERRIDE = [
 
 @dataclass
 class ClassConfig:
-    common_name: str    # matches animal_descriptions.csv and wikipedia_urls.json
-    band: str           # "A" or "B"
-    guilds: list[str]   # informational; used in fallback profiles
+    common_name: str
+    band: str           # "A", "B", "C", or "D"
+    guilds: list[str]   # used only for static fallback profiles
 
 
 @dataclass
@@ -204,136 +222,48 @@ class ShotGroup:
     count: int
     split: str
     occlusion: str = "none"
-    val_behavior_code: Optional[str] = None  # set for val groups
+    val_behavior_code: Optional[str] = None
 
 # ---------------------------------------------------------------------------
-# Shot schedules
+# Test shot schedule — fixed for all 225 classes
 # ---------------------------------------------------------------------------
 
-BAND_A_SCHEDULE: list[ShotGroup] = [
-    # Val (images 001–040)
-    ShotGroup("eye_level",           "medium", 8, "val", val_behavior_code="standing_alert"),
-    ShotGroup("eye_level",           "medium", 8, "val", val_behavior_code="walking"),
-    ShotGroup("three_quarter_front", "medium", 8, "val", val_behavior_code="eating_foraging"),
-    ShotGroup("eye_level",           "medium", 8, "val", val_behavior_code="resting"),
-    ShotGroup("three_quarter_front", "medium", 8, "val", val_behavior_code="looking_at_camera"),
-    # Train (images 041–200)
-    ShotGroup("eye_level",           "medium",       25, "train"),
-    ShotGroup("low",                 "medium-close", 20, "train"),
-    ShotGroup("high",                "medium",       15, "train"),
-    ShotGroup("head_on",             "medium-close", 15, "train"),
-    ShotGroup("rear",                "medium",       15, "train"),
-    ShotGroup("side_profile",        "medium-far",   15, "train"),
-    ShotGroup("three_quarter_rear",  "medium",       10, "train"),
-    ShotGroup("three_quarter_front", "medium",       10, "train"),
-    ShotGroup("eye_level",           "far",          10, "train"),
-    ShotGroup("eye_level",           "close-medium", 15, "train"),
-    ShotGroup("varies",              "medium",       10, "train", occlusion="partial_vegetation"),
-]
-
-BAND_B_SCHEDULE: list[ShotGroup] = [
-    # Val (images 001–015 and 074–078) — 20 images per class, 20% of 100
-    ShotGroup("eye_level",           "medium",     15, "val"),   # 001–015
-    # Train (images 016–073, 079–100)
-    ShotGroup("low",                 "medium",     12, "train"), # 016–027
-    ShotGroup("high",                "medium",     12, "train"), # 028–039
-    ShotGroup("head_on",             "medium",     12, "train"), # 040–051
-    ShotGroup("rear",                "medium",     12, "train"), # 052–063
-    ShotGroup("side_profile",        "medium-far", 10, "train"), # 064–073
-    ShotGroup("three_quarter_front", "medium",      5, "val"),   # 074–078
-    ShotGroup("three_quarter_front", "medium",      3, "train"), # 079–081
-    ShotGroup("eye_level",           "far",         8, "train"), # 082–089
-    ShotGroup("varies",              "medium",      5, "train", occlusion="partial_vegetation"),
-    ShotGroup("species_specific",    "varies",      6, "train"), # 095–100
+TEST_SCHEDULE: list[ShotGroup] = [
+    ShotGroup("eye_level",           "medium", 10, "test", val_behavior_code="standing_alert"),
+    ShotGroup("eye_level",           "medium", 10, "test", val_behavior_code="walking"),
+    ShotGroup("three_quarter_front", "medium", 10, "test", val_behavior_code="eating_foraging"),
+    ShotGroup("eye_level",           "medium", 10, "test", val_behavior_code="resting"),
+    ShotGroup("three_quarter_front", "medium", 10, "test", val_behavior_code="looking_at_camera"),
 ]
 
 # ---------------------------------------------------------------------------
-# Class configuration (76 entries)
+# Band A / B class names (for band lookup)
+# Kept as plain name sets — the full ClassConfig lists live in the training
+# script; here we only need common names to assign A/B to the 76 known classes.
 # ---------------------------------------------------------------------------
 
-BAND_A_CLASSES: list[ClassConfig] = [
-    ClassConfig("walrus",                    "A", ["fully_aquatic"]),
-    ClassConfig("old world porcupine family","A", ["fossorial", "terrestrial"]),
-    ClassConfig("raccoon dog",               "A", ["terrestrial", "fossorial"]),
-    ClassConfig("callicebus genus",          "A", ["arboreal", "primate"]),
-    ClassConfig("wild cat",                  "A", ["terrestrial"]),
-    ClassConfig("black-backed jackal",       "A", ["arid_savanna"]),
-    ClassConfig("ringtail",                  "A", ["arboreal", "fossorial"]),
-    ClassConfig("kinkajou",                  "A", ["arboreal"]),
-    ClassConfig("genet genus",               "A", ["arboreal", "terrestrial"]),
-    ClassConfig("leopardus species",         "A", ["terrestrial"]),
-    ClassConfig("water deer",                "A", ["large_grazing"]),
-    ClassConfig("eurasian badger",           "A", ["fossorial"]),
-    ClassConfig("nine-banded armadillo",     "A", ["fossorial"]),
-    ClassConfig("sloth bear",                "A", ["arboreal", "terrestrial"]),
-    ClassConfig("yak",                       "A", ["large_grazing", "cold_climate"]),
-    ClassConfig("fisher",                    "A", ["arboreal", "terrestrial"]),
-    ClassConfig("striped hyaena",            "A", ["arid_savanna"]),
-    ClassConfig("asiatic black bear",        "A", ["arboreal", "terrestrial"]),
-    ClassConfig("leopard cat",               "A", ["terrestrial"]),
-    ClassConfig("cephalophus species",       "A", ["large_grazing"]),
-    ClassConfig("ocelot",                    "A", ["terrestrial"]),
-    ClassConfig("domestic water buffalo",    "A", ["large_grazing"]),
-    ClassConfig("sun bear",                  "A", ["arboreal", "terrestrial"]),
-    ClassConfig("asiatic wild ass",          "A", ["large_grazing"]),
-    ClassConfig("maned wolf",                "A", ["arid_savanna"]),
-    ClassConfig("honey badger",              "A", ["fossorial", "arid_savanna"]),
-    ClassConfig("fossa",                     "A", ["arboreal", "terrestrial"]),
-    ClassConfig("brown hyaena",              "A", ["arid_savanna"]),
-    ClassConfig("red brocket",               "A", ["large_grazing"]),
-    ClassConfig("pinniped clade",            "A", ["fully_aquatic"]),
-    ClassConfig("saiga",                     "A", ["large_grazing"]),
-    ClassConfig("wolverine",                 "A", ["cold_climate"]),
-    ClassConfig("pangolin family",           "A", ["fossorial", "terrestrial"]),
-    ClassConfig("mangabeys genus",           "A", ["arboreal", "primate"]),
-    ClassConfig("red river hog",             "A", ["large_grazing"]),
-    ClassConfig("aardwolf",                  "A", ["fossorial", "arid_savanna"]),
-    ClassConfig("bongo",                     "A", ["large_grazing"]),
-    ClassConfig("binturong",                 "A", ["arboreal"]),
-    ClassConfig("aardvark",                  "A", ["fossorial"]),
-    ClassConfig("spilogale species",         "A", ["fossorial"]),
-    ClassConfig("red-necked wallaby",        "A", ["large_grazing"]),
-    ClassConfig("clouded leopard",           "A", ["arboreal"]),
-    ClassConfig("malay tapir",               "A", ["semi_aquatic"]),
-    ClassConfig("aye-aye",                   "A", ["arboreal", "primate"]),
-    ClassConfig("drill",                     "A", ["arboreal", "primate"]),
-    ClassConfig("domestic pig",              "A", ["large_grazing"]),
-    ClassConfig("giant armadillo",           "A", ["fossorial"]),
-    ClassConfig("hog badger genus",          "A", ["fossorial"]),
-    ClassConfig("african civet",             "A", ["terrestrial"]),
-    ClassConfig("mouflon",                   "A", ["large_grazing"]),
-]
+BAND_A_NAMES: frozenset[str] = frozenset({
+    "walrus", "old world porcupine family", "raccoon dog", "callicebus genus",
+    "wild cat", "black-backed jackal", "ringtail", "kinkajou", "genet genus",
+    "leopardus species", "water deer", "eurasian badger", "nine-banded armadillo",
+    "sloth bear", "yak", "fisher", "striped hyaena", "asiatic black bear",
+    "leopard cat", "cephalophus species", "ocelot", "domestic water buffalo",
+    "sun bear", "asiatic wild ass", "maned wolf", "honey badger", "fossa",
+    "brown hyaena", "red brocket", "pinniped clade", "saiga", "wolverine",
+    "pangolin family", "mangabeys genus", "red river hog", "aardwolf", "bongo",
+    "binturong", "aardvark", "spilogale species", "red-necked wallaby",
+    "clouded leopard", "malay tapir", "aye-aye", "drill", "domestic pig",
+    "giant armadillo", "hog badger genus", "african civet", "mouflon",
+})
 
-BAND_B_CLASSES: list[ClassConfig] = [
-    ClassConfig("canada lynx",      "B", ["terrestrial"]),
-    ClassConfig("spectacled bear",  "B", ["arboreal", "terrestrial"]),
-    ClassConfig("caracal",          "B", ["terrestrial"]),
-    ClassConfig("eurasian lynx",    "B", ["terrestrial"]),
-    ClassConfig("black wildebeest", "B", ["large_grazing"]),
-    ClassConfig("giant panda",      "B", ["arboreal", "terrestrial"]),
-    ClassConfig("serval",           "B", ["terrestrial"]),
-    ClassConfig("patas monkey",     "B", ["arboreal", "primate"]),
-    ClassConfig("american mink",    "B", ["semi_aquatic"]),
-    ClassConfig("gerenuk",          "B", ["large_grazing"]),
-    ClassConfig("dhole",            "B", ["arid_savanna"]),
-    ClassConfig("bat-eared fox",    "B", ["arid_savanna"]),
-    ClassConfig("baird's tapir",    "B", ["semi_aquatic"]),
-    ClassConfig("grevy's zebra",    "B", ["large_grazing"]),
-    ClassConfig("asian elephant",   "B", ["large_grazing"]),
-    ClassConfig("kirk's dik-dik",   "B", ["large_grazing"]),
-    ClassConfig("american badger",  "B", ["fossorial"]),
-    ClassConfig("chimpanzee",       "B", ["arboreal", "primate"]),
-    ClassConfig("african wild dog", "B", ["arid_savanna"]),
-    ClassConfig("glaucomys species","B", ["arboreal"]),
-    ClassConfig("common wombat",    "B", ["fossorial"]),
-    ClassConfig("european bison",   "B", ["large_grazing"]),
-    ClassConfig("lowland tapir",    "B", ["semi_aquatic"]),
-    ClassConfig("tayra",            "B", ["arboreal", "terrestrial"]),
-    ClassConfig("eurasian otter",   "B", ["semi_aquatic"]),
-    ClassConfig("springbok",        "B", ["large_grazing"]),
-]
-
-ALL_CLASSES = BAND_A_CLASSES + BAND_B_CLASSES
+BAND_B_NAMES: frozenset[str] = frozenset({
+    "canada lynx", "spectacled bear", "caracal", "eurasian lynx",
+    "black wildebeest", "giant panda", "serval", "patas monkey",
+    "american mink", "gerenuk", "dhole", "bat-eared fox", "baird's tapir",
+    "grevy's zebra", "asian elephant", "kirk's dik-dik", "american badger",
+    "chimpanzee", "african wild dog", "glaucomys species", "common wombat",
+    "european bison", "lowland tapir", "tayra", "eurasian otter", "springbok",
+})
 
 # ---------------------------------------------------------------------------
 # Data loading
@@ -352,14 +282,52 @@ def load_wikipedia_urls(json_path: Path) -> dict:
         return json.load(f)
 
 
+def load_inat_counts(csv_path: Path) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    with open(csv_path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            counts[row["common_name"].strip().lower()] = int(row["total_images"])
+    return counts
+
+
 def build_common_name_index(wiki_urls: dict) -> dict[str, tuple[str, dict]]:
-    """Returns dict[lower(common_name) → (wiki_key, wiki_entry)]."""
     idx = {}
     for key, entry in wiki_urls.items():
         cn = entry.get("common_name", "").strip().lower()
         if cn:
             idx[cn] = (key, entry)
     return idx
+
+
+def load_all_classes(wiki_urls: dict, inat_counts: dict[str, int]) -> list[ClassConfig]:
+    """Load all 225 classes and assign bands A–D.
+
+    A/B are fixed (same 76 classes as the training script).
+    Of the remaining 149, the 26 with the lowest iNaturalist counts become
+    Band C; the rest are Band D.
+    """
+    non_ab: list[tuple[str, int]] = []
+    for entry in wiki_urls.values():
+        cn = entry["common_name"]
+        if cn.lower() not in BAND_A_NAMES and cn.lower() not in BAND_B_NAMES:
+            non_ab.append((cn, inat_counts.get(cn.lower(), 0)))
+    non_ab.sort(key=lambda x: x[1])
+    band_c = frozenset(n.lower() for n, _ in non_ab[:26])
+
+    result: list[ClassConfig] = []
+    for entry in wiki_urls.values():
+        cn = entry["common_name"]
+        lo = cn.lower()
+        if lo in BAND_A_NAMES:
+            band = "A"
+        elif lo in BAND_B_NAMES:
+            band = "B"
+        elif lo in band_c:
+            band = "C"
+        else:
+            band = "D"
+        result.append(ClassConfig(common_name=cn, band=band, guilds=[]))
+    return result
 
 # ---------------------------------------------------------------------------
 # Wikipedia section extraction
@@ -371,20 +339,19 @@ def _section_depth(header: str) -> int:
 
 
 def extract_sections(text: str) -> tuple[str, str, str]:
-    """Return (description_text, behavior_text, habitat_text) from a Wikipedia .txt article."""
     parts = re.split(r"^(==+[^=\n]+==+)", text, flags=re.MULTILINE)
     lead = parts[0].strip()
 
     sections: list[tuple[str, int, str]] = []
     for i in range(1, len(parts) - 1, 2):
         header_raw = parts[i].strip()
-        content = parts[i + 1] if i + 1 < len(parts) else ""
-        depth = _section_depth(header_raw)
-        name = re.sub(r"^=+\s*|\s*=+$", "", header_raw).strip()
+        content    = parts[i + 1] if i + 1 < len(parts) else ""
+        depth      = _section_depth(header_raw)
+        name       = re.sub(r"^=+\s*|\s*=+$", "", header_raw).strip()
         sections.append((name, depth, content))
 
     def collect(aliases: frozenset) -> str:
-        result = []
+        result: list[str] = []
         collecting = False
         base_depth = 0
         for name, depth, content in sections:
@@ -399,9 +366,9 @@ def extract_sections(text: str) -> tuple[str, str, str]:
                 result.append(content)
         return "\n".join(result).strip()
 
-    desc = collect(DESCRIPTION_ALIASES) or lead[:800]
+    desc     = collect(DESCRIPTION_ALIASES) or lead[:800]
     behavior = collect(BEHAVIOR_ALIASES)
-    habitat = collect(HABITAT_ALIASES)
+    habitat  = collect(HABITAT_ALIASES)
     return desc, behavior, habitat
 
 
@@ -420,7 +387,6 @@ def get_representative_species(wiki_entry: dict, class_common_name: str) -> list
     if not top:
         if class_common_name.lower() == "pinniped clade":
             return PINNIPED_OVERRIDE
-        # Species-level: single entry
         return [{"scientific_name": wiki_entry["scientific_name"],
                  "common_name":     wiki_entry["common_name"],
                  "wikipedia_file":  wiki_entry.get("wikipedia_file", "")}]
@@ -490,9 +456,8 @@ def build_profile_request(common_name: str, scientific_name: str,
         "- Every behavior must describe a single individual animal only.\n"
         "- Social or group contexts are allowed but must be written from the "
         "perspective of the one subject (e.g. 'approaches a companion off-frame', "
-        "'rests at the edge of a group that is out of frame', 'grooms itself after "
-        "a social encounter'). Never describe two or more animals simultaneously "
-        "visible and prominent in the same shot.\n\n"
+        "'rests at the edge of a group that is out of frame'). Never describe two or "
+        "more animals simultaneously visible and prominent in the same shot.\n\n"
         "GUILD-SPECIFIC REQUIREMENTS — include where ecologically appropriate:\n"
         "- Arboreal species: at least 1 behavior of climbing, perching on a branch, or "
         "foraging in a tree canopy.\n"
@@ -602,9 +567,37 @@ def static_fallback_profile(common_name: str, short_desc: str, guilds: list[str]
         "behaviors": generic_behaviors,
         "focus_notes": {
             "closeup_head": f"Render the face and head of {common_name} accurately: {short_desc}",
-            "default": f"Render the full body of {common_name} accurately: {short_desc}",
+            "default":      f"Render the full body of {common_name} accurately: {short_desc}",
         },
     }
+
+
+def _stage1_worker(
+    cls: ClassConfig,
+    descriptions: dict[str, dict],
+    api_key: str,
+    model: str,
+    skip_llm: bool,
+) -> tuple[str, dict]:
+    """Generate (or fall back to) a scene profile for one class. Thread-safe."""
+    name     = cls.common_name
+    desc_row = descriptions.get(name.lower())
+
+    if desc_row is None:
+        return name, static_fallback_profile(name, name, cls.guilds)
+
+    condensed       = desc_row.get("condensed_description", "").strip()
+    characteristics = desc_row.get("wikipedia_characteristics", "").strip()
+    scientific      = desc_row.get("scientific_name", name).strip()
+    short_desc      = desc_row.get("very_short_description", condensed).strip()
+
+    if skip_llm:
+        return name, static_fallback_profile(name, short_desc, cls.guilds)
+
+    profile = generate_scene_profile(name, scientific, condensed, characteristics, api_key, model)
+    if profile is None:
+        return name, static_fallback_profile(name, short_desc, cls.guilds)
+    return name, profile
 
 
 def run_stage1(
@@ -613,6 +606,7 @@ def run_stage1(
     api_key: str,
     model: str,
     skip_llm: bool,
+    workers: int = 4,
 ) -> dict[str, dict]:
     profiles: dict[str, dict] = {}
     if PROFILES_JSON.exists():
@@ -620,55 +614,49 @@ def run_stage1(
             profiles = json.load(f)
         print(f"Loaded {len(profiles)} existing profiles from {PROFILES_JSON}")
 
-    for i, cls in enumerate(classes, 1):
-        name = cls.common_name
-        if name in profiles:
-            print(f"[{i}/{len(classes)}] {name} — already in profiles, skipping")
-            continue
+    pending = [cls for cls in classes if cls.common_name not in profiles]
+    skipped = len(classes) - len(pending)
+    if skipped:
+        print(f"{skipped} classes already have profiles, skipping")
+    if not pending:
+        return profiles
 
-        desc_row = descriptions.get(name.lower())
-        if desc_row is None:
-            print(f"[{i}/{len(classes)}] {name} — not found in descriptions CSV, using fallback")
-            profiles[name] = static_fallback_profile(name, name, cls.guilds)
-            continue
+    print(f"Generating profiles for {len(pending)} classes with {workers} workers ...")
+    lock     = threading.Lock()
+    done     = 0
+    total    = len(pending)
 
-        condensed = desc_row.get("condensed_description", "").strip()
-        characteristics = desc_row.get("wikipedia_characteristics", "").strip()
-        scientific = desc_row.get("scientific_name", name).strip()
-        short_desc = desc_row.get("very_short_description", condensed).strip()
+    PROFILES_JSON.parent.mkdir(parents=True, exist_ok=True)
 
-        if skip_llm:
-            print(f"[{i}/{len(classes)}] {name} — --skip-llm, using fallback")
-            profiles[name] = static_fallback_profile(name, short_desc, cls.guilds)
-            continue
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(_stage1_worker, cls, descriptions, api_key, model, skip_llm): cls
+            for cls in pending
+        }
+        for future in as_completed(futures):
+            cls = futures[future]
+            try:
+                name, profile = future.result()
+            except Exception as exc:
+                name = cls.common_name
+                desc_row  = descriptions.get(name.lower(), {})
+                short     = desc_row.get("very_short_description", name)
+                profile   = static_fallback_profile(name, short, cls.guilds)
+                print(f"  {name} — exception: {exc}, using fallback")
 
-        print(f"[{i}/{len(classes)}] {name} ({scientific}) ...", end=" ", flush=True)
-        profile = generate_scene_profile(name, scientific, condensed, characteristics, api_key, model)
-
-        if profile is None:
-            print(f"FAILED — using fallback")
-            profiles[name] = static_fallback_profile(name, short_desc, cls.guilds)
-        else:
-            print("ok")
-            profiles[name] = profile
-
-        PROFILES_JSON.parent.mkdir(parents=True, exist_ok=True)
-        with open(PROFILES_JSON, "w", encoding="utf-8") as f:
-            json.dump(profiles, f, indent=2, ensure_ascii=False)
-
-        if i < len(classes):
-            time.sleep(1)
+            with lock:
+                done += 1
+                profiles[name] = profile
+                status = "fallback" if profile.get("environments", [""])[0].endswith("variant 1") else "ok"
+                print(f"  [{done}/{total}] {name} — {status}")
+                with open(PROFILES_JSON, "w", encoding="utf-8") as f:
+                    json.dump(profiles, f, indent=2, ensure_ascii=False)
 
     return profiles
 
 # ---------------------------------------------------------------------------
 # Prompt assembly (Stage 2)
 # ---------------------------------------------------------------------------
-
-PHOTOGRAPHY_STYLE_BOKEH = (
-    "Telephoto lens (400–600 mm equivalent), natural shallow depth of field "
-    "with background softly blurred, authentic field conditions."
-)
 
 PHOTOGRAPHY_STYLE_NO_BOKEH = (
     "Wildlife observation through optical binoculars (8–10× magnification), "
@@ -735,7 +723,6 @@ def build_prompt(
     environment_description: str,
     focus_note: str,
     key_diagnostic_features: str,
-    bokeh: bool = False,
 ) -> str:
     return PROMPT_TEMPLATE.format(
         subject_line=subject_line,
@@ -751,7 +738,7 @@ def build_prompt(
         occlusion_description=OCCLUSION_DESCRIPTIONS.get(occlusion_code, occlusion_code),
         focus_note=focus_note,
         key_diagnostic_features=key_diagnostic_features,
-        photography_style=PHOTOGRAPHY_STYLE_BOKEH if bokeh else PHOTOGRAPHY_STYLE_NO_BOKEH,
+        photography_style=PHOTOGRAPHY_STYLE_NO_BOKEH,
     )
 
 
@@ -759,221 +746,208 @@ def slugify(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
 
 
-def run_stage2(
+def _stage2_worker(
+    cls: ClassConfig,
+    descriptions: dict[str, dict],
+    cn_index: dict[str, tuple],
+    scene_profiles: dict[str, dict],
+    force: bool,
+) -> tuple[str, int]:
+    """Write prompt files for one class. Returns (common_name, files_written). Thread-safe."""
+    slug      = slugify(cls.common_name)
+    class_dir = TEST_PROMPTS_DIR / slug
+    total_per_class = sum(g.count for g in TEST_SCHEDULE)
+
+    existing = len(list(class_dir.glob("*.txt"))) if class_dir.exists() else 0
+    if not force and existing >= total_per_class:
+        return cls.common_name, 0
+
+    class_dir.mkdir(parents=True, exist_ok=True)
+
+    wiki_key, wiki_entry = cn_index.get(cls.common_name.lower(), (None, None))
+    if wiki_entry is None:
+        wiki_entry = {"scientific_name": cls.common_name, "common_name": cls.common_name,
+                      "wikipedia_file": "", "level": "species", "top_species": None}
+
+    rep_species = get_representative_species(wiki_entry, cls.common_name)
+    is_multi    = len(rep_species) > 1
+
+    genus_desc_prefix = ""
+    if is_multi and wiki_entry.get("wikipedia_file"):
+        g_desc, _, _ = load_wiki_sections(wiki_entry["wikipedia_file"])
+        if g_desc:
+            genus_desc_prefix = g_desc[:600] + "\n\n"
+
+    profile = scene_profiles.get(cls.common_name)
+    if profile is None:
+        desc_row = descriptions.get(cls.common_name.lower(), {})
+        short    = desc_row.get("very_short_description", cls.common_name)
+        profile  = static_fallback_profile(cls.common_name, short, cls.guilds)
+
+    key_features = profile.get("key_diagnostic_features", cls.common_name)
+    environments = profile.get("environments") or ["natural habitat"]
+    focus_notes  = profile.get("focus_notes", {})
+
+    global_idx = 0
+    written    = 0
+
+    for group in TEST_SCHEDULE:
+        for slot_idx in range(group.count):
+            image_num = global_idx + 1
+            txt_path  = class_dir / f"{image_num:03d}.txt"
+
+            if not force and txt_path.exists():
+                global_idx += 1
+                continue
+
+            angle_code    = resolve_angle(group.shot_type, slot_idx)
+            sp            = rep_species[global_idx % len(rep_species)]
+            sp_scientific = sp["scientific_name"]
+            sp_common     = sp.get("common_name", sp_scientific)
+            sp_wiki_file  = sp.get("wikipedia_file", "")
+
+            if is_multi:
+                subject_line = (
+                    f"{sp_common} ({sp_scientific}), "
+                    f"a member of the {cls.common_name} group"
+                )
+                subject_name = sp_common
+            else:
+                subject_line = f"{sp_common} ({sp_scientific})"
+                subject_name = sp_common
+
+            s_desc, s_behavior, s_habitat = load_wiki_sections(sp_wiki_file)
+            desc_text     = genus_desc_prefix + s_desc
+            behavior_text = s_behavior
+            habitat_text  = s_habitat
+
+            lighting_code           = VAL_LIGHTING_POOL[global_idx % len(VAL_LIGHTING_POOL)]
+            environment_description = environments[global_idx % len(environments)]
+            behavior_description    = TEST_BEHAVIOR_DESCRIPTIONS[
+                group.val_behavior_code
+            ].format(name=subject_name)
+            focus_note = focus_notes.get("default", "")
+
+            prompt_text = build_prompt(
+                subject_line=subject_line,
+                subject_name=subject_name,
+                desc_text=desc_text,
+                behavior_text=behavior_text,
+                habitat_text=habitat_text,
+                angle_code=angle_code,
+                distance_code=group.distance,
+                lighting_code=lighting_code,
+                occlusion_code=group.occlusion,
+                behavior_description=behavior_description,
+                environment_description=environment_description,
+                focus_note=focus_note,
+                key_diagnostic_features=key_features,
+            )
+
+            txt_path.write_text(prompt_text, encoding="utf-8")
+            global_idx += 1
+            written    += 1
+
+    return cls.common_name, written
+
+
+def run_stage2_test(
     classes: list[ClassConfig],
     descriptions: dict[str, dict],
     cn_index: dict[str, tuple],
     scene_profiles: dict[str, dict],
     force: bool,
+    workers: int = 8,
 ) -> None:
-    prompts_dir = SYNTHETIC_DIR / "prompts"
-    prompts_dir.mkdir(parents=True, exist_ok=True)
+    TEST_PROMPTS_DIR.mkdir(parents=True, exist_ok=True)
 
-    for cls in classes:
-        slug = slugify(cls.common_name)
-        class_dir = prompts_dir / slug
-        schedule = BAND_A_SCHEDULE if cls.band == "A" else BAND_B_SCHEDULE
-        total = sum(g.count for g in schedule)
+    done  = 0
+    total = len(classes)
 
-        existing = len(list(class_dir.glob("*.txt"))) if class_dir.exists() else 0
-        if not force and existing >= total:
-            print(f"  {cls.common_name} — {existing} prompt files already exist, skipping")
-            continue
-
-        class_dir.mkdir(parents=True, exist_ok=True)
-
-        # Resolve wiki entry and representative species
-        wiki_key, wiki_entry = cn_index.get(cls.common_name.lower(), (None, None))
-        if wiki_entry is None:
-            print(f"  WARNING: {cls.common_name} not found in wikipedia_urls.json")
-            wiki_entry = {"scientific_name": cls.common_name, "common_name": cls.common_name,
-                          "wikipedia_file": "", "level": "species", "top_species": None}
-
-        rep_species = get_representative_species(wiki_entry, cls.common_name)
-        is_multi = len(rep_species) > 1
-
-        # Load genus article sections (for genus/family classes)
-        genus_desc_prefix = ""
-        if is_multi and wiki_entry.get("wikipedia_file"):
-            g_desc, _, _ = load_wiki_sections(wiki_entry["wikipedia_file"])
-            if g_desc:
-                genus_desc_prefix = g_desc[:600] + "\n\n"
-
-        profile = scene_profiles.get(cls.common_name)
-        if profile is None:
-            desc_row = descriptions.get(cls.common_name.lower(), {})
-            short = desc_row.get("very_short_description", cls.common_name)
-            profile = static_fallback_profile(cls.common_name, short, cls.guilds)
-
-        key_features = profile.get("key_diagnostic_features", cls.common_name)
-        environments = profile.get("environments") or ["natural habitat"]
-        behaviors = profile.get("behaviors", {})
-        focus_notes = profile.get("focus_notes", {})
-
-        global_idx = 0  # 0-based image counter within this class
-
-        for group in schedule:
-            for slot_idx in range(group.count):
-                image_num = global_idx + 1
-                fname = f"{image_num:03d}.txt"
-                txt_path = class_dir / fname
-
-                if not force and txt_path.exists():
-                    global_idx += 1
-                    continue
-
-                # Resolve angle (handles "varies" and "species_specific")
-                angle_code = resolve_angle(group.shot_type, slot_idx)
-
-                # Select representative species for this image
-                sp = rep_species[global_idx % len(rep_species)]
-                sp_scientific = sp["scientific_name"]
-                sp_common = sp.get("common_name", sp_scientific)
-                sp_wiki_file = sp.get("wikipedia_file", "")
-
-                # Subject line
-                if is_multi:
-                    subject_line = (
-                        f"{sp_common} ({sp_scientific}), "
-                        f"a member of the {cls.common_name} group"
-                    )
-                    subject_name = sp_common
-                else:
-                    subject_line = f"{sp_common} ({sp_scientific})"
-                    subject_name = sp_common
-
-                # Wikipedia sections
-                s_desc, s_behavior, s_habitat = load_wiki_sections(sp_wiki_file)
-                desc_text = genus_desc_prefix + s_desc
-                behavior_text = s_behavior
-                habitat_text = s_habitat
-
-                # Lighting
-                if group.val_behavior_code is not None:
-                    lighting_code = VAL_LIGHTING_POOL[global_idx % len(VAL_LIGHTING_POOL)]
-                else:
-                    lighting_code = LIGHTING_POOL[global_idx % len(LIGHTING_POOL)]
-
-                # Environment (cycle through all 8)
-                environment_description = environments[global_idx % len(environments)]
-
-                # Behavior description
-                if group.val_behavior_code is not None:
-                    behavior_description = VAL_BEHAVIOR_DESCRIPTIONS[
-                        group.val_behavior_code
-                    ].format(name=subject_name)
-                else:
-                    behavior_key = group.shot_type
-                    if group.shot_type in ("varies",):
-                        behavior_key = angle_code
-                    if group.shot_type == "species_specific":
-                        behavior_key = "species_specific"
-                    b_pool = behaviors.get(behavior_key) or behaviors.get("eye_level") or [subject_name]
-                    behavior_description = b_pool[slot_idx % len(b_pool)]
-
-                # Focus note
-                if group.shot_type == "closeup_head":
-                    focus_note = focus_notes.get("closeup_head", focus_notes.get("default", ""))
-                else:
-                    focus_note = focus_notes.get("default", "")
-
-                # Occlusion
-                occlusion_code = group.occlusion
-
-                prompt_text = build_prompt(
-                    subject_line=subject_line,
-                    subject_name=subject_name,
-                    desc_text=desc_text,
-                    behavior_text=behavior_text,
-                    habitat_text=habitat_text,
-                    angle_code=angle_code,
-                    distance_code=group.distance,
-                    lighting_code=lighting_code,
-                    occlusion_code=occlusion_code,
-                    behavior_description=behavior_description,
-                    environment_description=environment_description,
-                    focus_note=focus_note,
-                    key_diagnostic_features=key_features,
-                )
-
-                txt_path.write_text(prompt_text, encoding="utf-8")
-                global_idx += 1
-
-        print(f"  {cls.common_name} — wrote {global_idx} prompt files")
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(_stage2_worker, cls, descriptions, cn_index, scene_profiles, force): cls
+            for cls in classes
+        }
+        for future in as_completed(futures):
+            cls = futures[future]
+            try:
+                name, written = future.result()
+            except Exception as exc:
+                name    = cls.common_name
+                written = -1
+                print(f"  ERROR {name}: {exc}")
+            done += 1
+            if written == 0:
+                print(f"  [{done}/{total}] {name} — already complete, skipped")
+            elif written < 0:
+                pass
+            else:
+                print(f"  [{done}/{total}] {name} — wrote {written} prompt files")
 
 # ---------------------------------------------------------------------------
-# Index writing (final pass)
+# Index writing
 # ---------------------------------------------------------------------------
 
-def write_index(
+def write_test_index(
     classes: list[ClassConfig],
     cn_index: dict[str, tuple],
     descriptions: dict[str, dict],
 ) -> None:
-    prompts_dir = SYNTHETIC_DIR / "prompts"
-    records = []
+    records: list[dict] = []
 
     for cls in classes:
-        slug = slugify(cls.common_name)
-        class_dir = prompts_dir / slug
+        slug      = slugify(cls.common_name)
+        class_dir = TEST_PROMPTS_DIR / slug
         if not class_dir.exists():
             continue
-
-        schedule = BAND_A_SCHEDULE if cls.band == "A" else BAND_B_SCHEDULE
 
         wiki_key, wiki_entry = cn_index.get(cls.common_name.lower(), (None, None))
         if wiki_entry is None:
             wiki_entry = {"scientific_name": cls.common_name, "common_name": cls.common_name,
                           "wikipedia_file": "", "level": "species", "top_species": None}
 
-        rep_species = get_representative_species(wiki_entry, cls.common_name)
-        desc_row = descriptions.get(cls.common_name.lower(), {})
-        scientific_class = desc_row.get("scientific_name", wiki_entry.get("scientific_name", ""))
+        rep_species    = get_representative_species(wiki_entry, cls.common_name)
+        desc_row       = descriptions.get(cls.common_name.lower(), {})
+        scientific_cls = desc_row.get("scientific_name", wiki_entry.get("scientific_name", ""))
 
         global_idx = 0
-        for group in schedule:
+        for group in TEST_SCHEDULE:
             for slot_idx in range(group.count):
-                image_num = global_idx + 1
+                image_num  = global_idx + 1
                 fname_base = f"{image_num:03d}"
-                txt_file = class_dir / f"{fname_base}.txt"
+                txt_file   = class_dir / f"{fname_base}.txt"
                 if not txt_file.exists():
                     global_idx += 1
                     continue
 
-                sp = rep_species[global_idx % len(rep_species)]
+                sp         = rep_species[global_idx % len(rep_species)]
                 angle_code = resolve_angle(group.shot_type, slot_idx)
-
-                if group.val_behavior_code is not None:
-                    lighting_code = VAL_LIGHTING_POOL[global_idx % len(VAL_LIGHTING_POOL)]
-                else:
-                    lighting_code = LIGHTING_POOL[global_idx % len(LIGHTING_POOL)]
-
-                band_lower = cls.band.lower()
-                image_filename = f"{band_lower}_{slug}_{image_num:03d}.png"
-                prompt_file = f"prompts/{slug}/{fname_base}.txt"
+                lighting_code = VAL_LIGHTING_POOL[global_idx % len(VAL_LIGHTING_POOL)]
 
                 records.append({
-                    "filename":    image_filename,
+                    "filename":    f"t_{slug}_{image_num:03d}.png",
                     "class":       cls.common_name,
-                    "scientific":  sp["scientific_name"] if len(rep_species) > 1 else scientific_class,
+                    "scientific":  sp["scientific_name"] if len(rep_species) > 1 else scientific_cls,
                     "band":        cls.band,
-                    "split":       group.split,
+                    "split":       "test",
                     "shot_type":   angle_code,
                     "distance":    group.distance,
                     "lighting":    lighting_code,
                     "occlusion":   group.occlusion,
-                    "prompt_file": prompt_file,
+                    "behavior":    group.val_behavior_code,
+                    "prompt_file": f"test_prompts/{slug}/{fname_base}.txt",
                     "bokeh":       False,
                     "status":      "pending",
                 })
                 global_idx += 1
 
-    INDEX_JSONL.parent.mkdir(parents=True, exist_ok=True)
-    with open(INDEX_JSONL, "w", encoding="utf-8") as f:
+    TEST_INDEX_JSONL.parent.mkdir(parents=True, exist_ok=True)
+    with open(TEST_INDEX_JSONL, "w", encoding="utf-8") as f:
         for rec in records:
             f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
-    print(f"\nWrote {len(records)} records to {INDEX_JSONL}")
+    print(f"\nWrote {len(records)} records to {TEST_INDEX_JSONL}")
 
 # ---------------------------------------------------------------------------
 # Main
@@ -981,12 +955,12 @@ def write_index(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Generate synthetic image prompt files and index.jsonl."
+        description="Generate synthetic test-set prompt files and test_index.jsonl (225 classes × 50 images)."
     )
     parser.add_argument(
         "--classes",
         default=None,
-        help="Comma-separated subset of class common names to process (default: all 76).",
+        help="Comma-separated subset of class common names to process (default: all 225).",
     )
     parser.add_argument(
         "--skip-llm",
@@ -1003,6 +977,12 @@ def main() -> None:
         default=DEFAULT_MODEL,
         help=f"OpenRouter model for scene profile generation (default: {DEFAULT_MODEL}).",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=8,
+        help="Number of parallel workers for Stage 1 (LLM calls) and Stage 2 (prompt writing). Default: 8.",
+    )
     args = parser.parse_args()
 
     load_dotenv()
@@ -1013,36 +993,43 @@ def main() -> None:
             "Add it to .env or use --skip-llm for testing without an API key."
         )
 
-    classes = ALL_CLASSES
+    wiki_urls   = load_wikipedia_urls(WIKI_URLS_JSON)
+    inat_counts = load_inat_counts(INAT_COUNTS_CSV)
+    all_classes = load_all_classes(wiki_urls, inat_counts)
+
+    classes = all_classes
     if args.classes:
         requested = {c.strip().lower() for c in args.classes.split(",")}
-        classes = [c for c in ALL_CLASSES if c.common_name.lower() in requested]
+        classes   = [c for c in all_classes if c.common_name.lower() in requested]
         not_found = requested - {c.common_name.lower() for c in classes}
         if not_found:
-            print(f"Warning: class(es) not found in config: {', '.join(sorted(not_found))}")
+            print(f"Warning: class(es) not found: {', '.join(sorted(not_found))}")
         if not classes:
             sys.exit("No matching classes found.")
 
-    print(f"Classes : {len(classes)}")
+    band_counts = {"A": 0, "B": 0, "C": 0, "D": 0}
+    for c in classes:
+        band_counts[c.band] += 1
+
+    total_images = len(classes) * sum(g.count for g in TEST_SCHEDULE)
+    print(f"Classes : {len(classes)}  (A={band_counts['A']} B={band_counts['B']} C={band_counts['C']} D={band_counts['D']})")
+    print(f"Images  : {total_images} ({len(classes)} × {sum(g.count for g in TEST_SCHEDULE)})")
+    print(f"Workers : {args.workers}")
     print(f"Model   : {args.model}")
     print(f"Skip LLM: {args.skip_llm}")
     print(f"Force   : {args.force}\n")
 
     descriptions = load_animal_descriptions(DESCRIPTIONS_CSV)
-    wiki_urls = load_wikipedia_urls(WIKI_URLS_JSON)
-    cn_index = build_common_name_index(wiki_urls)
+    cn_index     = build_common_name_index(wiki_urls)
 
-    # Stage 1 — scene profiles
     print("=== Stage 1: LLM scene profiles ===")
-    scene_profiles = run_stage1(classes, descriptions, api_key, args.model, args.skip_llm)
+    scene_profiles = run_stage1(classes, descriptions, api_key, args.model, args.skip_llm, args.workers)
 
-    # Stage 2 — prompt file expansion
     print("\n=== Stage 2: Prompt file generation ===")
-    run_stage2(classes, descriptions, cn_index, scene_profiles, args.force)
+    run_stage2_test(classes, descriptions, cn_index, scene_profiles, args.force, args.workers)
 
-    # Final — rebuild index.jsonl
-    print("\n=== Writing index.jsonl ===")
-    write_index(classes, cn_index, descriptions)
+    print("\n=== Writing test_index.jsonl ===")
+    write_test_index(classes, cn_index, descriptions)
 
     print("Done.")
 

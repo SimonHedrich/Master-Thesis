@@ -204,6 +204,13 @@ async def run(
             if not force and out_path.exists():
                 async with lock:
                     total_skipped += 1
+                    key = (rec["class"], rec["filename"])
+                    if key in rec_index and all_records[rec_index[key]]["status"] != "generated":
+                        all_records[rec_index[key]]["status"] = "generated"
+                        since_flush += 1
+                        if since_flush >= flush_every:
+                            save_index(all_records)
+                            since_flush = 0
                 return
 
             p_path = prompt_path(rec)

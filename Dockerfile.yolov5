@@ -1,0 +1,52 @@
+# Wildlife YOLOv5 training environment
+#
+# Pinned to PyTorch 2.0.1 + CUDA 11.8 for compatibility with YOLOv5@5cdad89
+# (later commits of YOLOv5 require an additional commercial license).
+#
+# Setup:
+#   git clone https://github.com/ultralytics/yolov5.git /opt/yolov5
+#   cd /opt/yolov5 && git checkout 5cdad89
+#   make docker-yolov5-build
+#   make docker-yolov5-shell
+FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        python3.10 python3.10-venv python3.10-dev python3-pip \
+        git make curl wget \
+        libgl1 libglib2.0-0 libsm6 libxext6 libxrender-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && python3.10 -m pip install --upgrade pip
+
+# PyTorch 2.0.1 with CUDA 11.8 — last version fully supported by YOLOv5@5cdad89.
+# The host driver (CUDA 12+) injects libcuda.so at runtime via NVIDIA container
+# runtime, so CUDA 11.8 toolkit here is only used at build time.
+RUN pip3 install \
+    torch==2.0.1+cu118 \
+    torchvision==0.15.2+cu118 \
+    --index-url https://download.pytorch.org/whl/cu118
+
+# YOLOv5 Python dependencies (from requirements.txt at commit 5cdad89).
+# The yolov5 source itself is mounted at /opt/yolov5 at runtime — not baked in
+# so the host checkout (with any patches) is always used.
+RUN pip3 install \
+    matplotlib>=3.2.2 \
+    numpy>=1.18.5 \
+    "opencv-python-headless>=4.1.2" \
+    Pillow \
+    "PyYAML>=5.3.1" \
+    "requests>=2.23.0" \
+    "scipy>=1.4.1" \
+    "tqdm>=4.41.0" \
+    "seaborn>=0.11.0" \
+    pandas \
+    thop \
+    "mlflow>=3.0.0"
+
+WORKDIR /opt/yolov5
+
+# yolov5 source is expected at /opt/yolov5 (bind-mounted by docker run -v)
+# repo is expected at /app (bind-mounted by docker run -v)

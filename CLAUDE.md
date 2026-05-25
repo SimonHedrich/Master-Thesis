@@ -50,7 +50,7 @@ Does distilling a large teacher model into a lightweight student model yield bet
 ### Important Constraints
 - **YOLOv5 license:** Only commercially usable up to commit `5cdad89` — later commits require additional licensing
 - Run own benchmarks rather than relying on published numbers
-- Evaluate synthetic data only on real photographs (train on mix, test on real)
+- The **real test set is the primary evaluation** reported in the thesis (train on mix, test on real). A **synthetic test set** (225 classes × 50 images) exists as a secondary instrument for ablations, standardized per-class accuracy, and real-vs-synthetic domain shift measurement — not as a replacement for the real test set.
 
 ## Maintaining Documentation
 

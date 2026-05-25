@@ -1,0 +1,6524 @@
+{
+  "aardvark": {
+    "band": "A",
+    "csv_pool": 28,
+    "pool": 55,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 54,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7613,
+      "p25": 0.6554,
+      "p50": 0.8151,
+      "p75": 0.9642
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 12,
+      "inaturalist": 27,
+      "wikimedia": 15
+    }
+  },
+  "aardwolf": {
+    "band": "A",
+    "csv_pool": 39,
+    "pool": 48,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 47,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7818,
+      "p25": 0.5569,
+      "p50": 0.8958,
+      "p75": 0.9738
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 15,
+      "wikimedia": 32
+    }
+  },
+  "african buffalo": {
+    "band": "D",
+    "csv_pool": 2051,
+    "pool": 2050,
+    "hard_excluded": 45,
+    "train": 1500,
+    "val": 100,
+    "test": 307,
+    "surplus": 98,
+    "q_stats": {
+      "mean": 0.7818,
+      "p25": 0.6305,
+      "p50": 0.8436,
+      "p75": 0.9515
+    },
+    "train_sources": {
+      "gbif": 190,
+      "inaturalist": 1069,
+      "wikimedia": 241
+    },
+    "val_sources": {
+      "gbif": 14,
+      "inaturalist": 71,
+      "wikimedia": 15
+    },
+    "test_sources": {
+      "gbif": 37,
+      "inaturalist": 224,
+      "wikimedia": 46
+    }
+  },
+  "african civet": {
+    "band": "A",
+    "csv_pool": 6,
+    "pool": 30,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 28,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.6954,
+      "p25": 0.5257,
+      "p50": 0.691,
+      "p75": 0.8834
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 7,
+      "inaturalist": 12,
+      "wikimedia": 9
+    }
+  },
+  "african elephant": {
+    "band": "D",
+    "csv_pool": 4338,
+    "pool": 4338,
+    "hard_excluded": 91,
+    "train": 1500,
+    "val": 100,
+    "test": 500,
+    "surplus": 2147,
+    "q_stats": {
+      "mean": 0.8161,
+      "p25": 0.6896,
+      "p50": 0.8528,
+      "p75": 0.974
+    },
+    "train_sources": {
+      "gbif": 212,
+      "inaturalist": 922,
+      "wikimedia": 366
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 90,
+      "wikimedia": 8
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 422,
+      "wikimedia": 50
+    }
+  },
+  "african wild dog": {
+    "band": "B",
+    "csv_pool": 229,
+    "pool": 907,
+    "hard_excluded": 22,
+    "train": 85,
+    "val": 20,
+    "test": 780,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7771,
+      "p25": 0.6272,
+      "p50": 0.8429,
+      "p75": 0.9175
+    },
+    "train_sources": {
+      "gbif": 16,
+      "inaturalist": 25,
+      "wikimedia": 44
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 10,
+      "wikimedia": 6
+    },
+    "test_sources": {
+      "gbif": 135,
+      "inaturalist": 320,
+      "wikimedia": 325
+    }
+  },
+  "agouti genus": {
+    "band": "D",
+    "csv_pool": 1853,
+    "pool": 1853,
+    "hard_excluded": 26,
+    "train": 1450,
+    "val": 100,
+    "test": 277,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.9066,
+      "p25": 0.8827,
+      "p50": 0.9696,
+      "p75": 0.9843
+    },
+    "train_sources": {
+      "gbif": 90,
+      "inaturalist": 1323,
+      "wikimedia": 37
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 95
+    },
+    "test_sources": {
+      "gbif": 17,
+      "inaturalist": 253,
+      "wikimedia": 7
+    }
+  },
+  "alpine ibex": {
+    "band": "D",
+    "csv_pool": 418,
+    "pool": 1294,
+    "hard_excluded": 14,
+    "train": 306,
+    "val": 29,
+    "test": 83,
+    "surplus": 862,
+    "q_stats": {
+      "mean": 0.8479,
+      "p25": 0.7342,
+      "p50": 0.9033,
+      "p75": 0.9815
+    },
+    "train_sources": {
+      "gbif": 94,
+      "inaturalist": 183,
+      "wikimedia": 29
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 24,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 14,
+      "inaturalist": 65,
+      "wikimedia": 4
+    }
+  },
+  "alpine marmot": {
+    "band": "D",
+    "csv_pool": 1716,
+    "pool": 1716,
+    "hard_excluded": 7,
+    "train": 1352,
+    "val": 100,
+    "test": 257,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8584,
+      "p25": 0.7213,
+      "p50": 0.9349,
+      "p75": 0.9702
+    },
+    "train_sources": {
+      "gbif": 149,
+      "inaturalist": 1177,
+      "wikimedia": 26
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 90
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 224,
+      "wikimedia": 5
+    }
+  },
+  "american badger": {
+    "band": "B",
+    "csv_pool": 215,
+    "pool": 389,
+    "hard_excluded": 11,
+    "train": 85,
+    "val": 20,
+    "test": 273,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8157,
+      "p25": 0.6737,
+      "p50": 0.8969,
+      "p75": 0.9687
+    },
+    "train_sources": {
+      "gbif": 28,
+      "inaturalist": 56,
+      "wikimedia": 1
+    },
+    "val_sources": {
+      "gbif": 8,
+      "inaturalist": 12
+    },
+    "test_sources": {
+      "gbif": 70,
+      "inaturalist": 191,
+      "wikimedia": 12
+    }
+  },
+  "american bison": {
+    "band": "D",
+    "csv_pool": 2320,
+    "pool": 2319,
+    "hard_excluded": 31,
+    "train": 1500,
+    "val": 100,
+    "test": 348,
+    "surplus": 340,
+    "q_stats": {
+      "mean": 0.8319,
+      "p25": 0.7029,
+      "p50": 0.8948,
+      "p75": 0.9811
+    },
+    "train_sources": {
+      "gbif": 167,
+      "inaturalist": 1259,
+      "wikimedia": 74
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 87,
+      "wikimedia": 8
+    },
+    "test_sources": {
+      "gbif": 31,
+      "inaturalist": 302,
+      "wikimedia": 15
+    }
+  },
+  "american black bear": {
+    "band": "D",
+    "csv_pool": 3436,
+    "pool": 3436,
+    "hard_excluded": 30,
+    "train": 1500,
+    "val": 100,
+    "test": 500,
+    "surplus": 1306,
+    "q_stats": {
+      "mean": 0.8567,
+      "p25": 0.7306,
+      "p50": 0.9312,
+      "p75": 0.9781
+    },
+    "train_sources": {
+      "gbif": 112,
+      "inaturalist": 1347,
+      "wikimedia": 41
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 96,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 20,
+      "inaturalist": 473,
+      "wikimedia": 7
+    }
+  },
+  "american mink": {
+    "band": "B",
+    "csv_pool": 176,
+    "pool": 830,
+    "hard_excluded": 10,
+    "train": 85,
+    "val": 20,
+    "test": 715,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8365,
+      "p25": 0.7303,
+      "p50": 0.9162,
+      "p75": 0.9718
+    },
+    "train_sources": {
+      "gbif": 32,
+      "images_cv": 52,
+      "wikimedia": 1
+    },
+    "val_sources": {
+      "gbif": 4,
+      "images_cv": 16
+    },
+    "test_sources": {
+      "gbif": 136,
+      "images_cv": 559,
+      "wikimedia": 20
+    }
+  },
+  "arizona black-tailed prairie dog": {
+    "band": "D",
+    "csv_pool": 1800,
+    "pool": 1800,
+    "hard_excluded": 7,
+    "train": 1423,
+    "val": 100,
+    "test": 270,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8409,
+      "p25": 0.6797,
+      "p50": 0.899,
+      "p75": 0.9745
+    },
+    "train_sources": {
+      "gbif": 170,
+      "inaturalist": 1211,
+      "wikimedia": 42
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 94
+    },
+    "test_sources": {
+      "gbif": 31,
+      "inaturalist": 231,
+      "wikimedia": 8
+    }
+  },
+  "asian elephant": {
+    "band": "B",
+    "csv_pool": 224,
+    "pool": 1535,
+    "hard_excluded": 26,
+    "train": 85,
+    "val": 20,
+    "test": 1404,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8116,
+      "p25": 0.6815,
+      "p50": 0.8878,
+      "p75": 0.9763
+    },
+    "train_sources": {
+      "gbif": 12,
+      "inaturalist": 48,
+      "openimages": 13,
+      "wikimedia": 12
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 11,
+      "openimages": 5,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 172,
+      "inaturalist": 894,
+      "openimages": 213,
+      "wikimedia": 125
+    }
+  },
+  "asiatic black bear": {
+    "band": "A",
+    "csv_pool": 88,
+    "pool": 106,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 104,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8071,
+      "p25": 0.6818,
+      "p50": 0.9066,
+      "p75": 0.9842
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 15,
+      "inaturalist": 56,
+      "wikimedia": 33
+    }
+  },
+  "asiatic wild ass": {
+    "band": "A",
+    "csv_pool": 78,
+    "pool": 84,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 84,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.818,
+      "p25": 0.6889,
+      "p50": 0.8491,
+      "p75": 0.913
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 13,
+      "inaturalist": 64,
+      "wikimedia": 7
+    }
+  },
+  "ateles species": {
+    "band": "D",
+    "csv_pool": 1437,
+    "pool": 1437,
+    "hard_excluded": 23,
+    "train": 1099,
+    "val": 100,
+    "test": 215,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8457,
+      "p25": 0.7677,
+      "p50": 0.9138,
+      "p75": 0.9546
+    },
+    "train_sources": {
+      "gbif": 50,
+      "inaturalist": 1022,
+      "wikimedia": 27
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 95,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 9,
+      "inaturalist": 200,
+      "wikimedia": 6
+    }
+  },
+  "aye-aye": {
+    "band": "A",
+    "csv_pool": 18,
+    "pool": 31,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 29,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.777,
+      "p25": 0.6632,
+      "p50": 0.8192,
+      "p75": 0.9235
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 13,
+      "wikimedia": 6
+    }
+  },
+  "baboon genus": {
+    "band": "D",
+    "csv_pool": 2486,
+    "pool": 2486,
+    "hard_excluded": 27,
+    "train": 1500,
+    "val": 100,
+    "test": 372,
+    "surplus": 487,
+    "q_stats": {
+      "mean": 0.8331,
+      "p25": 0.7379,
+      "p50": 0.8858,
+      "p75": 0.9621
+    },
+    "train_sources": {
+      "gbif": 176,
+      "inaturalist": 1248,
+      "wikimedia": 76
+    },
+    "val_sources": {
+      "gbif": 12,
+      "inaturalist": 85,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 33,
+      "inaturalist": 325,
+      "wikimedia": 14
+    }
+  },
+  "baird's tapir": {
+    "band": "B",
+    "csv_pool": 193,
+    "pool": 332,
+    "hard_excluded": 7,
+    "train": 85,
+    "val": 20,
+    "test": 220,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8379,
+      "p25": 0.711,
+      "p50": 0.9106,
+      "p75": 0.9794
+    },
+    "train_sources": {
+      "gbif": 21,
+      "inaturalist": 61,
+      "wikimedia": 3
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 10
+    },
+    "test_sources": {
+      "gbif": 57,
+      "inaturalist": 157,
+      "wikimedia": 6
+    }
+  },
+  "bat-eared fox": {
+    "band": "B",
+    "csv_pool": 190,
+    "pool": 228,
+    "hard_excluded": 1,
+    "train": 85,
+    "val": 20,
+    "test": 122,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8559,
+      "p25": 0.743,
+      "p50": 0.913,
+      "p75": 0.9849
+    },
+    "train_sources": {
+      "gbif": 28,
+      "inaturalist": 54,
+      "wikimedia": 3
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 17
+    },
+    "test_sources": {
+      "gbif": 37,
+      "inaturalist": 83,
+      "wikimedia": 2
+    }
+  },
+  "beaver genus": {
+    "band": "D",
+    "csv_pool": 2162,
+    "pool": 2162,
+    "hard_excluded": 41,
+    "train": 1500,
+    "val": 100,
+    "test": 324,
+    "surplus": 197,
+    "q_stats": {
+      "mean": 0.8442,
+      "p25": 0.7133,
+      "p50": 0.9214,
+      "p75": 0.9652
+    },
+    "train_sources": {
+      "gbif": 17,
+      "inaturalist": 1479,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "inaturalist": 100
+    },
+    "test_sources": {
+      "gbif": 3,
+      "inaturalist": 320,
+      "wikimedia": 1
+    }
+  },
+  "bighorn sheep": {
+    "band": "D",
+    "csv_pool": 3167,
+    "pool": 3167,
+    "hard_excluded": 37,
+    "train": 1500,
+    "val": 100,
+    "test": 475,
+    "surplus": 1055,
+    "q_stats": {
+      "mean": 0.8192,
+      "p25": 0.6827,
+      "p50": 0.8527,
+      "p75": 0.9739
+    },
+    "train_sources": {
+      "gbif": 183,
+      "inaturalist": 1292,
+      "wikimedia": 25
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 89,
+      "wikimedia": 7
+    },
+    "test_sources": {
+      "gbif": 33,
+      "inaturalist": 436,
+      "wikimedia": 6
+    }
+  },
+  "binturong": {
+    "band": "A",
+    "csv_pool": 31,
+    "pool": 36,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 36,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.807,
+      "p25": 0.689,
+      "p50": 0.9212,
+      "p75": 0.9512
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 9,
+      "inaturalist": 18,
+      "wikimedia": 9
+    }
+  },
+  "black wildebeest": {
+    "band": "B",
+    "csv_pool": 162,
+    "pool": 170,
+    "hard_excluded": 0,
+    "train": 85,
+    "val": 20,
+    "test": 65,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8347,
+      "p25": 0.7294,
+      "p50": 0.8961,
+      "p75": 0.9796
+    },
+    "train_sources": {
+      "gbif": 34,
+      "inaturalist": 50,
+      "wikimedia": 1
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 15,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 27,
+      "inaturalist": 36,
+      "wikimedia": 2
+    }
+  },
+  "black-backed jackal": {
+    "band": "A",
+    "csv_pool": 112,
+    "pool": 127,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 127,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8695,
+      "p25": 0.8352,
+      "p50": 0.9276,
+      "p75": 0.9863
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 87,
+      "wikimedia": 40
+    }
+  },
+  "blackbuck": {
+    "band": "D",
+    "csv_pool": 428,
+    "pool": 448,
+    "hard_excluded": 4,
+    "train": 314,
+    "val": 29,
+    "test": 85,
+    "surplus": 16,
+    "q_stats": {
+      "mean": 0.8657,
+      "p25": 0.7817,
+      "p50": 0.9125,
+      "p75": 0.9867
+    },
+    "train_sources": {
+      "gbif": 110,
+      "inaturalist": 192,
+      "wikimedia": 12
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 18,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 53,
+      "wikimedia": 4
+    }
+  },
+  "blesbok": {
+    "band": "D",
+    "csv_pool": 439,
+    "pool": 823,
+    "hard_excluded": 3,
+    "train": 322,
+    "val": 30,
+    "test": 87,
+    "surplus": 381,
+    "q_stats": {
+      "mean": 0.8379,
+      "p25": 0.7283,
+      "p50": 0.895,
+      "p75": 0.9802
+    },
+    "train_sources": {
+      "gbif": 118,
+      "inaturalist": 193,
+      "wikimedia": 11
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 23
+    },
+    "test_sources": {
+      "gbif": 24,
+      "inaturalist": 61,
+      "wikimedia": 2
+    }
+  },
+  "bobcat": {
+    "band": "D",
+    "csv_pool": 1861,
+    "pool": 1861,
+    "hard_excluded": 25,
+    "train": 1457,
+    "val": 100,
+    "test": 279,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8792,
+      "p25": 0.7947,
+      "p50": 0.9592,
+      "p75": 0.9808
+    },
+    "train_sources": {
+      "gbif": 84,
+      "inaturalist": 1361,
+      "wikimedia": 12
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 94
+    },
+    "test_sources": {
+      "gbif": 16,
+      "inaturalist": 261,
+      "wikimedia": 2
+    }
+  },
+  "bongo": {
+    "band": "A",
+    "csv_pool": 39,
+    "pool": 40,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 39,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8186,
+      "p25": 0.696,
+      "p50": 0.879,
+      "p75": 0.985
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 1,
+      "inaturalist": 33,
+      "wikimedia": 5
+    }
+  },
+  "bornean orangutan": {
+    "band": "C",
+    "csv_pool": 277,
+    "pool": 1090,
+    "hard_excluded": 42,
+    "train": 170,
+    "val": 30,
+    "test": 848,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7188,
+      "p25": 0.5147,
+      "p50": 0.7581,
+      "p75": 0.9325
+    },
+    "train_sources": {
+      "gbif": 28,
+      "images_cv": 80,
+      "inaturalist": 51,
+      "wikimedia": 11
+    },
+    "val_sources": {
+      "gbif": 3,
+      "images_cv": 19,
+      "inaturalist": 8
+    },
+    "test_sources": {
+      "gbif": 92,
+      "images_cv": 533,
+      "inaturalist": 195,
+      "wikimedia": 28
+    }
+  },
+  "brown bear": {
+    "band": "D",
+    "csv_pool": 1523,
+    "pool": 1522,
+    "hard_excluded": 19,
+    "train": 1175,
+    "val": 100,
+    "test": 228,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8337,
+      "p25": 0.7017,
+      "p50": 0.9025,
+      "p75": 0.9795
+    },
+    "train_sources": {
+      "gbif": 112,
+      "inaturalist": 945,
+      "wikimedia": 118
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 80,
+      "wikimedia": 10
+    },
+    "test_sources": {
+      "gbif": 22,
+      "inaturalist": 183,
+      "wikimedia": 23
+    }
+  },
+  "brown hyaena": {
+    "band": "A",
+    "csv_pool": 55,
+    "pool": 69,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 68,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8689,
+      "p25": 0.7549,
+      "p50": 0.9696,
+      "p75": 0.9868
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 17,
+      "inaturalist": 44,
+      "wikimedia": 7
+    }
+  },
+  "brown-throated sloth": {
+    "band": "D",
+    "csv_pool": 1518,
+    "pool": 1518,
+    "hard_excluded": 36,
+    "train": 1155,
+    "val": 100,
+    "test": 227,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8246,
+      "p25": 0.7269,
+      "p50": 0.9065,
+      "p75": 0.9531
+    },
+    "train_sources": {
+      "gbif": 162,
+      "inaturalist": 980,
+      "wikimedia": 13
+    },
+    "val_sources": {
+      "gbif": 14,
+      "inaturalist": 86
+    },
+    "test_sources": {
+      "gbif": 32,
+      "inaturalist": 193,
+      "wikimedia": 2
+    }
+  },
+  "bushbuck": {
+    "band": "C",
+    "csv_pool": 307,
+    "pool": 391,
+    "hard_excluded": 3,
+    "train": 170,
+    "val": 30,
+    "test": 188,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.867,
+      "p25": 0.7716,
+      "p50": 0.9363,
+      "p75": 0.9847
+    },
+    "train_sources": {
+      "gbif": 141,
+      "inaturalist": 29
+    },
+    "val_sources": {
+      "gbif": 22,
+      "inaturalist": 8
+    },
+    "test_sources": {
+      "gbif": 158,
+      "inaturalist": 27,
+      "wikimedia": 3
+    }
+  },
+  "california ground squirrel": {
+    "band": "D",
+    "csv_pool": 5627,
+    "pool": 5627,
+    "hard_excluded": 87,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 3390,
+    "q_stats": {
+      "mean": 0.8645,
+      "p25": 0.7589,
+      "p50": 0.9415,
+      "p75": 0.9728
+    },
+    "train_sources": {
+      "gbif": 224,
+      "inaturalist": 1267,
+      "wikimedia": 9
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 140
+    },
+    "test_sources": {
+      "gbif": 23,
+      "inaturalist": 476,
+      "wikimedia": 1
+    }
+  },
+  "callicebus genus": {
+    "band": "A",
+    "csv_pool": 112,
+    "pool": 121,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 119,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8261,
+      "p25": 0.6866,
+      "p50": 0.8975,
+      "p75": 0.9679
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 34,
+      "inaturalist": 78,
+      "wikimedia": 7
+    }
+  },
+  "callithrix species": {
+    "band": "D",
+    "csv_pool": 1736,
+    "pool": 1736,
+    "hard_excluded": 78,
+    "train": 1298,
+    "val": 100,
+    "test": 260,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8445,
+      "p25": 0.7351,
+      "p50": 0.9125,
+      "p75": 0.9646
+    },
+    "train_sources": {
+      "gbif": 184,
+      "inaturalist": 1074,
+      "wikimedia": 40
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 90
+    },
+    "test_sources": {
+      "gbif": 36,
+      "inaturalist": 217,
+      "wikimedia": 7
+    }
+  },
+  "canada lynx": {
+    "band": "B",
+    "csv_pool": 151,
+    "pool": 166,
+    "hard_excluded": 1,
+    "train": 85,
+    "val": 16,
+    "test": 64,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.864,
+      "p25": 0.7006,
+      "p50": 0.9334,
+      "p75": 0.9832
+    },
+    "train_sources": {
+      "gbif": 22,
+      "inaturalist": 63
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 9,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 22,
+      "inaturalist": 41,
+      "wikimedia": 1
+    }
+  },
+  "capybara": {
+    "band": "D",
+    "csv_pool": 1767,
+    "pool": 1767,
+    "hard_excluded": 42,
+    "train": 1360,
+    "val": 100,
+    "test": 265,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8353,
+      "p25": 0.726,
+      "p50": 0.8989,
+      "p75": 0.9718
+    },
+    "train_sources": {
+      "gbif": 152,
+      "inaturalist": 1178,
+      "wikimedia": 30
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 85,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 30,
+      "inaturalist": 229,
+      "wikimedia": 6
+    }
+  },
+  "caracal": {
+    "band": "B",
+    "csv_pool": 159,
+    "pool": 171,
+    "hard_excluded": 0,
+    "train": 85,
+    "val": 20,
+    "test": 66,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8517,
+      "p25": 0.7268,
+      "p50": 0.9458,
+      "p75": 0.9813
+    },
+    "train_sources": {
+      "gbif": 21,
+      "inaturalist": 59,
+      "wikimedia": 5
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 13
+    },
+    "test_sources": {
+      "gbif": 9,
+      "inaturalist": 51,
+      "wikimedia": 6
+    }
+  },
+  "cebus species": {
+    "band": "D",
+    "csv_pool": 1819,
+    "pool": 1819,
+    "hard_excluded": 36,
+    "train": 1411,
+    "val": 100,
+    "test": 272,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.851,
+      "p25": 0.7585,
+      "p50": 0.9209,
+      "p75": 0.9704
+    },
+    "train_sources": {
+      "gbif": 306,
+      "inaturalist": 1050,
+      "wikimedia": 55
+    },
+    "val_sources": {
+      "gbif": 21,
+      "inaturalist": 75,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 59,
+      "inaturalist": 202,
+      "wikimedia": 11
+    }
+  },
+  "cephalophus species": {
+    "band": "A",
+    "csv_pool": 86,
+    "pool": 125,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 124,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8776,
+      "p25": 0.7599,
+      "p50": 0.9709,
+      "p75": 0.9877
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 97,
+      "inaturalist": 17,
+      "wikimedia": 10
+    }
+  },
+  "cercopithecus species": {
+    "band": "C",
+    "csv_pool": 337,
+    "pool": 1420,
+    "hard_excluded": 51,
+    "train": 170,
+    "val": 30,
+    "test": 1169,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8353,
+      "p25": 0.7326,
+      "p50": 0.9091,
+      "p75": 0.9619
+    },
+    "train_sources": {
+      "gbif": 63,
+      "inaturalist": 101,
+      "wikimedia": 6
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 25,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 298,
+      "inaturalist": 815,
+      "wikimedia": 56
+    }
+  },
+  "cheetah": {
+    "band": "D",
+    "csv_pool": 863,
+    "pool": 1239,
+    "hard_excluded": 19,
+    "train": 631,
+    "val": 60,
+    "test": 172,
+    "surplus": 357,
+    "q_stats": {
+      "mean": 0.8121,
+      "p25": 0.6732,
+      "p50": 0.8858,
+      "p75": 0.9667
+    },
+    "train_sources": {
+      "gbif": 136,
+      "inaturalist": 378,
+      "openimages": 65,
+      "wikimedia": 52
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 40,
+      "openimages": 3,
+      "wikimedia": 6
+    },
+    "test_sources": {
+      "gbif": 33,
+      "inaturalist": 96,
+      "openimages": 28,
+      "wikimedia": 15
+    }
+  },
+  "chimpanzee": {
+    "band": "B",
+    "csv_pool": 216,
+    "pool": 335,
+    "hard_excluded": 4,
+    "train": 85,
+    "val": 20,
+    "test": 226,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7897,
+      "p25": 0.6481,
+      "p50": 0.8714,
+      "p75": 0.9389
+    },
+    "train_sources": {
+      "gbif": 25,
+      "inaturalist": 53,
+      "wikimedia": 7
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 11,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 57,
+      "inaturalist": 134,
+      "wikimedia": 35
+    }
+  },
+  "chipmunk genus": {
+    "band": "D",
+    "csv_pool": 6934,
+    "pool": 6934,
+    "hard_excluded": 57,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 4727,
+    "q_stats": {
+      "mean": 0.8831,
+      "p25": 0.8086,
+      "p50": 0.9496,
+      "p75": 0.9751
+    },
+    "train_sources": {
+      "gbif": 210,
+      "inaturalist": 1221,
+      "wikimedia": 69
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 148
+    },
+    "test_sources": {
+      "gbif": 17,
+      "inaturalist": 478,
+      "wikimedia": 5
+    }
+  },
+  "chital": {
+    "band": "C",
+    "csv_pool": 360,
+    "pool": 1169,
+    "hard_excluded": 13,
+    "train": 170,
+    "val": 30,
+    "test": 956,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8322,
+      "p25": 0.7383,
+      "p50": 0.884,
+      "p75": 0.975
+    },
+    "train_sources": {
+      "gbif": 43,
+      "inaturalist": 113,
+      "wikimedia": 14
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 20,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 173,
+      "inaturalist": 720,
+      "wikimedia": 63
+    }
+  },
+  "clouded leopard": {
+    "band": "A",
+    "csv_pool": 23,
+    "pool": 26,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 25,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7798,
+      "p25": 0.6498,
+      "p50": 0.7997,
+      "p75": 0.9305
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 1,
+      "inaturalist": 18,
+      "wikimedia": 6
+    }
+  },
+  "collared peccary": {
+    "band": "D",
+    "csv_pool": 521,
+    "pool": 1419,
+    "hard_excluded": 15,
+    "train": 381,
+    "val": 36,
+    "test": 104,
+    "surplus": 883,
+    "q_stats": {
+      "mean": 0.8549,
+      "p25": 0.7725,
+      "p50": 0.9065,
+      "p75": 0.9826
+    },
+    "train_sources": {
+      "gbif": 133,
+      "inaturalist": 228,
+      "wikimedia": 20
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 28,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 11,
+      "inaturalist": 91,
+      "wikimedia": 2
+    }
+  },
+  "colobus species": {
+    "band": "D",
+    "csv_pool": 663,
+    "pool": 663,
+    "hard_excluded": 17,
+    "train": 468,
+    "val": 46,
+    "test": 132,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.829,
+      "p25": 0.7262,
+      "p50": 0.894,
+      "p75": 0.954
+    },
+    "train_sources": {
+      "gbif": 165,
+      "inaturalist": 286,
+      "wikimedia": 17
+    },
+    "val_sources": {
+      "gbif": 17,
+      "inaturalist": 28,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 47,
+      "inaturalist": 80,
+      "wikimedia": 5
+    }
+  },
+  "common duiker": {
+    "band": "D",
+    "csv_pool": 413,
+    "pool": 472,
+    "hard_excluded": 2,
+    "train": 303,
+    "val": 28,
+    "test": 82,
+    "surplus": 57,
+    "q_stats": {
+      "mean": 0.9044,
+      "p25": 0.8867,
+      "p50": 0.9609,
+      "p75": 0.983
+    },
+    "train_sources": {
+      "gbif": 121,
+      "inaturalist": 181,
+      "wikimedia": 1
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 22,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 54
+    }
+  },
+  "common eland": {
+    "band": "C",
+    "csv_pool": 385,
+    "pool": 962,
+    "hard_excluded": 3,
+    "train": 170,
+    "val": 30,
+    "test": 759,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8358,
+      "p25": 0.7539,
+      "p50": 0.8808,
+      "p75": 0.9774
+    },
+    "train_sources": {
+      "gbif": 45,
+      "inaturalist": 119,
+      "wikimedia": 6
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 21
+    },
+    "test_sources": {
+      "gbif": 185,
+      "inaturalist": 566,
+      "wikimedia": 8
+    }
+  },
+  "common fallow deer": {
+    "band": "D",
+    "csv_pool": 1589,
+    "pool": 1588,
+    "hard_excluded": 8,
+    "train": 1242,
+    "val": 100,
+    "test": 238,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8296,
+      "p25": 0.7149,
+      "p50": 0.8819,
+      "p75": 0.9724
+    },
+    "train_sources": {
+      "gbif": 125,
+      "inaturalist": 989,
+      "wikimedia": 128
+    },
+    "val_sources": {
+      "gbif": 8,
+      "inaturalist": 84,
+      "wikimedia": 8
+    },
+    "test_sources": {
+      "gbif": 24,
+      "inaturalist": 190,
+      "wikimedia": 24
+    }
+  },
+  "common warthog": {
+    "band": "D",
+    "csv_pool": 1553,
+    "pool": 1553,
+    "hard_excluded": 16,
+    "train": 1205,
+    "val": 100,
+    "test": 232,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8608,
+      "p25": 0.8092,
+      "p50": 0.905,
+      "p75": 0.9806
+    },
+    "train_sources": {
+      "gbif": 6,
+      "inaturalist": 1158,
+      "wikimedia": 41
+    },
+    "val_sources": {
+      "gbif": 1,
+      "inaturalist": 97,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 1,
+      "inaturalist": 223,
+      "wikimedia": 8
+    }
+  },
+  "common wildebeest": {
+    "band": "D",
+    "csv_pool": 1625,
+    "pool": 1625,
+    "hard_excluded": 20,
+    "train": 1262,
+    "val": 100,
+    "test": 243,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8079,
+      "p25": 0.6801,
+      "p50": 0.8423,
+      "p75": 0.947
+    },
+    "train_sources": {
+      "gbif": 201,
+      "inaturalist": 1001,
+      "wikimedia": 60
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 85,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 38,
+      "inaturalist": 193,
+      "wikimedia": 12
+    }
+  },
+  "common wombat": {
+    "band": "B",
+    "csv_pool": 241,
+    "pool": 1385,
+    "hard_excluded": 32,
+    "train": 85,
+    "val": 20,
+    "test": 1248,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8404,
+      "p25": 0.7394,
+      "p50": 0.9413,
+      "p75": 0.9817
+    },
+    "train_sources": {
+      "gbif": 13,
+      "images_cv": 47,
+      "inaturalist": 25
+    },
+    "val_sources": {
+      "gbif": 1,
+      "images_cv": 11,
+      "inaturalist": 8
+    },
+    "test_sources": {
+      "gbif": 116,
+      "images_cv": 690,
+      "inaturalist": 427,
+      "wikimedia": 15
+    }
+  },
+  "cottontail rabbits genus": {
+    "band": "D",
+    "csv_pool": 7757,
+    "pool": 7757,
+    "hard_excluded": 73,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 5534,
+    "q_stats": {
+      "mean": 0.8992,
+      "p25": 0.8623,
+      "p50": 0.9705,
+      "p75": 0.9845
+    },
+    "train_sources": {
+      "gbif": 141,
+      "inaturalist": 1310,
+      "wikimedia": 49
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 147
+    },
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 487,
+      "wikimedia": 3
+    }
+  },
+  "coyote": {
+    "band": "D",
+    "csv_pool": 6865,
+    "pool": 6865,
+    "hard_excluded": 41,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 4674,
+    "q_stats": {
+      "mean": 0.8811,
+      "p25": 0.7791,
+      "p50": 0.9623,
+      "p75": 0.984
+    },
+    "train_sources": {
+      "gbif": 122,
+      "inaturalist": 1297,
+      "wikimedia": 81
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 145,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 483,
+      "wikimedia": 7
+    }
+  },
+  "cricetidae family": {
+    "band": "D",
+    "csv_pool": 4917,
+    "pool": 4917,
+    "hard_excluded": 88,
+    "train": 1500,
+    "val": 100,
+    "test": 500,
+    "surplus": 2729,
+    "q_stats": {
+      "mean": 0.8677,
+      "p25": 0.8162,
+      "p50": 0.9404,
+      "p75": 0.968
+    },
+    "train_sources": {
+      "gbif": 18,
+      "inaturalist": 1339,
+      "wikimedia": 143
+    },
+    "val_sources": {
+      "inaturalist": 100
+    },
+    "test_sources": {
+      "gbif": 2,
+      "inaturalist": 482,
+      "wikimedia": 16
+    }
+  },
+  "dhole": {
+    "band": "B",
+    "csv_pool": 190,
+    "pool": 202,
+    "hard_excluded": 0,
+    "train": 85,
+    "val": 20,
+    "test": 97,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8623,
+      "p25": 0.7669,
+      "p50": 0.924,
+      "p75": 0.9787
+    },
+    "train_sources": {
+      "gbif": 21,
+      "inaturalist": 55,
+      "wikimedia": 9
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 9,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 58,
+      "wikimedia": 11
+    }
+  },
+  "dingo": {
+    "band": "C",
+    "csv_pool": 399,
+    "pool": 781,
+    "hard_excluded": 33,
+    "train": 170,
+    "val": 30,
+    "test": 548,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7943,
+      "p25": 0.6533,
+      "p50": 0.8782,
+      "p75": 0.9816
+    },
+    "train_sources": {
+      "images_cv": 166,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "images_cv": 29,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "images_cv": 537,
+      "wikimedia": 11
+    }
+  },
+  "domestic cat": {
+    "band": "D",
+    "csv_pool": 7159,
+    "pool": 7298,
+    "hard_excluded": 110,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 5038,
+    "q_stats": {
+      "mean": 0.8455,
+      "p25": 0.7248,
+      "p50": 0.9388,
+      "p75": 0.9818
+    },
+    "train_sources": {
+      "gbif": 136,
+      "inaturalist": 900,
+      "openimages": 281,
+      "wikimedia": 183
+    },
+    "val_sources": {
+      "gbif": 1,
+      "inaturalist": 146,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 454,
+      "openimages": 22,
+      "wikimedia": 14
+    }
+  },
+  "domestic cattle": {
+    "band": "D",
+    "csv_pool": 2359,
+    "pool": 2394,
+    "hard_excluded": 48,
+    "train": 1500,
+    "val": 100,
+    "test": 353,
+    "surplus": 393,
+    "q_stats": {
+      "mean": 0.8024,
+      "p25": 0.6696,
+      "p50": 0.8477,
+      "p75": 0.9702
+    },
+    "train_sources": {
+      "gbif": 111,
+      "inaturalist": 1180,
+      "openimages": 196,
+      "wikimedia": 13
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 83,
+      "openimages": 13
+    },
+    "test_sources": {
+      "gbif": 20,
+      "inaturalist": 293,
+      "openimages": 37,
+      "wikimedia": 3
+    }
+  },
+  "domestic dog": {
+    "band": "D",
+    "csv_pool": 2019,
+    "pool": 2019,
+    "hard_excluded": 27,
+    "train": 1500,
+    "val": 100,
+    "test": 302,
+    "surplus": 90,
+    "q_stats": {
+      "mean": 0.8518,
+      "p25": 0.7338,
+      "p50": 0.9103,
+      "p75": 0.9854
+    },
+    "train_sources": {
+      "gbif": 156,
+      "inaturalist": 1163,
+      "wikimedia": 181
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 87,
+      "wikimedia": 6
+    },
+    "test_sources": {
+      "gbif": 29,
+      "inaturalist": 240,
+      "wikimedia": 33
+    }
+  },
+  "domestic donkey": {
+    "band": "C",
+    "csv_pool": 398,
+    "pool": 1397,
+    "hard_excluded": 19,
+    "train": 170,
+    "val": 30,
+    "test": 1178,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.81,
+      "p25": 0.6833,
+      "p50": 0.8786,
+      "p75": 0.9624
+    },
+    "train_sources": {
+      "gbif": 32,
+      "inaturalist": 101,
+      "openimages": 16,
+      "wikimedia": 21
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 22,
+      "openimages": 4,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 181,
+      "inaturalist": 734,
+      "openimages": 176,
+      "wikimedia": 87
+    }
+  },
+  "domestic goat": {
+    "band": "C",
+    "csv_pool": 297,
+    "pool": 502,
+    "hard_excluded": 10,
+    "train": 170,
+    "val": 30,
+    "test": 292,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7317,
+      "p25": 0.5626,
+      "p50": 0.7663,
+      "p75": 0.9095
+    },
+    "train_sources": {
+      "openimages": 107,
+      "wikimedia": 63
+    },
+    "val_sources": {
+      "openimages": 19,
+      "wikimedia": 11
+    },
+    "test_sources": {
+      "openimages": 190,
+      "wikimedia": 102
+    }
+  },
+  "domestic horse": {
+    "band": "D",
+    "csv_pool": 2550,
+    "pool": 2606,
+    "hard_excluded": 24,
+    "train": 1500,
+    "val": 100,
+    "test": 382,
+    "surplus": 600,
+    "q_stats": {
+      "mean": 0.8104,
+      "p25": 0.6809,
+      "p50": 0.8497,
+      "p75": 0.9588
+    },
+    "train_sources": {
+      "gbif": 109,
+      "inaturalist": 900,
+      "openimages": 74,
+      "wikimedia": 417
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 61,
+      "openimages": 4,
+      "wikimedia": 30
+    },
+    "test_sources": {
+      "gbif": 27,
+      "inaturalist": 225,
+      "openimages": 20,
+      "wikimedia": 110
+    }
+  },
+  "domestic pig": {
+    "band": "A",
+    "csv_pool": 14,
+    "pool": 16,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 15,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8335,
+      "p25": 0.789,
+      "p50": 0.906,
+      "p75": 0.9599
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "wikimedia": 15
+    }
+  },
+  "domestic sheep": {
+    "band": "D",
+    "csv_pool": 1562,
+    "pool": 1690,
+    "hard_excluded": 22,
+    "train": 1228,
+    "val": 100,
+    "test": 234,
+    "surplus": 106,
+    "q_stats": {
+      "mean": 0.7845,
+      "p25": 0.652,
+      "p50": 0.8424,
+      "p75": 0.9123
+    },
+    "train_sources": {
+      "gbif": 86,
+      "inaturalist": 737,
+      "openimages": 244,
+      "wikimedia": 161
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 57,
+      "openimages": 26,
+      "wikimedia": 8
+    },
+    "test_sources": {
+      "gbif": 15,
+      "inaturalist": 147,
+      "openimages": 44,
+      "wikimedia": 28
+    }
+  },
+  "domestic water buffalo": {
+    "band": "A",
+    "csv_pool": 81,
+    "pool": 711,
+    "hard_excluded": 17,
+    "train": 0,
+    "val": 0,
+    "test": 694,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7922,
+      "p25": 0.6567,
+      "p50": 0.8433,
+      "p75": 0.967
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 185,
+      "inaturalist": 486,
+      "wikimedia": 23
+    }
+  },
+  "drill": {
+    "band": "A",
+    "csv_pool": 15,
+    "pool": 23,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 23,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8698,
+      "p25": 0.8257,
+      "p50": 0.959,
+      "p75": 0.9741
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 6,
+      "inaturalist": 17
+    }
+  },
+  "dromedary camel": {
+    "band": "C",
+    "csv_pool": 296,
+    "pool": 420,
+    "hard_excluded": 8,
+    "train": 170,
+    "val": 30,
+    "test": 212,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8046,
+      "p25": 0.6761,
+      "p50": 0.8496,
+      "p75": 0.9742
+    },
+    "train_sources": {
+      "gbif": 65,
+      "inaturalist": 84,
+      "wikimedia": 21
+    },
+    "val_sources": {
+      "gbif": 8,
+      "inaturalist": 16,
+      "wikimedia": 6
+    },
+    "test_sources": {
+      "gbif": 70,
+      "inaturalist": 96,
+      "wikimedia": 46
+    }
+  },
+  "eared seals": {
+    "band": "D",
+    "csv_pool": 9261,
+    "pool": 9261,
+    "hard_excluded": 231,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 6880,
+    "q_stats": {
+      "mean": 0.8045,
+      "p25": 0.6694,
+      "p50": 0.8461,
+      "p75": 0.9586
+    },
+    "train_sources": {
+      "inaturalist": 1250,
+      "wikimedia": 250
+    },
+    "val_sources": {
+      "inaturalist": 146,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "inaturalist": 485,
+      "wikimedia": 15
+    }
+  },
+  "eastern cottontail": {
+    "band": "D",
+    "csv_pool": 11456,
+    "pool": 11456,
+    "hard_excluded": 67,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 9239,
+    "q_stats": {
+      "mean": 0.8918,
+      "p25": 0.824,
+      "p50": 0.9673,
+      "p75": 0.9817
+    },
+    "train_sources": {
+      "inaturalist": 1500
+    },
+    "val_sources": {
+      "inaturalist": 150
+    },
+    "test_sources": {
+      "inaturalist": 500
+    }
+  },
+  "eastern fox squirrel": {
+    "band": "D",
+    "csv_pool": 12436,
+    "pool": 12436,
+    "hard_excluded": 150,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 10136,
+    "q_stats": {
+      "mean": 0.8764,
+      "p25": 0.7908,
+      "p50": 0.9507,
+      "p75": 0.9762
+    },
+    "train_sources": {
+      "gbif": 227,
+      "inaturalist": 1265,
+      "wikimedia": 8
+    },
+    "val_sources": {
+      "gbif": 1,
+      "inaturalist": 149
+    },
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 490
+    }
+  },
+  "eastern gray squirrel": {
+    "band": "D",
+    "csv_pool": 31099,
+    "pool": 31099,
+    "hard_excluded": 394,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 28555,
+    "q_stats": {
+      "mean": 0.8763,
+      "p25": 0.7849,
+      "p50": 0.9523,
+      "p75": 0.9757
+    },
+    "train_sources": {
+      "gbif": 205,
+      "inaturalist": 1187,
+      "wikimedia": 108
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 148
+    },
+    "test_sources": {
+      "gbif": 3,
+      "inaturalist": 495,
+      "wikimedia": 2
+    }
+  },
+  "eastern grey kangaroo": {
+    "band": "D",
+    "csv_pool": 2680,
+    "pool": 2680,
+    "hard_excluded": 38,
+    "train": 1500,
+    "val": 100,
+    "test": 402,
+    "surplus": 640,
+    "q_stats": {
+      "mean": 0.83,
+      "p25": 0.716,
+      "p50": 0.8917,
+      "p75": 0.9674
+    },
+    "train_sources": {
+      "gbif": 167,
+      "inaturalist": 1286,
+      "wikimedia": 47
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 88,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 31,
+      "inaturalist": 362,
+      "wikimedia": 9
+    }
+  },
+  "elephant seal": {
+    "band": "D",
+    "csv_pool": 1768,
+    "pool": 1768,
+    "hard_excluded": 68,
+    "train": 1335,
+    "val": 100,
+    "test": 265,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.759,
+      "p25": 0.5981,
+      "p50": 0.8268,
+      "p75": 0.9386
+    },
+    "train_sources": {
+      "inaturalist": 1275,
+      "wikimedia": 60
+    },
+    "val_sources": {
+      "inaturalist": 99,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "inaturalist": 254,
+      "wikimedia": 11
+    }
+  },
+  "elk": {
+    "band": "D",
+    "csv_pool": 5517,
+    "pool": 5517,
+    "hard_excluded": 55,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 3312,
+    "q_stats": {
+      "mean": 0.8257,
+      "p25": 0.6851,
+      "p50": 0.8847,
+      "p75": 0.9786
+    },
+    "train_sources": {
+      "gbif": 141,
+      "inaturalist": 1265,
+      "wikimedia": 94
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 138,
+      "wikimedia": 6
+    },
+    "test_sources": {
+      "gbif": 15,
+      "inaturalist": 475,
+      "wikimedia": 10
+    }
+  },
+  "eulemur species": {
+    "band": "D",
+    "csv_pool": 880,
+    "pool": 880,
+    "hard_excluded": 36,
+    "train": 607,
+    "val": 61,
+    "test": 176,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8135,
+      "p25": 0.7188,
+      "p50": 0.8765,
+      "p75": 0.9552
+    },
+    "train_sources": {
+      "gbif": 145,
+      "inaturalist": 416,
+      "wikimedia": 46
+    },
+    "val_sources": {
+      "gbif": 12,
+      "inaturalist": 44,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 42,
+      "inaturalist": 121,
+      "wikimedia": 13
+    }
+  },
+  "eurasian badger": {
+    "band": "A",
+    "csv_pool": 141,
+    "pool": 468,
+    "hard_excluded": 8,
+    "train": 0,
+    "val": 0,
+    "test": 460,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8161,
+      "p25": 0.6815,
+      "p50": 0.9071,
+      "p75": 0.9681
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 34,
+      "inaturalist": 411,
+      "wikimedia": 15
+    }
+  },
+  "eurasian lynx": {
+    "band": "B",
+    "csv_pool": 161,
+    "pool": 200,
+    "hard_excluded": 5,
+    "train": 85,
+    "val": 20,
+    "test": 90,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8173,
+      "p25": 0.6866,
+      "p50": 0.8896,
+      "p75": 0.9779
+    },
+    "train_sources": {
+      "gbif": 25,
+      "inaturalist": 46,
+      "wikimedia": 14
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 12,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 39,
+      "inaturalist": 31,
+      "wikimedia": 20
+    }
+  },
+  "eurasian otter": {
+    "band": "B",
+    "csv_pool": 247,
+    "pool": 434,
+    "hard_excluded": 5,
+    "train": 85,
+    "val": 20,
+    "test": 324,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8512,
+      "p25": 0.7312,
+      "p50": 0.91,
+      "p75": 0.9663
+    },
+    "train_sources": {
+      "gbif": 28,
+      "inaturalist": 53,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 15,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 65,
+      "inaturalist": 235,
+      "wikimedia": 24
+    }
+  },
+  "eurasian red squirrel": {
+    "band": "D",
+    "csv_pool": 9929,
+    "pool": 9928,
+    "hard_excluded": 90,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 7688,
+    "q_stats": {
+      "mean": 0.8713,
+      "p25": 0.7705,
+      "p50": 0.9452,
+      "p75": 0.9738
+    },
+    "train_sources": {
+      "gbif": 189,
+      "inaturalist": 1024,
+      "wikimedia": 287
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 142,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 474,
+      "wikimedia": 16
+    }
+  },
+  "european bison": {
+    "band": "B",
+    "csv_pool": 243,
+    "pool": 265,
+    "hard_excluded": 1,
+    "train": 85,
+    "val": 20,
+    "test": 159,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.826,
+      "p25": 0.7302,
+      "p50": 0.8723,
+      "p75": 0.9754
+    },
+    "train_sources": {
+      "gbif": 29,
+      "inaturalist": 53,
+      "wikimedia": 3
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 8,
+      "wikimedia": 7
+    },
+    "test_sources": {
+      "gbif": 49,
+      "inaturalist": 91,
+      "wikimedia": 19
+    }
+  },
+  "european hare": {
+    "band": "D",
+    "csv_pool": 3087,
+    "pool": 3087,
+    "hard_excluded": 15,
+    "train": 1500,
+    "val": 100,
+    "test": 463,
+    "surplus": 1009,
+    "q_stats": {
+      "mean": 0.8691,
+      "p25": 0.7359,
+      "p50": 0.9516,
+      "p75": 0.9797
+    },
+    "train_sources": {
+      "inaturalist": 1463,
+      "wikimedia": 37
+    },
+    "val_sources": {
+      "inaturalist": 100
+    },
+    "test_sources": {
+      "inaturalist": 456,
+      "wikimedia": 7
+    }
+  },
+  "european rabbit": {
+    "band": "D",
+    "csv_pool": 5424,
+    "pool": 5633,
+    "hard_excluded": 25,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 3458,
+    "q_stats": {
+      "mean": 0.8672,
+      "p25": 0.7423,
+      "p50": 0.9526,
+      "p75": 0.9811
+    },
+    "train_sources": {
+      "gbif": 161,
+      "inaturalist": 1095,
+      "openimages": 217,
+      "wikimedia": 27
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 142,
+      "openimages": 4,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 16,
+      "inaturalist": 459,
+      "openimages": 22,
+      "wikimedia": 3
+    }
+  },
+  "european roe deer": {
+    "band": "D",
+    "csv_pool": 6011,
+    "pool": 6011,
+    "hard_excluded": 38,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 3823,
+    "q_stats": {
+      "mean": 0.8605,
+      "p25": 0.7266,
+      "p50": 0.9344,
+      "p75": 0.9806
+    },
+    "train_sources": {
+      "gbif": 131,
+      "inaturalist": 1279,
+      "wikimedia": 90
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 144,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 12,
+      "inaturalist": 479,
+      "wikimedia": 9
+    }
+  },
+  "fisher": {
+    "band": "A",
+    "csv_pool": 92,
+    "pool": 133,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 131,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8412,
+      "p25": 0.6908,
+      "p50": 0.9475,
+      "p75": 0.9854
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 60,
+      "inaturalist": 68,
+      "wikimedia": 3
+    }
+  },
+  "fossa": {
+    "band": "A",
+    "csv_pool": 62,
+    "pool": 80,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 79,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7799,
+      "p25": 0.6347,
+      "p50": 0.8523,
+      "p75": 0.9698
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 19,
+      "inaturalist": 50,
+      "wikimedia": 10
+    }
+  },
+  "gemsbok": {
+    "band": "D",
+    "csv_pool": 563,
+    "pool": 818,
+    "hard_excluded": 7,
+    "train": 412,
+    "val": 39,
+    "test": 112,
+    "surplus": 248,
+    "q_stats": {
+      "mean": 0.8593,
+      "p25": 0.811,
+      "p50": 0.9035,
+      "p75": 0.9795
+    },
+    "train_sources": {
+      "gbif": 159,
+      "inaturalist": 247,
+      "wikimedia": 6
+    },
+    "val_sources": {
+      "gbif": 14,
+      "inaturalist": 25
+    },
+    "test_sources": {
+      "gbif": 38,
+      "inaturalist": 72,
+      "wikimedia": 2
+    }
+  },
+  "genet genus": {
+    "band": "A",
+    "csv_pool": 132,
+    "pool": 231,
+    "hard_excluded": 4,
+    "train": 0,
+    "val": 0,
+    "test": 227,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8245,
+      "p25": 0.7158,
+      "p50": 0.8982,
+      "p75": 0.9684
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 63,
+      "inaturalist": 153,
+      "wikimedia": 11
+    }
+  },
+  "gerenuk": {
+    "band": "B",
+    "csv_pool": 177,
+    "pool": 180,
+    "hard_excluded": 1,
+    "train": 85,
+    "val": 20,
+    "test": 74,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8767,
+      "p25": 0.8427,
+      "p50": 0.9119,
+      "p75": 0.9819
+    },
+    "train_sources": {
+      "gbif": 39,
+      "inaturalist": 44,
+      "wikimedia": 2
+    },
+    "val_sources": {
+      "gbif": 8,
+      "inaturalist": 11,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 35,
+      "inaturalist": 36,
+      "wikimedia": 3
+    }
+  },
+  "giant anteater": {
+    "band": "C",
+    "csv_pool": 258,
+    "pool": 355,
+    "hard_excluded": 3,
+    "train": 170,
+    "val": 30,
+    "test": 152,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8701,
+      "p25": 0.7513,
+      "p50": 0.9456,
+      "p75": 0.979
+    },
+    "train_sources": {
+      "gbif": 61,
+      "inaturalist": 104,
+      "wikimedia": 5
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 21
+    },
+    "test_sources": {
+      "gbif": 56,
+      "inaturalist": 88,
+      "wikimedia": 8
+    }
+  },
+  "giant armadillo": {
+    "band": "A",
+    "csv_pool": 10,
+    "pool": 11,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 11,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7779,
+      "p25": 0.5375,
+      "p50": 0.9305,
+      "p75": 0.9686
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 6,
+      "inaturalist": 5
+    }
+  },
+  "giant otter": {
+    "band": "C",
+    "csv_pool": 251,
+    "pool": 442,
+    "hard_excluded": 8,
+    "train": 170,
+    "val": 30,
+    "test": 234,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8446,
+      "p25": 0.7309,
+      "p50": 0.9083,
+      "p75": 0.9585
+    },
+    "train_sources": {
+      "gbif": 36,
+      "inaturalist": 130,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 16,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 75,
+      "inaturalist": 155,
+      "wikimedia": 4
+    }
+  },
+  "giant panda": {
+    "band": "B",
+    "csv_pool": 169,
+    "pool": 414,
+    "hard_excluded": 6,
+    "train": 85,
+    "val": 20,
+    "test": 303,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7285,
+      "p25": 0.5608,
+      "p50": 0.7595,
+      "p75": 0.9023
+    },
+    "train_sources": {
+      "gbif": 2,
+      "images_cv": 51,
+      "inaturalist": 10,
+      "wikimedia": 22
+    },
+    "val_sources": {
+      "images_cv": 15,
+      "inaturalist": 2,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 1,
+      "images_cv": 218,
+      "inaturalist": 28,
+      "wikimedia": 56
+    }
+  },
+  "giraffe": {
+    "band": "D",
+    "csv_pool": 480,
+    "pool": 648,
+    "hard_excluded": 7,
+    "train": 351,
+    "val": 33,
+    "test": 96,
+    "surplus": 161,
+    "q_stats": {
+      "mean": 0.7813,
+      "p25": 0.6495,
+      "p50": 0.8366,
+      "p75": 0.9338
+    },
+    "train_sources": {
+      "gbif": 90,
+      "inaturalist": 98,
+      "openimages": 150,
+      "wikimedia": 13
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 8,
+      "openimages": 19,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 22,
+      "inaturalist": 23,
+      "openimages": 48,
+      "wikimedia": 3
+    }
+  },
+  "glaucomys species": {
+    "band": "B",
+    "csv_pool": 240,
+    "pool": 372,
+    "hard_excluded": 4,
+    "train": 85,
+    "val": 20,
+    "test": 263,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8787,
+      "p25": 0.8383,
+      "p50": 0.9398,
+      "p75": 0.9753
+    },
+    "train_sources": {
+      "gbif": 34,
+      "inaturalist": 50,
+      "wikimedia": 1
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 13
+    },
+    "test_sources": {
+      "gbif": 86,
+      "inaturalist": 170,
+      "wikimedia": 7
+    }
+  },
+  "golden jackal": {
+    "band": "D",
+    "csv_pool": 551,
+    "pool": 781,
+    "hard_excluded": 4,
+    "train": 403,
+    "val": 38,
+    "test": 110,
+    "surplus": 226,
+    "q_stats": {
+      "mean": 0.8952,
+      "p25": 0.8477,
+      "p50": 0.9678,
+      "p75": 0.9852
+    },
+    "train_sources": {
+      "gbif": 119,
+      "inaturalist": 241,
+      "wikimedia": 43
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 27
+    },
+    "test_sources": {
+      "gbif": 24,
+      "inaturalist": 78,
+      "wikimedia": 8
+    }
+  },
+  "golden mantled ground squirrel": {
+    "band": "D",
+    "csv_pool": 2819,
+    "pool": 2819,
+    "hard_excluded": 22,
+    "train": 1500,
+    "val": 100,
+    "test": 422,
+    "surplus": 775,
+    "q_stats": {
+      "mean": 0.8931,
+      "p25": 0.8463,
+      "p50": 0.9617,
+      "p75": 0.9795
+    },
+    "train_sources": {
+      "gbif": 212,
+      "inaturalist": 1274,
+      "wikimedia": 14
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 94
+    },
+    "test_sources": {
+      "gbif": 39,
+      "inaturalist": 381,
+      "wikimedia": 2
+    }
+  },
+  "gorilla species": {
+    "band": "D",
+    "csv_pool": 609,
+    "pool": 1322,
+    "hard_excluded": 62,
+    "train": 446,
+    "val": 42,
+    "test": 121,
+    "surplus": 651,
+    "q_stats": {
+      "mean": 0.6896,
+      "p25": 0.4699,
+      "p50": 0.7022,
+      "p75": 0.9001
+    },
+    "train_sources": {
+      "gbif": 36,
+      "images_cv": 267,
+      "inaturalist": 122,
+      "wikimedia": 21
+    },
+    "val_sources": {
+      "gbif": 5,
+      "images_cv": 27,
+      "inaturalist": 9,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 10,
+      "images_cv": 71,
+      "inaturalist": 31,
+      "wikimedia": 9
+    }
+  },
+  "grant's gazelle": {
+    "band": "C",
+    "csv_pool": 341,
+    "pool": 535,
+    "hard_excluded": 2,
+    "train": 170,
+    "val": 30,
+    "test": 333,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8882,
+      "p25": 0.8414,
+      "p50": 0.9335,
+      "p75": 0.9867
+    },
+    "train_sources": {
+      "gbif": 76,
+      "inaturalist": 91,
+      "wikimedia": 3
+    },
+    "val_sources": {
+      "gbif": 13,
+      "inaturalist": 17
+    },
+    "test_sources": {
+      "gbif": 150,
+      "inaturalist": 180,
+      "wikimedia": 3
+    }
+  },
+  "greater kudu": {
+    "band": "D",
+    "csv_pool": 1732,
+    "pool": 1732,
+    "hard_excluded": 27,
+    "train": 1346,
+    "val": 100,
+    "test": 259,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8341,
+      "p25": 0.7281,
+      "p50": 0.898,
+      "p75": 0.9761
+    },
+    "train_sources": {
+      "gbif": 210,
+      "inaturalist": 1091,
+      "wikimedia": 45
+    },
+    "val_sources": {
+      "gbif": 17,
+      "inaturalist": 79,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 41,
+      "inaturalist": 209,
+      "wikimedia": 9
+    }
+  },
+  "grevy's zebra": {
+    "band": "B",
+    "csv_pool": 198,
+    "pool": 225,
+    "hard_excluded": 1,
+    "train": 85,
+    "val": 20,
+    "test": 119,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8336,
+      "p25": 0.7414,
+      "p50": 0.8833,
+      "p75": 0.9814
+    },
+    "train_sources": {
+      "gbif": 34,
+      "inaturalist": 48,
+      "wikimedia": 3
+    },
+    "val_sources": {
+      "gbif": 12,
+      "inaturalist": 7,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 38,
+      "inaturalist": 69,
+      "wikimedia": 12
+    }
+  },
+  "grey fox": {
+    "band": "D",
+    "csv_pool": 425,
+    "pool": 1116,
+    "hard_excluded": 13,
+    "train": 311,
+    "val": 29,
+    "test": 85,
+    "surplus": 678,
+    "q_stats": {
+      "mean": 0.8486,
+      "p25": 0.7257,
+      "p50": 0.9257,
+      "p75": 0.9773
+    },
+    "train_sources": {
+      "gbif": 23,
+      "inaturalist": 285,
+      "wikimedia": 3
+    },
+    "val_sources": {
+      "inaturalist": 29
+    },
+    "test_sources": {
+      "gbif": 2,
+      "inaturalist": 83
+    }
+  },
+  "grey wolf": {
+    "band": "C",
+    "csv_pool": 348,
+    "pool": 782,
+    "hard_excluded": 12,
+    "train": 170,
+    "val": 30,
+    "test": 570,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8095,
+      "p25": 0.6739,
+      "p50": 0.8797,
+      "p75": 0.9769
+    },
+    "train_sources": {
+      "gbif": 19,
+      "inaturalist": 72,
+      "openimages": 44,
+      "wikimedia": 35
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 12,
+      "openimages": 8,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 40,
+      "inaturalist": 245,
+      "openimages": 178,
+      "wikimedia": 107
+    }
+  },
+  "hares and jackrabbits genus": {
+    "band": "D",
+    "csv_pool": 4836,
+    "pool": 4836,
+    "hard_excluded": 40,
+    "train": 1500,
+    "val": 100,
+    "test": 500,
+    "surplus": 2696,
+    "q_stats": {
+      "mean": 0.8874,
+      "p25": 0.8115,
+      "p50": 0.9651,
+      "p75": 0.9839
+    },
+    "train_sources": {
+      "gbif": 83,
+      "inaturalist": 1353,
+      "wikimedia": 64
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 96,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 482,
+      "wikimedia": 8
+    }
+  },
+  "hartebeest": {
+    "band": "C",
+    "csv_pool": 386,
+    "pool": 877,
+    "hard_excluded": 4,
+    "train": 170,
+    "val": 30,
+    "test": 673,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.869,
+      "p25": 0.8263,
+      "p50": 0.9083,
+      "p75": 0.9843
+    },
+    "train_sources": {
+      "gbif": 38,
+      "inaturalist": 128,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 26
+    },
+    "test_sources": {
+      "gbif": 138,
+      "inaturalist": 518,
+      "wikimedia": 17
+    }
+  },
+  "hedgehog family": {
+    "band": "D",
+    "csv_pool": 3296,
+    "pool": 3293,
+    "hard_excluded": 69,
+    "train": 1500,
+    "val": 100,
+    "test": 494,
+    "surplus": 1130,
+    "q_stats": {
+      "mean": 0.8431,
+      "p25": 0.7618,
+      "p50": 0.9325,
+      "p75": 0.9663
+    },
+    "train_sources": {
+      "inaturalist": 1447,
+      "wikimedia": 53
+    },
+    "val_sources": {
+      "inaturalist": 98,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "inaturalist": 483,
+      "wikimedia": 11
+    }
+  },
+  "hippopotamus": {
+    "band": "D",
+    "csv_pool": 418,
+    "pool": 1610,
+    "hard_excluded": 18,
+    "train": 306,
+    "val": 29,
+    "test": 83,
+    "surplus": 1174,
+    "q_stats": {
+      "mean": 0.8018,
+      "p25": 0.6626,
+      "p50": 0.8471,
+      "p75": 0.9545
+    },
+    "train_sources": {
+      "gbif": 51,
+      "inaturalist": 183,
+      "openimages": 64,
+      "wikimedia": 8
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 19,
+      "openimages": 5,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 9,
+      "inaturalist": 57,
+      "openimages": 15,
+      "wikimedia": 2
+    }
+  },
+  "hoffmann's two-toed sloth": {
+    "band": "D",
+    "csv_pool": 674,
+    "pool": 674,
+    "hard_excluded": 15,
+    "train": 478,
+    "val": 47,
+    "test": 134,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8279,
+      "p25": 0.7445,
+      "p50": 0.9087,
+      "p75": 0.9528
+    },
+    "train_sources": {
+      "gbif": 128,
+      "inaturalist": 347,
+      "wikimedia": 3
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 34,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 35,
+      "inaturalist": 97,
+      "wikimedia": 2
+    }
+  },
+  "hog badger genus": {
+    "band": "A",
+    "csv_pool": 7,
+    "pool": 18,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 18,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7641,
+      "p25": 0.4898,
+      "p50": 0.8898,
+      "p75": 0.9807
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 11,
+      "inaturalist": 1,
+      "wikimedia": 6
+    }
+  },
+  "honey badger": {
+    "band": "A",
+    "csv_pool": 72,
+    "pool": 98,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 97,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.9045,
+      "p25": 0.9076,
+      "p50": 0.9681,
+      "p75": 0.9842
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 32,
+      "inaturalist": 58,
+      "wikimedia": 7
+    }
+  },
+  "howler monkey genus": {
+    "band": "D",
+    "csv_pool": 3206,
+    "pool": 3206,
+    "hard_excluded": 58,
+    "train": 1500,
+    "val": 100,
+    "test": 480,
+    "surplus": 1068,
+    "q_stats": {
+      "mean": 0.8462,
+      "p25": 0.7427,
+      "p50": 0.9213,
+      "p75": 0.9641
+    },
+    "train_sources": {
+      "gbif": 198,
+      "inaturalist": 1278,
+      "wikimedia": 24
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 91
+    },
+    "test_sources": {
+      "gbif": 37,
+      "inaturalist": 438,
+      "wikimedia": 5
+    }
+  },
+  "human": {
+    "band": "A",
+    "csv_pool": 0,
+    "pool": 5,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 5,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8896,
+      "p25": 0.7927,
+      "p50": 0.9564,
+      "p75": 0.9907
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 5
+    }
+  },
+  "impala": {
+    "band": "D",
+    "csv_pool": 2288,
+    "pool": 2288,
+    "hard_excluded": 63,
+    "train": 1500,
+    "val": 100,
+    "test": 343,
+    "surplus": 282,
+    "q_stats": {
+      "mean": 0.8164,
+      "p25": 0.7071,
+      "p50": 0.8469,
+      "p75": 0.957
+    },
+    "train_sources": {
+      "gbif": 205,
+      "inaturalist": 1219,
+      "wikimedia": 76
+    },
+    "val_sources": {
+      "gbif": 12,
+      "inaturalist": 84,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 39,
+      "inaturalist": 289,
+      "wikimedia": 15
+    }
+  },
+  "jaguar": {
+    "band": "D",
+    "csv_pool": 436,
+    "pool": 561,
+    "hard_excluded": 22,
+    "train": 319,
+    "val": 30,
+    "test": 87,
+    "surplus": 103,
+    "q_stats": {
+      "mean": 0.8155,
+      "p25": 0.6946,
+      "p50": 0.9076,
+      "p75": 0.9749
+    },
+    "train_sources": {
+      "gbif": 80,
+      "inaturalist": 191,
+      "wikimedia": 48
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 20,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 17,
+      "inaturalist": 59,
+      "wikimedia": 11
+    }
+  },
+  "japanese macaque": {
+    "band": "D",
+    "csv_pool": 412,
+    "pool": 481,
+    "hard_excluded": 11,
+    "train": 302,
+    "val": 28,
+    "test": 82,
+    "surplus": 58,
+    "q_stats": {
+      "mean": 0.8416,
+      "p25": 0.7456,
+      "p50": 0.9063,
+      "p75": 0.9727
+    },
+    "train_sources": {
+      "gbif": 94,
+      "inaturalist": 181,
+      "wikimedia": 27
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 23,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 23,
+      "inaturalist": 52,
+      "wikimedia": 7
+    }
+  },
+  "kangaroo family": {
+    "band": "D",
+    "csv_pool": 6137,
+    "pool": 6135,
+    "hard_excluded": 109,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 3876,
+    "q_stats": {
+      "mean": 0.8626,
+      "p25": 0.7696,
+      "p50": 0.9365,
+      "p75": 0.9763
+    },
+    "train_sources": {
+      "gbif": 521,
+      "inaturalist": 900,
+      "wikimedia": 79
+    },
+    "val_sources": {
+      "gbif": 28,
+      "inaturalist": 116,
+      "wikimedia": 6
+    },
+    "test_sources": {
+      "gbif": 86,
+      "inaturalist": 400,
+      "wikimedia": 14
+    }
+  },
+  "kinkajou": {
+    "band": "A",
+    "csv_pool": 125,
+    "pool": 161,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 160,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.878,
+      "p25": 0.8347,
+      "p50": 0.9362,
+      "p75": 0.9733
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 54,
+      "inaturalist": 105,
+      "wikimedia": 1
+    }
+  },
+  "kirk's dik-dik": {
+    "band": "B",
+    "csv_pool": 211,
+    "pool": 226,
+    "hard_excluded": 1,
+    "train": 85,
+    "val": 20,
+    "test": 120,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8585,
+      "p25": 0.7609,
+      "p50": 0.927,
+      "p75": 0.9879
+    },
+    "train_sources": {
+      "gbif": 56,
+      "inaturalist": 25,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 12,
+      "inaturalist": 7,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 82,
+      "inaturalist": 32,
+      "wikimedia": 6
+    }
+  },
+  "klipspringer": {
+    "band": "D",
+    "csv_pool": 701,
+    "pool": 701,
+    "hard_excluded": 2,
+    "train": 510,
+    "val": 49,
+    "test": 140,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.878,
+      "p25": 0.8234,
+      "p50": 0.9222,
+      "p75": 0.9844
+    },
+    "train_sources": {
+      "gbif": 164,
+      "inaturalist": 342,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 13,
+      "inaturalist": 35,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 44,
+      "inaturalist": 94,
+      "wikimedia": 2
+    }
+  },
+  "koala": {
+    "band": "D",
+    "csv_pool": 1779,
+    "pool": 2046,
+    "hard_excluded": 21,
+    "train": 1413,
+    "val": 100,
+    "test": 266,
+    "surplus": 246,
+    "q_stats": {
+      "mean": 0.8536,
+      "p25": 0.7854,
+      "p50": 0.9279,
+      "p75": 0.962
+    },
+    "train_sources": {
+      "gbif": 128,
+      "inaturalist": 1024,
+      "openimages": 224,
+      "wikimedia": 37
+    },
+    "val_sources": {
+      "gbif": 14,
+      "inaturalist": 70,
+      "openimages": 11,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 22,
+      "inaturalist": 203,
+      "openimages": 35,
+      "wikimedia": 6
+    }
+  },
+  "kob": {
+    "band": "C",
+    "csv_pool": 286,
+    "pool": 289,
+    "hard_excluded": 3,
+    "train": 170,
+    "val": 30,
+    "test": 86,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8598,
+      "p25": 0.8227,
+      "p50": 0.9063,
+      "p75": 0.9799
+    },
+    "train_sources": {
+      "gbif": 72,
+      "inaturalist": 86,
+      "wikimedia": 12
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 18,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 34,
+      "inaturalist": 48,
+      "wikimedia": 4
+    }
+  },
+  "leaf monkeys genus": {
+    "band": "D",
+    "csv_pool": 693,
+    "pool": 693,
+    "hard_excluded": 15,
+    "train": 492,
+    "val": 48,
+    "test": 138,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8332,
+      "p25": 0.7355,
+      "p50": 0.8983,
+      "p75": 0.951
+    },
+    "train_sources": {
+      "gbif": 134,
+      "inaturalist": 279,
+      "wikimedia": 79
+    },
+    "val_sources": {
+      "gbif": 14,
+      "inaturalist": 25,
+      "wikimedia": 9
+    },
+    "test_sources": {
+      "gbif": 38,
+      "inaturalist": 77,
+      "wikimedia": 23
+    }
+  },
+  "leopard": {
+    "band": "D",
+    "csv_pool": 1934,
+    "pool": 2413,
+    "hard_excluded": 88,
+    "train": 1500,
+    "val": 100,
+    "test": 290,
+    "surplus": 435,
+    "q_stats": {
+      "mean": 0.7531,
+      "p25": 0.5407,
+      "p50": 0.8227,
+      "p75": 0.9625
+    },
+    "train_sources": {
+      "gbif": 151,
+      "images_cv": 404,
+      "inaturalist": 624,
+      "openimages": 217,
+      "wikimedia": 104
+    },
+    "val_sources": {
+      "gbif": 8,
+      "images_cv": 21,
+      "inaturalist": 51,
+      "openimages": 15,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 24,
+      "images_cv": 97,
+      "inaturalist": 103,
+      "openimages": 48,
+      "wikimedia": 18
+    }
+  },
+  "leopard cat": {
+    "band": "A",
+    "csv_pool": 87,
+    "pool": 107,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 105,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8007,
+      "p25": 0.6722,
+      "p50": 0.9063,
+      "p75": 0.9545
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 37,
+      "inaturalist": 45,
+      "wikimedia": 23
+    }
+  },
+  "leopardus species": {
+    "band": "A",
+    "csv_pool": 132,
+    "pool": 283,
+    "hard_excluded": 12,
+    "train": 0,
+    "val": 0,
+    "test": 271,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8069,
+      "p25": 0.6724,
+      "p50": 0.9132,
+      "p75": 0.9785
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 48,
+      "inaturalist": 211,
+      "wikimedia": 12
+    }
+  },
+  "lion": {
+    "band": "D",
+    "csv_pool": 3318,
+    "pool": 3395,
+    "hard_excluded": 87,
+    "train": 1500,
+    "val": 100,
+    "test": 497,
+    "surplus": 1211,
+    "q_stats": {
+      "mean": 0.788,
+      "p25": 0.6441,
+      "p50": 0.8585,
+      "p75": 0.9601
+    },
+    "train_sources": {
+      "gbif": 153,
+      "inaturalist": 900,
+      "openimages": 186,
+      "wikimedia": 261
+    },
+    "val_sources": {
+      "gbif": 8,
+      "inaturalist": 82,
+      "openimages": 5,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 34,
+      "inaturalist": 360,
+      "openimages": 45,
+      "wikimedia": 58
+    }
+  },
+  "llama genus": {
+    "band": "D",
+    "csv_pool": 2085,
+    "pool": 2085,
+    "hard_excluded": 14,
+    "train": 1500,
+    "val": 100,
+    "test": 312,
+    "surplus": 159,
+    "q_stats": {
+      "mean": 0.8329,
+      "p25": 0.7207,
+      "p50": 0.8724,
+      "p75": 0.9818
+    },
+    "train_sources": {
+      "gbif": 390,
+      "inaturalist": 1052,
+      "wikimedia": 58
+    },
+    "val_sources": {
+      "gbif": 24,
+      "inaturalist": 72,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 73,
+      "inaturalist": 228,
+      "wikimedia": 11
+    }
+  },
+  "lowland tapir": {
+    "band": "B",
+    "csv_pool": 243,
+    "pool": 294,
+    "hard_excluded": 5,
+    "train": 85,
+    "val": 20,
+    "test": 184,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8539,
+      "p25": 0.732,
+      "p50": 0.944,
+      "p75": 0.9869
+    },
+    "train_sources": {
+      "gbif": 28,
+      "inaturalist": 53,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 12,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 48,
+      "inaturalist": 127,
+      "wikimedia": 9
+    }
+  },
+  "lycalopex species": {
+    "band": "D",
+    "csv_pool": 1731,
+    "pool": 1731,
+    "hard_excluded": 16,
+    "train": 1356,
+    "val": 100,
+    "test": 259,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8867,
+      "p25": 0.8221,
+      "p50": 0.9635,
+      "p75": 0.9861
+    },
+    "train_sources": {
+      "gbif": 366,
+      "inaturalist": 990
+    },
+    "val_sources": {
+      "gbif": 24,
+      "inaturalist": 76
+    },
+    "test_sources": {
+      "gbif": 69,
+      "inaturalist": 190
+    }
+  },
+  "macaque species": {
+    "band": "D",
+    "csv_pool": 7557,
+    "pool": 7557,
+    "hard_excluded": 145,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 5262,
+    "q_stats": {
+      "mean": 0.8462,
+      "p25": 0.7431,
+      "p50": 0.9057,
+      "p75": 0.9735
+    },
+    "train_sources": {
+      "gbif": 511,
+      "inaturalist": 900,
+      "wikimedia": 89
+    },
+    "val_sources": {
+      "gbif": 18,
+      "inaturalist": 127,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 82,
+      "inaturalist": 401,
+      "wikimedia": 17
+    }
+  },
+  "malay tapir": {
+    "band": "A",
+    "csv_pool": 21,
+    "pool": 21,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 21,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8571,
+      "p25": 0.7432,
+      "p50": 0.9185,
+      "p75": 0.989
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 3,
+      "inaturalist": 17,
+      "wikimedia": 1
+    }
+  },
+  "maned wolf": {
+    "band": "A",
+    "csv_pool": 76,
+    "pool": 88,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 88,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8526,
+      "p25": 0.7469,
+      "p50": 0.9342,
+      "p75": 0.9869
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 30,
+      "inaturalist": 54,
+      "wikimedia": 4
+    }
+  },
+  "mangabeys genus": {
+    "band": "A",
+    "csv_pool": 42,
+    "pool": 58,
+    "hard_excluded": 4,
+    "train": 0,
+    "val": 0,
+    "test": 54,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7565,
+      "p25": 0.6359,
+      "p50": 0.8339,
+      "p75": 0.903
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 16,
+      "inaturalist": 32,
+      "wikimedia": 6
+    }
+  },
+  "martes species": {
+    "band": "D",
+    "csv_pool": 1298,
+    "pool": 1298,
+    "hard_excluded": 36,
+    "train": 968,
+    "val": 100,
+    "test": 194,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8363,
+      "p25": 0.7162,
+      "p50": 0.9212,
+      "p75": 0.9747
+    },
+    "train_sources": {
+      "gbif": 224,
+      "inaturalist": 722,
+      "wikimedia": 22
+    },
+    "val_sources": {
+      "gbif": 22,
+      "inaturalist": 77,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 45,
+      "inaturalist": 145,
+      "wikimedia": 4
+    }
+  },
+  "meerkat": {
+    "band": "C",
+    "csv_pool": 364,
+    "pool": 412,
+    "hard_excluded": 5,
+    "train": 170,
+    "val": 30,
+    "test": 207,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8221,
+      "p25": 0.7035,
+      "p50": 0.8829,
+      "p75": 0.9664
+    },
+    "train_sources": {
+      "gbif": 42,
+      "inaturalist": 110,
+      "wikimedia": 18
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 21,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 51,
+      "inaturalist": 125,
+      "wikimedia": 31
+    }
+  },
+  "mongoose family": {
+    "band": "D",
+    "csv_pool": 2257,
+    "pool": 2257,
+    "hard_excluded": 32,
+    "train": 1500,
+    "val": 100,
+    "test": 338,
+    "surplus": 287,
+    "q_stats": {
+      "mean": 0.8672,
+      "p25": 0.7699,
+      "p50": 0.9331,
+      "p75": 0.9746
+    },
+    "train_sources": {
+      "inaturalist": 1441,
+      "wikimedia": 59
+    },
+    "val_sources": {
+      "inaturalist": 95,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "inaturalist": 326,
+      "wikimedia": 12
+    }
+  },
+  "moose": {
+    "band": "D",
+    "csv_pool": 3508,
+    "pool": 3506,
+    "hard_excluded": 45,
+    "train": 1500,
+    "val": 100,
+    "test": 500,
+    "surplus": 1361,
+    "q_stats": {
+      "mean": 0.8554,
+      "p25": 0.7383,
+      "p50": 0.933,
+      "p75": 0.9803
+    },
+    "train_sources": {
+      "gbif": 104,
+      "inaturalist": 1291,
+      "wikimedia": 105
+    },
+    "val_sources": {
+      "gbif": 1,
+      "inaturalist": 98,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 18,
+      "inaturalist": 464,
+      "wikimedia": 18
+    }
+  },
+  "mouflon": {
+    "band": "A",
+    "csv_pool": 6,
+    "pool": 6,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 6,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.9088,
+      "p25": 0.8812,
+      "p50": 0.9031,
+      "p75": 0.9614
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 1,
+      "wikimedia": 5
+    }
+  },
+  "mountain goat": {
+    "band": "D",
+    "csv_pool": 793,
+    "pool": 793,
+    "hard_excluded": 6,
+    "train": 574,
+    "val": 55,
+    "test": 158,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8385,
+      "p25": 0.6864,
+      "p50": 0.8981,
+      "p75": 0.9793
+    },
+    "train_sources": {
+      "gbif": 116,
+      "inaturalist": 450,
+      "wikimedia": 8
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 48,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 31,
+      "inaturalist": 125,
+      "wikimedia": 2
+    }
+  },
+  "mountain zebra": {
+    "band": "D",
+    "csv_pool": 467,
+    "pool": 483,
+    "hard_excluded": 1,
+    "train": 342,
+    "val": 32,
+    "test": 93,
+    "surplus": 15,
+    "q_stats": {
+      "mean": 0.8425,
+      "p25": 0.7106,
+      "p50": 0.9014,
+      "p75": 0.9817
+    },
+    "train_sources": {
+      "gbif": 108,
+      "inaturalist": 225,
+      "wikimedia": 9
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 21,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 63,
+      "wikimedia": 2
+    }
+  },
+  "mule deer": {
+    "band": "D",
+    "csv_pool": 18110,
+    "pool": 18110,
+    "hard_excluded": 271,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 15689,
+    "q_stats": {
+      "mean": 0.8578,
+      "p25": 0.7661,
+      "p50": 0.9104,
+      "p75": 0.9813
+    },
+    "train_sources": {
+      "gbif": 125,
+      "inaturalist": 1299,
+      "wikimedia": 76
+    },
+    "val_sources": {
+      "inaturalist": 149,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 4,
+      "inaturalist": 494,
+      "wikimedia": 2
+    }
+  },
+  "muntjac genus": {
+    "band": "C",
+    "csv_pool": 250,
+    "pool": 1049,
+    "hard_excluded": 14,
+    "train": 170,
+    "val": 30,
+    "test": 835,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8727,
+      "p25": 0.7574,
+      "p50": 0.9615,
+      "p75": 0.9846
+    },
+    "train_sources": {
+      "gbif": 29,
+      "inaturalist": 136,
+      "wikimedia": 5
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 24
+    },
+    "test_sources": {
+      "gbif": 151,
+      "inaturalist": 664,
+      "wikimedia": 20
+    }
+  },
+  "muridae family": {
+    "band": "D",
+    "csv_pool": 3371,
+    "pool": 3371,
+    "hard_excluded": 66,
+    "train": 1500,
+    "val": 100,
+    "test": 500,
+    "surplus": 1205,
+    "q_stats": {
+      "mean": 0.8573,
+      "p25": 0.7613,
+      "p50": 0.9331,
+      "p75": 0.969
+    },
+    "train_sources": {
+      "inaturalist": 1346,
+      "wikimedia": 154
+    },
+    "val_sources": {
+      "inaturalist": 97,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "inaturalist": 472,
+      "wikimedia": 28
+    }
+  },
+  "muskrat": {
+    "band": "D",
+    "csv_pool": 3253,
+    "pool": 3253,
+    "hard_excluded": 23,
+    "train": 1500,
+    "val": 100,
+    "test": 487,
+    "surplus": 1143,
+    "q_stats": {
+      "mean": 0.8641,
+      "p25": 0.7666,
+      "p50": 0.9305,
+      "p75": 0.9637
+    },
+    "train_sources": {
+      "gbif": 127,
+      "inaturalist": 1372,
+      "wikimedia": 1
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 93
+    },
+    "test_sources": {
+      "gbif": 24,
+      "inaturalist": 463
+    }
+  },
+  "nilgai": {
+    "band": "D",
+    "csv_pool": 549,
+    "pool": 548,
+    "hard_excluded": 4,
+    "train": 397,
+    "val": 38,
+    "test": 109,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8689,
+      "p25": 0.7861,
+      "p50": 0.9118,
+      "p75": 0.9827
+    },
+    "train_sources": {
+      "gbif": 142,
+      "inaturalist": 242,
+      "wikimedia": 13
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 27
+    },
+    "test_sources": {
+      "gbif": 38,
+      "inaturalist": 68,
+      "wikimedia": 3
+    }
+  },
+  "nine-banded armadillo": {
+    "band": "A",
+    "csv_pool": 145,
+    "pool": 243,
+    "hard_excluded": 3,
+    "train": 0,
+    "val": 0,
+    "test": 240,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8504,
+      "p25": 0.7387,
+      "p50": 0.9167,
+      "p75": 0.967
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 43,
+      "inaturalist": 191,
+      "wikimedia": 6
+    }
+  },
+  "north american porcupine": {
+    "band": "D",
+    "csv_pool": 1914,
+    "pool": 1914,
+    "hard_excluded": 40,
+    "train": 1487,
+    "val": 100,
+    "test": 287,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8295,
+      "p25": 0.7251,
+      "p50": 0.9244,
+      "p75": 0.9615
+    },
+    "train_sources": {
+      "gbif": 112,
+      "inaturalist": 1357,
+      "wikimedia": 18
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 94
+    },
+    "test_sources": {
+      "gbif": 21,
+      "inaturalist": 263,
+      "wikimedia": 3
+    }
+  },
+  "north american river otter": {
+    "band": "D",
+    "csv_pool": 2772,
+    "pool": 2772,
+    "hard_excluded": 46,
+    "train": 1500,
+    "val": 100,
+    "test": 415,
+    "surplus": 711,
+    "q_stats": {
+      "mean": 0.8489,
+      "p25": 0.7263,
+      "p50": 0.9178,
+      "p75": 0.9647
+    },
+    "train_sources": {
+      "gbif": 94,
+      "inaturalist": 1386,
+      "wikimedia": 20
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 95
+    },
+    "test_sources": {
+      "gbif": 18,
+      "inaturalist": 394,
+      "wikimedia": 3
+    }
+  },
+  "northern chamois": {
+    "band": "C",
+    "csv_pool": 315,
+    "pool": 1269,
+    "hard_excluded": 5,
+    "train": 170,
+    "val": 30,
+    "test": 1064,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8582,
+      "p25": 0.7137,
+      "p50": 0.9395,
+      "p75": 0.9829
+    },
+    "train_sources": {
+      "gbif": 28,
+      "inaturalist": 136,
+      "wikimedia": 6
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 25,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 137,
+      "inaturalist": 903,
+      "wikimedia": 24
+    }
+  },
+  "northern raccoon": {
+    "band": "D",
+    "csv_pool": 5840,
+    "pool": 5937,
+    "hard_excluded": 72,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 3715,
+    "q_stats": {
+      "mean": 0.8502,
+      "p25": 0.7466,
+      "p50": 0.9281,
+      "p75": 0.9716
+    },
+    "train_sources": {
+      "gbif": 54,
+      "inaturalist": 1187,
+      "openimages": 212,
+      "wikimedia": 47
+    },
+    "val_sources": {
+      "inaturalist": 143,
+      "openimages": 6,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 5,
+      "inaturalist": 470,
+      "openimages": 20,
+      "wikimedia": 5
+    }
+  },
+  "nutria": {
+    "band": "D",
+    "csv_pool": 3150,
+    "pool": 3150,
+    "hard_excluded": 45,
+    "train": 1500,
+    "val": 100,
+    "test": 472,
+    "surplus": 1033,
+    "q_stats": {
+      "mean": 0.8511,
+      "p25": 0.7368,
+      "p50": 0.9266,
+      "p75": 0.9659
+    },
+    "train_sources": {
+      "gbif": 150,
+      "inaturalist": 1324,
+      "wikimedia": 26
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 95
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 440,
+      "wikimedia": 4
+    }
+  },
+  "nyala": {
+    "band": "D",
+    "csv_pool": 554,
+    "pool": 957,
+    "hard_excluded": 20,
+    "train": 406,
+    "val": 38,
+    "test": 110,
+    "surplus": 383,
+    "q_stats": {
+      "mean": 0.8297,
+      "p25": 0.7291,
+      "p50": 0.899,
+      "p75": 0.9767
+    },
+    "train_sources": {
+      "gbif": 151,
+      "inaturalist": 243,
+      "wikimedia": 12
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 28,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 31,
+      "inaturalist": 76,
+      "wikimedia": 3
+    }
+  },
+  "ocelot": {
+    "band": "A",
+    "csv_pool": 84,
+    "pool": 101,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 99,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8398,
+      "p25": 0.7433,
+      "p50": 0.9389,
+      "p75": 0.9807
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 24,
+      "inaturalist": 75
+    }
+  },
+  "old world porcupine family": {
+    "band": "A",
+    "csv_pool": 102,
+    "pool": 240,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 238,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8202,
+      "p25": 0.7062,
+      "p50": 0.9009,
+      "p75": 0.9546
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 33,
+      "inaturalist": 190,
+      "wikimedia": 15
+    }
+  },
+  "opossum family": {
+    "band": "D",
+    "csv_pool": 3199,
+    "pool": 3199,
+    "hard_excluded": 91,
+    "train": 1500,
+    "val": 100,
+    "test": 479,
+    "surplus": 1029,
+    "q_stats": {
+      "mean": 0.84,
+      "p25": 0.7282,
+      "p50": 0.926,
+      "p75": 0.967
+    },
+    "train_sources": {
+      "inaturalist": 1467,
+      "wikimedia": 33
+    },
+    "val_sources": {
+      "inaturalist": 99,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "inaturalist": 473,
+      "wikimedia": 6
+    }
+  },
+  "pangolin family": {
+    "band": "A",
+    "csv_pool": 45,
+    "pool": 54,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 52,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7982,
+      "p25": 0.6787,
+      "p50": 0.8903,
+      "p75": 0.9709
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 30,
+      "wikimedia": 12
+    }
+  },
+  "patas monkey": {
+    "band": "B",
+    "csv_pool": 175,
+    "pool": 179,
+    "hard_excluded": 5,
+    "train": 85,
+    "val": 20,
+    "test": 69,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8434,
+      "p25": 0.7349,
+      "p50": 0.9167,
+      "p75": 0.9701
+    },
+    "train_sources": {
+      "gbif": 30,
+      "inaturalist": 53,
+      "wikimedia": 2
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 9,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 34,
+      "inaturalist": 30,
+      "wikimedia": 5
+    }
+  },
+  "pikas genus": {
+    "band": "D",
+    "csv_pool": 1484,
+    "pool": 1484,
+    "hard_excluded": 1,
+    "train": 1161,
+    "val": 100,
+    "test": 222,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8966,
+      "p25": 0.854,
+      "p50": 0.9624,
+      "p75": 0.9779
+    },
+    "train_sources": {
+      "gbif": 174,
+      "inaturalist": 970,
+      "wikimedia": 17
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 86,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 32,
+      "inaturalist": 186,
+      "wikimedia": 4
+    }
+  },
+  "pinniped clade": {
+    "band": "A",
+    "csv_pool": 47,
+    "pool": 56,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 55,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7861,
+      "p25": 0.6306,
+      "p50": 0.8362,
+      "p75": 0.969
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "wikimedia": 55
+    }
+  },
+  "plains zebra": {
+    "band": "D",
+    "csv_pool": 3195,
+    "pool": 3233,
+    "hard_excluded": 61,
+    "train": 1500,
+    "val": 100,
+    "test": 479,
+    "surplus": 1093,
+    "q_stats": {
+      "mean": 0.7942,
+      "p25": 0.6699,
+      "p50": 0.8457,
+      "p75": 0.9102
+    },
+    "train_sources": {
+      "gbif": 198,
+      "inaturalist": 900,
+      "openimages": 252,
+      "wikimedia": 150
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 75,
+      "openimages": 15,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 39,
+      "inaturalist": 354,
+      "openimages": 56,
+      "wikimedia": 30
+    }
+  },
+  "pronghorn": {
+    "band": "D",
+    "csv_pool": 2316,
+    "pool": 2316,
+    "hard_excluded": 7,
+    "train": 1500,
+    "val": 100,
+    "test": 347,
+    "surplus": 362,
+    "q_stats": {
+      "mean": 0.847,
+      "p25": 0.705,
+      "p50": 0.9032,
+      "p75": 0.9828
+    },
+    "train_sources": {
+      "gbif": 154,
+      "inaturalist": 1325,
+      "wikimedia": 21
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 92,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 29,
+      "inaturalist": 314,
+      "wikimedia": 4
+    }
+  },
+  "puma": {
+    "band": "C",
+    "csv_pool": 338,
+    "pool": 452,
+    "hard_excluded": 7,
+    "train": 170,
+    "val": 30,
+    "test": 245,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8233,
+      "p25": 0.7213,
+      "p50": 0.8955,
+      "p75": 0.9763
+    },
+    "train_sources": {
+      "gbif": 17,
+      "inaturalist": 148,
+      "wikimedia": 5
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 23,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 19,
+      "inaturalist": 207,
+      "wikimedia": 19
+    }
+  },
+  "quokka": {
+    "band": "C",
+    "csv_pool": 341,
+    "pool": 366,
+    "hard_excluded": 12,
+    "train": 170,
+    "val": 30,
+    "test": 154,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8162,
+      "p25": 0.6965,
+      "p50": 0.9004,
+      "p75": 0.9726
+    },
+    "train_sources": {
+      "gbif": 58,
+      "inaturalist": 112
+    },
+    "val_sources": {
+      "gbif": 12,
+      "inaturalist": 18
+    },
+    "test_sources": {
+      "gbif": 59,
+      "inaturalist": 95
+    }
+  },
+  "raccoon dog": {
+    "band": "A",
+    "csv_pool": 105,
+    "pool": 237,
+    "hard_excluded": 5,
+    "train": 0,
+    "val": 0,
+    "test": 232,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8104,
+      "p25": 0.681,
+      "p50": 0.8866,
+      "p75": 0.9715
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 91,
+      "inaturalist": 128,
+      "wikimedia": 13
+    }
+  },
+  "rattus genus": {
+    "band": "D",
+    "csv_pool": 3954,
+    "pool": 3954,
+    "hard_excluded": 83,
+    "train": 1500,
+    "val": 100,
+    "test": 500,
+    "surplus": 1771,
+    "q_stats": {
+      "mean": 0.8454,
+      "p25": 0.7312,
+      "p50": 0.9287,
+      "p75": 0.9717
+    },
+    "train_sources": {
+      "gbif": 121,
+      "inaturalist": 1369,
+      "wikimedia": 10
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 97
+    },
+    "test_sources": {
+      "gbif": 19,
+      "inaturalist": 480,
+      "wikimedia": 1
+    }
+  },
+  "red brocket": {
+    "band": "A",
+    "csv_pool": 47,
+    "pool": 63,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 62,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.9054,
+      "p25": 0.8855,
+      "p50": 0.9707,
+      "p75": 0.9885
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 27,
+      "inaturalist": 34,
+      "wikimedia": 1
+    }
+  },
+  "red deer": {
+    "band": "D",
+    "csv_pool": 1697,
+    "pool": 1697,
+    "hard_excluded": 20,
+    "train": 1323,
+    "val": 100,
+    "test": 254,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8395,
+      "p25": 0.714,
+      "p50": 0.9001,
+      "p75": 0.9769
+    },
+    "train_sources": {
+      "gbif": 116,
+      "inaturalist": 1101,
+      "wikimedia": 106
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 79,
+      "wikimedia": 10
+    },
+    "test_sources": {
+      "gbif": 23,
+      "inaturalist": 211,
+      "wikimedia": 20
+    }
+  },
+  "red fox": {
+    "band": "D",
+    "csv_pool": 8705,
+    "pool": 8913,
+    "hard_excluded": 71,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 6692,
+    "q_stats": {
+      "mean": 0.8627,
+      "p25": 0.7395,
+      "p50": 0.9456,
+      "p75": 0.9819
+    },
+    "train_sources": {
+      "gbif": 95,
+      "inaturalist": 900,
+      "openimages": 329,
+      "wikimedia": 176
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 138,
+      "openimages": 3,
+      "wikimedia": 6
+    },
+    "test_sources": {
+      "gbif": 6,
+      "inaturalist": 461,
+      "openimages": 22,
+      "wikimedia": 11
+    }
+  },
+  "red kangaroo": {
+    "band": "C",
+    "csv_pool": 342,
+    "pool": 678,
+    "hard_excluded": 6,
+    "train": 170,
+    "val": 30,
+    "test": 472,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8268,
+      "p25": 0.7178,
+      "p50": 0.9011,
+      "p75": 0.9745
+    },
+    "train_sources": {
+      "gbif": 28,
+      "inaturalist": 80,
+      "openimages": 62
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 10,
+      "openimages": 17
+    },
+    "test_sources": {
+      "gbif": 76,
+      "inaturalist": 146,
+      "openimages": 250
+    }
+  },
+  "red panda": {
+    "band": "C",
+    "csv_pool": 283,
+    "pool": 543,
+    "hard_excluded": 5,
+    "train": 170,
+    "val": 30,
+    "test": 338,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7646,
+      "p25": 0.5854,
+      "p50": 0.8231,
+      "p75": 0.9648
+    },
+    "train_sources": {
+      "gbif": 2,
+      "images_cv": 18,
+      "inaturalist": 44,
+      "openimages": 81,
+      "wikimedia": 25
+    },
+    "val_sources": {
+      "images_cv": 4,
+      "inaturalist": 5,
+      "openimages": 18,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 7,
+      "images_cv": 42,
+      "inaturalist": 67,
+      "openimages": 179,
+      "wikimedia": 43
+    }
+  },
+  "red river hog": {
+    "band": "A",
+    "csv_pool": 42,
+    "pool": 53,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 53,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7573,
+      "p25": 0.6234,
+      "p50": 0.853,
+      "p75": 0.9629
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 3,
+      "inaturalist": 35,
+      "wikimedia": 15
+    }
+  },
+  "red squirrel": {
+    "band": "D",
+    "csv_pool": 7526,
+    "pool": 7526,
+    "hard_excluded": 70,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 5306,
+    "q_stats": {
+      "mean": 0.8767,
+      "p25": 0.8014,
+      "p50": 0.9475,
+      "p75": 0.9723
+    },
+    "train_sources": {
+      "gbif": 194,
+      "inaturalist": 1279,
+      "wikimedia": 27
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 147
+    },
+    "test_sources": {
+      "gbif": 14,
+      "inaturalist": 484,
+      "wikimedia": 2
+    }
+  },
+  "red-necked wallaby": {
+    "band": "A",
+    "csv_pool": 23,
+    "pool": 30,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 30,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8488,
+      "p25": 0.7767,
+      "p50": 0.9203,
+      "p75": 0.9735
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 28,
+      "wikimedia": 2
+    }
+  },
+  "reedbuck genus": {
+    "band": "D",
+    "csv_pool": 514,
+    "pool": 514,
+    "hard_excluded": 3,
+    "train": 374,
+    "val": 35,
+    "test": 102,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.896,
+      "p25": 0.8542,
+      "p50": 0.957,
+      "p75": 0.9825
+    },
+    "train_sources": {
+      "gbif": 144,
+      "inaturalist": 218,
+      "wikimedia": 12
+    },
+    "val_sources": {
+      "gbif": 12,
+      "inaturalist": 21,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 39,
+      "inaturalist": 60,
+      "wikimedia": 3
+    }
+  },
+  "reindeer": {
+    "band": "D",
+    "csv_pool": 835,
+    "pool": 835,
+    "hard_excluded": 9,
+    "train": 601,
+    "val": 58,
+    "test": 167,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8462,
+      "p25": 0.708,
+      "p50": 0.9092,
+      "p75": 0.9853
+    },
+    "train_sources": {
+      "gbif": 64,
+      "inaturalist": 482,
+      "wikimedia": 55
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 50,
+      "wikimedia": 5
+    },
+    "test_sources": {
+      "gbif": 17,
+      "inaturalist": 135,
+      "wikimedia": 15
+    }
+  },
+  "rhinoceros family": {
+    "band": "D",
+    "csv_pool": 1512,
+    "pool": 1511,
+    "hard_excluded": 27,
+    "train": 1158,
+    "val": 100,
+    "test": 226,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8487,
+      "p25": 0.7651,
+      "p50": 0.9086,
+      "p75": 0.9811
+    },
+    "train_sources": {
+      "inaturalist": 1079,
+      "wikimedia": 79
+    },
+    "val_sources": {
+      "inaturalist": 97,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "inaturalist": 211,
+      "wikimedia": 15
+    }
+  },
+  "ring-tailed lemur": {
+    "band": "C",
+    "csv_pool": 358,
+    "pool": 452,
+    "hard_excluded": 8,
+    "train": 170,
+    "val": 30,
+    "test": 244,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7692,
+      "p25": 0.6137,
+      "p50": 0.8221,
+      "p75": 0.9404
+    },
+    "train_sources": {
+      "gbif": 44,
+      "inaturalist": 113,
+      "wikimedia": 13
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 19,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 65,
+      "inaturalist": 142,
+      "wikimedia": 37
+    }
+  },
+  "ringtail": {
+    "band": "A",
+    "csv_pool": 123,
+    "pool": 189,
+    "hard_excluded": 3,
+    "train": 0,
+    "val": 0,
+    "test": 186,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8387,
+      "p25": 0.7252,
+      "p50": 0.9218,
+      "p75": 0.9725
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 43,
+      "inaturalist": 136,
+      "wikimedia": 7
+    }
+  },
+  "roan antelope": {
+    "band": "C",
+    "csv_pool": 250,
+    "pool": 278,
+    "hard_excluded": 1,
+    "train": 170,
+    "val": 30,
+    "test": 77,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8647,
+      "p25": 0.7854,
+      "p50": 0.9061,
+      "p75": 0.9789
+    },
+    "train_sources": {
+      "gbif": 65,
+      "inaturalist": 100,
+      "wikimedia": 5
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 17,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 23,
+      "inaturalist": 45,
+      "wikimedia": 9
+    }
+  },
+  "rock hyrax": {
+    "band": "D",
+    "csv_pool": 1336,
+    "pool": 1336,
+    "hard_excluded": 14,
+    "train": 1022,
+    "val": 100,
+    "test": 200,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.872,
+      "p25": 0.8027,
+      "p50": 0.943,
+      "p75": 0.9783
+    },
+    "train_sources": {
+      "gbif": 177,
+      "inaturalist": 834,
+      "wikimedia": 11
+    },
+    "val_sources": {
+      "gbif": 16,
+      "inaturalist": 83,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 34,
+      "inaturalist": 164,
+      "wikimedia": 2
+    }
+  },
+  "sable antelope": {
+    "band": "D",
+    "csv_pool": 424,
+    "pool": 426,
+    "hard_excluded": 3,
+    "train": 310,
+    "val": 29,
+    "test": 84,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8433,
+      "p25": 0.7648,
+      "p50": 0.8908,
+      "p75": 0.9772
+    },
+    "train_sources": {
+      "gbif": 113,
+      "inaturalist": 192,
+      "wikimedia": 5
+    },
+    "val_sources": {
+      "gbif": 10,
+      "inaturalist": 19
+    },
+    "test_sources": {
+      "gbif": 30,
+      "inaturalist": 53,
+      "wikimedia": 1
+    }
+  },
+  "saguinus species": {
+    "band": "D",
+    "csv_pool": 1065,
+    "pool": 1065,
+    "hard_excluded": 20,
+    "train": 786,
+    "val": 100,
+    "test": 159,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8678,
+      "p25": 0.7967,
+      "p50": 0.923,
+      "p75": 0.969
+    },
+    "train_sources": {
+      "gbif": 49,
+      "inaturalist": 723,
+      "wikimedia": 14
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 92,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 146,
+      "wikimedia": 3
+    }
+  },
+  "saiga": {
+    "band": "A",
+    "csv_pool": 47,
+    "pool": 50,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 50,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7918,
+      "p25": 0.6657,
+      "p50": 0.8099,
+      "p75": 0.9831
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 17,
+      "inaturalist": 29,
+      "wikimedia": 4
+    }
+  },
+  "saimiri species": {
+    "band": "D",
+    "csv_pool": 1327,
+    "pool": 1327,
+    "hard_excluded": 23,
+    "train": 1005,
+    "val": 100,
+    "test": 199,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8642,
+      "p25": 0.7836,
+      "p50": 0.9201,
+      "p75": 0.9634
+    },
+    "train_sources": {
+      "gbif": 145,
+      "inaturalist": 840,
+      "wikimedia": 20
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 90,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 167,
+      "wikimedia": 4
+    }
+  },
+  "sambar": {
+    "band": "C",
+    "csv_pool": 342,
+    "pool": 851,
+    "hard_excluded": 6,
+    "train": 170,
+    "val": 30,
+    "test": 645,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8431,
+      "p25": 0.735,
+      "p50": 0.9113,
+      "p75": 0.9829
+    },
+    "train_sources": {
+      "gbif": 38,
+      "inaturalist": 127,
+      "wikimedia": 5
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 25
+    },
+    "test_sources": {
+      "gbif": 123,
+      "inaturalist": 507,
+      "wikimedia": 15
+    }
+  },
+  "sea otter": {
+    "band": "D",
+    "csv_pool": 1404,
+    "pool": 1819,
+    "hard_excluded": 29,
+    "train": 1094,
+    "val": 100,
+    "test": 210,
+    "surplus": 386,
+    "q_stats": {
+      "mean": 0.8082,
+      "p25": 0.6745,
+      "p50": 0.8837,
+      "p75": 0.9491
+    },
+    "train_sources": {
+      "gbif": 109,
+      "inaturalist": 656,
+      "openimages": 309,
+      "wikimedia": 20
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 77,
+      "openimages": 15,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 16,
+      "inaturalist": 143,
+      "openimages": 48,
+      "wikimedia": 3
+    }
+  },
+  "serval": {
+    "band": "B",
+    "csv_pool": 170,
+    "pool": 196,
+    "hard_excluded": 3,
+    "train": 85,
+    "val": 20,
+    "test": 88,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8299,
+      "p25": 0.7079,
+      "p50": 0.9358,
+      "p75": 0.9749
+    },
+    "train_sources": {
+      "gbif": 34,
+      "inaturalist": 45,
+      "wikimedia": 6
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 12,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 19,
+      "inaturalist": 48,
+      "wikimedia": 21
+    }
+  },
+  "short-beaked echidna": {
+    "band": "D",
+    "csv_pool": 1767,
+    "pool": 1767,
+    "hard_excluded": 39,
+    "train": 1363,
+    "val": 100,
+    "test": 265,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8384,
+      "p25": 0.7362,
+      "p50": 0.9306,
+      "p75": 0.965
+    },
+    "train_sources": {
+      "gbif": 161,
+      "inaturalist": 1189,
+      "wikimedia": 13
+    },
+    "val_sources": {
+      "gbif": 9,
+      "inaturalist": 91
+    },
+    "test_sources": {
+      "gbif": 31,
+      "inaturalist": 232,
+      "wikimedia": 2
+    }
+  },
+  "sika deer": {
+    "band": "D",
+    "csv_pool": 471,
+    "pool": 1136,
+    "hard_excluded": 18,
+    "train": 345,
+    "val": 32,
+    "test": 94,
+    "surplus": 647,
+    "q_stats": {
+      "mean": 0.8379,
+      "p25": 0.7077,
+      "p50": 0.9022,
+      "p75": 0.9823
+    },
+    "train_sources": {
+      "gbif": 119,
+      "inaturalist": 207,
+      "wikimedia": 19
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 25,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 18,
+      "inaturalist": 72,
+      "wikimedia": 4
+    }
+  },
+  "sloth bear": {
+    "band": "A",
+    "csv_pool": 98,
+    "pool": 120,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 120,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8141,
+      "p25": 0.6866,
+      "p50": 0.8941,
+      "p75": 0.9784
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 22,
+      "inaturalist": 90,
+      "wikimedia": 8
+    }
+  },
+  "snow leopard": {
+    "band": "C",
+    "csv_pool": 363,
+    "pool": 755,
+    "hard_excluded": 69,
+    "train": 170,
+    "val": 30,
+    "test": 486,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.5927,
+      "p25": 0.4117,
+      "p50": 0.53,
+      "p75": 0.7589
+    },
+    "train_sources": {
+      "gbif": 1,
+      "images_cv": 144,
+      "inaturalist": 16,
+      "wikimedia": 9
+    },
+    "val_sources": {
+      "images_cv": 28,
+      "inaturalist": 2
+    },
+    "test_sources": {
+      "gbif": 1,
+      "images_cv": 462,
+      "inaturalist": 13,
+      "wikimedia": 10
+    }
+  },
+  "south american coati": {
+    "band": "D",
+    "csv_pool": 411,
+    "pool": 1014,
+    "hard_excluded": 16,
+    "train": 301,
+    "val": 28,
+    "test": 82,
+    "surplus": 587,
+    "q_stats": {
+      "mean": 0.8447,
+      "p25": 0.7406,
+      "p50": 0.9127,
+      "p75": 0.9799
+    },
+    "train_sources": {
+      "gbif": 110,
+      "inaturalist": 180,
+      "wikimedia": 11
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 20,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 19,
+      "inaturalist": 60,
+      "wikimedia": 3
+    }
+  },
+  "spectacled bear": {
+    "band": "B",
+    "csv_pool": 153,
+    "pool": 201,
+    "hard_excluded": 1,
+    "train": 85,
+    "val": 18,
+    "test": 97,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8667,
+      "p25": 0.7758,
+      "p50": 0.9286,
+      "p75": 0.9811
+    },
+    "train_sources": {
+      "gbif": 19,
+      "inaturalist": 62,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 14
+    },
+    "test_sources": {
+      "gbif": 16,
+      "inaturalist": 78,
+      "wikimedia": 3
+    }
+  },
+  "spilogale species": {
+    "band": "A",
+    "csv_pool": 24,
+    "pool": 38,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 37,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7742,
+      "p25": 0.6218,
+      "p50": 0.8937,
+      "p75": 0.9448
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 5,
+      "inaturalist": 32
+    }
+  },
+  "spotted hyaena": {
+    "band": "D",
+    "csv_pool": 640,
+    "pool": 1233,
+    "hard_excluded": 22,
+    "train": 468,
+    "val": 44,
+    "test": 128,
+    "surplus": 571,
+    "q_stats": {
+      "mean": 0.8542,
+      "p25": 0.7794,
+      "p50": 0.9102,
+      "p75": 0.9813
+    },
+    "train_sources": {
+      "gbif": 164,
+      "inaturalist": 280,
+      "wikimedia": 24
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 36,
+      "wikimedia": 4
+    },
+    "test_sources": {
+      "gbif": 22,
+      "inaturalist": 102,
+      "wikimedia": 4
+    }
+  },
+  "springbok": {
+    "band": "B",
+    "csv_pool": 247,
+    "pool": 759,
+    "hard_excluded": 4,
+    "train": 85,
+    "val": 20,
+    "test": 650,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8312,
+      "p25": 0.7005,
+      "p50": 0.8523,
+      "p75": 0.9817
+    },
+    "train_sources": {
+      "gbif": 29,
+      "inaturalist": 54,
+      "wikimedia": 2
+    },
+    "val_sources": {
+      "gbif": 4,
+      "inaturalist": 16
+    },
+    "test_sources": {
+      "gbif": 169,
+      "inaturalist": 471,
+      "wikimedia": 10
+    }
+  },
+  "squirrel family": {
+    "band": "D",
+    "csv_pool": 31365,
+    "pool": 31608,
+    "hard_excluded": 326,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 29132,
+    "q_stats": {
+      "mean": 0.8837,
+      "p25": 0.8207,
+      "p50": 0.9507,
+      "p75": 0.975
+    },
+    "train_sources": {
+      "gbif": 384,
+      "inaturalist": 900,
+      "openimages": 97,
+      "wikimedia": 119
+    },
+    "val_sources": {
+      "gbif": 12,
+      "inaturalist": 134,
+      "openimages": 2,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 21,
+      "inaturalist": 464,
+      "openimages": 7,
+      "wikimedia": 8
+    }
+  },
+  "steenbok": {
+    "band": "D",
+    "csv_pool": 957,
+    "pool": 957,
+    "hard_excluded": 11,
+    "train": 689,
+    "val": 66,
+    "test": 191,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8681,
+      "p25": 0.7762,
+      "p50": 0.9542,
+      "p75": 0.9822
+    },
+    "train_sources": {
+      "gbif": 197,
+      "inaturalist": 486,
+      "wikimedia": 6
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 54,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 52,
+      "inaturalist": 137,
+      "wikimedia": 2
+    }
+  },
+  "striped hyaena": {
+    "band": "A",
+    "csv_pool": 89,
+    "pool": 105,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 105,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.873,
+      "p25": 0.8433,
+      "p50": 0.9717,
+      "p75": 0.9813
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 25,
+      "inaturalist": 50,
+      "wikimedia": 30
+    }
+  },
+  "striped skunk": {
+    "band": "D",
+    "csv_pool": 666,
+    "pool": 666,
+    "hard_excluded": 10,
+    "train": 477,
+    "val": 46,
+    "test": 133,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8227,
+      "p25": 0.6747,
+      "p50": 0.9095,
+      "p75": 0.9636
+    },
+    "train_sources": {
+      "gbif": 23,
+      "inaturalist": 451,
+      "wikimedia": 3
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 43,
+      "wikimedia": 1
+    },
+    "test_sources": {
+      "gbif": 6,
+      "inaturalist": 126,
+      "wikimedia": 1
+    }
+  },
+  "sun bear": {
+    "band": "A",
+    "csv_pool": 78,
+    "pool": 273,
+    "hard_excluded": 5,
+    "train": 0,
+    "val": 0,
+    "test": 268,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8433,
+      "p25": 0.7389,
+      "p50": 0.9248,
+      "p75": 0.9822
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 15,
+      "inaturalist": 53,
+      "openimages": 185,
+      "wikimedia": 15
+    }
+  },
+  "swamp wallaby": {
+    "band": "D",
+    "csv_pool": 420,
+    "pool": 1377,
+    "hard_excluded": 34,
+    "train": 307,
+    "val": 29,
+    "test": 84,
+    "surplus": 923,
+    "q_stats": {
+      "mean": 0.8575,
+      "p25": 0.7649,
+      "p50": 0.937,
+      "p75": 0.9707
+    },
+    "train_sources": {
+      "gbif": 119,
+      "inaturalist": 184,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 2,
+      "inaturalist": 27
+    },
+    "test_sources": {
+      "gbif": 10,
+      "inaturalist": 74
+    }
+  },
+  "tayra": {
+    "band": "B",
+    "csv_pool": 243,
+    "pool": 317,
+    "hard_excluded": 7,
+    "train": 85,
+    "val": 20,
+    "test": 205,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8774,
+      "p25": 0.7695,
+      "p50": 0.9508,
+      "p75": 0.9829
+    },
+    "train_sources": {
+      "gbif": 31,
+      "inaturalist": 53,
+      "wikimedia": 1
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 11,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 77,
+      "inaturalist": 122,
+      "wikimedia": 6
+    }
+  },
+  "thomson's gazelle": {
+    "band": "D",
+    "csv_pool": 425,
+    "pool": 461,
+    "hard_excluded": 4,
+    "train": 311,
+    "val": 29,
+    "test": 85,
+    "surplus": 32,
+    "q_stats": {
+      "mean": 0.8602,
+      "p25": 0.789,
+      "p50": 0.911,
+      "p75": 0.9873
+    },
+    "train_sources": {
+      "gbif": 152,
+      "inaturalist": 155,
+      "wikimedia": 4
+    },
+    "val_sources": {
+      "gbif": 20,
+      "inaturalist": 9
+    },
+    "test_sources": {
+      "gbif": 43,
+      "inaturalist": 40,
+      "wikimedia": 2
+    }
+  },
+  "tiger": {
+    "band": "D",
+    "csv_pool": 798,
+    "pool": 1156,
+    "hard_excluded": 23,
+    "train": 584,
+    "val": 55,
+    "test": 159,
+    "surplus": 335,
+    "q_stats": {
+      "mean": 0.8013,
+      "p25": 0.6621,
+      "p50": 0.9016,
+      "p75": 0.9771
+    },
+    "train_sources": {
+      "gbif": 88,
+      "inaturalist": 312,
+      "openimages": 114,
+      "wikimedia": 70
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 24,
+      "openimages": 14,
+      "wikimedia": 11
+    },
+    "test_sources": {
+      "gbif": 21,
+      "inaturalist": 73,
+      "openimages": 43,
+      "wikimedia": 22
+    }
+  },
+  "vervet monkey": {
+    "band": "D",
+    "csv_pool": 1635,
+    "pool": 1635,
+    "hard_excluded": 33,
+    "train": 1257,
+    "val": 100,
+    "test": 245,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.829,
+      "p25": 0.7177,
+      "p50": 0.9009,
+      "p75": 0.9643
+    },
+    "train_sources": {
+      "gbif": 196,
+      "inaturalist": 1036,
+      "wikimedia": 25
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 87,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 37,
+      "inaturalist": 203,
+      "wikimedia": 5
+    }
+  },
+  "walrus": {
+    "band": "A",
+    "csv_pool": 101,
+    "pool": 161,
+    "hard_excluded": 3,
+    "train": 0,
+    "val": 0,
+    "test": 158,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.7643,
+      "p25": 0.6317,
+      "p50": 0.793,
+      "p75": 0.9182
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "inaturalist": 136,
+      "wikimedia": 22
+    }
+  },
+  "water deer": {
+    "band": "A",
+    "csv_pool": 133,
+    "pool": 153,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 152,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8563,
+      "p25": 0.6974,
+      "p50": 0.9598,
+      "p75": 0.9818
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 80,
+      "inaturalist": 69,
+      "wikimedia": 3
+    }
+  },
+  "waterbuck": {
+    "band": "D",
+    "csv_pool": 437,
+    "pool": 1444,
+    "hard_excluded": 14,
+    "train": 320,
+    "val": 30,
+    "test": 87,
+    "surplus": 993,
+    "q_stats": {
+      "mean": 0.8477,
+      "p25": 0.7635,
+      "p50": 0.9039,
+      "p75": 0.9794
+    },
+    "train_sources": {
+      "gbif": 104,
+      "inaturalist": 192,
+      "wikimedia": 24
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 23,
+      "wikimedia": 2
+    },
+    "test_sources": {
+      "gbif": 16,
+      "inaturalist": 68,
+      "wikimedia": 3
+    }
+  },
+  "weasel species": {
+    "band": "D",
+    "csv_pool": 1795,
+    "pool": 1795,
+    "hard_excluded": 18,
+    "train": 1408,
+    "val": 100,
+    "test": 269,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8713,
+      "p25": 0.7771,
+      "p50": 0.9456,
+      "p75": 0.9753
+    },
+    "train_sources": {
+      "gbif": 368,
+      "inaturalist": 960,
+      "wikimedia": 80
+    },
+    "val_sources": {
+      "gbif": 20,
+      "inaturalist": 74,
+      "wikimedia": 6
+    },
+    "test_sources": {
+      "gbif": 69,
+      "inaturalist": 184,
+      "wikimedia": 16
+    }
+  },
+  "western gray squirrel": {
+    "band": "D",
+    "csv_pool": 1957,
+    "pool": 1957,
+    "hard_excluded": 60,
+    "train": 1500,
+    "val": 100,
+    "test": 293,
+    "surplus": 4,
+    "q_stats": {
+      "mean": 0.86,
+      "p25": 0.7464,
+      "p50": 0.9414,
+      "p75": 0.9744
+    },
+    "train_sources": {
+      "gbif": 74,
+      "inaturalist": 1426
+    },
+    "val_sources": {
+      "gbif": 3,
+      "inaturalist": 97
+    },
+    "test_sources": {
+      "gbif": 14,
+      "inaturalist": 279
+    }
+  },
+  "white-nosed coati": {
+    "band": "D",
+    "csv_pool": 2269,
+    "pool": 2269,
+    "hard_excluded": 50,
+    "train": 1500,
+    "val": 100,
+    "test": 340,
+    "surplus": 279,
+    "q_stats": {
+      "mean": 0.8525,
+      "p25": 0.7388,
+      "p50": 0.9331,
+      "p75": 0.9822
+    },
+    "train_sources": {
+      "gbif": 196,
+      "inaturalist": 1292,
+      "wikimedia": 12
+    },
+    "val_sources": {
+      "gbif": 11,
+      "inaturalist": 89
+    },
+    "test_sources": {
+      "gbif": 38,
+      "inaturalist": 300,
+      "wikimedia": 2
+    }
+  },
+  "white-tailed deer": {
+    "band": "D",
+    "csv_pool": 24609,
+    "pool": 24805,
+    "hard_excluded": 380,
+    "train": 1500,
+    "val": 150,
+    "test": 500,
+    "surplus": 22275,
+    "q_stats": {
+      "mean": 0.8601,
+      "p25": 0.7642,
+      "p50": 0.9199,
+      "p75": 0.9805
+    },
+    "train_sources": {
+      "gbif": 132,
+      "inaturalist": 920,
+      "openimages": 368,
+      "wikimedia": 80
+    },
+    "val_sources": {
+      "gbif": 1,
+      "inaturalist": 148,
+      "openimages": 1
+    },
+    "test_sources": {
+      "gbif": 3,
+      "inaturalist": 488,
+      "openimages": 8,
+      "wikimedia": 1
+    }
+  },
+  "wild boar": {
+    "band": "D",
+    "csv_pool": 2602,
+    "pool": 2799,
+    "hard_excluded": 42,
+    "train": 1500,
+    "val": 100,
+    "test": 390,
+    "surplus": 767,
+    "q_stats": {
+      "mean": 0.8212,
+      "p25": 0.6865,
+      "p50": 0.8771,
+      "p75": 0.9751
+    },
+    "train_sources": {
+      "gbif": 86,
+      "inaturalist": 1070,
+      "openimages": 251,
+      "wikimedia": 93
+    },
+    "val_sources": {
+      "gbif": 5,
+      "inaturalist": 85,
+      "openimages": 7,
+      "wikimedia": 3
+    },
+    "test_sources": {
+      "gbif": 15,
+      "inaturalist": 316,
+      "openimages": 43,
+      "wikimedia": 16
+    }
+  },
+  "wild cat": {
+    "band": "A",
+    "csv_pool": 112,
+    "pool": 128,
+    "hard_excluded": 2,
+    "train": 0,
+    "val": 0,
+    "test": 126,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8662,
+      "p25": 0.7449,
+      "p50": 0.9534,
+      "p75": 0.983
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 37,
+      "inaturalist": 76,
+      "wikimedia": 13
+    }
+  },
+  "wolverine": {
+    "band": "A",
+    "csv_pool": 46,
+    "pool": 69,
+    "hard_excluded": 0,
+    "train": 0,
+    "val": 0,
+    "test": 69,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8949,
+      "p25": 0.8554,
+      "p50": 0.9595,
+      "p75": 0.9791
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "gbif": 30,
+      "inaturalist": 28,
+      "wikimedia": 11
+    }
+  },
+  "woodchuck": {
+    "band": "D",
+    "csv_pool": 3872,
+    "pool": 3872,
+    "hard_excluded": 37,
+    "train": 1500,
+    "val": 100,
+    "test": 500,
+    "surplus": 1735,
+    "q_stats": {
+      "mean": 0.8671,
+      "p25": 0.7541,
+      "p50": 0.9434,
+      "p75": 0.9725
+    },
+    "train_sources": {
+      "gbif": 181,
+      "inaturalist": 1319
+    },
+    "val_sources": {
+      "gbif": 6,
+      "inaturalist": 94
+    },
+    "test_sources": {
+      "gbif": 28,
+      "inaturalist": 472
+    }
+  },
+  "yak": {
+    "band": "A",
+    "csv_pool": 97,
+    "pool": 128,
+    "hard_excluded": 1,
+    "train": 0,
+    "val": 0,
+    "test": 127,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8427,
+      "p25": 0.7795,
+      "p50": 0.9029,
+      "p75": 0.9752
+    },
+    "train_sources": {},
+    "val_sources": {},
+    "test_sources": {
+      "inaturalist": 90,
+      "wikimedia": 37
+    }
+  },
+  "yellow-bellied marmot": {
+    "band": "D",
+    "csv_pool": 1898,
+    "pool": 1898,
+    "hard_excluded": 20,
+    "train": 1494,
+    "val": 100,
+    "test": 284,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.8688,
+      "p25": 0.7504,
+      "p50": 0.9446,
+      "p75": 0.9751
+    },
+    "train_sources": {
+      "gbif": 175,
+      "inaturalist": 1319
+    },
+    "val_sources": {
+      "gbif": 7,
+      "inaturalist": 93
+    },
+    "test_sources": {
+      "gbif": 33,
+      "inaturalist": 251
+    }
+  }
+}

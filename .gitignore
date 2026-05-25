@@ -7,3 +7,5 @@ output/*
 __pycache__/
 *.py[codz]
 *$py.class
+
+reports/dataset_split_manifest.json

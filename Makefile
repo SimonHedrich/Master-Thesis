@@ -6,11 +6,13 @@ IMAGE           := wildlife-training
 IMAGE_SN        := wildlife-speciesnet
 IMAGE_NANODET   := wildlife-nanodet
 IMAGE_PADDLE    := wildlife-paddle
+IMAGE_YV5       := wildlife-yolov5
 
 CONTAINER       := wildlife-train
 CONTAINER_SN    := wildlife-speciesnet-run
 CONTAINER_ND    := wildlife-nanodet-run
 CONTAINER_PD    := wildlife-paddle-run
+CONTAINER_YV5   := wildlife-yolov5-run
 
 REPO_ROOT := $(shell git rev-parse --show-toplevel)
 DATA_DIR  := $(REPO_ROOT)/data
@@ -178,6 +180,77 @@ speciesnet-shell:
 	  -e PYTHONPATH=/app/scripts \
 	  $(IMAGE_SN) bash
 
+# ─── YOLOv5s baseline (PyTorch 2.0.1, Dockerfile.yolov5, pinned@5cdad89) ─────
+# Prerequisite: clone and patch yolov5 first:
+#   git clone https://github.com/ultralytics/yolov5.git /opt/yolov5
+#   cd /opt/yolov5 && git checkout 5cdad89
+# Then patch train.py for AdamW (see docs/plans/2026-05-19_yolov5-training-plan.md §7)
+YV5_DIR ?= /opt/yolov5
+YV5_SEED ?= 42
+
+docker-yolov5-build:
+	docker build -f $(REPO_ROOT)/Dockerfile.yolov5 -t $(IMAGE_YV5) $(REPO_ROOT)
+
+# Interactive shell — run train.py manually inside
+docker-yolov5-shell:
+	docker run --rm -it \
+	  --gpus all \
+	  --shm-size=8g \
+	  -v $(REPO_ROOT):/app \
+	  -v $(YV5_DIR):/opt/yolov5 \
+	  -e PYTHONPATH=/opt/yolov5 \
+	  -w /opt/yolov5 \
+	  $(IMAGE_YV5) bash
+
+# Prepare YOLO TXT dataset from COCO annotations (run once before training)
+yolov5-prepare:
+	python3 $(REPO_ROOT)/scripts/training/1-prepare_yolov5_dataset.py
+
+# Detached training run — logs to output/yolov5_seed<SEED>.log
+# Usage: make yolov5-train          (seed 42)
+#        make yolov5-train YV5_SEED=1
+#        make yolov5-train YV5_SEED=7
+yolov5-train:
+	@mkdir -p $(REPO_ROOT)/output
+	docker run -d --name $(CONTAINER_YV5)_seed$(YV5_SEED) \
+	  --gpus all \
+	  --shm-size=8g \
+	  -v $(REPO_ROOT):/app \
+	  -v $(YV5_DIR):/opt/yolov5 \
+	  -e PYTHONPATH=/opt/yolov5 \
+	  -w /opt/yolov5 \
+	  $(IMAGE_YV5) \
+	  bash -c 'python train.py \
+	    --weights yolov5s.pt \
+	    --cfg models/yolov5s.yaml \
+	    --data /app/data/training/wildlife225_yolov5.yaml \
+	    --hyp /app/scripts/training/configs/hyp.finetune-wildlife.yaml \
+	    --epochs 150 --batch-size 64 --imgsz 640 \
+	    --patience 50 --cos-lr --multi-scale --label-smoothing 0.1 \
+	    --project /app/output/yolov5_wildlife \
+	    --name yolov5s_wildlife225_seed$(YV5_SEED) \
+	    --workers 8 --seed $(YV5_SEED) \
+	    2>&1 | tee /app/output/yolov5_seed$(YV5_SEED).log'
+	@echo "Training started — follow with: docker logs -f $(CONTAINER_YV5)_seed$(YV5_SEED)"
+
+# Evaluate best checkpoint on the test split
+# Usage: make yolov5-eval YV5_SEED=42
+yolov5-eval:
+	docker run --rm \
+	  --gpus all \
+	  --shm-size=8g \
+	  -v $(REPO_ROOT):/app \
+	  -v $(YV5_DIR):/opt/yolov5 \
+	  -e PYTHONPATH=/opt/yolov5 \
+	  -w /opt/yolov5 \
+	  $(IMAGE_YV5) \
+	  bash -c 'python val.py \
+	    --weights /app/output/yolov5_wildlife/yolov5s_wildlife225_seed$(YV5_SEED)/weights/best.pt \
+	    --data /app/data/training/wildlife225_yolov5.yaml \
+	    --imgsz 640 --batch-size 32 --task test --verbose --save-json \
+	    --project /app/output/yolov5_wildlife \
+	    --name yolov5s_wildlife225_seed$(YV5_SEED)_eval'
+
 # ─── NanoDet-Plus-m (Python 3.11, Dockerfile.nanodet) ────────────────────────
 
 nanodet-build:
@@ -277,24 +350,3 @@ df:
 
 ncdu:
 	ncdu
-
-# ── Image quality filtering ───────────────────────────────────────────────────
-# Run each target in sequence: metadata → heuristics → megadetector → report
-# Override SOURCE to filter a single source, e.g.: make filter-metadata SOURCE=wikimedia
-
-SOURCE ?= all
-
-filter-metadata:
-	python scripts/filter_dataset_quality.py metadata --source $(SOURCE)
-
-filter-heuristics:
-	python scripts/filter_dataset_quality.py heuristics --source $(SOURCE)
-
-filter-megadetector:
-	python scripts/filter_dataset_quality.py megadetector --source $(SOURCE)
-
-filter-vlm:
-	python scripts/filter_dataset_quality.py vlm --source wikimedia
-
-filter-report:
-	python scripts/filter_dataset_quality.py report --source all

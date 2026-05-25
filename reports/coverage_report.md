@@ -1,6 +1,6 @@
 # Dataset Coverage Report
 
-Generated: 2026-04-30  
+Generated: 2026-05-18  
 Target classes: **225**  
 Datasets: GBIF · iNaturalist · Wikimedia · Open Images · images_cv  
 Quality buffer applied: **20%** (estimated post-filtering loss)
@@ -8,15 +8,15 @@ Quality buffer applied: **20%** (estimated post-filtering loss)
 ## Coverage Summary
 
 Ultralytics guideline: **≥1,500 images per class** (≥1,200 after buffer).  
-Total passed images across all datasets: **457,279**  
-Estimated usable after 20% buffer: **365,830**
+Total passed images across all datasets: **457,468**  
+Estimated usable after 20% buffer: **365,977**
 
 | Tier | Range | Classes |
 |------|-------|---------|
 | 🟢 Excellent | ≥1500 imgs | 83 |
 | 🟡 Good | 1000–1499 imgs | 24 |
-| 🟠 Marginal | 500–999 imgs | 30 |
-| 🔴 Low | 100–499 imgs | 59 |
+| 🟠 Marginal | 500–999 imgs | 31 |
+| 🔴 Low | 100–499 imgs | 58 |
 | ⛔ Critical | <100 imgs | 29 |
 
 ## Per-Dataset Summary
@@ -26,7 +26,7 @@ Estimated usable after 20% buffer: **365,830**
 | gbif | 39,388 | 27,493 | 66,881 | 58.9% | 210 |
 | inaturalist | 400,067 | 73,443 | 473,510 | 84.5% | 215 |
 | wikimedia | 12,598 | 5,760 | 18,358 | 68.6% | 207 |
-| openimages | 7,499 | 4,248 | 11,747 | 63.8% | 26 |
+| openimages | 7,688 | 4,059 | 11,747 | 65.4% | 26 |
 | images_cv | 5,501 | 4,820 | 10,321 | 53.3% | 9 |
 
 ## All Classes by Coverage
@@ -36,26 +36,26 @@ Sorted by total passed images (highest first).
 
 | # | Class | Scientific name | iNaturalist | GBIF | Open Images | Wikimedia | images_cv | **Total** | Buffer | Gap | Status |
 |--:|-------|-----------------|------------:|-----:|------------:|----------:|----------:|----------:|-------:|----:|--------|
-| 1 | squirrel family | *sciuridae* | 29,316 | 1,318 | 437 | 525 | 0 | **31,596** | 25,277 | — | 🟢 Excellent |
+| 1 | squirrel family | *sciuridae* | 29,316 | 1,318 | 450 | 525 | 0 | **31,609** | 25,287 | — | 🟢 Excellent |
 | 2 | eastern gray squirrel | *sciurus carolinensis* | 30,777 | 211 | 0 | 111 | 0 | **31,099** | 24,879 | — | 🟢 Excellent |
-| 3 | white-tailed deer | *odocoileus virginianus* | 24,206 | 137 | 368 | 82 | 0 | **24,793** | 19,834 | — | 🟢 Excellent |
+| 3 | white-tailed deer | *odocoileus virginianus* | 24,206 | 137 | 380 | 82 | 0 | **24,805** | 19,844 | — | 🟢 Excellent |
 | 4 | mule deer | *odocoileus hemionus* | 17,901 | 129 | 0 | 80 | 0 | **18,110** | 14,488 | — | 🟢 Excellent |
 | 5 | eastern fox squirrel | *sciurus niger* | 12,187 | 241 | 0 | 8 | 0 | **12,436** | 9,949 | — | 🟢 Excellent |
 | 6 | eastern cottontail | *sylvilagus floridanus* | 11,456 | 0 | 0 | 0 | 0 | **11,456** | 9,165 | — | 🟢 Excellent |
 | 7 | eurasian red squirrel | *sciurus vulgaris* | 9,406 | 207 | 0 | 316 | 0 | **9,929** | 7,943 | — | 🟢 Excellent |
 | 8 | eared seals | *otariidae* | 8,986 | 0 | 0 | 275 | 0 | **9,261** | 7,409 | — | 🟢 Excellent |
-| 9 | red fox | *vulpes vulpes* | 8,213 | 105 | 368 | 206 | 0 | **8,892** | 7,114 | — | 🟢 Excellent |
+| 9 | red fox | *vulpes vulpes* | 8,213 | 105 | 389 | 206 | 0 | **8,913** | 7,130 | — | 🟢 Excellent |
 | 10 | cottontail rabbits genus | *sylvilagus* | 7,551 | 154 | 0 | 52 | 0 | **7,757** | 6,206 | — | 🟢 Excellent |
 | 11 | macaque species | *macaca* | 6,072 | 1,220 | 0 | 265 | 0 | **7,557** | 6,046 | — | 🟢 Excellent |
 | 12 | red squirrel | *tamiasciurus hudsonicus* | 7,283 | 214 | 0 | 29 | 0 | **7,526** | 6,021 | — | 🟢 Excellent |
-| 13 | domestic cat | *felis catus* | 6,625 | 149 | 274 | 206 | 0 | **7,254** | 5,803 | — | 🟢 Excellent |
+| 13 | domestic cat | *felis catus* | 6,625 | 149 | 318 | 206 | 0 | **7,298** | 5,838 | — | 🟢 Excellent |
 | 14 | chipmunk genus | *tamias* | 6,628 | 231 | 0 | 75 | 0 | **6,934** | 5,547 | — | 🟢 Excellent |
 | 15 | coyote | *canis latrans* | 6,639 | 136 | 0 | 90 | 0 | **6,865** | 5,492 | — | 🟢 Excellent |
 | 16 | kangaroo family | *macropodidae* | 4,914 | 1,047 | 0 | 176 | 0 | **6,137** | 4,910 | — | 🟢 Excellent |
 | 17 | european roe deer | *capreolus capreolus* | 5,762 | 147 | 0 | 102 | 0 | **6,011** | 4,809 | — | 🟢 Excellent |
-| 18 | northern raccoon | *procyon lotor* | 5,583 | 59 | 223 | 56 | 0 | **5,921** | 4,737 | — | 🟢 Excellent |
-| 19 | california ground squirrel | *otospermophilus beecheyi* | 5,357 | 260 | 0 | 10 | 0 | **5,627** | 4,502 | — | 🟢 Excellent |
-| 20 | european rabbit | *oryctolagus cuniculus* | 5,176 | 180 | 228 | 31 | 0 | **5,615** | 4,492 | — | 🟢 Excellent |
+| 18 | northern raccoon | *procyon lotor* | 5,583 | 59 | 240 | 56 | 0 | **5,938** | 4,750 | — | 🟢 Excellent |
+| 19 | european rabbit | *oryctolagus cuniculus* | 5,176 | 180 | 246 | 31 | 0 | **5,633** | 4,506 | — | 🟢 Excellent |
+| 20 | california ground squirrel | *otospermophilus beecheyi* | 5,357 | 260 | 0 | 10 | 0 | **5,627** | 4,502 | — | 🟢 Excellent |
 | 21 | elk | *cervus canadensis* | 5,242 | 163 | 0 | 112 | 0 | **5,517** | 4,414 | — | 🟢 Excellent |
 | 22 | cricetidae family | *cricetidae* | 4,736 | 20 | 0 | 161 | 0 | **4,917** | 3,934 | — | 🟢 Excellent |
 | 23 | hares and jackrabbits genus | *lepus* | 4,667 | 95 | 0 | 74 | 0 | **4,836** | 3,869 | — | 🟢 Excellent |
@@ -64,23 +64,23 @@ Sorted by total passed images (highest first).
 | 26 | woodchuck | *marmota monax* | 3,657 | 215 | 0 | 0 | 0 | **3,872** | 3,098 | — | 🟢 Excellent |
 | 27 | moose | *alces alces* | 3,254 | 125 | 0 | 129 | 0 | **3,508** | 2,806 | — | 🟢 Excellent |
 | 28 | american black bear | *ursus americanus* | 3,250 | 134 | 0 | 52 | 0 | **3,436** | 2,749 | — | 🟢 Excellent |
-| 29 | lion | *panthera leo* | 2,470 | 230 | 294 | 394 | 0 | **3,388** | 2,710 | — | 🟢 Excellent |
+| 29 | lion | *panthera leo* | 2,470 | 230 | 302 | 394 | 0 | **3,396** | 2,717 | — | 🟢 Excellent |
 | 30 | muridae family | *muridae* | 3,181 | 0 | 0 | 190 | 0 | **3,371** | 2,697 | — | 🟢 Excellent |
 | 31 | hedgehog family | *erinaceidae* | 3,227 | 0 | 0 | 69 | 0 | **3,296** | 2,637 | — | 🟢 Excellent |
 | 32 | muskrat | *ondatra zibethicus* | 3,093 | 159 | 0 | 1 | 0 | **3,253** | 2,602 | — | 🟢 Excellent |
-| 33 | plains zebra | *equus quagga* | 2,402 | 257 | 358 | 199 | 0 | **3,216** | 2,573 | — | 🟢 Excellent |
+| 33 | plains zebra | *equus quagga* | 2,402 | 257 | 376 | 199 | 0 | **3,234** | 2,587 | — | 🟢 Excellent |
 | 34 | howler monkey genus | *alouatta* | 2,929 | 247 | 0 | 30 | 0 | **3,206** | 2,565 | — | 🟢 Excellent |
 | 35 | opossum family | *didelphidae* | 3,157 | 0 | 0 | 42 | 0 | **3,199** | 2,559 | — | 🟢 Excellent |
 | 36 | bighorn sheep | *ovis canadensis* | 2,908 | 221 | 0 | 38 | 0 | **3,167** | 2,534 | — | 🟢 Excellent |
 | 37 | nutria | *myocastor coypus* | 2,934 | 184 | 0 | 32 | 0 | **3,150** | 2,520 | — | 🟢 Excellent |
 | 38 | european hare | *lepus europaeus* | 3,043 | 0 | 0 | 44 | 0 | **3,087** | 2,470 | — | 🟢 Excellent |
 | 39 | golden mantled ground squirrel | *callospermophilus lateralis* | 2,543 | 259 | 0 | 17 | 0 | **2,819** | 2,255 | — | 🟢 Excellent |
-| 40 | wild boar | *sus scrofa* | 2,276 | 107 | 292 | 115 | 0 | **2,790** | 2,232 | — | 🟢 Excellent |
+| 40 | wild boar | *sus scrofa* | 2,276 | 107 | 302 | 115 | 0 | **2,800** | 2,240 | — | 🟢 Excellent |
 | 41 | north american river otter | *lontra canadensis* | 2,630 | 117 | 0 | 25 | 0 | **2,772** | 2,218 | — | 🟢 Excellent |
 | 42 | eastern grey kangaroo | *macropus giganteus* | 2,412 | 206 | 0 | 62 | 0 | **2,680** | 2,144 | — | 🟢 Excellent |
-| 43 | domestic horse | *equus caballus* | 1,532 | 183 | 140 | 752 | 0 | **2,607** | 2,086 | — | 🟢 Excellent |
+| 43 | domestic horse | *equus caballus* | 1,532 | 183 | 139 | 752 | 0 | **2,606** | 2,085 | — | 🟢 Excellent |
 | 44 | baboon genus | *papio* | 2,168 | 223 | 0 | 95 | 0 | **2,486** | 1,989 | — | 🟢 Excellent |
-| 45 | leopard | *panthera pardus* | 845 | 197 | 391 | 144 | 834 | **2,411** | 1,929 | — | 🟢 Excellent |
+| 45 | leopard | *panthera pardus* | 845 | 197 | 393 | 144 | 834 | **2,413** | 1,930 | — | 🟢 Excellent |
 | 46 | domestic cattle | *bos taurus* | 1,994 | 137 | 246 | 17 | 0 | **2,394** | 1,915 | — | 🟢 Excellent |
 | 47 | american bison | *bison bison* | 2,018 | 203 | 0 | 99 | 0 | **2,320** | 1,856 | — | 🟢 Excellent |
 | 48 | pronghorn | *antilocapra americana* | 2,099 | 191 | 0 | 26 | 0 | **2,316** | 1,853 | — | 🟢 Excellent |
@@ -89,15 +89,15 @@ Sorted by total passed images (highest first).
 | 51 | mongoose family | *herpestidae* | 2,181 | 0 | 0 | 76 | 0 | **2,257** | 1,806 | — | 🟢 Excellent |
 | 52 | beaver genus | *castor* | 2,137 | 20 | 0 | 5 | 0 | **2,162** | 1,730 | — | 🟢 Excellent |
 | 53 | llama genus | *lama* | 1,520 | 491 | 0 | 74 | 0 | **2,085** | 1,668 | — | 🟢 Excellent |
-| 54 | koala | *phascolarctos cinereus* | 1,560 | 166 | 286 | 48 | 0 | **2,060** | 1,648 | — | 🟢 Excellent |
-| 55 | african buffalo | *syncerus caffer* | 1,498 | 244 | 0 | 309 | 0 | **2,051** | 1,641 | — | 🟢 Excellent |
+| 54 | african buffalo | *syncerus caffer* | 1,498 | 244 | 0 | 309 | 0 | **2,051** | 1,641 | — | 🟢 Excellent |
+| 55 | koala | *phascolarctos cinereus* | 1,560 | 166 | 272 | 48 | 0 | **2,046** | 1,637 | — | 🟢 Excellent |
 | 56 | domestic dog | *canis familiaris* | 1,604 | 194 | 0 | 221 | 0 | **2,019** | 1,615 | — | 🟢 Excellent |
 | 57 | western gray squirrel | *sciurus griseus* | 1,866 | 91 | 0 | 0 | 0 | **1,957** | 1,566 | — | 🟢 Excellent |
 | 58 | north american porcupine | *erethizon dorsatum* | 1,752 | 141 | 0 | 21 | 0 | **1,914** | 1,531 | — | 🟢 Excellent |
 | 59 | yellow-bellied marmot | *marmota flaviventris* | 1,682 | 216 | 0 | 0 | 0 | **1,898** | 1,518 | — | 🟢 Excellent |
 | 60 | bobcat | *lynx rufus* | 1,740 | 107 | 0 | 14 | 0 | **1,861** | 1,489 | 11 | 🟢 Excellent |
 | 61 | agouti genus | *dasyprocta* | 1,695 | 114 | 0 | 44 | 0 | **1,853** | 1,482 | 18 | 🟢 Excellent |
-| 62 | sea otter | *enhydra lutris* | 1,237 | 135 | 422 | 32 | 0 | **1,826** | 1,461 | 39 | 🟢 Excellent |
+| 62 | sea otter | *enhydra lutris* | 1,237 | 135 | 415 | 32 | 0 | **1,819** | 1,455 | 45 | 🟢 Excellent |
 | 63 | cebus species | *cebus* | 1,356 | 392 | 0 | 71 | 0 | **1,819** | 1,455 | 45 | 🟢 Excellent |
 | 64 | arizona black-tailed prairie dog | *cynomys ludovicianus* | 1,542 | 208 | 0 | 50 | 0 | **1,800** | 1,440 | 60 | 🟢 Excellent |
 | 65 | weasel species | *mustela* | 1,234 | 458 | 0 | 103 | 0 | **1,795** | 1,436 | 64 | 🟢 Excellent |
@@ -109,13 +109,13 @@ Sorted by total passed images (highest first).
 | 71 | lycalopex species | *lycalopex* | 1,270 | 461 | 0 | 0 | 0 | **1,731** | 1,385 | 115 | 🟢 Excellent |
 | 72 | alpine marmot | *marmota marmota* | 1,498 | 187 | 0 | 31 | 0 | **1,716** | 1,373 | 127 | 🟢 Excellent |
 | 73 | red deer | *cervus elaphus* | 1,405 | 153 | 0 | 139 | 0 | **1,697** | 1,358 | 142 | 🟢 Excellent |
-| 74 | domestic sheep | *ovis aries* | 1,060 | 110 | 313 | 205 | 0 | **1,688** | 1,350 | 150 | 🟢 Excellent |
+| 74 | domestic sheep | *ovis aries* | 1,060 | 110 | 315 | 205 | 0 | **1,690** | 1,352 | 148 | 🟢 Excellent |
 | 75 | vervet monkey | *chlorocebus pygerythrus* | 1,355 | 248 | 0 | 32 | 0 | **1,635** | 1,308 | 192 | 🟢 Excellent |
 | 76 | common wildebeest | *connochaetes taurinus* | 1,298 | 249 | 0 | 78 | 0 | **1,625** | 1,300 | 200 | 🟢 Excellent |
-| 77 | hippopotamus | *hippopotamus amphibius* | 1,099 | 174 | 301 | 46 | 0 | **1,620** | 1,296 | 204 | 🟢 Excellent |
+| 77 | hippopotamus | *hippopotamus amphibius* | 1,099 | 174 | 291 | 46 | 0 | **1,610** | 1,288 | 212 | 🟢 Excellent |
 | 78 | common fallow deer | *dama dama* | 1,269 | 157 | 0 | 163 | 0 | **1,589** | 1,271 | 229 | 🟢 Excellent |
 | 79 | common warthog | *phacochoerus africanus* | 1,494 | 8 | 0 | 51 | 0 | **1,553** | 1,242 | 258 | 🟢 Excellent |
-| 80 | asian elephant | *elephas maximus* | 972 | 188 | 227 | 141 | 0 | **1,528** | 1,222 | 278 | 🟢 Excellent |
+| 80 | asian elephant | *elephas maximus* | 972 | 188 | 234 | 141 | 0 | **1,535** | 1,228 | 272 | 🟢 Excellent |
 | 81 | brown bear | *ursus arctos* | 1,223 | 146 | 0 | 154 | 0 | **1,523** | 1,218 | 282 | 🟢 Excellent |
 | 82 | brown-throated sloth | *bradypus variegatus* | 1,294 | 209 | 0 | 15 | 0 | **1,518** | 1,214 | 286 | 🟢 Excellent |
 | 83 | rhinoceros family | *rhinocerotidae* | 1,410 | 0 | 0 | 102 | 0 | **1,512** | 1,210 | 290 | 🟢 Excellent |
@@ -124,7 +124,7 @@ Sorted by total passed images (highest first).
 | 86 | ateles species | *ateles* | 1,340 | 61 | 0 | 36 | 0 | **1,437** | 1,150 | 350 | 🟡 Good |
 | 87 | cercopithecus species | *cercopithecus* | 978 | 376 | 0 | 66 | 0 | **1,420** | 1,136 | 364 | 🟡 Good |
 | 88 | collared peccary | *pecari tajacu* | 1,236 | 158 | 0 | 25 | 0 | **1,419** | 1,135 | 365 | 🟡 Good |
-| 89 | domestic donkey | *equus asinus* | 870 | 217 | 190 | 113 | 0 | **1,390** | 1,112 | 388 | 🟡 Good |
+| 89 | domestic donkey | *equus asinus* | 870 | 217 | 198 | 113 | 0 | **1,398** | 1,118 | 382 | 🟡 Good |
 | 90 | common wombat | *vombatus ursinus* | 468 | 131 | 0 | 15 | 771 | **1,385** | 1,108 | 392 | 🟡 Good |
 | 91 | swamp wallaby | *wallabia bicolor* | 1,213 | 156 | 0 | 8 | 0 | **1,377** | 1,102 | 398 | 🟡 Good |
 | 92 | rock hyrax | *procavia capensis* | 1,094 | 228 | 0 | 14 | 0 | **1,336** | 1,069 | 431 | 🟡 Good |
@@ -133,7 +133,7 @@ Sorted by total passed images (highest first).
 | 95 | martes species | *martes* | 975 | 296 | 0 | 27 | 0 | **1,298** | 1,038 | 462 | 🟡 Good |
 | 96 | alpine ibex | *capra ibex* | 1,019 | 219 | 0 | 56 | 0 | **1,294** | 1,035 | 465 | 🟡 Good |
 | 97 | northern chamois | *rupicapra rupicapra* | 1,069 | 169 | 0 | 31 | 0 | **1,269** | 1,015 | 485 | 🟡 Good |
-| 98 | cheetah | *acinonyx jubatus* | 689 | 246 | 199 | 106 | 0 | **1,240** | 992 | 508 | 🟡 Good |
+| 98 | cheetah | *acinonyx jubatus* | 689 | 246 | 198 | 106 | 0 | **1,239** | 991 | 509 | 🟡 Good |
 | 99 | spotted hyaena | *crocuta crocuta* | 985 | 210 | 0 | 38 | 0 | **1,233** | 986 | 514 | 🟡 Good |
 | 100 | chital | *axis axis* | 862 | 227 | 0 | 80 | 0 | **1,169** | 935 | 565 | 🟡 Good |
 | 101 | tiger | *panthera tigris* | 533 | 156 | 307 | 160 | 0 | **1,156** | 925 | 575 | 🟡 Good |
@@ -155,25 +155,25 @@ Sorted by total passed images (highest first).
 | 117 | blesbok | *damaliscus pygargus* | 577 | 231 | 0 | 15 | 0 | **823** | 658 | 842 | 🟠 Marginal |
 | 118 | gemsbok | *oryx gazella* | 524 | 281 | 0 | 13 | 0 | **818** | 654 | 846 | 🟠 Marginal |
 | 119 | mountain goat | *oreamnos americanus* | 629 | 153 | 0 | 11 | 0 | **793** | 634 | 866 | 🟠 Marginal |
-| 120 | dingo | *canis lupus dingo* | 0 | 0 | 0 | 16 | 765 | **781** | 625 | 875 | 🟠 Marginal |
+| 120 | grey wolf | *canis lupus* | 333 | 67 | 232 | 150 | 0 | **782** | 626 | 874 | 🟠 Marginal |
 | 121 | golden jackal | *canis aureus* | 557 | 165 | 0 | 59 | 0 | **781** | 625 | 875 | 🟠 Marginal |
-| 122 | grey wolf | *canis lupus* | 333 | 67 | 224 | 150 | 0 | **774** | 619 | 881 | 🟠 Marginal |
+| 122 | dingo | *canis lupus dingo* | 0 | 0 | 0 | 16 | 765 | **781** | 625 | 875 | 🟠 Marginal |
 | 123 | springbok | *antidorcas marsupialis* | 545 | 202 | 0 | 12 | 0 | **759** | 607 | 893 | 🟠 Marginal |
 | 124 | snow leopard | *panthera uncia* | 31 | 2 | 0 | 20 | 702 | **755** | 604 | 896 | 🟠 Marginal |
 | 125 | klipspringer | *oreotragus oreotragus* | 473 | 221 | 0 | 7 | 0 | **701** | 561 | 939 | 🟠 Marginal |
 | 126 | domestic water buffalo | *bubalus bubalis* | 486 | 185 | 0 | 23 | 0 | **694** | 555 | 945 | 🟠 Marginal |
 | 127 | leaf monkeys genus | *presbytis* | 392 | 189 | 0 | 112 | 0 | **693** | 554 | 946 | 🟠 Marginal |
-| 128 | red kangaroo | *osphranter rufus* | 237 | 107 | 330 | 0 | 0 | **674** | 539 | 961 | 🟠 Marginal |
+| 128 | red kangaroo | *osphranter rufus* | 237 | 107 | 334 | 0 | 0 | **678** | 542 | 958 | 🟠 Marginal |
 | 129 | hoffmann's two-toed sloth | *choloepus hoffmanni* | 489 | 178 | 0 | 0 | 0 | **667** | 534 | 966 | 🟠 Marginal |
 | 130 | striped skunk | *mephitis mephitis* | 630 | 31 | 0 | 5 | 0 | **666** | 533 | 967 | 🟠 Marginal |
 | 131 | colobus species | *colobus* | 405 | 235 | 0 | 23 | 0 | **663** | 530 | 970 | 🟠 Marginal |
-| 132 | giraffe | *giraffa camelopardalis* | 155 | 145 | 316 | 24 | 0 | **640** | 512 | 988 | 🟠 Marginal |
+| 132 | giraffe | *giraffa camelopardalis* | 155 | 145 | 325 | 24 | 0 | **649** | 519 | 981 | 🟠 Marginal |
 | 133 | jaguar | *panthera onca* | 383 | 109 | 0 | 69 | 0 | **561** | 449 | 1,051 | 🟠 Marginal |
 | 134 | nilgai | *boselaphus tragocamelus* | 340 | 191 | 0 | 18 | 0 | **549** | 439 | 1,061 | 🟠 Marginal |
-| 135 | red panda | *ailurus fulgens* | 117 | 9 | 285 | 71 | 65 | **547** | 438 | 1,062 | 🟠 Marginal |
+| 135 | red panda | *ailurus fulgens* | 117 | 9 | 281 | 71 | 65 | **543** | 434 | 1,066 | 🟠 Marginal |
 | 136 | grant's gazelle | *nanger granti* | 288 | 240 | 0 | 0 | 0 | **528** | 422 | 1,078 | 🟠 Marginal |
 | 137 | reedbuck genus | *redunca* | 302 | 195 | 0 | 17 | 0 | **514** | 411 | 1,089 | 🟠 Marginal |
-| 138 | domestic goat | *capra aegagrus hircus* | 0 | 0 | 308 | 183 | 0 | **491** | 393 | 1,107 | 🔴 Low |
+| 138 | domestic goat | *capra aegagrus hircus* | 0 | 0 | 320 | 183 | 0 | **503** | 402 | 1,098 | 🟠 Marginal |
 | 139 | mountain zebra | *equus zebra* | 325 | 146 | 0 | 12 | 0 | **483** | 386 | 1,114 | 🔴 Low |
 | 140 | japanese macaque | *macaca fuscata* | 305 | 135 | 0 | 41 | 0 | **481** | 385 | 1,115 | 🔴 Low |
 | 141 | common duiker | *sylvicapra grimmia* | 308 | 162 | 0 | 2 | 0 | **472** | 378 | 1,122 | 🔴 Low |
@@ -200,8 +200,8 @@ Sorted by total passed images (highest first).
 | 162 | kob | *kobus kob* | 155 | 117 | 0 | 17 | 0 | **289** | 231 | 1,269 | 🔴 Low |
 | 163 | roan antelope | *hippotragus equinus* | 163 | 99 | 0 | 16 | 0 | **278** | 222 | 1,278 | 🔴 Low |
 | 164 | leopardus species | *leopardus* | 211 | 48 | 0 | 12 | 0 | **271** | 217 | 1,283 | 🔴 Low |
-| 165 | european bison | *bison bonasus* | 152 | 84 | 0 | 29 | 0 | **265** | 212 | 1,288 | 🔴 Low |
-| 166 | sun bear | *helarctos malayanus* | 53 | 15 | 172 | 15 | 0 | **255** | 204 | 1,296 | 🔴 Low |
+| 165 | sun bear | *helarctos malayanus* | 53 | 15 | 185 | 15 | 0 | **268** | 214 | 1,286 | 🔴 Low |
+| 166 | european bison | *bison bonasus* | 152 | 84 | 0 | 29 | 0 | **265** | 212 | 1,288 | 🔴 Low |
 | 167 | nine-banded armadillo | *dasypus novemcinctus* | 191 | 43 | 0 | 6 | 0 | **240** | 192 | 1,308 | 🔴 Low |
 | 168 | old world porcupine family | *hystricidae* | 190 | 33 | 0 | 15 | 0 | **238** | 190 | 1,310 | 🔴 Low |
 | 169 | raccoon dog | *nyctereutes procyonoides* | 128 | 91 | 0 | 13 | 0 | **232** | 186 | 1,314 | 🔴 Low |
@@ -300,7 +300,7 @@ Sorted by total passed images (highest first).
 
 ## Low Classes — Supplementation Recommended
 
-**59 classes** with 100–499 passed images.
+**58 classes** with 100–499 passed images.
 
 | Class | Scientific name | iNat | GBIF | OI | Wiki | CV | Total | Gap |
 |-------|-----------------|-----:|-----:|---:|-----:|---:|------:|----:|
@@ -334,8 +334,8 @@ Sorted by total passed images (highest first).
 | raccoon dog | *nyctereutes procyonoides* | 128 | 91 | 0 | 13 | 0 | 232 | 1,314 |
 | old world porcupine family | *hystricidae* | 190 | 33 | 0 | 15 | 0 | 238 | 1,310 |
 | nine-banded armadillo | *dasypus novemcinctus* | 191 | 43 | 0 | 6 | 0 | 240 | 1,308 |
-| sun bear | *helarctos malayanus* | 53 | 15 | 172 | 15 | 0 | 255 | 1,296 |
 | european bison | *bison bonasus* | 152 | 84 | 0 | 29 | 0 | 265 | 1,288 |
+| sun bear | *helarctos malayanus* | 53 | 15 | 185 | 15 | 0 | 268 | 1,286 |
 | leopardus species | *leopardus* | 211 | 48 | 0 | 12 | 0 | 271 | 1,283 |
 | roan antelope | *hippotragus equinus* | 163 | 99 | 0 | 16 | 0 | 278 | 1,278 |
 | kob | *kobus kob* | 155 | 117 | 0 | 17 | 0 | 289 | 1,269 |
@@ -355,11 +355,10 @@ Sorted by total passed images (highest first).
 | eurasian otter | *lutra lutra* | 308 | 97 | 0 | 29 | 0 | 434 | 1,153 |
 | giant otter | *pteronura brasiliensis* | 306 | 122 | 0 | 14 | 0 | 442 | 1,146 |
 | blackbuck | *antilope cervicapra* | 282 | 148 | 0 | 18 | 0 | 448 | 1,142 |
-| puma | *puma concolor* | 383 | 39 | 0 | 30 | 0 | 452 | 1,138 |
-| thomson's gazelle | *eudorcas thomsonii* | 220 | 232 | 0 | 0 | 0 | 452 | 1,138 |
 | ring-tailed lemur | *lemur catta* | 279 | 121 | 0 | 52 | 0 | 452 | 1,138 |
+| thomson's gazelle | *eudorcas thomsonii* | 220 | 232 | 0 | 0 | 0 | 452 | 1,138 |
+| puma | *puma concolor* | 383 | 39 | 0 | 30 | 0 | 452 | 1,138 |
 | eurasian badger | *meles meles* | 411 | 34 | 0 | 15 | 0 | 460 | 1,132 |
 | common duiker | *sylvicapra grimmia* | 308 | 162 | 0 | 2 | 0 | 472 | 1,122 |
 | japanese macaque | *macaca fuscata* | 305 | 135 | 0 | 41 | 0 | 481 | 1,115 |
 | mountain zebra | *equus zebra* | 325 | 146 | 0 | 12 | 0 | 483 | 1,114 |
-| domestic goat | *capra aegagrus hircus* | 0 | 0 | 308 | 183 | 0 | 491 | 1,107 |
