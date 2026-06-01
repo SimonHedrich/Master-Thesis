@@ -47,6 +47,8 @@ DATA_REAL_DIR  = REPO_ROOT / "data" / "real"
 MANIFEST_PATH  = REPO_ROOT / "reports" / "dataset_split_manifest.json"
 SUMMARY_PATH   = REPO_ROOT / "reports" / "dataset_split_summary.json"
 REPORT_PATH    = REPO_ROOT / "reports" / "dataset_split_report.md"
+COCO_HUMANS_DIR = REPO_ROOT / "data" / "coco_humans"
+BLANKS_DIR      = REPO_ROOT / "data" / "blanks"
 
 SEED     = 42
 CONF_SIG = 0.5  # MegaDetector significance threshold
@@ -476,6 +478,8 @@ def build_coco_split(
     categories: list[dict],
     cat_id_map: dict[str, int],
     dims: dict[str, tuple[int, int] | None],
+    human_assignments: dict[str, list[dict]] | None = None,
+    blank_assignments: dict[str, list[dict]] | None = None,
 ) -> dict:
     images:       list[dict] = []
     annotations:  list[dict] = []
@@ -523,15 +527,72 @@ def build_coco_split(
                 no_annotation += 1
             img_id += 1
 
+    # Human images (annotated, class "human")
+    if human_assignments:
+        human_cat_id = cat_id_map.get("human")
+        for img in human_assignments.get(split, []):
+            size = dims.get(img["filepath"])
+            if size is None:
+                skipped_dims += 1
+                continue
+            img_w, img_h = size
+            images.append({
+                "id":            img_id,
+                "file_name":     img["filepath"],
+                "width":         img_w,
+                "height":        img_h,
+                "band":          "negative",
+                "source":        "coco_humans",
+                "split":         split,
+                "quality_score": 1.0,
+            })
+            bbox = img.get("bbox")
+            if bbox is not None and human_cat_id is not None:
+                coco_bbox = yolo_to_coco(bbox, img_w, img_h)
+                w_px, h_px = coco_bbox[2], coco_bbox[3]
+                annotations.append({
+                    "id":          ann_id,
+                    "image_id":    img_id,
+                    "category_id": human_cat_id,
+                    "bbox":        coco_bbox,
+                    "area":        w_px * h_px,
+                    "iscrowd":     0,
+                    "source":      "coco_humans",
+                    "conf":        1.0,
+                })
+                ann_id += 1
+            img_id += 1
+
+    # Blank images (no annotations — true-negative background samples)
+    if blank_assignments:
+        for img in blank_assignments.get(split, []):
+            size = dims.get(img["filepath"])
+            if size is None:
+                skipped_dims += 1
+                continue
+            img_w, img_h = size
+            images.append({
+                "id":            img_id,
+                "file_name":     img["filepath"],
+                "width":         img_w,
+                "height":        img_h,
+                "band":          "negative",
+                "source":        "blanks",
+                "split":         split,
+                "quality_score": 0.5,
+            })
+            no_annotation += 1
+            img_id += 1
+
     n_imgs = len(images)
     n_anns = len(annotations)
     print(f"  [{split}] {n_imgs:>6,} images  {n_anns:>6,} annotations"
           f"  (skipped dims: {skipped_dims}  no-bbox: {no_annotation})")
     return {
         "info": {
-            "description":  f"Wildlife 225-class real {split} images",
+            "description":  f"Wildlife 226-class real {split} images",
             "date_created": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-            "version":      "1.0",
+            "version":      "1.1",
         },
         "licenses":    [],
         "categories":  categories,
@@ -544,6 +605,8 @@ def build_coco_split(
 def write_manifest(
     all_assignments: dict[str, dict],
     band_info: dict[str, dict],
+    human_assignments: dict[str, list[dict]] | None = None,
+    blank_assignments: dict[str, list[dict]] | None = None,
 ) -> None:
     flat: list[dict] = []
     for cls in sorted(all_assignments):
@@ -557,6 +620,32 @@ def write_manifest(
                     "source":           img["source"],
                     "split":            split_name,
                     "quality_score":    round(img["Q"], 6),
+                    "score_components": img["score_components"],
+                })
+
+    if human_assignments:
+        for split_name in ("train", "val", "test"):
+            for img in human_assignments.get(split_name, []):
+                flat.append({
+                    "filepath":         img["filepath"],
+                    "class":            "human",
+                    "band":             "negative",
+                    "source":           "coco_humans",
+                    "split":            split_name,
+                    "quality_score":    1.0,
+                    "score_components": img["score_components"],
+                })
+
+    if blank_assignments:
+        for split_name in ("train", "val", "test"):
+            for img in blank_assignments.get(split_name, []):
+                flat.append({
+                    "filepath":         img["filepath"],
+                    "class":            "blank",
+                    "band":             "negative",
+                    "source":           "blanks",
+                    "split":            split_name,
+                    "quality_score":    0.5,
                     "score_components": img["score_components"],
                 })
 
@@ -593,6 +682,8 @@ def write_summary(
     all_assignments: dict[str, dict],
     band_info: dict[str, dict],
     per_class_images: dict[str, list[dict]],
+    human_assignments: dict[str, list[dict]] | None = None,
+    blank_assignments: dict[str, list[dict]] | None = None,
 ) -> None:
     summary: dict[str, dict] = {}
     for cls in sorted(all_assignments):
@@ -631,6 +722,38 @@ def write_summary(
             "train_sources":  _source_counts(train),
             "val_sources":    _source_counts(val),
             "test_sources":   _source_counts(test),
+        }
+
+    if human_assignments:
+        summary["human"] = {
+            "band":          "negative",
+            "csv_pool":      0,
+            "pool":          sum(len(human_assignments.get(s, [])) for s in ("train", "val", "test")),
+            "hard_excluded": 0,
+            "train":         len(human_assignments.get("train", [])),
+            "val":           len(human_assignments.get("val", [])),
+            "test":          len(human_assignments.get("test", [])),
+            "surplus":       0,
+            "q_stats":       {"mean": 1.0, "p25": 1.0, "p50": 1.0, "p75": 1.0},
+            "train_sources": {"coco_humans": len(human_assignments.get("train", []))},
+            "val_sources":   {"coco_humans": len(human_assignments.get("val", []))},
+            "test_sources":  {"coco_humans": len(human_assignments.get("test", []))},
+        }
+
+    if blank_assignments:
+        summary["__blanks__"] = {
+            "band":          "negative",
+            "csv_pool":      0,
+            "pool":          sum(len(blank_assignments.get(s, [])) for s in ("train", "val", "test")),
+            "hard_excluded": 0,
+            "train":         len(blank_assignments.get("train", [])),
+            "val":           len(blank_assignments.get("val", [])),
+            "test":          len(blank_assignments.get("test", [])),
+            "surplus":       0,
+            "q_stats":       {"mean": 0.5, "p25": 0.5, "p50": 0.5, "p75": 0.5},
+            "train_sources": {"blanks": len(blank_assignments.get("train", []))},
+            "val_sources":   {"blanks": len(blank_assignments.get("val", []))},
+            "test_sources":  {"blanks": len(blank_assignments.get("test", []))},
         }
 
     with open(SUMMARY_PATH, "w", encoding="utf-8") as f:
@@ -818,6 +941,95 @@ def print_dry_run(all_assignments: dict[str, dict], band_info: dict[str, dict]) 
     totals = {k: sum(band_counts[b][k] for b in "ABCD") for k in ("classes", "train", "val", "test")}
     print(f"  {'Total':<6} {totals['classes']:>8} {totals['train']:>8,} {totals['val']:>6,} {totals['test']:>8,}")
 
+# ── Negative-class loaders ─────────────────────────────────────────────────────
+
+def load_human_images_by_split() -> dict[str, list[dict]]:
+    """Load coco_humans images from metadata_catalog.csv and assign 80/10/10 splits."""
+    catalog = COCO_HUMANS_DIR / "metadata_catalog.csv"
+    if not catalog.exists():
+        print("  WARNING: coco_humans/metadata_catalog.csv not found, skipping humans")
+        return {"train": [], "val": [], "test": [], "surplus": []}
+
+    seen: dict[str, dict] = {}
+    with open(catalog, encoding="utf-8", newline="") as f:
+        for row in csv.DictReader(f):
+            fname = row["filename"]
+            if fname in seen:
+                continue
+            xmin, ymin, xmax, ymax = [float(x) for x in row["bbox"].split(",")]
+            w_n = xmax - xmin
+            h_n = ymax - ymin
+            xc  = xmin + w_n / 2
+            yc  = ymin + h_n / 2
+            seen[fname] = {
+                "filepath":         f"data/coco_humans/images/human/{fname}",
+                "source":           "coco_humans",
+                "Q":                1.0,
+                "score_components": {
+                    "area_score": 1.0, "area_frac": round(w_n * h_n, 6),
+                    "edge_score": 1.0, "min_margin": 0.02,
+                    "single_score": 1.0, "n_significant": 1,
+                    "conf_score": 1.0,
+                    "hard_excluded": False,
+                },
+                "bbox":      [xc, yc, w_n, h_n],
+                "bbox_conf": 1.0,
+            }
+
+    images = sorted(seen.values(), key=lambda x: x["filepath"])
+    rng = random.Random(SEED)
+    rng.shuffle(images)
+    n = len(images)
+    n_test, n_val, n_train = compute_band_d_sizes(n)
+    print(f"  {n:,} human images → train={n_train} val={n_val} test={n_test} (Band D sizing)")
+    return {
+        "train":   images[:n_train],
+        "val":     images[n_train : n_train + n_val],
+        "test":    images[n_train + n_val :],
+        "surplus": [],
+    }
+
+
+def load_blank_images_by_split() -> dict[str, list[dict]]:
+    """Load blank (empty-scene) images from data/blanks and assign ~70/15/15 splits."""
+    images_dir = BLANKS_DIR / "images"
+    if not images_dir.exists():
+        print("  WARNING: data/blanks/images not found, skipping blanks")
+        return {"train": [], "val": [], "test": [], "surplus": []}
+
+    images = [
+        {
+            "filepath":         f"data/blanks/images/{f.name}",
+            "source":           "blanks",
+            "Q":                0.5,
+            "score_components": {
+                "area_score": 0.0, "area_frac": 0.0,
+                "edge_score": 0.0, "min_margin": 0.0,
+                "single_score": 0.5, "n_significant": 0,
+                "conf_score": 0.5,
+                "hard_excluded": False,
+            },
+            "bbox":      None,
+            "bbox_conf": None,
+        }
+        for f in sorted(images_dir.glob("*.jpg"))
+    ]
+
+    rng = random.Random(SEED + 1)
+    rng.shuffle(images)
+    n = len(images)
+    n_val   = max(1, round(n * 0.15))
+    n_test  = max(1, round(n * 0.15))
+    n_train = n - n_val - n_test
+    print(f"  {n:,} blank images → train={n_train} val={n_val} test={n_test}")
+    return {
+        "train":   images[:n_train],
+        "val":     images[n_train : n_train + n_val],
+        "test":    images[n_train + n_val :],
+        "surplus": [],
+    }
+
+
 # ── Main ───────────────────────────────────────────────────────────────────────
 
 def main() -> None:
@@ -838,6 +1050,13 @@ def main() -> None:
         print(f"  {len(canonical_lookup)} apostrophe-name canonical mappings")
     valid_classes, categories = load_student_labels(STUDENT_LABELS)
     cat_id_map = {c["name"]: c["id"] for c in categories}
+    if "human" not in cat_id_map:
+        human_cat_id = max(c["id"] for c in categories) + 1
+        categories.append({"id": human_cat_id, "name": "human", "supercategory": "person"})
+        cat_id_map["human"] = human_cat_id
+        print(f"  Added 'human' as category id {human_cat_id}")
+    else:
+        print(f"  'human' already in labels as category id {cat_id_map['human']}")
     print(f"  {len(valid_classes)} valid classes, {len(categories)} COCO categories")
 
     band_info = load_class_bands(CLASSES_CSV)
@@ -847,6 +1066,12 @@ def main() -> None:
     # ── Load and score images ──────────────────────────────────────────────────
     print("\n[2] Loading quality-passed images ...", flush=True)
     per_class_images = load_all_passed_images(valid_classes, canonical_lookup)
+
+    print("\n[2b] Loading human images ...", flush=True)
+    human_assignments = load_human_images_by_split()
+
+    print("\n[2c] Loading blank images ...", flush=True)
+    blank_assignments = load_blank_images_by_split()
 
     # ── Assign splits ──────────────────────────────────────────────────────────
     print("\n[3] Assigning splits ...", flush=True)
@@ -864,8 +1089,8 @@ def main() -> None:
 
     # ── Write manifest and summary ─────────────────────────────────────────────
     print("\n[4] Writing manifest and summary ...", flush=True)
-    write_manifest(all_assignments, band_info)
-    write_summary(all_assignments, band_info, per_class_images)
+    write_manifest(all_assignments, band_info, human_assignments, blank_assignments)
+    write_summary(all_assignments, band_info, per_class_images, human_assignments, blank_assignments)
 
     # ── Read image dimensions ──────────────────────────────────────────────────
     print("\n[5] Reading image dimensions ...", flush=True)
@@ -874,14 +1099,23 @@ def main() -> None:
         for split_name in ("train", "val", "test"):
             for img in cls_data[split_name]:
                 assigned_fps.append(img["filepath"])
-    print(f"  {len(assigned_fps):,} assigned images", flush=True)
+    for split_name in ("train", "val", "test"):
+        for img in human_assignments.get(split_name, []):
+            assigned_fps.append(img["filepath"])
+        for img in blank_assignments.get(split_name, []):
+            assigned_fps.append(img["filepath"])
+    print(f"  {len(assigned_fps):,} assigned images (incl. human + blank)", flush=True)
     dims = read_image_dimensions(assigned_fps, args.max_workers)
 
     # ── Export COCO ────────────────────────────────────────────────────────────
     print("\n[6] Exporting COCO annotations ...", flush=True)
     DATA_REAL_DIR.mkdir(parents=True, exist_ok=True)
     for split in ("train", "val", "test"):
-        coco     = build_coco_split(split, all_assignments, band_info, categories, cat_id_map, dims)
+        coco     = build_coco_split(
+            split, all_assignments, band_info, categories, cat_id_map, dims,
+            human_assignments=human_assignments,
+            blank_assignments=blank_assignments,
+        )
         out_path = DATA_REAL_DIR / f"annotations_{split}.json"
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(coco, f, indent=2)

@@ -3413,24 +3413,28 @@
     }
   },
   "human": {
-    "band": "A",
+    "band": "negative",
     "csv_pool": 0,
-    "pool": 5,
+    "pool": 2000,
     "hard_excluded": 0,
-    "train": 0,
-    "val": 0,
-    "test": 5,
+    "train": 1500,
+    "val": 100,
+    "test": 400,
     "surplus": 0,
     "q_stats": {
-      "mean": 0.8896,
-      "p25": 0.7927,
-      "p50": 0.9564,
-      "p75": 0.9907
+      "mean": 1.0,
+      "p25": 1.0,
+      "p50": 1.0,
+      "p75": 1.0
     },
-    "train_sources": {},
-    "val_sources": {},
+    "train_sources": {
+      "coco_humans": 1500
+    },
+    "val_sources": {
+      "coco_humans": 100
+    },
     "test_sources": {
-      "gbif": 5
+      "coco_humans": 400
     }
   },
   "impala": {
@@ -6519,6 +6523,31 @@
     "test_sources": {
       "gbif": 33,
       "inaturalist": 251
+    }
+  },
+  "__blanks__": {
+    "band": "negative",
+    "csv_pool": 0,
+    "pool": 170,
+    "hard_excluded": 0,
+    "train": 118,
+    "val": 26,
+    "test": 26,
+    "surplus": 0,
+    "q_stats": {
+      "mean": 0.5,
+      "p25": 0.5,
+      "p50": 0.5,
+      "p75": 0.5
+    },
+    "train_sources": {
+      "blanks": 118
+    },
+    "val_sources": {
+      "blanks": 26
+    },
+    "test_sources": {
+      "blanks": 26
     }
   }
 }
