@@ -15,6 +15,10 @@ CONTAINER ?= wildlife-train
 # YOLOv5 source directory (bind-mounted into the yolov5 container)
 YV5_DIR ?= /opt/yolov5
 
+# GPU flag — set to empty to disable GPU access (e.g. for dataset prep without CUDA):
+#   make run GPUS=
+GPUS ?= all
+
 # ─── Docker ───────────────────────────────────────────────────────────────────
 
 build:
@@ -25,7 +29,7 @@ build:
 # Run training commands from inside: make -f /app/scripts/training/Makefile <target>
 run:
 	docker run --rm -it \
-	  --gpus all \
+	  $(if $(GPUS),--gpus $(GPUS)) \
 	  --shm-size=8g \
 	  -v $(REPO_ROOT):/app \
 	  -v $(DATA_DIR):/app/data \

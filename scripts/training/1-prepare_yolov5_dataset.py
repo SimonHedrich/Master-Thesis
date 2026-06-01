@@ -23,7 +23,7 @@ import random
 from collections import defaultdict
 from pathlib import Path
 
-REPO = Path("/home/debian/Master-Thesis")
+REPO = Path(__file__).parents[3]  # /app inside container, /home/ubuntu/Master-Thesis on host
 OUT_DIR = REPO / "data" / "training" / "yolov5"
 YAML_PATH = REPO / "data" / "training" / "wildlife225_yolov5.yaml"
 
