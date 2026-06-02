@@ -7,6 +7,24 @@ Fine-tuning YOLOv5s on the 225-class wildlife dataset (non-bird mammals). This c
 - Python 3.10
 - YOLOv5 source pinned at commit `5cdad89` in `/opt/yolov5`
 - CUDA-capable GPU
+Manual steps to run to start training:
+# On host — clone YOLOv5 (once)
+git clone https://github.com/ultralytics/yolov5.git /opt/yolov5
+cd /opt/yolov5 && git checkout 5cdad89
+
+# Build the image and open a shell
+make build TARGET=yolov5 IMAGE=wildlife-yolov5
+make run IMAGE=wildlife-yolov5
+
+# Inside the container — check if --optimizer flag exists
+python /opt/yolov5/train.py --help | grep optimizer
+# If yes: add --optimizer AdamW to scripts/training/Makefile's yolov5-train target
+# If no: patch train.py per the runbook (Step 2 in docs/plans/2026-05-25_yolov5s-training-runbook.md)
+
+# Prepare dataset (once), then train
+make -f /app/scripts/training/Makefile yolov5-prepare
+make -f /app/scripts/training/Makefile yolov5-train
+
 
 **Set the repo root once:**
 ```bash

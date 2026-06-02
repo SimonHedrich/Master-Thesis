@@ -166,7 +166,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git make curl wget \
         libgl1 libglib2.0-0 libsm6 libxext6 libxrender-dev \
     && rm -rf /var/lib/apt/lists/* \
-    && python3.10 -m pip install --upgrade pip
+    && python3.10 -m pip install --upgrade pip \
+    && ln -s /usr/bin/python3.10 /usr/bin/python
 
 # PyTorch 2.0.1 with CUDA 11.8 — last version fully supported by YOLOv5@5cdad89.
 # The host driver (CUDA 12+) injects libcuda.so at runtime via NVIDIA container
