@@ -8,17 +8,17 @@ dependencies = [
     # Core DL stack — CUDA wheels resolved via [tool.uv.sources]
     "torch>=2.11.0",
     "torchvision>=0.26.0",
-
     # Object detection — covers YOLOv8s, YOLO11n, YOLOv10n, YOLO12n, RT-DETR-L
     "ultralytics>=8.4.33",
-
     # Wildlife domain — MegaDetector v5 wrapper
     "PytorchWildlife>=1.2.4",
-
     # Training utilities
     "pytorch-lightning>=2.6.1",
     "mlflow>=3.0.0",
-
+    "torchmetrics>=1.4.0",
+    "pycocotools>=2.0.7",
+    # YOLOv5 — model definition, ComputeLoss, NMS (we own training loop / data / eval)
+    "yolov5>=7.0.13",
     # Data & vision
     "numpy>=2.0.0",
     "pillow>=11.0.0",
@@ -27,7 +27,8 @@ dependencies = [
     "tqdm>=4.66.0",
     "pandas>=2.2.0",
     "matplotlib>=3.9.0",
-
+    # Evaluation — interactive visualization of predictions vs ground truth
+    "fiftyone>=1.0.0",
     # Utilities
     "python-dotenv>=1.0.0",
     "psutil>=6.0.0",

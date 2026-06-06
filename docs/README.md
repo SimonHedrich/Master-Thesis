@@ -36,6 +36,8 @@ This directory contains documentation, analysis, and notes produced during the M
 | `synthetic-image-generation-model-research.md` | Research report on local text-to-image models for generating wildlife training images on an RTX 3060 12 GB: model profiles (FLUX.1, SD 3.5, SDXL family), benchmarked generation speeds, acceleration techniques (NF4, torch.compile, DeepCache, Nunchaku), and a tiered recommendation with sample diffusers code. |
 | `gpu_training_options.md` | Analysis of NVIDIA A40 GPU options for the KD training campaign: VRAM requirements per model, comparison of 48 GB single-instance vs 2 × 12 GB split, and recommendation (two 12 GB instances) with rationale and practical scheduling notes. |
 
+| `yolov5s-training-pipeline.md` | High-level overview of the custom YOLOv5s fine-tuning pipeline: architecture diagram, module responsibilities, step-by-step process walkthrough, data contract, MLflow logging reference, and key hyperparameters. |
+
 ### Plans
 
 Decision records and design documents written before implementation.

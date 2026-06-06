@@ -3,6 +3,7 @@
 data/*
 resources/SNPredictions_all*
 output/*
+scripts/evaluation/outputs/
 
 __pycache__/
 *.py[codz]
