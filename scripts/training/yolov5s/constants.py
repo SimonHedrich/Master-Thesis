@@ -58,7 +58,7 @@ HYP_LABEL_SMOOTHING = 0.0
 # ─── Data / loop ──────────────────────────────────────────────────────────────
 
 EPOCH_COUNT = 50
-BATCH_SIZE = 16
+BATCH_SIZE = 32
 NUM_WORKERS = 8
 SEED = 42
 

@@ -165,6 +165,7 @@ def load_all_passed_images(
                 "score_components": comps,
                 "bbox":             bbox,
                 "bbox_conf":        bbox_conf,
+                "detections":       detections,
             })
             count += 1
         grand_total += count
@@ -496,6 +497,13 @@ def build_coco_split(
                 skipped_dims += 1
                 continue
             img_w, img_h = size
+            bbox = img.get("bbox")
+            if bbox is None:
+                # MegaDetector found no animal — image is unevaluable (any
+                # prediction scores as a false positive, the missed animal is
+                # never a false negative). Drop it from the split entirely.
+                no_annotation += 1
+                continue
             images.append({
                 "id":            img_id,
                 "file_name":     img["filepath"],
@@ -506,11 +514,17 @@ def build_coco_split(
                 "split":         split,
                 "quality_score": round(img["Q"], 6),
             })
-            bbox = img.get("bbox")
-            if bbox is not None:
-                cat_id = cat_id_map.get(cls)
-                if cat_id is not None:
-                    coco_bbox = yolo_to_coco(bbox, img_w, img_h)
+            cat_id = cat_id_map.get(cls)
+            if cat_id is not None:
+                # Emit every significant detection (conf >= CONF_SIG), not just
+                # the primary bbox. The primary bbox is always detections[0]
+                # and always clears CONF_SIG, so it is included exactly once.
+                sig_dets = [d for d in (img.get("detections") or [])
+                            if d.get("conf", 0) >= CONF_SIG]
+                if not sig_dets:   # detections missing → fall back to primary bbox
+                    sig_dets = [{"bbox": bbox, "conf": img.get("bbox_conf")}]
+                for det in sig_dets:
+                    coco_bbox = yolo_to_coco(det["bbox"], img_w, img_h)
                     w_px, h_px = coco_bbox[2], coco_bbox[3]
                     annotations.append({
                         "id":          ann_id,
@@ -520,11 +534,9 @@ def build_coco_split(
                         "area":        w_px * h_px,
                         "iscrowd":     0,
                         "source":      "megadetector",
-                        "conf":        img.get("bbox_conf"),
+                        "conf":        det.get("conf"),
                     })
                     ann_id += 1
-            else:
-                no_annotation += 1
             img_id += 1
 
     # Human images (annotated, class "human")

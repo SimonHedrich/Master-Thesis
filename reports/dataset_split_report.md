@@ -1,6 +1,6 @@
 # Dataset Split Report
 
-**Generated:** 2026-05-26 12:36 UTC  
+**Generated:** 2026-06-09 07:50 UTC  
 **Seed:** 42  
 **Scoring weights:** area=0.30 · edge=0.25 · single=0.20 · conf=0.25
 

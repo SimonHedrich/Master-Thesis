@@ -106,9 +106,11 @@ def main() -> None:
         len(coco["categories"]),
     )
 
-    n = min(args.num_images, len(coco["images"]))
-    sampled = random.Random(SEED).sample(coco["images"], n)
-    logger.info("sampled %d images (seed=%d)", n, SEED)
+    annotated_ids = {a["image_id"] for a in coco.get("annotations", [])}
+    pool = [img for img in coco["images"] if img["id"] in annotated_ids]
+    n = min(args.num_images, len(pool))
+    sampled = random.Random(SEED).sample(pool, n)
+    logger.info("sampled %d images from %d annotated (seed=%d)", n, len(pool), SEED)
 
     subset = build_subset(coco, sampled)
     subset_path = args.output_dir / "annotations_subset.json"
