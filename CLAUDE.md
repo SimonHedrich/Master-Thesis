@@ -21,10 +21,10 @@ scripts/      — Utility scripts (data exploration, visualization, etc.)
 ```
 
 **Key docs:**
-- `docs/thesis-overview.md` — High-level research objectives and technical approaches
-- `docs/hardware-proxy-selection.md` — Why RPi 5 was chosen over alternatives
-- `docs/object-detection-models-for-embedded-systems.md` — Model architecture analysis
-- `docs/knowledge_distillation_research_overview.md` — KD approaches and findings
+- `docs/2026-03-09_thesis-overview.md` — High-level research objectives and technical approaches
+- `docs/2026-03-09_hardware-proxy-selection.md` — Why RPi 5 was chosen over alternatives
+- `docs/2026-03-10_object-detection-models-for-embedded-systems.md` — Model architecture analysis
+- `docs/2026-03-12_knowledge_distillation_research_overview.md` — KD approaches and findings
 - `docs/progress_notes/` — Chronological meeting and thinking notes
 
 **Key research:**
@@ -50,7 +50,7 @@ Does distilling a large teacher model into a lightweight student model yield bet
 ### Important Constraints
 - **YOLOv5 license:** Only commercially usable up to commit `5cdad89` — later commits require additional licensing
 - Run own benchmarks rather than relying on published numbers
-- The **real test set is the primary evaluation** reported in the thesis (train on mix, test on real). A **synthetic test set** (225 classes × 50 images) exists as a secondary instrument for ablations, standardized per-class accuracy, and real-vs-synthetic domain shift measurement — not as a replacement for the real test set.
+- **Primary evaluation = the mixed (real + synthetic) test set.** The default headline metric is computed over the union of the real test images and the balanced 225×50 synthetic test set. Rationale: the consistent 50 synthetic images/class stabilise evaluation for classes with few or low-quality real photos (Band A), while remaining a negligible, consistent addition for well-resourced classes (Band D, up to 500 real test images). The model must **never** be judged on synthetic images alone. The **real-only breakout** is always reported alongside the mixed headline as the primary-evaluation figure and the anchor for any comparison to public (real-image) benchmarks. The real-vs-synthetic domain-shift delta is monitored as a watchdog: **if a clear discrepancy between the mixed and real (or synthetic and real) results emerges, the default evaluation axes will be revised.** See `docs/plans/2026-06-10_model-evaluation-strategy.md`.
 
 ## Maintaining Documentation
 

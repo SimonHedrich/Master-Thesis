@@ -1,0 +1,226 @@
+coco_id,class_name,group_id,group_label,group_source
+1,aardvark,115,orycteropus,genus
+2,aardwolf,139,proteles,genus
+3,african buffalo,160,syncerus,genus
+4,african civet,36,civettictis,genus
+5,african elephant,50,elephant,override
+6,african wild dog,83,lycaon,genus
+7,agouti genus,45,dasyprocta,genus
+8,alpine ibex,25,capra,genus
+9,alpine marmot,91,marmota,genus
+10,american badger,165,taxidea,genus
+11,american bison,15,bison,genus
+12,american black bear,169,ursus,genus
+13,american mink,107,neovison,genus
+14,arizona black-tailed prairie dog,42,cynomys,genus
+15,asian elephant,50,elephant,override
+16,asiatic black bear,169,ursus,genus
+17,asiatic wild ass,52,equus,genus
+18,ateles species,12,ateles,genus
+19,aye-aye,47,daubentonia,genus
+20,baboon genus,125,papio,genus
+21,baird's tapir,164,tapirus,genus
+22,bat-eared fox,120,otocyon,genus
+23,beaver genus,27,castor,genus
+24,bighorn sheep,122,ovis,genus
+25,binturong,10,arctictis,genus
+26,black wildebeest,38,connochaetes,genus
+27,black-backed jackal,24,canis,genus
+28,blackbuck,9,antilope,genus
+29,blesbok,44,damaliscus,genus
+30,bobcat,84,lynx_caracal_cluster,override
+31,bongo,166,tragelaphus,genus
+32,bornean orangutan,131,pongo,genus
+33,brown bear,169,ursus,genus
+34,brown hyaena,69,hyaena,override
+35,brown-throated sloth,18,bradypus,genus
+36,bushbuck,166,tragelaphus,genus
+37,california ground squirrel,121,otospermophilus,genus
+38,callicebus genus,20,callicebus,genus
+39,callithrix species,21,callithrix,genus
+40,canada lynx,84,lynx_caracal_cluster,override
+41,capybara,70,hydrochoerus,genus
+42,caracal,84,lynx_caracal_cluster,override
+43,cebus species,28,cebus,genus
+44,cephalophus species,29,cephalophus,genus
+45,cercopithecus species,31,cercopithecus,genus
+46,cheetah,0,acinonyx,genus
+47,chimpanzee,123,pan,genus
+48,chipmunk genus,162,tamias,genus
+49,chital,13,axis,genus
+50,clouded leopard,106,neofelis,genus
+51,collared peccary,126,pecari,genus
+52,colobus species,37,colobus,genus
+53,common duiker,158,sylvicapra,genus
+54,common eland,166,tragelaphus,genus
+55,common fallow deer,43,dama,genus
+56,common warthog,128,phacochoerus,genus
+57,common wildebeest,38,connochaetes,genus
+58,common wombat,170,vombatus,genus
+59,cottontail rabbits genus,159,sylvilagus,genus
+60,coyote,24,canis,genus
+61,cricetidae family,39,cricetidae,genus
+62,dhole,41,cuon,genus
+63,dingo,24,canis,genus
+64,domestic cat,58,felis,genus
+65,domestic cattle,16,bos,genus
+66,domestic dog,24,canis,genus
+67,domestic donkey,52,equus,genus
+68,domestic goat,25,capra,genus
+69,domestic horse,52,equus,genus
+70,domestic pig,157,sus,genus
+71,domestic sheep,122,ovis,genus
+72,domestic water buffalo,19,bubalus,genus
+73,drill,89,mandrillus,genus
+74,dromedary camel,23,camelus,genus
+75,eared seals,119,otariidae,genus
+76,eastern cottontail,159,sylvilagus,genus
+77,eastern fox squirrel,153,sciurus,genus
+78,eastern gray squirrel,153,sciurus,genus
+79,eastern grey kangaroo,87,macropus,genus
+80,elephant seal,98,mirounga,genus
+81,elk,32,cervus,genus
+82,eulemur species,57,eulemur,genus
+83,eurasian badger,94,meles,genus
+84,eurasian lynx,84,lynx_caracal_cluster,override
+85,eurasian otter,81,lutra,genus
+86,eurasian red squirrel,153,sciurus,genus
+87,european bison,15,bison,genus
+88,european hare,78,lepus,genus
+89,european rabbit,116,oryctolagus,genus
+90,european roe deer,26,capreolus,genus
+91,fisher,127,pekania,genus
+92,fossa,40,cryptoprocta,genus
+93,gemsbok,117,oryx,genus
+94,genet genus,59,genetta,genus
+95,gerenuk,79,litocranius,genus
+96,giant anteater,103,myrmecophaga,genus
+97,giant armadillo,135,priodontes,genus
+98,giant otter,140,pteronura,genus
+99,giant panda,2,ailuropoda,genus
+100,giraffe,60,giraffa,genus
+101,glaucomys species,61,glaucomys,genus
+102,golden jackal,24,canis,genus
+103,golden mantled ground squirrel,22,callospermophilus,genus
+104,gorilla species,62,gorilla,genus
+105,grant's gazelle,104,nanger,genus
+106,greater kudu,166,tragelaphus,genus
+107,grevy's zebra,52,equus,genus
+108,grey fox,168,urocyon,genus
+109,grey wolf,24,canis,genus
+110,hares and jackrabbits genus,78,lepus,genus
+111,hartebeest,4,alcelaphus,genus
+112,hedgehog family,54,erinaceidae,genus
+113,hippopotamus,66,hippopotamus,genus
+114,hoffmann's two-toed sloth,34,choloepus,genus
+115,hog badger genus,11,arctonyx,genus
+116,honey badger,95,mellivora,genus
+117,howler monkey genus,6,alouatta,genus
+118,human,68,homo,genus
+119,impala,1,aepyceros,genus
+120,jaguar,124,panthera,genus
+121,japanese macaque,85,macaca,genus
+122,kangaroo family,86,macropodidae,genus
+123,kinkajou,133,potos,genus
+124,kirk's dik-dik,88,madoqua,genus
+125,klipspringer,114,oreotragus,genus
+126,koala,129,phascolarctos,genus
+127,kob,73,kobus,genus
+128,leaf monkeys genus,134,presbytis,genus
+129,leopard,124,panthera,genus
+130,leopard cat,136,prionailurus,genus
+131,leopardus species,76,leopardus,genus
+132,lion,124,panthera,genus
+133,llama genus,74,lama,genus
+134,lowland tapir,164,tapirus,genus
+135,lycalopex species,82,lycalopex,genus
+136,macaque species,85,macaca,genus
+137,malay tapir,164,tapirus,genus
+138,maned wolf,35,chrysocyon,genus
+139,mangabeys genus,30,cercocebus,genus
+140,martes species,92,martes,genus
+141,meerkat,156,suricata,genus
+142,mongoose family,65,herpestidae,genus
+143,moose,5,alces,genus
+144,mouflon,122,ovis,genus
+145,mountain goat,113,oreamnos,genus
+146,mountain zebra,52,equus,genus
+147,mule deer,111,odocoileus,genus
+148,muntjac genus,99,muntiacus,genus
+149,muridae family,100,muridae,genus
+150,muskrat,112,ondatra,genus
+151,nilgai,17,boselaphus,genus
+152,nine-banded armadillo,46,dasypus,genus
+153,north american porcupine,53,erethizon,genus
+154,north american river otter,80,lontra,genus
+155,northern chamois,147,rupicapra,genus
+156,northern raccoon,138,procyon,genus
+157,nutria,102,myocastor,genus
+158,nyala,166,tragelaphus,genus
+159,ocelot,76,leopardus,genus
+160,old world porcupine family,72,hystricidae,genus
+161,opossum family,48,didelphidae,genus
+162,pangolin family,90,manidae,genus
+163,patas monkey,55,erythrocebus,genus
+164,pikas genus,109,ochotona,genus
+165,pinniped clade,130,pinniped,genus
+166,plains zebra,52,equus,genus
+167,pronghorn,8,antilocapra,genus
+168,puma,141,puma,genus
+169,quokka,154,setonix,genus
+170,raccoon dog,108,nyctereutes,genus
+171,rattus genus,144,rattus,genus
+172,red brocket,93,mazama,genus
+173,red deer,32,cervus,genus
+174,red fox,171,vulpes,genus
+175,red kangaroo,118,osphranter,genus
+176,red panda,3,ailurus,genus
+177,red river hog,132,potamochoerus,genus
+178,red squirrel,163,tamiasciurus,genus
+179,red-necked wallaby,87,macropus,genus
+180,reedbuck genus,145,redunca,genus
+181,reindeer,142,rangifer,genus
+182,rhinoceros family,146,rhinocerotidae,genus
+183,ring-tailed lemur,75,lemur,genus
+184,ringtail,14,bassariscus,genus
+185,roan antelope,67,hippotragus,genus
+186,rock hyrax,137,procavia,genus
+187,sable antelope,67,hippotragus,genus
+188,saguinus species,149,saguinus,genus
+189,saiga,150,saiga,genus
+190,saimiri species,151,saimiri,genus
+191,sambar,148,rusa,genus
+192,sea otter,51,enhydra,genus
+193,serval,77,leptailurus,genus
+194,short-beaked echidna,161,tachyglossus,genus
+195,sika deer,32,cervus,genus
+196,sloth bear,96,melursus,genus
+197,snow leopard,124,panthera,genus
+198,south american coati,105,nasua,genus
+199,spectacled bear,167,tremarctos,genus
+200,spilogale species,155,spilogale,genus
+201,spotted hyaena,69,hyaena,override
+202,springbok,7,antidorcas,genus
+203,squirrel family,152,sciuridae,genus
+204,steenbok,143,raphicerus,genus
+205,striped hyaena,69,hyaena,override
+206,striped skunk,97,mephitis,genus
+207,sun bear,64,helarctos,genus
+208,swamp wallaby,172,wallabia,genus
+209,tayra,49,eira,genus
+210,thomson's gazelle,56,eudorcas,genus
+211,tiger,124,panthera,genus
+212,vervet monkey,33,chlorocebus,genus
+213,walrus,110,odobenus,genus
+214,water deer,71,hydropotes,genus
+215,waterbuck,73,kobus,genus
+216,weasel species,101,mustela,genus
+217,western gray squirrel,153,sciurus,genus
+218,white-nosed coati,105,nasua,genus
+219,white-tailed deer,111,odocoileus,genus
+220,wild boar,157,sus,genus
+221,wild cat,58,felis,genus
+222,wolverine,63,gulo,genus
+223,woodchuck,91,marmota,genus
+224,yak,16,bos,genus
+225,yellow-bellied marmot,91,marmota,genus

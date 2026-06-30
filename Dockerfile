@@ -4,11 +4,10 @@ FROM debian:bookworm
 # Set environment variables to avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python and required system dependencies
+# Install system dependencies needed by OpenCV and other native libs
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
     git \
+    make \
     wget \
     unzip \
     libgl1-mesa-glx \
@@ -16,21 +15,19 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Set Python3 as the default python command
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+# Install uv from the official image
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the requirements.txt file to the working directory
-COPY requirements.txt .
+# Copy dependency files first for layer caching
+COPY pyproject.toml uv.lock ./
 
-# Install the required Python packages
-RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
+# Sync dependencies — uv downloads and manages Python 3.13 automatically
+RUN uv sync --frozen --no-dev
 
-# # Copy the source code from the host to the container
-# COPY source/ .
+# Add the venv to PATH so 'python' resolves to the venv's Python
+ENV PATH="/app/.venv/bin:$PATH"
 
-# # Run the Python script
-# CMD ["python", "stable_diffusion_example.py"]
 CMD ["/bin/bash"]

@@ -35,12 +35,25 @@ logger = logging.getLogger(__name__)
 SEED = 42
 
 DEFAULT_OUTPUT_DIR = constants.REPO_ROOT / "scripts" / "evaluation" / "outputs"
-DEFAULT_WEIGHTS = constants.OUTPUT_DIR / "best.pt"
+_LATEST_RUN = constants.latest_run_dir()
+DEFAULT_WEIGHTS = (_LATEST_RUN / "best.pt") if _LATEST_RUN is not None else None
 
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--weights", type=Path, default=DEFAULT_WEIGHTS)
+    p.add_argument(
+        "--weights",
+        type=Path,
+        default=DEFAULT_WEIGHTS,
+        help="Checkpoint to run. Defaults to best.pt from --run-dir (or the "
+        "latest training run under model_exports/).",
+    )
+    p.add_argument(
+        "--run-dir",
+        type=Path,
+        default=None,
+        help="Training-run directory whose best.pt to use (overrides the latest-run default).",
+    )
     p.add_argument("--annotations", type=Path, default=constants.ANNOTATIONS_TEST)
     p.add_argument("--num-images", type=int, default=100)
     p.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -91,6 +104,17 @@ def unletterbox_xyxy(
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     args = parse_args()
+
+    if args.run_dir is not None:
+        args.weights = args.run_dir / "best.pt"
+    if args.weights is None:
+        raise SystemExit(
+            f"no --weights given and no training run found under {constants.OUTPUT_DIR} "
+            "— pass --weights or --run-dir."
+        )
+    if not args.weights.exists():
+        raise SystemExit(f"weights not found: {args.weights}")
+
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     device = torch.device(args.device)

@@ -1,0 +1,225 @@
+class,band,effective_pool,train_real,train_synth,test_real
+african civet,A,6,0,200,6
+mouflon,A,6,0,200,6
+hog badger genus,A,7,0,200,7
+giant armadillo,A,10,0,200,10
+domestic pig,A,14,0,200,14
+drill,A,15,0,200,15
+aye-aye,A,18,0,200,18
+malay tapir,A,21,0,200,21
+red-necked wallaby,A,23,0,200,23
+clouded leopard,A,23,0,200,23
+spilogale species,A,24,0,200,24
+aardvark,A,28,0,200,28
+binturong,A,31,0,200,31
+aardwolf,A,39,0,200,39
+bongo,A,39,0,200,39
+mangabeys genus,A,42,0,200,42
+red river hog,A,42,0,200,42
+pangolin family,A,45,0,200,45
+wolverine,A,46,0,200,46
+pinniped clade,A,47,0,200,47
+red brocket,A,47,0,200,47
+saiga,A,47,0,200,47
+brown hyaena,A,55,0,200,55
+fossa,A,62,0,200,62
+honey badger,A,72,0,200,72
+maned wolf,A,76,0,200,76
+sun bear,A,78,0,200,78
+asiatic wild ass,A,78,0,200,78
+domestic water buffalo,A,81,0,200,81
+ocelot,A,84,0,200,84
+cephalophus species,A,86,0,200,86
+leopard cat,A,87,0,200,87
+asiatic black bear,A,88,0,200,88
+striped hyaena,A,89,0,200,89
+fisher,A,92,0,200,92
+yak,A,97,0,200,97
+sloth bear,A,98,0,200,98
+walrus,A,101,0,200,101
+old world porcupine family,A,102,0,200,102
+raccoon dog,A,105,0,200,105
+callicebus genus,A,112,0,200,112
+black-backed jackal,A,112,0,200,112
+wild cat,A,112,0,200,112
+ringtail,A,123,0,200,123
+kinkajou,A,125,0,200,125
+leopardus species,A,132,0,200,132
+genet genus,A,132,0,200,132
+water deer,A,133,0,200,133
+eurasian badger,A,141,0,200,141
+nine-banded armadillo,A,145,0,200,145
+canada lynx,B,151,100,100,51
+spectacled bear,B,153,100,100,53
+caracal,B,159,100,100,59
+eurasian lynx,B,161,100,100,61
+black wildebeest,B,162,100,100,62
+giant panda,B,169,100,100,69
+serval,B,170,100,100,70
+patas monkey,B,175,100,100,75
+american mink,B,176,100,100,76
+gerenuk,B,177,100,100,77
+bat-eared fox,B,190,100,100,90
+dhole,B,190,100,100,90
+baird's tapir,B,193,100,100,93
+grevy's zebra,B,198,100,100,98
+kirk's dik-dik,B,211,100,100,111
+american badger,B,215,100,100,115
+chimpanzee,B,216,100,100,116
+asian elephant,B,224,100,100,124
+african wild dog,B,229,100,100,129
+glaucomys species,B,240,100,100,140
+common wombat,B,241,100,100,141
+tayra,B,243,100,100,143
+lowland tapir,B,243,100,100,143
+european bison,B,243,100,100,143
+eurasian otter,B,247,100,100,147
+springbok,B,247,100,100,147
+roan antelope,C,250,200,0,50
+muntjac genus,C,250,200,0,50
+giant otter,C,251,200,0,51
+giant anteater,C,258,200,0,58
+bornean orangutan,C,277,200,0,77
+red panda,C,283,200,0,83
+kob,C,286,200,0,86
+dromedary camel,C,296,200,0,96
+domestic goat,C,297,200,0,97
+bushbuck,C,307,200,0,107
+northern chamois,C,315,200,0,115
+cercopithecus species,C,337,200,0,137
+puma,C,338,200,0,138
+grant's gazelle,C,341,200,0,141
+quokka,C,341,200,0,141
+sambar,C,342,200,0,142
+red kangaroo,C,342,200,0,142
+grey wolf,C,348,200,0,148
+ring-tailed lemur,C,358,200,0,158
+chital,C,360,200,0,160
+snow leopard,C,363,200,0,163
+meerkat,C,364,200,0,164
+common eland,C,385,200,0,185
+hartebeest,C,386,200,0,186
+domestic donkey,C,398,200,0,198
+dingo,C,399,200,0,199
+south american coati,D,411,329,0,82
+japanese macaque,D,412,330,0,82
+common duiker,D,413,331,0,82
+hippopotamus,D,418,335,0,83
+alpine ibex,D,418,335,0,83
+swamp wallaby,D,420,336,0,84
+sable antelope,D,424,340,0,84
+grey fox,D,425,340,0,85
+thomson's gazelle,D,425,340,0,85
+blackbuck,D,428,343,0,85
+jaguar,D,436,349,0,87
+waterbuck,D,437,350,0,87
+blesbok,D,439,352,0,87
+mountain zebra,D,467,374,0,93
+sika deer,D,471,377,0,94
+giraffe,D,480,384,0,96
+reedbuck genus,D,514,412,0,102
+collared peccary,D,521,417,0,104
+nilgai,D,549,440,0,109
+golden jackal,D,551,441,0,110
+nyala,D,554,444,0,110
+gemsbok,D,563,451,0,112
+gorilla species,D,609,488,0,121
+spotted hyaena,D,640,512,0,128
+colobus species,D,663,531,0,132
+striped skunk,D,666,533,0,133
+hoffmann's two-toed sloth,D,674,540,0,134
+leaf monkeys genus,D,693,555,0,138
+klipspringer,D,701,561,0,140
+mountain goat,D,793,635,0,158
+tiger,D,798,639,0,159
+reindeer,D,835,668,0,167
+cheetah,D,863,691,0,172
+eulemur species,D,880,704,0,176
+steenbok,D,957,766,0,191
+saguinus species,D,1065,852,0,213
+martes species,D,1298,1039,0,259
+saimiri species,D,1327,1062,0,265
+rock hyrax,D,1336,1069,0,267
+sea otter,D,1404,1124,0,280
+ateles species,D,1437,1150,0,287
+pikas genus,D,1484,1188,0,296
+rhinoceros family,D,1512,1210,0,302
+brown-throated sloth,D,1518,1215,0,303
+brown bear,D,1523,1219,0,304
+common warthog,D,1553,1243,0,310
+domestic sheep,D,1562,1250,0,312
+common fallow deer,D,1589,1272,0,317
+common wildebeest,D,1625,1300,0,325
+vervet monkey,D,1635,1308,0,327
+red deer,D,1697,1358,0,339
+alpine marmot,D,1716,1373,0,343
+lycalopex species,D,1731,1385,0,346
+greater kudu,D,1732,1386,0,346
+callithrix species,D,1736,1389,0,347
+capybara,D,1767,1414,0,353
+short-beaked echidna,D,1767,1414,0,353
+elephant seal,D,1768,1415,0,353
+koala,D,1779,1424,0,355
+weasel species,D,1795,1436,0,359
+arizona black-tailed prairie dog,D,1800,1440,0,360
+cebus species,D,1819,1456,0,363
+agouti genus,D,1853,1483,0,370
+bobcat,D,1861,1489,0,372
+yellow-bellied marmot,D,1898,1500,0,379
+north american porcupine,D,1914,1500,0,382
+leopard,D,1934,1500,0,386
+western gray squirrel,D,1957,1500,0,391
+domestic dog,D,2019,1500,0,403
+african buffalo,D,2051,1500,0,410
+llama genus,D,2085,1500,0,417
+beaver genus,D,2162,1500,0,432
+mongoose family,D,2257,1500,0,451
+white-nosed coati,D,2269,1500,0,453
+impala,D,2288,1500,0,457
+pronghorn,D,2316,1500,0,463
+american bison,D,2320,1500,0,464
+domestic cattle,D,2359,1500,0,471
+baboon genus,D,2486,1500,0,497
+domestic horse,D,2550,1500,0,500
+wild boar,D,2602,1500,0,500
+eastern grey kangaroo,D,2680,1500,0,500
+north american river otter,D,2772,1500,0,500
+golden mantled ground squirrel,D,2819,1500,0,500
+european hare,D,3087,1500,0,500
+nutria,D,3150,1500,0,500
+bighorn sheep,D,3167,1500,0,500
+plains zebra,D,3195,1500,0,500
+opossum family,D,3199,1500,0,500
+howler monkey genus,D,3206,1500,0,500
+muskrat,D,3253,1500,0,500
+hedgehog family,D,3296,1500,0,500
+lion,D,3318,1500,0,500
+muridae family,D,3371,1500,0,500
+american black bear,D,3436,1500,0,500
+moose,D,3508,1500,0,500
+woodchuck,D,3872,1500,0,500
+rattus genus,D,3954,1500,0,500
+african elephant,D,4338,1500,0,500
+hares and jackrabbits genus,D,4836,1500,0,500
+cricetidae family,D,4917,1500,0,500
+european rabbit,D,5424,1500,0,500
+elk,D,5517,1500,0,500
+california ground squirrel,D,5627,1500,0,500
+northern raccoon,D,5840,1500,0,500
+european roe deer,D,6011,1500,0,500
+kangaroo family,D,6137,1500,0,500
+coyote,D,6865,1500,0,500
+chipmunk genus,D,6934,1500,0,500
+domestic cat,D,7159,1500,0,500
+red squirrel,D,7526,1500,0,500
+macaque species,D,7557,1500,0,500
+cottontail rabbits genus,D,7757,1500,0,500
+red fox,D,8705,1500,0,500
+eared seals,D,9261,1500,0,500
+eurasian red squirrel,D,9929,1500,0,500
+eastern cottontail,D,11456,1500,0,500
+eastern fox squirrel,D,12436,1500,0,500
+mule deer,D,18110,1500,0,500
+white-tailed deer,D,24609,1500,0,500
+eastern gray squirrel,D,31099,1500,0,500
+squirrel family,D,31365,1500,0,500

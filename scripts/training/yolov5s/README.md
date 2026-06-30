@@ -16,7 +16,7 @@ Design rationale and trade-offs:
 | `constants.py` | Single source of truth for paths and hyperparameters. `as_dict()` is logged to MLflow at run start. |
 | `transforms.py` | `letterbox` + `to_tensor`. Augmentation stubs are wired but disabled (`AUG_*` flags). |
 | `dataset.py` | `CocoYoloDataset` reads COCO JSON, returns `(image, targets[N,6], path, shapes)`. `collate_fn` fills the batch-index column. `Dataloader` wraps the PyTorch `DataLoader`. |
-| `yolov5s_model.py` | Factories: `yolov5s_model` (loads pretrained, swaps detect head for `NUM_CLASSES`), `model_optimizer` (3 param groups: BN / conv / bias), `model_scheduler` (warmup + cosine). |
+| `yolov5s_model.py` | Factories: `yolov5s_model` (loads pretrained, swaps detect head for `NUM_CLASSES`), `model_optimizer` (3 param groups: BN / conv / bias), `model_scheduler` (`ReduceLROnPlateau`; warmup applied in the training loop). |
 | `loss.py` | `YoloLoss` — thin wrapper around `yolov5.utils.loss.ComputeLoss`. Returns `(total_loss, parts_dict)` for direct MLflow logging. |
 | `evaluation.py` | `evaluate` runs NMS + un-letterboxes preds + computes mAP via `torchmetrics.detection.MeanAveragePrecision`. `eval_log_mlflow` logs scalars and a per-class AP table. |
 | `training_pipeline.py` | `TrainingPipeline` class. Trains, evaluates each epoch, saves `best.pt` / `last.pt`, runs final test eval, logs everything to MLflow. |
@@ -42,8 +42,8 @@ predicted; the per-class AP table makes this visible.
 
 Every meaningful pipeline event is emitted via stdlib `logging` at `INFO`
 level. The same stream is written to a per-run log file at
-`model_exports/<run_name>.log` and uploaded to MLflow as an artifact at run
-end. Per-batch progress is shown as a live `tqdm` bar (with losses in the
+`model_exports/<run_name>/<run_name>.log` and uploaded to MLflow as an artifact
+at run end. Per-batch progress is shown as a live `tqdm` bar (with losses in the
 postfix); a full-detail log line is also written every
 `MLFLOW_LOG_EVERY_N_STEPS` steps so the file has a permanent per-step
 record. Format:
@@ -67,7 +67,7 @@ clamped to `WARNING`.
 | Every `MLFLOW_LOG_EVERY_N_STEPS` (default 50) | `train/step/loss_{box,obj,cls,total}`, `train/lr` at `step=global_step` |
 | End of each epoch | `train/epoch_loss_*`, `val/mAP50`, `val/mAP50_95` at `step=epoch` |
 | End of each epoch (if torchmetrics returns per-class) | Per-class AP table as a JSON artifact |
-| End of run | `test/mAP50`, `test/mAP50_95`, `best.pt`, `last.pt`, `<run_name>.log` |
+| End of run | `test/mAP50`, `test/mAP50_95`, `<run_name>/best.pt`, `<run_name>/last.pt`, `<run_name>/<run_name>.log` |
 
 Identical contract will be reused by the NanoDet / PicoDet pipelines for
 apples-to-apples comparison in the MLflow UI.
@@ -150,12 +150,19 @@ PYTHONPATH=/home/debian/Master-Thesis \
   python -m scripts.training.yolov5s.run_training_pipeline
 ```
 
-Outputs:
+Outputs land in a per-run directory `model_exports/<run_name>/` (where
+`<run_name>` is e.g. `yolov5s-20260602-233434`), so runs never overwrite each
+other:
 
-- `scripts/training/yolov5s/model_exports/best.pt` (highest val mAP50)
-- `scripts/training/yolov5s/model_exports/last.pt` (final epoch)
-- `scripts/training/yolov5s/model_exports/<run_name>.log` (full terminal log)
-- All three + per-epoch metrics on the MLflow server
+- `scripts/training/yolov5s/model_exports/<run_name>/best.pt` (highest val `SELECTION_METRIC`; EMA weights when `USE_EMA`)
+- `scripts/training/yolov5s/model_exports/<run_name>/last.pt` (final epoch)
+- `scripts/training/yolov5s/model_exports/<run_name>/<run_name>.log` (full terminal log)
+- `scripts/training/yolov5s/model_exports/<run_name>/evaluation/` (only with `--full-eval`)
+- All of the above + per-epoch metrics on the MLflow server
+
+The eval (`eval_suite.run_evaluation`) and inference (`scripts.evaluation.run_inference`)
+scripts default to the **latest** run dir, or accept `--run-dir` / `--checkpoint`
+(`--weights`) to target a specific run.
 
 ## Tuning
 
@@ -163,12 +170,16 @@ Every knob lives in `constants.py`. The common ones:
 
 | Constant | Default | Notes |
 |---|---|---|
-| `EPOCH_COUNT` | 50 | |
+| `EPOCH_COUNT` | 200 | Safety ceiling only — early stopping is expected to end the run. |
 | `BATCH_SIZE` | 16 | Tuned for ~8 GB VRAM at 640×640. Reduce if OOM. |
 | `NUM_WORKERS` | 8 | |
 | `LEARNING_RATE` | 1e-3 | lr0 — 10× lower than scratch training, standard for fine-tuning. |
 | `OPTIMIZER` | `"SGD"` | `"AdamW"` also implemented. |
-| `WARMUP_EPOCHS` | 3 | Linear warmup; then cosine to `lr0 * LRF`. |
+| `WARMUP_EPOCHS` | 3 | Linear lr warmup (`lr0·(e+1)/WARMUP_EPOCHS`); then `ReduceLROnPlateau` takes over. |
+| `PLATEAU_FACTOR` / `PLATEAU_PATIENCE` / `PLATEAU_MIN_LR` | 0.5 / 5 / 1e-5 | Metric-driven LR drops, keyed off `SELECTION_METRIC`. |
+| `SELECTION_METRIC` | `"mAP50_95"` | One metric drives best.pt + plateau + early stop. |
+| `EARLY_STOP` / `EARLY_STOP_PATIENCE` / `EARLY_STOP_MIN_DELTA` | `True` / 20 / 1e-3 | Stop after N epochs without improvement (> `PLATEAU_PATIENCE`). |
+| `USE_EMA` / `USE_AMP` | `True` / `True` | EMA weights for eval/checkpoint; AMP mixed precision (CUDA only). |
 | `IMAGE_SIZE` | 640 | |
 | `AUG_*` | all `False` | Augmentation hooks exist but are off for this baseline. |
 | `EVAL_CONF_THRES` / `EVAL_IOU_THRES` / `EVAL_MAX_DET` | 0.001 / 0.6 / 300 | NMS params used during validation/test eval. |

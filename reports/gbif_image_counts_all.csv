@@ -1,0 +1,226 @@
+common_name,scientific_name,level,image_count
+squirrel family,sciuridae,family,1660
+macaque species,macaca,genus,1604
+kangaroo family,macropodidae,family,1170
+domestic cattle,bos taurus,species,1009
+white-tailed deer,odocoileus virginianus,species,703
+human,homo sapiens,species,642
+coyote,canis latrans,species,593
+red deer,cervus elaphus,species,532
+martes species,martes,genus,502
+domestic cat,felis catus,species,478
+cercopithecus species,cercopithecus,genus,464
+bobcat,lynx rufus,species,459
+domestic goat,capra aegagrus hircus,species,446
+grey fox,urocyon cinereoargenteus,species,444
+vervet monkey,chlorocebus pygerythrus,species,401
+nutria,myocastor coypus,species,378
+eastern gray squirrel,sciurus carolinensis,species,374
+mule deer,odocoileus hemionus,species,369
+african elephant,loxodonta africana,species,368
+greater kudu,tragelaphus strepsiceros,species,359
+wild boar,sus scrofa,species,359
+pronghorn,antilocapra americana,species,356
+thomson's gazelle,eudorcas thomsonii,species,355
+lycalopex species,lycalopex,genus,339
+american bison,bison bison,species,333
+ocelot,leopardus pardalis,species,327
+llama genus,lama,genus,324
+american black bear,ursus americanus,species,323
+south american coati,nasua nasua,species,312
+bushbuck,tragelaphus scriptus,species,310
+plains zebra,equus quagga,species,309
+domestic dog,canis familiaris,species,301
+impala,aepyceros melampus,species,299
+capybara,hydrochoerus hydrochaeris,species,297
+agouti genus,dasyprocta,genus,292
+gemsbok,oryx gazella,species,282
+grant's gazelle,nanger granti,species,281
+baboon genus,papio,genus,277
+north american river otter,lontra canadensis,species,276
+striped skunk,mephitis mephitis,species,276
+cheetah,acinonyx jubatus,species,274
+spotted hyaena,crocuta crocuta,species,273
+eastern fox squirrel,sciurus niger,species,268
+common wildebeest,connochaetes taurinus,species,262
+red fox,vulpes vulpes,species,262
+eurasian red squirrel,sciurus vulgaris,species,260
+domestic horse,equus caballus,species,257
+jaguar,panthera onca,species,255
+lion,panthera leo,species,255
+african buffalo,syncerus caffer,species,252
+colobus species,colobus,genus,249
+eastern grey kangaroo,macropus giganteus,species,248
+arizona black-tailed prairie dog,cynomys ludovicianus,species,243
+short-beaked echidna,tachyglossus aculeatus,species,243
+north american porcupine,erethizon dorsatum,species,234
+common eland,tragelaphus oryx,species,227
+bighorn sheep,ovis canadensis,species,222
+northern raccoon,procyon lotor,species,222
+woodchuck,marmota monax,species,221
+western gray squirrel,sciurus griseus,species,220
+nine-banded armadillo,dasypus novemcinctus,species,219
+muntjac genus,muntiacus,genus,216
+hartebeest,alcelaphus buselaphus,species,215
+swamp wallaby,wallabia bicolor,species,214
+puma,puma concolor,species,211
+chipmunk genus,tamias,genus,209
+lowland tapir,tapirus terrestris,species,209
+collared peccary,pecari tajacu,species,204
+opossum family,didelphidae,family,203
+waterbuck,kobus ellipsiprymnus,species,201
+european roe deer,capreolus capreolus,species,191
+yellow-bellied marmot,marmota flaviventris,species,191
+alpine ibex,capra ibex,species,190
+giant anteater,myrmecophaga tridactyla,species,186
+common warthog,phacochoerus africanus,species,181
+northern chamois,rupicapra rupicapra,species,179
+old world porcupine family,hystricidae,family,179
+sambar,rusa unicolor,species,179
+common fallow deer,dama dama,species,170
+tiger,panthera tigris,species,170
+tayra,eira barbara,species,167
+giant otter,pteronura brasiliensis,species,165
+leopard,panthera pardus,species,165
+saimiri species,saimiri,genus,165
+dromedary camel,camelus dromedarius,species,163
+brown bear,ursus arctos,species,153
+red squirrel,tamiasciurus hudsonicus,species,150
+moose,alces alces,species,147
+african wild dog,lycaon pictus,species,146
+fisher,pekania pennanti,species,146
+eurasian badger,meles meles,species,143
+european rabbit,oryctolagus cuniculus,species,143
+giraffe,giraffa camelopardalis,species,140
+springbok,antidorcas marsupialis,species,139
+domestic donkey,equus asinus,species,137
+gorilla species,gorilla,genus,137
+american badger,taxidea taxus,species,134
+cebus species,cebus,genus,134
+common duiker,sylvicapra grimmia,species,134
+mountain zebra,equus zebra,species,128
+common wombat,vombatus ursinus,species,121
+bornean orangutan,pongo pygmaeus,species,115
+domestic sheep,ovis aries,species,114
+red brocket,mazama americana,species,114
+red-necked wallaby,macropus rufogriseus,species,113
+hog badger genus,arctonyx,genus,109
+mongoose family,herpestidae,family,108
+steenbok,raphicerus campestris,species,106
+hippopotamus,hippopotamus amphibius,species,103
+pikas genus,ochotona,genus,101
+cephalophus species,cephalophus,genus,100
+giant panda,ailuropoda melanoleuca,species,99
+striped hyaena,hyaena hyaena,species,90
+genet genus,genetta,genus,89
+asian elephant,elephas maximus,species,87
+mouflon,ovis orientalis,species,85
+grevy's zebra,equus grevyi,species,84
+cottontail rabbits genus,sylvilagus,genus,82
+maned wolf,chrysocyon brachyurus,species,81
+white-nosed coati,nasua narica,species,81
+blesbok,damaliscus pygargus,species,80
+howler monkey genus,alouatta,genus,78
+leopard cat,prionailurus bengalensis,species,78
+sika deer,cervus nippon,species,78
+elk,cervus canadensis,species,77
+serval,leptailurus serval,species,73
+dhole,cuon alpinus,species,72
+rhinoceros family,rhinocerotidae,family,72
+weasel species,mustela,genus,72
+red panda,ailurus fulgens,species,70
+hares and jackrabbits genus,lepus,genus,67
+golden jackal,canis aureus,species,65
+chital,axis axis,species,64
+european hare,lepus europaeus,species,63
+aardvark,orycteropus afer,species,62
+ringtail,bassariscus astutus,species,62
+golden mantled ground squirrel,callospermophilus lateralis,species,58
+leaf monkeys genus,presbytis,genus,58
+red river hog,potamochoerus porcus,species,52
+wolverine,gulo gulo,species,51
+chimpanzee,pan troglodytes,species,48
+african civet,civettictis civetta,species,45
+canada lynx,lynx canadensis,species,45
+black wildebeest,connochaetes gnou,species,44
+giant armadillo,priodontes maximus,species,44
+honey badger,mellivora capensis,species,44
+black-backed jackal,canis mesomelas,species,43
+wild cat,felis silvestris,species,40
+rattus genus,rattus,genus,36
+beaver genus,castor,genus,35
+grey wolf,canis lupus,species,35
+sable antelope,hippotragus niger,species,34
+bat-eared fox,otocyon megalotis,species,33
+malay tapir,tapirus indicus,species,33
+sun bear,helarctos malayanus,species,33
+muridae family,muridae,family,32
+gerenuk,litocranius walleri,species,31
+spectacled bear,tremarctos ornatus,species,31
+eastern cottontail,sylvilagus floridanus,species,30
+muskrat,ondatra zibethicus,species,30
+reedbuck genus,redunca,genus,30
+koala,phascolarctos cinereus,species,27
+snow leopard,panthera uncia,species,27
+leopardus species,leopardus,genus,25
+california ground squirrel,otospermophilus beecheyi,species,24
+caracal,caracal caracal,species,24
+red kangaroo,osphranter rufus,species,24
+rock hyrax,procavia capensis,species,22
+dingo,canis lupus dingo,species,19
+glaucomys species,glaucomys,genus,16
+hedgehog family,erinaceidae,family,16
+aardwolf,proteles cristata,species,15
+raccoon dog,nyctereutes procyonoides,species,15
+saguinus species,saguinus,genus,15
+baird's tapir,tapirus bairdii,species,11
+clouded leopard,neofelis nebulosa,species,10
+spilogale species,spilogale,genus,10
+reindeer,rangifer tarandus,species,9
+fossa,cryptoprocta ferox,species,8
+alpine marmot,marmota marmota,species,7
+american mink,neovison vison,species,6
+european bison,bison bonasus,species,6
+pangolin family,manidae,family,6
+quokka,setonix brachyurus,species,6
+eulemur species,eulemur,genus,5
+asiatic black bear,ursus thibetanus,species,4
+ateles species,ateles,genus,4
+binturong,arctictis binturong,species,3
+kinkajou,potos flavus,species,3
+eurasian otter,lutra lutra,species,2
+cricetidae family,cricetidae,family,1
+drill,mandrillus leucophaeus,species,1
+mangabeys genus,cercocebus,genus,1
+mountain goat,oreamnos americanus,species,1
+nilgai,boselaphus tragocamelus,species,1
+asiatic wild ass,equus hemionus,species,0
+aye-aye,daubentonia madagascariensis,species,0
+blackbuck,antilope cervicapra,species,0
+bongo,tragelaphus eurycerus,species,0
+brown hyaena,parahyaena brunnea,species,0
+brown-throated sloth,bradypus variegatus,species,0
+callicebus genus,callicebus,genus,0
+callithrix species,callithrix,genus,0
+domestic pig,sus scrofa scrofa,species,0
+domestic water buffalo,bubalus bubalis,species,0
+eared seals,otariidae,family,0
+elephant seal,mirounga,genus,0
+eurasian lynx,lynx lynx,species,0
+hoffmann's two-toed sloth,choloepus hoffmanni,species,0
+japanese macaque,macaca fuscata,species,0
+kirk's dik-dik,madoqua kirkii,species,0
+klipspringer,oreotragus oreotragus,species,0
+kob,kobus kob,species,0
+meerkat,suricata suricatta,species,0
+nyala,tragelaphus angasii,species,0
+patas monkey,erythrocebus patas,species,0
+pinniped clade,pinniped,family,0
+ring-tailed lemur,lemur catta,species,0
+roan antelope,hippotragus equinus,species,0
+saiga,saiga tatarica,species,0
+sea otter,enhydra lutris,species,0
+sloth bear,melursus ursinus,species,0
+walrus,odobenus rosmarus,species,0
+water deer,hydropotes inermis,species,0
+yak,bos grunniens,species,0

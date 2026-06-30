@@ -1,0 +1,1734 @@
+expected_class,predicted_common,predicted_scientific,count,match_level,review_decision
+llama_genus,white-tailed deer,odocoileus virginianus,227,order,lookalike
+llama_genus,pronghorn,antilocapra americana,120,order,lookalike
+llama_genus,domestic cattle,bos taurus,69,order,different
+llama_genus,mule deer,odocoileus hemionus,61,order,lookalike
+llama_genus,red deer,cervus elaphus,48,order,lookalike
+llama_genus,thomson's gazelle,eudorcas thomsonii,40,order,lookalike
+llama_genus,domestic sheep,ovis aries,25,order,different
+llama_genus,springbok,antidorcas marsupialis,19,order,lookalike
+llama_genus,domestic dog,canis familiaris,12,class,different
+llama_genus,guenther's dik-dik,madoqua guentheri,10,order,lookalike
+llama_genus,coyote,canis latrans,10,class,different
+llama_genus,sika deer,cervus nippon,9,order,lookalike
+llama_genus,impala,aepyceros melampus,8,order,lookalike
+llama_genus,capra species,capra,6,order,skip
+llama_genus,blue sheep,pseudois nayaur,5,order,lookalike
+llama_genus,bushbuck,tragelaphus scriptus,5,order,lookalike
+llama_genus,red fox,vulpes vulpes,5,class,different
+llama_genus,domestic horse,equus caballus,5,class,different
+llama_genus,european roe deer,capreolus capreolus,5,order,lookalike
+llama_genus,common fallow deer,dama dama,5,order,lookalike
+llama_genus,pampas deer,ozotoceros bezoarticus,4,order,lookalike
+llama_genus,domestic donkey,equus asinus,3,class,different
+llama_genus,wild goat,capra aegagrus,3,order,lookalike
+llama_genus,mouflon,ovis orientalis,3,order,lookalike
+llama_genus,puku,kobus vardonii,3,order,lookalike
+llama_genus,domestic cat,felis catus,2,class,different
+llama_genus,bobcat,lynx rufus,2,class,different
+llama_genus,hylobatidae family,,2,class,skip
+llama_genus,american bison,bison bison,1,order,lookalike
+llama_genus,ovis species,ovis,1,order,skip
+llama_genus,artiodactyla order,,1,order,skip
+llama_genus,elk,cervus canadensis,1,order,lookalike
+llama_genus,plains zebra,equus quagga,1,class,different
+llama_genus,common eland,tragelaphus oryx,1,order,lookalike
+llama_genus,odocoileus species,odocoileus,1,order,skip
+llama_genus,black-backed jackal,canis mesomelas,1,class,different
+llama_genus,przewalski's horse,equus ferus,1,class,different
+llama_genus,vervet monkey,chlorocebus pygerythrus,1,class,different
+llama_genus,grant's gazelle,nanger granti,1,order,lookalike
+llama_genus,collared peccary,pecari tajacu,1,order,lookalike
+llama_genus,common warthog,phacochoerus africanus,1,order,lookalike
+llama_genus,eastern fox squirrel,sciurus niger,1,class,different
+llama_genus,sitatunga,tragelaphus spekii,1,order,lookalike
+llama_genus,lion,panthera leo,1,class,different
+llama_genus,spotted hyaena,crocuta crocuta,1,class,different
+llama_genus,domestic goat,capra aegagrus hircus,1,order,lookalike
+domestic_horse,domestic cattle,bos taurus,252,class,different
+domestic_horse,red deer,cervus elaphus,31,class,different
+domestic_horse,white-tailed deer,odocoileus virginianus,24,class,different
+domestic_horse,domestic goat,capra aegagrus hircus,14,class,different
+domestic_horse,common wildebeest,connochaetes taurinus,9,class,different
+domestic_horse,elk,cervus canadensis,7,class,different
+domestic_horse,african elephant,loxodonta africana,3,class,different
+domestic_horse,domestic dog,canis familiaris,3,class,different
+domestic_horse,mule deer,odocoileus hemionus,3,class,different
+domestic_horse,human,homo sapiens,3,class,skip
+domestic_horse,dromedary camel,camelus dromedarius,2,class,different
+domestic_horse,american bison,bison bison,2,class,different
+domestic_horse,puku,kobus vardonii,2,class,different
+domestic_horse,impala,aepyceros melampus,2,class,different
+domestic_horse,wild goat,capra aegagrus,2,class,different
+domestic_horse,pronghorn,antilocapra americana,2,class,different
+domestic_horse,thomson's gazelle,eudorcas thomsonii,2,class,different
+domestic_horse,sika deer,cervus nippon,1,class,different
+domestic_horse,moose,alces alces,1,class,different
+domestic_horse,hartebeest,alcelaphus buselaphus,1,class,different
+domestic_horse,capra species,capra,1,class,skip
+domestic_horse,lion,panthera leo,1,class,different
+bighorn_sheep,white-tailed deer,odocoileus virginianus,102,order,lookalike
+bighorn_sheep,mule deer,odocoileus hemionus,95,order,lookalike
+bighorn_sheep,red deer,cervus elaphus,90,order,lookalike
+bighorn_sheep,pronghorn,antilocapra americana,34,order,lookalike
+bighorn_sheep,elk,cervus canadensis,18,order,lookalike
+bighorn_sheep,domestic dog,canis familiaris,8,class,different
+bighorn_sheep,domestic horse,equus caballus,6,class,different
+bighorn_sheep,coyote,canis latrans,4,class,different
+bighorn_sheep,domestic cat,felis catus,3,class,different
+bighorn_sheep,sika deer,cervus nippon,3,order,lookalike
+bighorn_sheep,yellow-bellied marmot,marmota flaviventris,2,class,different
+bighorn_sheep,common warthog,phacochoerus africanus,2,order,lookalike
+bighorn_sheep,human,homo sapiens,1,class,skip
+bighorn_sheep,domestic donkey,equus asinus,1,class,different
+bighorn_sheep,reindeer,rangifer tarandus,1,order,lookalike
+bighorn_sheep,common fallow deer,dama dama,1,order,lookalike
+bighorn_sheep,wild boar,sus scrofa,1,order,lookalike
+bighorn_sheep,black-tailed jackrabbit,lepus californicus,1,class,different
+bighorn_sheep,spotted hyaena,crocuta crocuta,1,class,different
+bighorn_sheep,eastern gray squirrel,sciurus carolinensis,1,class,different
+bighorn_sheep,moose,alces alces,1,order,lookalike
+bighorn_sheep,dromedary camel,camelus dromedarius,1,order,lookalike
+rhinoceros_family,domestic cattle,bos taurus,120,no_match,different
+rhinoceros_family,african elephant,loxodonta africana,56,no_match,different
+rhinoceros_family,common warthog,phacochoerus africanus,33,no_match,different
+rhinoceros_family,domestic horse,equus caballus,11,no_match,different
+rhinoceros_family,african buffalo,syncerus caffer,11,no_match,different
+rhinoceros_family,human,homo sapiens,8,no_match,skip
+rhinoceros_family,white-tailed deer,odocoileus virginianus,5,no_match,different
+rhinoceros_family,dromedary camel,camelus dromedarius,5,no_match,different
+rhinoceros_family,hippopotamus,hippopotamus amphibius,5,no_match,different
+rhinoceros_family,common wildebeest,connochaetes taurinus,4,no_match,different
+rhinoceros_family,lowland tapir,tapirus terrestris,4,no_match,different
+rhinoceros_family,giraffe,giraffa camelopardalis,4,no_match,different
+rhinoceros_family,plains zebra,equus quagga,3,no_match,different
+rhinoceros_family,red deer,cervus elaphus,1,no_match,different
+rhinoceros_family,domestic sheep,ovis aries,1,no_match,different
+rhinoceros_family,malay tapir,tapirus indicus,1,no_match,different
+rhinoceros_family,domestic dog,canis familiaris,1,no_match,different
+rhinoceros_family,wild goat,capra aegagrus,1,no_match,different
+rhinoceros_family,mule deer,odocoileus hemionus,1,no_match,different
+domestic_donkey,domestic cattle,bos taurus,154,class,different
+domestic_donkey,white-tailed deer,odocoileus virginianus,22,class,different
+domestic_donkey,wild goat,capra aegagrus,14,class,different
+domestic_donkey,domestic goat,capra aegagrus hircus,11,class,different
+domestic_donkey,domestic sheep,ovis aries,10,class,different
+domestic_donkey,red deer,cervus elaphus,7,class,different
+domestic_donkey,mule deer,odocoileus hemionus,7,class,different
+domestic_donkey,blue sheep,pseudois nayaur,5,class,different
+domestic_donkey,pronghorn,antilocapra americana,5,class,different
+domestic_donkey,giraffe,giraffa camelopardalis,4,class,different
+domestic_donkey,human,homo sapiens,4,class,skip
+domestic_donkey,common wildebeest,connochaetes taurinus,3,class,different
+domestic_donkey,capra species,capra,3,class,skip
+domestic_donkey,guenther's dik-dik,madoqua guentheri,3,class,different
+domestic_donkey,domestic dog,canis familiaris,2,class,different
+domestic_donkey,hartebeest,alcelaphus buselaphus,2,class,different
+domestic_donkey,sika deer,cervus nippon,1,class,different
+domestic_donkey,northern chamois,rupicapra rupicapra,1,class,different
+domestic_donkey,thomson's gazelle,eudorcas thomsonii,1,class,different
+domestic_donkey,greater kudu,tragelaphus strepsiceros,1,class,different
+domestic_donkey,wild boar,sus scrofa,1,class,different
+domestic_donkey,coyote,canis latrans,1,class,different
+domestic_donkey,impala,aepyceros melampus,1,class,different
+domestic_donkey,common fallow deer,dama dama,1,class,different
+domestic_donkey,american black bear,ursus americanus,1,class,different
+domestic_donkey,common warthog,phacochoerus africanus,1,class,different
+domestic_donkey,canis species,canis,1,class,skip
+domestic_donkey,lion,panthera leo,1,class,different
+domestic_donkey,gemsbok,oryx gazella,1,class,different
+domestic_donkey,elk,cervus canadensis,1,class,different
+eastern_grey_kangaroo,white-tailed deer,odocoileus virginianus,153,class,different
+eastern_grey_kangaroo,domestic cattle,bos taurus,25,class,different
+eastern_grey_kangaroo,mule deer,odocoileus hemionus,11,class,different
+eastern_grey_kangaroo,sika deer,cervus nippon,6,class,different
+eastern_grey_kangaroo,african elephant,loxodonta africana,5,class,different
+eastern_grey_kangaroo,domestic dog,canis familiaris,4,class,different
+eastern_grey_kangaroo,coyote,canis latrans,4,class,different
+eastern_grey_kangaroo,red deer,cervus elaphus,4,class,different
+eastern_grey_kangaroo,vervet monkey,chlorocebus pygerythrus,3,class,different
+eastern_grey_kangaroo,thomson's gazelle,eudorcas thomsonii,3,class,different
+eastern_grey_kangaroo,domestic sheep,ovis aries,3,class,different
+eastern_grey_kangaroo,eastern gray squirrel,sciurus carolinensis,3,class,different
+eastern_grey_kangaroo,human,homo sapiens,2,class,skip
+eastern_grey_kangaroo,black-tailed jackrabbit,lepus californicus,2,class,different
+eastern_grey_kangaroo,pronghorn,antilocapra americana,2,class,different
+eastern_grey_kangaroo,kinda baboon,papio kindae,1,class,different
+eastern_grey_kangaroo,grey wolf,canis lupus,1,class,different
+eastern_grey_kangaroo,moose,alces alces,1,class,different
+eastern_grey_kangaroo,lion,panthera leo,1,class,different
+eastern_grey_kangaroo,guenther's dik-dik,madoqua guentheri,1,class,different
+eastern_grey_kangaroo,common wildebeest,connochaetes taurinus,1,class,different
+eastern_grey_kangaroo,baboon species,papio,1,class,skip
+eastern_grey_kangaroo,american bison,bison bison,1,class,different
+eastern_grey_kangaroo,dromedary camel,camelus dromedarius,1,class,different
+eastern_grey_kangaroo,common duiker,sylvicapra grimmia,1,class,different
+eastern_grey_kangaroo,pampas deer,ozotoceros bezoarticus,1,class,different
+eastern_grey_kangaroo,eastern fox squirrel,sciurus niger,1,class,different
+eastern_grey_kangaroo,blue sheep,pseudois nayaur,1,class,different
+eastern_grey_kangaroo,puma,puma concolor,1,class,different
+eastern_grey_kangaroo,primate,,1,class,skip
+eastern_grey_kangaroo,olive baboon,papio anubis,1,class,different
+eastern_grey_kangaroo,common fallow deer,dama dama,1,class,different
+capybara,white-tailed deer,odocoileus virginianus,50,class,different
+capybara,domestic cattle,bos taurus,38,class,different
+capybara,nutria,myocastor coypus,30,order,lookalike
+capybara,wild boar,sus scrofa,25,class,different
+capybara,arizona black-tailed prairie dog,cynomys ludovicianus,23,order,different
+capybara,red deer,cervus elaphus,11,class,different
+capybara,american black bear,ursus americanus,9,class,different
+capybara,domestic cat,felis catus,7,class,different
+capybara,eastern gray squirrel,sciurus carolinensis,6,order,different
+capybara,brown bear,ursus arctos,5,class,different
+capybara,domestic horse,equus caballus,5,class,different
+capybara,woodchuck,marmota monax,5,order,different
+capybara,northern raccoon,procyon lotor,4,class,different
+capybara,sika deer,cervus nippon,4,class,different
+capybara,domestic goat,capra aegagrus hircus,4,class,different
+capybara,elk,cervus canadensis,3,class,different
+capybara,mule deer,odocoileus hemionus,3,class,different
+capybara,lowland tapir,tapirus terrestris,3,class,different
+capybara,central american agouti,dasyprocta punctata,3,order,lookalike
+capybara,north american river otter,lontra canadensis,3,class,different
+capybara,white-lipped peccary,tayassu pecari,3,class,different
+capybara,eurasian red squirrel,sciurus vulgaris,3,order,different
+capybara,common warthog,phacochoerus africanus,2,class,different
+capybara,california ground squirrel,otospermophilus beecheyi,2,order,different
+capybara,eastern fox squirrel,sciurus niger,2,order,different
+capybara,american bison,bison bison,1,class,different
+capybara,black-fronted duiker,cephalophus nigrifrons,1,class,different
+capybara,yellow-bellied marmot,marmota flaviventris,1,order,different
+capybara,takin,budorcas taxicolor,1,class,different
+capybara,yellow-throated marten,martes flavigula,1,class,different
+capybara,northern chamois,rupicapra rupicapra,1,class,different
+capybara,fisher,pekania pennanti,1,class,different
+capybara,mongolian marmot,marmota sibirica,1,order,different
+capybara,rodent,,1,order,skip
+capybara,giant otter,pteronura brasiliensis,1,class,different
+capybara,vervet monkey,chlorocebus pygerythrus,1,class,different
+capybara,kinda baboon,papio kindae,1,class,different
+capybara,american mink,neovison vison,1,class,different
+capybara,bushpig,potamochoerus larvatus,1,class,different
+pronghorn,white-tailed deer,odocoileus virginianus,90,order,lookalike
+pronghorn,thomson's gazelle,eudorcas thomsonii,24,order,lookalike
+pronghorn,impala,aepyceros melampus,15,order,lookalike
+pronghorn,mule deer,odocoileus hemionus,13,order,lookalike
+pronghorn,red deer,cervus elaphus,12,order,lookalike
+pronghorn,springbok,antidorcas marsupialis,7,order,lookalike
+pronghorn,guenther's dik-dik,madoqua guentheri,6,order,lookalike
+pronghorn,grant's gazelle,nanger granti,3,order,lookalike
+pronghorn,domestic cattle,bos taurus,3,order,lookalike
+pronghorn,domestic dog,canis familiaris,2,class,different
+pronghorn,european roe deer,capreolus capreolus,2,order,lookalike
+pronghorn,puku,kobus vardonii,2,order,lookalike
+pronghorn,dik-dik species,madoqua,1,order,skip
+pronghorn,odocoileus species,odocoileus,1,order,skip
+pronghorn,black-tailed jackrabbit,lepus californicus,1,class,different
+pronghorn,human,homo sapiens,1,class,skip
+pronghorn,elk,cervus canadensis,1,order,lookalike
+pronghorn,domestic horse,equus caballus,1,class,different
+pronghorn,plains zebra,equus quagga,1,class,different
+pronghorn,domestic goat,capra aegagrus hircus,1,order,lookalike
+impala,white-tailed deer,odocoileus virginianus,167,order,lookalike
+impala,red deer,cervus elaphus,5,order,lookalike
+impala,plains zebra,equus quagga,4,class,different
+impala,mule deer,odocoileus hemionus,4,order,lookalike
+impala,human,homo sapiens,3,class,skip
+impala,pronghorn,antilocapra americana,3,order,lookalike
+impala,odocoileus species,odocoileus,1,order,skip
+impala,european roe deer,capreolus capreolus,1,order,lookalike
+impala,vervet monkey,chlorocebus pygerythrus,1,class,skip
+impala,kinda baboon,papio kindae,1,class,skip
+impala,pampas deer,ozotoceros bezoarticus,1,order,lookalike
+domestic_sheep,white-tailed deer,odocoileus virginianus,59,order,lookalike
+domestic_sheep,mule deer,odocoileus hemionus,26,order,lookalike
+domestic_sheep,red deer,cervus elaphus,19,order,lookalike
+domestic_sheep,domestic dog,canis familiaris,18,class,different
+domestic_sheep,domestic horse,equus caballus,15,class,different
+domestic_sheep,wild boar,sus scrofa,10,order,lookalike
+domestic_sheep,domestic cat,felis catus,9,class,different
+domestic_sheep,coyote,canis latrans,7,class,different
+domestic_sheep,eastern gray squirrel,sciurus carolinensis,5,class,different
+domestic_sheep,lion,panthera leo,5,class,different
+domestic_sheep,sika deer,cervus nippon,3,order,lookalike
+domestic_sheep,common warthog,phacochoerus africanus,2,order,lookalike
+domestic_sheep,european roe deer,capreolus capreolus,2,order,lookalike
+domestic_sheep,elk,cervus canadensis,2,order,lookalike
+domestic_sheep,american black bear,ursus americanus,2,class,different
+domestic_sheep,hylobatidae family,,2,class,skip
+domestic_sheep,odocoileus species,odocoileus,1,order,lookalike
+domestic_sheep,eastern cottontail,sylvilagus floridanus,1,class,different
+domestic_sheep,african elephant,loxodonta africana,1,class,different
+domestic_sheep,human,homo sapiens,1,class,skip
+domestic_sheep,brush-tailed rock wallaby,petrogale penicillata,1,class,different
+domestic_sheep,canis species,canis,1,class,skip
+domestic_sheep,vicugna species,vicugna,1,order,lookalike
+domestic_sheep,red-necked wallaby,macropus rufogriseus,1,class,different
+domestic_sheep,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+domestic_sheep,red fox,vulpes vulpes,1,class,different
+domestic_sheep,northern raccoon,procyon lotor,1,class,different
+common_wildebeest,domestic horse,equus caballus,42,class,different
+common_wildebeest,white-tailed deer,odocoileus virginianus,34,order,lookalike
+common_wildebeest,plains zebra,equus quagga,23,class,different
+common_wildebeest,red deer,cervus elaphus,14,order,lookalike
+common_wildebeest,mule deer,odocoileus hemionus,10,order,lookalike
+common_wildebeest,elk,cervus canadensis,9,order,lookalike
+common_wildebeest,common warthog,phacochoerus africanus,5,order,lookalike
+common_wildebeest,dromedary camel,camelus dromedarius,4,order,lookalike
+common_wildebeest,moose,alces alces,2,order,lookalike
+common_wildebeest,african elephant,loxodonta africana,2,class,different
+common_wildebeest,giraffe,giraffa camelopardalis,2,order,lookalike
+common_wildebeest,pronghorn,antilocapra americana,1,order,lookalike
+common_wildebeest,przewalski's horse,equus ferus,1,class,different
+common_wildebeest,human,homo sapiens,1,class,skip
+common_wildebeest,domestic donkey,equus asinus,1,class,different
+common_wildebeest,mountain zebra,equus zebra,1,class,different
+greater_kudu,white-tailed deer,odocoileus virginianus,88,order,lookalike
+greater_kudu,mule deer,odocoileus hemionus,18,order,lookalike
+greater_kudu,red deer,cervus elaphus,11,order,lookalike
+greater_kudu,plains zebra,equus quagga,8,class,different
+greater_kudu,lion,panthera leo,1,class,different
+greater_kudu,domestic horse,equus caballus,1,class,different
+greater_kudu,elk,cervus canadensis,1,order,lookalike
+greater_kudu,odocoileus species,odocoileus,1,order,lookalike
+greater_kudu,dromedary camel,camelus dromedarius,1,order,different
+greater_kudu,european roe deer,capreolus capreolus,1,order,lookalike
+greater_kudu,common fallow deer,dama dama,1,order,lookalike
+greater_kudu,giraffe,giraffa camelopardalis,1,order,different
+greater_kudu,mountain zebra,equus zebra,1,class,different
+greater_kudu,grevy's zebra,equus grevyi,1,class,different
+greater_kudu,sambar,rusa unicolor,1,order,lookalike
+greater_kudu,domestic dog,canis familiaris,1,class,different
+elephant_seal,domestic cattle,bos taurus,47,no_match,different
+elephant_seal,human,homo sapiens,20,no_match,skip
+elephant_seal,lion,panthera leo,17,no_match,different
+elephant_seal,common wildebeest,connochaetes taurinus,14,no_match,different
+elephant_seal,giant otter,pteronura brasiliensis,9,no_match,different
+elephant_seal,lowland tapir,tapirus terrestris,4,no_match,different
+elephant_seal,african elephant,loxodonta africana,4,no_match,different
+elephant_seal,domestic sheep,ovis aries,3,no_match,different
+elephant_seal,common eland,tragelaphus oryx,2,no_match,different
+elephant_seal,sika deer,cervus nippon,1,no_match,different
+elephant_seal,hippopotamus,hippopotamus amphibius,1,no_match,different
+elephant_seal,coyote,canis latrans,1,no_match,different
+elephant_seal,arizona black-tailed prairie dog,cynomys ludovicianus,1,no_match,different
+elephant_seal,african buffalo,syncerus caffer,1,no_match,different
+african_wild_dog,domestic cattle,bos taurus,30,class,different
+african_wild_dog,spotted hyaena,crocuta crocuta,21,order,lookalike
+african_wild_dog,domestic goat,capra aegagrus hircus,12,class,different
+african_wild_dog,mule deer,odocoileus hemionus,7,class,different
+african_wild_dog,domestic sheep,ovis aries,7,class,different
+african_wild_dog,white-tailed deer,odocoileus virginianus,6,class,different
+african_wild_dog,wild goat,capra aegagrus,5,class,different
+african_wild_dog,wild boar,sus scrofa,5,class,different
+african_wild_dog,red deer,cervus elaphus,4,class,different
+african_wild_dog,plains zebra,equus quagga,4,class,different
+african_wild_dog,domestic horse,equus caballus,3,class,different
+african_wild_dog,bobcat,lynx rufus,3,order,lookalike
+african_wild_dog,jaguar,panthera onca,3,order,lookalike
+african_wild_dog,elk,cervus canadensis,2,class,different
+african_wild_dog,human,homo sapiens,2,class,skip
+african_wild_dog,snow leopard,panthera uncia,1,order,lookalike
+african_wild_dog,blue sheep,pseudois nayaur,1,class,different
+african_wild_dog,baboon species,papio,1,class,skip
+african_wild_dog,domestic cat,felis catus,1,order,lookalike
+african_wild_dog,puku,kobus vardonii,1,class,different
+african_wild_dog,nutria,myocastor coypus,1,class,different
+african_wild_dog,common wildebeest,connochaetes taurinus,1,class,different
+african_wild_dog,takin,budorcas taxicolor,1,class,different
+african_wild_dog,lion,panthera leo,1,order,lookalike
+african_wild_dog,african buffalo,syncerus caffer,1,class,different
+african_wild_dog,serval,leptailurus serval,1,order,lookalike
+eared_seals,domestic cattle,bos taurus,42,no_match,skip
+eared_seals,human,homo sapiens,32,no_match,skip
+eared_seals,common wildebeest,connochaetes taurinus,17,no_match,skip
+eared_seals,giant otter,pteronura brasiliensis,14,no_match,skip
+eared_seals,lion,panthera leo,4,no_match,skip
+eared_seals,coyote,canis latrans,3,no_match,skip
+eared_seals,golden mantled ground squirrel,callospermophilus lateralis,2,no_match,skip
+eared_seals,mule deer,odocoileus hemionus,2,no_match,skip
+eared_seals,arizona black-tailed prairie dog,cynomys ludovicianus,1,no_match,skip
+eared_seals,american beaver,castor canadensis,1,no_match,skip
+eared_seals,mouflon,ovis orientalis,1,no_match,skip
+eared_seals,white-tailed deer,odocoileus virginianus,1,no_match,skip
+eared_seals,domestic sheep,ovis aries,1,no_match,skip
+eared_seals,north american river otter,lontra canadensis,1,no_match,skip
+eared_seals,domestic horse,equus caballus,1,no_match,skip
+eared_seals,bobcat,lynx rufus,1,no_match,skip
+eared_seals,lowland tapir,tapirus terrestris,1,no_match,skip
+eared_seals,common eland,tragelaphus oryx,1,no_match,skip
+eared_seals,domestic dog,canis familiaris,1,no_match,skip
+eared_seals,topi,damaliscus lunatus,1,no_match,skip
+dromedary_camel,domestic cattle,bos taurus,42,order,different
+dromedary_camel,domestic horse,equus caballus,18,class,different
+dromedary_camel,red deer,cervus elaphus,17,order,different
+dromedary_camel,mule deer,odocoileus hemionus,11,order,different
+dromedary_camel,white-tailed deer,odocoileus virginianus,8,order,different
+dromedary_camel,human,homo sapiens,7,class,skip
+dromedary_camel,wild goat,capra aegagrus,5,order,different
+dromedary_camel,lion,panthera leo,4,class,different
+dromedary_camel,plains zebra,equus quagga,4,class,different
+dromedary_camel,domestic dog,canis familiaris,3,class,different
+dromedary_camel,bighorn sheep,ovis canadensis,3,order,different
+dromedary_camel,common wildebeest,connochaetes taurinus,2,order,different
+dromedary_camel,impala,aepyceros melampus,2,order,different
+dromedary_camel,przewalski's horse,equus ferus,2,class,different
+dromedary_camel,moose,alces alces,2,order,different
+dromedary_camel,domestic goat,capra aegagrus hircus,2,order,different
+dromedary_camel,elk,cervus canadensis,2,order,different
+dromedary_camel,domestic donkey,equus asinus,2,class,different
+dromedary_camel,hartebeest,alcelaphus buselaphus,2,order,different
+dromedary_camel,grevy's zebra,equus grevyi,1,class,different
+dromedary_camel,cervidae family,,1,order,skip
+dromedary_camel,pronghorn,antilocapra americana,1,order,different
+dromedary_camel,olive baboon,papio anubis,1,class,skip
+dromedary_camel,giraffe,giraffa camelopardalis,1,order,different
+baboon_genus,white-tailed deer,odocoileus virginianus,10,class,different
+baboon_genus,domestic cattle,bos taurus,9,class,different
+baboon_genus,domestic cat,felis catus,7,class,different
+baboon_genus,wild boar,sus scrofa,7,class,different
+baboon_genus,human,homo sapiens,5,order,skip
+baboon_genus,arizona black-tailed prairie dog,cynomys ludovicianus,5,class,different
+baboon_genus,eastern gray squirrel,sciurus carolinensis,4,class,different
+baboon_genus,domestic dog,canis familiaris,4,class,different
+baboon_genus,coyote,canis latrans,4,class,different
+baboon_genus,giant anteater,myrmecophaga tridactyla,3,class,different
+baboon_genus,brush-tailed rock wallaby,petrogale penicillata,3,class,different
+baboon_genus,impala,aepyceros melampus,3,class,different
+baboon_genus,collared peccary,pecari tajacu,2,class,different
+baboon_genus,bobcat,lynx rufus,2,class,different
+baboon_genus,spotted hyaena,crocuta crocuta,2,class,different
+baboon_genus,american black bear,ursus americanus,2,class,different
+baboon_genus,woodchuck,marmota monax,2,class,different
+baboon_genus,red deer,cervus elaphus,2,class,different
+baboon_genus,yellow-bellied marmot,marmota flaviventris,2,class,different
+baboon_genus,black-and-gold howler monkey,alouatta caraya,2,order,lookalike
+baboon_genus,eastern fox squirrel,sciurus niger,2,class,different
+baboon_genus,kangaroo family,,1,class,skip
+baboon_genus,northern chamois,rupicapra rupicapra,1,class,different
+baboon_genus,fisher,pekania pennanti,1,class,different
+baboon_genus,takin,budorcas taxicolor,1,class,different
+baboon_genus,african buffalo,syncerus caffer,1,class,different
+baboon_genus,northern raccoon,procyon lotor,1,class,different
+baboon_genus,eurasian red squirrel,sciurus vulgaris,1,class,different
+baboon_genus,red squirrel,tamiasciurus hudsonicus,1,class,different
+baboon_genus,capra species,capra,1,class,skip
+baboon_genus,golden mantled ground squirrel,callospermophilus lateralis,1,class,different
+baboon_genus,waterbuck,kobus ellipsiprymnus,1,class,different
+baboon_genus,brown bear,ursus arctos,1,class,different
+baboon_genus,domestic goat,capra aegagrus hircus,1,class,different
+baboon_genus,red-rumped agouti,dasyprocta leporina,1,class,different
+baboon_genus,common warthog,phacochoerus africanus,1,class,different
+baboon_genus,tufted deer,elaphodus cephalophus,1,class,different
+baboon_genus,capybara,hydrochoerus hydrochaeris,1,class,different
+baboon_genus,lion,panthera leo,1,class,different
+common_eland,white-tailed deer,odocoileus virginianus,48,order,lookalike
+common_eland,red deer,cervus elaphus,12,order,lookalike
+common_eland,domestic horse,equus caballus,11,class,different
+common_eland,plains zebra,equus quagga,9,class,different
+common_eland,pronghorn,antilocapra americana,9,order,lookalike
+common_eland,human,homo sapiens,4,class,skip
+common_eland,przewalski's horse,equus ferus,2,class,different
+common_eland,african elephant,loxodonta africana,2,class,different
+common_eland,mule deer,odocoileus hemionus,2,order,lookalike
+common_eland,common fallow deer,dama dama,1,order,lookalike
+common_eland,lion,panthera leo,1,class,different
+common_eland,domestic donkey,equus asinus,1,class,different
+common_eland,northern plains gray langur,semnopithecus entellus,1,class,skip
+common_eland,elk,cervus canadensis,1,order,lookalike
+common_eland,dromedary camel,camelus dromedarius,1,order,lookalike
+wild_boar,domestic cattle,bos taurus,33,order,lookalike
+wild_boar,white-tailed deer,odocoileus virginianus,17,order,lookalike
+wild_boar,white-lipped peccary,tayassu pecari,7,order,lookalike
+wild_boar,spotted hyaena,crocuta crocuta,4,class,different
+wild_boar,capybara,hydrochoerus hydrochaeris,3,class,different
+wild_boar,arizona black-tailed prairie dog,cynomys ludovicianus,3,class,different
+wild_boar,domestic dog,canis familiaris,3,class,different
+wild_boar,european roe deer,capreolus capreolus,2,order,lookalike
+wild_boar,collared peccary,pecari tajacu,2,order,lookalike
+wild_boar,eastern gray squirrel,sciurus carolinensis,2,class,different
+wild_boar,sika deer,cervus nippon,2,order,lookalike
+wild_boar,human,homo sapiens,2,class,skip
+wild_boar,common wildebeest,connochaetes taurinus,2,order,lookalike
+wild_boar,south american coati,nasua nasua,1,class,different
+wild_boar,common long-tailed macaque,macaca fascicularis,1,class,different
+wild_boar,coyote,canis latrans,1,class,different
+wild_boar,vervet monkey,chlorocebus pygerythrus,1,class,different
+wild_boar,eurasian red squirrel,sciurus vulgaris,1,class,different
+wild_boar,domestic goat,capra aegagrus hircus,1,order,lookalike
+wild_boar,nutria,myocastor coypus,1,class,different
+wild_boar,wild goat,capra aegagrus,1,order,lookalike
+wild_boar,reeves' muntjac,muntiacus reevesi,1,order,lookalike
+wild_boar,giant anteater,myrmecophaga tridactyla,1,class,different
+wild_boar,red fox,vulpes vulpes,1,class,different
+wild_boar,american bison,bison bison,1,order,lookalike
+wild_boar,lion,panthera leo,1,class,different
+wild_boar,elk,cervus canadensis,1,order,lookalike
+wild_boar,nine-banded armadillo,dasypus novemcinctus,1,class,different
+wild_boar,domestic sheep,ovis aries,1,order,lookalike
+common_warthog,domestic cattle,bos taurus,45,order,different
+common_warthog,common wildebeest,connochaetes taurinus,5,order,different
+common_warthog,domestic horse,equus caballus,5,class,different
+common_warthog,white-tailed deer,odocoileus virginianus,5,order,different
+common_warthog,mule deer,odocoileus hemionus,3,order,different
+common_warthog,red deer,cervus elaphus,3,order,different
+common_warthog,impala,aepyceros melampus,2,order,lookalike
+common_warthog,sika deer,cervus nippon,2,order,different
+common_warthog,plains zebra,equus quagga,2,class,different
+common_warthog,california ground squirrel,otospermophilus beecheyi,2,class,different
+common_warthog,vervet monkey,chlorocebus pygerythrus,2,class,different
+common_warthog,eastern gray squirrel,sciurus carolinensis,2,class,different
+common_warthog,coyote,canis latrans,2,class,different
+common_warthog,domestic cat,felis catus,2,class,different
+common_warthog,bobcat,lynx rufus,1,class,different
+common_warthog,dhole,cuon alpinus,1,class,different
+common_warthog,wild goat,capra aegagrus,1,order,lookalike
+common_warthog,eastern fox squirrel,sciurus niger,1,class,different
+common_warthog,domestic goat,capra aegagrus hircus,1,order,lookalike
+common_warthog,domestic dog,canis familiaris,1,class,different
+common_warthog,elk,cervus canadensis,1,order,lookalike
+common_warthog,lion,panthera leo,1,class,different
+common_warthog,przewalski's horse,equus ferus,1,class,different
+common_warthog,domestic sheep,ovis aries,1,order,lookalike
+common_warthog,spotted hyaena,crocuta crocuta,1,class,different
+common_warthog,african buffalo,syncerus caffer,1,order,lookalike
+american_bison,white-tailed deer,odocoileus virginianus,28,order,lookalike
+american_bison,red deer,cervus elaphus,24,order,lookalike
+american_bison,domestic horse,equus caballus,11,class,different
+american_bison,wild boar,sus scrofa,8,order,lookalike
+american_bison,domestic dog,canis familiaris,6,class,different
+american_bison,mule deer,odocoileus hemionus,5,order,lookalike
+american_bison,american black bear,ursus americanus,3,class,different
+american_bison,european roe deer,capreolus capreolus,2,order,lookalike
+american_bison,coyote,canis latrans,2,class,different
+american_bison,hylobatidae family,,2,class,skip
+american_bison,sika deer,cervus nippon,1,order,lookalike
+american_bison,human,homo sapiens,1,class,skip
+american_bison,domestic cat,felis catus,1,class,different
+american_bison,lion,panthera leo,1,class,different
+american_bison,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+lion,domestic cattle,bos taurus,25,class,different
+lion,white-tailed deer,odocoileus virginianus,19,class,different
+lion,domestic dog,canis familiaris,6,order,lookalike
+lion,mule deer,odocoileus hemionus,5,class,different
+lion,arizona black-tailed prairie dog,cynomys ludovicianus,5,class,different
+lion,red deer,cervus elaphus,3,class,different
+lion,coyote,canis latrans,3,order,lookalike
+lion,spotted hyaena,crocuta crocuta,3,order,lookalike
+lion,plains zebra,equus quagga,3,class,different
+lion,common eland,tragelaphus oryx,2,class,different
+lion,common wildebeest,connochaetes taurinus,2,class,different
+lion,impala,aepyceros melampus,2,class,different
+lion,canis species,canis,2,order,lookalike
+lion,hartebeest,alcelaphus buselaphus,1,class,different
+lion,giraffe,giraffa camelopardalis,1,class,different
+lion,kinda baboon,papio kindae,1,class,different
+lion,dhole,cuon alpinus,1,order,lookalike
+lion,odocoileus species,odocoileus,1,class,different
+lion,grey wolf,canis lupus,1,order,lookalike
+lion,domestic horse,equus caballus,1,class,different
+sea_otter,north american river otter,lontra canadensis,32,no_match,lookalike
+sea_otter,giant otter,pteronura brasiliensis,31,no_match,lookalike
+sea_otter,nutria,myocastor coypus,25,no_match,different
+sea_otter,american beaver,castor canadensis,5,no_match,different
+sea_otter,domestic cattle,bos taurus,2,no_match,different
+sea_otter,muskrat,ondatra zibethicus,2,no_match,different
+sea_otter,capybara,hydrochoerus hydrochaeris,2,no_match,different
+sea_otter,northern raccoon,procyon lotor,1,no_match,different
+sea_otter,common wildebeest,connochaetes taurinus,1,no_match,different
+sea_otter,lion,panthera leo,1,no_match,different
+sea_otter,western gray kangaroo,macropus fuliginosus,1,no_match,different
+sea_otter,domestic goat,capra aegagrus hircus,1,no_match,different
+sea_otter,white-tailed deer,odocoileus virginianus,1,no_match,different
+sea_otter,common warthog,phacochoerus africanus,1,no_match,different
+blackbuck,white-tailed deer,odocoileus virginianus,25,no_match,lookalike
+blackbuck,springbok,antidorcas marsupialis,13,no_match,lookalike
+blackbuck,pronghorn,antilocapra americana,12,no_match,lookalike
+blackbuck,thomson's gazelle,eudorcas thomsonii,11,no_match,lookalike
+blackbuck,impala,aepyceros melampus,10,no_match,lookalike
+blackbuck,grant's gazelle,nanger granti,9,no_match,lookalike
+blackbuck,domestic cattle,bos taurus,6,no_match,lookalike
+blackbuck,mule deer,odocoileus hemionus,5,no_match,lookalike
+blackbuck,guenther's dik-dik,madoqua guentheri,4,no_match,lookalike
+blackbuck,domestic goat,capra aegagrus hircus,3,no_match,lookalike
+blackbuck,common fallow deer,dama dama,3,no_match,lookalike
+blackbuck,mountain gazelle,gazella gazella,2,no_match,lookalike
+blackbuck,red deer,cervus elaphus,2,no_match,lookalike
+blackbuck,european roe deer,capreolus capreolus,2,no_match,lookalike
+blackbuck,domestic sheep,ovis aries,2,no_match,lookalike
+blackbuck,gemsbok,oryx gazella,2,no_match,lookalike
+blackbuck,domestic horse,equus caballus,1,no_match,different
+blackbuck,northern red muntjac,muntiacus vaginalis,1,no_match,lookalike
+blackbuck,blue sheep,pseudois nayaur,1,no_match,lookalike
+blackbuck,wild goat,capra aegagrus,1,no_match,lookalike
+blackbuck,steenbok,raphicerus campestris,1,no_match,lookalike
+reindeer,domestic cattle,bos taurus,27,order,lookalike
+reindeer,pronghorn,antilocapra americana,25,order,lookalike
+reindeer,bighorn sheep,ovis canadensis,13,order,lookalike
+reindeer,capra species,capra,11,order,skip
+reindeer,blue sheep,pseudois nayaur,8,order,lookalike
+reindeer,domestic goat,capra aegagrus hircus,5,order,lookalike
+reindeer,domestic sheep,ovis aries,5,order,lookalike
+reindeer,alpine ibex,capra ibex,5,order,lookalike
+reindeer,domestic dog,canis familiaris,3,class,different
+reindeer,domestic horse,equus caballus,3,class,lookalike
+reindeer,northern chamois,rupicapra rupicapra,3,order,lookalike
+reindeer,coyote,canis latrans,2,class,different
+reindeer,domestic donkey,equus asinus,2,class,lookalike
+reindeer,common wildebeest,connochaetes taurinus,1,order,lookalike
+reindeer,gemsbok,oryx gazella,1,order,lookalike
+reindeer,grey wolf,canis lupus,1,class,different
+reindeer,guenther's dik-dik,madoqua guentheri,1,order,lookalike
+reindeer,wild goat,capra aegagrus,1,order,lookalike
+reindeer,przewalski's horse,equus ferus,1,class,lookalike
+reindeer,giraffe,giraffa camelopardalis,1,order,lookalike
+domestic_cattle,white-tailed deer,odocoileus virginianus,28,order,lookalike
+domestic_cattle,domestic horse,equus caballus,21,class,different
+domestic_cattle,human,homo sapiens,14,class,skip
+domestic_cattle,red deer,cervus elaphus,6,order,lookalike
+domestic_cattle,domestic dog,canis familiaris,5,class,different
+domestic_cattle,mule deer,odocoileus hemionus,4,order,lookalike
+domestic_cattle,wild boar,sus scrofa,2,order,lookalike
+domestic_cattle,przewalski's horse,equus ferus,1,class,different
+domestic_cattle,plains zebra,equus quagga,1,class,different
+domestic_cattle,coyote,canis latrans,1,class,different
+domestic_cattle,eastern fox squirrel,sciurus niger,1,class,different
+domestic_cattle,common warthog,phacochoerus africanus,1,order,lookalike
+domestic_cattle,domestic donkey,equus asinus,1,class,different
+asian_elephant,domestic cattle,bos taurus,44,class,different
+asian_elephant,human,homo sapiens,14,class,skip
+asian_elephant,white-tailed deer,odocoileus virginianus,5,class,different
+asian_elephant,red deer,cervus elaphus,4,class,different
+asian_elephant,common warthog,phacochoerus africanus,3,class,different
+asian_elephant,domestic horse,equus caballus,3,class,different
+asian_elephant,domestic dog,canis familiaris,2,class,different
+asian_elephant,elk,cervus canadensis,1,class,different
+asian_elephant,common wildebeest,connochaetes taurinus,1,class,different
+asian_elephant,eastern grey kangaroo,macropus giganteus,1,class,different
+asian_elephant,cheetah,acinonyx jubatus,1,class,different
+asian_elephant,american bison,bison bison,1,class,different
+asian_elephant,lowland tapir,tapirus terrestris,1,class,different
+common_fallow_deer,domestic cattle,bos taurus,30,order,lookalike
+common_fallow_deer,pronghorn,antilocapra americana,15,order,lookalike
+common_fallow_deer,domestic goat,capra aegagrus hircus,8,order,lookalike
+common_fallow_deer,thomson's gazelle,eudorcas thomsonii,7,order,lookalike
+common_fallow_deer,impala,aepyceros melampus,5,order,lookalike
+common_fallow_deer,wild boar,sus scrofa,3,order,different
+common_fallow_deer,puku,kobus vardonii,3,order,lookalike
+common_fallow_deer,guenther's dik-dik,madoqua guentheri,3,order,lookalike
+common_fallow_deer,domestic dog,canis familiaris,2,class,different
+common_fallow_deer,domestic horse,equus caballus,2,class,lookalike
+common_fallow_deer,sitatunga,tragelaphus spekii,1,order,lookalike
+common_fallow_deer,mouflon,ovis orientalis,1,order,lookalike
+common_fallow_deer,blue sheep,pseudois nayaur,1,order,lookalike
+common_fallow_deer,wild goat,capra aegagrus,1,order,lookalike
+common_fallow_deer,coyote,canis latrans,1,class,different
+common_fallow_deer,lion,panthera leo,1,class,different
+red_kangaroo,domestic cattle,bos taurus,19,class,different
+red_kangaroo,white-tailed deer,odocoileus virginianus,16,class,different
+red_kangaroo,lion,panthera leo,7,class,different
+red_kangaroo,puma,puma concolor,6,class,different
+red_kangaroo,thomson's gazelle,eudorcas thomsonii,5,class,different
+red_kangaroo,red deer,cervus elaphus,5,class,different
+red_kangaroo,mule deer,odocoileus hemionus,5,class,different
+red_kangaroo,coyote,canis latrans,2,class,different
+red_kangaroo,black-tailed jackrabbit,lepus californicus,2,class,different
+red_kangaroo,sika deer,cervus nippon,2,class,different
+red_kangaroo,domestic sheep,ovis aries,2,class,different
+red_kangaroo,domestic cat,felis catus,2,class,different
+red_kangaroo,vervet monkey,chlorocebus pygerythrus,1,class,different
+red_kangaroo,european roe deer,capreolus capreolus,1,class,different
+red_kangaroo,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+red_kangaroo,yellow-throated marten,martes flavigula,1,class,different
+red_kangaroo,dromedary camel,camelus dromedarius,1,class,different
+red_kangaroo,common long-tailed macaque,macaca fascicularis,1,class,different
+red_kangaroo,domestic horse,equus caballus,1,class,different
+red_kangaroo,snowshoe hare,lepus americanus,1,class,different
+red_kangaroo,common duiker,sylvicapra grimmia,1,class,different
+red_kangaroo,pampas deer,ozotoceros bezoarticus,1,class,different
+red_kangaroo,wild goat,capra aegagrus,1,class,different
+red_kangaroo,culpeo,lycalopex culpaeus,1,class,different
+red_kangaroo,human,homo sapiens,1,class,skip
+red_kangaroo,domestic dog,canis familiaris,1,class,different
+springbok,white-tailed deer,odocoileus virginianus,43,order,lookalike
+springbok,pronghorn,antilocapra americana,39,order,lookalike
+springbok,red deer,cervus elaphus,6,order,lookalike
+springbok,mule deer,odocoileus hemionus,4,order,lookalike
+springbok,guanaco,lama guanicoe,2,order,lookalike
+springbok,common fallow deer,dama dama,2,order,lookalike
+springbok,domestic dog,canis familiaris,1,class,different
+springbok,giraffe,giraffa camelopardalis,1,order,lookalike
+springbok,human,homo sapiens,1,class,skip
+domestic_dog,domestic cattle,bos taurus,20,class,different
+domestic_dog,domestic cat,felis catus,17,order,lookalike
+domestic_dog,white-tailed deer,odocoileus virginianus,6,class,different
+domestic_dog,domestic goat,capra aegagrus hircus,5,class,different
+domestic_dog,arizona black-tailed prairie dog,cynomys ludovicianus,5,class,different
+domestic_dog,lion,panthera leo,5,order,lookalike
+domestic_dog,giant otter,pteronura brasiliensis,2,order,lookalike
+domestic_dog,human,homo sapiens,2,class,skip
+domestic_dog,wild goat,capra aegagrus,2,class,different
+domestic_dog,wild boar,sus scrofa,1,class,different
+domestic_dog,capybara,hydrochoerus hydrochaeris,1,class,different
+domestic_dog,eastern gray squirrel,sciurus carolinensis,1,class,different
+domestic_dog,american black bear,ursus americanus,1,order,lookalike
+domestic_dog,thomson's gazelle,eudorcas thomsonii,1,class,different
+domestic_dog,black-tailed jackrabbit,lepus californicus,1,class,different
+domestic_dog,eurasian red squirrel,sciurus vulgaris,1,class,different
+domestic_dog,mule deer,odocoileus hemionus,1,class,different
+domestic_dog,eastern fox squirrel,sciurus niger,1,class,different
+domestic_dog,southern plains gray langur,semnopithecus dussumieri,1,class,different
+domestic_dog,tiger,panthera tigris,1,order,lookalike
+domestic_dog,red deer,cervus elaphus,1,class,different
+african_elephant,domestic cattle,bos taurus,48,class,different
+african_elephant,human,homo sapiens,10,class,skip
+african_elephant,common warthog,phacochoerus africanus,6,class,different
+african_elephant,domestic horse,equus caballus,5,class,different
+african_elephant,american bison,bison bison,4,class,different
+african_elephant,plains zebra,equus quagga,4,class,different
+african_elephant,mountain zebra,equus zebra,3,class,different
+african_elephant,white-tailed deer,odocoileus virginianus,2,class,different
+african_elephant,domestic dog,canis familiaris,2,class,different
+african_elephant,wild boar,sus scrofa,1,class,different
+african_elephant,lowland tapir,tapirus terrestris,1,class,different
+african_elephant,red deer,cervus elaphus,1,class,different
+african_elephant,lion,panthera leo,1,class,different
+african_elephant,common wildebeest,connochaetes taurinus,1,class,different
+african_elephant,domestic sheep,ovis aries,1,class,different
+hartebeest,white-tailed deer,odocoileus virginianus,28,order,lookalike
+hartebeest,elk,cervus canadensis,10,order,lookalike
+hartebeest,red deer,cervus elaphus,10,order,lookalike
+hartebeest,plains zebra,equus quagga,9,class,different
+hartebeest,domestic horse,equus caballus,8,class,different
+hartebeest,mule deer,odocoileus hemionus,6,order,lookalike
+hartebeest,dromedary camel,camelus dromedarius,3,order,lookalike
+hartebeest,pronghorn,antilocapra americana,2,order,lookalike
+hartebeest,domestic donkey,equus asinus,1,class,different
+hartebeest,european roe deer,capreolus capreolus,1,order,lookalike
+hartebeest,common warthog,phacochoerus africanus,1,order,lookalike
+hartebeest,mountain zebra,equus zebra,1,class,different
+red_deer,domestic cattle,bos taurus,35,order,lookalike
+red_deer,puku,kobus vardonii,10,order,lookalike
+red_deer,common wildebeest,connochaetes taurinus,4,order,lookalike
+red_deer,pronghorn,antilocapra americana,3,order,lookalike
+red_deer,impala,aepyceros melampus,2,order,lookalike
+red_deer,common warthog,phacochoerus africanus,2,order,lookalike
+red_deer,common duiker,sylvicapra grimmia,2,order,different
+red_deer,guenther's dik-dik,madoqua guentheri,1,order,different
+red_deer,red fox,vulpes vulpes,1,class,different
+red_deer,domestic horse,equus caballus,1,class,different
+red_deer,domestic sheep,ovis aries,1,order,lookalike
+red_deer,thomson's gazelle,eudorcas thomsonii,1,order,lookalike
+red_deer,domestic donkey,equus asinus,1,class,different
+red_deer,wild boar,sus scrofa,1,order,lookalike
+red_deer,topi,damaliscus lunatus,1,order,lookalike
+red_deer,grant's gazelle,nanger granti,1,order,lookalike
+mongoose_family,woodchuck,marmota monax,11,no_match,different
+mongoose_family,arizona black-tailed prairie dog,cynomys ludovicianus,10,no_match,different
+mongoose_family,california ground squirrel,otospermophilus beecheyi,4,no_match,different
+mongoose_family,eurasian red squirrel,sciurus vulgaris,3,no_match,different
+mongoose_family,eastern fox squirrel,sciurus niger,3,no_match,different
+mongoose_family,eastern gray squirrel,sciurus carolinensis,3,no_match,different
+mongoose_family,domestic cattle,bos taurus,3,no_match,different
+mongoose_family,wild boar,sus scrofa,2,no_match,different
+mongoose_family,yellow-bellied marmot,marmota flaviventris,2,no_match,different
+mongoose_family,kinda baboon,papio kindae,2,no_match,different
+mongoose_family,collared peccary,pecari tajacu,2,no_match,different
+mongoose_family,american black bear,ursus americanus,1,no_match,different
+mongoose_family,guenther's dik-dik,madoqua guentheri,1,no_match,different
+mongoose_family,white-tailed deer,odocoileus virginianus,1,no_match,different
+mongoose_family,south american coati,nasua nasua,1,no_match,different
+mongoose_family,tayra,eira barbara,1,no_match,different
+mongoose_family,jaguarundi,herpailurus yagouaroundi,1,no_match,different
+mongoose_family,red squirrel,tamiasciurus hudsonicus,1,no_match,different
+mongoose_family,nine-banded armadillo,dasypus novemcinctus,1,no_match,different
+mongoose_family,lion,panthera leo,1,no_match,different
+mongoose_family,domestic horse,equus caballus,1,no_match,different
+mongoose_family,central american agouti,dasyprocta punctata,1,no_match,different
+mongoose_family,grey fox,urocyon cinereoargenteus,1,no_match,different
+mongoose_family,vervet monkey,chlorocebus pygerythrus,1,no_match,different
+mongoose_family,giant anteater,myrmecophaga tridactyla,1,no_match,different
+african_buffalo,common warthog,phacochoerus africanus,15,order,lookalike
+african_buffalo,wild boar,sus scrofa,13,order,lookalike
+african_buffalo,african elephant,loxodonta africana,8,class,different
+african_buffalo,red deer,cervus elaphus,7,order,lookalike
+african_buffalo,white-tailed deer,odocoileus virginianus,6,order,lookalike
+african_buffalo,domestic horse,equus caballus,4,class,different
+african_buffalo,lowland tapir,tapirus terrestris,2,class,different
+african_buffalo,plains zebra,equus quagga,1,class,different
+african_buffalo,common fallow deer,dama dama,1,order,lookalike
+african_buffalo,cervidae family,,1,order,skip
+african_buffalo,mule deer,odocoileus hemionus,1,order,lookalike
+african_buffalo,domestic dog,canis familiaris,1,class,different
+african_buffalo,human,homo sapiens,1,class,skip
+african_buffalo,elk,cervus canadensis,1,order,lookalike
+brown_bear,domestic cattle,bos taurus,16,class,different
+brown_bear,white-tailed deer,odocoileus virginianus,5,class,different
+brown_bear,domestic cat,felis catus,5,order,different
+brown_bear,american bison,bison bison,5,class,different
+brown_bear,red fox,vulpes vulpes,4,order,different
+brown_bear,red deer,cervus elaphus,3,class,different
+brown_bear,capra species,capra,2,class,skip
+brown_bear,takin,budorcas taxicolor,2,class,different
+brown_bear,yellow-bellied marmot,marmota flaviventris,2,class,different
+brown_bear,hylobatidae family,,2,class,skip
+brown_bear,domestic dog,canis familiaris,2,order,different
+brown_bear,domestic horse,equus caballus,1,class,different
+brown_bear,european roe deer,capreolus capreolus,1,class,different
+brown_bear,south american coati,nasua nasua,1,order,different
+brown_bear,eastern fox squirrel,sciurus niger,1,class,different
+brown_bear,eastern gray squirrel,sciurus carolinensis,1,class,different
+brown_bear,fisher,pekania pennanti,1,order,different
+brown_bear,spotted hyaena,crocuta crocuta,1,order,different
+brown_bear,sika deer,cervus nippon,1,class,different
+brown_bear,capybara,hydrochoerus hydrochaeris,1,class,different
+brown_bear,elk,cervus canadensis,1,class,different
+brown_bear,mule deer,odocoileus hemionus,1,class,different
+ring-tailed_lemur,south american coati,nasua nasua,16,class,different
+ring-tailed_lemur,vervet monkey,chlorocebus pygerythrus,16,order,lookalike
+ring-tailed_lemur,northern raccoon,procyon lotor,5,class,different
+ring-tailed_lemur,domestic cat,felis catus,3,class,different
+ring-tailed_lemur,domestic cattle,bos taurus,3,class,different
+ring-tailed_lemur,red-necked wallaby,macropus rufogriseus,3,class,different
+ring-tailed_lemur,plains zebra,equus quagga,2,class,different
+ring-tailed_lemur,eastern gray squirrel,sciurus carolinensis,2,class,different
+ring-tailed_lemur,wild goat,capra aegagrus,2,class,different
+ring-tailed_lemur,lion,panthera leo,2,class,different
+ring-tailed_lemur,bobcat,lynx rufus,1,class,different
+ring-tailed_lemur,alpine ibex,capra ibex,1,class,different
+ring-tailed_lemur,western gray squirrel,sciurus griseus,1,class,different
+ring-tailed_lemur,blue sheep,pseudois nayaur,1,class,different
+ring-tailed_lemur,argentine gray fox,lycalopex griseus,1,class,different
+ring-tailed_lemur,canis species,canis,1,class,skip
+ring-tailed_lemur,white-tailed deer,odocoileus virginianus,1,class,different
+ring-tailed_lemur,whiptail wallaby,macropus parryi,1,class,different
+ring-tailed_lemur,sika deer,cervus nippon,1,class,different
+ring-tailed_lemur,golden snub-nosed monkey,rhinopithecus roxellana,1,order,lookalike
+ring-tailed_lemur,tiger,panthera tigris,1,class,different
+ring-tailed_lemur,common long-tailed macaque,macaca fascicularis,1,order,lookalike
+ring-tailed_lemur,large indian civet,viverra zibetha,1,class,different
+chital,impala,aepyceros melampus,11,order,lookalike
+chital,bushbuck,tragelaphus scriptus,9,order,lookalike
+chital,domestic cattle,bos taurus,9,order,lookalike
+chital,thomson's gazelle,eudorcas thomsonii,8,order,lookalike
+chital,puku,kobus vardonii,4,order,lookalike
+chital,domestic goat,capra aegagrus hircus,2,order,lookalike
+chital,springbok,antidorcas marsupialis,2,order,lookalike
+chital,eastern gray squirrel,sciurus carolinensis,1,class,different
+chital,domestic dog,canis familiaris,1,class,different
+chital,dik-dik species,madoqua,1,order,skip
+chital,guenther's dik-dik,madoqua guentheri,1,order,lookalike
+chital,grant's gazelle,nanger granti,1,order,lookalike
+chital,macaque species,macaca,1,class,skip
+mountain_goat,domestic dog,canis familiaris,9,class,different
+mountain_goat,domestic cat,felis catus,7,class,different
+mountain_goat,coyote,canis latrans,6,class,different
+mountain_goat,mule deer,odocoileus hemionus,5,order,lookalike
+mountain_goat,white-tailed deer,odocoileus virginianus,5,order,lookalike
+mountain_goat,pronghorn,antilocapra americana,2,order,lookalike
+mountain_goat,eastern gray squirrel,sciurus carolinensis,2,class,different
+mountain_goat,arizona black-tailed prairie dog,cynomys ludovicianus,2,class,different
+mountain_goat,hylobatidae family,,2,class,skip
+mountain_goat,red deer,cervus elaphus,1,order,lookalike
+mountain_goat,grey fox,urocyon cinereoargenteus,1,class,different
+mountain_goat,domestic horse,equus caballus,1,class,different
+mountain_goat,domestic donkey,equus asinus,1,class,different
+mountain_goat,canis species,canis,1,class,skip
+mountain_goat,american black bear,ursus americanus,1,class,different
+mountain_goat,eastern fox squirrel,sciurus niger,1,class,different
+mountain_goat,wild boar,sus scrofa,1,order,lookalike
+mountain_goat,artiodactyla order,,1,order,skip
+domestic_goat,domestic dog,canis familiaris,27,class,different
+domestic_goat,domestic horse,equus caballus,4,class,different
+domestic_goat,white-tailed deer,odocoileus virginianus,4,order,lookalike
+domestic_goat,domestic cat,felis catus,3,class,different
+domestic_goat,common fallow deer,dama dama,3,order,lookalike
+domestic_goat,hylobatidae family,,2,class,skip
+domestic_goat,coyote,canis latrans,2,class,different
+domestic_goat,wild boar,sus scrofa,2,order,lookalike
+domestic_goat,pronghorn,antilocapra americana,2,order,lookalike
+domestic_goat,lion,panthera leo,2,class,different
+domestic_goat,eurasian red squirrel,sciurus vulgaris,1,class,different
+domestic_goat,tufted deer,elaphodus cephalophus,1,order,lookalike
+domestic_goat,red deer,cervus elaphus,1,order,lookalike
+domestic_goat,honey badger,mellivora capensis,1,class,different
+domestic_goat,whiptail wallaby,macropus parryi,1,class,different
+domestic_goat,canis species,canis,1,class,skip
+domestic_goat,human,homo sapiens,1,class,skip
+domestic_goat,grey wolf,canis lupus,1,class,different
+domestic_goat,douglas's squirrel,tamiasciurus douglasii,1,class,different
+domestic_goat,sika deer,cervus nippon,1,order,lookalike
+plains_zebra,domestic cattle,bos taurus,16,class,different
+plains_zebra,giraffe,giraffa camelopardalis,10,class,different
+plains_zebra,common wildebeest,connochaetes taurinus,7,class,different
+plains_zebra,impala,aepyceros melampus,3,class,different
+plains_zebra,common warthog,phacochoerus africanus,3,class,different
+plains_zebra,springbok,antidorcas marsupialis,2,class,different
+plains_zebra,pronghorn,antilocapra americana,2,class,different
+plains_zebra,blue sheep,pseudois nayaur,2,class,different
+plains_zebra,white-tailed deer,odocoileus virginianus,2,class,different
+plains_zebra,human,homo sapiens,1,class,skip
+plains_zebra,hartebeest,alcelaphus buselaphus,1,class,different
+plains_zebra,domestic cat,felis catus,1,class,different
+plains_zebra,wild goat,capra aegagrus,1,class,different
+plains_zebra,thomson's gazelle,eudorcas thomsonii,1,class,different
+plains_zebra,guenther's dik-dik,madoqua guentheri,1,class,different
+plains_zebra,sambar,rusa unicolor,1,class,different
+plains_zebra,wild boar,sus scrofa,1,class,different
+rock_hyrax,arizona black-tailed prairie dog,cynomys ludovicianus,8,class,lookalike
+rock_hyrax,yellow-bellied marmot,marmota flaviventris,7,class,lookalike
+rock_hyrax,woodchuck,marmota monax,5,class,lookalike
+rock_hyrax,domestic cat,felis catus,3,class,different
+rock_hyrax,brush-tailed rock wallaby,petrogale penicillata,2,class,different
+rock_hyrax,wild boar,sus scrofa,2,class,different
+rock_hyrax,belding's ground squirrel,urocitellus beldingi,2,class,lookalike
+rock_hyrax,sciuridae family,,1,class,skip
+rock_hyrax,mongolian marmot,marmota sibirica,1,class,lookalike
+rock_hyrax,common wombat,vombatus ursinus,1,class,different
+rock_hyrax,coyote,canis latrans,1,class,different
+rock_hyrax,human,homo sapiens,1,class,skip
+rock_hyrax,eurasian red squirrel,sciurus vulgaris,1,class,lookalike
+rock_hyrax,western gray kangaroo,macropus fuliginosus,1,class,different
+rock_hyrax,domestic cattle,bos taurus,1,class,different
+rock_hyrax,nutria,myocastor coypus,1,class,lookalike
+rock_hyrax,culpeo,lycalopex culpaeus,1,class,different
+rock_hyrax,california ground squirrel,otospermophilus beecheyi,1,class,lookalike
+rock_hyrax,alpine ibex,capra ibex,1,class,different
+rock_hyrax,american pika,ochotona princeps,1,class,lookalike
+rock_hyrax,himalayan marmot,marmota himalayana,1,class,lookalike
+rock_hyrax,mule deer,odocoileus hemionus,1,class,different
+rock_hyrax,golden mantled ground squirrel,callospermophilus lateralis,1,class,lookalike
+rock_hyrax,white-tailed prairie dog,cynomys leucurus,1,class,lookalike
+saimiri_species,southern pig-tailed macaque,macaca nemestrina,16,order,lookalike
+saimiri_species,eastern gray squirrel,sciurus carolinensis,8,class,different
+saimiri_species,douglas's squirrel,tamiasciurus douglasii,4,class,different
+saimiri_species,eastern fox squirrel,sciurus niger,4,class,different
+saimiri_species,common long-tailed macaque,macaca fascicularis,3,order,lookalike
+saimiri_species,human,homo sapiens,3,order,skip
+saimiri_species,vervet monkey,chlorocebus pygerythrus,2,order,lookalike
+saimiri_species,black-and-gold howler monkey,alouatta caraya,2,order,lookalike
+saimiri_species,domestic cattle,bos taurus,1,class,different
+saimiri_species,blue monkey,cercopithecus mitis,1,order,lookalike
+saimiri_species,golden snub-nosed monkey,rhinopithecus roxellana,1,order,lookalike
+klipspringer,mule deer,odocoileus hemionus,30,order,lookalike
+klipspringer,red deer,cervus elaphus,4,order,lookalike
+klipspringer,white-tailed deer,odocoileus virginianus,4,order,lookalike
+klipspringer,european roe deer,capreolus capreolus,2,order,lookalike
+klipspringer,coyote,canis latrans,2,class,different
+klipspringer,sika deer,cervus nippon,1,order,lookalike
+klipspringer,wild boar,sus scrofa,1,order,different
+elk,domestic cattle,bos taurus,29,order,different
+elk,domestic horse,equus caballus,6,class,different
+elk,puku,kobus vardonii,5,order,lookalike
+elk,pronghorn,antilocapra americana,2,order,lookalike
+elk,common wildebeest,connochaetes taurinus,2,order,lookalike
+elk,african elephant,loxodonta africana,1,class,different
+elk,giraffe,giraffa camelopardalis,1,order,lookalike
+kangaroo_family,white-tailed deer,odocoileus virginianus,13,no_match,different
+kangaroo_family,domestic cattle,bos taurus,5,no_match,different
+kangaroo_family,red deer,cervus elaphus,2,no_match,different
+kangaroo_family,mule deer,odocoileus hemionus,2,no_match,different
+kangaroo_family,common long-tailed macaque,macaca fascicularis,2,no_match,different
+kangaroo_family,european roe deer,capreolus capreolus,2,no_match,different
+kangaroo_family,coyote,canis latrans,2,no_match,different
+kangaroo_family,puma,puma concolor,2,no_match,different
+kangaroo_family,domestic horse,equus caballus,1,no_match,different
+kangaroo_family,thomson's gazelle,eudorcas thomsonii,1,no_match,different
+kangaroo_family,reedbuck species,redunca,1,no_match,skip
+kangaroo_family,black-fronted duiker,cephalophus nigrifrons,1,no_match,different
+kangaroo_family,domestic cat,felis catus,1,no_match,different
+kangaroo_family,blue sheep,pseudois nayaur,1,no_match,different
+kangaroo_family,woodchuck,marmota monax,1,no_match,different
+kangaroo_family,common wildebeest,connochaetes taurinus,1,no_match,different
+kangaroo_family,eastern gray squirrel,sciurus carolinensis,1,no_match,different
+kangaroo_family,sika deer,cervus nippon,1,no_match,different
+kangaroo_family,vervet monkey,chlorocebus pygerythrus,1,no_match,different
+kangaroo_family,white-tailed prairie dog,cynomys leucurus,1,no_match,different
+kangaroo_family,eastern fox squirrel,sciurus niger,1,no_match,different
+kangaroo_family,guenther's dik-dik,madoqua guentheri,1,no_match,different
+kangaroo_family,bobcat,lynx rufus,1,no_match,different
+european_rabbit,domestic cat,felis catus,18,class,different
+european_rabbit,white-tailed deer,odocoileus virginianus,6,class,different
+european_rabbit,eastern gray squirrel,sciurus carolinensis,6,class,different
+european_rabbit,guenther's dik-dik,madoqua guentheri,2,class,different
+european_rabbit,arizona black-tailed prairie dog,cynomys ludovicianus,2,class,different
+european_rabbit,pronghorn,antilocapra americana,1,class,different
+european_rabbit,domestic cattle,bos taurus,1,class,different
+european_rabbit,takin,budorcas taxicolor,1,class,different
+european_rabbit,golden mantled ground squirrel,callospermophilus lateralis,1,class,different
+european_rabbit,capybara,hydrochoerus hydrochaeris,1,class,different
+european_rabbit,wild boar,sus scrofa,1,class,different
+european_rabbit,human,homo sapiens,1,class,skip
+european_rabbit,domestic goat,capra aegagrus hircus,1,class,different
+european_rabbit,nutria,myocastor coypus,1,class,different
+european_rabbit,giant otter,pteronura brasiliensis,1,class,different
+european_rabbit,blue sheep,pseudois nayaur,1,class,different
+meerkat,arizona black-tailed prairie dog,cynomys ludovicianus,22,class,lookalike
+meerkat,coyote,canis latrans,4,order,different
+meerkat,domestic cattle,bos taurus,4,class,different
+meerkat,vervet monkey,chlorocebus pygerythrus,3,class,different
+meerkat,olive baboon,papio anubis,2,class,different
+meerkat,spotted hyaena,crocuta crocuta,2,order,lookalike
+meerkat,american badger,taxidea taxus,2,order,lookalike
+meerkat,kinda baboon,papio kindae,2,class,different
+meerkat,thomson's gazelle,eudorcas thomsonii,2,class,different
+meerkat,white-tailed deer,odocoileus virginianus,2,class,different
+meerkat,eastern fox squirrel,sciurus niger,2,class,different
+meerkat,yellow-bellied marmot,marmota flaviventris,2,class,lookalike
+meerkat,california ground squirrel,otospermophilus beecheyi,1,class,lookalike
+meerkat,white-tailed antelope squirrel,ammospermophilus leucurus,1,class,lookalike
+meerkat,guenther's dik-dik,madoqua guentheri,1,class,different
+meerkat,northern raccoon,procyon lotor,1,order,lookalike
+meerkat,takin,budorcas taxicolor,1,class,different
+white-nosed_coati,white-tailed deer,odocoileus virginianus,13,class,different
+white-nosed_coati,eastern gray squirrel,sciurus carolinensis,7,class,different
+white-nosed_coati,yellow-throated marten,martes flavigula,4,order,lookalike
+white-nosed_coati,fisher,pekania pennanti,4,order,lookalike
+white-nosed_coati,domestic cat,felis catus,3,order,lookalike
+white-nosed_coati,domestic cattle,bos taurus,2,class,different
+white-nosed_coati,canis species,canis,2,order,skip
+white-nosed_coati,red squirrel,tamiasciurus hudsonicus,2,class,different
+white-nosed_coati,jaguarundi,herpailurus yagouaroundi,1,order,lookalike
+white-nosed_coati,mule deer,odocoileus hemionus,1,class,different
+white-nosed_coati,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+white-nosed_coati,american black bear,ursus americanus,1,order,lookalike
+white-nosed_coati,golden mantled ground squirrel,callospermophilus lateralis,1,class,different
+white-nosed_coati,red panda,ailurus fulgens,1,order,lookalike
+white-nosed_coati,brown bear,ursus arctos,1,order,lookalike
+white-nosed_coati,domestic dog,canis familiaris,1,order,lookalike
+white-nosed_coati,northern palawan tree squirrel,sundasciurus juvencus,1,class,different
+white-nosed_coati,eastern fox squirrel,sciurus niger,1,class,different
+white-nosed_coati,red fox,vulpes vulpes,1,order,lookalike
+white-nosed_coati,wild boar,sus scrofa,1,class,different
+white-nosed_coati,american marten,martes americana,1,order,lookalike
+cebus_species,yellow-throated marten,martes flavigula,11,class,different
+cebus_species,blue monkey,cercopithecus mitis,8,order,lookalike
+cebus_species,domestic cattle,bos taurus,3,class,different
+cebus_species,stump-tailed macaque,macaca arctoides,3,order,lookalike
+cebus_species,domestic cat,felis catus,2,class,different
+cebus_species,southern pig-tailed macaque,macaca nemestrina,1,order,lookalike
+cebus_species,takin,budorcas taxicolor,1,class,different
+cebus_species,giant panda,ailuropoda melanoleuca,1,class,different
+cebus_species,grey-cheeked mangabey,lophocebus albigena,1,order,lookalike
+cebus_species,red-shanked douc langur,pygathrix nemaeus,1,order,lookalike
+cebus_species,macaque species,macaca,1,order,skip
+cebus_species,american black bear,ursus americanus,1,class,different
+cebus_species,puma,puma concolor,1,class,different
+cebus_species,black-and-gold howler monkey,alouatta caraya,1,order,lookalike
+cebus_species,nutria,myocastor coypus,1,class,different
+cebus_species,angolan colobus,colobus angolensis,1,order,lookalike
+cebus_species,chacma baboon,papio ursinus,1,order,lookalike
+nyala,white-tailed deer,odocoileus virginianus,33,order,lookalike
+nyala,chital,axis axis,5,order,lookalike
+nyala,mule deer,odocoileus hemionus,2,order,lookalike
+nyala,red deer,cervus elaphus,2,order,lookalike
+nyala,sika deer,cervus nippon,1,order,lookalike
+nyala,human,homo sapiens,1,class,skip
+nyala,baboon species,papio,1,class,skip
+asiatic_wild_ass,pronghorn,antilocapra americana,17,class,different
+asiatic_wild_ass,impala,aepyceros melampus,13,class,different
+asiatic_wild_ass,domestic cattle,bos taurus,9,class,different
+asiatic_wild_ass,springbok,antidorcas marsupialis,5,class,different
+asiatic_wild_ass,wild goat,capra aegagrus,5,class,different
+asiatic_wild_ass,dromedary camel,camelus dromedarius,3,class,different
+asiatic_wild_ass,thomson's gazelle,eudorcas thomsonii,2,class,different
+asiatic_wild_ass,giraffe,giraffa camelopardalis,2,class,different
+asiatic_wild_ass,domestic sheep,ovis aries,1,class,different
+asiatic_wild_ass,domestic dog,canis familiaris,1,class,different
+asiatic_wild_ass,common eland,tragelaphus oryx,1,class,different
+asiatic_wild_ass,grant's gazelle,nanger granti,1,class,different
+asiatic_wild_ass,coyote,canis latrans,1,class,different
+asiatic_wild_ass,red deer,cervus elaphus,1,class,different
+nilgai,white-tailed deer,odocoileus virginianus,17,order,lookalike
+nilgai,red deer,cervus elaphus,8,order,lookalike
+nilgai,domestic horse,equus caballus,3,class,different
+nilgai,elk,cervus canadensis,3,order,lookalike
+nilgai,mule deer,odocoileus hemionus,2,order,lookalike
+nilgai,plains zebra,equus quagga,2,class,different
+nilgai,pronghorn,antilocapra americana,2,order,lookalike
+nilgai,odocoileus species,odocoileus,1,order,skip
+nilgai,human,homo sapiens,1,class,skip
+vervet_monkey,eastern gray squirrel,sciurus carolinensis,15,class,different
+vervet_monkey,white-tailed deer,odocoileus virginianus,7,class,different
+vervet_monkey,domestic cattle,bos taurus,2,class,different
+vervet_monkey,brush-tailed rock wallaby,petrogale penicillata,2,class,different
+vervet_monkey,arizona black-tailed prairie dog,cynomys ludovicianus,2,class,different
+vervet_monkey,impala,aepyceros melampus,2,class,different
+vervet_monkey,white-tailed antelope squirrel,ammospermophilus leucurus,1,class,different
+vervet_monkey,western gray kangaroo,macropus fuliginosus,1,class,different
+vervet_monkey,swamp wallaby,wallabia bicolor,1,class,different
+vervet_monkey,northern raccoon,procyon lotor,1,class,different
+vervet_monkey,guenther's dik-dik,madoqua guentheri,1,class,different
+vervet_monkey,douglas's squirrel,tamiasciurus douglasii,1,class,different
+vervet_monkey,wild boar,sus scrofa,1,class,different
+vervet_monkey,domestic cat,felis catus,1,class,different
+vervet_monkey,common warthog,phacochoerus africanus,1,class,different
+vervet_monkey,capybara,hydrochoerus hydrochaeris,1,class,different
+vervet_monkey,eastern fox squirrel,sciurus niger,1,class,different
+northern_chamois,white-tailed deer,odocoileus virginianus,10,order,lookalike
+northern_chamois,red deer,cervus elaphus,10,order,lookalike
+northern_chamois,elk,cervus canadensis,3,order,lookalike
+northern_chamois,wild boar,sus scrofa,3,order,lookalike
+northern_chamois,mule deer,odocoileus hemionus,3,order,lookalike
+northern_chamois,domestic horse,equus caballus,2,class,different
+northern_chamois,domestic dog,canis familiaris,2,class,different
+northern_chamois,european roe deer,capreolus capreolus,2,order,lookalike
+northern_chamois,red fox,vulpes vulpes,1,class,different
+northern_chamois,common warthog,phacochoerus africanus,1,order,lookalike
+gorilla_species,domestic cattle,bos taurus,16,class,different
+gorilla_species,american black bear,ursus americanus,5,class,lookalike
+gorilla_species,common wildebeest,connochaetes taurinus,3,class,different
+gorilla_species,hylobatidae family,,2,order,skip
+gorilla_species,american bison,bison bison,1,class,different
+gorilla_species,wild boar,sus scrofa,1,class,different
+gorilla_species,white-tailed deer,odocoileus virginianus,1,class,different
+gorilla_species,stump-tailed macaque,macaca arctoides,1,order,lookalike
+gorilla_species,red-shanked douc langur,pygathrix nemaeus,1,order,lookalike
+gorilla_species,spectacled bear,tremarctos ornatus,1,class,lookalike
+gorilla_species,lion,panthera leo,1,class,different
+gorilla_species,common warthog,phacochoerus africanus,1,class,different
+gorilla_species,giant otter,pteronura brasiliensis,1,class,different
+gorilla_species,domestic horse,equus caballus,1,class,different
+eulemur_species,black-and-gold howler monkey,alouatta caraya,7,order,lookalike
+eulemur_species,south american coati,nasua nasua,6,class,different
+eulemur_species,eastern fox squirrel,sciurus niger,4,class,different
+eulemur_species,common squirrel monkey,saimiri sciureus,3,order,lookalike
+eulemur_species,swamp wallaby,wallabia bicolor,2,class,different
+eulemur_species,maroon leaf monkey,presbytis rubicunda,1,order,lookalike
+eulemur_species,blue monkey,cercopithecus mitis,1,order,lookalike
+eulemur_species,eastern gray squirrel,sciurus carolinensis,1,class,different
+eulemur_species,koala,phascolarctos cinereus,1,class,different
+eulemur_species,american black bear,ursus americanus,1,class,different
+eulemur_species,lion,panthera leo,1,class,different
+eulemur_species,domestic cattle,bos taurus,1,class,different
+eulemur_species,sciuridae family,,1,class,skip
+eulemur_species,vervet monkey,chlorocebus pygerythrus,1,order,lookalike
+eulemur_species,sambar,rusa unicolor,1,class,different
+eulemur_species,woodchuck,marmota monax,1,class,different
+eulemur_species,tayra,eira barbara,1,class,different
+eulemur_species,douglas's squirrel,tamiasciurus douglasii,1,class,different
+eulemur_species,dhole,cuon alpinus,1,class,different
+eulemur_species,roosevelts' muntjac,muntiacus rooseveltorum,1,class,different
+eulemur_species,yellow-bellied marmot,marmota flaviventris,1,class,different
+kob,white-tailed deer,odocoileus virginianus,30,order,lookalike
+kob,pampas deer,ozotoceros bezoarticus,3,order,lookalike
+kob,giraffe,giraffa camelopardalis,1,order,lookalike
+kob,european roe deer,capreolus capreolus,1,order,lookalike
+kob,red deer,cervus elaphus,1,order,lookalike
+reedbuck_genus,white-tailed deer,odocoileus virginianus,27,order,lookalike
+reedbuck_genus,european roe deer,capreolus capreolus,3,order,lookalike
+reedbuck_genus,mule deer,odocoileus hemionus,2,order,lookalike
+reedbuck_genus,red deer,cervus elaphus,1,order,lookalike
+reedbuck_genus,common fallow deer,dama dama,1,order,lookalike
+reedbuck_genus,sika deer,cervus nippon,1,order,lookalike
+moose,domestic cattle,bos taurus,21,order,different
+moose,domestic dog,canis familiaris,4,class,different
+moose,common wildebeest,connochaetes taurinus,2,order,lookalike
+moose,pronghorn,antilocapra americana,1,order,lookalike
+moose,american bison,bison bison,1,order,lookalike
+moose,wild goat,capra aegagrus,1,order,lookalike
+moose,dromedary camel,camelus dromedarius,1,order,lookalike
+moose,american black bear,ursus americanus,1,class,different
+sable_antelope,white-tailed deer,odocoileus virginianus,12,order,lookalike
+sable_antelope,red deer,cervus elaphus,9,order,lookalike
+sable_antelope,domestic horse,equus caballus,7,class,different
+sable_antelope,domestic donkey,equus asinus,5,class,different
+sable_antelope,pronghorn,antilocapra americana,2,order,lookalike
+sable_antelope,common warthog,phacochoerus africanus,2,order,lookalike
+sable_antelope,plains zebra,equus quagga,2,class,different
+sable_antelope,domestic dog,canis familiaris,1,class,different
+sable_antelope,mule deer,odocoileus hemionus,1,order,lookalike
+arizona_black-tailed_prairie_dog,white-tailed deer,odocoileus virginianus,8,class,different
+arizona_black-tailed_prairie_dog,domestic cattle,bos taurus,6,class,different
+arizona_black-tailed_prairie_dog,red deer,cervus elaphus,3,class,different
+arizona_black-tailed_prairie_dog,domestic goat,capra aegagrus hircus,2,class,different
+arizona_black-tailed_prairie_dog,red fox,vulpes vulpes,2,class,different
+arizona_black-tailed_prairie_dog,fossa,cryptoprocta ferox,1,class,different
+arizona_black-tailed_prairie_dog,culpeo,lycalopex culpaeus,1,class,different
+arizona_black-tailed_prairie_dog,lion,panthera leo,1,class,different
+arizona_black-tailed_prairie_dog,mule deer,odocoileus hemionus,1,class,different
+arizona_black-tailed_prairie_dog,nine-banded armadillo,dasypus novemcinctus,1,class,different
+arizona_black-tailed_prairie_dog,domestic cat,felis catus,1,class,different
+arizona_black-tailed_prairie_dog,capybara,hydrochoerus hydrochaeris,1,order,lookalike
+arizona_black-tailed_prairie_dog,puma,puma concolor,1,class,different
+bornean_orangutan,domestic cattle,bos taurus,9,class,different
+bornean_orangutan,southern pig-tailed macaque,macaca nemestrina,7,order,lookalike
+bornean_orangutan,eurasian red squirrel,sciurus vulgaris,3,class,different
+bornean_orangutan,eastern fox squirrel,sciurus niger,3,class,different
+bornean_orangutan,domestic horse,equus caballus,3,class,different
+bornean_orangutan,eastern gray squirrel,sciurus carolinensis,2,class,different
+bornean_orangutan,domestic goat,capra aegagrus hircus,2,class,different
+bornean_orangutan,stump-tailed macaque,macaca arctoides,2,order,lookalike
+bornean_orangutan,american bison,bison bison,1,class,different
+bornean_orangutan,common wildebeest,connochaetes taurinus,1,class,different
+bornean_orangutan,domestic dog,canis familiaris,1,class,different
+saguinus_species,common long-tailed macaque,macaca fascicularis,7,order,lookalike
+saguinus_species,blue monkey,cercopithecus mitis,5,order,lookalike
+saguinus_species,domestic cattle,bos taurus,4,class,different
+saguinus_species,vervet monkey,chlorocebus pygerythrus,3,order,lookalike
+saguinus_species,eastern gray squirrel,sciurus carolinensis,2,class,different
+saguinus_species,grey-cheeked mangabey,lophocebus albigena,1,order,lookalike
+saguinus_species,purús red howler monkey,alouatta puruensis,1,order,lookalike
+saguinus_species,golden mantled ground squirrel,callospermophilus lateralis,1,class,different
+saguinus_species,maroon leaf monkey,presbytis rubicunda,1,order,lookalike
+saguinus_species,southern plains gray langur,semnopithecus dussumieri,1,order,lookalike
+saguinus_species,douglas's squirrel,tamiasciurus douglasii,1,class,different
+saguinus_species,american pika,ochotona princeps,1,class,different
+saguinus_species,american black bear,ursus americanus,1,class,different
+saguinus_species,human,homo sapiens,1,order,skip
+saguinus_species,domestic goat,capra aegagrus hircus,1,class,different
+callithrix_species,eastern gray squirrel,sciurus carolinensis,8,class,different
+callithrix_species,domestic cat,felis catus,6,class,different
+callithrix_species,blue monkey,cercopithecus mitis,3,order,lookalike
+callithrix_species,carruther's mountain squirrel,funisciurus carruthersi,1,class,different
+callithrix_species,stump-tailed macaque,macaca arctoides,1,order,lookalike
+callithrix_species,coyote,canis latrans,1,class,different
+callithrix_species,black-and-gold howler monkey,alouatta caraya,1,order,lookalike
+callithrix_species,human,homo sapiens,1,order,skip
+callithrix_species,southern pig-tailed macaque,macaca nemestrina,1,order,lookalike
+callithrix_species,large-headed capuchin,sapajus macrocephalus,1,order,lookalike
+callithrix_species,yellow-bellied marmot,marmota flaviventris,1,class,different
+callithrix_species,douglas's squirrel,tamiasciurus douglasii,1,class,different
+domestic_water_buffalo,white-tailed deer,odocoileus virginianus,9,order,lookalike
+domestic_water_buffalo,wild boar,sus scrofa,6,order,lookalike
+domestic_water_buffalo,domestic horse,equus caballus,5,class,different
+domestic_water_buffalo,red deer,cervus elaphus,4,order,lookalike
+domestic_water_buffalo,domestic dog,canis familiaris,3,class,different
+domestic_water_buffalo,lion,panthera leo,1,class,different
+domestic_water_buffalo,sika deer,cervus nippon,1,order,lookalike
+domestic_water_buffalo,lowland tapir,tapirus terrestris,1,class,different
+domestic_water_buffalo,human,homo sapiens,1,class,skip
+common_wombat,sika deer,cervus nippon,3,class,different
+common_wombat,eastern gray squirrel,sciurus carolinensis,3,class,different
+common_wombat,domestic cattle,bos taurus,2,class,different
+common_wombat,brush-tailed rock wallaby,petrogale penicillata,2,order,lookalike
+common_wombat,western gray squirrel,sciurus griseus,2,class,different
+common_wombat,arizona black-tailed prairie dog,cynomys ludovicianus,2,class,different
+common_wombat,california ground squirrel,otospermophilus beecheyi,1,class,different
+common_wombat,eurasian red squirrel,sciurus vulgaris,1,class,different
+common_wombat,nutria,myocastor coypus,1,class,different
+common_wombat,pine marten,martes martes,1,class,different
+common_wombat,american black bear,ursus americanus,1,class,different
+common_wombat,human,homo sapiens,1,class,skip
+common_wombat,woodchuck,marmota monax,1,class,different
+common_wombat,grey fox,urocyon cinereoargenteus,1,class,different
+common_wombat,coyote,canis latrans,1,class,different
+common_wombat,common wildebeest,connochaetes taurinus,1,class,different
+common_wombat,north american porcupine,erethizon dorsatum,1,class,different
+japanese_macaque,american black bear,ursus americanus,11,class,different
+japanese_macaque,eastern gray squirrel,sciurus carolinensis,5,class,different
+japanese_macaque,domestic cat,felis catus,3,class,different
+japanese_macaque,domestic cattle,bos taurus,2,class,different
+japanese_macaque,mule deer,odocoileus hemionus,2,class,different
+japanese_macaque,lion,panthera leo,1,class,different
+japanese_macaque,domestic dog,canis familiaris,1,class,different
+japanese_macaque,common wombat,vombatus ursinus,1,class,different
+japanese_macaque,eastern fox squirrel,sciurus niger,1,class,different
+japanese_macaque,yellow-bellied marmot,marmota flaviventris,1,class,different
+japanese_macaque,white-tailed deer,odocoileus virginianus,1,class,different
+japanese_macaque,tufted deer,elaphodus cephalophus,1,class,different
+giant_panda,domestic cattle,bos taurus,8,class,different
+giant_panda,wolverine,gulo gulo,4,order,lookalike
+giant_panda,domestic cat,felis catus,4,order,lookalike
+giant_panda,domestic dog,canis familiaris,3,order,lookalike
+giant_panda,takin,budorcas taxicolor,1,class,different
+giant_panda,human,homo sapiens,1,class,skip
+giant_panda,sika deer,cervus nippon,1,class,different
+giant_panda,blue monkey,cercopithecus mitis,1,class,different
+giant_panda,yellow-throated marten,martes flavigula,1,order,lookalike
+giant_panda,honey badger,mellivora capensis,1,order,lookalike
+giant_panda,striped skunk,mephitis mephitis,1,order,lookalike
+giant_panda,lion,panthera leo,1,order,lookalike
+giant_panda,azaras's capuchin,sapajus cay,1,class,different
+collared_peccary,wild boar,sus scrofa,16,order,lookalike
+collared_peccary,domestic cattle,bos taurus,4,order,lookalike
+collared_peccary,white-tailed deer,odocoileus virginianus,3,order,lookalike
+collared_peccary,american black bear,ursus americanus,1,class,different
+collared_peccary,golden jackal,canis aureus,1,class,different
+collared_peccary,domestic cat,felis catus,1,class,different
+spotted_hyaena,domestic cattle,bos taurus,8,class,different
+spotted_hyaena,red deer,cervus elaphus,2,class,different
+spotted_hyaena,bobcat,lynx rufus,2,order,lookalike
+spotted_hyaena,white-tailed deer,odocoileus virginianus,2,class,different
+spotted_hyaena,northern raccoon,procyon lotor,1,order,lookalike
+spotted_hyaena,common warthog,phacochoerus africanus,1,class,different
+spotted_hyaena,northern chamois,rupicapra rupicapra,1,class,different
+spotted_hyaena,giraffe,giraffa camelopardalis,1,class,different
+spotted_hyaena,domestic dog,canis familiaris,1,order,lookalike
+spotted_hyaena,dhole,cuon alpinus,1,order,lookalike
+spotted_hyaena,iberian lynx,lynx pardinus,1,order,lookalike
+spotted_hyaena,lion,panthera leo,1,order,lookalike
+spotted_hyaena,nutria,myocastor coypus,1,class,different
+spotted_hyaena,leopard cat,prionailurus bengalensis,1,order,lookalike
+red_fox,white-tailed deer,odocoileus virginianus,7,class,different
+red_fox,arizona black-tailed prairie dog,cynomys ludovicianus,3,class,different
+red_fox,domestic cattle,bos taurus,2,class,different
+red_fox,lion,panthera leo,2,order,lookalike
+red_fox,domestic cat,felis catus,1,order,lookalike
+red_fox,eastern cottontail,sylvilagus floridanus,1,class,different
+red_fox,common wildebeest,connochaetes taurinus,1,class,different
+red_fox,western gray kangaroo,macropus fuliginosus,1,class,different
+red_fox,wild boar,sus scrofa,1,class,different
+red_fox,american bison,bison bison,1,class,different
+red_fox,eastern fox squirrel,sciurus niger,1,class,different
+blesbok,white-tailed deer,odocoileus virginianus,8,order,lookalike
+blesbok,red deer,cervus elaphus,5,order,lookalike
+blesbok,pronghorn,antilocapra americana,2,order,lookalike
+blesbok,mule deer,odocoileus hemionus,2,order,lookalike
+blesbok,common fallow deer,dama dama,2,order,lookalike
+blesbok,domestic horse,equus caballus,2,class,different
+blesbok,european roe deer,capreolus capreolus,1,order,lookalike
+blesbok,equus species,equus,1,class,skip
+blesbok,sika deer,cervus nippon,1,order,lookalike
+domestic_cat,domestic dog,canis familiaris,5,order,lookalike
+domestic_cat,domestic cattle,bos taurus,3,class,different
+domestic_cat,human,homo sapiens,3,class,skip
+domestic_cat,domestic horse,equus caballus,1,class,different
+domestic_cat,przewalski's horse,equus ferus,1,class,different
+domestic_cat,eastern gray squirrel,sciurus carolinensis,1,class,different
+domestic_cat,domestic goat,capra aegagrus hircus,1,class,different
+domestic_cat,coyote,canis latrans,1,order,lookalike
+domestic_cat,white-tailed deer,odocoileus virginianus,1,class,different
+domestic_cat,giant anteater,myrmecophaga tridactyla,1,class,different
+domestic_cat,woodchuck,marmota monax,1,class,different
+domestic_cat,elk,cervus canadensis,1,class,different
+gemsbok,pronghorn,antilocapra americana,7,order,lookalike
+gemsbok,domestic horse,equus caballus,6,class,different
+gemsbok,domestic donkey,equus asinus,2,class,different
+gemsbok,przewalski's horse,equus ferus,2,class,different
+gemsbok,mule deer,odocoileus hemionus,1,order,lookalike
+gemsbok,human,homo sapiens,1,class,skip
+gemsbok,elk,cervus canadensis,1,order,lookalike
+gemsbok,white-tailed deer,odocoileus virginianus,1,order,lookalike
+gemsbok,dromedary camel,camelus dromedarius,1,order,lookalike
+gemsbok,red deer,cervus elaphus,1,order,lookalike
+gemsbok,african elephant,loxodonta africana,1,class,different
+giant_otter,domestic cattle,bos taurus,8,class,different
+giant_otter,nutria,myocastor coypus,4,class,lookalike
+giant_otter,human,homo sapiens,3,class,skip
+giant_otter,domestic dog,canis familiaris,2,order,lookalike
+giant_otter,american black bear,ursus americanus,1,order,lookalike
+giant_otter,african elephant,loxodonta africana,1,class,different
+giant_otter,domestic goat,capra aegagrus hircus,1,class,different
+giant_otter,american bison,bison bison,1,class,different
+giant_otter,white-tailed deer,odocoileus virginianus,1,class,different
+giant_otter,domestic cat,felis catus,1,order,lookalike
+macaque_species,eastern gray squirrel,sciurus carolinensis,5,class,different
+macaque_species,coyote,canis latrans,3,class,different
+macaque_species,domestic cattle,bos taurus,2,class,different
+macaque_species,eastern fox squirrel,sciurus niger,2,class,different
+macaque_species,golden mantled ground squirrel,callospermophilus lateralis,2,class,different
+macaque_species,human,homo sapiens,2,order,skip
+macaque_species,red deer,cervus elaphus,1,class,different
+macaque_species,common wombat,vombatus ursinus,1,class,different
+macaque_species,western gray squirrel,sciurus griseus,1,class,different
+macaque_species,wild boar,sus scrofa,1,class,different
+macaque_species,domestic dog,canis familiaris,1,class,different
+macaque_species,white-tailed deer,odocoileus virginianus,1,class,different
+macaque_species,domestic cat,felis catus,1,class,different
+macaque_species,tayra,eira barbara,1,class,different
+sambar,domestic cattle,bos taurus,13,order,lookalike
+sambar,coyote,canis latrans,2,class,different
+sambar,chinese goral,naemorhedus griseus,1,order,lookalike
+sambar,northern chamois,rupicapra rupicapra,1,order,lookalike
+sambar,golden jackal,canis aureus,1,class,different
+sambar,domestic sheep,ovis aries,1,order,lookalike
+sambar,domestic horse,equus caballus,1,class,different
+sambar,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+sambar,impala,aepyceros melampus,1,order,lookalike
+sambar,guenther's dik-dik,madoqua guentheri,1,order,different
+sambar,eastern fox squirrel,sciurus niger,1,class,different
+sambar,przewalski's horse,equus ferus,1,class,different
+waterbuck,white-tailed deer,odocoileus virginianus,10,order,lookalike
+waterbuck,red deer,cervus elaphus,5,order,lookalike
+waterbuck,kinda baboon,papio kindae,2,class,different
+waterbuck,mule deer,odocoileus hemionus,1,order,lookalike
+waterbuck,european roe deer,capreolus capreolus,1,order,lookalike
+waterbuck,baboon species,papio,1,class,skip
+waterbuck,common warthog,phacochoerus africanus,1,order,lookalike
+waterbuck,sika deer,cervus nippon,1,order,lookalike
+muridae_family,human,homo sapiens,6,no_match,skip
+muridae_family,rodent,,4,no_match,skip
+muridae_family,kaluta,dasykaluta rosamondae,2,no_match,different
+muridae_family,capybara,hydrochoerus hydrochaeris,2,no_match,lookalike
+muridae_family,vervet monkey,chlorocebus pygerythrus,2,no_match,different
+muridae_family,golden mantled ground squirrel,callospermophilus lateralis,1,no_match,lookalike
+muridae_family,red fox,vulpes vulpes,1,no_match,different
+muridae_family,arizona black-tailed prairie dog,cynomys ludovicianus,1,no_match,lookalike
+muridae_family,striped skunk,mephitis mephitis,1,no_match,different
+muridae_family,kha-nyou,laonastes aenigmamus,1,no_match,lookalike
+muridae_family,domestic cat,felis catus,1,no_match,different
+muridae_family,greater hog badger,arctonyx collaris,1,no_match,different
+muridae_family,common long-tailed macaque,macaca fascicularis,1,no_match,different
+muridae_family,nutria,myocastor coypus,1,no_match,lookalike
+muridae_family,desert cottontail,sylvilagus audubonii,1,no_match,different
+muridae_family,brush-tailed rock wallaby,petrogale penicillata,1,no_match,different
+muridae_family,virginia opossum,didelphis virginiana,1,no_match,different
+muridae_family,black agouti,dasyprocta fuliginosa,1,no_match,lookalike
+muridae_family,mammal,,1,no_match,skip
+chimpanzee,stump-tailed macaque,macaca arctoides,7,order,lookalike
+chimpanzee,american black bear,ursus americanus,3,class,different
+chimpanzee,domestic cattle,bos taurus,3,class,different
+chimpanzee,hatinh langur,trachypithecus hatinhensis,2,order,lookalike
+chimpanzee,blue monkey,cercopithecus mitis,1,order,lookalike
+chimpanzee,domestic goat,capra aegagrus hircus,1,class,different
+chimpanzee,eastern gray squirrel,sciurus carolinensis,1,class,different
+chimpanzee,milne-edwards' macaque,macaca thibetana,1,order,lookalike
+chimpanzee,common wildebeest,connochaetes taurinus,1,class,different
+chimpanzee,giant anteater,myrmecophaga tridactyla,1,class,different
+chimpanzee,sumatran serow,capricornis sumatraensis,1,class,different
+white-tailed_deer,impala,aepyceros melampus,10,order,lookalike
+white-tailed_deer,pronghorn,antilocapra americana,4,order,lookalike
+white-tailed_deer,giraffe,giraffa camelopardalis,3,order,lookalike
+white-tailed_deer,blue sheep,pseudois nayaur,1,order,lookalike
+white-tailed_deer,domestic goat,capra aegagrus hircus,1,order,lookalike
+white-tailed_deer,coyote,canis latrans,1,class,different
+white-tailed_deer,guenther's dik-dik,madoqua guentheri,1,order,lookalike
+white-tailed_deer,thomson's gazelle,eudorcas thomsonii,1,order,lookalike
+white-tailed_deer,american black bear,ursus americanus,1,class,different
+white-tailed_deer,springbok,antidorcas marsupialis,1,order,lookalike
+white-tailed_deer,american marten,martes americana,1,class,different
+white-tailed_deer,domestic horse,equus caballus,1,class,different
+ateles_species,angolan colobus,colobus angolensis,2,order,lookalike
+ateles_species,golden snub-nosed monkey,rhinopithecus roxellana,2,order,lookalike
+ateles_species,grey-cheeked mangabey,lophocebus albigena,2,order,lookalike
+ateles_species,coyote,canis latrans,1,class,different
+ateles_species,hatinh langur,trachypithecus hatinhensis,1,order,lookalike
+ateles_species,blue monkey,cercopithecus mitis,1,order,lookalike
+ateles_species,domestic cattle,bos taurus,1,class,different
+ateles_species,human,homo sapiens,1,order,skip
+ateles_species,canis species,canis,1,class,skip
+ateles_species,macaque species,macaca,1,order,skip
+ateles_species,common long-tailed macaque,macaca fascicularis,1,order,lookalike
+ateles_species,southern plains gray langur,semnopithecus dussumieri,1,order,lookalike
+ateles_species,blue sheep,pseudois nayaur,1,class,different
+ateles_species,maroon leaf monkey,presbytis rubicunda,1,order,lookalike
+ateles_species,vervet monkey,chlorocebus pygerythrus,1,order,lookalike
+ateles_species,american black bear,ursus americanus,1,class,different
+walrus,domestic cattle,bos taurus,10,no_match,skip
+walrus,african elephant,loxodonta africana,6,no_match,skip
+walrus,domestic sheep,ovis aries,5,no_match,skip
+walrus,human,homo sapiens,3,no_match,skip
+walrus,domestic horse,equus caballus,1,no_match,skip
+walrus,lowland tapir,tapirus terrestris,1,no_match,skip
+yak,hylobatidae family,,10,class,skip
+yak,domestic dog,canis familiaris,5,class,different
+yak,domestic horse,equus caballus,2,class,different
+yak,domestic cat,felis catus,2,class,different
+yak,american black bear,ursus americanus,1,class,different
+yak,mule deer,odocoileus hemionus,1,order,lookalike
+howler_monkey_genus,large-headed capuchin,sapajus macrocephalus,4,order,lookalike
+howler_monkey_genus,blue monkey,cercopithecus mitis,2,order,different
+howler_monkey_genus,american black bear,ursus americanus,2,class,different
+howler_monkey_genus,maroon leaf monkey,presbytis rubicunda,2,order,different
+howler_monkey_genus,domestic cattle,bos taurus,2,class,different
+howler_monkey_genus,angolan colobus,colobus angolensis,2,order,different
+howler_monkey_genus,stump-tailed macaque,macaca arctoides,1,order,different
+howler_monkey_genus,eurasian red squirrel,sciurus vulgaris,1,class,different
+howler_monkey_genus,grey-cheeked mangabey,lophocebus albigena,1,order,different
+howler_monkey_genus,emperor tamarin,saguinus imperator,1,order,lookalike
+howler_monkey_genus,domestic goat,capra aegagrus hircus,1,class,different
+north_american_river_otter,nutria,myocastor coypus,12,class,lookalike
+north_american_river_otter,american beaver,castor canadensis,1,class,lookalike
+north_american_river_otter,american black bear,ursus americanus,1,order,different
+north_american_river_otter,domestic cattle,bos taurus,1,class,different
+north_american_river_otter,capra species,capra,1,class,skip
+european_bison,red deer,cervus elaphus,4,order,lookalike
+european_bison,domestic horse,equus caballus,3,class,different
+european_bison,domestic cat,felis catus,2,class,different
+european_bison,human,homo sapiens,2,class,skip
+european_bison,domestic dog,canis familiaris,2,class,different
+european_bison,wild boar,sus scrofa,2,order,lookalike
+european_bison,white-tailed deer,odocoileus virginianus,2,order,lookalike
+european_bison,african elephant,loxodonta africana,1,class,different
+european_bison,sambar,rusa unicolor,1,order,lookalike
+weasel_species,domestic cattle,bos taurus,3,class,different
+weasel_species,dingo,canis lupus dingo,2,order,different
+weasel_species,domestic goat,capra aegagrus hircus,1,class,different
+weasel_species,northern raccoon,procyon lotor,1,order,different
+weasel_species,american black bear,ursus americanus,1,order,different
+weasel_species,american bison,bison bison,1,class,different
+weasel_species,domestic cat,felis catus,1,order,different
+weasel_species,eastern chipmunk,tamias striatus,1,class,different
+weasel_species,white-tailed deer,odocoileus virginianus,1,class,different
+weasel_species,domestic dog,canis familiaris,1,order,different
+weasel_species,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+weasel_species,red fox,vulpes vulpes,1,order,different
+weasel_species,spotted hyaena,crocuta crocuta,1,order,different
+european_roe_deer,domestic cattle,bos taurus,7,order,lookalike
+european_roe_deer,guenther's dik-dik,madoqua guentheri,3,order,lookalike
+european_roe_deer,pronghorn,antilocapra americana,1,order,lookalike
+european_roe_deer,wild goat,capra aegagrus,1,order,lookalike
+european_roe_deer,puku,kobus vardonii,1,order,lookalike
+european_roe_deer,domestic sheep,ovis aries,1,order,lookalike
+european_hare,white-tailed deer,odocoileus virginianus,7,class,different
+european_hare,mule deer,odocoileus hemionus,1,class,different
+european_hare,puma,puma concolor,1,class,different
+european_hare,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+european_hare,blue sheep,pseudois nayaur,1,class,different
+european_hare,domestic cattle,bos taurus,1,class,different
+european_hare,red deer,cervus elaphus,1,class,different
+european_hare,coyote,canis latrans,1,class,different
+american_black_bear,domestic cattle,bos taurus,8,class,different
+american_black_bear,american bison,bison bison,2,class,different
+american_black_bear,red deer,cervus elaphus,1,class,different
+american_black_bear,white-tailed deer,odocoileus virginianus,1,class,different
+american_black_bear,northern raccoon,procyon lotor,1,order,different
+cercopithecus_species,domestic cattle,bos taurus,4,class,different
+cercopithecus_species,eastern gray squirrel,sciurus carolinensis,3,class,different
+cercopithecus_species,human,homo sapiens,2,order,skip
+cercopithecus_species,south american coati,nasua nasua,2,class,different
+cercopithecus_species,red-necked wallaby,macropus rufogriseus,1,class,different
+cercopithecus_species,domestic cat,felis catus,1,class,different
+cercopithecus_species,white-tailed deer,odocoileus virginianus,1,class,different
+leaf_monkeys_genus,human,homo sapiens,3,order,skip
+leaf_monkeys_genus,takin,budorcas taxicolor,2,class,different
+leaf_monkeys_genus,domestic cattle,bos taurus,2,class,different
+leaf_monkeys_genus,domestic cat,felis catus,1,class,different
+leaf_monkeys_genus,canis species,canis,1,class,skip
+leaf_monkeys_genus,domestic dog,canis familiaris,1,class,different
+leaf_monkeys_genus,giant anteater,myrmecophaga tridactyla,1,class,different
+leaf_monkeys_genus,domestic goat,capra aegagrus hircus,1,class,different
+mule_deer,domestic cattle,bos taurus,5,order,lookalike
+mule_deer,coyote,canis latrans,1,class,different
+mule_deer,woodchuck,marmota monax,1,class,different
+mule_deer,thomson's gazelle,eudorcas thomsonii,1,order,lookalike
+mule_deer,wild goat,capra aegagrus,1,order,lookalike
+mule_deer,pronghorn,antilocapra americana,1,order,lookalike
+mule_deer,guenther's dik-dik,madoqua guentheri,1,order,lookalike
+mule_deer,sitatunga,tragelaphus spekii,1,order,lookalike
+quokka,european rabbit,oryctolagus cuniculus,1,class,different
+quokka,wild boar,sus scrofa,1,class,different
+quokka,domestic cattle,bos taurus,1,class,different
+quokka,blue monkey,cercopithecus mitis,1,class,different
+quokka,northern raccoon,procyon lotor,1,class,different
+quokka,lion,panthera leo,1,class,different
+quokka,common long-tailed macaque,macaca fascicularis,1,class,different
+quokka,red deer,cervus elaphus,1,class,different
+quokka,woodchuck,marmota monax,1,class,different
+quokka,capybara,hydrochoerus hydrochaeris,1,class,different
+quokka,golden jackal,canis aureus,1,class,different
+quokka,nutria,myocastor coypus,1,class,different
+roan_antelope,red deer,cervus elaphus,7,order,lookalike
+roan_antelope,white-tailed deer,odocoileus virginianus,4,order,lookalike
+roan_antelope,plains zebra,equus quagga,2,class,different
+roan_antelope,grevy's zebra,equus grevyi,1,class,different
+roan_antelope,dromedary camel,camelus dromedarius,1,order,lookalike
+roan_antelope,elk,cervus canadensis,1,order,lookalike
+roan_antelope,coyote,canis latrans,1,class,different
+roan_antelope,common warthog,phacochoerus africanus,1,order,lookalike
+saiga,pronghorn,antilocapra americana,11,no_match,lookalike
+saiga,impala,aepyceros melampus,6,no_match,lookalike
+saiga,domestic cattle,bos taurus,6,no_match,lookalike
+saiga,white-tailed deer,odocoileus virginianus,5,no_match,lookalike
+saiga,mule deer,odocoileus hemionus,4,no_match,lookalike
+saiga,hartebeest,alcelaphus buselaphus,1,no_match,lookalike
+saiga,domestic goat,capra aegagrus hircus,1,no_match,lookalike
+red_panda,domestic cattle,bos taurus,6,class,different
+red_panda,human,homo sapiens,2,class,skip
+red_panda,south american coati,nasua nasua,1,order,lookalike
+red_panda,northern raccoon,procyon lotor,1,order,lookalike
+red_panda,domestic sheep,ovis aries,1,class,different
+red_panda,american black bear,ursus americanus,1,order,lookalike
+dingo,white-tailed deer,odocoileus virginianus,5,class,different
+dingo,domestic cat,felis catus,2,order,different
+dingo,lion,panthera leo,2,order,different
+dingo,thomson's gazelle,eudorcas thomsonii,1,class,different
+dingo,domestic goat,capra aegagrus hircus,1,class,different
+dingo,mule deer,odocoileus hemionus,1,class,different
+alpine_marmot,white-tailed deer,odocoileus virginianus,2,class,different
+alpine_marmot,coyote,canis latrans,1,class,different
+alpine_marmot,red deer,cervus elaphus,1,class,different
+alpine_marmot,rock hyrax,procavia capensis,1,class,lookalike
+alpine_marmot,guenther's dik-dik,madoqua guentheri,1,class,different
+alpine_marmot,american black bear,ursus americanus,1,class,different
+alpine_marmot,domestic cat,felis catus,1,class,different
+alpine_marmot,northern raccoon,procyon lotor,1,class,different
+alpine_marmot,capybara,hydrochoerus hydrochaeris,1,order,lookalike
+alpine_marmot,common wombat,vombatus ursinus,1,class,different
+giraffe,plains zebra,equus quagga,3,class,different
+giraffe,jaguar,panthera onca,2,class,different
+giraffe,guenther's dik-dik,madoqua guentheri,2,order,lookalike
+giraffe,white-tailed deer,odocoileus virginianus,1,order,lookalike
+giraffe,impala,aepyceros melampus,1,order,lookalike
+giraffe,sika deer,cervus nippon,1,order,lookalike
+giraffe,grant's gazelle,nanger granti,1,order,lookalike
+giraffe,dromedary camel,camelus dromedarius,1,order,lookalike
+grant's_gazelle,white-tailed deer,odocoileus virginianus,12,order,lookalike
+nutria,wild boar,sus scrofa,3,class,different
+nutria,capybara,hydrochoerus hydrochaeris,2,order,lookalike
+nutria,american beaver,castor canadensis,2,order,lookalike
+nutria,woodchuck,marmota monax,1,order,lookalike
+nutria,red deer,cervus elaphus,1,class,different
+nutria,domestic goat,capra aegagrus hircus,1,class,different
+nutria,northern raccoon,procyon lotor,1,class,different
+nutria,eastern gray squirrel,sciurus carolinensis,1,order,lookalike
+beaver_genus,nutria,myocastor coypus,8,order,lookalike
+beaver_genus,north american river otter,lontra canadensis,2,class,different
+beaver_genus,human,homo sapiens,1,class,skip
+black_wildebeest,plains zebra,equus quagga,4,class,different
+black_wildebeest,domestic horse,equus caballus,3,class,different
+black_wildebeest,elk,cervus canadensis,3,order,lookalike
+black_wildebeest,european roe deer,capreolus capreolus,2,order,lookalike
+black_wildebeest,red deer,cervus elaphus,2,order,lookalike
+black_wildebeest,grevy's zebra,equus grevyi,1,class,different
+dhole,white-tailed deer,odocoileus virginianus,5,class,different
+dhole,domestic cattle,bos taurus,2,class,different
+dhole,red deer,cervus elaphus,2,class,different
+dhole,domestic goat,capra aegagrus hircus,1,class,different
+dhole,mule deer,odocoileus hemionus,1,class,different
+koala,red-necked wallaby,macropus rufogriseus,2,order,lookalike
+koala,eastern gray squirrel,sciurus carolinensis,2,class,different
+koala,eastern fox squirrel,sciurus niger,1,class,different
+koala,blue sheep,pseudois nayaur,1,class,different
+koala,common long-tailed macaque,macaca fascicularis,1,class,different
+koala,mule deer,odocoileus hemionus,1,class,different
+koala,dromedary camel,camelus dromedarius,1,class,different
+koala,lord derby's scaly-tailed squirrel,anomalurus derbianus,1,class,different
+alpine_ibex,red deer,cervus elaphus,5,order,lookalike
+alpine_ibex,domestic dog,canis familiaris,1,class,different
+alpine_ibex,elk,cervus canadensis,1,order,lookalike
+alpine_ibex,wild boar,sus scrofa,1,order,lookalike
+alpine_ibex,white-tailed deer,odocoileus virginianus,1,order,lookalike
+alpine_ibex,mule deer,odocoileus hemionus,1,order,lookalike
+agouti_genus,white-tailed deer,odocoileus virginianus,3,class,different
+agouti_genus,eastern gray squirrel,sciurus carolinensis,3,order,lookalike
+agouti_genus,rodent,,1,order,skip
+agouti_genus,domestic cat,felis catus,1,class,different
+agouti_genus,fossa,cryptoprocta ferox,1,class,different
+agouti_genus,wild boar,sus scrofa,1,class,different
+hippopotamus,domestic cattle,bos taurus,7,order,lookalike
+hippopotamus,coyote,canis latrans,1,class,different
+hippopotamus,african buffalo,syncerus caffer,1,order,lookalike
+hippopotamus,human,homo sapiens,1,class,skip
+hippopotamus,giant otter,pteronura brasiliensis,1,class,different
+northern_raccoon,domestic cat,felis catus,3,order,lookalike
+northern_raccoon,wild boar,sus scrofa,1,class,different
+northern_raccoon,eastern gray squirrel,sciurus carolinensis,1,class,different
+northern_raccoon,plains zebra,equus quagga,1,class,different
+northern_raccoon,domestic cattle,bos taurus,1,class,different
+northern_raccoon,bobcat,lynx rufus,1,order,lookalike
+northern_raccoon,brown bear,ursus arctos,1,order,lookalike
+spectacled_bear,domestic cattle,bos taurus,6,class,different
+spectacled_bear,human,homo sapiens,4,class,skip
+spectacled_bear,fisher,pekania pennanti,1,order,lookalike
+bat-eared_fox,spotted hyaena,crocuta crocuta,1,order,lookalike
+bat-eared_fox,yellow-bellied marmot,marmota flaviventris,1,class,different
+bat-eared_fox,guenther's dik-dik,madoqua guentheri,1,class,different
+bat-eared_fox,brush-tailed rock wallaby,petrogale penicillata,1,class,different
+bat-eared_fox,common warthog,phacochoerus africanus,1,class,different
+bat-eared_fox,wild boar,sus scrofa,1,class,different
+bat-eared_fox,domestic cattle,bos taurus,1,class,different
+bat-eared_fox,common wildebeest,connochaetes taurinus,1,class,different
+eurasian_otter,nutria,myocastor coypus,3,class,lookalike
+eurasian_otter,wild boar,sus scrofa,2,class,different
+eurasian_otter,red deer,cervus elaphus,1,class,different
+eurasian_otter,northern raccoon,procyon lotor,1,order,lookalike
+eurasian_otter,human,homo sapiens,1,class,skip
+golden_jackal,white-tailed deer,odocoileus virginianus,4,class,different
+golden_jackal,domestic cattle,bos taurus,3,class,different
+golden_jackal,western gray kangaroo,macropus fuliginosus,2,class,different
+golden_jackal,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+lowland_tapir,domestic cattle,bos taurus,3,class,different
+lowland_tapir,common long-tailed macaque,macaca fascicularis,1,class,different
+lowland_tapir,takin,budorcas taxicolor,1,class,different
+lowland_tapir,white-tailed deer,odocoileus virginianus,1,class,different
+lowland_tapir,wild boar,sus scrofa,1,class,different
+lowland_tapir,sambar,rusa unicolor,1,class,different
+raccoon_dog,wild boar,sus scrofa,3,class,different
+raccoon_dog,greater hog badger,arctonyx collaris,3,order,lookalike
+raccoon_dog,northern raccoon,procyon lotor,2,order,lookalike
+raccoon_dog,domestic cattle,bos taurus,1,class,different
+raccoon_dog,capybara,hydrochoerus hydrochaeris,1,class,different
+steenbok,white-tailed deer,odocoileus virginianus,7,order,lookalike
+steenbok,domestic dog,canis familiaris,1,class,different
+thomson's_gazelle,white-tailed deer,odocoileus virginianus,6,order,lookalike
+thomson's_gazelle,red fox,vulpes vulpes,1,class,different
+thomson's_gazelle,plains zebra,equus quagga,1,class,different
+thomson's_gazelle,coyote,canis latrans,1,class,different
+thomson's_gazelle,mule deer,odocoileus hemionus,1,order,lookalike
+thomson's_gazelle,pronghorn,antilocapra americana,1,order,lookalike
+thomson's_gazelle,common fallow deer,dama dama,1,order,lookalike
+pinniped_clade,human,homo sapiens,4,no_match,skip
+pinniped_clade,domestic cattle,bos taurus,3,no_match,skip
+pinniped_clade,red deer,cervus elaphus,1,no_match,skip
+pinniped_clade,african elephant,loxodonta africana,1,no_match,skip
+pinniped_clade,lion,panthera leo,1,no_match,skip
+pinniped_clade,coyote,canis latrans,1,no_match,skip
+pinniped_clade,domestic sheep,ovis aries,1,no_match,skip
+colobus_species,domestic cattle,bos taurus,4,class,different
+colobus_species,domestic goat,capra aegagrus hircus,2,class,different
+colobus_species,wild boar,sus scrofa,1,class,different
+colobus_species,human,homo sapiens,1,order,skip
+lycalopex_species,golden mantled ground squirrel,callospermophilus lateralis,2,class,different
+lycalopex_species,chinese goral,naemorhedus griseus,1,class,different
+lycalopex_species,black-tailed jackrabbit,lepus californicus,1,class,different
+lycalopex_species,white-tailed deer,odocoileus virginianus,1,class,different
+lycalopex_species,domestic cat,felis catus,1,order,lookalike
+lycalopex_species,domestic cattle,bos taurus,1,class,different
+sika_deer,domestic cattle,bos taurus,3,order,lookalike
+sika_deer,greater kudu,tragelaphus strepsiceros,1,order,lookalike
+sika_deer,bushbuck,tragelaphus scriptus,1,order,lookalike
+sika_deer,domestic dog,canis familiaris,1,class,different
+sika_deer,impala,aepyceros melampus,1,order,lookalike
+sika_deer,sitatunga,tragelaphus spekii,1,order,lookalike
+sika_deer,blue sheep,pseudois nayaur,1,order,lookalike
+baird's_tapir,white-tailed deer,odocoileus virginianus,2,class,lookalike
+baird's_tapir,domestic cattle,bos taurus,2,class,lookalike
+baird's_tapir,white-lipped peccary,tayassu pecari,1,class,lookalike
+baird's_tapir,sun bear,helarctos malayanus,1,class,different
+bushbuck,white-tailed deer,odocoileus virginianus,4,order,lookalike
+bushbuck,european roe deer,capreolus capreolus,1,order,lookalike
+bushbuck,wild boar,sus scrofa,1,order,different
+hares_and_jackrabbits_genus,white-tailed deer,odocoileus virginianus,3,class,different
+hares_and_jackrabbits_genus,arizona black-tailed prairie dog,cynomys ludovicianus,1,class,different
+hares_and_jackrabbits_genus,red fox,vulpes vulpes,1,class,different
+hares_and_jackrabbits_genus,puku,kobus vardonii,1,class,different
+hares_and_jackrabbits_genus,guenther's dik-dik,madoqua guentheri,1,class,different
+rattus_genus,rodent,,2,order,skip
+rattus_genus,eastern gray squirrel,sciurus carolinensis,2,order,lookalike
+rattus_genus,greater hog badger,arctonyx collaris,1,class,different
+rattus_genus,capybara,hydrochoerus hydrochaeris,1,order,lookalike
+rattus_genus,american mink,neovison vison,1,class,different
+red_river_hog,domestic cattle,bos taurus,2,order,different
+red_river_hog,domestic dog,canis familiaris,1,class,different
+red_river_hog,white-tailed deer,odocoileus virginianus,1,order,lookalike
+red_river_hog,roosevelts' muntjac,muntiacus rooseveltorum,1,order,lookalike
+red_river_hog,domestic horse,equus caballus,1,class,different
+red_river_hog,domestic goat,capra aegagrus hircus,1,order,lookalike
+south_american_coati,domestic cattle,bos taurus,2,class,different
+south_american_coati,red fox,vulpes vulpes,1,order,different
+south_american_coati,domestic cat,felis catus,1,order,different
+south_american_coati,domestic goat,capra aegagrus hircus,1,class,different
+tiger,white-tailed deer,odocoileus virginianus,1,class,different
+tiger,human,homo sapiens,1,class,skip
+tiger,plains zebra,equus quagga,1,class,different
+tiger,domestic cattle,bos taurus,1,class,different
+tiger,canis species,canis,1,order,skip
+grey_wolf,brush-tailed rock wallaby,petrogale penicillata,2,class,different
+grey_wolf,domestic sheep,ovis aries,1,class,different
+grey_wolf,white-tailed deer,odocoileus virginianus,1,class,different
+grey_wolf,bobcat,lynx rufus,1,order,lookalike
+grey_wolf,eastern fox squirrel,sciurus niger,1,class,different
+muskrat,nutria,myocastor coypus,3,order,lookalike
+muskrat,eastern fox squirrel,sciurus niger,1,order,lookalike
+muskrat,eurasian red squirrel,sciurus vulgaris,1,order,lookalike
+sun_bear,domestic cattle,bos taurus,3,class,different
+sun_bear,domestic horse,equus caballus,1,class,different
+sun_bear,stump-tailed macaque,macaca arctoides,1,class,different
+striped_hyaena,domestic cattle,bos taurus,2,class,different
+striped_hyaena,domestic dog,canis familiaris,1,order,lookalike
+striped_hyaena,domestic goat,capra aegagrus hircus,1,class,different
+striped_hyaena,domestic cat,felis catus,1,order,lookalike
+muntjac_genus,domestic cattle,bos taurus,2,order,lookalike
+muntjac_genus,suni,nesotragus moschatus,1,order,lookalike
+muntjac_genus,wild boar,sus scrofa,1,order,different
+sloth_bear,domestic cattle,bos taurus,2,class,different
+sloth_bear,american bison,bison bison,1,class,different
+sloth_bear,hylobatidae family,,1,class,skip
+asiatic_black_bear,domestic cattle,bos taurus,2,class,different
+asiatic_black_bear,domestic cat,felis catus,1,order,different
+asiatic_black_bear,human,homo sapiens,1,class,skip
+grevy's_zebra,red deer,cervus elaphus,2,class,different
+grevy's_zebra,white-tailed deer,odocoileus virginianus,1,class,different
+grevy's_zebra,common warthog,phacochoerus africanus,1,class,different

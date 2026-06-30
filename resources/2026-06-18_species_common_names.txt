@@ -1,0 +1,251 @@
+Carnivora
+
+Giant panda
+Sun bear
+Sloth bear
+Spectacled bear
+American black bear
+Brown / grizzly bear
+Asiatic black bear
+Red panda
+Grey wolf
+Coyote
+Domestic dog
+Dingo
+Black-backed jackal
+Golden jackal
+Red fox
+Grey fox
+African wild dog
+Maned wolf
+Dhole
+Raccoon dog
+Bat-eared fox
+South American foxes
+Lion
+Leopard
+Tiger
+Jaguar
+Snow leopard
+Cheetah
+Puma / cougar
+Bobcat
+Canada lynx
+Eurasian lynx
+Domestic cat
+Wildcat
+Serval
+Caracal
+Clouded leopard
+Leopard cat
+Leopardus cats
+Ocelot
+Wolverine
+Honey badger
+American badger
+Eurasian badger
+N. American river otter
+Eurasian otter
+Sea otter
+Giant otter
+American mink
+Fisher
+Tayra
+Martens
+Weasels
+Hog badgers
+Spotted hyena
+Striped hyena
+Brown hyena
+Aardwolf
+Northern raccoon
+Ringtail
+White-nosed coati
+South American coati
+Kinkajou
+Mongooses
+Meerkat
+Striped skunk
+Spotted skunks
+Seals and sea lions
+Elephant seals
+Eared seals
+Walrus
+African civet
+Binturong
+Genets
+Fossa
+
+
+Cetartiodactyla
+
+White-tailed deer
+Mule deer
+Elk / wapiti
+Red deer
+Sika deer
+Moose
+Reindeer / caribou
+European roe deer
+Common fallow deer
+Chital / spotted deer
+Water deer
+Sambar
+Muntjacs
+Red brocket
+Impala
+Blue wildebeest
+Black wildebeest
+Thomson's gazelle
+Grant's gazelle
+Springbok
+Gemsbok
+Gerenuk
+Hartebeest
+Waterbuck
+Kob
+Common eland
+Greater kudu
+Nyala
+Bushbuck
+Bongo
+Sable antelope
+Roan antelope
+Steenbok
+Kirk's dik-dik
+Common duiker
+Klipspringer
+Blesbok / bontebok
+Reedbucks
+Forest duikers
+Bighorn sheep
+Domestic sheep
+Mouflon
+Mountain goat
+Alpine ibex
+Domestic goat
+Northern chamois
+Blackbuck
+Nilgai
+Saiga
+African buffalo
+American bison
+European bison
+Domestic cattle
+Yak
+Domestic water buffalo
+Hippopotamus
+Giraffe
+Wild boar
+Domestic pig
+Common warthog
+Red river hog
+Collared peccary
+Dromedary camel
+Llamas and alpacas
+Pronghorn
+
+
+Perissodactyla
+
+Domestic horse
+Domestic donkey
+Plains zebra
+Grevy's zebra
+Mountain zebra
+Asiatic wild ass
+Lowland tapir
+Malay tapir
+Baird's tapir
+Rhinoceroses
+
+
+Primates
+
+Human
+Chimpanzee
+Bornean orangutan
+Vervet monkey
+Ring-tailed lemur
+Japanese macaque
+Drill
+Patas monkey
+Aye-aye
+Gorillas
+Baboons
+Howler monkeys
+Leaf monkeys / langurs
+Mangabeys
+Titi monkeys
+Macaques
+Guenons
+Colobus monkeys
+Spider monkeys
+Capuchins
+Tamarins
+True lemurs
+Squirrel monkeys
+Marmosets
+
+
+Rodentia
+
+Eastern gray squirrel
+Eastern fox squirrel
+Western gray squirrel
+Eurasian red squirrel
+American red squirrel
+Golden-mantled ground squirrel
+California ground squirrel
+Groundhog / woodchuck
+Alpine marmot
+Yellow-bellied marmot
+Black-tailed prairie dog
+N. American porcupine
+Capybara
+Muskrat
+Nutria / coypu
+Chipmunks
+Flying squirrels
+Agoutis
+Beavers
+Rats
+Old World mice / rats
+Squirrel family (fallback)
+New World mice / voles
+Old World porcupines
+
+
+Marsupials and Monotremes
+
+Red kangaroo
+Eastern grey kangaroo
+Swamp wallaby
+Red-necked wallaby
+Quokka
+Common wombat
+Koala
+Kangaroos / wallabies (fallback)
+Short-beaked echidna
+
+
+Other Orders
+
+African elephant
+Asian elephant
+Giant anteater
+Brown-throated sloth
+Hoffmann's two-toed sloth
+Pangolins
+Nine-banded armadillo
+Giant armadillo
+European rabbit
+Hares / jackrabbits
+European hare
+Cottontail rabbits
+Eastern cottontail
+Pikas
+Aardvark
+Rock hyrax
+Hedgehogs
+Opossums

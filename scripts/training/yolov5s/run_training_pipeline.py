@@ -15,7 +15,7 @@ import torch
 from dotenv import load_dotenv
 
 import scripts.training.yolov5s.constants as constants
-from scripts.training.yolov5s.dataset import CocoYoloDataset, Dataloader, collate_fn
+from scripts.training.yolov5s.dataset import CocoYoloDataset, Dataloader, collate_fn, make_worker_init_fn
 from scripts.training.yolov5s.logging_setup import setup_logging
 from scripts.training.yolov5s.loss import YoloLoss
 from scripts.training.yolov5s.training_pipeline import TrainingPipeline
@@ -33,7 +33,40 @@ def set_seed(s: int) -> None:
     torch.backends.cudnn.benchmark = False
 
 
-def training_run(smoke: bool, log_file: Path | None) -> dict:
+def _run_full_evaluation(run_dir: Path, smoke: bool, device: torch.device) -> None:
+    """Optional post-training hook: run the comprehensive evaluation suite on best.pt.
+
+    Independent of the lightweight per-epoch eval — it produces the full
+    granularity × band × domain report (strategy doc §9) and logs it to the
+    active MLflow run. Kept best-effort: a failure here must not fail the run.
+    """
+    from scripts.training.yolov5s.eval_suite.run_evaluation import evaluate_checkpoint
+
+    best_path = run_dir / "best.pt"
+    if not best_path.exists():
+        logger.warning("full-eval requested but %s not found — skipping", best_path)
+        return
+    # On a smoke run, subsample so the hook is quick; otherwise score the full sets.
+    limit = 200 if smoke else None
+    synth_ann = constants.DATA_ROOT / "synthetic" / "annotations_test.json"
+    logger.info("=== post-training full evaluation (limit=%s) ===", limit)
+    evaluate_checkpoint(
+        checkpoint=best_path,
+        real_ann=constants.ANNOTATIONS_TEST,
+        synth_ann=synth_ann if synth_ann.exists() else None,
+        output_dir=run_dir / "evaluation",
+        device=device,
+        max_det=constants.EVAL_MAX_DET,
+        batch_size=constants.BATCH_SIZE,
+        num_workers=constants.NUM_WORKERS,
+        log_mlflow=True,
+        limit=limit,
+    )
+
+
+def training_run(
+    smoke: bool, run_dir: Path, log_file: Path | None, full_eval: bool = False
+) -> dict:
     set_seed(constants.SEED)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -44,17 +77,33 @@ def training_run(smoke: bool, log_file: Path | None) -> dict:
         constants.ANNOTATIONS_VAL if smoke else constants.ANNOTATIONS_TRAIN,
         constants.IMAGE_ROOT,
         constants.IMAGE_SIZE,
+        augment=True,
     )
-    ds_val = CocoYoloDataset(constants.ANNOTATIONS_VAL, constants.IMAGE_ROOT, constants.IMAGE_SIZE)
+    ds_val = CocoYoloDataset(
+        constants.ANNOTATIONS_VAL, constants.IMAGE_ROOT, constants.IMAGE_SIZE, augment=False
+    )
     ds_test = CocoYoloDataset(
         constants.ANNOTATIONS_VAL if smoke else constants.ANNOTATIONS_TEST,
         constants.IMAGE_ROOT,
         constants.IMAGE_SIZE,
+        augment=False,
     )
 
     num_workers = 0 if smoke else constants.NUM_WORKERS
 
-    dl_train = Dataloader(ds_train, constants.BATCH_SIZE, shuffle=True, num_workers=num_workers, collate_fn=collate_fn).get_dataloader()
+    # Seed discipline: deterministic per-worker RNG seeding for the train loader.
+    train_generator = torch.Generator().manual_seed(constants.SEED)
+    train_worker_init = make_worker_init_fn(constants.SEED)
+
+    dl_train = Dataloader(
+        ds_train,
+        constants.BATCH_SIZE,
+        shuffle=True,
+        num_workers=num_workers,
+        collate_fn=collate_fn,
+        worker_init_fn=train_worker_init,
+        generator=train_generator,
+    ).get_dataloader()
     dl_val = Dataloader(ds_val, constants.BATCH_SIZE, shuffle=False, num_workers=num_workers, collate_fn=collate_fn).get_dataloader()
     dl_test = Dataloader(ds_test, constants.BATCH_SIZE, shuffle=False, num_workers=num_workers, collate_fn=collate_fn).get_dataloader()
 
@@ -62,7 +111,7 @@ def training_run(smoke: bool, log_file: Path | None) -> dict:
     model.names = ds_train.class_names
 
     optimizer = model_optimizer(model)
-    scheduler = model_scheduler(optimizer, epochs)
+    scheduler = model_scheduler(optimizer)
     loss_fn = YoloLoss(model)
 
     git_sha = ""
@@ -100,11 +149,19 @@ def training_run(smoke: bool, log_file: Path | None) -> dict:
         dl_test=dl_test,
         device=device,
         epochs=epochs,
-        output_dir=constants.OUTPUT_DIR,
+        output_dir=run_dir,
         log_every_n_steps=constants.MLFLOW_LOG_EVERY_N_STEPS,
         eval_conf_thres=constants.EVAL_CONF_THRES,
         eval_iou_thres=constants.EVAL_IOU_THRES,
         eval_max_det=constants.EVAL_MAX_DET,
+        warmup_epochs=constants.WARMUP_EPOCHS,
+        learning_rate=constants.LEARNING_RATE,
+        selection_metric=constants.SELECTION_METRIC,
+        early_stop=constants.EARLY_STOP,
+        early_stop_patience=constants.EARLY_STOP_PATIENCE,
+        early_stop_min_delta=constants.EARLY_STOP_MIN_DELTA,
+        use_ema=constants.USE_EMA,
+        use_amp=constants.USE_AMP,
     )
 
     try:
@@ -113,6 +170,12 @@ def training_run(smoke: bool, log_file: Path | None) -> dict:
         mlflow.log_param("error", str(e))
         logger.exception("run failed: %s", e)
         raise
+
+    if full_eval:
+        try:
+            _run_full_evaluation(run_dir, smoke, device)
+        except Exception as e:  # best-effort: never fail the run on eval issues
+            logger.exception("post-training full evaluation failed: %s", e)
 
     if log_file is not None and log_file.exists():
         mlflow.log_artifact(str(log_file))
@@ -123,13 +186,23 @@ def training_run(smoke: bool, log_file: Path | None) -> dict:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--smoke", action="store_true", help="Quick wiring test: 1 epoch on val set")
+    parser.add_argument(
+        "--full-eval",
+        action="store_true",
+        help="After training, run the comprehensive evaluation suite on best.pt "
+        "(granularity × band × domain report) and log it to MLflow.",
+    )
     args = parser.parse_args()
     smoke = args.smoke
 
     load_dotenv(Path(__file__).parent / ".env")
 
     run_name = f"yolov5s-{'smoke-' if smoke else ''}{datetime.now():%Y%m%d-%H%M%S}"
-    log_file = constants.OUTPUT_DIR / f"{run_name}.log"
+    # Each run gets its own timestamped sub-directory; checkpoints, the log, and
+    # any eval reports for this run land inside it.
+    run_dir = constants.OUTPUT_DIR / run_name
+    run_dir.mkdir(parents=True, exist_ok=True)
+    log_file = run_dir / f"{run_name}.log"
     setup_logging(log_file)
 
     tracking_uri = os.environ.get("MLFLOW_TRACKING_URI") or ""
@@ -147,10 +220,11 @@ if __name__ == "__main__":
     logger.info("=== yolov5s training run ===")
     logger.info("run_name=%s experiment=%s", run_name, experiment)
     logger.info("mlflow tracking_uri=%s", tracking_uri or "(unset)")
+    logger.info("run dir: %s", run_dir)
     logger.info("log file: %s", log_file)
 
     try:
         with mlflow.start_run(run_name=run_name, tags=tags):
-            training_run(smoke, log_file)
+            training_run(smoke, run_dir, log_file, full_eval=args.full_eval)
     finally:
         logging.shutdown()

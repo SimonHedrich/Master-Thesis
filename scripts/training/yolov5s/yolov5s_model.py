@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import logging
-import math
 from pathlib import Path
 from typing import Callable
 
@@ -117,21 +116,34 @@ def model_optimizer(model: nn.Module) -> torch.optim.Optimizer:
 
 
 def model_scheduler(
-    optimizer: torch.optim.Optimizer, epochs: int
-) -> torch.optim.lr_scheduler.LambdaLR:
-    warmup = constants.WARMUP_EPOCHS
-    lrf = constants.LRF
+    optimizer: torch.optim.Optimizer,
+) -> torch.optim.lr_scheduler.ReduceLROnPlateau:
+    """Metric-driven LR schedule that composes with early stopping.
 
-    def lf(epoch: int) -> float:
-        if epoch < warmup:
-            return (epoch + 1) / warmup
-        progress = (epoch - warmup) / max(1, epochs - warmup)
-        return (1 - lrf) * 0.5 * (1 + math.cos(math.pi * progress)) + lrf
-
-    logger.info(
-        "scheduler: warmup %d epochs → cosine to lr0*%g over %d epochs",
-        warmup,
-        lrf,
-        epochs,
+    The linear warmup over ``WARMUP_EPOCHS`` is applied directly on the optimizer
+    inside the training loop (ReduceLROnPlateau needs a metric, which cannot be
+    threaded cleanly through ``SequentialLR``). After warmup, the loop calls
+    ``scheduler.step(val_metric)`` each epoch; when the metric stops improving for
+    ``PLATEAU_PATIENCE`` epochs the lr is multiplied by ``PLATEAU_FACTOR`` down to
+    ``PLATEAU_MIN_LR``. ``threshold_mode="abs"`` so the plateau threshold matches
+    the absolute ``EARLY_STOP_MIN_DELTA`` used by checkpoint selection / early stop.
+    """
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+        mode="max",  # SELECTION_METRIC (mAP) is higher-better
+        factor=constants.PLATEAU_FACTOR,
+        patience=constants.PLATEAU_PATIENCE,
+        min_lr=constants.PLATEAU_MIN_LR,
+        threshold=constants.EARLY_STOP_MIN_DELTA,
+        threshold_mode="abs",
     )
-    return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
+    logger.info(
+        "scheduler: linear warmup %d epochs (in loop) → ReduceLROnPlateau"
+        "(mode=max, factor=%g, patience=%d, min_lr=%g, threshold=%g abs)",
+        constants.WARMUP_EPOCHS,
+        constants.PLATEAU_FACTOR,
+        constants.PLATEAU_PATIENCE,
+        constants.PLATEAU_MIN_LR,
+        constants.EARLY_STOP_MIN_DELTA,
+    )
+    return scheduler

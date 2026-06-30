@@ -35,3 +35,30 @@ Logged per epoch for `val`; logged once at training completion for `test`.
 | `test_per_class_ap_stepfinal.json` | Same table for the test set, logged at run end |
 | `best.pt` | Model checkpoint with the highest `val/mAP50` seen during training |
 | `last.pt` | Model checkpoint from the final training epoch |
+
+## Comprehensive Evaluation Suite (`eval_suite/`)
+
+The per-epoch metrics above are the lightweight training signal. The **standalone
+evaluation suite** (`eval_suite/`, see its `README.md`) produces the full
+granularity × test-domain × training-band report from
+`docs/plans/2026-06-10_model-evaluation-strategy.md`. Run it on any checkpoint:
+
+```bash
+# defaults to best.pt from the latest training run under model_exports/:
+python -m scripts.training.yolov5s.eval_suite.run_evaluation
+# or target a specific run / checkpoint:
+python -m scripts.training.yolov5s.eval_suite.run_evaluation --run-dir .../model_exports/<run_name>
+# or automatically after training:
+python -m scripts.training.yolov5s.run_training_pipeline --full-eval
+```
+
+It emits a Markdown report + CSV/JSON artifacts (and MLflow scalars under `eval/`):
+
+| Tier | Contents |
+|------|----------|
+| 1 — headline | `G=fine·D=mixed·B=all` full COCO-12 vector, the `D=real` breakout (public-comparison anchor), the class-agnostic `mAP_detect` analog, count-weighted + test-limited-excluded sensitivity figures |
+| 2 — diagnostic | granularity gap decomposition (detect/coarse/fine + Δs), band×granularity grid (mixed + real), real−synth domain-shift Δ per band, within-look-alike-group confusion table |
+| 3 — appendix | 225-row per-class AP table (band + real test-image count), per-band COCO-12 vectors, confusion pairs — all as CSV/JSON |
+
+The scorer was validated to reproduce the training-time `evaluate()` exactly
+(fine mAP50_95/mAP50 matched to 4 dp on a 400-image sample).

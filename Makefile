@@ -23,14 +23,14 @@ build:
 
 # Run the Docker container
 run: clean
-	docker run $(GPU_FLAG) \
+	docker run -d $(GPU_FLAG) \
 	--shm-size 16G \
 	-v $(REPO_ROOT):/app \
 	-v $(DATA_DIR):/app/data \
 	-v $(YV5_DIR):/opt/yolov5 \
 	-e PYTHONPATH=/app/scripts \
 	--name $(CONTAINER_NAME) \
-	--network mlflow-server_default $(IMAGE_NAME) tail -f /dev/null
+	$(IMAGE_NAME) tail -f /dev/null
 	docker exec -it $(CONTAINER_NAME) /bin/bash
 
 # Remove the Docker container if it exists
@@ -46,16 +46,8 @@ clean-image:
 # Run the yolov5s fine-tuning pipeline inside the training Docker container.
 # Requires scripts/training/yolov5s/.env (MLflow credentials) to exist.
 yolov5s-train:
-	docker run --rm $(GPU_FLAG) \
-	  --shm-size 16G \
-	  -v $(REPO_ROOT):/app \
-	  -v $(DATA_DIR):/app/data \
-	  -w /app \
-	  --env-file $(REPO_ROOT)/scripts/training/yolov5s/.env \
-	  -e PYTHONPATH=/app \
-	  --network mlflow-server_default \
-	  $(IMAGE_NAME) \
-	  python -m scripts.training.yolov5s.run_training_pipeline
+	set -a && . scripts/training/yolov5s/.env && set +a && \
+	PYTHONPATH=/app uv run python -m scripts.training.yolov5s.run_training_pipeline
 
 # ─── Dependencies ─────────────────────────────────────────────────────────────
 
