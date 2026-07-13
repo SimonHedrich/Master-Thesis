@@ -52,15 +52,16 @@ MOMENTUM = 0.937
 WEIGHT_DECAY = 5e-4
 NESTEROV = True
 
-# ─── Scheduler (linear warmup → ReduceLROnPlateau) ─────────────────────────────
-# Horizon-agnostic by design so it composes with early stopping: the same
-# validation metric (SELECTION_METRIC) drives the LR drops and the auto-stop.
-# See docs/plans/2026-06-10_training-hyperparameters-autostop-lr-schedule.md §4.
+# ─── Scheduler (OneCycleLR) ────────────────────────────────────────────────────
+# Warmup → peak → cosine annealing, stepped every batch.
+# pct_start is computed from WARMUP_EPOCHS / EPOCH_COUNT so the warmup window
+# matches the patience-gating window used by early stopping.
 
-WARMUP_EPOCHS = 3  # linear lr warmup (lr0 * (epoch+1)/WARMUP_EPOCHS), then plateau takes over
-PLATEAU_FACTOR = 0.5  # multiply lr by this when the metric plateaus
-PLATEAU_PATIENCE = 5  # epochs without improvement before an lr drop (< EARLY_STOP_PATIENCE)
-PLATEAU_MIN_LR = 1e-5  # lower bound on lr (≈ lr0 * 0.01)
+WARMUP_EPOCHS = 3  # early-stop patience gating; also sets ONE_CYCLE_PCT_START
+ONE_CYCLE_MAX_LR = 1e-2          # peak LR (10× LEARNING_RATE; super-convergence)
+ONE_CYCLE_PCT_START = WARMUP_EPOCHS / EPOCH_COUNT  # warmup fraction ≈ 0.015
+ONE_CYCLE_DIV_FACTOR = 10.0      # initial_lr = max_lr / div_factor = LEARNING_RATE
+ONE_CYCLE_FINAL_DIV_FACTOR = 100.0  # min_lr = initial_lr / final_div_factor = 1e-5
 
 # ─── ComputeLoss hyperparameters ──────────────────────────────────────────────
 # Surfaced here so MLflow logs them as run params.
@@ -83,12 +84,11 @@ NUM_WORKERS = 8
 SEED = 42
 
 # ─── Auto-stop + selection metric ──────────────────────────────────────────────
-# One metric drives best-checkpoint selection, plateau LR drops, and early stop
-# so all three behaviours read the same signal (§5 of the plan).
+# One metric drives best-checkpoint selection and early stop (§5 of the plan).
 
 SELECTION_METRIC = "mAP50_95"  # one of the keys returned by evaluate(): "mAP50" | "mAP50_95"
 EARLY_STOP = True
-EARLY_STOP_PATIENCE = 20  # epochs without improvement before stopping (> PLATEAU_PATIENCE)
+EARLY_STOP_PATIENCE = 20  # epochs without improvement before stopping
 EARLY_STOP_MIN_DELTA = 0.001  # min metric gain to count as an improvement (filters noise)
 
 # ─── Training-quality add-ons ──────────────────────────────────────────────────

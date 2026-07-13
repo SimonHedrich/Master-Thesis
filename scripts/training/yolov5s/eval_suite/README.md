@@ -55,15 +55,52 @@ python scripts/dataset_quality/16-build_lookalike_groups.py
 (genus-level taxonomic rollup + a frozen curated override list for the notorious
 visual look-alikes; strategy doc §5.)
 
+## Evaluating the MegaDetector + SpeciesNet ensemble
+
+The ensemble is a teacher-class baseline: MegaDetector v5 detects animals; SpeciesNet
+classifies each crop; the joint `md_conf × sn_score` is the detection confidence.
+SpeciesNet requires Python 3.11, so predictions are generated inside
+`Dockerfile.speciesnet` and scored separately in the main training container.
+
+**Step 1 — generate predictions** (inside `Dockerfile.speciesnet`):
+
+```bash
+# Smoke test (100 images/domain, ~5 min):
+PYTHONPATH=/app python -m scripts.training.yolov5s.eval_suite.predict_ensemble \
+    --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/ \
+    --limit 100
+
+# Full run (~2–3 hours for 63K real + 11K synth):
+PYTHONPATH=/app python -m scripts.training.yolov5s.eval_suite.predict_ensemble \
+    --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/
+```
+
+Output: `megadet_speciesnet_ensemble/predictions_real.json` + `predictions_synth.json`.
+
+**Step 2 — score** (training container, after Step 1):
+
+```bash
+docker exec training-container bash -c "
+cd /app && PYTHONPATH=/app python -m scripts.training.yolov5s.eval_suite.run_evaluation \
+    --real-predictions scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/predictions_real.json \
+    --synth-predictions scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/predictions_synth.json \
+    --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/eval/
+"
+```
+
+Output: `megadet_speciesnet_ensemble/eval/evaluation_report.md` (same format as a
+YOLOv5s eval report). Step 2 takes ~55 min (same scoring workload).
+
 ## Modules
 
 | Module | Role |
 |--------|------|
 | `predict.py` | checkpoint + COCO annotations → cached COCO predictions JSON |
+| `predict_ensemble.py` | MegaDetector+SpeciesNet → COCO predictions JSON (requires `Dockerfile.speciesnet`) |
 | `scoring.py` | remap + filter + torchmetrics COCO-12; band/domain/confusion/CI helpers |
 | `grouping.py` | load fine/coarse/detect remaps + class→band map from `reports/` |
 | `report.py` | assemble Tier 1/2/3 tables → Markdown/CSV/JSON/MLflow |
-| `run_evaluation.py` | CLI + `evaluate_checkpoint()` programmatic entrypoint |
+| `run_evaluation.py` | CLI + `evaluate_checkpoint()` / `evaluate_from_predictions()` entrypoints |
 
 ## Validation
 

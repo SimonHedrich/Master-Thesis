@@ -45,9 +45,12 @@ clean-image:
 
 # Run the yolov5s fine-tuning pipeline inside the training Docker container.
 # Requires scripts/training/yolov5s/.env (MLflow credentials) to exist.
+# Extra CLI flags via YOLOV5S_ARGS, e.g.:
+#   make yolov5s-train YOLOV5S_ARGS="--resume-from scripts/training/yolov5s/model_exports/<run>/last.pt"
+YOLOV5S_ARGS ?=
 yolov5s-train:
 	set -a && . scripts/training/yolov5s/.env && set +a && \
-	PYTHONPATH=/app uv run python -m scripts.training.yolov5s.run_training_pipeline
+	PYTHONPATH=/app uv run python -m scripts.training.yolov5s.run_training_pipeline $(YOLOV5S_ARGS)
 
 # ─── Dependencies ─────────────────────────────────────────────────────────────
 
