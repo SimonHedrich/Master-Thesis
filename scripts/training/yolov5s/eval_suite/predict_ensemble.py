@@ -72,9 +72,8 @@ def _check_environment() -> None:
     except ImportError:
         print(
             "ERROR: 'speciesnet' is not installed.\n"
-            "This script must run inside Dockerfile.speciesnet (Python 3.11).\n"
-            "  make speciesnet-build\n"
-            "  make speciesnet-start",
+            "Install it by rebuilding the training Docker image:\n"
+            "  make build && make run",
             file=sys.stderr,
         )
         sys.exit(1)

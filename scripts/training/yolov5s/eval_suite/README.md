@@ -59,10 +59,9 @@ visual look-alikes; strategy doc §5.)
 
 The ensemble is a teacher-class baseline: MegaDetector v5 detects animals; SpeciesNet
 classifies each crop; the joint `md_conf × sn_score` is the detection confidence.
-SpeciesNet requires Python 3.11, so predictions are generated inside
-`Dockerfile.speciesnet` and scored separately in the main training container.
+Both steps run inside the standard training container (`make execute`).
 
-**Step 1 — generate predictions** (inside `Dockerfile.speciesnet`):
+**Step 1 — generate predictions** (inside the training container):
 
 ```bash
 # Smoke test (100 images/domain, ~5 min):
@@ -77,15 +76,13 @@ PYTHONPATH=/app python -m scripts.training.yolov5s.eval_suite.predict_ensemble \
 
 Output: `megadet_speciesnet_ensemble/predictions_real.json` + `predictions_synth.json`.
 
-**Step 2 — score** (training container, after Step 1):
+**Step 2 — score** (same container, after Step 1):
 
 ```bash
-docker exec training-container bash -c "
-cd /app && PYTHONPATH=/app python -m scripts.training.yolov5s.eval_suite.run_evaluation \
+PYTHONPATH=/app python -m scripts.training.yolov5s.eval_suite.run_evaluation \
     --real-predictions scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/predictions_real.json \
     --synth-predictions scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/predictions_synth.json \
     --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/eval/
-"
 ```
 
 Output: `megadet_speciesnet_ensemble/eval/evaluation_report.md` (same format as a
@@ -96,7 +93,7 @@ YOLOv5s eval report). Step 2 takes ~55 min (same scoring workload).
 | Module | Role |
 |--------|------|
 | `predict.py` | checkpoint + COCO annotations → cached COCO predictions JSON |
-| `predict_ensemble.py` | MegaDetector+SpeciesNet → COCO predictions JSON (requires `Dockerfile.speciesnet`) |
+| `predict_ensemble.py` | MegaDetector+SpeciesNet → COCO predictions JSON (runs in the standard training container) |
 | `scoring.py` | remap + filter + torchmetrics COCO-12; band/domain/confusion/CI helpers |
 | `grouping.py` | load fine/coarse/detect remaps + class→band map from `reports/` |
 | `report.py` | assemble Tier 1/2/3 tables → Markdown/CSV/JSON/MLflow |

@@ -10,8 +10,10 @@ dependencies = [
     "torchvision>=0.26.0",
     # Object detection — covers YOLOv8s, YOLO11n, YOLOv10n, YOLO12n, RT-DETR-L
     "ultralytics>=8.4.33",
-    # Wildlife domain — MegaDetector v5 wrapper
+    # Wildlife domain — MegaDetector v5 wrapper + SpeciesNet classifier
     "PytorchWildlife>=1.2.4",
+    "soundfile>=0.12.0",
+    "speciesnet>=5.0.5",
     # Training utilities
     "pytorch-lightning>=2.6.1",
     "mlflow>=3.0.0",
@@ -44,6 +46,15 @@ dev = [
 # NanoDet and PaddlePaddle (PicoDet) are intentionally excluded — they have
 # incompatible build systems and are managed in separate environments.
 # See docs/progress_notes/2026-04-24_training-setup-and-model-smoke-test.md
+
+[tool.uv]
+# Restrict resolution to Linux — the training environment never runs on macOS.
+# Without this, speciesnet's macOS-only numpy<2.0 constraint conflicts with
+# numpy>=2.0.0. On Linux speciesnet has no numpy upper bound.
+environments = ["sys_platform == 'linux'"]
+# speciesnet 5.x pins yolov5<7.0.12 but 7.0.13 is API-compatible — keep the
+# installed version rather than downgrading.
+override-dependencies = ["yolov5>=7.0.13"]
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
