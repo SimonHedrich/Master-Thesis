@@ -13,8 +13,7 @@ Queue sources:
 Output: data/synthetic/manual_labels.jsonl
 
 Usage:
-    cd /home/debian/Master-Thesis
-    python3 scripts/synthetic/5-bbox_labeling_server.py [--port 8083]
+    uv run python scripts/synthetic/5-bbox_labeling_server.py [--port 8083]
 
 Access via browser at http://<tailscale-ip>:8083
 

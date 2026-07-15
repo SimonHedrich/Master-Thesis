@@ -65,9 +65,9 @@ What the script does
 
 CLI
 ---
-    python scripts/dataset_quality/17b-build_lookalike_candidates.py
-    python scripts/dataset_quality/17b-build_lookalike_candidates.py --min-images 5
-    python scripts/dataset_quality/17b-build_lookalike_candidates.py --dry-run
+    uv run python scripts/dataset_quality/17b-build_lookalike_candidates.py
+    uv run python scripts/dataset_quality/17b-build_lookalike_candidates.py --min-images 5
+    uv run python scripts/dataset_quality/17b-build_lookalike_candidates.py --dry-run
 
 Options
 -------

@@ -20,17 +20,17 @@ The script is NON-DESTRUCTIVE: it only writes report files, no data is modified.
 
 Usage:
     # Flag contamination in one source (default thresholds):
-    python scripts/dataset_quality/14-flag_multi_animal_contamination.py --source openimages
+    uv run python scripts/dataset_quality/14-flag_multi_animal_contamination.py --source openimages
 
     # Run all sources:
-    python scripts/dataset_quality/14-flag_multi_animal_contamination.py --source all
+    uv run python scripts/dataset_quality/14-flag_multi_animal_contamination.py --source all
 
     # Tighter tolerance (flag family-level differences too):
-    python scripts/dataset_quality/14-flag_multi_animal_contamination.py \\
+    uv run python scripts/dataset_quality/14-flag_multi_animal_contamination.py \\
         --source all --tolerance genus
 
     # Adjust confidence thresholds:
-    python scripts/dataset_quality/14-flag_multi_animal_contamination.py \\
+    uv run python scripts/dataset_quality/14-flag_multi_animal_contamination.py \\
         --source all --md-conf 0.6 --sn-score 0.35
 
 Outputs (written to reports/):

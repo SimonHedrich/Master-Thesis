@@ -27,8 +27,8 @@ cancels the most recent decision for the same filepath (stack-based).
 This is a read-only analytics script; it does not modify any JSONL files.
 
 Usage:
-    python scripts/dataset_quality/9-class_distribution_with_reviews.py
-    python scripts/dataset_quality/9-class_distribution_with_reviews.py \\
+    uv run python scripts/dataset_quality/9-class_distribution_with_reviews.py
+    uv run python scripts/dataset_quality/9-class_distribution_with_reviews.py \\
         --input-csv reports/class_distribution.csv \\
         --decisions reports/review_decisions.jsonl
 """

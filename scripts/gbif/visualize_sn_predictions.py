@@ -9,6 +9,9 @@ Label schema (per sample):
   - detections:      animal bounding boxes [x, y, w, h] (relative, top-left origin)
   - prediction:      top-1 species (semicolon-delimited taxonomy string)
   - prediction_score: confidence of top-1 prediction
+
+Usage:
+    uv run python -m scripts.gbif.visualize_sn_predictions
 """
 
 import json

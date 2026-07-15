@@ -12,9 +12,9 @@ What it does:
        - data/wikimedia/metadata.csv                     → adds local_filename  = stem + ".jpg"
 
 Usage:
-    python scripts/convert_existing_images_to_jpg.py
-    python scripts/convert_existing_images_to_jpg.py --dry-run
-    python scripts/convert_existing_images_to_jpg.py --quality 85
+    uv run python -m scripts.convert_existing_images_to_jpg
+    uv run python -m scripts.convert_existing_images_to_jpg --dry-run
+    uv run python -m scripts.convert_existing_images_to_jpg --quality 85
 """
 
 import argparse

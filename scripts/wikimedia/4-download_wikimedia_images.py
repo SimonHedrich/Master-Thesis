@@ -15,9 +15,9 @@ The metadata.csv is opened in append mode; already-downloaded images will not
 get duplicate rows as long as the file exists when the script starts.
 
 Usage:
-    python scripts/wikimedia/4-download_wikimedia_images.py
-    python scripts/wikimedia/4-download_wikimedia_images.py --rate-limit 0.5 --min-width 400
-    python scripts/wikimedia/4-download_wikimedia_images.py --manifest-dir reports/wikimedia_file_manifests
+    uv run python scripts/wikimedia/4-download_wikimedia_images.py
+    uv run python scripts/wikimedia/4-download_wikimedia_images.py --rate-limit 0.5 --min-width 400
+    uv run python scripts/wikimedia/4-download_wikimedia_images.py --manifest-dir reports/wikimedia_file_manifests
 
 Requirements:
     pip install requests tqdm

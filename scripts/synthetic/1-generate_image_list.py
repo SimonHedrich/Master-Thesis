@@ -14,13 +14,13 @@ Outputs:
 
 Usage:
     # Full run (requires OPENROUTER_API_KEY in .env or environment):
-    python scripts/synthetic/1-generate_image_list.py
+    uv run python scripts/synthetic/1-generate_image_list.py
 
     # Smoke-test two classes without API key:
-    python scripts/synthetic/1-generate_image_list.py --classes walrus,kinkajou --skip-llm
+    uv run python scripts/synthetic/1-generate_image_list.py --classes walrus,kinkajou --skip-llm
 
     # Regenerate prompts for one class:
-    python scripts/synthetic/1-generate_image_list.py --classes aardvark --force
+    uv run python scripts/synthetic/1-generate_image_list.py --classes aardvark --force
 
 Requirements:
     pip install requests python-dotenv

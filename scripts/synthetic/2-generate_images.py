@@ -7,16 +7,16 @@ Use --force to regenerate existing images.
 
 Usage:
     # Full run (all 12,600 images):
-    python scripts/synthetic/2-generate_images.py
+    uv run python scripts/synthetic/2-generate_images.py
 
     # Preview: 5 images per class, spread across shot groups:
-    python scripts/synthetic/2-generate_images.py --preview 5
+    uv run python scripts/synthetic/2-generate_images.py --preview 5
 
     # Preview for specific classes only:
-    python scripts/synthetic/2-generate_images.py --preview 5 --classes "walrus,kinkajou"
+    uv run python scripts/synthetic/2-generate_images.py --preview 5 --classes "walrus,kinkajou"
 
     # Regenerate a class from scratch:
-    python scripts/synthetic/2-generate_images.py --classes walrus --force
+    uv run python scripts/synthetic/2-generate_images.py --classes walrus --force
 
 Requirements:
     pip install google-genai pillow python-dotenv

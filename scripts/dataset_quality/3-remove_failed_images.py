@@ -6,10 +6,10 @@ coverage_analysis.csv to restrict deletion to excellent-status classes only.
 Use --all-classes to remove failed images from every class regardless of status.
 
 Usage:
-    python scripts/dataset_quality/3-remove_failed_images.py                        # dry run, excellent only
-    python scripts/dataset_quality/3-remove_failed_images.py --execute              # delete, excellent only
-    python scripts/dataset_quality/3-remove_failed_images.py --all-classes          # dry run, all classes
-    python scripts/dataset_quality/3-remove_failed_images.py --all-classes --execute  # delete, all classes
+    uv run python scripts/dataset_quality/3-remove_failed_images.py                        # dry run, excellent only
+    uv run python scripts/dataset_quality/3-remove_failed_images.py --execute              # delete, excellent only
+    uv run python scripts/dataset_quality/3-remove_failed_images.py --all-classes          # dry run, all classes
+    uv run python scripts/dataset_quality/3-remove_failed_images.py --all-classes --execute  # delete, all classes
 """
 
 import argparse

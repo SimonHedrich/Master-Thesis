@@ -14,7 +14,7 @@ report covering:
   7. Image quality flags (corrupt files, extreme aspect ratios, tiny images)
 
 Usage:
-    python scripts/gbif/1-analyze_dataset_quality.py
+    uv run python scripts/gbif/1-analyze_dataset_quality.py
 
 Output:
     reports/dataset_quality_report.txt   — human-readable summary

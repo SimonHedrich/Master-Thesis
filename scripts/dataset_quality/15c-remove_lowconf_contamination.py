@@ -42,15 +42,15 @@ entirely wrong-class.
 Usage
 -----
     # Preview diff (no files written):
-    python scripts/dataset_quality/15c-remove_lowconf_contamination.py \\
+    uv run python scripts/dataset_quality/15c-remove_lowconf_contamination.py \\
         --decisions reports/lowconf_contamination_decisions.json --dry-run
 
     # Apply:
-    python scripts/dataset_quality/15c-remove_lowconf_contamination.py \\
+    uv run python scripts/dataset_quality/15c-remove_lowconf_contamination.py \\
         --decisions reports/lowconf_contamination_decisions.json --force
 
     # Derive decisions automatically from review JSON (no manual decisions file):
-    python scripts/dataset_quality/15c-remove_lowconf_contamination.py \\
+    uv run python scripts/dataset_quality/15c-remove_lowconf_contamination.py \\
         --from-review
 
 See also

@@ -6,11 +6,10 @@ Merges md_detections, single_detect_flags, and manual_labels into
 COCO-format JSON files for training, validation, and test splits.
 
 Usage:
-    cd /home/debian/Master-Thesis
-    python3 scripts/synthetic/6-export_coco.py              # all splits
-    python3 scripts/synthetic/6-export_coco.py --split train
-    python3 scripts/synthetic/6-export_coco.py --split val
-    python3 scripts/synthetic/6-export_coco.py --split test
+    uv run python scripts/synthetic/6-export_coco.py              # all splits
+    uv run python scripts/synthetic/6-export_coco.py --split train
+    uv run python scripts/synthetic/6-export_coco.py --split val
+    uv run python scripts/synthetic/6-export_coco.py --split test
 
 Outputs:
     data/synthetic/annotations_train.json

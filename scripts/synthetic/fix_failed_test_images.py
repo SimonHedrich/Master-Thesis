@@ -5,9 +5,9 @@ Reads data/synthetic/test_index.jsonl, finds records with status "failed",
 and regenerates them one by one with retries.
 
 Usage:
-    python scripts/synthetic/fix_failed_test_images.py
-    python scripts/synthetic/fix_failed_test_images.py --workers 5
-    python scripts/synthetic/fix_failed_test_images.py --force  # also retry if file exists
+    uv run python -m scripts.synthetic.fix_failed_test_images
+    uv run python -m scripts.synthetic.fix_failed_test_images --workers 5
+    uv run python -m scripts.synthetic.fix_failed_test_images --force  # also retry if file exists
 """
 
 import argparse

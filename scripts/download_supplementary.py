@@ -19,11 +19,11 @@ Output structure:
     └── metadata_catalog.csv     # Per-image metadata
 
 Usage:
-    python scripts/download_supplementary.py openimages [--max-per-class 200]
-    python scripts/download_supplementary.py coco [--max-per-class 200]
-    python scripts/download_supplementary.py wikimedia [--max-per-class 50]
-    python scripts/download_supplementary.py flickr --api-key KEY [--max-per-class 100]
-    python scripts/download_supplementary.py status
+    uv run python -m scripts.download_supplementary openimages [--max-per-class 200]
+    uv run python -m scripts.download_supplementary coco [--max-per-class 200]
+    uv run python -m scripts.download_supplementary wikimedia [--max-per-class 50]
+    uv run python -m scripts.download_supplementary flickr --api-key KEY [--max-per-class 100]
+    uv run python -m scripts.download_supplementary status
 
 Requirements:
     pip install requests tqdm
@@ -1204,19 +1204,19 @@ def main():
         epilog="""
 Examples:
     # Download from COCO 2017 (fast, small source)
-    python scripts/download_supplementary.py coco --max-per-class 200
+    uv run python -m scripts.download_supplementary coco --max-per-class 200
 
     # Download from Open Images V7 (needs ~2GB metadata download first)
-    python scripts/download_supplementary.py openimages --max-per-class 200
+    uv run python -m scripts.download_supplementary openimages --max-per-class 200
 
     # Download from Wikimedia Commons (rate-limited, good for rare species)
-    python scripts/download_supplementary.py wikimedia --max-per-class 50
+    uv run python -m scripts.download_supplementary wikimedia --max-per-class 50
 
     # Download from Flickr (requires free API key)
-    python scripts/download_supplementary.py flickr --api-key YOUR_KEY --max-per-class 100
+    uv run python -m scripts.download_supplementary flickr --api-key YOUR_KEY --max-per-class 100
 
     # Check coverage across all sources
-    python scripts/download_supplementary.py status
+    uv run python -m scripts.download_supplementary status
         """,
     )
 

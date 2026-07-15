@@ -16,12 +16,12 @@ This is a read-only analytics script; it does not modify any JSONL files.
 The output CSV replaces speciesnet_filter.md as the authoritative input for tier
 assignment (docs/plans/2026-05-04_dataset-construction-action-plan.md §3).
 
-Must run inside Dockerfile.speciesnet (Python 3.11, speciesnet package) — the
+Run inside the default training container (`make run`) — the
 SpeciesNet classifier is needed to resolve integer class indices to label strings.
 
 Usage:
-    python scripts/dataset_quality/8-class_distribution_report.py
-    python scripts/dataset_quality/8-class_distribution_report.py \\
+    uv run python scripts/dataset_quality/8-class_distribution_report.py
+    uv run python scripts/dataset_quality/8-class_distribution_report.py \\
         --md-conf 0.4 --sn-score 0.25 --family-fail-thresh 0.6
 """
 
@@ -312,8 +312,8 @@ def main() -> None:
     except ImportError:
         print(
             "ERROR: 'speciesnet' is not installed.\n"
-            "This script must run inside Dockerfile.speciesnet:\n"
-            "  make speciesnet-build && make speciesnet-start",
+            "Run inside the default training container:\n"
+            "  make build && make run",
             file=sys.stderr,
         )
         sys.exit(1)

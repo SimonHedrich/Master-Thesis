@@ -5,8 +5,8 @@ and add a fully-visible requirement to every pending prompt.
 Already-generated images are left untouched.
 
 Usage:
-    python scripts/synthetic/1c-migrate_closeup.py --dry-run   # preview counts only
-    python scripts/synthetic/1c-migrate_closeup.py             # apply changes
+    uv run python scripts/synthetic/1c-migrate_closeup.py --dry-run   # preview counts only
+    uv run python scripts/synthetic/1c-migrate_closeup.py             # apply changes
 """
 
 import argparse

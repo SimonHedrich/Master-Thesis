@@ -3,7 +3,7 @@ Move defective generated images to quarantine, fix problematic prompts,
 and reset their index.jsonl status to 'pending' so they get regenerated.
 
 Usage:
-    python scripts/synthetic/fix_quarantine_images.py
+    uv run python -m scripts.synthetic.fix_quarantine_images
 """
 
 import json

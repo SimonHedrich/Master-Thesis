@@ -82,13 +82,13 @@ a data quality issue.  The "Changed?" column is preserved for auditability.
 Usage
 -----
     # Compute counts and write the report:
-    python scripts/dataset_quality/17-post_filter_counts.py
+    uv run python scripts/dataset_quality/17-post_filter_counts.py
 
     # Preview (compute + print summary, write nothing):
-    python scripts/dataset_quality/17-post_filter_counts.py --dry-run
+    uv run python scripts/dataset_quality/17-post_filter_counts.py --dry-run
 
     # Write to a custom path:
-    python scripts/dataset_quality/17-post_filter_counts.py \\
+    uv run python scripts/dataset_quality/17-post_filter_counts.py \\
         --output /tmp/my_counts.md
 
 CLI arguments

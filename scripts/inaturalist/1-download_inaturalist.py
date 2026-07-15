@@ -36,13 +36,13 @@ Commercial license safety:
 
 Usage:
     # Step 1: Download metadata CSVs (~3 GB compressed, ~20 GB uncompressed)
-    python scripts/inaturalist/1-download_inaturalist.py metadata
+    uv run python scripts/inaturalist/1-download_inaturalist.py metadata
 
     # Step 2: Filter for target species with commercial licenses
-    python scripts/inaturalist/1-download_inaturalist.py filter [--label-set 225|480]
+    uv run python scripts/inaturalist/1-download_inaturalist.py filter [--label-set 225|480]
 
     # Step 3: Download the filtered images
-    python scripts/inaturalist/1-download_inaturalist.py download [--max-per-class 500] [--size medium]
+    uv run python scripts/inaturalist/1-download_inaturalist.py download [--max-per-class 500] [--size medium]
 
 Requirements:
     pip install requests tqdm
@@ -780,16 +780,16 @@ def main():
         epilog="""
 Examples:
     # Download metadata CSVs (~3 GB compressed)
-    python scripts/inaturalist/1-download_inaturalist.py metadata
+    uv run python scripts/inaturalist/1-download_inaturalist.py metadata
 
     # Filter for 225-class targets with commercial licenses
-    python scripts/inaturalist/1-download_inaturalist.py filter
+    uv run python scripts/inaturalist/1-download_inaturalist.py filter
 
     # Download images (max 500 per class, medium resolution)
-    python scripts/inaturalist/1-download_inaturalist.py download --max-per-class 500
+    uv run python scripts/inaturalist/1-download_inaturalist.py download --max-per-class 500
 
     # Download larger images for higher quality training
-    python scripts/inaturalist/1-download_inaturalist.py download --max-per-class 500 --size large
+    uv run python scripts/inaturalist/1-download_inaturalist.py download --max-per-class 500 --size large
         """,
     )
     parser.add_argument(

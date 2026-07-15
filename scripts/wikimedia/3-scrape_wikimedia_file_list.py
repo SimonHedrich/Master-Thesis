@@ -13,9 +13,9 @@ By default the script resumes: labels whose .jsonl already exists are skipped.
 Use --force to re-scrape everything.
 
 Usage:
-    python scripts/wikimedia/3-scrape_wikimedia_file_list.py
-    python scripts/wikimedia/3-scrape_wikimedia_file_list.py --rate-limit 0.3
-    python scripts/wikimedia/3-scrape_wikimedia_file_list.py --force
+    uv run python scripts/wikimedia/3-scrape_wikimedia_file_list.py
+    uv run python scripts/wikimedia/3-scrape_wikimedia_file_list.py --rate-limit 0.3
+    uv run python scripts/wikimedia/3-scrape_wikimedia_file_list.py --force
 
 Requirements:
     pip install requests tqdm

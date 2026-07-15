@@ -4,7 +4,7 @@ Generate synthetic wildlife images via OpenRouter (google/gemini-2.5-flash-image
 Images are saved to: data/synthetic/<class_name>/
 
 Usage:
-python scripts/synthetic/1-generate_synthetic_images.py \
+uv run python scripts/synthetic/1-generate_synthetic_images_openrounter.py \
 --class-name "binturong" \
 --description "The binturong is A large, heavily built viverrid with long, coarse, dark black hair, tufted ears, a prehensile tail, and a somewhat bear-like face with white whiskers." \
 --n-images 5

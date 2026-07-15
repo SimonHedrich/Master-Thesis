@@ -12,7 +12,9 @@ dependencies = [
     "ultralytics>=8.4.33",
     # Wildlife domain — MegaDetector v5 wrapper + SpeciesNet classifier
     "PytorchWildlife>=1.2.4",
+    # PytorchWildlife's bioacoustics module imports these unconditionally
     "soundfile>=0.12.0",
+    "librosa>=0.10.0",
     "speciesnet>=5.0.5",
     # Training utilities
     "pytorch-lightning>=2.6.1",

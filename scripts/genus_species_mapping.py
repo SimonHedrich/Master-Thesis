@@ -13,14 +13,14 @@ Data sources (in order of priority):
 
 Usage:
     # Basic: SpeciesNet + iNaturalist taxa.csv (no network)
-    python scripts/genus_species_mapping.py
+    uv run python -m scripts.genus_species_mapping
 
     # With observation counts from iNaturalist API
-    python scripts/genus_species_mapping.py --include-inat-counts
+    uv run python -m scripts.genus_species_mapping --include-inat-counts
 
     # Custom output paths
-    python scripts/genus_species_mapping.py --output reports/my_genus_mapping.csv
-    python scripts/genus_species_mapping.py --family-output reports/my_family_mapping.csv
+    uv run python -m scripts.genus_species_mapping --output reports/my_genus_mapping.csv
+    uv run python -m scripts.genus_species_mapping --family-output reports/my_family_mapping.csv
 """
 
 import argparse

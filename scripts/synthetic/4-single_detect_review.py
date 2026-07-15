@@ -7,8 +7,7 @@ Click to flag as MULTI (more animals present than MD detected).
 Unclicked cards are treated as SINGLE on commit.
 
 Usage:
-    cd /home/debian/Master-Thesis
-    python3 scripts/synthetic/4-single_detect_review.py [--port 8082]
+    uv run python scripts/synthetic/4-single_detect_review.py [--port 8082]
 
 Access via browser at http://<tailscale-ip>:8082
 

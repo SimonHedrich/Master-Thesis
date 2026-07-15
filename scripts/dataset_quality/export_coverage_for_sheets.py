@@ -11,6 +11,9 @@ Colours to set manually:
   synth_disp  → #E07B39  (amber)
   train_disp  → #2C6E9E  (dark blue)
   test_disp   → #81C7D4  (teal)
+
+Usage:
+    uv run python -m scripts.dataset_quality.export_coverage_for_sheets
 """
 
 import math

@@ -17,10 +17,10 @@ Output:
     data/inaturalist/attribution_manifest_human.csv  (CC-BY only)
 
 Usage:
-    python scripts/inaturalist/2-download_inat_humans.py
-    python scripts/inaturalist/2-download_inat_humans.py --target 500           # quick test
-    python scripts/inaturalist/2-download_inat_humans.py --size large           # 1024 px
-    python scripts/inaturalist/2-download_inat_humans.py --research-grade-only  # stricter quality
+    uv run python scripts/inaturalist/2-download_inat_humans.py
+    uv run python scripts/inaturalist/2-download_inat_humans.py --target 500           # quick test
+    uv run python scripts/inaturalist/2-download_inat_humans.py --size large           # 1024 px
+    uv run python scripts/inaturalist/2-download_inat_humans.py --research-grade-only  # stricter quality
 """
 
 import argparse
@@ -234,7 +234,7 @@ def main():
         p = METADATA_DIR / fname
         if not p.exists():
             print(f"ERROR: {p} not found.")
-            print("  Run: python scripts/inaturalist/1-download_inaturalist.py metadata")
+            print("  Run: uv run python scripts/inaturalist/1-download_inaturalist.py metadata")
             sys.exit(1)
 
     progress = load_progress()

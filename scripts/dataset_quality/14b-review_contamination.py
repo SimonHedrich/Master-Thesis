@@ -16,8 +16,7 @@ Leave it unclicked to reject it (false positive — image kept as-is).
 Space commits the batch; Z undoes the last batch.
 
 Usage:
-    cd /home/debian/Master-Thesis
-    python3 scripts/dataset_quality/14b-review_contamination.py [--port 8082]
+    uv run python scripts/dataset_quality/14b-review_contamination.py [--port 8082]
 
 Access via browser at http://<tailscale-ip>:8082
 

@@ -52,6 +52,13 @@ MOMENTUM = 0.937
 WEIGHT_DECAY = 5e-4
 NESTEROV = True
 
+# ─── Data / loop ──────────────────────────────────────────────────────────────
+
+EPOCH_COUNT = 200  # safety ceiling only — early stopping is expected to end the run
+BATCH_SIZE = 32
+NUM_WORKERS = 8
+SEED = 42
+
 # ─── Scheduler (OneCycleLR) ────────────────────────────────────────────────────
 # Warmup → peak → cosine annealing, stepped every batch.
 # pct_start is computed from WARMUP_EPOCHS / EPOCH_COUNT so the warmup window
@@ -75,13 +82,6 @@ HYP_IOU_T = 0.20  # IoU training threshold
 HYP_ANCHOR_T = 4.0  # anchor-multiple threshold
 HYP_FL_GAMMA = 0.0  # focal loss gamma (0 = disabled)
 HYP_LABEL_SMOOTHING = 0.0
-
-# ─── Data / loop ──────────────────────────────────────────────────────────────
-
-EPOCH_COUNT = 200  # safety ceiling only — early stopping is expected to end the run
-BATCH_SIZE = 32
-NUM_WORKERS = 8
-SEED = 42
 
 # ─── Auto-stop + selection metric ──────────────────────────────────────────────
 # One metric drives best-checkpoint selection and early stop (§5 of the plan).

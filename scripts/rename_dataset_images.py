@@ -33,9 +33,9 @@ Safety:
   from a previous interrupted execution — resolve manually first).
 
 Usage:
-    python scripts/rename_dataset_images.py --dry-run        # preview
-    python scripts/rename_dataset_images.py                  # rename all
-    python scripts/rename_dataset_images.py --source gbif    # one source
+    uv run python -m scripts.rename_dataset_images --dry-run        # preview
+    uv run python -m scripts.rename_dataset_images                  # rename all
+    uv run python -m scripts.rename_dataset_images --source gbif    # one source
 """
 
 import argparse

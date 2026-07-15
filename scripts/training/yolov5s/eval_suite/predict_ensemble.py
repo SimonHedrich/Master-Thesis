@@ -7,16 +7,16 @@ the joint ``md_conf × sn_score`` detection confidence is stored in the COCO
 predictions JSON consumed by ``run_evaluation.py`` via ``--real-predictions``/
 ``--synth-predictions``.
 
-Must run inside Dockerfile.speciesnet (Python 3.11 + speciesnet package).
+Run inside the default training container (make run).
 
 Usage
 -----
-    # inside Dockerfile.speciesnet container:
-    python -m scripts.training.yolov5s.eval_suite.predict_ensemble \\
+    # inside the default training container (make run):
+    uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble \\
         --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/
 
     # smoke test (100 images per domain):
-    python -m scripts.training.yolov5s.eval_suite.predict_ensemble \\
+    uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble \\
         --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/ \\
         --limit 100
 
@@ -72,8 +72,8 @@ def _check_environment() -> None:
     except ImportError:
         print(
             "ERROR: 'speciesnet' is not installed.\n"
-            "Install it by rebuilding the training Docker image:\n"
-            "  make build && make run",
+            "Rebuild the training image (make build && make run), or inside\n"
+            "the container run: uv sync --frozen --no-dev",
             file=sys.stderr,
         )
         sys.exit(1)

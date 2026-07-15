@@ -15,8 +15,8 @@ Categories:
                    (may be partially gone if 3-remove_failed_images.py ran)
 
 Usage:
-    python scripts/dataset_quality/13-cleanup_unused_images.py           # analysis only
-    python scripts/dataset_quality/13-cleanup_unused_images.py --execute # analysis + interactive deletion
+    uv run python scripts/dataset_quality/13-cleanup_unused_images.py           # analysis only
+    uv run python scripts/dataset_quality/13-cleanup_unused_images.py --execute # analysis + interactive deletion
 """
 
 import argparse

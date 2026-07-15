@@ -1,4 +1,10 @@
-"""Entry point: wires MLflow, builds all components, runs TrainingPipeline."""
+"""Entry point: wires MLflow, builds all components, runs TrainingPipeline.
+
+Usage:
+    uv run python -m scripts.training.yolov5s.run_training_pipeline
+
+Note: Run inside the default training container (make run), from /app (repo root).
+"""
 from __future__ import annotations
 
 import argparse

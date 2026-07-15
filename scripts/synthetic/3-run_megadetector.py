@@ -26,9 +26,9 @@ Output format (one JSON object per line):
   }
 
 Usage:
-    python scripts/synthetic/3-run_megadetector.py
-    python scripts/synthetic/3-run_megadetector.py --batch-size 16 --num-workers 2
-    python scripts/synthetic/3-run_megadetector.py --force   # rerun all
+    uv run python scripts/synthetic/3-run_megadetector.py
+    uv run python scripts/synthetic/3-run_megadetector.py --batch-size 16 --num-workers 2
+    uv run python scripts/synthetic/3-run_megadetector.py --force   # rerun all
 
 Requirements:
     pip install pytorchwildlife

@@ -8,22 +8,20 @@ Run instructions
 ----------------
 From the repository root (dependencies are managed by uv):
 
-    PYTHONPATH=. uv run -m scripts.training.yolov5s.find_max_batch_size
+    uv run python -m scripts.training.yolov5s.find_max_batch_size
 
 With options:
 
-    PYTHONPATH=. uv run -m scripts.training.yolov5s.find_max_batch_size \\
+    uv run python -m scripts.training.yolov5s.find_max_batch_size \\
         --start 8 --image-size 320 --device cuda
 
-Inside Docker (same image used for training):
+Inside the default training container (make run):
 
-    docker run --gpus all --rm \\
-        -v $(pwd):/app -w /app <image> \\
-        python -m scripts.training.yolov5s.find_max_batch_size
+    uv run python -m scripts.training.yolov5s.find_max_batch_size
 
 CPU smoke-test (OOM cannot occur; use --max to limit iterations):
 
-    PYTHONPATH=. uv run -m scripts.training.yolov5s.find_max_batch_size \\
+    uv run python -m scripts.training.yolov5s.find_max_batch_size \\
         --device cpu --max 8
 """
 from __future__ import annotations

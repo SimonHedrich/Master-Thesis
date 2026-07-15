@@ -9,19 +9,19 @@ written to a Markdown report + CSV/JSON artifacts.
 Usage
 -----
     # evaluate best.pt from the latest training run (default):
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation
 
     # a specific run, or an explicit checkpoint:
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation \
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation \
         --run-dir scripts/training/yolov5s/model_exports/yolov5s-20260602-233434
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation \
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation \
         --checkpoint .../yolov5s-20260602-233434/best.pt
 
     # smoke test on 40 images per domain, CPU:
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation --limit 40 --device cpu
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation --limit 40 --device cpu
 
     # evaluate pre-computed predictions (e.g. MegaDetector+SpeciesNet ensemble):
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation \
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation \
         --real-predictions .../megadet_speciesnet_ensemble/predictions_real.json \
         --synth-predictions .../megadet_speciesnet_ensemble/predictions_synth.json \
         --output-dir .../megadet_speciesnet_ensemble/eval/

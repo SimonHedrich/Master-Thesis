@@ -16,18 +16,18 @@ Images are saved to: data/synthetic/<class_name>/
 
 Usage:
     # Single model
-    python scripts/synthetic/2-generate_synthetic_images_local.py \\
+    uv run python scripts/synthetic/2-generate_synthetic_images_local.py \\
         --class-name "binturong" \\
         --description "The binturong is long and heavy..." \\
         --n-images 5 \\
         --model flux-schnell
 
     # Run all three models sequentially (for easy comparison)
-python scripts/synthetic/2-generate_synthetic_images_local.py \\
---class-name "red_fox" \\
---description "..." \\
---n-images 3 \\
---model all
+    uv run python scripts/synthetic/2-generate_synthetic_images_local.py \\
+        --class-name "red_fox" \\
+        --description "..." \\
+        --n-images 3 \\
+        --model all
 
 Requirements:
     pip install torch torchvision diffusers transformers accelerate \\

@@ -6,8 +6,7 @@ Shows a grid of images from the same class. Click to mark for decline,
 Space to commit the batch (unmarked = approve, marked = decline).
 
 Usage:
-    cd /home/debian/Master-Thesis
-    python3 scripts/dataset_quality/11-batch_review_server.py [--port 8081] [--host 0.0.0.0]
+    uv run python scripts/dataset_quality/11-batch_review_server.py [--port 8081] [--host 0.0.0.0]
 
 Access via browser at http://<tailscale-ip>:8081
 

@@ -15,7 +15,7 @@ Real pools > 500 are scaled proportionally to fit the 500-unit display height.
 A ▲ marker indicates a capped bar.
 
 Usage:
-    python scripts/dataset_quality/plot_class_coverage.py
+    uv run python -m scripts.dataset_quality.plot_class_coverage
 """
 
 import math

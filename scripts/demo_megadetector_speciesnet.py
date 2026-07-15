@@ -7,8 +7,8 @@ Steps:
   3. SpeciesNet classifier → print top-5 species predictions on the crop
 
 Usage:
-    python scripts/demo_megadetector_speciesnet.py
-    python scripts/demo_megadetector_speciesnet.py --image path/to/image.jpg
+    uv run python -m scripts.demo_megadetector_speciesnet
+    uv run python -m scripts.demo_megadetector_speciesnet --image path/to/image.jpg
 """
 
 import argparse

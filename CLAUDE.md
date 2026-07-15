@@ -31,6 +31,23 @@ scripts/      — Utility scripts (data exploration, visualization, etc.)
 - `research/cv-wildlife-classification-resources.md` — Curated reading list
 - `research/A Review of Real-Time Deep Learning–Based Object Detection Models.md` — Primary survey paper on YOLO/SSD/NanoDet for edge deployment
 
+## Running Code
+
+### Python scripts: always uv, always from the repo root
+- Module-safe names: `uv run python -m scripts.<package>.<module>`
+  (e.g. `uv run python -m scripts.training.yolov5s.run_training_pipeline`)
+- Numbered pipeline scripts (`1-foo.py` — invalid module names, cannot use `-m`):
+  `uv run python scripts/<dir>/<N>-<name>.py`
+- Every runnable script's module docstring must state its exact run command in this form.
+
+### Containers: one image, exec in, then uv
+- `make build` builds the single `training` image; `make run` starts the container and
+  execs a bash shell inside it; `make stop` stops/removes it.
+- To run a script in the container: `make run` first, then the standard uv command inside.
+- Default to the one shared container for everything. Only create a separate
+  image/container when something genuinely cannot run in the default one
+  (document the reason when you do).
+
 ## Thesis Research Context
 
 ### Core Research Question

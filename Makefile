@@ -33,9 +33,12 @@ run: clean
 	$(IMAGE_NAME) tail -f /dev/null
 	docker exec -it $(CONTAINER_NAME) /bin/bash
 
-# Remove the Docker container if it exists
-clean:
+# Stop and remove the Docker container if it exists
+stop:
 	-@docker rm -f $(CONTAINER_NAME) 2>/dev/null || true
+
+# Alias for stop (kept for backwards compatibility)
+clean: stop
 
 # Remove the Docker image if needed
 clean-image:

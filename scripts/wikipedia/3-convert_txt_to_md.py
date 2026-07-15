@@ -8,6 +8,9 @@ Conversions applied:
   * bullet text     →  - bullet text
 
 Output: data/wikipedia/*.md  (same directory, .md extension)
+
+Usage:
+    uv run python scripts/wikipedia/3-convert_txt_to_md.py
 """
 import re
 from pathlib import Path

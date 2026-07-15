@@ -57,15 +57,15 @@ Run instructions
 ----------------
 From the repository root (dependencies are managed by uv):
 
-    uv run scripts/evaluation/visualize_fiftyone.py
+    uv run python -m scripts.evaluation.visualize_fiftyone
 
 Flagged-review mode::
 
-    uv run scripts/evaluation/visualize_fiftyone.py --flagged-review
+    uv run python -m scripts.evaluation.visualize_fiftyone --flagged-review
 
 Dry-run (headless / CI)::
 
-    uv run scripts/evaluation/visualize_fiftyone.py --flagged-review --dry-run
+    uv run python -m scripts.evaluation.visualize_fiftyone --flagged-review --dry-run
 """
 from __future__ import annotations
 

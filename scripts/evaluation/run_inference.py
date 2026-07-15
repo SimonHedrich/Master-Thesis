@@ -12,6 +12,9 @@ Writes two JSON files to ``--output-dir``:
 The 100-image sample is deterministic via the module-level ``SEED`` so that
 re-running this script against a different checkpoint produces a directly
 comparable view in FiftyOne.
+
+Usage:
+    uv run python -m scripts.evaluation.run_inference
 """
 from __future__ import annotations
 
