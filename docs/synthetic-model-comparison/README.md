@@ -36,6 +36,7 @@ and local generators, evaluated on qualitative, automatic, and downstream axes.
 | [`05_prompt-strategy-and-length-limits.md`](05_prompt-strategy-and-length-limits.md) | How to build fair prompts across models with wildly different limits; the ≤75-token compressed prompt; worked examples |
 | [`06_evaluation-methodology.md`](06_evaluation-methodology.md) | The three evaluation axes (blind multi-rater rubric; automatic proxies; downstream real-test mAP); statistics; the final results table |
 | [`07_open-questions-and-what-to-reconsider.md`](07_open-questions-and-what-to-reconsider.md) | Confounds, gaps, framing risks, and decisions to make before generating |
+| [`08_classes-and-models-overview.md`](08_classes-and-models-overview.md) | Condensed summary: the 12 output classes, and the model grid with cost/image and full-vs-compressed prompt length |
 | [`scraped_sources/`](scraped_sources/) | Verbatim scrapes of the OpenAI and Gemini pricing pages (primary sources) |
 
 ## Key facts at a glance

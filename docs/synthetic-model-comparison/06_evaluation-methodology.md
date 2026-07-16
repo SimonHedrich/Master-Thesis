@@ -90,6 +90,10 @@ on the **held-out REAL test set** (never synthetic — per `CLAUDE.md` and
 
 - Same images/class, splits, labeling rules, architecture, HPs, augmentation,
   real test set. Only the generator (and, deliberately, the prompt regime) vary.
+  "Real test set" for Band B/C/D classes means the *expanded* set defined in
+  [`02_class-selection.md`](02_class-selection.md) §4a (base train+val+test
+  folded in, since this experiment never trains on real images); Band A
+  classes use the unmodified base real test set.
 - Report **auto-label yield** and **generation wall-clock/cost** alongside quality
   so "usable" reflects practicality, not just picture quality.
 - Zero-shot text-to-image only — do **not** use reference-image conditioning for

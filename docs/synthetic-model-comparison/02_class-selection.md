@@ -56,26 +56,81 @@ all three in every class.
 `test_real` = real held-out test images; GBIF = GBIF image count (rarity proxy).
 
 ### Bucket 1 — Fine-grained look-alike group (the discrimination test)
-| Class | Band | test_real | GBIF | Why |
-|-------|------|-----------|------|-----|
-| plains zebra | D | 500 | high | broad + shadow stripes; also a robust-test anchor |
-| Grévy's zebra | B | 98 | low-ish | narrow dense stripes, white belly — the rare zebra |
-| mountain zebra | D | 93 | mid | gridiron rump + dewlap |
+| Class | Band | test_real | test_real (this exp.)\* | GBIF | Why |
+|-------|------|-----------|--------------------------|------|-----|
+| plains zebra | D | 478 | 2,075 | high | broad + shadow stripes; also a robust-test anchor |
+| Grévy's zebra | B | 119 | 224 | low-ish | narrow dense stripes, white belly — the rare zebra |
+| mountain zebra | D | 93 | 467 | mid | gridiron rump + dewlap |
 
 Only Grévy's zebra is currently in the 76-class **synthetic-train** set (Band B);
 all three have synthetic **test** images and real test images. Evaluate this
 group at **fine** granularity (per-species AP), not just the coarse `zebra` group
 — that is the whole point.
 
-### Bucket 2 — Common, robust real test, in pretraining (upper-baseline anchors)
-| Class | Band | test_real | Why |
-|-------|------|-----------|-----|
-| red fox | D | 500 | ubiquitous; any decent generator should nail it |
-| American black bear | D | 500 | large, common, well-represented |
-| lion | D | 500 | iconic; sanity ceiling for all models |
+\* See §4a for what "this exp." means and why it differs from the base `test_real`.
 
-(plains zebra from Bucket 1 also serves here.) These calibrate the scale: if a
-model can't do these well, its rare-species output is meaningless.
+### Bucket 2 — Common, robust real test, in pretraining (upper-baseline anchors)
+| Class | Band | test_real | test_real (this exp.)\* | Why |
+|-------|------|-----------|--------------------------|-----|
+| red fox | D | 500 | 2,149 | ubiquitous; any decent generator should nail it |
+| American black bear | D | 500 | 2,097 | large, common, well-represented |
+| lion | D | 497 | 2,097 | iconic; sanity ceiling for all models |
+
+(plains zebra from Bucket 1 also serves here — test_real (this exp.) = 2,075.)
+These calibrate the scale: if a model can't do these well, its rare-species
+output is meaningless.
+
+### 4a. Test-set expansion for Band B/C/D classes (this experiment only)
+
+This experiment never trains on real images — for all 12 classes it trains
+only on freshly generated **synthetic** images per generator (§7). The base
+production split, by contrast, reserves real images for training/validation
+for Band B/C/D classes (Band A classes are already 100% real-as-test, so
+nothing changes for Bucket 3 below). Since this experiment's training doesn't
+touch those reserved real images, they're free to add to its real test set —
+substantially increasing statistical power, most valuably for the Bucket 2
+anchor classes, where the reserved-but-idle real pool is large (e.g. red fox:
+1,499 train + 150 val ordinarily withheld from testing).
+
+**Rule:** for Band B/C/D classes in this experiment,
+`test_real (this exp.) = base train_real + base val_real + base test_real`
+— i.e. the full real pool actually allocated in the current split. This
+excludes the documented, unallocated **surplus** some large Band D pools still
+carry (see caveats below).
+
+| Class | Band | train_real | val_real | base test_real | = test_real (this exp.) |
+|-------|------|------------|----------|-----------------|----------------------------|
+| Grévy's zebra | B | 85 | 20 | 119 | 224 |
+| mountain zebra | D | 342 | 32 | 93 | 467 |
+| plains zebra | D | 1,497 | 100 | 478 | 2,075 |
+| lion | D | 1,500 | 100 | 497 | 2,097 |
+| American black bear | D | 1,497 | 100 | 500 | 2,097 |
+| red fox | D | 1,499 | 150 | 500 | 2,149 |
+
+**Caveats:**
+- **Quality-distribution shift.** The base split's train images are
+  greedy top-Q selections and val is mid-Q (30th–70th percentile), while the
+  original test images were assigned by unbiased stratified-random sampling
+  (`docs/plans/2026-05-25_dataset-split-real-image-selection.md` §3). Folding
+  train+val into test therefore skews the enlarged test set toward higher
+  image quality than a purely random sample. This does **not** bias the
+  *relative* generator-vs-generator comparison — every generator is scored on
+  the identical enlarged set — but it means this expanded test set is
+  specific to this comparison experiment, not the project's general
+  real-test benchmark.
+- **Surplus excluded.** Very large Band D pools (e.g. red fox, pool ≈8,900)
+  still have thousands of real images never assigned to train/val/test at all
+  ("surplus", see `reports/dataset_split_summary.json`); those are not folded
+  in here. Using them would maximize power further but is left as a possible
+  future extension, not part of this experiment.
+- **Data source.** Counts above are read from the live split manifests
+  (`data/real/annotations_{train,val,test}.json`) rather than
+  `reports/class_split_counts.csv`, which is a formula-recomputed target that
+  disagrees slightly for a few classes (e.g. `class_split_counts.csv` lists
+  plains zebra test_real=500 vs. the manifest's 478) — the manifest is what
+  this experiment actually loads images from, and it already reflects the
+  multi-animal contamination filtering (`scripts/dataset_quality/14-*`,
+  `15-*`) applied on 2026-06-24/29, so no further exclusion is needed.
 
 ### Bucket 3 — Rare / long-tail, likely under-represented in pretraining
 | Class | Band | test_real | GBIF | Why |
@@ -114,7 +169,9 @@ their downstream mAP.
 ## 7. Practical notes
 
 - All 12 already have synthetic **test** images and real train/test images in the
-  existing split — no new *test* data needed.
+  existing split — no new *test* data needed. For Band B/C/D classes, the real
+  test set actually used by this experiment is the *expanded* set defined in
+  §4a (base train+val+test), not just the base split's test_real.
 - For generation we only need to make **synthetic train** images per generator
   for these 12 classes (the incumbent Gemini train images already exist for the
   Band A/B ones; regenerate the Band D zebra/anchors' synthetic set for
