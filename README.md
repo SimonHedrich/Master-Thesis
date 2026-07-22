@@ -2,6 +2,8 @@
 
 Fine-tuning YOLOv5s on the 225-class wildlife dataset (non-bird mammals). This covers the direct training path without Docker.
 
+See `thesis/` for the Master's thesis manuscript and writing-reference materials (including an analysis of the author's bachelor thesis structure and style, used as a template).
+
 ## Prerequisites
 
 - Python 3.10

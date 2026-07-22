@@ -1,0 +1,86 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Synthetic Data Supplementation}\label{sec:synthetic_data_supplementation}
+
+Even after the sourcing and curation effort described in \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation}, real-image availability remains highly skewed across the $225$-class taxonomy: some classes are supported by thousands of curated images, while others have only a handful. Since a knowledge-distillation-versus-direct-fine-tuning comparison is only meaningful if every class receives a comparable and sufficient training signal, classes with a small real-image pool were supplemented with synthetically generated imagery. This section describes the band structure used to decide which classes receive synthetic supplementation and how much, the image-generation pipeline itself, two diversity-related corrections made after inspecting early output, the bounding-box annotation procedure for synthetic images, and the construction of a separate, balanced synthetic test set used as a secondary evaluation instrument.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Band Structure: Matching Supplementation Strategy to Data Availability}\label{sec:band_structure}
+
+Classes were grouped into four bands according to the size of their real-image pool after curation, with each band receiving a different combination of real and synthetic imagery for training and a correspondingly different amount of real imagery reserved for testing. \Cref{tab:band-structure} defines the bands. The boundaries (real-image pool sizes of $150$, $250$, and $400$) were arrived at only after the full curation pipeline had run and a substantial manual review pass ($17{,}737$ images reviewed, $13{,}827$ approved) had produced a stable estimate of per-class real-image availability; an earlier draft of this strategy had used coarser tiers at $100$, $500$, and $1{,}500$ images, which were revised once the actual post-curation distribution was known.
+
+\begin{table}[H]
+\centering
+\caption{Band structure mapping real-image pool size to training and test composition.}
+\label{tab:band-structure}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Band & Real pool & Training composition & Test composition & Classes \\
+\midrule
+A & $< 150$ & $200$ synthetic & all real ($0$--$149$) & $50$ \\
+B & $150$--$249$ & $100$ real $+$ $100$ synthetic & $50$--$149$ real & $26$ \\
+C & $250$--$399$ & $200$ real & $50$--$199$ real & $26$ \\
+D & $\geq 400$ & $\min(\text{pool} - \text{test}, 1{,}500)$ real & $\min(\lfloor 0.2 \cdot \text{pool} \rfloor, 500)$ real & $122$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Band A comprises the $50$ most data-poor classes (for example walrus, old world porcupine family, raccoon dog, kinkajou, water deer, Eurasian badger, and nine-banded armadillo), whose training set is entirely synthetic; their real images, averaging approximately $67$ per class, are reserved in full for testing, though roughly $17$ of these $50$ classes have fewer than $30$ real test images and are consequently flagged as test-limited by definition rather than by any model deficiency. Band B ($26$ classes, including Canada lynx, spectacled bear, caracal, giant panda, chimpanzee, and springbok) supplements a $100$-image real training set with $100$ synthetic images to reach the same $200$-image training budget as Band A. Band C ($26$ classes, including muntjac genus, red panda, snow leopard, and dingo) reaches the $200$-image budget entirely from real imagery and receives no synthetic supplementation, serving as the real-data control against the synthetic-heavy Bands A and B at an equal training-set size. Band D ($122$ classes) covers the data-rich end of the taxonomy, from japanese macaque ($420$ pool images, $336$ train / $84$ test) up to squirrel family ($31{,}159$ pool images, capped at $1{,}500$ train / $500$ test); the two smallest classes with zero real images at all, \texttt{human} and \texttt{unmatched}, are excluded from every band. A guiding principle across all bands is that surplus real images beyond the training budget are never discarded to enforce the cap -- they are moved to the test set instead, which is why Band D test sizes vary rather than being fixed.
+
+The synthetic-image budget follows directly from the band assignment: Band A requires $50$ classes $\times\ 200$ images $= 10{,}000$ synthetic images (an estimated $\text{\euro}500$ at the per-image generation cost used), and Band B requires a further $26$ classes $\times\ 100$ images $= 2{,}600$ ($\text{\euro}130$), for a combined total of $12{,}600$ synthetic training images at approximately $\text{\euro}630$, comfortably within an $\text{\euro}800$ budget cap with an $\text{\euro}170$ buffer. An optional extension, not part of the primary experimental plan, was documented for five Band D classes (cheetah, tiger, gorilla, sea otter, and mountain goat): training each under a synthetic-only $200$-image condition and a real-only $200$-image condition on an identical held-out test set, to obtain a direct apples-to-apples comparison of synthetic and real training data at matched sample size, at an additional estimated cost of $\text{\euro}50$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Synthetic Image Generation Pipeline}\label{sec:synthetic_generation_pipeline}
+
+Synthetic images were produced with \textit{Gemini}'s \texttt{gemini-3.1-flash-image-preview} image-generation model \cite{google_gemini_2024}. The choice of generator was driven primarily by prompt-length capacity: \textit{Gemini} accepts prompts of up to $32{,}000$ tokens, compared to roughly $480$ tokens for \textit{Imagen}, $6{,}000$ characters for \textit{Midjourney}, $256$ tokens for \textit{DALL-E}, and a hard $77$-token CLIP limit for \textit{Stable Diffusion}. Since the prompt construction strategy below relies on inserting substantial verbatim reference text per image, only a generator with a sufficiently large prompt budget was viable.
+
+\paragraph{Six Axes of Variation}
+Each generated image is specified along six largely independent axes to avoid the repetitive, canonical-pose imagery that a single fixed prompt template per species would otherwise produce: camera angle and perspective (eye-level, low, high, side-profile, three-quarter front or rear, head-on, and rear views); subject distance, calibrated against a simulated $400$--$600\,\mathrm{mm}$ telephoto lens across three bands (close, $20$--$80\,\mathrm{m}$; medium, $80$--$250\,\mathrm{m}$; far, beyond $250\,\mathrm{m}$); pose and behavior, drawn from a universal pool supplemented with species-specific behaviors, with target ratios of approximately $15$--$20\%$ juvenile subjects and roughly even sex representation for strongly sexually dimorphic species; environment and habitat, covering ten codes including \texttt{in\_water}, \texttt{canopy}, and \texttt{burrow}; lighting, covering five codes; and occlusion or visibility, where partial vegetation occlusion is capped at approximately $10\%$ of images per class and semi-submerged framing is mandatory for aquatic or semi-aquatic species. An eight-guild ecological system (arboreal, semi-aquatic, fully aquatic, fossorial, cold-climate, arid/savanna, large-grazing, and primate) further biases the environment and behavior axes toward ecologically plausible combinations for each species.
+
+\paragraph{Prompt Construction}
+Prompts are assembled from a fixed template with five blocks -- subject, species description, scene specification, photography style, and critical requirements -- into which the raw text of a species' Wikipedia Description, Behaviour, and Habitat sections is inserted verbatim rather than summarized, on the reasoning that summarization risks discarding visually relevant detail (fur pattern, characteristic posture) that a generative model can otherwise make use of directly. For genus- or family-level classes, the top five most-observed constituent species (by iNaturalist observation count) are used as representative stand-ins, excluding any species that is already covered as a standalone class elsewhere in the taxonomy.
+
+\paragraph{Generation Schedule and Curated Validation Set}
+Band A classes receive $200$ images each, split into $160$ training images and $40$ validation images. Critically, the $40$ validation images are not drawn at random from the same generation distribution as the training images: they use a fixed set of \enquote{prototypical} shot parameters (eye-level or three-quarter-front angle, medium distance, standing-alert or similar canonical poses, overcast or golden-hour lighting, minimal occlusion) deliberately chosen to resemble typical field photography. A randomly sampled validation set would optimize development decisions for synthetic-image performance specifically; the curated set instead functions as a proxy for real-image performance, which is the quantity ultimately of interest. Band B classes receive $100$ images, all allocated to training, since their validation images are drawn from the surplus real-image pool instead.
+
+\paragraph{Photography Style Correction}
+An early design iteration used a shallow-depth-of-field, \enquote{bokeh} telephoto-portrait style intended to mimic professional wildlife photography. Visual comparison against genuine \textit{AX Visio} sample captures showed that the binocular's actual optics produce no background blur at any distance, so training on bokeh-style synthetic images would have introduced a harmful, avoidable domain gap between training and deployment imagery. The style was corrected to a \enquote{binocular observation} style with full-scene sharp focus and no artificial background blur. The $380$ images already generated under the bokeh style at the time of this correction were retained in the dataset but are explicitly flagged as a non-target style rather than deleted outright; the remaining $12{,}220$ images were generated under the corrected style.
+
+A related, smaller correction removed a \texttt{closeup\_head} camera-angle option that had originally been included alongside the eye-level and medium-distance options. Close, head-cropped framing was found to conflict with a later training-time augmentation step (random scale reduction, \Cref{sec:data_augmentation}): an animal whose full body is visible in the frame can be scaled down plausibly, whereas one already cropped at the image edge cannot be, since there is no image content to reveal as it shrinks. The option was replaced with additional eye-level, medium-distance shots instead.
+
+\paragraph{Format, Content Safety, and Quality Control}
+Images are generated at $512\,\mathrm{px}$ resolution in a $4{:}3$ aspect ratio, chosen because it minimizes the padding overhead of YOLO-style letterboxing (approximately $6\%$ wasted area, compared to approximately $44\%$ for a $16{:}9$ image resized into a square input tensor). Prompt construction includes explicit guidance to avoid graphic predation, explicit mating behavior, and cruelty-adjacent scenes. Every generated image is subsequently passed through \textit{MegaDetector} \cite{beery_megadetector_2019} as a quality check; images without a qualifying detection are flagged for regeneration. An expected detection rate above $90\%$ was assumed when sizing the generation budget, leaving headroom of approximately $10\%$ regeneration within the $\text{\euro}170$ buffer described in \Cref{sec:band_structure}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Prompt Diversity Refinement}\label{sec:prompt_diversity}
+
+An early design question was how to vary habitat, viewpoint, lighting, and behavior across the images generated for a single species without producing ecologically implausible combinations. A generic cross-product of these axes (habitat $\times$ viewpoint $\times$ lighting) was considered and rejected, since it readily produces nonsensical scenes -- an aye-aye grazing in open savanna at noon, or a pangolin swimming in an alpine lake. The approach adopted instead pre-generates, once per species, a bank of plausible ecological scenarios using a lower-cost language model, varying behavior, substrate, viewpoint, lighting, and season jointly and coherently rather than independently.
+
+A manual review of the first $50$ generated images per class nonetheless revealed a diversity problem in the resulting imagery: walking and standing-alert poses dominated, animals were shown facing the camera far more often than a genuine field photograph would suggest, and several near-identical image pairs appeared, traced to a fixed set of five scenario prompts cycling deterministically across generation batches. The underlying cause was an under-specified scenario-generation prompt that did not explicitly require variation along these axes. The fix added explicit diversity constraints to the scenario-generation step: at least one resting, lying, or sleeping behavior and at least one active foraging behavior per class; at least one non-frontal-gaze behavior; no more than one walking or standing-alert pose per generation batch; guild-specific minimums (for example, at least one climbing behavior for arboreal-guild species, at least one digging behavior for fossorial-guild species); and an explicit instruction forbidding the model from reorienting the animal to face the camera regardless of the specified viewpoint. Affected classes were regenerated by clearing the cached scenario profiles and deleting pending prompt files for images not yet generated, leaving already-generated images untouched.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Bounding-Box Annotation of Synthetic Images}\label{sec:synthetic_annotation}
+
+Synthetic images require the same bounding-box ground truth as real images before they can be used for detector training. A five-stage pipeline was used: \textit{MegaDetector} inference on every generated image; a triage review for images with exactly one significant detection; manual bounding-box labeling for images with two or more significant detections; export to COCO format; and a final verification pass using \textit{FiftyOne} \cite{voxel51_fiftyone_2024}. Applying this pipeline to the $12{,}600$-image generation batch produced the following triage distribution: $2$ images ($0.0\%$) with zero significant detections, $12{,}445$ images ($98.8\%$) with exactly one significant detection routed to the lighter-weight triage review, and $153$ images ($1.2\%$) with two or more significant detections routed directly to manual bounding-box labeling. The manual-labeling workload was estimated at $280$--$530$ images, or approximately $1$--$4$ hours at $15$--$30$ seconds per image.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Balanced Synthetic Test Set}\label{sec:synthetic_test_set}
+
+Because the real test set varies enormously in size across bands (from as few as $6$ real images for the most data-poor Band A classes up to $500$ for the largest Band D classes), the real test set alone cannot support certain cross-class or cross-band comparisons without the comparison itself being confounded by differing test-set sizes. \Cref{tab:synthetic-test-motivation} summarizes the specific problems this creates and the standardized $225 \times 50$ synthetic test set constructed to address them.
+
+\begin{table}[H]
+\centering
+\caption{Motivation for a fixed-size, per-class synthetic test set.}
+\label{tab:synthetic-test-motivation}
+\begin{tabularx}{\textwidth}{@{}Xl@{}}
+\toprule
+Problem & Mitigation \\
+\midrule
+Real test-set size varies from $6$ to $500$ images per class & Fixed $50$ images per class regardless of real availability \\
+Band D classes have no standardized evaluation probe & A common $50$-image probe applies uniformly across bands \\
+Cross-band accuracy comparisons are confounded by test-set-size differences & Equal $50$-image weight per class \\
+Condition-specific failure analysis is impossible on uncontrolled real images & Known, fixed angle/behavior/lighting distribution enables structured ablations \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The synthetic test images follow the same \enquote{prototypical} shot design as the Band A curated validation set (\Cref{sec:synthetic_generation_pipeline}): a fixed distribution of ten images each across standing-alert, walking, eating/foraging, resting, and looking-at-camera behaviors, all at eye-level or three-quarter-front angle and medium distance, under overcast or golden-hour lighting, with minimal occlusion, rendered in the corrected binocular-observation style. An optional sixth drinking-behavior category was added for some classes to reach an even $225 \times 56 = 12{,}600$ total. This test set is explicitly a secondary, diagnostic instrument rather than a replacement for real-image evaluation: it is used in combination with the real test set as described in the mixed evaluation methodology of \Cref{sec:evaluation_framework}, never in isolation, since a model must never be judged on synthetic imagery alone. The final, verified synthetic test set comprises $225$ categories, $11{,}250$ images, and $11{,}264$ bounding boxes, with category identifiers matching the real test set exactly so the two can be merged directly for the mixed evaluation condition.

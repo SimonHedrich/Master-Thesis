@@ -1,0 +1,103 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dataset Sourcing and Class Taxonomy}\label{sec:data_sourcing_and_taxonomy}
+
+Before any imagery could be gathered, the set of species the detector was expected to recognize had to be fixed, since it determines both what counts as a usable image and how large a corpus is realistically obtainable. This section describes how the class taxonomy was derived from the \textit{SpeciesNet} taxonomy \cite{gadot_speciesnet_2024}, how candidate image sources were assessed for licensing compatibility and suitability, and how the sourcing effort was executed -- including a substantial detour through the \textit{LILA BC} camera-trap archives that was ultimately abandoned once its imagery proved a poor match for the deployment scenario.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Target Class Definition}\label{sec:target_class_definition}
+
+The class universe originates from the taxonomy used by \textit{SpeciesNet} \cite{gadot_speciesnet_2024}, a species-classification model published by Google and trained in cooperation with the wildlife-camera-trap community. The full taxonomy comprises $3{,}537$ labels, of which approximately $1{,}415$ correspond to mammal taxa at varying levels of specificity (species, genus, family, and higher clades). Since the AX Visio binocular is intended for non-bird mammal observation, the taxonomy was first restricted to this subset, then manually filtered by the AX Visio product owner down to $483$ candidate labels using a dedicated filtering script (\texttt{resources/refineLabels.py}), removing taxa that are not realistically observable in the product's target markets or that are duplicated across taxonomic levels.
+
+A class list of this size is, however, not compatible with the computational budget of the target hardware. A review of nano-scale detection architectures suitable for the \textit{Qualcomm QCS605} (\textit{YOLOv8n} at $3.2\,\mathrm{M}$ parameters, \textit{YOLOv10n} at $2.7\,\mathrm{M}$, \textit{YOLOv11n} at $2.6\,\mathrm{M}$, and \textit{MobileNetV3-Small} at $1.5\,\mathrm{M}$) found consistent evidence that classification and detection accuracy degrades markedly once the number of output classes exceeds roughly $200$--$300$, since the discriminative capacity of a $1$--$3\,\mathrm{M}$-parameter backbone is spread too thinly across a large, fine-grained label space. This established an approximate ceiling of $200$--$250$ classes for the primary experiment.
+
+The final class list settled on $225$ classes, structured across three taxonomic tiers to keep the fine-grained species count within budget while still covering visually and ecologically distinct groups that could not be meaningfully merged: $164$ classes at species level (Tier 1), $41$ at genus level (Tier 2, used where individual species within a genus are not reliably visually distinguishable), and $20$ at family or higher clade level (Tier 3, used for taxa that are rare, visually homogeneous as a group, or both). \Cref{tab:class-taxonomy-orders} breaks the $225$ classes down by taxonomic order.
+
+\begin{table}[H]
+\centering
+\caption{Composition of the 225-class taxonomy by mammalian order.}
+\label{tab:class-taxonomy-orders}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Order & Classes & Share \\
+\midrule
+Carnivora & $75$ & $33\%$ \\
+Cetartiodactyla & $65$ & $29\%$ \\
+Primates & $24$ & $11\%$ \\
+Rodentia & $24$ & $11\%$ \\
+Perissodactyla & $10$ & $4\%$ \\
+Marsupials and Monotremes & $9$ & $4\%$ \\
+Other & $18$ & $8\%$ \\
+\midrule
+Total & $225$ & $100\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Class selection within this budget favored visual distinctiveness and expected encounter frequency over strict taxonomic completeness, following the principle that additions are cheaper to correct than removals: where a common species was missing from the initial $483$-label pool (for instance several North American squirrel species and common domestic animals), it was added in preference to retaining an obscure, rarely-photographed endemic species that would consume the same class budget for negligible practical value. An extended $480$-class list ($483$ product-owner-filtered labels, minus $2$ duplicates and $18$ removed labels, plus $17$ genus- or family-level fallback labels for coverage) was also documented as a secondary artifact, intended for a larger student architecture or a two-stage classification pipeline; it was not used for the primary knowledge-distillation experiment and is not discussed further in this chapter.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Candidate Data Sources and Licensing Assessment}\label{sec:candidate_sources_licensing}
+
+With the class list fixed, candidate image sources were surveyed against two criteria: commercial usability of the license, and suitability of the imagery for a close-to-mid-range, daylight, binocular-observation deployment scenario. Because the trained weights are intended for a commercial product, any dataset carrying a NonCommercial (NC), NoDerivatives (ND), or ShareAlike (SA) license clause was excluded outright -- a ShareAlike clause in particular would propagate a copyleft obligation onto the resulting model weights, which was judged an unacceptable risk regardless of the imagery's quality. \Cref{tab:candidate-sources} summarizes the sources considered.
+
+\begin{table}[H]
+\centering
+\caption{Candidate image sources and their licensing verdicts.}
+\label{tab:candidate-sources}
+\begin{tabularx}{\textwidth}{@{}lXl@{}}
+\toprule
+Source & Notes & Verdict \\
+\midrule
+iNaturalist Competition datasets \cite{vanhorn_inaturalist_2018} & Taxonomically ideal (2021 edition: $246$ mammal species, $68{,}917$ training images) but distributed under a non-commercial academic license & Not allowed \\
+iNaturalist Open Data (via \textit{GBIF} \cite{gbif_2024} / AWS S3) & Same underlying photographs, filtered to observations whose contributors opted into CC0 or CC-BY & Used \\
+\textit{LILA BC} \cite{lila_bc_2024} (Snapshot Serengeti, Snapshot Safari, WCS Camera Traps, Caltech Camera Traps) & CDLA-Permissive license & License allowed; rejected on suitability grounds, see \Cref{sec:sourcing_execution} \\
+Open Images V7 \cite{kuznetsova_open_2020} & CC-BY 2.0 images / CC-BY 4.0 boxes; \enquote{Mammal} class covers $95{,}335$ boxed images under colloquial (non-species-level) labels & Used, with taxonomy remapping \\
+COCO 2017 \cite{lin_microsoft_2014} & $330\mathrm{k}$ images, $10$ mammal-adjacent classes including \texttt{person} & Used, with strict filtering (\Cref{sec:sourcing_execution}) \\
+iWildCam, Wildlife-71, ATRW & Contain unverifiable web-scraped imagery or images contaminated with restricted iNaturalist data & Not allowed \\
+TreeOfLife-200M / \textit{BioCLIP} \cite{stevens_bioclip_2024} & Raw image bundle is license-mixed (partially CC-BY-NC-ND via FathomNet); model weights themselves are MIT-licensed & Weights used as a pseudo-labeler only, not as an image source \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Two sources merit a further note. Open Images V7 labels animals colloquially (e.g. \enquote{Elephant} rather than a species-level label), so any image drawn from it required an additional taxonomy-remapping step before it could be attributed to one of the $225$ classes. \textit{BioCLIP} \cite{stevens_bioclip_2024}, an open-weight vision-language embedding model trained on the TreeOfLife-200M corpus, was judged usable purely as a zero-shot pseudo-labeling teacher over commercially-safe unlabeled imagery (e.g. CC0 stock photography), since the MIT license on its weights does not inherit the license restrictions of its training data.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sourcing Execution and the LILA BC Rejection}\label{sec:sourcing_execution}
+
+The initial corpus was assembled from \textit{GBIF} \cite{gbif_2024} observation records, classified with \textit{SpeciesNet} v$4.0.2$a \cite{gadot_speciesnet_2024}, yielding $66{,}881$ usable images. This corpus was highly uneven across classes: $31$ of the $225$ classes had zero images, and a further $55$ classes had fewer than $10$. Closing this gap required actively sourcing additional imagery for the affected classes rather than accepting the GBIF distribution as-is.
+
+\paragraph{The LILA BC Camera-Trap Detour}
+\textit{LILA BC} (Labeled Information Library of Alexandria: Biology and Conservation) \cite{lila_bc_2024} was the first candidate investigated for filling these gaps, since its CDLA-Permissive license is commercially compatible and several of its constituent datasets are large. Three sub-datasets were scanned against the $225$-class taxonomy: \textit{Snapshot Serengeti} \cite{swanson_snapshot_2015} ($7.2\,\mathrm{M}$ images, $39$ of $61$ categories matched), the \textit{Snapshot Safari} 2024 expansion ($4.0\,\mathrm{M}$ images, $62$ of $131$ categories matched), and the \textit{WCS Camera Traps} dataset \cite{wcs_camera_traps_2022} ($1.4\,\mathrm{M}$ images, $137$ of $676$ categories matched). \Cref{tab:lila-bc-filtering} summarizes the result of this scan.
+
+\begin{table}[H]
+\centering
+\caption{LILA BC sub-datasets scanned against the 225-class taxonomy.}
+\label{tab:lila-bc-filtering}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Sub-dataset & Total images & Matched \& filtered & With bounding boxes \\
+\midrule
+Snapshot Serengeti & $7.2\,\mathrm{M}$ & $1{,}637{,}554$ & $62{,}540$ \\
+Snapshot Safari (2024 expansion) & $4.0\,\mathrm{M}$ & $1{,}140{,}640$ & $0$ \\
+WCS Camera Traps & $1.4\,\mathrm{M}$ & $435{,}909$ & $110{,}069$ \\
+\midrule
+Total & $12.6\,\mathrm{M}$ & $3{,}214{,}103$ & $172{,}609$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Combined, these three sub-datasets covered $115$ of the $225$ target classes, which on paper made \textit{LILA BC} the single most productive candidate source for closing the coverage gap. Visual sampling of the matched images, however, revealed that the imagery was a poor fit for the deployment scenario: camera-trap photographs are predominantly long-range, frequently occluded by vegetation, affected by motion blur from triggered captures, and in many cases captured under infrared illumination at night. The \textit{AX Visio} binocular, by contrast, is used for close-to-mid-range daylight observation, so a detector trained predominantly on camera-trap imagery would learn a systematically different appearance distribution than the one it will encounter in deployment. This mismatch outweighed the sourcing convenience the corpus offered, and \textit{LILA BC} was consequently removed from the sourcing pipeline entirely -- a negative result documented here for methodological transparency, since $12.6\,\mathrm{M}$ scanned images did not translate into any images retained.
+
+\paragraph{Gap-Filling Sources Actually Used}
+With \textit{LILA BC} excluded, three sources were used instead to close the remaining class-coverage gaps.
+
+First, a metadata-level match was performed between the $225$-class taxonomy and \textit{iNaturalist} Open Data observation records exposed through \textit{GBIF}: $7{,}158$ taxa matched to $221$ of the $225$ classes, covering $6{,}816{,}962$ photographs in total. Of these, only $831{,}050$ ($12\%$) carried a commercially-safe license (CC0 or CC-BY); the remaining $82\%$ were CC-BY-NC and had to be excluded under the licensing policy established in \Cref{sec:candidate_sources_licensing}. Coverage after this filtering step remained uneven -- the best-covered class, white-tailed deer, retained $61{,}865$ commercially-safe images, while $9$ classes (aardwolf, American mink, black-backed jackal, dingo, domestic goat, domestic pig, human, pinniped clade, and red-necked wallaby) had zero matching images and required separate sourcing.
+
+Second, \texttt{human} imagery -- needed as a negative/contextual class rather than a wildlife species -- was deliberately excluded from the iNaturalist and GBIF exports for privacy reasons, and Open Images' \enquote{Person} category was found to be dominated by portrait-style photography unrepresentative of an outdoor observation scenario. \textit{COCO} 2017 \cite{lin_microsoft_2014} was used instead, subject to a strict filter developed specifically for this class: images with vehicle or animal supercategory annotations were excluded, as were images flagged \texttt{iscrowd=1} or containing more than three person annotations; retained bounding boxes were required to occupy between $5\%$ and $60\%$ of the frame area, to sit at least $2\%$ away from the image edge, and to have a height-to-width ratio of at least $0.5$ (to bias toward standing rather than incidental figures). Post-download quality checks additionally required a minimum resolution of $256\,\mathrm{px}$, a Laplacian blur variance of at least $100$, and a minimum saturation of $15$ to reject grayscale or infrared frames. This pipeline is implemented in \texttt{scripts/download\_coco\_humans.py}.
+
+Third, a dedicated Wikimedia Commons category-crawling pipeline was built for the species that remained persistently under-represented after the first two steps. The pipeline operates in four stages: a category-tree crawl per label (depth $2$, capped at $5{,}000$ categories per label); a keyword-cascade filter that removes non-photographic categories (illustrations, taxidermy, maps, fossils, and similar); enumeration of the actual file titles within the surviving categories; and finally download with a license filter restricted to CC0, CC-BY, or public domain (explicitly excluding CC-BY-SA) and a minimum image width of $300\,\mathrm{px}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Resulting Corpus Composition}\label{sec:corpus_composition}
+
+The sourcing effort described above produced a raw, multi-source corpus spanning GBIF/iNaturalist observations, Open Images and COCO subsets, and Wikimedia Commons crawls, covering $216$ of the $225$ target classes with at least one image. This raw corpus is not yet fit for training: it mixes sources of very different reliability, contains mislabeled and low-quality images, and has not yet been split into train, validation, and test partitions. \Cref{sec:data_quality_and_curation} describes the staged quality-filtering and curation pipeline that turns this raw pool into the curated dataset used for training, and \Cref{sec:synthetic_data_supplementation} describes how the small number of classes that remained data-poor even after sourcing were supplemented with synthetic imagery.

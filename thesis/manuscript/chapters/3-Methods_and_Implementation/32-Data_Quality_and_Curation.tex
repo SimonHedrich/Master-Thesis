@@ -1,0 +1,108 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data Quality Assurance and Curation}\label{sec:data_quality_and_curation}
+
+The multi-source corpus assembled in \Cref{sec:data_sourcing_and_taxonomy} is heterogeneous in reliability: GBIF/iNaturalist observations carry community-contributed species labels of varying accuracy, Wikimedia Commons images are entirely unlabeled with respect to bounding boxes and may depict non-photographic subjects (illustrations, taxidermy, museum specimens), and even trusted sources occasionally contain mislabeled or low-quality frames. This section describes the staged filtering pipeline used to turn the raw corpus into a curated, quality-scored dataset with verified ground truth, and the several correction passes that were required once downstream analysis revealed problems the initial pipeline design had not anticipated.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Staged Quality Filtering Pipeline}\label{sec:staged_filtering_pipeline}
+
+A single, uniform filtering policy across all sources was rejected in favor of a source-aware, cost-staged design: cheap checks run first and are applied to every image, while expensive checks run only on the subset of images that survive the cheaper stages, and only where the source's reliability profile calls for them. A blanket cloud vision-language model (VLM) pass over the entire corpus was considered and rejected: even paid API tiers cap out at approximately $4{,}000$ requests per minute, which would make processing hundreds of thousands of images impractically slow; the estimated cost for the corpus size involved was approximately $\$25$, small in absolute terms but avoidable; the terms of service of most hosted VLM providers restrict large-scale automated image classification; and, most importantly, a VLM pass would largely duplicate work that \textit{MegaDetector} \cite{beery_megadetector_2019} already performs at a fraction of the cost by answering the simpler question of whether an animal is present at all. \Cref{fig:quality-pipeline} shows the resulting pipeline.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=0.5cm and 0.9cm,
+  stage/.style={rectangle, draw, rounded corners, fill=gray!10, minimum width=2.5cm, minimum height=1.1cm, align=center, font=\small},
+  arr/.style={-{Latex[length=2mm]}, thick}
+]
+\node[stage] (s0) {Stage 0\\Metadata};
+\node[stage, right=of s0] (s1) {Stage 1\\Heuristics};
+\node[stage, right=of s1] (s2) {Stage 2\\MegaDetector};
+\node[stage, right=of s2] (s3) {Stage 3\\VLM rescue\\(Wikimedia only)};
+\node[stage, below=1.1cm of s2] (s5) {SpeciesNet\\classification};
+\node[stage, left=of s5] (s6) {SpeciesNet\\filtering \& mapping};
+\draw[arr] (s0) -- (s1);
+\draw[arr] (s1) -- (s2);
+\draw[arr] (s2) -- (s3);
+\draw[arr] (s2.south) -- (s5.north);
+\draw[arr] (s3.south) |- ($(s3.south)+(0,-0.5)$) -| (s5.north east);
+\draw[arr] (s5) -- (s6);
+\end{tikzpicture}
+\caption{Staged, source-aware quality filtering pipeline. Cheaper checks run first and gate access to the more expensive stages; the VLM rescue stage applies only to Wikimedia-sourced images that failed automatic animal detection.}
+\label{fig:quality-pipeline}
+\end{figure}
+
+\paragraph{Stage 0 -- Metadata}
+This stage requires no image I/O and is evaluated purely from source-provided metadata. Per-source pass criteria were defined individually: GBIF records must have \texttt{prediction\_source == "classifier"}, a classifier score of at least $0.6$, at least one detection with confidence $\geq 0.5$, and a bounding box covering at least $1\%$ of the frame; iNaturalist records must carry the \texttt{research}-grade quality flag; Wikimedia images must have a shorter side of at least $320\,\mathrm{px}$, an aspect ratio no greater than $4.0$, and a JPEG or PNG MIME type; images from \textit{LILA BC} in the (later abandoned) sourcing attempt and from Open Images were treated as trusted and passed through unconditionally at this stage.
+
+\paragraph{Stage 1 -- Heuristics}
+Cheap, CPU-only image-level checks applied to every image regardless of source: file corruption, a minimum resolution of $320\,\mathrm{px}$ on the shorter side, a maximum aspect ratio of $4.0$, a grayscale check (standard deviation across channel means $\geq 10$, rejecting monochrome or infrared frames), and a blur check (Laplacian variance $\geq 100$ computed on a $512\,\mathrm{px}$ thumbnail).
+
+\paragraph{Stage 2 -- MegaDetector}
+\textit{MegaDetector} v5 \cite{beery_megadetector_2019}, a general-purpose animal/person/vehicle detector trained across a large corpus of camera-trap and non-camera-trap imagery, is run on every image surviving Stage 1. An image is retained only if it contains at least one animal detection with confidence $\geq 0.6$ and a bounding box covering at least $1\%$ of the frame area. This stage is particularly effective at removing content that passes the cheaper heuristics but is not a genuine photograph of a live animal -- drawings, taxidermy mounts, plush toys, and extreme close-ups that heuristic checks alone cannot distinguish from valid images.
+
+\paragraph{Stage 3 -- VLM Rescue (Wikimedia Only)}
+Because Wikimedia Commons content is the least curated of the sources used and includes categories such as illustrations and museum specimens that a general object detector may occasionally still misclassify as animals, images from this source that pass Stage 1 but fail Stage 2 are given a second chance through a captioning-based rescue step using \textit{Florence-2-large} \cite{xiao_florence2_2023} in its detailed-captioning mode. Captions containing rejection keywords (\enquote{drawing}, \enquote{illustration}, \enquote{painting}, \enquote{taxidermy}, \enquote{plush}, \enquote{cartoon}, and similar) cause the image to be discarded; otherwise it is retained despite having failed automatic detection.
+
+\paragraph{Captioning and Caption-Based Evaluation}
+As a complementary quality signal, all surviving images are captioned with \textit{Florence-2-base} \cite{xiao_florence2_2023} (batch size $6$, $768\times768$ input, greedy decoding), and the resulting captions are evaluated by a language model against three criteria: whether the subject is a real, living animal; whether the image is a genuine photograph rather than a stylized or synthetic rendering; and whether a substantial part of the animal is visible. Three backend options were evaluated for this evaluation step, trading off cost against latency: a locally hosted \textit{Qwen2.5-7B-AWQ} \cite{qwen_2024} model served through \textit{vLLM} (an estimated $12$--$18$ hours for the full corpus), a smaller \textit{Qwen2.5-3B} model (an estimated $8$--$10$ hours), and a hosted OpenRouter endpoint (an estimated $30$--$90$ minutes at approximately $\$5$ for $543{,}000$ images). The hosted option was used for the bulk of the corpus given its favorable latency-to-cost ratio for a one-off pass.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Species-Level Classification and Taxonomic Matching}\label{sec:speciesnet_matching}
+
+Passing the quality gates above establishes that an image very likely depicts a real animal, but not which of the $225$ target classes it belongs to with sufficient confidence for training. \textit{SpeciesNet} \cite{gadot_speciesnet_2024}, using an \textit{EfficientNetV2-M} \cite{tan_efficientnetv2_2021} classification backbone, is run on every MegaDetector-cropped animal region to produce a taxonomic prediction. \Cref{tab:speciesnet-classification-counts} shows the number of crops classified per source; the shortfall for Open Images is a known limitation of this stage, since the vast majority of Open Images records in the corpus lacked a MegaDetector detection above threshold and were therefore never passed to the classifier.
+
+\begin{table}[H]
+\centering
+\caption{SpeciesNet classification coverage by source.}
+\label{tab:speciesnet-classification-counts}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Source & Records available & Classified \\
+\midrule
+iNaturalist & $400{,}067$ & $400{,}067$ \\
+GBIF & $39{,}388$ & $39{,}388$ \\
+Wikimedia & $12{,}486$ & $12{,}486$ \\
+Images-CV & $5{,}501$ & $5{,}501$ \\
+Open Images & $7{,}499$ & $94$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Because the $225$-class taxonomy mixes species-, genus-, and family-level labels, a classifier prediction was accepted or rejected according to a taxonomic match-level hierarchy rather than exact label equality. A prediction at the same level as the target class (species-to-species, genus-to-genus, and so on) counts as a direct match; a prediction one or more levels coarser than the target counts as a partial match (for example, a genus-level SpeciesNet prediction for an image drawn from a species-level source class); and a prediction that disagrees at the family level or above is treated as a likely mislabel. The thresholds ultimately adopted were a minimum MegaDetector confidence of $0.5$, a minimum SpeciesNet top-1 score of $0.3$, and a family-mismatch confidence threshold of $0.5$ (a family-level disagreement is only treated as disqualifying evidence of mislabeling if the classifier is at least moderately confident in the mismatched prediction).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Correcting SpeciesNet Coverage Gaps}\label{sec:speciesnet_coverage_gaps}
+
+Applying the match-level filter of \Cref{sec:speciesnet_matching} uniformly produced an unexpected result: several classes lost the overwhelming majority of their images, for example \textit{Saguinus} species tamarins ($1{,}065 \rightarrow 5$ images), \textit{Eulemur} species lemurs ($880 \rightarrow 2$), rock hyrax ($1{,}336 \rightarrow 7$), \textit{Ateles} species spider monkeys ($1{,}437 \rightarrow 38$), and pikas ($1{,}484 \rightarrow 31$) -- shrinkages of $97\%$ to $99\%$. Investigating these cases individually showed that the drop was not evidence of widespread mislabeling in the source data, but a coverage gap in \textit{SpeciesNet} itself: the model simply does not reliably recognize several of these taxa and instead emits low-confidence or overly coarse predictions (\texttt{match\_level\_no\_match} or \texttt{match\_level\_class}) for images that a visual inspection confirmed were correctly labeled at the source.
+
+Treating a low pass rate under the match-level filter as evidence of a classifier coverage gap rather than a labeling problem required a fallback rule: if a class's dominant failure reason is \texttt{match\_level\_no\_match} or \texttt{match\_level\_class} and fewer than $20\%$ of its images pass the filter (or the dominant failure reason is \texttt{match\_level\_order} and fewer than $15\%$ pass), the class falls back to using the pre-classification quality-pass flag directly, bypassing the SpeciesNet-based filter entirely. Applying this fallback recovered approximately $14{,}500$ images across $17$ affected classes. Two candidate classes -- Asian elephant and domestic water buffalo -- were deliberately kept under the stricter filter despite low pass rates, because their dominant failure reason was \texttt{family\_mismatch\_high\_confidence}: a genuine signal of label contamination rather than a coverage gap, since the classifier was confidently predicting a \emph{different} family, not merely failing to commit to a species.
+
+A related, smaller-scale problem was traced to inconsistent handling of apostrophes in class folder names (for example \enquote{grevys zebra} versus the canonical \enquote{grevy's zebra}), which had silently created duplicate \enquote{ghost} classes and left approximately $59$ images unreviewed and uncounted; this was fixed by normalizing apostrophes through a canonical-name lookup applied consistently across the classification and filtering scripts. Two further species -- sea otter ($1{,}404$ images) and Hoffmann's two-toed sloth ($667$ images) -- showed a $100\%$ SpeciesNet failure rate under \texttt{match\_level\_no\_match}; rather than force a fallback threshold for these two cases specifically, SpeciesNet filtering was skipped entirely for them, and all images that passed the MegaDetector and caption-filter stages were retained.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Ground-Truth Annotation Integrity}\label{sec:gt_annotation_integrity}
+
+\paragraph{The Multi-Box Annotation Bug}
+A later audit of the assembled test annotations discovered that every one of $63{,}796$ images in \texttt{annotations\_test.json} carried exactly one ground-truth bounding box, despite MegaDetector having detected multiple animals in a substantial fraction of the underlying images. The root cause was a data-loading function that silently dropped the full \texttt{detections} array before it reached the COCO-annotation builder, so only a single detection per image could ever be emitted regardless of how many animals MegaDetector had actually found. The scale of the resulting gap varied by source: approximately $26\%$ of GBIF images, $15\%$ of iNaturalist images, $26\%$ of Wikimedia images, and $31\%$ of Open Images images (at confidence $\geq 0.5$) contained more than one detection that had been silently discarded.
+
+The fix forwards the full detections array through the pipeline and emits one COCO annotation per detection above a confidence threshold of $0.5$, for every image. Applying the fix also required removing $43$ Wikimedia images that had zero detections after the correction (while explicitly retaining $26$ genuinely blank/background images that had been correctly included as negatives). After the fix, the corrected splits comprised $145{,}764$ training images ($178{,}924$ annotations, up to $28$ boxes per image), $12{,}545$ validation images ($18{,}445$ annotations, up to $22$ boxes per image), and $63{,}822$ test images ($86{,}785$ annotations, up to $28$ boxes per image).
+
+\paragraph{Cross-Species Contamination in Multi-Box Images}
+Fixing the multi-box bug exposed a second, more subtle defect: every bounding box on a given image had been assigned the same category label as the image's own primary classification, so a second animal of a \emph{different} species appearing in the same photograph would be mislabeled as the primary species. Rather than manually reviewing all such images, the existing per-box SpeciesNet classification (\Cref{sec:speciesnet_matching}) was reused to flag a secondary box only when its predicted taxon diverged from the image's primary label by more than a taxonomic tolerance band: predictions consistent at species, genus, or family level were treated as acceptable variation (for example different zebra species, or different elephant species within one genus), while divergence at order level, class level, or a complete non-match was flagged, subject to a minimum SpeciesNet confidence of $0.3$ on the secondary box. This taxonomic-tolerance design was necessary because a naive flag on any label disagreement would have queued an unmanageable number of images for manual review: of $57{,}205$ images with at least two confident detections, $32{,}401$ ($56.6\%$) had a differing SpeciesNet species index on a secondary box, but the great majority of these were genus- or family-level siblings rather than genuine contamination.
+
+The taxonomic-tolerance filter flagged $11{,}354$ images for manual review. Of these, $7{,}271$ entries were ultimately reviewed and resolved as $6{,}477$ \enquote{keep} (the secondary box was confirmed correctly labeled), $794$ \enquote{edit} (the secondary box's label was corrected), and zero \enquote{discard}; consequently, no images were removed from the dataset, and only $1{,}344$ mislabeled annotations were deleted across the three splits ($785$ from training, $100$ from validation, $459$ from test). A follow-on pass supplemented the ground truth with $16{,}911$ additional boxes drawn from the $10$--$50\%$ MegaDetector confidence range, subject to IoU-based deduplication against existing boxes and the same contamination guards. As a byproduct, the $6{,}477$ confirmed-correct \enquote{keep} cases from the review -- same-species pairs that a naive taxonomic check would have flagged as suspicious -- were mined for candidate visual look-alike groups, yielding $1{,}733$ candidate pairs used later in the coarse-grained evaluation grouping described in \Cref{sec:evaluation_framework}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Quality Scoring and Split Assembly}\label{sec:quality_scoring_splits}
+
+Images surviving all filtering stages were assigned a composite quality score $Q \in [0, 1]$ used to guide validation-set sampling and to break ties during split assembly:
+\begin{equation}
+    Q = 0.30\,S_{\text{area}} + 0.25\,S_{\text{edge}} + 0.20\,S_{\text{single}} + 0.25\,S_{\text{conf}}.
+    \label{eq:quality-score}
+\end{equation}
+$S_{\text{area}}$ rewards a bounding box occupying between $4\%$ and $40\%$ of the frame (a score of $1.0$), decaying toward $0$ below $2\%$ or above $70\%$ of frame area; $S_{\text{edge}}$ penalizes boxes that are clipped by the image boundary, falling to $0$ once the box extends outside the frame; $S_{\text{single}}$ rewards images with exactly one detection ($1.00$) over zero detections ($0.50$), two detections ($0.60$), or three or more ($0.30$), reflecting that single-animal images are generally easier to verify and less prone to the contamination problem of \Cref{sec:gt_annotation_integrity}; and $S_{\text{conf}}$ is the raw MegaDetector bounding-box confidence (defaulting to $0.30$ when unavailable). Two hard exclusions apply regardless of the weighted score: an object occupying less than $1\%$ of the frame, or a bounding box that extends beyond the image boundary, both force $Q = 0$.
+
+The validation split was sampled from the $30$th to $70$th percentile of $Q$ within each class, using a fixed random seed of $42$, rather than from the highest-scoring images -- the intent was a validation set representative of typical corpus quality rather than a cherry-picked best case that would overstate model performance during development. For the largest (Band D, see \Cref{sec:synthetic_data_supplementation}) classes, training-image selection additionally applied a source-diversity cap, limiting any single source to at most $60\%$ of a class's training images when at least three sources were available ($75\%$ with two sources, no cap with only one), to prevent a single source's photographic style from dominating a well-populated class.
+
+Applying this scoring and splitting logic to the corpus as it stood prior to the ground-truth fixes of \Cref{sec:gt_annotation_integrity} produced $220{,}049$ total image records, split into $144{,}191$ training images ($144{,}142$ annotations), $12{,}419$ validation images, and $63{,}439$ test images. These figures are reported here as the pre-correction baseline for completeness; \Cref{sec:gt_annotation_integrity} above carries the authoritative post-correction split sizes, since the multi-box annotation fix and the subsequent contamination review changed the annotation counts (though, notably, not the image counts) after this splitting step had already run.

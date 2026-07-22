@@ -3,6 +3,7 @@
 data/*
 resources/SNPredictions_all*
 output/*
+resources/Thesis_Bachelor
 scripts/evaluation/outputs/
 
 __pycache__/
