@@ -1,4 +1,10 @@
-"""Entry point: wires MLflow, builds all components, runs TrainingPipeline."""
+"""Entry point: wires MLflow, builds all components, runs TrainingPipeline.
+
+Usage:
+    uv run python -m scripts.training.yolov5s.run_training_pipeline
+
+Note: Run inside the default training container (make run), from /app (repo root).
+"""
 from __future__ import annotations
 
 import argparse
@@ -65,7 +71,11 @@ def _run_full_evaluation(run_dir: Path, smoke: bool, device: torch.device) -> No
 
 
 def training_run(
-    smoke: bool, run_dir: Path, log_file: Path | None, full_eval: bool = False
+    smoke: bool,
+    run_dir: Path,
+    log_file: Path | None,
+    full_eval: bool = False,
+    resume_from: Path | None = None,
 ) -> dict:
     set_seed(constants.SEED)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -111,7 +121,7 @@ def training_run(
     model.names = ds_train.class_names
 
     optimizer = model_optimizer(model)
-    scheduler = model_scheduler(optimizer)
+    scheduler = model_scheduler(optimizer, steps_per_epoch=len(dl_train), epochs=epochs)
     loss_fn = YoloLoss(model)
 
     git_sha = ""
@@ -132,6 +142,7 @@ def training_run(
     params["device"] = str(device)
     params["smoke"] = smoke
     params["epochs_actual"] = epochs
+    params["resume_from"] = str(resume_from) if resume_from is not None else ""
     # mlflow.log_params accepts str values only
     mlflow.log_params({k: str(v) for k, v in params.items()})
 
@@ -155,13 +166,13 @@ def training_run(
         eval_iou_thres=constants.EVAL_IOU_THRES,
         eval_max_det=constants.EVAL_MAX_DET,
         warmup_epochs=constants.WARMUP_EPOCHS,
-        learning_rate=constants.LEARNING_RATE,
         selection_metric=constants.SELECTION_METRIC,
         early_stop=constants.EARLY_STOP,
         early_stop_patience=constants.EARLY_STOP_PATIENCE,
         early_stop_min_delta=constants.EARLY_STOP_MIN_DELTA,
         use_ema=constants.USE_EMA,
         use_amp=constants.USE_AMP,
+        resume_from=resume_from,
     )
 
     try:
@@ -192,8 +203,18 @@ if __name__ == "__main__":
         help="After training, run the comprehensive evaluation suite on best.pt "
         "(granularity × band × domain report) and log it to MLflow.",
     )
+    parser.add_argument(
+        "--resume-from",
+        type=Path,
+        default=None,
+        help="Path to a best.pt/last.pt checkpoint from a previous run. Restores "
+        "model/optimizer/scheduler/EMA/AMP state and continues at the next epoch, "
+        "under a NEW run dir and a NEW MLflow run.",
+    )
     args = parser.parse_args()
     smoke = args.smoke
+    if args.resume_from is not None and not args.resume_from.is_file():
+        parser.error(f"--resume-from checkpoint not found: {args.resume_from}")
 
     load_dotenv(Path(__file__).parent / ".env")
 
@@ -219,12 +240,16 @@ if __name__ == "__main__":
 
     logger.info("=== yolov5s training run ===")
     logger.info("run_name=%s experiment=%s", run_name, experiment)
+    if args.resume_from is not None:
+        logger.info("resuming from checkpoint: %s", args.resume_from)
     logger.info("mlflow tracking_uri=%s", tracking_uri or "(unset)")
     logger.info("run dir: %s", run_dir)
     logger.info("log file: %s", log_file)
 
     try:
         with mlflow.start_run(run_name=run_name, tags=tags):
-            training_run(smoke, run_dir, log_file, full_eval=args.full_eval)
+            training_run(
+                smoke, run_dir, log_file, full_eval=args.full_eval, resume_from=args.resume_from
+            )
     finally:
         logging.shutdown()

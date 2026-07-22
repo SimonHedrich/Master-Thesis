@@ -23,6 +23,9 @@ Outputs:
 Rate limits:
   Wikipedia action API: ~200 req/min  → 0.35 s sleep
   iNaturalist v1 API:  ~100 req/min  → 0.65 s sleep
+
+Usage:
+    uv run python scripts/wikipedia/2-scrape_wikipedia.py
 """
 import json
 import time

@@ -9,9 +9,9 @@ Two modes of exclusion:
                           together with ALL their indented subcategories.
 
 Usage:
-    python scripts/wikimedia/2-filter_wikimedia_categories.py
-    python scripts/wikimedia/2-filter_wikimedia_categories.py --input-dir reports/wikimedia_categories
-    python scripts/wikimedia/2-filter_wikimedia_categories.py --dry-run
+    uv run python scripts/wikimedia/2-filter_wikimedia_categories.py
+    uv run python scripts/wikimedia/2-filter_wikimedia_categories.py --input-dir reports/wikimedia_categories
+    uv run python scripts/wikimedia/2-filter_wikimedia_categories.py --dry-run
 """
 
 import argparse

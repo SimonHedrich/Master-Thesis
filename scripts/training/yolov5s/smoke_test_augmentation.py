@@ -1,12 +1,12 @@
 """Smoke test for the basic augmentation pipeline (setups A & B) and,
 optionally, the compositing augmentation (setup C).
 
-Run from the repo root:
+Run inside the default training container (make run):
     # Setups A & B only (default)
-    python scripts/training/yolov5s/smoke_test_augmentation.py
+    uv run python -m scripts.training.yolov5s.smoke_test_augmentation
 
     # Setups A & B + setup C (compositing)
-    python scripts/training/yolov5s/smoke_test_augmentation.py --setup-c
+    uv run python -m scripts.training.yolov5s.smoke_test_augmentation --setup-c
 
 Checks (A & B):
   1. All target coords (cx, cy, w, h) ∈ [0, 1].

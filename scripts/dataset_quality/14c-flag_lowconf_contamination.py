@@ -25,14 +25,14 @@ The script is NON-DESTRUCTIVE: it only writes report files.
 Usage
 -----
     # Flag all sources (default thresholds):
-    python scripts/dataset_quality/14c-flag_lowconf_contamination.py --source all
+    uv run python scripts/dataset_quality/14c-flag_lowconf_contamination.py --source all
 
     # Custom confidence window:
-    python scripts/dataset_quality/14c-flag_lowconf_contamination.py \\
+    uv run python scripts/dataset_quality/14c-flag_lowconf_contamination.py \\
         --source all --md-conf-lower 0.15 --md-conf-upper 0.5
 
     # Tighter tolerance:
-    python scripts/dataset_quality/14c-flag_lowconf_contamination.py \\
+    uv run python scripts/dataset_quality/14c-flag_lowconf_contamination.py \\
         --source all --tolerance genus
 
 Outputs (written to reports/)

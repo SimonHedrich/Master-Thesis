@@ -17,8 +17,8 @@ reports/classes_225.csv, then:
 Does not modify any JSONL or source data files. Does not require Docker.
 
 Usage:
-    python scripts/dataset_quality/9-manual_review_queue.py
-    python scripts/dataset_quality/9-manual_review_queue.py \\
+    uv run python scripts/dataset_quality/9-manual_review_queue.py
+    uv run python scripts/dataset_quality/9-manual_review_queue.py \\
         --dist-csv reports/class_distribution.csv \\
         --classes-csv reports/classes_225.csv
 """

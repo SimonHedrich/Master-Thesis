@@ -117,33 +117,33 @@ def model_optimizer(model: nn.Module) -> torch.optim.Optimizer:
 
 def model_scheduler(
     optimizer: torch.optim.Optimizer,
-) -> torch.optim.lr_scheduler.ReduceLROnPlateau:
-    """Metric-driven LR schedule that composes with early stopping.
+    steps_per_epoch: int,
+    epochs: int,
+) -> torch.optim.lr_scheduler.OneCycleLR:
+    """OneCycleLR: warmup → peak LR → cosine annealing, stepped every batch.
 
-    The linear warmup over ``WARMUP_EPOCHS`` is applied directly on the optimizer
-    inside the training loop (ReduceLROnPlateau needs a metric, which cannot be
-    threaded cleanly through ``SequentialLR``). After warmup, the loop calls
-    ``scheduler.step(val_metric)`` each epoch; when the metric stops improving for
-    ``PLATEAU_PATIENCE`` epochs the lr is multiplied by ``PLATEAU_FACTOR`` down to
-    ``PLATEAU_MIN_LR``. ``threshold_mode="abs"`` so the plateau threshold matches
-    the absolute ``EARLY_STOP_MIN_DELTA`` used by checkpoint selection / early stop.
+    ``total_steps = steps_per_epoch * epochs`` covers the safety ceiling; early
+    stopping will fire before the cycle completes if the model converges early,
+    which is fine — ``best.pt`` captures the peak regardless. Call
+    ``scheduler.step()`` once per batch (not per epoch), with no metric argument.
     """
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+    total_steps = steps_per_epoch * epochs
+    scheduler = torch.optim.lr_scheduler.OneCycleLR(
         optimizer,
-        mode="max",  # SELECTION_METRIC (mAP) is higher-better
-        factor=constants.PLATEAU_FACTOR,
-        patience=constants.PLATEAU_PATIENCE,
-        min_lr=constants.PLATEAU_MIN_LR,
-        threshold=constants.EARLY_STOP_MIN_DELTA,
-        threshold_mode="abs",
+        max_lr=constants.ONE_CYCLE_MAX_LR,
+        total_steps=total_steps,
+        pct_start=constants.ONE_CYCLE_PCT_START,
+        anneal_strategy="cos",
+        div_factor=constants.ONE_CYCLE_DIV_FACTOR,
+        final_div_factor=constants.ONE_CYCLE_FINAL_DIV_FACTOR,
     )
     logger.info(
-        "scheduler: linear warmup %d epochs (in loop) → ReduceLROnPlateau"
-        "(mode=max, factor=%g, patience=%d, min_lr=%g, threshold=%g abs)",
-        constants.WARMUP_EPOCHS,
-        constants.PLATEAU_FACTOR,
-        constants.PLATEAU_PATIENCE,
-        constants.PLATEAU_MIN_LR,
-        constants.EARLY_STOP_MIN_DELTA,
+        "scheduler: OneCycleLR(max_lr=%g, total_steps=%d, pct_start=%g, "
+        "div_factor=%g, final_div_factor=%g) — stepped per batch",
+        constants.ONE_CYCLE_MAX_LR,
+        total_steps,
+        constants.ONE_CYCLE_PCT_START,
+        constants.ONE_CYCLE_DIV_FACTOR,
+        constants.ONE_CYCLE_FINAL_DIV_FACTOR,
     )
     return scheduler

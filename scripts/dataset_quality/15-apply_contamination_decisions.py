@@ -67,19 +67,19 @@ loud WARNING listing those classes is printed and execution aborts unless
 Usage
 -----
     # Derive decisions from review JSON, preview diff, write nothing:
-    python scripts/dataset_quality/15-apply_contamination_decisions.py \\
+    uv run python scripts/dataset_quality/15-apply_contamination_decisions.py \\
         --from-review --dry-run
 
     # Derive decisions and apply them (with band check):
-    python scripts/dataset_quality/15-apply_contamination_decisions.py \\
+    uv run python scripts/dataset_quality/15-apply_contamination_decisions.py \\
         --from-review
 
     # Use a human-reviewed decisions file:
-    python scripts/dataset_quality/15-apply_contamination_decisions.py \\
+    uv run python scripts/dataset_quality/15-apply_contamination_decisions.py \\
         --decisions reports/multi_animal_contamination_decisions.json
 
     # Force apply even if a class would leave its band:
-    python scripts/dataset_quality/15-apply_contamination_decisions.py \\
+    uv run python scripts/dataset_quality/15-apply_contamination_decisions.py \\
         --from-review --force
 """
 from __future__ import annotations

@@ -66,20 +66,20 @@ Species filter (--species-filter)
 Usage
 -----
     # Preview without writing:
-    python scripts/dataset_quality/15b-supplement_low_conf_boxes.py --dry-run
+    uv run python scripts/dataset_quality/15b-supplement_low_conf_boxes.py --dry-run
 
     # Apply to all sources:
-    python scripts/dataset_quality/15b-supplement_low_conf_boxes.py
+    uv run python scripts/dataset_quality/15b-supplement_low_conf_boxes.py
 
     # Restrict to a single source:
-    python scripts/dataset_quality/15b-supplement_low_conf_boxes.py --source gbif
+    uv run python scripts/dataset_quality/15b-supplement_low_conf_boxes.py --source gbif
 
     # Custom confidence window:
-    python scripts/dataset_quality/15b-supplement_low_conf_boxes.py \\
+    uv run python scripts/dataset_quality/15b-supplement_low_conf_boxes.py \\
         --conf-lower 0.2 --conf-upper 0.45
 
     # Idempotency check (should add 0 boxes on second run):
-    python scripts/dataset_quality/15b-supplement_low_conf_boxes.py
+    uv run python scripts/dataset_quality/15b-supplement_low_conf_boxes.py
 
 See also
 --------

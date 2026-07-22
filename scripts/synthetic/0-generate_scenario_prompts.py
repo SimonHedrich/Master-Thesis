@@ -8,12 +8,12 @@ every image prompt.
 
 Usage:
     # Generate 90 scenarios for two Tier C species:
-    python scripts/synthetic/0-generate_scenario_prompts.py \
+    uv run python scripts/synthetic/0-generate_scenario_prompts.py \
         --species "snow leopard,aye-aye" \
         --n-scenarios 90
 
     # Generate for all species in the CSV:
-    python scripts/synthetic/0-generate_scenario_prompts.py --species all
+    uv run python scripts/synthetic/0-generate_scenario_prompts.py --species all
 
 Output:
     reports/animal_scenario_prompts.json

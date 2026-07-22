@@ -13,11 +13,10 @@ Reuses the exact label-extraction logic from 7-filter_speciesnet.py
 used to write speciesnet_results.jsonl.
 
 Requires the `speciesnet` package and downloads the classifier weights on first run
-(~214 MB from Kaggle). Originally intended for Dockerfile.speciesnet (Python 3.11),
-but `speciesnet` also installs cleanly on the host Python 3.13 environment:
+(~214 MB from Kaggle). `speciesnet` is part of the default training container
+(`make run`) and also installs cleanly on the host Python 3.13 environment:
 
-    pip install speciesnet
-    python scripts/dataset_quality/0-dump_speciesnet_labels.py
+    uv run python scripts/dataset_quality/0-dump_speciesnet_labels.py
     # (re)install the pinned yolov5 afterwards if speciesnet downgraded it:
     pip install 'yolov5==7.0.13'
 

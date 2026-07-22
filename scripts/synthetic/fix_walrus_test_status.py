@@ -3,7 +3,7 @@ Set walrus test image statuses from 'pending' to 'generated' in test_index.jsonl
 so that 3-run_megadetector.py picks them up on the next run.
 
 Usage:
-    python scripts/synthetic/fix_walrus_test_status.py
+    uv run python -m scripts.synthetic.fix_walrus_test_status
 """
 
 import json

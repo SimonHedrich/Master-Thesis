@@ -2,14 +2,15 @@
 
 LR/auto-stop design (see
 docs/plans/2026-06-10_training-hyperparameters-autostop-lr-schedule.md):
-linear warmup → ReduceLROnPlateau, with early stopping. A single validation
-metric (``selection_metric``) drives best-checkpoint selection, the plateau LR
-drops, and the early-stop decision. EMA (smoothed weights) and AMP (mixed
-precision) are optional bolt-ons that do not change the control flow.
+OneCycleLR (warmup → peak → cosine annealing), stepped every batch, with
+patience-based early stopping keyed off a single validation metric
+(``selection_metric``). EMA (smoothed weights) and AMP (mixed precision) are
+optional bolt-ons that do not change the control flow.
 """
 from __future__ import annotations
 
 import logging
+import shutil
 import time
 from pathlib import Path
 
@@ -29,7 +30,7 @@ class TrainingPipeline:
         model: torch.nn.Module,
         loss_fn,
         optimizer: torch.optim.Optimizer,
-        scheduler: torch.optim.lr_scheduler.ReduceLROnPlateau,
+        scheduler: torch.optim.lr_scheduler.OneCycleLR,
         dl_train,
         dl_val,
         dl_test,
@@ -41,13 +42,13 @@ class TrainingPipeline:
         eval_iou_thres: float,
         eval_max_det: int,
         warmup_epochs: int,
-        learning_rate: float,
         selection_metric: str,
         early_stop: bool,
         early_stop_patience: int,
         early_stop_min_delta: float,
         use_ema: bool,
         use_amp: bool,
+        resume_from: Path | None = None,
     ) -> None:
         self.model = model
         self.loss_fn = loss_fn
@@ -66,7 +67,6 @@ class TrainingPipeline:
 
         # Scheduler / auto-stop config.
         self.warmup_epochs = warmup_epochs
-        self.learning_rate = learning_rate
         self.selection_metric = selection_metric
         self.early_stop = early_stop
         self.early_stop_patience = early_stop_patience
@@ -83,6 +83,9 @@ class TrainingPipeline:
         self.epochs_since_improve = 0
         self.global_step = 0
         self.current_epoch = 0
+        self.start_epoch = 0
+        if resume_from is not None:
+            self._load_resume_checkpoint(resume_from)
         logger.info(
             "output dir: %s | selection_metric=%s early_stop=%s(patience=%d, min_delta=%g) "
             "ema=%s amp=%s",
@@ -98,6 +101,50 @@ class TrainingPipeline:
     def _eval_model(self) -> torch.nn.Module:
         """The weights to evaluate / checkpoint: EMA copy if enabled, else raw."""
         return self.ema.ema if self.ema is not None else self.model
+
+    def _load_resume_checkpoint(self, path: Path) -> None:
+        """Restore full training state from a ``best.pt``/``last.pt`` checkpoint.
+
+        Checkpoints store the deployable (EMA when enabled) weights, so on
+        resume both the raw model and the EMA copy start from those — the raw
+        pre-EMA weights are not recoverable, which is a standard, benign
+        approximation. Optimizer/scheduler/scaler state and the best-metric /
+        patience bookkeeping continue exactly where the crashed run left off.
+        """
+        ckpt = torch.load(path, map_location=self.device, weights_only=False)
+        self.model.load_state_dict(ckpt["model"])
+        if self.ema is not None:
+            self.ema.ema.load_state_dict(ckpt["model"])
+            self.ema.updates = ckpt.get("ema_updates", self.ema.updates)
+        self.optimizer.load_state_dict(ckpt["optimizer"])
+        self.scheduler.load_state_dict(ckpt["scheduler"])
+        if self.use_amp and "scaler" in ckpt:
+            self.scaler.load_state_dict(ckpt["scaler"])
+        self.best_metric = ckpt.get("best_metric", -1.0)
+        self.epochs_since_improve = ckpt.get("epochs_since_improve", 0)
+        self.start_epoch = ckpt["epoch"] + 1
+        self.current_epoch = ckpt["epoch"]
+        # global_step is not stored; reconstruct it so step-metric curves in the
+        # new MLflow run line up with where the crashed run stopped.
+        self.global_step = self.start_epoch * len(self.dl_train)
+
+        # Carry the previous best.pt into the new run dir so the final
+        # test eval (which loads best.pt) still works even if this resumed
+        # run never beats the inherited best_metric.
+        prev_best = path.parent / "best.pt"
+        new_best = self.output_dir / "best.pt"
+        if prev_best.exists() and prev_best.resolve() != new_best.resolve():
+            shutil.copy2(prev_best, new_best)
+            logger.info("copied %s -> %s", prev_best, new_best)
+
+        logger.info(
+            "resumed from %s: continuing at epoch %d (best %s=%.4f, epochs_since_improve=%d)",
+            path,
+            self.start_epoch + 1,
+            ckpt.get("selection_metric", self.selection_metric),
+            self.best_metric,
+            self.epochs_since_improve,
+        )
 
     def _train_one_epoch(self, epoch: int) -> dict[str, float]:
         self.model.train()
@@ -127,6 +174,7 @@ class TrainingPipeline:
             self.scaler.scale(total).backward()
             self.scaler.step(self.optimizer)
             self.scaler.update()
+            self.scheduler.step()
 
             if self.ema is not None:
                 self.ema.update(self.model)
@@ -210,15 +258,15 @@ class TrainingPipeline:
             self.device,
         )
 
-        for epoch in range(self.epochs):
-            self.current_epoch = epoch
+        if self.start_epoch >= self.epochs:
+            logger.warning(
+                "resume checkpoint is already at epoch %d >= ceiling %d — skipping training, running final eval only",
+                self.start_epoch,
+                self.epochs,
+            )
 
-            # Linear warmup: set lr directly for the first WARMUP_EPOCHS epochs.
-            # After that the plateau scheduler owns the lr (do NOT touch it here).
-            if epoch < self.warmup_epochs:
-                warmup_lr = self.learning_rate * (epoch + 1) / self.warmup_epochs
-                for g in self.optimizer.param_groups:
-                    g["lr"] = warmup_lr
+        for epoch in range(self.start_epoch, self.epochs):
+            self.current_epoch = epoch
 
             # Notify the training dataset of the current epoch so the
             # close-mosaic tail (AUG_CLOSE_MOSAIC) can suppress compositing
@@ -264,10 +312,11 @@ class TrainingPipeline:
             elif epoch >= self.warmup_epochs:
                 self.epochs_since_improve += 1
 
-            # LR schedule: warmup handled above; plateau drives it afterwards,
-            # watching the same metric as the early stop.
-            if epoch >= self.warmup_epochs:
-                self.scheduler.step(metric)
+            # Refresh last.pt every epoch (not only at run end) so a crash at
+            # any point leaves a current resume checkpoint — the 2026-07-05
+            # log_table crash lost last.pt entirely because it was only written
+            # after the loop.
+            self._save_checkpoint("last.pt")
 
             current_lr = self.optimizer.param_groups[0]["lr"]
             mlflow.log_metric("train/epoch_lr", current_lr, step=epoch)

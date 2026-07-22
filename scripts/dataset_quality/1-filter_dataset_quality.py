@@ -31,11 +31,11 @@ Source overview:
   images_cv   — data/images_cv/images/         (manually curated CV images; all pass metadata)
 
 Usage:
-    python scripts/dataset_quality/1-filter_dataset_quality.py metadata    --source wikimedia
-    python scripts/dataset_quality/1-filter_dataset_quality.py heuristics  --source wikimedia
-    python scripts/dataset_quality/1-filter_dataset_quality.py megadetector --source wikimedia [--batch-size 16] [--conf 0.6]
-    python scripts/dataset_quality/1-filter_dataset_quality.py vlm         --source wikimedia
-    python scripts/dataset_quality/1-filter_dataset_quality.py report      --source all
+    uv run python scripts/dataset_quality/1-filter_dataset_quality.py metadata    --source wikimedia
+    uv run python scripts/dataset_quality/1-filter_dataset_quality.py heuristics  --source wikimedia
+    uv run python scripts/dataset_quality/1-filter_dataset_quality.py megadetector --source wikimedia [--batch-size 16] [--conf 0.6]
+    uv run python scripts/dataset_quality/1-filter_dataset_quality.py vlm         --source wikimedia
+    uv run python scripts/dataset_quality/1-filter_dataset_quality.py report      --source all
 
 Requirements (base):
     pip install pillow opencv-python-headless tqdm numpy

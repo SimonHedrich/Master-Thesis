@@ -8,8 +8,8 @@ a detailed coverage report.
 Datasets: gbif, inaturalist, wikimedia, openimages, images_cv
 
 Usage:
-    python scripts/dataset_quality/2-analyse_dataset_coverage.py
-    python scripts/dataset_quality/2-analyse_dataset_coverage.py --verbose   # show per-class failure reasons
+    uv run python scripts/dataset_quality/2-analyse_dataset_coverage.py
+    uv run python scripts/dataset_quality/2-analyse_dataset_coverage.py --verbose   # show per-class failure reasons
 """
 
 import argparse

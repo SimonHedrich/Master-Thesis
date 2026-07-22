@@ -16,20 +16,20 @@ Phase 2 (--write): extends Phase 1.
   Merges a speciesnet_eval block into each matched entry in filter_results.jsonl,
   updating passed / stage_failed / reason. Writes atomically via a .tmp file.
 
-Must run inside Dockerfile.speciesnet (Python 3.11, speciesnet package) — the
+Run inside the default training container (`make run`) — the
 SpeciesNet classifier is loaded at startup to resolve integer class indices to
 'uuid;class;order;family;genus;species;common' label strings.
 
 Usage:
     # Phase 1: print statistics only (safe, no writes)
-    python scripts/dataset_quality/7-filter_speciesnet.py --source gbif
-    python scripts/dataset_quality/7-filter_speciesnet.py --source all
+    uv run python scripts/dataset_quality/7-filter_speciesnet.py --source gbif
+    uv run python scripts/dataset_quality/7-filter_speciesnet.py --source all
 
     # Phase 2: write speciesnet_eval to filter_results.jsonl
-    python scripts/dataset_quality/7-filter_speciesnet.py --source all --write
+    uv run python scripts/dataset_quality/7-filter_speciesnet.py --source all --write
 
     # Adjust thresholds (defaults match strategy doc):
-    python scripts/dataset_quality/7-filter_speciesnet.py --source gbif \\
+    uv run python scripts/dataset_quality/7-filter_speciesnet.py --source gbif \\
         --md-conf 0.4 --sn-score 0.25 --family-fail-thresh 0.6
 
 Output added to filter_results.jsonl in Phase 2 (per image):
@@ -113,9 +113,9 @@ def _check_environment() -> None:
     except ImportError:
         print(
             "ERROR: 'speciesnet' is not installed.\n"
-            "This script must run inside Dockerfile.speciesnet (Python 3.11).\n"
-            "  make speciesnet-build\n"
-            "  make speciesnet-start",
+            "Run inside the default training container:\n"
+            "  make build\n"
+            "  make run",
             file=sys.stderr,
         )
         sys.exit(1)

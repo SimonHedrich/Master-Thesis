@@ -6,11 +6,10 @@ Scores all quality-passed real images with a composite quality metric Q,
 then assigns train/val/test splits using per-band allocation rules.
 
 Usage:
-    cd /home/debian/Master-Thesis
-    python3 scripts/dataset_quality/12-assign_dataset_splits.py
-    python3 scripts/dataset_quality/12-assign_dataset_splits.py --dry-run
-    python3 scripts/dataset_quality/12-assign_dataset_splits.py --include-negatives
-    python3 scripts/dataset_quality/12-assign_dataset_splits.py --max-workers 16
+    uv run python scripts/dataset_quality/12-assign_dataset_splits.py
+    uv run python scripts/dataset_quality/12-assign_dataset_splits.py --dry-run
+    uv run python scripts/dataset_quality/12-assign_dataset_splits.py --include-negatives
+    uv run python scripts/dataset_quality/12-assign_dataset_splits.py --max-workers 16
 
 Outputs:
     reports/dataset_split_manifest.json

@@ -13,22 +13,22 @@ to delete everything and start over.
 
 Usage:
     # Download commercially safe images (default)
-    python scripts/inaturalist/3-download_inaturalist_images.py
+    uv run python scripts/inaturalist/3-download_inaturalist_images.py
 
     # Download ALL images regardless of license
-    python scripts/inaturalist/3-download_inaturalist_images.py --all-licenses
+    uv run python scripts/inaturalist/3-download_inaturalist_images.py --all-licenses
 
     # Limit per class for balanced datasets
-    python scripts/inaturalist/3-download_inaturalist_images.py --max-per-class 500
+    uv run python scripts/inaturalist/3-download_inaturalist_images.py --max-per-class 500
 
     # Larger images
-    python scripts/inaturalist/3-download_inaturalist_images.py --size large
+    uv run python scripts/inaturalist/3-download_inaturalist_images.py --size large
 
     # Start fresh (deletes existing images)
-    python scripts/inaturalist/3-download_inaturalist_images.py --from-scratch
+    uv run python scripts/inaturalist/3-download_inaturalist_images.py --from-scratch
 
 Prerequisites:
-    python scripts/inaturalist/2-analyze_inaturalist_metadata.py condense
+    uv run python scripts/inaturalist/2-analyze_inaturalist_metadata.py condense
 """
 
 import argparse
@@ -70,7 +70,7 @@ def load_photos(all_licenses, max_per_class):
     """
     if not CONDENSED_PHOTOS.exists():
         print(f"ERROR: {CONDENSED_PHOTOS} not found.")
-        print("  Run: python scripts/inaturalist/2-analyze_inaturalist_metadata.py condense")
+        print("  Run: uv run python scripts/inaturalist/2-analyze_inaturalist_metadata.py condense")
         sys.exit(1)
 
     print(f"Loading {CONDENSED_PHOTOS.name}...")

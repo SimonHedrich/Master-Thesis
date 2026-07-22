@@ -13,8 +13,8 @@ Pipeline:
 Output: reports/inaturalist_class_image_counts.csv
 
 Usage:
-    python scripts/inaturalist/2-analyze_inaturalist_metadata.py
-    python scripts/inaturalist/2-analyze_inaturalist_metadata.py --label-set 480
+    uv run python scripts/inaturalist/2-analyze_inaturalist_metadata.py
+    uv run python scripts/inaturalist/2-analyze_inaturalist_metadata.py --label-set 480
 """
 
 import argparse
@@ -151,7 +151,7 @@ def load_and_match_taxa(target, label_set):
     """
     taxa_path = METADATA_DIR / "taxa.csv"
     if not taxa_path.exists():
-        print(f"ERROR: {taxa_path} not found. Run download_inaturalist.py metadata first.")
+        print(f"ERROR: {taxa_path} not found. Run 'uv run python scripts/inaturalist/1-download_inaturalist.py metadata' first.")
         sys.exit(1)
 
     print("── Step 1: Load taxa.csv and match to target labels ──")

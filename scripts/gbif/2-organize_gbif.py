@@ -24,9 +24,9 @@ reports/genus_species_mapping.csv is intentionally not used: every genus it refe
 already has a level=genus entry in class_counts_225.csv, making it redundant.
 
 Usage (run from the repository root):
-    python scripts/gbif/2-organize_gbif.py            # move files (default)
-    python scripts/gbif/2-organize_gbif.py --copy     # copy instead of move
-    python scripts/gbif/2-organize_gbif.py --dry-run  # print actions without touching files
+    uv run python scripts/gbif/2-organize_gbif.py            # move files (default)
+    uv run python scripts/gbif/2-organize_gbif.py --copy     # copy instead of move
+    uv run python scripts/gbif/2-organize_gbif.py --dry-run  # print actions without touching files
 """
 
 import argparse

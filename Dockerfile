@@ -24,10 +24,14 @@ WORKDIR /app
 # Copy dependency files first for layer caching
 COPY pyproject.toml uv.lock ./
 
+# Keep the venv outside /app — the repo is bind-mounted over /app at runtime,
+# which would shadow a venv baked at /app/.venv with the host's stale one.
+ENV UV_PROJECT_ENVIRONMENT=/opt/venv
+
 # Sync dependencies — uv downloads and manages Python 3.13 automatically
 RUN uv sync --frozen --no-dev
 
 # Add the venv to PATH so 'python' resolves to the venv's Python
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/opt/venv/bin:$PATH"
 
 CMD ["/bin/bash"]

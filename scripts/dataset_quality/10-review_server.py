@@ -3,8 +3,7 @@
 Step 3 Manual Review Server — Wildlife Dataset Quality Check
 
 Usage:
-    cd /home/debian/Master-Thesis
-    python3 scripts/dataset_quality/10-review_server.py [--port 8080] [--host 0.0.0.0]
+    uv run python scripts/dataset_quality/10-review_server.py [--port 8080] [--host 0.0.0.0]
 
 Access via browser at http://<tailscale-ip>:8080
 

@@ -8,6 +8,9 @@ URL strategy:
 - species  → title-cased common name  (e.g. "african elephant" → African_elephant)
 - genus    → capitalized scientific name  (e.g. "dasyprocta" → Dasyprocta)
 - family   → capitalized scientific name  (e.g. "cricetidae" → Cricetidae)
+
+Usage:
+    uv run python scripts/wikipedia/1-generate_urls.py
 """
 import json
 from pathlib import Path

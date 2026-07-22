@@ -6,8 +6,8 @@ binocular/sharp-background style instead of the telephoto/bokeh style.
 Already-generated images (status="generated") are left untouched.
 
 Usage:
-    python scripts/synthetic/1b-migrate_bokeh.py --dry-run   # preview counts only
-    python scripts/synthetic/1b-migrate_bokeh.py             # apply changes
+    uv run python scripts/synthetic/1b-migrate_bokeh.py --dry-run   # preview counts only
+    uv run python scripts/synthetic/1b-migrate_bokeh.py             # apply changes
 """
 
 import argparse

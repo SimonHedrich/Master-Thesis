@@ -23,9 +23,9 @@ small JSON payload (~200 bytes) and is representative of actual usage.
 
 Usage
 -----
-    python scripts/wikimedia/probe_wikimedia_rate_limit.py
-    python scripts/wikimedia/probe_wikimedia_rate_limit.py --start-interval 0.5 --min-interval 0.05
-    python scripts/wikimedia/probe_wikimedia_rate_limit.py --probes 20 --cooldown 10
+    uv run python -m scripts.wikimedia.probe_wikimedia_rate_limit
+    uv run python -m scripts.wikimedia.probe_wikimedia_rate_limit --start-interval 0.5 --min-interval 0.05
+    uv run python -m scripts.wikimedia.probe_wikimedia_rate_limit --probes 20 --cooldown 10
 
 Output
 ------

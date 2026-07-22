@@ -14,16 +14,16 @@ Because batch jobs can take up to 24 hours, the script is split into modes:
 
 Usage:
     # Full async workflow (recommended for 11,250 images):
-    python scripts/synthetic/2-generate_test_images.py --mode submit
+    uv run python scripts/synthetic/2-generate_test_images.py --mode submit
     # ... wait up to 24 h ...
-    python scripts/synthetic/2-generate_test_images.py --mode status
-    python scripts/synthetic/2-generate_test_images.py --mode retrieve
+    uv run python scripts/synthetic/2-generate_test_images.py --mode status
+    uv run python scripts/synthetic/2-generate_test_images.py --mode retrieve
 
     # Smoke test (blocking, small subset):
-    python scripts/synthetic/2-generate_test_images.py --mode run --classes walrus,kinkajou
+    uv run python scripts/synthetic/2-generate_test_images.py --mode run --classes walrus,kinkajou
 
     # Resume from a specific job:
-    python scripts/synthetic/2-generate_test_images.py --mode retrieve --job-name batches/123
+    uv run python scripts/synthetic/2-generate_test_images.py --mode retrieve --job-name batches/123
 
 Requirements:
     pip install google-genai pillow python-dotenv

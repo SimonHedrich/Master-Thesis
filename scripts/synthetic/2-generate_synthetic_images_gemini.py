@@ -4,7 +4,7 @@ Generate synthetic wildlife images via the Gemini API directly (google/gemini-3.
 Images are saved to: data/synthetic/<class_name>/
 
 Usage:
-python scripts/synthetic/1-generate_synthetic_images_gemini.py \
+uv run python scripts/synthetic/2-generate_synthetic_images_gemini.py \
 --class-name "binturong" \
 --description "The binturong is A large, heavily built viverrid with long, coarse, dark black hair, tufted ears, a prehensile tail, and a somewhat bear-like face with white whiskers." \
 --n-images 5

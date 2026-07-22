@@ -33,39 +33,37 @@ Design notes
   to the output file (append mode, O(1) per flush regardless of total file size).
 
 Usage:
-    python scripts/dataset_quality/6-classify_speciesnet.py --source gbif
-    python scripts/dataset_quality/6-classify_speciesnet.py --source all
-    python scripts/dataset_quality/6-classify_speciesnet.py --source inaturalist --force
-    python scripts/dataset_quality/6-classify_speciesnet.py --source gbif --workers 8
+    uv run python scripts/dataset_quality/6-classify_speciesnet.py --source gbif
+    uv run python scripts/dataset_quality/6-classify_speciesnet.py --source all
+    uv run python scripts/dataset_quality/6-classify_speciesnet.py --source inaturalist --force
+    uv run python scripts/dataset_quality/6-classify_speciesnet.py --source gbif --workers 8
 
     # Re-encode existing full-vector output files to sparse format (no GPU needed):
-    python scripts/dataset_quality/6-classify_speciesnet.py --migrate-scores gbif
-    python scripts/dataset_quality/6-classify_speciesnet.py --migrate-scores all
+    uv run python scripts/dataset_quality/6-classify_speciesnet.py --migrate-scores gbif
+    uv run python scripts/dataset_quality/6-classify_speciesnet.py --migrate-scores all
 
 Output:
     data/{source}/speciesnet_results.jsonl   — one record per image
     data/speciesnet_classes.json             — SpeciesNet label list (written once)
 
-Must run inside Dockerfile.speciesnet (Python 3.11, speciesnet package).
+Run inside the default training container (`make run`).
 
 Recommended workflow:
 
-    # 1. Build the image once
-    make speciesnet-build
-
-    # 2. Start the container — drops you into a bash shell inside it
-    make speciesnet-start
+    # 1. Build the image once, then start the container and exec a bash shell
+    make build
+    make run
 
     # Inside the container: launch with nohup, then follow the log
-    nohup python /app/scripts/dataset_quality/6-classify_speciesnet.py \\
+    nohup uv run python scripts/dataset_quality/6-classify_speciesnet.py \\
         --source all \\
         > /app/output/speciesnet_classify_all.log 2>&1 &
 
     tail -f /app/output/speciesnet_classify_all.log
 
-    # 3. Exit the shell and stop the container when done
+    # 2. Exit the shell and stop the container when done
     # exit
-    make speciesnet-stop
+    make stop
 """
 
 from __future__ import annotations
@@ -110,9 +108,9 @@ def _check_environment() -> None:
     except ImportError:
         print(
             "ERROR: 'speciesnet' is not installed.\n"
-            "This script must run inside Dockerfile.speciesnet (Python 3.11).\n"
-            "  make speciesnet-build\n"
-            "  make speciesnet-start",
+            "Run inside the default training container:\n"
+            "  make build\n"
+            "  make run",
             file=sys.stderr,
         )
         sys.exit(1)

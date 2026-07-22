@@ -5,6 +5,17 @@
 (early stopping + `ReduceLROnPlateau` + single `SELECTION_METRIC` + raised ceiling;
 EMA; AMP; dead warmup constants removed; lr-logging step-semantics fixed). The
 optional `lr0` 1e-3→2e-3 sweep (#7) and the AdamW-betas fix remain open.
+
+**Update 2026-07-13:** `ReduceLROnPlateau` replaced by `OneCycleLR` (warmup →
+peak → cosine annealing, stepped per batch). `ONE_CYCLE_MAX_LR=1e-2` (10×
+base), `pct_start = WARMUP_EPOCHS / EPOCH_COUNT ≈ 0.015`, `div_factor=10`,
+`final_div_factor=100`. The manual per-epoch warmup block in the training loop
+was removed (OneCycleLR handles warmup internally). Early stopping and the
+`WARMUP_EPOCHS`-gated patience counter remain unchanged. Note: OneCycleLR is
+calibrated for the full `EPOCH_COUNT`-epoch ceiling; if early stopping fires
+before the cycle completes, `best.pt` still captures the peak. The §4.2 concern
+about OneCycleLR being horizon-bound is acknowledged — the tradeoff accepted is
+the expected per-run performance gain over the reactive plateau drops.
 **Scope:** `scripts/training/yolov5s/` (custom training loop, post-augmentation)
 **Triggered by:** augmentation now wired (see
 `docs/progress_notes/2026-06-09_contamination-flagging-and-augmentation-implementation.md`);

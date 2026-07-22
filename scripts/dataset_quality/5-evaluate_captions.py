@@ -37,18 +37,18 @@ openrouter      — async HTTP to OpenRouter API with asyncio + aiohttp.
 
 Usage:
     # vLLM, all sources (overnight run):
-    python scripts/dataset_quality/5-evaluate_captions.py --source all
+    uv run python scripts/dataset_quality/5-evaluate_captions.py --source all
 
     # vLLM, single source, faster 3B model:
-    python scripts/dataset_quality/5-evaluate_captions.py --source wikimedia \\
+    uv run python scripts/dataset_quality/5-evaluate_captions.py --source wikimedia \\
         --model Qwen/Qwen2.5-3B-Instruct-AWQ
 
     # OpenRouter backend (set OPENROUTER_API_KEY in .env):
-    python scripts/dataset_quality/5-evaluate_captions.py --source all \\
+    uv run python scripts/dataset_quality/5-evaluate_captions.py --source all \\
         --backend openrouter --concurrency 60
 
     # Re-evaluate from scratch:
-    python scripts/dataset_quality/5-evaluate_captions.py --source wikimedia --force
+    uv run python scripts/dataset_quality/5-evaluate_captions.py --source wikimedia --force
 
 Requirements:
     vllm backend:       pip install vllm

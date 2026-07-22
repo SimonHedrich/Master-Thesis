@@ -11,6 +11,9 @@ Formulas per band (from docs/plans/2026-05-04_dataset-construction-strategy.md Â
   D  test_real=min(max(floor(pool*0.2), 50), 500)
      train_real=min(pool-test_real, 1500)
      train_synth=0
+
+Usage:
+    uv run python -m scripts.dataset_quality.export_split_counts
 """
 
 import math

@@ -24,8 +24,8 @@ of 1-filter_dataset_quality.py onto *failed* Wikimedia borderline entries as
 part of the rescue decision. Do not conflate the two fields.
 
 Usage:
-    python scripts/dataset_quality/4-generate_captions.py --source wikimedia
-    python scripts/dataset_quality/4-generate_captions.py --source all
+    uv run python scripts/dataset_quality/4-generate_captions.py --source wikimedia
+    uv run python scripts/dataset_quality/4-generate_captions.py --source all
 
 Requirements:
     pip install transformers==4.48.3 timm einops pillow tqdm torch

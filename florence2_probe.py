@@ -5,7 +5,7 @@ batched greedy decoding. Both models see the same images; results are saved
 side-by-side in the output JSON for direct comparison.
 
 Usage:
-    python florence2_probe.py
+    uv run python florence2_probe.py
 
 Configuration (top-level constants):
     IMAGE_DIR    — directory of .jpg/.jpeg/.png images to caption

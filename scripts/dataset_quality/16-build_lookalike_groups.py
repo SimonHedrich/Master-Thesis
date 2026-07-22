@@ -29,8 +29,8 @@ of unique group_labels so the mapping is deterministic across reruns.
 
 Usage
 -----
-    python scripts/dataset_quality/16-build_lookalike_groups.py
-    python scripts/dataset_quality/16-build_lookalike_groups.py --dry-run
+    uv run python scripts/dataset_quality/16-build_lookalike_groups.py
+    uv run python scripts/dataset_quality/16-build_lookalike_groups.py --dry-run
 """
 
 from __future__ import annotations

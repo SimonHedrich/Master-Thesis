@@ -1,6 +1,9 @@
 """Stage 7: Load synthetic COCO annotations into FiftyOne for visual verification.
 
 Edit SPLITS to select which dataset splits to include in the app.
+
+Usage:
+    uv run python scripts/synthetic/7-verify_fiftyone.py
 """
 
 from pathlib import Path

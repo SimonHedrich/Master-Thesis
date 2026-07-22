@@ -23,9 +23,9 @@ Output:
     └── download_progress.json
 
 Usage:
-    python scripts/download_coco_humans.py --reset   # fresh start
-    python scripts/download_coco_humans.py --reset --target 100 --workers 4  # smoke test
-    python scripts/download_coco_humans.py --target 2000  # resume / full run
+    uv run python -m scripts.download_coco_humans --reset   # fresh start
+    uv run python -m scripts.download_coco_humans --reset --target 100 --workers 4  # smoke test
+    uv run python -m scripts.download_coco_humans --target 2000  # resume / full run
 """
 
 import argparse

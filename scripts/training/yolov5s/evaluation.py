@@ -1,10 +1,12 @@
 """Evaluation loop and MLflow logging helper for the YOLOv5s pipeline."""
 from __future__ import annotations
 
+import json
 import logging
+import tempfile
+from pathlib import Path
 
 import mlflow
-import pandas as pd
 import torch
 from torchmetrics.detection import MeanAveragePrecision
 from tqdm import tqdm
@@ -133,6 +135,18 @@ def eval_log_mlflow(result: dict, prefix: str, step: int | None = None) -> None:
             {"class_idx": i, "class_name": class_names[i] if i < len(class_names) else str(i), "AP50_95": ap}
             for i, ap in enumerate(per_class)
         ]
-        df = pd.DataFrame(rows, columns=["class_idx", "class_name", "AP50_95"])
-        mlflow.log_table(df, artifact_file=f"{prefix}_per_class_ap_step{step if step is not None else 'final'}.json")
-        logger.info("mlflow: logged %s per-class AP table (%d classes)", prefix, len(rows))
+        # Deliberately log_artifact, NOT mlflow.log_table: log_table appends an
+        # entry per file to the run's `mlflow.loggedArtifacts` tag, which is
+        # capped at 8000 chars server-side — one table per epoch overflows and
+        # silently corrupts the tag after ~137 epochs, killing the run (see
+        # docs/progress_notes/2026-07-13_mlflow-log-table-crash-and-resume.md).
+        # Best-effort: a logging failure must never abort a multi-day training run.
+        try:
+            with tempfile.TemporaryDirectory() as tmp:
+                name = f"{prefix}_per_class_ap_step{step if step is not None else 'final'}.json"
+                table_path = Path(tmp) / name
+                table_path.write_text(json.dumps(rows, indent=1))
+                mlflow.log_artifact(str(table_path), artifact_path="per_class_ap")
+            logger.info("mlflow: logged %s per-class AP table (%d classes)", prefix, len(rows))
+        except Exception:
+            logger.exception("mlflow: failed to log %s per-class AP table — continuing", prefix)

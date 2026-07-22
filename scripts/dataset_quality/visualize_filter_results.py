@@ -7,7 +7,7 @@ Each sample shows:
   - Fields: stage_failed, reason, bbox_conf, stages_done, vlm_caption (Wikimedia only)
 
 Usage:
-  python scripts/dataset_quality/visualize_filter_results.py [--source wikimedia]
+  uv run python -m scripts.dataset_quality.visualize_filter_results [--source wikimedia]
 
 Sources: wikimedia (default), gbif, inaturalist, openimages
 """

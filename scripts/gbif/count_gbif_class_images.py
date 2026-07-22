@@ -6,7 +6,7 @@ predictions) and maps each SpeciesNet prediction to a classes_225 class using
 a three-level fallback: species → genus → family.
 
 Usage:
-    python scripts/gbif/count_gbif_class_images.py
+    uv run python -m scripts.gbif.count_gbif_class_images
 
 Output:
     reports/gbif_image_counts_all.csv  — per-class counts (all 225, incl. zeros)

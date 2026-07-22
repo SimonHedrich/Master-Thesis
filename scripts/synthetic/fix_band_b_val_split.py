@@ -14,8 +14,8 @@ Band A images are not touched. All fields other than `split` are preserved as-is
 (including `status: "generated"`).
 
 Usage:
-    python3 scripts/synthetic/fix_band_b_val_split.py --dry-run  # preview
-    python3 scripts/synthetic/fix_band_b_val_split.py            # apply
+    uv run python -m scripts.synthetic.fix_band_b_val_split --dry-run  # preview
+    uv run python -m scripts.synthetic.fix_band_b_val_split            # apply
 """
 from __future__ import annotations
 

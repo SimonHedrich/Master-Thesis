@@ -16,8 +16,8 @@ Output (consistent with existing Open Images structure):
 Does NOT touch filter_results.jsonl or any other existing pipeline state.
 
 Usage:
-    python scripts/download_oi_humans.py
-    python scripts/download_oi_humans.py --target 500 --workers 4   # quick test
+    uv run python -m scripts.download_oi_humans
+    uv run python -m scripts.download_oi_humans --target 500 --workers 4   # quick test
 """
 
 import argparse

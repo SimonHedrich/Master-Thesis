@@ -9,20 +9,27 @@ written to a Markdown report + CSV/JSON artifacts.
 Usage
 -----
     # evaluate best.pt from the latest training run (default):
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation
 
     # a specific run, or an explicit checkpoint:
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation \
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation \
         --run-dir scripts/training/yolov5s/model_exports/yolov5s-20260602-233434
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation \
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation \
         --checkpoint .../yolov5s-20260602-233434/best.pt
 
     # smoke test on 40 images per domain, CPU:
-    python -m scripts.training.yolov5s.eval_suite.run_evaluation --limit 40 --device cpu
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation --limit 40 --device cpu
+
+    # evaluate pre-computed predictions (e.g. MegaDetector+SpeciesNet ensemble):
+    uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation \
+        --real-predictions .../megadet_speciesnet_ensemble/predictions_real.json \
+        --synth-predictions .../megadet_speciesnet_ensemble/predictions_synth.json \
+        --output-dir .../megadet_speciesnet_ensemble/eval/
 
 This module is *independent* of training — it only needs a checkpoint and the
 test annotation files. It can also be invoked programmatically via
-:func:`evaluate_checkpoint` (used by the optional post-training hook).
+:func:`evaluate_checkpoint` (used by the optional post-training hook) or via
+:func:`evaluate_from_predictions` for pre-computed prediction files.
 """
 from __future__ import annotations
 
@@ -178,6 +185,110 @@ def evaluate_checkpoint(
     return rep
 
 
+def evaluate_from_predictions(
+    real_pred_path: Path,
+    *,
+    synth_pred_path: Path | None = None,
+    real_ann: Path = DEFAULT_REAL_ANN,
+    synth_ann: Path | None = DEFAULT_SYNTH_ANN,
+    output_dir: Path,
+    max_det: int = constants.EVAL_MAX_DET,
+    bootstrap_n: int = 0,
+) -> dict:
+    """Run the full evaluation using pre-computed predictions JSON files.
+
+    Skips the inference phase entirely — reads predictions from disk.  The
+    predictions JSON must match the frozen schema from ``predict.py`` (or
+    ``predict_ensemble.py``): a ``"predictions"`` list of
+    ``{image_id, category_id, bbox, score}`` dicts.
+
+    Parameters
+    ----------
+    real_pred_path:
+        Path to the real-domain predictions JSON.
+    synth_pred_path:
+        Optional path to the synthetic-domain predictions JSON.
+    real_ann:
+        Real test annotations COCO JSON (for GT indexing).
+    synth_ann:
+        Synthetic test annotations COCO JSON.  Ignored if *synth_pred_path*
+        is ``None`` or the file doesn't exist.
+    output_dir:
+        Directory for all report artifacts (created if absent).
+    max_det:
+        Maximum detections per image passed to the scorer.
+    bootstrap_n:
+        Number of bootstrap replicates for headline CI (0 = disabled).
+
+    Returns
+    -------
+    The full report dict (same structure as :func:`evaluate_checkpoint`).
+    """
+    real_pred_path = Path(real_pred_path)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    logger.info("=== evaluate_from_predictions ===")
+    logger.info("real_pred=%s  synth_pred=%s", real_pred_path, synth_pred_path)
+    logger.info("real_ann=%s  output_dir=%s", real_ann, output_dir)
+
+    with open(real_pred_path) as f:
+        real_pred = json.load(f)
+    checkpoint_id = real_pred.get("checkpoint", str(real_pred_path))
+
+    synth_pred = None
+    if synth_pred_path is not None:
+        synth_pred_path = Path(synth_pred_path)
+        if synth_pred_path.exists():
+            with open(synth_pred_path) as f:
+                synth_pred = json.load(f)
+        else:
+            logger.warning("synth_pred_path %s not found — evaluating real-only", synth_pred_path)
+
+    real_ann = Path(real_ann)
+    synth_ann_path = Path(synth_ann) if synth_ann is not None else None
+    has_synth = synth_ann_path is not None and synth_ann_path.exists() and synth_pred is not None
+
+    # ── GT indices + mixed merge ────────────────────────────────────────────
+    real_gt = scoring.build_gt_index(real_ann)
+    real_preds_list = real_pred["predictions"]
+
+    if has_synth:
+        synth_gt = scoring.build_gt_index(synth_ann_path)
+        synth_preds_list = synth_pred["predictions"]
+        mixed_gt, mixed_preds = scoring.merge_domains(real_gt, real_preds_list, synth_gt, synth_preds_list)
+    else:
+        synth_gt = synth_preds_list = None
+        mixed_gt, mixed_preds = real_gt, real_preds_list
+
+    # ── Label remaps + band/group metadata ─────────────────────────────────
+    cat_id_to_name = real_gt["cats"]
+    cat_ids = sorted(cat_id_to_name.keys())
+    remaps = {
+        "fine": grouping.identity_remap(cat_ids),
+        "coarse": grouping.load_coarse_remap(),
+        "detect": grouping.load_detect_remap(cat_ids),
+    }
+    band_info = grouping.load_class_to_band(cat_id_to_name=cat_id_to_name)
+    band_by_id = band_info["by_id"]
+    lookalike_gids = grouping.lookalike_group_ids()
+    group_labels = grouping.load_group_labels()
+
+    # ── Assemble + emit ─────────────────────────────────────────────────────
+    rep = report.build_full_report(
+        real_gt=real_gt, real_preds=real_preds_list,
+        synth_gt=synth_gt, synth_preds=synth_preds_list,
+        mixed_gt=mixed_gt, mixed_preds=mixed_preds,
+        remaps=remaps, band_by_id=band_by_id,
+        lookalike_gids=lookalike_gids, group_labels=group_labels,
+        cat_id_to_name=cat_id_to_name, max_det=max_det,
+        bootstrap_n=bootstrap_n, checkpoint=checkpoint_id,
+    )
+    paths = report.emit_all(rep, output_dir, log_mlflow=False)
+    logger.info("evaluation complete — report at %s", paths["markdown"])
+    return rep
+
+
 def main() -> None:
     p = argparse.ArgumentParser(description="Evaluate a YOLOv5s checkpoint (strategy doc §9).")
     p.add_argument(
@@ -206,10 +317,43 @@ def main() -> None:
     p.add_argument("--limit", type=int, default=None, help="subsample N images/domain (smoke test)")
     p.add_argument("--no-cache", action="store_true", help="ignore cached predictions")
     p.add_argument("--mlflow", action="store_true", help="log scalars + artifacts to MLflow")
+    # Pre-computed predictions mode (e.g. MegaDetector+SpeciesNet ensemble)
+    p.add_argument(
+        "--real-predictions", type=Path, default=None,
+        help="Pre-computed COCO predictions JSON for the real domain; skips YOLOv5s "
+        "inference. Requires --output-dir. Use with predict_ensemble.py output.",
+    )
+    p.add_argument(
+        "--synth-predictions", type=Path, default=None,
+        help="Pre-computed COCO predictions JSON for the synthetic domain "
+        "(used together with --real-predictions).",
+    )
     args = p.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
+    synth_ann = None if str(args.synth_ann).lower() == "none" else args.synth_ann
+
+    # ── Pre-computed predictions mode ─────────────────────────────────────
+    if args.real_predictions is not None:
+        if args.output_dir is None:
+            p.error("--output-dir is required when --real-predictions is used")
+        if not args.real_predictions.exists():
+            p.error(f"--real-predictions file not found: {args.real_predictions}")
+        if args.limit is not None:
+            logger.warning("--limit is ignored when --real-predictions is provided")
+        evaluate_from_predictions(
+            real_pred_path=args.real_predictions,
+            synth_pred_path=args.synth_predictions,
+            real_ann=args.real_ann,
+            synth_ann=synth_ann,
+            output_dir=args.output_dir,
+            max_det=args.max_det,
+            bootstrap_n=args.bootstrap,
+        )
+        return
+
+    # ── Checkpoint mode ───────────────────────────────────────────────────
     # Resolve the run dir: explicit --run-dir, else the latest training run.
     run_dir = args.run_dir or constants.latest_run_dir()
 
@@ -232,8 +376,6 @@ def main() -> None:
         p.error(f"checkpoint not found: {checkpoint}")
 
     logger.info("evaluating checkpoint: %s", checkpoint)
-
-    synth_ann = None if str(args.synth_ann).lower() == "none" else args.synth_ann
 
     evaluate_checkpoint(
         checkpoint=checkpoint, real_ann=args.real_ann, synth_ann=synth_ann,
