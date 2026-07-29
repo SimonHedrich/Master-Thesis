@@ -201,8 +201,8 @@ Every knob lives in `constants.py`. The common ones:
 | `ONE_CYCLE_MAX_LR` | 1e-2 | Peak LR (10× `LEARNING_RATE`). |
 | `ONE_CYCLE_DIV_FACTOR` | 10.0 | `initial_lr = max_lr / div_factor = LEARNING_RATE`. |
 | `ONE_CYCLE_FINAL_DIV_FACTOR` | 100.0 | `min_lr = initial_lr / final_div_factor = 1e-5`. |
-| `SELECTION_METRIC` | `"mAP50_95"` | One metric drives best.pt + plateau + early stop. |
-| `EARLY_STOP` / `EARLY_STOP_PATIENCE` / `EARLY_STOP_MIN_DELTA` | `True` / 20 / 1e-3 | Stop after N epochs without improvement (> `PLATEAU_PATIENCE`). |
+| `SELECTION_METRIC` | `"mAP50_95"` | One metric drives best.pt + early stop. |
+| `EARLY_STOP` / `EARLY_STOP_PATIENCE` / `EARLY_STOP_MIN_DELTA` | `True` / 20 / 1e-3 | Stop after N epochs without improvement. |
 | `USE_EMA` / `USE_AMP` | `True` / `True` | EMA weights for eval/checkpoint; AMP mixed precision (CUDA only). |
 | `IMAGE_SIZE` | 640 | |
 | `AUG_*` | all `False` | Augmentation hooks exist but are off for this baseline. |

@@ -1,0 +1,747 @@
+2026-07-15 01:00:31 INFO  __main__ | === yolo26n training run ===
+2026-07-15 01:00:31 INFO  __main__ | run_name=yolo26n-20260715-010031 experiment=yolo26n-wildlife225
+2026-07-15 01:00:31 INFO  __main__ | resuming from checkpoint: scripts/training/yolo26n/model_exports/yolo26n-20260713-225715/last.pt
+2026-07-15 01:00:31 INFO  __main__ | mlflow tracking_uri=http://hetzner.taile550ef.ts.net:5000/
+2026-07-15 01:00:31 INFO  __main__ | run dir: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031
+2026-07-15 01:00:31 INFO  __main__ | log file: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/yolo26n-20260715-010031.log
+2026-07-15 01:00:32 INFO  __main__ | seed=42 device=cuda epochs=200 smoke=False kd=False init_from=coco
+2026-07-15 01:00:32 INFO  scripts.training.yolov5s.dataset | dataset annotations_val.json: 12545 images, 12519 annotations, 225 classes
+2026-07-15 01:00:32 INFO  scripts.training.yolov5s.dataset | dataset annotations_test.json: 63865 images, 63796 annotations, 225 classes
+2026-07-15 01:00:34 INFO  scripts.training.yolov5s.dataset | dataset annotations_train.json: 145809 images, 145642 annotations, 225 classes
+2026-07-15 01:00:34 INFO  scripts.training.yolo26n.yolo26n_model | loaded 606/708 keys from /home/ubuntu/Master-Thesis/weights/yolo26n.pt (skipped 102 shape-mismatched)
+2026-07-15 01:00:35 INFO  scripts.training.yolo26n.yolo26n_model | model: yolo26n, nc=225, params=2.71M, device=cuda
+2026-07-15 01:00:35 INFO  scripts.training.yolov5s.yolov5s_model | optimizer=SGD lr=0.001 | param groups: g0(BN,no-decay)=114 g1(conv,decay=0.0005)=126 g2(bias,no-decay)=126
+2026-07-15 01:00:35 INFO  scripts.training.yolov5s.yolov5s_model | scheduler: OneCycleLR(max_lr=0.01, total_steps=455600, pct_start=0.015, div_factor=10, final_div_factor=100) — stepped per batch
+2026-07-15 01:00:36 INFO  __main__ | run config:
+2026-07-15 01:00:36 INFO  __main__ |   ANNOTATIONS_TEST = /home/ubuntu/Master-Thesis/data/real/annotations_test.json
+2026-07-15 01:00:36 INFO  __main__ |   ANNOTATIONS_TRAIN = /home/ubuntu/Master-Thesis/data/real/annotations_train.json
+2026-07-15 01:00:36 INFO  __main__ |   ANNOTATIONS_VAL = /home/ubuntu/Master-Thesis/data/real/annotations_val.json
+2026-07-15 01:00:36 INFO  __main__ |   AUG_CLOSE_MOSAIC = 0
+2026-07-15 01:00:36 INFO  __main__ |   AUG_COPY_PASTE = 0.0
+2026-07-15 01:00:36 INFO  __main__ |   AUG_DEGREES = 0.0
+2026-07-15 01:00:36 INFO  __main__ |   AUG_FLIPUD = 0.0
+2026-07-15 01:00:36 INFO  __main__ |   AUG_HFLIP = True
+2026-07-15 01:00:36 INFO  __main__ |   AUG_HSV = True
+2026-07-15 01:00:36 INFO  __main__ |   AUG_HSV_H = 0.015
+2026-07-15 01:00:36 INFO  __main__ |   AUG_HSV_S = 0.7
+2026-07-15 01:00:36 INFO  __main__ |   AUG_HSV_V = 0.4
+2026-07-15 01:00:36 INFO  __main__ |   AUG_MIXUP = 0.0
+2026-07-15 01:00:36 INFO  __main__ |   AUG_MOSAIC = 0.0
+2026-07-15 01:00:36 INFO  __main__ |   AUG_PERSPECTIVE = 0.0
+2026-07-15 01:00:36 INFO  __main__ |   AUG_SCALE = 0.5
+2026-07-15 01:00:36 INFO  __main__ |   AUG_SHEAR = 0.0
+2026-07-15 01:00:36 INFO  __main__ |   AUG_TRANSLATE = 0.1
+2026-07-15 01:00:36 INFO  __main__ |   BATCH_SIZE = 64
+2026-07-15 01:00:36 INFO  __main__ |   DATA_ROOT = /home/ubuntu/Master-Thesis/data
+2026-07-15 01:00:36 INFO  __main__ |   EARLY_STOP = True
+2026-07-15 01:00:36 INFO  __main__ |   EARLY_STOP_MIN_DELTA = 0.001
+2026-07-15 01:00:36 INFO  __main__ |   EARLY_STOP_PATIENCE = 20
+2026-07-15 01:00:36 INFO  __main__ |   EPOCH_COUNT = 200
+2026-07-15 01:00:36 INFO  __main__ |   EVAL_CONF_THRES = 0.001
+2026-07-15 01:00:36 INFO  __main__ |   EVAL_IOU_THRES = 0.6
+2026-07-15 01:00:36 INFO  __main__ |   EVAL_MAX_DET = 100
+2026-07-15 01:00:36 INFO  __main__ |   HYP_BOX = 7.5
+2026-07-15 01:00:36 INFO  __main__ |   HYP_CLS = 0.5
+2026-07-15 01:00:36 INFO  __main__ |   HYP_DFL = 1.5
+2026-07-15 01:00:36 INFO  __main__ |   IMAGE_ROOT = /home/ubuntu/Master-Thesis
+2026-07-15 01:00:36 INFO  __main__ |   IMAGE_SIZE = 640
+2026-07-15 01:00:36 INFO  __main__ |   KD_ALPHA = 0.5
+2026-07-15 01:00:36 INFO  __main__ |   KD_APPLY_TO = one2one
+2026-07-15 01:00:36 INFO  __main__ |   KD_TEMPERATURE = 4.0
+2026-07-15 01:00:36 INFO  __main__ |   LEARNING_RATE = 0.001
+2026-07-15 01:00:36 INFO  __main__ |   MLFLOW_EXPERIMENT_DEFAULT = yolo26n-wildlife225
+2026-07-15 01:00:36 INFO  __main__ |   MLFLOW_LOG_EVERY_N_STEPS = 50
+2026-07-15 01:00:36 INFO  __main__ |   MODEL_CONFIG = yolo26n.yaml
+2026-07-15 01:00:36 INFO  __main__ |   MOMENTUM = 0.937
+2026-07-15 01:00:36 INFO  __main__ |   NESTEROV = True
+2026-07-15 01:00:36 INFO  __main__ |   NUM_CLASSES = 225
+2026-07-15 01:00:36 INFO  __main__ |   NUM_WORKERS = 8
+2026-07-15 01:00:36 INFO  __main__ |   ONE_CYCLE_DIV_FACTOR = 10.0
+2026-07-15 01:00:36 INFO  __main__ |   ONE_CYCLE_FINAL_DIV_FACTOR = 100.0
+2026-07-15 01:00:36 INFO  __main__ |   ONE_CYCLE_MAX_LR = 0.01
+2026-07-15 01:00:36 INFO  __main__ |   ONE_CYCLE_PCT_START = 0.015
+2026-07-15 01:00:36 INFO  __main__ |   OPTIMIZER = SGD
+2026-07-15 01:00:36 INFO  __main__ |   OUTPUT_DIR = /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports
+2026-07-15 01:00:36 INFO  __main__ |   PRETRAINED_WEIGHTS = /home/ubuntu/Master-Thesis/weights/yolo26n.pt
+2026-07-15 01:00:36 INFO  __main__ |   REPO_ROOT = /home/ubuntu/Master-Thesis
+2026-07-15 01:00:36 INFO  __main__ |   SEED = 42
+2026-07-15 01:00:36 INFO  __main__ |   SELECTION_METRIC = mAP50_95
+2026-07-15 01:00:36 INFO  __main__ |   USE_AMP = True
+2026-07-15 01:00:36 INFO  __main__ |   USE_EMA = True
+2026-07-15 01:00:36 INFO  __main__ |   WARMUP_EPOCHS = 3
+2026-07-15 01:00:36 INFO  __main__ |   WEIGHT_DECAY = 0.0005
+2026-07-15 01:00:36 INFO  __main__ |   dataset_size_test = 63865
+2026-07-15 01:00:36 INFO  __main__ |   dataset_size_train = 145809
+2026-07-15 01:00:36 INFO  __main__ |   dataset_size_val = 12545
+2026-07-15 01:00:36 INFO  __main__ |   device = cuda
+2026-07-15 01:00:36 INFO  __main__ |   epochs_actual = 200
+2026-07-15 01:00:36 INFO  __main__ |   git_sha = 34e06d35c023bc7fdab24c002769b1d4bd697c97
+2026-07-15 01:00:36 INFO  __main__ |   init_from = coco
+2026-07-15 01:00:36 INFO  __main__ |   kd = False
+2026-07-15 01:00:36 INFO  __main__ |   resume_from = scripts/training/yolo26n/model_exports/yolo26n-20260713-225715/last.pt
+2026-07-15 01:00:36 INFO  __main__ |   smoke = False
+2026-07-15 01:00:36 INFO  __main__ |   weights_path = /home/ubuntu/Master-Thesis/weights/yolo26n.pt
+2026-07-15 01:00:37 INFO  scripts.training.yolov5s.training_pipeline | copied scripts/training/yolo26n/model_exports/yolo26n-20260713-225715/best.pt -> /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 01:00:37 INFO  scripts.training.yolov5s.training_pipeline | resumed from scripts/training/yolo26n/model_exports/yolo26n-20260713-225715/last.pt: continuing at epoch 23 (best mAP50_95=0.0000, epochs_since_improve=19)
+2026-07-15 01:00:37 INFO  scripts.training.yolov5s.training_pipeline | output dir: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031 | selection_metric=mAP50_95 early_stop=True(patience=20, min_delta=0.001) ema=True amp=True
+2026-07-15 01:00:37 INFO  scripts.training.yolov5s.training_pipeline | starting training: ceiling=200 epochs | train_batches=2278 val_batches=197 test_batches=998 | device=cuda
+2026-07-15 01:00:37 INFO  scripts.training.yolov5s.training_pipeline | epoch 23/200 — train start (lr=0.00977245, batches=2278)
+2026-07-15 01:01:29 INFO  scripts.training.yolov5s.training_pipeline | step 50150 | loss_box=0.9612 loss_cls=1.2658 loss_dfl=0.0177 loss_total=147.4210 lr=0.00977209
+2026-07-15 01:02:18 INFO  scripts.training.yolov5s.training_pipeline | step 50200 | loss_box=0.7416 loss_cls=1.2176 loss_dfl=0.0128 loss_total=144.6063 lr=0.00977156
+2026-07-15 01:03:09 INFO  scripts.training.yolov5s.training_pipeline | step 50250 | loss_box=0.9129 loss_cls=1.2688 loss_dfl=0.0173 loss_total=148.8013 lr=0.00977104
+2026-07-15 01:03:59 INFO  scripts.training.yolov5s.training_pipeline | step 50300 | loss_box=0.8457 loss_cls=1.2727 loss_dfl=0.0181 loss_total=144.6869 lr=0.00977052
+2026-07-15 01:04:50 INFO  scripts.training.yolov5s.training_pipeline | step 50350 | loss_box=0.8210 loss_cls=1.3104 loss_dfl=0.0145 loss_total=147.6143 lr=0.00976999
+2026-07-15 01:05:40 INFO  scripts.training.yolov5s.training_pipeline | step 50400 | loss_box=0.7862 loss_cls=1.3286 loss_dfl=0.0140 loss_total=155.2527 lr=0.00976947
+2026-07-15 01:06:30 INFO  scripts.training.yolov5s.training_pipeline | step 50450 | loss_box=0.9341 loss_cls=1.1266 loss_dfl=0.0165 loss_total=147.8222 lr=0.00976894
+2026-07-15 01:07:21 INFO  scripts.training.yolov5s.training_pipeline | step 50500 | loss_box=0.9216 loss_cls=1.4060 loss_dfl=0.0192 loss_total=155.8911 lr=0.00976842
+2026-07-15 01:08:14 INFO  scripts.training.yolov5s.training_pipeline | step 50550 | loss_box=0.8573 loss_cls=1.4141 loss_dfl=0.0169 loss_total=160.0613 lr=0.00976789
+2026-07-15 01:09:06 INFO  scripts.training.yolov5s.training_pipeline | step 50600 | loss_box=1.0227 loss_cls=1.3894 loss_dfl=0.0191 loss_total=174.2405 lr=0.00976736
+2026-07-15 01:09:57 INFO  scripts.training.yolov5s.training_pipeline | step 50650 | loss_box=0.9591 loss_cls=1.3354 loss_dfl=0.0228 loss_total=162.8712 lr=0.00976684
+2026-07-15 01:10:51 INFO  scripts.training.yolov5s.training_pipeline | step 50700 | loss_box=0.8691 loss_cls=1.6820 loss_dfl=0.0162 loss_total=172.7905 lr=0.00976631
+2026-07-15 01:11:54 INFO  scripts.training.yolov5s.training_pipeline | step 50750 | loss_box=0.8461 loss_cls=1.5010 loss_dfl=0.0166 loss_total=158.3123 lr=0.00976578
+2026-07-15 01:12:46 INFO  scripts.training.yolov5s.training_pipeline | step 50800 | loss_box=0.8848 loss_cls=1.3736 loss_dfl=0.0195 loss_total=153.8964 lr=0.00976525
+2026-07-15 01:13:40 INFO  scripts.training.yolov5s.training_pipeline | step 50850 | loss_box=0.8715 loss_cls=1.4401 loss_dfl=0.0151 loss_total=153.4463 lr=0.00976472
+2026-07-15 01:14:51 INFO  scripts.training.yolov5s.training_pipeline | step 50900 | loss_box=0.8330 loss_cls=1.1324 loss_dfl=0.0165 loss_total=143.7020 lr=0.00976419
+2026-07-15 01:16:07 INFO  scripts.training.yolov5s.training_pipeline | step 50950 | loss_box=0.6524 loss_cls=1.3714 loss_dfl=0.0110 loss_total=145.6966 lr=0.00976366
+2026-07-15 01:16:58 INFO  scripts.training.yolov5s.training_pipeline | step 51000 | loss_box=0.9775 loss_cls=1.3090 loss_dfl=0.0198 loss_total=149.9793 lr=0.00976313
+2026-07-15 01:17:52 INFO  scripts.training.yolov5s.training_pipeline | step 51050 | loss_box=0.7589 loss_cls=1.6166 loss_dfl=0.0157 loss_total=175.7839 lr=0.00976259
+2026-07-15 01:18:46 INFO  scripts.training.yolov5s.training_pipeline | step 51100 | loss_box=0.7007 loss_cls=1.1785 loss_dfl=0.0162 loss_total=135.2076 lr=0.00976206
+2026-07-15 01:19:39 INFO  scripts.training.yolov5s.training_pipeline | step 51150 | loss_box=0.8793 loss_cls=1.3535 loss_dfl=0.0192 loss_total=154.0529 lr=0.00976153
+2026-07-15 01:20:32 INFO  scripts.training.yolov5s.training_pipeline | step 51200 | loss_box=0.9253 loss_cls=1.4346 loss_dfl=0.0188 loss_total=164.6497 lr=0.00976099
+2026-07-15 01:21:36 INFO  scripts.training.yolov5s.training_pipeline | step 51250 | loss_box=0.8244 loss_cls=1.1830 loss_dfl=0.0163 loss_total=142.1171 lr=0.00976046
+2026-07-15 01:22:28 INFO  scripts.training.yolov5s.training_pipeline | step 51300 | loss_box=0.7492 loss_cls=1.2396 loss_dfl=0.0151 loss_total=136.6153 lr=0.00975992
+2026-07-15 01:23:23 INFO  scripts.training.yolov5s.training_pipeline | step 51350 | loss_box=0.8559 loss_cls=1.5201 loss_dfl=0.0154 loss_total=158.7191 lr=0.00975939
+2026-07-15 01:24:13 INFO  scripts.training.yolov5s.training_pipeline | step 51400 | loss_box=0.9538 loss_cls=1.2368 loss_dfl=0.0207 loss_total=156.3168 lr=0.00975885
+2026-07-15 01:25:22 INFO  scripts.training.yolov5s.training_pipeline | step 51450 | loss_box=0.7537 loss_cls=1.2964 loss_dfl=0.0142 loss_total=147.3645 lr=0.00975831
+2026-07-15 01:26:26 INFO  scripts.training.yolov5s.training_pipeline | step 51500 | loss_box=0.8040 loss_cls=1.3247 loss_dfl=0.0147 loss_total=143.2919 lr=0.00975778
+2026-07-15 01:27:19 INFO  scripts.training.yolov5s.training_pipeline | step 51550 | loss_box=0.8262 loss_cls=1.3639 loss_dfl=0.0175 loss_total=157.0024 lr=0.00975724
+2026-07-15 01:28:06 INFO  scripts.training.yolov5s.training_pipeline | step 51600 | loss_box=0.7820 loss_cls=1.3485 loss_dfl=0.0166 loss_total=150.7217 lr=0.0097567
+2026-07-15 01:28:56 INFO  scripts.training.yolov5s.training_pipeline | step 51650 | loss_box=0.8081 loss_cls=1.3687 loss_dfl=0.0166 loss_total=152.0167 lr=0.00975616
+2026-07-15 01:29:38 INFO  scripts.training.yolov5s.training_pipeline | step 51700 | loss_box=0.8439 loss_cls=1.3034 loss_dfl=0.0160 loss_total=150.6211 lr=0.00975562
+2026-07-15 01:30:16 INFO  scripts.training.yolov5s.training_pipeline | step 51750 | loss_box=0.7233 loss_cls=1.4653 loss_dfl=0.0153 loss_total=155.7156 lr=0.00975508
+2026-07-15 01:31:01 INFO  scripts.training.yolov5s.training_pipeline | step 51800 | loss_box=0.7141 loss_cls=1.3090 loss_dfl=0.0126 loss_total=144.7248 lr=0.00975454
+2026-07-15 01:31:43 INFO  scripts.training.yolov5s.training_pipeline | step 51850 | loss_box=0.8903 loss_cls=1.4223 loss_dfl=0.0145 loss_total=154.0682 lr=0.009754
+2026-07-15 01:32:33 INFO  scripts.training.yolov5s.training_pipeline | step 51900 | loss_box=0.8098 loss_cls=1.3881 loss_dfl=0.0157 loss_total=151.9112 lr=0.00975345
+2026-07-15 01:33:26 INFO  scripts.training.yolov5s.training_pipeline | step 51950 | loss_box=0.8422 loss_cls=1.2727 loss_dfl=0.0160 loss_total=148.9432 lr=0.00975291
+2026-07-15 01:34:07 INFO  scripts.training.yolov5s.training_pipeline | step 52000 | loss_box=0.9218 loss_cls=1.5184 loss_dfl=0.0186 loss_total=178.7288 lr=0.00975237
+2026-07-15 01:35:08 INFO  scripts.training.yolov5s.training_pipeline | step 52050 | loss_box=0.7534 loss_cls=1.2686 loss_dfl=0.0145 loss_total=142.5895 lr=0.00975182
+2026-07-15 01:35:53 INFO  scripts.training.yolov5s.training_pipeline | step 52100 | loss_box=0.8213 loss_cls=1.2756 loss_dfl=0.0147 loss_total=141.5852 lr=0.00975128
+2026-07-15 01:36:44 INFO  scripts.training.yolov5s.training_pipeline | step 52150 | loss_box=0.8566 loss_cls=1.2977 loss_dfl=0.0173 loss_total=155.1571 lr=0.00975074
+2026-07-15 01:37:33 INFO  scripts.training.yolov5s.training_pipeline | step 52200 | loss_box=0.8117 loss_cls=1.0345 loss_dfl=0.0155 loss_total=129.9746 lr=0.00975019
+2026-07-15 01:38:12 INFO  scripts.training.yolov5s.training_pipeline | step 52250 | loss_box=0.8531 loss_cls=1.3242 loss_dfl=0.0154 loss_total=148.4323 lr=0.00974964
+2026-07-15 01:38:57 INFO  scripts.training.yolov5s.training_pipeline | step 52300 | loss_box=0.8973 loss_cls=1.5023 loss_dfl=0.0143 loss_total=156.1409 lr=0.0097491
+2026-07-15 01:39:34 INFO  scripts.training.yolov5s.training_pipeline | step 52350 | loss_box=0.7972 loss_cls=1.4814 loss_dfl=0.0138 loss_total=148.3797 lr=0.00974855
+2026-07-15 01:40:05 INFO  scripts.training.yolov5s.training_pipeline | epoch 23/200 — train done in 2368.4s | avg loss_box=0.8513 loss_cls=1.3634 loss_dfl=0.0162 loss_total=153.6768
+2026-07-15 01:40:05 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 01:52:02 INFO  scripts.training.yolov5s.training_pipeline | epoch 23/200 — val mAP50=0.4739 mAP50_95=0.3772 (selection mAP50_95=0.3772)
+2026-07-15 01:52:02 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.4739 val/mAP50_95=0.3772 (step=22)
+2026-07-15 01:52:03 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 01:52:03 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 01:52:03 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.3772 at epoch 23
+2026-07-15 01:52:03 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 01:52:04 INFO  scripts.training.yolov5s.training_pipeline | epoch 23/200 done — next lr=0.00974808, epochs_since_improve=0/20
+2026-07-15 01:52:04 INFO  scripts.training.yolov5s.training_pipeline | epoch 24/200 — train start (lr=0.00974808, batches=2278)
+2026-07-15 01:52:12 INFO  scripts.training.yolov5s.training_pipeline | step 52400 | loss_box=0.7641 loss_cls=1.2440 loss_dfl=0.0136 loss_total=147.0219 lr=0.009748
+2026-07-15 01:52:36 INFO  scripts.training.yolov5s.training_pipeline | step 52450 | loss_box=0.9814 loss_cls=1.2993 loss_dfl=0.0157 loss_total=155.3959 lr=0.00974745
+2026-07-15 01:52:59 INFO  scripts.training.yolov5s.training_pipeline | step 52500 | loss_box=0.7548 loss_cls=1.4309 loss_dfl=0.0148 loss_total=145.1784 lr=0.0097469
+2026-07-15 01:53:34 INFO  scripts.training.yolov5s.training_pipeline | step 52550 | loss_box=0.8442 loss_cls=1.4008 loss_dfl=0.0149 loss_total=159.3201 lr=0.00974635
+2026-07-15 01:54:24 INFO  scripts.training.yolov5s.training_pipeline | step 52600 | loss_box=0.7805 loss_cls=1.3413 loss_dfl=0.0153 loss_total=142.4795 lr=0.0097458
+2026-07-15 01:55:20 INFO  scripts.training.yolov5s.training_pipeline | step 52650 | loss_box=1.0599 loss_cls=1.4914 loss_dfl=0.0183 loss_total=165.9973 lr=0.00974525
+2026-07-15 01:56:11 INFO  scripts.training.yolov5s.training_pipeline | step 52700 | loss_box=0.8661 loss_cls=1.5626 loss_dfl=0.0154 loss_total=170.7025 lr=0.0097447
+2026-07-15 01:57:05 INFO  scripts.training.yolov5s.training_pipeline | step 52750 | loss_box=0.9962 loss_cls=1.3320 loss_dfl=0.0212 loss_total=162.6323 lr=0.00974415
+2026-07-15 01:58:06 INFO  scripts.training.yolov5s.training_pipeline | step 52800 | loss_box=0.7757 loss_cls=1.2594 loss_dfl=0.0125 loss_total=143.6480 lr=0.0097436
+2026-07-15 01:59:00 INFO  scripts.training.yolov5s.training_pipeline | step 52850 | loss_box=0.7959 loss_cls=1.2984 loss_dfl=0.0139 loss_total=149.3634 lr=0.00974304
+2026-07-15 01:59:59 INFO  scripts.training.yolov5s.training_pipeline | step 52900 | loss_box=0.8741 loss_cls=1.3952 loss_dfl=0.0156 loss_total=154.7775 lr=0.00974249
+2026-07-15 02:00:58 INFO  scripts.training.yolov5s.training_pipeline | step 52950 | loss_box=1.1579 loss_cls=1.5520 loss_dfl=0.0201 loss_total=175.0336 lr=0.00974193
+2026-07-15 02:01:58 INFO  scripts.training.yolov5s.training_pipeline | step 53000 | loss_box=0.8146 loss_cls=1.3691 loss_dfl=0.0171 loss_total=144.5150 lr=0.00974138
+2026-07-15 02:02:47 INFO  scripts.training.yolov5s.training_pipeline | step 53050 | loss_box=1.0167 loss_cls=1.3504 loss_dfl=0.0201 loss_total=164.6874 lr=0.00974082
+2026-07-15 02:03:36 INFO  scripts.training.yolov5s.training_pipeline | step 53100 | loss_box=0.6515 loss_cls=1.1735 loss_dfl=0.0142 loss_total=127.6915 lr=0.00974027
+2026-07-15 02:04:23 INFO  scripts.training.yolov5s.training_pipeline | step 53150 | loss_box=0.8581 loss_cls=1.5764 loss_dfl=0.0146 loss_total=163.3588 lr=0.00973971
+2026-07-15 02:05:09 INFO  scripts.training.yolov5s.training_pipeline | step 53200 | loss_box=0.7957 loss_cls=1.2563 loss_dfl=0.0157 loss_total=135.1241 lr=0.00973915
+2026-07-15 02:05:52 INFO  scripts.training.yolov5s.training_pipeline | step 53250 | loss_box=0.8164 loss_cls=1.3166 loss_dfl=0.0151 loss_total=145.8273 lr=0.0097386
+2026-07-15 02:06:41 INFO  scripts.training.yolov5s.training_pipeline | step 53300 | loss_box=0.8271 loss_cls=1.2694 loss_dfl=0.0155 loss_total=154.0948 lr=0.00973804
+2026-07-15 02:07:29 INFO  scripts.training.yolov5s.training_pipeline | step 53350 | loss_box=0.8791 loss_cls=1.4493 loss_dfl=0.0173 loss_total=152.0312 lr=0.00973748
+2026-07-15 02:08:16 INFO  scripts.training.yolov5s.training_pipeline | step 53400 | loss_box=0.8569 loss_cls=1.7029 loss_dfl=0.0161 loss_total=180.5385 lr=0.00973692
+2026-07-15 02:08:58 INFO  scripts.training.yolov5s.training_pipeline | step 53450 | loss_box=0.8293 loss_cls=1.6485 loss_dfl=0.0161 loss_total=169.6384 lr=0.00973636
+2026-07-15 02:09:55 INFO  scripts.training.yolov5s.training_pipeline | step 53500 | loss_box=0.8119 loss_cls=1.2278 loss_dfl=0.0153 loss_total=143.4786 lr=0.0097358
+2026-07-15 02:10:36 INFO  scripts.training.yolov5s.training_pipeline | step 53550 | loss_box=0.7327 loss_cls=1.3520 loss_dfl=0.0122 loss_total=141.4727 lr=0.00973524
+2026-07-15 02:11:20 INFO  scripts.training.yolov5s.training_pipeline | step 53600 | loss_box=0.8381 loss_cls=1.3387 loss_dfl=0.0163 loss_total=149.9195 lr=0.00973467
+2026-07-15 02:12:22 INFO  scripts.training.yolov5s.training_pipeline | step 53650 | loss_box=0.7315 loss_cls=1.1052 loss_dfl=0.0128 loss_total=137.4330 lr=0.00973411
+2026-07-15 02:13:04 INFO  scripts.training.yolov5s.training_pipeline | step 53700 | loss_box=0.7974 loss_cls=1.5415 loss_dfl=0.0166 loss_total=150.9252 lr=0.00973355
+2026-07-15 02:13:36 INFO  scripts.training.yolov5s.training_pipeline | step 53750 | loss_box=1.0079 loss_cls=1.5028 loss_dfl=0.0205 loss_total=164.6488 lr=0.00973298
+2026-07-15 02:14:05 INFO  scripts.training.yolov5s.training_pipeline | step 53800 | loss_box=0.8254 loss_cls=1.2368 loss_dfl=0.0169 loss_total=141.0635 lr=0.00973242
+2026-07-15 02:14:43 INFO  scripts.training.yolov5s.training_pipeline | step 53850 | loss_box=0.8073 loss_cls=1.1292 loss_dfl=0.0158 loss_total=143.5573 lr=0.00973186
+2026-07-15 02:15:19 INFO  scripts.training.yolov5s.training_pipeline | step 53900 | loss_box=0.8247 loss_cls=1.3673 loss_dfl=0.0163 loss_total=149.3651 lr=0.00973129
+2026-07-15 02:16:02 INFO  scripts.training.yolov5s.training_pipeline | step 53950 | loss_box=0.9527 loss_cls=1.7152 loss_dfl=0.0178 loss_total=175.3342 lr=0.00973072
+2026-07-15 02:16:46 INFO  scripts.training.yolov5s.training_pipeline | step 54000 | loss_box=0.8334 loss_cls=1.3676 loss_dfl=0.0150 loss_total=143.9391 lr=0.00973016
+2026-07-15 02:17:38 INFO  scripts.training.yolov5s.training_pipeline | step 54050 | loss_box=0.7436 loss_cls=1.4574 loss_dfl=0.0150 loss_total=143.9853 lr=0.00972959
+2026-07-15 02:18:46 INFO  scripts.training.yolov5s.training_pipeline | step 54100 | loss_box=0.7265 loss_cls=1.2355 loss_dfl=0.0119 loss_total=140.9215 lr=0.00972902
+2026-07-15 02:19:47 INFO  scripts.training.yolov5s.training_pipeline | step 54150 | loss_box=0.7465 loss_cls=1.1774 loss_dfl=0.0131 loss_total=137.3145 lr=0.00972845
+2026-07-15 02:20:37 INFO  scripts.training.yolov5s.training_pipeline | step 54200 | loss_box=0.8163 loss_cls=1.2157 loss_dfl=0.0145 loss_total=147.4805 lr=0.00972789
+2026-07-15 02:21:20 INFO  scripts.training.yolov5s.training_pipeline | step 54250 | loss_box=0.7434 loss_cls=1.2529 loss_dfl=0.0156 loss_total=134.8078 lr=0.00972732
+2026-07-15 02:21:58 INFO  scripts.training.yolov5s.training_pipeline | step 54300 | loss_box=0.8769 loss_cls=1.4582 loss_dfl=0.0179 loss_total=157.6644 lr=0.00972675
+2026-07-15 02:22:30 INFO  scripts.training.yolov5s.training_pipeline | step 54350 | loss_box=0.8404 loss_cls=1.4951 loss_dfl=0.0151 loss_total=159.1477 lr=0.00972617
+2026-07-15 02:23:47 INFO  scripts.training.yolov5s.training_pipeline | step 54400 | loss_box=0.7727 loss_cls=1.5090 loss_dfl=0.0156 loss_total=150.7180 lr=0.0097256
+2026-07-15 02:24:50 INFO  scripts.training.yolov5s.training_pipeline | step 54450 | loss_box=0.8410 loss_cls=1.2982 loss_dfl=0.0157 loss_total=147.7097 lr=0.00972503
+2026-07-15 02:26:07 INFO  scripts.training.yolov5s.training_pipeline | step 54500 | loss_box=0.7562 loss_cls=1.1740 loss_dfl=0.0146 loss_total=137.7411 lr=0.00972446
+2026-07-15 02:27:18 INFO  scripts.training.yolov5s.training_pipeline | step 54550 | loss_box=0.8156 loss_cls=1.2602 loss_dfl=0.0156 loss_total=144.5807 lr=0.00972389
+2026-07-15 02:28:39 INFO  scripts.training.yolov5s.training_pipeline | step 54600 | loss_box=0.9093 loss_cls=1.4463 loss_dfl=0.0177 loss_total=152.4966 lr=0.00972331
+2026-07-15 02:29:45 INFO  scripts.training.yolov5s.training_pipeline | step 54650 | loss_box=0.7269 loss_cls=1.3572 loss_dfl=0.0110 loss_total=136.6843 lr=0.00972274
+2026-07-15 02:30:16 INFO  scripts.training.yolov5s.training_pipeline | epoch 24/200 — train done in 2292.3s | avg loss_box=0.8543 loss_cls=1.3677 loss_dfl=0.0163 loss_total=152.8773
+2026-07-15 02:30:16 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 02:43:24 INFO  scripts.training.yolov5s.training_pipeline | epoch 24/200 — val mAP50=0.4811 mAP50_95=0.3842 (selection mAP50_95=0.3842)
+2026-07-15 02:43:24 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.4811 val/mAP50_95=0.3842 (step=23)
+2026-07-15 02:43:25 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 02:43:25 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 02:43:25 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.3842 at epoch 24
+2026-07-15 02:43:25 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 02:43:25 INFO  scripts.training.yolov5s.training_pipeline | epoch 24/200 done — next lr=0.0097225, epochs_since_improve=0/20
+2026-07-15 02:43:25 INFO  scripts.training.yolov5s.training_pipeline | epoch 25/200 — train start (lr=0.0097225, batches=2278)
+2026-07-15 02:43:44 INFO  scripts.training.yolov5s.training_pipeline | step 54700 | loss_box=0.9410 loss_cls=1.4309 loss_dfl=0.0172 loss_total=162.5475 lr=0.00972216
+2026-07-15 02:44:20 INFO  scripts.training.yolov5s.training_pipeline | step 54750 | loss_box=0.7649 loss_cls=1.4713 loss_dfl=0.0146 loss_total=152.0258 lr=0.00972159
+2026-07-15 02:45:10 INFO  scripts.training.yolov5s.training_pipeline | step 54800 | loss_box=0.7441 loss_cls=1.3971 loss_dfl=0.0129 loss_total=143.9141 lr=0.00972101
+2026-07-15 02:46:01 INFO  scripts.training.yolov5s.training_pipeline | step 54850 | loss_box=0.8663 loss_cls=1.4107 loss_dfl=0.0181 loss_total=156.7159 lr=0.00972044
+2026-07-15 02:46:52 INFO  scripts.training.yolov5s.training_pipeline | step 54900 | loss_box=0.7570 loss_cls=1.3155 loss_dfl=0.0134 loss_total=141.2819 lr=0.00971986
+2026-07-15 02:47:45 INFO  scripts.training.yolov5s.training_pipeline | step 54950 | loss_box=0.7926 loss_cls=1.3052 loss_dfl=0.0153 loss_total=142.7240 lr=0.00971928
+2026-07-15 02:48:39 INFO  scripts.training.yolov5s.training_pipeline | step 55000 | loss_box=0.9288 loss_cls=1.6236 loss_dfl=0.0170 loss_total=175.4257 lr=0.0097187
+2026-07-15 02:49:58 INFO  scripts.training.yolov5s.training_pipeline | step 55050 | loss_box=0.9711 loss_cls=1.5900 loss_dfl=0.0167 loss_total=171.0347 lr=0.00971813
+2026-07-15 02:51:02 INFO  scripts.training.yolov5s.training_pipeline | step 55100 | loss_box=0.6734 loss_cls=1.1099 loss_dfl=0.0139 loss_total=120.2529 lr=0.00971755
+2026-07-15 02:52:48 INFO  scripts.training.yolov5s.training_pipeline | step 55150 | loss_box=0.7947 loss_cls=1.2908 loss_dfl=0.0163 loss_total=135.1758 lr=0.00971697
+2026-07-15 02:53:43 INFO  scripts.training.yolov5s.training_pipeline | step 55200 | loss_box=0.7526 loss_cls=1.2495 loss_dfl=0.0143 loss_total=134.7488 lr=0.00971639
+2026-07-15 02:54:39 INFO  scripts.training.yolov5s.training_pipeline | step 55250 | loss_box=0.9335 loss_cls=1.3103 loss_dfl=0.0169 loss_total=155.5961 lr=0.0097158
+2026-07-15 02:55:23 INFO  scripts.training.yolov5s.training_pipeline | step 55300 | loss_box=0.7911 loss_cls=1.2878 loss_dfl=0.0163 loss_total=140.6703 lr=0.00971522
+2026-07-15 02:56:03 INFO  scripts.training.yolov5s.training_pipeline | step 55350 | loss_box=0.6958 loss_cls=1.4007 loss_dfl=0.0135 loss_total=146.6660 lr=0.00971464
+2026-07-15 02:56:53 INFO  scripts.training.yolov5s.training_pipeline | step 55400 | loss_box=1.0293 loss_cls=1.4154 loss_dfl=0.0203 loss_total=170.1318 lr=0.00971406
+2026-07-15 02:57:37 INFO  scripts.training.yolov5s.training_pipeline | step 55450 | loss_box=0.8351 loss_cls=1.2861 loss_dfl=0.0152 loss_total=152.8609 lr=0.00971347
+2026-07-15 02:58:28 INFO  scripts.training.yolov5s.training_pipeline | step 55500 | loss_box=0.8886 loss_cls=1.4003 loss_dfl=0.0194 loss_total=156.9359 lr=0.00971289
+2026-07-15 02:59:23 INFO  scripts.training.yolov5s.training_pipeline | step 55550 | loss_box=1.0184 loss_cls=1.4344 loss_dfl=0.0196 loss_total=176.6054 lr=0.00971231
+2026-07-15 03:00:18 INFO  scripts.training.yolov5s.training_pipeline | step 55600 | loss_box=0.8319 loss_cls=1.3661 loss_dfl=0.0163 loss_total=151.9243 lr=0.00971172
+2026-07-15 03:01:20 INFO  scripts.training.yolov5s.training_pipeline | step 55650 | loss_box=0.8897 loss_cls=1.5485 loss_dfl=0.0160 loss_total=164.6254 lr=0.00971114
+2026-07-15 03:01:57 INFO  scripts.training.yolov5s.training_pipeline | step 55700 | loss_box=0.9612 loss_cls=1.3046 loss_dfl=0.0148 loss_total=152.4523 lr=0.00971055
+2026-07-15 03:02:35 INFO  scripts.training.yolov5s.training_pipeline | step 55750 | loss_box=0.8080 loss_cls=1.3364 loss_dfl=0.0149 loss_total=151.3513 lr=0.00970996
+2026-07-15 03:03:16 INFO  scripts.training.yolov5s.training_pipeline | step 55800 | loss_box=1.0104 loss_cls=1.3795 loss_dfl=0.0186 loss_total=166.9896 lr=0.00970937
+2026-07-15 03:04:09 INFO  scripts.training.yolov5s.training_pipeline | step 55850 | loss_box=1.0372 loss_cls=1.5099 loss_dfl=0.0200 loss_total=166.4231 lr=0.00970879
+2026-07-15 03:05:27 INFO  scripts.training.yolov5s.training_pipeline | step 55900 | loss_box=0.9223 loss_cls=1.2601 loss_dfl=0.0185 loss_total=144.3001 lr=0.0097082
+2026-07-15 03:06:52 INFO  scripts.training.yolov5s.training_pipeline | step 55950 | loss_box=0.7019 loss_cls=1.3780 loss_dfl=0.0122 loss_total=143.7339 lr=0.00970761
+2026-07-15 03:07:46 INFO  scripts.training.yolov5s.training_pipeline | step 56000 | loss_box=0.9444 loss_cls=1.4945 loss_dfl=0.0191 loss_total=167.9019 lr=0.00970702
+2026-07-15 03:08:48 INFO  scripts.training.yolov5s.training_pipeline | step 56050 | loss_box=0.9522 loss_cls=1.6414 loss_dfl=0.0158 loss_total=162.6026 lr=0.00970643
+2026-07-15 03:09:20 INFO  scripts.training.yolov5s.training_pipeline | step 56100 | loss_box=0.8327 loss_cls=1.3851 loss_dfl=0.0152 loss_total=144.3320 lr=0.00970584
+2026-07-15 03:09:56 INFO  scripts.training.yolov5s.training_pipeline | step 56150 | loss_box=0.6972 loss_cls=1.2727 loss_dfl=0.0135 loss_total=139.5309 lr=0.00970525
+2026-07-15 03:10:32 INFO  scripts.training.yolov5s.training_pipeline | step 56200 | loss_box=0.8885 loss_cls=1.4224 loss_dfl=0.0158 loss_total=155.3642 lr=0.00970466
+2026-07-15 03:12:01 INFO  scripts.training.yolov5s.training_pipeline | step 56250 | loss_box=1.0058 loss_cls=1.4948 loss_dfl=0.0169 loss_total=169.4019 lr=0.00970406
+2026-07-15 03:12:55 INFO  scripts.training.yolov5s.training_pipeline | step 56300 | loss_box=0.8593 loss_cls=1.3005 loss_dfl=0.0179 loss_total=138.6703 lr=0.00970347
+2026-07-15 03:13:57 INFO  scripts.training.yolov5s.training_pipeline | step 56350 | loss_box=0.7406 loss_cls=1.2213 loss_dfl=0.0148 loss_total=134.6669 lr=0.00970288
+2026-07-15 03:15:24 INFO  scripts.training.yolov5s.training_pipeline | step 56400 | loss_box=0.8338 loss_cls=1.4422 loss_dfl=0.0140 loss_total=153.6335 lr=0.00970228
+2026-07-15 03:16:23 INFO  scripts.training.yolov5s.training_pipeline | step 56450 | loss_box=0.7810 loss_cls=1.3791 loss_dfl=0.0134 loss_total=145.6470 lr=0.00970169
+2026-07-15 03:17:17 INFO  scripts.training.yolov5s.training_pipeline | step 56500 | loss_box=0.6794 loss_cls=1.2918 loss_dfl=0.0119 loss_total=135.9779 lr=0.00970109
+2026-07-15 03:18:34 INFO  scripts.training.yolov5s.training_pipeline | step 56550 | loss_box=0.9047 loss_cls=1.4149 loss_dfl=0.0156 loss_total=151.7214 lr=0.0097005
+2026-07-15 03:19:41 INFO  scripts.training.yolov5s.training_pipeline | step 56600 | loss_box=0.7424 loss_cls=1.2353 loss_dfl=0.0136 loss_total=136.7068 lr=0.0096999
+2026-07-15 03:20:35 INFO  scripts.training.yolov5s.training_pipeline | step 56650 | loss_box=0.8699 loss_cls=1.6232 loss_dfl=0.0153 loss_total=169.0540 lr=0.0096993
+2026-07-15 03:21:47 INFO  scripts.training.yolov5s.training_pipeline | step 56700 | loss_box=0.7290 loss_cls=1.1869 loss_dfl=0.0137 loss_total=125.0763 lr=0.0096987
+2026-07-15 03:22:43 INFO  scripts.training.yolov5s.training_pipeline | step 56750 | loss_box=0.8626 loss_cls=1.3646 loss_dfl=0.0157 loss_total=152.3786 lr=0.00969811
+2026-07-15 03:23:37 INFO  scripts.training.yolov5s.training_pipeline | step 56800 | loss_box=0.7577 loss_cls=1.5131 loss_dfl=0.0132 loss_total=153.8773 lr=0.00969751
+2026-07-15 03:24:45 INFO  scripts.training.yolov5s.training_pipeline | step 56850 | loss_box=0.8237 loss_cls=1.4265 loss_dfl=0.0176 loss_total=140.9293 lr=0.00969691
+2026-07-15 03:25:39 INFO  scripts.training.yolov5s.training_pipeline | step 56900 | loss_box=0.9211 loss_cls=1.4788 loss_dfl=0.0183 loss_total=154.9226 lr=0.00969631
+2026-07-15 03:26:21 INFO  scripts.training.yolov5s.training_pipeline | epoch 25/200 — train done in 2575.8s | avg loss_box=0.8439 loss_cls=1.3455 loss_dfl=0.0161 loss_total=150.0481
+2026-07-15 03:26:21 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 03:38:15 INFO  scripts.training.yolov5s.training_pipeline | epoch 25/200 — val mAP50=0.4886 mAP50_95=0.3913 (selection mAP50_95=0.3913)
+2026-07-15 03:38:15 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.4886 val/mAP50_95=0.3913 (step=24)
+2026-07-15 03:38:16 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 03:38:16 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 03:38:16 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.3913 at epoch 25
+2026-07-15 03:38:16 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 03:38:16 INFO  scripts.training.yolov5s.training_pipeline | epoch 25/200 done — next lr=0.00969572, epochs_since_improve=0/20
+2026-07-15 03:38:16 INFO  scripts.training.yolov5s.training_pipeline | epoch 26/200 — train start (lr=0.00969572, batches=2278)
+2026-07-15 03:38:22 INFO  scripts.training.yolov5s.training_pipeline | step 56950 | loss_box=0.8911 loss_cls=1.3577 loss_dfl=0.0184 loss_total=146.6327 lr=0.00969571
+2026-07-15 03:38:46 INFO  scripts.training.yolov5s.training_pipeline | step 57000 | loss_box=0.8963 loss_cls=1.4614 loss_dfl=0.0160 loss_total=152.7754 lr=0.0096951
+2026-07-15 03:39:37 INFO  scripts.training.yolov5s.training_pipeline | step 57050 | loss_box=0.9638 loss_cls=1.1463 loss_dfl=0.0199 loss_total=136.8666 lr=0.0096945
+2026-07-15 03:40:27 INFO  scripts.training.yolov5s.training_pipeline | step 57100 | loss_box=0.9326 loss_cls=1.4889 loss_dfl=0.0181 loss_total=153.6806 lr=0.0096939
+2026-07-15 03:41:19 INFO  scripts.training.yolov5s.training_pipeline | step 57150 | loss_box=1.0493 loss_cls=1.1980 loss_dfl=0.0210 loss_total=152.4617 lr=0.0096933
+2026-07-15 03:42:10 INFO  scripts.training.yolov5s.training_pipeline | step 57200 | loss_box=0.7720 loss_cls=1.1685 loss_dfl=0.0164 loss_total=139.1621 lr=0.00969269
+2026-07-15 03:43:04 INFO  scripts.training.yolov5s.training_pipeline | step 57250 | loss_box=0.9088 loss_cls=1.5220 loss_dfl=0.0171 loss_total=160.8875 lr=0.00969209
+2026-07-15 03:44:11 INFO  scripts.training.yolov5s.training_pipeline | step 57300 | loss_box=0.8400 loss_cls=1.1880 loss_dfl=0.0167 loss_total=148.0749 lr=0.00969149
+2026-07-15 03:44:54 INFO  scripts.training.yolov5s.training_pipeline | step 57350 | loss_box=0.9152 loss_cls=1.3550 loss_dfl=0.0165 loss_total=157.8164 lr=0.00969088
+2026-07-15 03:45:41 INFO  scripts.training.yolov5s.training_pipeline | step 57400 | loss_box=0.8400 loss_cls=1.2040 loss_dfl=0.0188 loss_total=139.1436 lr=0.00969027
+2026-07-15 03:46:54 INFO  scripts.training.yolov5s.training_pipeline | step 57450 | loss_box=0.8078 loss_cls=1.3790 loss_dfl=0.0163 loss_total=145.7025 lr=0.00968967
+2026-07-15 03:48:13 INFO  scripts.training.yolov5s.training_pipeline | step 57500 | loss_box=0.8357 loss_cls=1.4307 loss_dfl=0.0138 loss_total=155.0948 lr=0.00968906
+2026-07-15 03:49:53 INFO  scripts.training.yolov5s.training_pipeline | step 57550 | loss_box=0.7929 loss_cls=1.2164 loss_dfl=0.0161 loss_total=132.7529 lr=0.00968845
+2026-07-15 03:50:30 INFO  scripts.training.yolov5s.training_pipeline | step 57600 | loss_box=0.8307 loss_cls=1.1482 loss_dfl=0.0157 loss_total=133.3708 lr=0.00968785
+2026-07-15 03:51:20 INFO  scripts.training.yolov5s.training_pipeline | step 57650 | loss_box=0.8171 loss_cls=1.3666 loss_dfl=0.0131 loss_total=141.2164 lr=0.00968724
+2026-07-15 03:52:07 INFO  scripts.training.yolov5s.training_pipeline | step 57700 | loss_box=0.8189 loss_cls=1.2724 loss_dfl=0.0165 loss_total=145.8138 lr=0.00968663
+2026-07-15 03:53:43 INFO  scripts.training.yolov5s.training_pipeline | step 57750 | loss_box=0.7881 loss_cls=1.4277 loss_dfl=0.0144 loss_total=143.3796 lr=0.00968602
+2026-07-15 03:54:57 INFO  scripts.training.yolov5s.training_pipeline | step 57800 | loss_box=0.8899 loss_cls=1.1814 loss_dfl=0.0204 loss_total=148.2285 lr=0.00968541
+2026-07-15 03:55:41 INFO  scripts.training.yolov5s.training_pipeline | step 57850 | loss_box=0.8449 loss_cls=1.1494 loss_dfl=0.0167 loss_total=138.2897 lr=0.0096848
+2026-07-15 03:56:20 INFO  scripts.training.yolov5s.training_pipeline | step 57900 | loss_box=0.6782 loss_cls=1.1340 loss_dfl=0.0164 loss_total=134.7791 lr=0.00968419
+2026-07-15 03:57:03 INFO  scripts.training.yolov5s.training_pipeline | step 57950 | loss_box=0.8379 loss_cls=1.2762 loss_dfl=0.0158 loss_total=138.8461 lr=0.00968357
+2026-07-15 03:58:09 INFO  scripts.training.yolov5s.training_pipeline | step 58000 | loss_box=0.8196 loss_cls=1.1951 loss_dfl=0.0169 loss_total=139.6117 lr=0.00968296
+2026-07-15 03:59:00 INFO  scripts.training.yolov5s.training_pipeline | step 58050 | loss_box=0.8599 loss_cls=1.1284 loss_dfl=0.0161 loss_total=137.9998 lr=0.00968235
+2026-07-15 03:59:52 INFO  scripts.training.yolov5s.training_pipeline | step 58100 | loss_box=0.9058 loss_cls=1.3442 loss_dfl=0.0196 loss_total=157.0782 lr=0.00968173
+2026-07-15 04:00:44 INFO  scripts.training.yolov5s.training_pipeline | step 58150 | loss_box=0.7159 loss_cls=0.9180 loss_dfl=0.0143 loss_total=119.1361 lr=0.00968112
+2026-07-15 04:01:45 INFO  scripts.training.yolov5s.training_pipeline | step 58200 | loss_box=0.8092 loss_cls=1.4619 loss_dfl=0.0129 loss_total=148.0635 lr=0.0096805
+2026-07-15 04:03:13 INFO  scripts.training.yolov5s.training_pipeline | step 58250 | loss_box=1.0176 loss_cls=1.6159 loss_dfl=0.0189 loss_total=181.1970 lr=0.00967989
+2026-07-15 04:03:58 INFO  scripts.training.yolov5s.training_pipeline | step 58300 | loss_box=0.8137 loss_cls=1.2554 loss_dfl=0.0145 loss_total=144.6235 lr=0.00967927
+2026-07-15 04:04:38 INFO  scripts.training.yolov5s.training_pipeline | step 58350 | loss_box=0.8387 loss_cls=1.2001 loss_dfl=0.0166 loss_total=147.6783 lr=0.00967866
+2026-07-15 04:05:38 INFO  scripts.training.yolov5s.training_pipeline | step 58400 | loss_box=0.7202 loss_cls=1.2624 loss_dfl=0.0130 loss_total=136.2170 lr=0.00967804
+2026-07-15 04:06:34 INFO  scripts.training.yolov5s.training_pipeline | step 58450 | loss_box=0.6456 loss_cls=1.0826 loss_dfl=0.0132 loss_total=116.8499 lr=0.00967742
+2026-07-15 04:07:21 INFO  scripts.training.yolov5s.training_pipeline | step 58500 | loss_box=0.9212 loss_cls=1.3520 loss_dfl=0.0179 loss_total=146.0302 lr=0.0096768
+2026-07-15 04:08:26 INFO  scripts.training.yolov5s.training_pipeline | step 58550 | loss_box=0.7622 loss_cls=1.5737 loss_dfl=0.0117 loss_total=164.7675 lr=0.00967618
+2026-07-15 04:09:36 INFO  scripts.training.yolov5s.training_pipeline | step 58600 | loss_box=0.7770 loss_cls=1.3333 loss_dfl=0.0148 loss_total=136.0786 lr=0.00967556
+2026-07-15 04:10:28 INFO  scripts.training.yolov5s.training_pipeline | step 58650 | loss_box=0.8765 loss_cls=1.3385 loss_dfl=0.0140 loss_total=144.4266 lr=0.00967494
+2026-07-15 04:12:09 INFO  scripts.training.yolov5s.training_pipeline | step 58700 | loss_box=0.7377 loss_cls=1.3063 loss_dfl=0.0133 loss_total=135.2370 lr=0.00967432
+2026-07-15 04:12:59 INFO  scripts.training.yolov5s.training_pipeline | step 58750 | loss_box=0.8247 loss_cls=1.2688 loss_dfl=0.0160 loss_total=140.9310 lr=0.0096737
+2026-07-15 04:13:49 INFO  scripts.training.yolov5s.training_pipeline | step 58800 | loss_box=0.8487 loss_cls=1.5058 loss_dfl=0.0166 loss_total=165.6916 lr=0.00967308
+2026-07-15 04:14:21 INFO  scripts.training.yolov5s.training_pipeline | step 58850 | loss_box=0.9723 loss_cls=1.2592 loss_dfl=0.0185 loss_total=145.3851 lr=0.00967246
+2026-07-15 04:15:16 INFO  scripts.training.yolov5s.training_pipeline | step 58900 | loss_box=0.9203 loss_cls=1.2166 loss_dfl=0.0176 loss_total=142.6610 lr=0.00967183
+2026-07-15 04:16:16 INFO  scripts.training.yolov5s.training_pipeline | step 58950 | loss_box=0.7810 loss_cls=1.3776 loss_dfl=0.0149 loss_total=151.4380 lr=0.00967121
+2026-07-15 04:17:21 INFO  scripts.training.yolov5s.training_pipeline | step 59000 | loss_box=0.7898 loss_cls=1.2777 loss_dfl=0.0138 loss_total=136.7302 lr=0.00967059
+2026-07-15 04:19:07 INFO  scripts.training.yolov5s.training_pipeline | step 59050 | loss_box=0.8154 loss_cls=1.2384 loss_dfl=0.0155 loss_total=149.5049 lr=0.00966996
+2026-07-15 04:20:15 INFO  scripts.training.yolov5s.training_pipeline | step 59100 | loss_box=0.6942 loss_cls=1.1272 loss_dfl=0.0138 loss_total=121.9886 lr=0.00966934
+2026-07-15 04:21:04 INFO  scripts.training.yolov5s.training_pipeline | step 59150 | loss_box=0.8671 loss_cls=1.2189 loss_dfl=0.0173 loss_total=138.9490 lr=0.00966871
+2026-07-15 04:21:53 INFO  scripts.training.yolov5s.training_pipeline | step 59200 | loss_box=1.0281 loss_cls=1.3584 loss_dfl=0.0191 loss_total=180.5424 lr=0.00966808
+2026-07-15 04:22:29 INFO  scripts.training.yolov5s.training_pipeline | epoch 26/200 — train done in 2653.1s | avg loss_box=0.8347 loss_cls=1.3248 loss_dfl=0.0159 loss_total=147.5049
+2026-07-15 04:22:29 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 04:34:52 INFO  scripts.training.yolov5s.training_pipeline | epoch 26/200 — val mAP50=0.4949 mAP50_95=0.3971 (selection mAP50_95=0.3971)
+2026-07-15 04:34:52 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.4949 val/mAP50_95=0.3971 (step=25)
+2026-07-15 04:34:53 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 04:34:53 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 04:34:53 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.3971 at epoch 26
+2026-07-15 04:34:53 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 04:34:53 INFO  scripts.training.yolov5s.training_pipeline | epoch 26/200 done — next lr=0.00966775, epochs_since_improve=0/20
+2026-07-15 04:34:53 INFO  scripts.training.yolov5s.training_pipeline | epoch 27/200 — train start (lr=0.00966775, batches=2278)
+2026-07-15 04:35:17 INFO  scripts.training.yolov5s.training_pipeline | step 59250 | loss_box=0.7364 loss_cls=1.2758 loss_dfl=0.0137 loss_total=137.4420 lr=0.00966746
+2026-07-15 04:35:56 INFO  scripts.training.yolov5s.training_pipeline | step 59300 | loss_box=0.7984 loss_cls=1.1843 loss_dfl=0.0161 loss_total=134.7964 lr=0.00966683
+2026-07-15 04:36:34 INFO  scripts.training.yolov5s.training_pipeline | step 59350 | loss_box=0.9091 loss_cls=1.1428 loss_dfl=0.0188 loss_total=150.2657 lr=0.0096662
+2026-07-15 04:37:12 INFO  scripts.training.yolov5s.training_pipeline | step 59400 | loss_box=0.7831 loss_cls=1.4123 loss_dfl=0.0149 loss_total=155.8215 lr=0.00966557
+2026-07-15 04:37:51 INFO  scripts.training.yolov5s.training_pipeline | step 59450 | loss_box=0.7710 loss_cls=1.2763 loss_dfl=0.0146 loss_total=140.9282 lr=0.00966494
+2026-07-15 04:38:25 INFO  scripts.training.yolov5s.training_pipeline | step 59500 | loss_box=0.7002 loss_cls=1.0616 loss_dfl=0.0150 loss_total=129.3600 lr=0.00966431
+2026-07-15 04:39:00 INFO  scripts.training.yolov5s.training_pipeline | step 59550 | loss_box=0.9033 loss_cls=1.1751 loss_dfl=0.0160 loss_total=134.7172 lr=0.00966368
+2026-07-15 04:40:11 INFO  scripts.training.yolov5s.training_pipeline | step 59600 | loss_box=0.8192 loss_cls=1.1369 loss_dfl=0.0173 loss_total=142.3889 lr=0.00966305
+2026-07-15 04:40:58 INFO  scripts.training.yolov5s.training_pipeline | step 59650 | loss_box=0.7958 loss_cls=1.2865 loss_dfl=0.0164 loss_total=143.5348 lr=0.00966242
+2026-07-15 04:41:54 INFO  scripts.training.yolov5s.training_pipeline | step 59700 | loss_box=0.7287 loss_cls=1.0748 loss_dfl=0.0147 loss_total=120.4813 lr=0.00966179
+2026-07-15 04:42:49 INFO  scripts.training.yolov5s.training_pipeline | step 59750 | loss_box=0.7318 loss_cls=1.4042 loss_dfl=0.0125 loss_total=142.6376 lr=0.00966116
+2026-07-15 04:43:31 INFO  scripts.training.yolov5s.training_pipeline | step 59800 | loss_box=0.9461 loss_cls=1.2342 loss_dfl=0.0161 loss_total=148.2968 lr=0.00966052
+2026-07-15 04:44:13 INFO  scripts.training.yolov5s.training_pipeline | step 59850 | loss_box=0.7520 loss_cls=1.4343 loss_dfl=0.0145 loss_total=145.7368 lr=0.00965989
+2026-07-15 04:44:52 INFO  scripts.training.yolov5s.training_pipeline | step 59900 | loss_box=0.8274 loss_cls=1.3040 loss_dfl=0.0142 loss_total=145.9386 lr=0.00965925
+2026-07-15 04:45:55 INFO  scripts.training.yolov5s.training_pipeline | step 59950 | loss_box=0.8204 loss_cls=1.1824 loss_dfl=0.0158 loss_total=148.1310 lr=0.00965862
+2026-07-15 04:46:49 INFO  scripts.training.yolov5s.training_pipeline | step 60000 | loss_box=0.7972 loss_cls=1.4223 loss_dfl=0.0162 loss_total=148.8692 lr=0.00965798
+2026-07-15 04:47:44 INFO  scripts.training.yolov5s.training_pipeline | step 60050 | loss_box=0.8073 loss_cls=1.5976 loss_dfl=0.0146 loss_total=158.7249 lr=0.00965735
+2026-07-15 04:48:50 INFO  scripts.training.yolov5s.training_pipeline | step 60100 | loss_box=0.8301 loss_cls=1.2074 loss_dfl=0.0186 loss_total=148.2688 lr=0.00965671
+2026-07-15 04:50:03 INFO  scripts.training.yolov5s.training_pipeline | step 60150 | loss_box=0.8217 loss_cls=1.3844 loss_dfl=0.0140 loss_total=149.3334 lr=0.00965607
+2026-07-15 04:50:58 INFO  scripts.training.yolov5s.training_pipeline | step 60200 | loss_box=0.6961 loss_cls=1.3133 loss_dfl=0.0125 loss_total=135.5224 lr=0.00965544
+2026-07-15 04:52:18 INFO  scripts.training.yolov5s.training_pipeline | step 60250 | loss_box=0.7380 loss_cls=1.0538 loss_dfl=0.0144 loss_total=119.0146 lr=0.0096548
+2026-07-15 04:53:27 INFO  scripts.training.yolov5s.training_pipeline | step 60300 | loss_box=0.8631 loss_cls=1.4833 loss_dfl=0.0135 loss_total=160.7246 lr=0.00965416
+2026-07-15 04:54:18 INFO  scripts.training.yolov5s.training_pipeline | step 60350 | loss_box=0.6680 loss_cls=1.2172 loss_dfl=0.0131 loss_total=144.1340 lr=0.00965352
+2026-07-15 04:55:00 INFO  scripts.training.yolov5s.training_pipeline | step 60400 | loss_box=0.7909 loss_cls=1.2367 loss_dfl=0.0176 loss_total=150.0577 lr=0.00965288
+2026-07-15 04:56:00 INFO  scripts.training.yolov5s.training_pipeline | step 60450 | loss_box=0.9042 loss_cls=1.1976 loss_dfl=0.0161 loss_total=145.2045 lr=0.00965224
+2026-07-15 04:56:54 INFO  scripts.training.yolov5s.training_pipeline | step 60500 | loss_box=0.7378 loss_cls=1.2835 loss_dfl=0.0148 loss_total=136.5545 lr=0.0096516
+2026-07-15 04:57:52 INFO  scripts.training.yolov5s.training_pipeline | step 60550 | loss_box=0.8963 loss_cls=1.3269 loss_dfl=0.0169 loss_total=148.6536 lr=0.00965096
+2026-07-15 04:58:43 INFO  scripts.training.yolov5s.training_pipeline | step 60600 | loss_box=0.8271 loss_cls=1.3540 loss_dfl=0.0167 loss_total=141.1200 lr=0.00965031
+2026-07-15 04:59:47 INFO  scripts.training.yolov5s.training_pipeline | step 60650 | loss_box=0.8494 loss_cls=1.4276 loss_dfl=0.0172 loss_total=154.3389 lr=0.00964967
+2026-07-15 05:00:44 INFO  scripts.training.yolov5s.training_pipeline | step 60700 | loss_box=0.7908 loss_cls=1.1111 loss_dfl=0.0165 loss_total=133.8392 lr=0.00964903
+2026-07-15 05:01:26 INFO  scripts.training.yolov5s.training_pipeline | step 60750 | loss_box=0.8200 loss_cls=1.3647 loss_dfl=0.0176 loss_total=149.3658 lr=0.00964838
+2026-07-15 05:02:25 INFO  scripts.training.yolov5s.training_pipeline | step 60800 | loss_box=0.7495 loss_cls=1.2511 loss_dfl=0.0141 loss_total=136.3626 lr=0.00964774
+2026-07-15 05:03:16 INFO  scripts.training.yolov5s.training_pipeline | step 60850 | loss_box=0.8317 loss_cls=1.2876 loss_dfl=0.0144 loss_total=136.6470 lr=0.00964709
+2026-07-15 05:03:46 INFO  scripts.training.yolov5s.training_pipeline | step 60900 | loss_box=0.7789 loss_cls=1.4667 loss_dfl=0.0138 loss_total=152.1252 lr=0.00964645
+2026-07-15 05:04:43 INFO  scripts.training.yolov5s.training_pipeline | step 60950 | loss_box=0.8786 loss_cls=1.0600 loss_dfl=0.0179 loss_total=132.5089 lr=0.0096458
+2026-07-15 05:05:37 INFO  scripts.training.yolov5s.training_pipeline | step 61000 | loss_box=0.6606 loss_cls=1.0821 loss_dfl=0.0136 loss_total=113.9877 lr=0.00964515
+2026-07-15 05:06:29 INFO  scripts.training.yolov5s.training_pipeline | step 61050 | loss_box=0.8994 loss_cls=1.4546 loss_dfl=0.0164 loss_total=159.7446 lr=0.00964451
+2026-07-15 05:07:20 INFO  scripts.training.yolov5s.training_pipeline | step 61100 | loss_box=0.6823 loss_cls=1.4294 loss_dfl=0.0150 loss_total=141.4629 lr=0.00964386
+2026-07-15 05:08:00 INFO  scripts.training.yolov5s.training_pipeline | step 61150 | loss_box=0.9174 loss_cls=1.4525 loss_dfl=0.0186 loss_total=160.4452 lr=0.00964321
+2026-07-15 05:08:28 INFO  scripts.training.yolov5s.training_pipeline | step 61200 | loss_box=0.8425 loss_cls=1.2954 loss_dfl=0.0153 loss_total=150.3111 lr=0.00964256
+2026-07-15 05:08:53 INFO  scripts.training.yolov5s.training_pipeline | step 61250 | loss_box=0.8389 loss_cls=1.5664 loss_dfl=0.0156 loss_total=157.9391 lr=0.00964191
+2026-07-15 05:09:21 INFO  scripts.training.yolov5s.training_pipeline | step 61300 | loss_box=0.9120 loss_cls=1.2455 loss_dfl=0.0167 loss_total=145.2224 lr=0.00964126
+2026-07-15 05:10:15 INFO  scripts.training.yolov5s.training_pipeline | step 61350 | loss_box=0.9485 loss_cls=1.1915 loss_dfl=0.0208 loss_total=139.9254 lr=0.00964061
+2026-07-15 05:11:06 INFO  scripts.training.yolov5s.training_pipeline | step 61400 | loss_box=0.9250 loss_cls=1.6117 loss_dfl=0.0158 loss_total=171.6938 lr=0.00963996
+2026-07-15 05:12:02 INFO  scripts.training.yolov5s.training_pipeline | step 61450 | loss_box=0.8595 loss_cls=1.5466 loss_dfl=0.0148 loss_total=160.0250 lr=0.00963931
+2026-07-15 05:13:04 INFO  scripts.training.yolov5s.training_pipeline | step 61500 | loss_box=0.8607 loss_cls=1.3942 loss_dfl=0.0164 loss_total=156.9236 lr=0.00963865
+2026-07-15 05:13:11 INFO  scripts.training.yolov5s.training_pipeline | epoch 27/200 — train done in 2297.3s | avg loss_box=0.8290 loss_cls=1.3088 loss_dfl=0.0158 loss_total=145.5806
+2026-07-15 05:13:11 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 05:30:26 INFO  scripts.training.yolov5s.training_pipeline | epoch 27/200 — val mAP50=0.5008 mAP50_95=0.4025 (selection mAP50_95=0.4025)
+2026-07-15 05:30:26 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.5008 val/mAP50_95=0.4025 (step=26)
+2026-07-15 05:30:27 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 05:30:27 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 05:30:27 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.4025 at epoch 27
+2026-07-15 05:30:27 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 05:30:27 INFO  scripts.training.yolov5s.training_pipeline | epoch 27/200 done — next lr=0.00963859, epochs_since_improve=0/20
+2026-07-15 05:30:27 INFO  scripts.training.yolov5s.training_pipeline | epoch 28/200 — train start (lr=0.00963859, batches=2278)
+2026-07-15 05:31:14 INFO  scripts.training.yolov5s.training_pipeline | step 61550 | loss_box=0.9168 loss_cls=1.4451 loss_dfl=0.0224 loss_total=171.2007 lr=0.009638
+2026-07-15 05:31:43 INFO  scripts.training.yolov5s.training_pipeline | step 61600 | loss_box=0.7961 loss_cls=1.0810 loss_dfl=0.0146 loss_total=133.9052 lr=0.00963735
+2026-07-15 05:32:11 INFO  scripts.training.yolov5s.training_pipeline | step 61650 | loss_box=0.9443 loss_cls=1.3949 loss_dfl=0.0179 loss_total=160.9130 lr=0.00963669
+2026-07-15 05:32:46 INFO  scripts.training.yolov5s.training_pipeline | step 61700 | loss_box=0.9405 loss_cls=1.2763 loss_dfl=0.0187 loss_total=151.2715 lr=0.00963604
+2026-07-15 05:34:22 INFO  scripts.training.yolov5s.training_pipeline | step 61750 | loss_box=0.8065 loss_cls=1.5153 loss_dfl=0.0128 loss_total=159.8568 lr=0.00963538
+2026-07-15 05:36:06 INFO  scripts.training.yolov5s.training_pipeline | step 61800 | loss_box=0.8135 loss_cls=1.2195 loss_dfl=0.0144 loss_total=134.0467 lr=0.00963473
+2026-07-15 05:37:20 INFO  scripts.training.yolov5s.training_pipeline | step 61850 | loss_box=0.7543 loss_cls=1.2529 loss_dfl=0.0167 loss_total=132.0392 lr=0.00963407
+2026-07-15 05:38:16 INFO  scripts.training.yolov5s.training_pipeline | step 61900 | loss_box=0.7606 loss_cls=1.1480 loss_dfl=0.0138 loss_total=144.6402 lr=0.00963341
+2026-07-15 05:39:15 INFO  scripts.training.yolov5s.training_pipeline | step 61950 | loss_box=0.8774 loss_cls=1.3509 loss_dfl=0.0161 loss_total=150.3317 lr=0.00963275
+2026-07-15 05:40:16 INFO  scripts.training.yolov5s.training_pipeline | step 62000 | loss_box=0.7532 loss_cls=1.2038 loss_dfl=0.0155 loss_total=138.7326 lr=0.0096321
+2026-07-15 05:41:35 INFO  scripts.training.yolov5s.training_pipeline | step 62050 | loss_box=0.9684 loss_cls=1.4107 loss_dfl=0.0188 loss_total=148.9528 lr=0.00963144
+2026-07-15 05:42:25 INFO  scripts.training.yolov5s.training_pipeline | step 62100 | loss_box=0.8084 loss_cls=1.2352 loss_dfl=0.0139 loss_total=141.3606 lr=0.00963078
+2026-07-15 05:44:03 INFO  scripts.training.yolov5s.training_pipeline | step 62150 | loss_box=0.8475 loss_cls=1.2169 loss_dfl=0.0137 loss_total=141.3637 lr=0.00963012
+2026-07-15 05:45:41 INFO  scripts.training.yolov5s.training_pipeline | step 62200 | loss_box=0.6762 loss_cls=1.2662 loss_dfl=0.0127 loss_total=129.2171 lr=0.00962946
+2026-07-15 05:47:12 INFO  scripts.training.yolov5s.training_pipeline | step 62250 | loss_box=0.7450 loss_cls=1.2941 loss_dfl=0.0147 loss_total=152.4213 lr=0.0096288
+2026-07-15 05:47:57 INFO  scripts.training.yolov5s.training_pipeline | step 62300 | loss_box=0.8361 loss_cls=1.3725 loss_dfl=0.0174 loss_total=153.0902 lr=0.00962813
+2026-07-15 05:49:02 INFO  scripts.training.yolov5s.training_pipeline | step 62350 | loss_box=0.8261 loss_cls=1.2566 loss_dfl=0.0166 loss_total=143.8345 lr=0.00962747
+2026-07-15 05:49:49 INFO  scripts.training.yolov5s.training_pipeline | step 62400 | loss_box=0.8524 loss_cls=1.2453 loss_dfl=0.0160 loss_total=148.2802 lr=0.00962681
+2026-07-15 05:50:28 INFO  scripts.training.yolov5s.training_pipeline | step 62450 | loss_box=0.9514 loss_cls=1.2029 loss_dfl=0.0184 loss_total=155.5367 lr=0.00962615
+2026-07-15 05:51:14 INFO  scripts.training.yolov5s.training_pipeline | step 62500 | loss_box=0.6911 loss_cls=1.2221 loss_dfl=0.0134 loss_total=129.9725 lr=0.00962548
+2026-07-15 05:52:20 INFO  scripts.training.yolov5s.training_pipeline | step 62550 | loss_box=0.8583 loss_cls=1.2491 loss_dfl=0.0159 loss_total=142.1393 lr=0.00962482
+2026-07-15 05:53:44 INFO  scripts.training.yolov5s.training_pipeline | step 62600 | loss_box=0.9056 loss_cls=1.0321 loss_dfl=0.0170 loss_total=130.1443 lr=0.00962415
+2026-07-15 05:54:36 INFO  scripts.training.yolov5s.training_pipeline | step 62650 | loss_box=0.8409 loss_cls=1.2798 loss_dfl=0.0171 loss_total=140.9980 lr=0.00962349
+2026-07-15 05:55:45 INFO  scripts.training.yolov5s.training_pipeline | step 62700 | loss_box=0.8442 loss_cls=1.4894 loss_dfl=0.0180 loss_total=147.5403 lr=0.00962282
+2026-07-15 05:56:22 INFO  scripts.training.yolov5s.training_pipeline | step 62750 | loss_box=0.7285 loss_cls=1.2604 loss_dfl=0.0113 loss_total=141.6755 lr=0.00962215
+2026-07-15 05:57:15 INFO  scripts.training.yolov5s.training_pipeline | step 62800 | loss_box=0.8570 loss_cls=1.0531 loss_dfl=0.0160 loss_total=125.0343 lr=0.00962149
+2026-07-15 05:58:30 INFO  scripts.training.yolov5s.training_pipeline | step 62850 | loss_box=0.8101 loss_cls=1.0246 loss_dfl=0.0169 loss_total=121.4643 lr=0.00962082
+2026-07-15 05:59:49 INFO  scripts.training.yolov5s.training_pipeline | step 62900 | loss_box=0.7381 loss_cls=1.1094 loss_dfl=0.0131 loss_total=132.3758 lr=0.00962015
+2026-07-15 06:01:28 INFO  scripts.training.yolov5s.training_pipeline | step 62950 | loss_box=0.8618 loss_cls=1.3646 loss_dfl=0.0151 loss_total=157.0570 lr=0.00961948
+2026-07-15 06:03:02 INFO  scripts.training.yolov5s.training_pipeline | step 63000 | loss_box=0.8567 loss_cls=1.1637 loss_dfl=0.0152 loss_total=137.1568 lr=0.00961881
+2026-07-15 06:04:32 INFO  scripts.training.yolov5s.training_pipeline | step 63050 | loss_box=0.8327 loss_cls=1.3928 loss_dfl=0.0130 loss_total=145.2768 lr=0.00961814
+2026-07-15 06:05:26 INFO  scripts.training.yolov5s.training_pipeline | step 63100 | loss_box=0.9738 loss_cls=1.3623 loss_dfl=0.0197 loss_total=155.5186 lr=0.00961747
+2026-07-15 06:06:55 INFO  scripts.training.yolov5s.training_pipeline | step 63150 | loss_box=0.8327 loss_cls=1.6130 loss_dfl=0.0157 loss_total=161.7109 lr=0.0096168
+2026-07-15 06:08:06 INFO  scripts.training.yolov5s.training_pipeline | step 63200 | loss_box=0.8151 loss_cls=1.3259 loss_dfl=0.0145 loss_total=141.8910 lr=0.00961613
+2026-07-15 06:09:39 INFO  scripts.training.yolov5s.training_pipeline | step 63250 | loss_box=0.8922 loss_cls=1.2650 loss_dfl=0.0176 loss_total=146.5706 lr=0.00961545
+2026-07-15 06:11:44 INFO  scripts.training.yolov5s.training_pipeline | step 63300 | loss_box=0.8055 loss_cls=1.1509 loss_dfl=0.0155 loss_total=133.4763 lr=0.00961478
+2026-07-15 06:12:32 INFO  scripts.training.yolov5s.training_pipeline | step 63350 | loss_box=0.7017 loss_cls=1.2637 loss_dfl=0.0130 loss_total=146.1156 lr=0.00961411
+2026-07-15 06:14:09 INFO  scripts.training.yolov5s.training_pipeline | step 63400 | loss_box=0.6934 loss_cls=1.0121 loss_dfl=0.0142 loss_total=124.8484 lr=0.00961343
+2026-07-15 06:15:06 INFO  scripts.training.yolov5s.training_pipeline | step 63450 | loss_box=1.0442 loss_cls=1.3686 loss_dfl=0.0177 loss_total=156.0911 lr=0.00961276
+2026-07-15 06:15:57 INFO  scripts.training.yolov5s.training_pipeline | step 63500 | loss_box=0.8417 loss_cls=1.2338 loss_dfl=0.0153 loss_total=128.8012 lr=0.00961208
+2026-07-15 06:18:04 INFO  scripts.training.yolov5s.training_pipeline | step 63550 | loss_box=0.8620 loss_cls=1.2725 loss_dfl=0.0175 loss_total=147.1608 lr=0.00961141
+2026-07-15 06:19:33 INFO  scripts.training.yolov5s.training_pipeline | step 63600 | loss_box=0.7674 loss_cls=1.1816 loss_dfl=0.0136 loss_total=137.1475 lr=0.00961073
+2026-07-15 06:21:34 INFO  scripts.training.yolov5s.training_pipeline | step 63650 | loss_box=0.8057 loss_cls=1.1277 loss_dfl=0.0152 loss_total=132.9299 lr=0.00961005
+2026-07-15 06:22:55 INFO  scripts.training.yolov5s.training_pipeline | step 63700 | loss_box=0.9042 loss_cls=1.3904 loss_dfl=0.0157 loss_total=152.7979 lr=0.00960938
+2026-07-15 06:24:53 INFO  scripts.training.yolov5s.training_pipeline | step 63750 | loss_box=0.7925 loss_cls=1.2724 loss_dfl=0.0178 loss_total=138.3293 lr=0.0096087
+2026-07-15 06:25:44 INFO  scripts.training.yolov5s.training_pipeline | epoch 28/200 — train done in 3316.3s | avg loss_box=0.8253 loss_cls=1.2878 loss_dfl=0.0157 loss_total=143.6346
+2026-07-15 06:25:44 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 06:39:55 INFO  scripts.training.yolov5s.training_pipeline | epoch 28/200 — val mAP50=0.5064 mAP50_95=0.4080 (selection mAP50_95=0.4080)
+2026-07-15 06:39:56 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.5064 val/mAP50_95=0.4080 (step=27)
+2026-07-15 06:39:56 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 06:39:56 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 06:39:56 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.4080 at epoch 28
+2026-07-15 06:39:56 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 06:39:57 INFO  scripts.training.yolov5s.training_pipeline | epoch 28/200 done — next lr=0.00960825, epochs_since_improve=0/20
+2026-07-15 06:39:57 INFO  scripts.training.yolov5s.training_pipeline | epoch 29/200 — train start (lr=0.00960825, batches=2278)
+2026-07-15 06:40:16 INFO  scripts.training.yolov5s.training_pipeline | step 63800 | loss_box=0.6874 loss_cls=1.4395 loss_dfl=0.0124 loss_total=149.2924 lr=0.00960802
+2026-07-15 06:40:59 INFO  scripts.training.yolov5s.training_pipeline | step 63850 | loss_box=0.7867 loss_cls=1.2753 loss_dfl=0.0139 loss_total=143.3666 lr=0.00960734
+2026-07-15 06:41:45 INFO  scripts.training.yolov5s.training_pipeline | step 63900 | loss_box=0.8245 loss_cls=1.1825 loss_dfl=0.0146 loss_total=134.7689 lr=0.00960666
+2026-07-15 06:42:15 INFO  scripts.training.yolov5s.training_pipeline | step 63950 | loss_box=0.9870 loss_cls=1.3777 loss_dfl=0.0171 loss_total=162.3759 lr=0.00960598
+2026-07-15 06:42:39 INFO  scripts.training.yolov5s.training_pipeline | step 64000 | loss_box=0.6714 loss_cls=1.1550 loss_dfl=0.0138 loss_total=134.0844 lr=0.0096053
+2026-07-15 06:43:26 INFO  scripts.training.yolov5s.training_pipeline | step 64050 | loss_box=0.6882 loss_cls=1.0070 loss_dfl=0.0133 loss_total=119.8654 lr=0.00960462
+2026-07-15 06:44:13 INFO  scripts.training.yolov5s.training_pipeline | step 64100 | loss_box=0.8879 loss_cls=1.3322 loss_dfl=0.0154 loss_total=159.7211 lr=0.00960394
+2026-07-15 06:45:48 INFO  scripts.training.yolov5s.training_pipeline | step 64150 | loss_box=0.8069 loss_cls=1.2935 loss_dfl=0.0176 loss_total=139.1875 lr=0.00960325
+2026-07-15 06:47:10 INFO  scripts.training.yolov5s.training_pipeline | step 64200 | loss_box=0.7551 loss_cls=1.1487 loss_dfl=0.0139 loss_total=138.8648 lr=0.00960257
+2026-07-15 06:48:03 INFO  scripts.training.yolov5s.training_pipeline | step 64250 | loss_box=0.8666 loss_cls=1.3334 loss_dfl=0.0171 loss_total=144.0405 lr=0.00960189
+2026-07-15 06:49:22 INFO  scripts.training.yolov5s.training_pipeline | step 64300 | loss_box=0.7219 loss_cls=1.1466 loss_dfl=0.0138 loss_total=132.3513 lr=0.0096012
+2026-07-15 06:50:28 INFO  scripts.training.yolov5s.training_pipeline | step 64350 | loss_box=0.7239 loss_cls=1.1288 loss_dfl=0.0136 loss_total=133.8298 lr=0.00960052
+2026-07-15 06:52:02 INFO  scripts.training.yolov5s.training_pipeline | step 64400 | loss_box=0.8908 loss_cls=1.5094 loss_dfl=0.0152 loss_total=165.1671 lr=0.00959983
+2026-07-15 06:53:17 INFO  scripts.training.yolov5s.training_pipeline | step 64450 | loss_box=0.8675 loss_cls=1.5218 loss_dfl=0.0150 loss_total=157.3599 lr=0.00959915
+2026-07-15 06:53:54 INFO  scripts.training.yolov5s.training_pipeline | step 64500 | loss_box=0.9178 loss_cls=1.1325 loss_dfl=0.0173 loss_total=138.1422 lr=0.00959846
+2026-07-15 06:54:50 INFO  scripts.training.yolov5s.training_pipeline | step 64550 | loss_box=0.7564 loss_cls=1.2503 loss_dfl=0.0134 loss_total=133.1165 lr=0.00959777
+2026-07-15 06:55:37 INFO  scripts.training.yolov5s.training_pipeline | step 64600 | loss_box=0.7287 loss_cls=1.1043 loss_dfl=0.0146 loss_total=124.9976 lr=0.00959709
+2026-07-15 06:56:34 INFO  scripts.training.yolov5s.training_pipeline | step 64650 | loss_box=0.8075 loss_cls=1.3930 loss_dfl=0.0151 loss_total=145.7868 lr=0.0095964
+2026-07-15 06:57:07 INFO  scripts.training.yolov5s.training_pipeline | step 64700 | loss_box=0.9027 loss_cls=1.3142 loss_dfl=0.0174 loss_total=143.6640 lr=0.00959571
+2026-07-15 06:58:14 INFO  scripts.training.yolov5s.training_pipeline | step 64750 | loss_box=0.8795 loss_cls=1.3103 loss_dfl=0.0152 loss_total=142.4802 lr=0.00959502
+2026-07-15 06:59:53 INFO  scripts.training.yolov5s.training_pipeline | step 64800 | loss_box=0.8238 loss_cls=1.2481 loss_dfl=0.0147 loss_total=145.9849 lr=0.00959433
+2026-07-15 07:00:42 INFO  scripts.training.yolov5s.training_pipeline | step 64850 | loss_box=0.6941 loss_cls=1.1343 loss_dfl=0.0150 loss_total=128.8190 lr=0.00959364
+2026-07-15 07:02:05 INFO  scripts.training.yolov5s.training_pipeline | step 64900 | loss_box=0.7787 loss_cls=0.9265 loss_dfl=0.0159 loss_total=127.5078 lr=0.00959295
+2026-07-15 07:02:49 INFO  scripts.training.yolov5s.training_pipeline | step 64950 | loss_box=0.7388 loss_cls=1.1636 loss_dfl=0.0139 loss_total=124.1778 lr=0.00959226
+2026-07-15 07:03:37 INFO  scripts.training.yolov5s.training_pipeline | step 65000 | loss_box=0.7655 loss_cls=1.1882 loss_dfl=0.0163 loss_total=128.8283 lr=0.00959156
+2026-07-15 07:04:45 INFO  scripts.training.yolov5s.training_pipeline | step 65050 | loss_box=0.9683 loss_cls=1.3487 loss_dfl=0.0161 loss_total=153.5826 lr=0.00959087
+2026-07-15 07:05:48 INFO  scripts.training.yolov5s.training_pipeline | step 65100 | loss_box=0.9658 loss_cls=1.3808 loss_dfl=0.0166 loss_total=157.4749 lr=0.00959018
+2026-07-15 07:07:33 INFO  scripts.training.yolov5s.training_pipeline | step 65150 | loss_box=0.7079 loss_cls=1.0594 loss_dfl=0.0146 loss_total=119.6876 lr=0.00958948
+2026-07-15 07:09:07 INFO  scripts.training.yolov5s.training_pipeline | step 65200 | loss_box=0.8931 loss_cls=1.3223 loss_dfl=0.0171 loss_total=153.8203 lr=0.00958879
+2026-07-15 07:10:01 INFO  scripts.training.yolov5s.training_pipeline | step 65250 | loss_box=0.8758 loss_cls=1.1465 loss_dfl=0.0161 loss_total=142.2314 lr=0.00958809
+2026-07-15 07:11:03 INFO  scripts.training.yolov5s.training_pipeline | step 65300 | loss_box=0.8717 loss_cls=1.2703 loss_dfl=0.0165 loss_total=141.5665 lr=0.0095874
+2026-07-15 07:12:17 INFO  scripts.training.yolov5s.training_pipeline | step 65350 | loss_box=0.8784 loss_cls=1.1479 loss_dfl=0.0170 loss_total=135.0174 lr=0.0095867
+2026-07-15 07:13:22 INFO  scripts.training.yolov5s.training_pipeline | step 65400 | loss_box=0.8227 loss_cls=1.2575 loss_dfl=0.0141 loss_total=145.0688 lr=0.00958601
+2026-07-15 07:14:55 INFO  scripts.training.yolov5s.training_pipeline | step 65450 | loss_box=0.8412 loss_cls=1.5049 loss_dfl=0.0157 loss_total=151.5170 lr=0.00958531
+2026-07-15 07:15:35 INFO  scripts.training.yolov5s.training_pipeline | step 65500 | loss_box=0.8565 loss_cls=1.2351 loss_dfl=0.0158 loss_total=139.9184 lr=0.00958461
+2026-07-15 07:16:34 INFO  scripts.training.yolov5s.training_pipeline | step 65550 | loss_box=0.9136 loss_cls=1.3195 loss_dfl=0.0155 loss_total=153.6851 lr=0.00958391
+2026-07-15 07:17:41 INFO  scripts.training.yolov5s.training_pipeline | step 65600 | loss_box=0.7375 loss_cls=1.2790 loss_dfl=0.0150 loss_total=138.1049 lr=0.00958321
+2026-07-15 07:18:47 INFO  scripts.training.yolov5s.training_pipeline | step 65650 | loss_box=0.8190 loss_cls=1.3293 loss_dfl=0.0160 loss_total=141.6930 lr=0.00958251
+2026-07-15 07:20:10 INFO  scripts.training.yolov5s.training_pipeline | step 65700 | loss_box=0.8230 loss_cls=1.3247 loss_dfl=0.0164 loss_total=158.3307 lr=0.00958181
+2026-07-15 07:20:54 INFO  scripts.training.yolov5s.training_pipeline | step 65750 | loss_box=1.0249 loss_cls=1.2573 loss_dfl=0.0208 loss_total=155.2314 lr=0.00958111
+2026-07-15 07:21:40 INFO  scripts.training.yolov5s.training_pipeline | step 65800 | loss_box=1.0105 loss_cls=1.2972 loss_dfl=0.0185 loss_total=153.4199 lr=0.00958041
+2026-07-15 07:22:24 INFO  scripts.training.yolov5s.training_pipeline | step 65850 | loss_box=0.7083 loss_cls=1.0631 loss_dfl=0.0133 loss_total=133.0203 lr=0.00957971
+2026-07-15 07:23:05 INFO  scripts.training.yolov5s.training_pipeline | step 65900 | loss_box=0.8717 loss_cls=1.3098 loss_dfl=0.0186 loss_total=154.3018 lr=0.00957901
+2026-07-15 07:24:15 INFO  scripts.training.yolov5s.training_pipeline | step 65950 | loss_box=0.7905 loss_cls=1.2470 loss_dfl=0.0160 loss_total=135.5842 lr=0.00957831
+2026-07-15 07:25:26 INFO  scripts.training.yolov5s.training_pipeline | step 66000 | loss_box=0.8140 loss_cls=1.2016 loss_dfl=0.0146 loss_total=145.6994 lr=0.0095776
+2026-07-15 07:26:20 INFO  scripts.training.yolov5s.training_pipeline | step 66050 | loss_box=0.8892 loss_cls=1.5210 loss_dfl=0.0158 loss_total=153.7229 lr=0.0095769
+2026-07-15 07:26:26 INFO  scripts.training.yolov5s.training_pipeline | epoch 29/200 — train done in 2789.0s | avg loss_box=0.8240 loss_cls=1.2731 loss_dfl=0.0156 loss_total=142.0034
+2026-07-15 07:26:26 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 07:40:28 INFO  scripts.training.yolov5s.training_pipeline | epoch 29/200 — val mAP50=0.5124 mAP50_95=0.4132 (selection mAP50_95=0.4132)
+2026-07-15 07:40:29 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.5124 val/mAP50_95=0.4132 (step=28)
+2026-07-15 07:40:29 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 07:40:29 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 07:40:29 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.4132 at epoch 29
+2026-07-15 07:40:29 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 07:40:30 INFO  scripts.training.yolov5s.training_pipeline | epoch 29/200 done — next lr=0.00957674, epochs_since_improve=0/20
+2026-07-15 07:40:30 INFO  scripts.training.yolov5s.training_pipeline | epoch 30/200 — train start (lr=0.00957674, batches=2278)
+2026-07-15 07:40:54 INFO  scripts.training.yolov5s.training_pipeline | step 66100 | loss_box=0.9496 loss_cls=1.2882 loss_dfl=0.0150 loss_total=140.9345 lr=0.00957619
+2026-07-15 07:41:19 INFO  scripts.training.yolov5s.training_pipeline | step 66150 | loss_box=0.8582 loss_cls=1.1957 loss_dfl=0.0141 loss_total=151.0050 lr=0.00957549
+2026-07-15 07:41:44 INFO  scripts.training.yolov5s.training_pipeline | step 66200 | loss_box=0.9316 loss_cls=1.1855 loss_dfl=0.0192 loss_total=142.5254 lr=0.00957478
+2026-07-15 07:42:09 INFO  scripts.training.yolov5s.training_pipeline | step 66250 | loss_box=0.6951 loss_cls=1.3396 loss_dfl=0.0139 loss_total=131.9442 lr=0.00957408
+2026-07-15 07:43:34 INFO  scripts.training.yolov5s.training_pipeline | step 66300 | loss_box=0.8961 loss_cls=1.1834 loss_dfl=0.0158 loss_total=138.2939 lr=0.00957337
+2026-07-15 07:44:19 INFO  scripts.training.yolov5s.training_pipeline | step 66350 | loss_box=0.8928 loss_cls=1.1060 loss_dfl=0.0180 loss_total=137.7053 lr=0.00957266
+2026-07-15 07:45:12 INFO  scripts.training.yolov5s.training_pipeline | step 66400 | loss_box=0.8631 loss_cls=1.1730 loss_dfl=0.0175 loss_total=138.4721 lr=0.00957196
+2026-07-15 07:46:01 INFO  scripts.training.yolov5s.training_pipeline | step 66450 | loss_box=0.7874 loss_cls=1.4865 loss_dfl=0.0157 loss_total=148.5151 lr=0.00957125
+2026-07-15 07:46:52 INFO  scripts.training.yolov5s.training_pipeline | step 66500 | loss_box=0.8356 loss_cls=1.0997 loss_dfl=0.0164 loss_total=122.9936 lr=0.00957054
+2026-07-15 07:47:35 INFO  scripts.training.yolov5s.training_pipeline | step 66550 | loss_box=0.7320 loss_cls=1.0240 loss_dfl=0.0129 loss_total=126.0901 lr=0.00956983
+2026-07-15 07:48:04 INFO  scripts.training.yolov5s.training_pipeline | step 66600 | loss_box=0.8600 loss_cls=1.2141 loss_dfl=0.0170 loss_total=144.0117 lr=0.00956912
+2026-07-15 07:48:46 INFO  scripts.training.yolov5s.training_pipeline | step 66650 | loss_box=0.8696 loss_cls=1.2469 loss_dfl=0.0157 loss_total=143.7259 lr=0.00956841
+2026-07-15 07:49:38 INFO  scripts.training.yolov5s.training_pipeline | step 66700 | loss_box=0.7420 loss_cls=1.2981 loss_dfl=0.0148 loss_total=134.1801 lr=0.0095677
+2026-07-15 07:50:56 INFO  scripts.training.yolov5s.training_pipeline | step 66750 | loss_box=0.7220 loss_cls=1.1776 loss_dfl=0.0127 loss_total=128.9937 lr=0.00956698
+2026-07-15 07:52:17 INFO  scripts.training.yolov5s.training_pipeline | step 66800 | loss_box=0.7503 loss_cls=1.0744 loss_dfl=0.0125 loss_total=138.0078 lr=0.00956627
+2026-07-15 07:53:11 INFO  scripts.training.yolov5s.training_pipeline | step 66850 | loss_box=0.6359 loss_cls=1.2573 loss_dfl=0.0098 loss_total=126.8020 lr=0.00956556
+2026-07-15 07:54:11 INFO  scripts.training.yolov5s.training_pipeline | step 66900 | loss_box=0.9121 loss_cls=1.4277 loss_dfl=0.0164 loss_total=141.7720 lr=0.00956485
+2026-07-15 07:55:12 INFO  scripts.training.yolov5s.training_pipeline | step 66950 | loss_box=0.7681 loss_cls=1.2561 loss_dfl=0.0134 loss_total=139.5291 lr=0.00956413
+2026-07-15 07:56:03 INFO  scripts.training.yolov5s.training_pipeline | step 67000 | loss_box=0.9341 loss_cls=1.5006 loss_dfl=0.0158 loss_total=166.8600 lr=0.00956342
+2026-07-15 07:56:50 INFO  scripts.training.yolov5s.training_pipeline | step 67050 | loss_box=0.7886 loss_cls=1.3447 loss_dfl=0.0160 loss_total=149.6329 lr=0.0095627
+2026-07-15 07:57:34 INFO  scripts.training.yolov5s.training_pipeline | step 67100 | loss_box=0.7055 loss_cls=1.1838 loss_dfl=0.0150 loss_total=134.8148 lr=0.00956199
+2026-07-15 07:58:18 INFO  scripts.training.yolov5s.training_pipeline | step 67150 | loss_box=0.7154 loss_cls=1.3465 loss_dfl=0.0114 loss_total=138.4265 lr=0.00956127
+2026-07-15 07:59:31 INFO  scripts.training.yolov5s.training_pipeline | step 67200 | loss_box=0.7121 loss_cls=1.4115 loss_dfl=0.0129 loss_total=152.2037 lr=0.00956055
+2026-07-15 08:00:11 INFO  scripts.training.yolov5s.training_pipeline | step 67250 | loss_box=0.8339 loss_cls=1.2493 loss_dfl=0.0163 loss_total=144.3966 lr=0.00955984
+2026-07-15 08:00:56 INFO  scripts.training.yolov5s.training_pipeline | step 67300 | loss_box=0.7201 loss_cls=0.9757 loss_dfl=0.0126 loss_total=120.2623 lr=0.00955912
+2026-07-15 08:02:49 INFO  scripts.training.yolov5s.training_pipeline | step 67350 | loss_box=0.8392 loss_cls=0.9703 loss_dfl=0.0157 loss_total=133.5589 lr=0.0095584
+2026-07-15 08:03:35 INFO  scripts.training.yolov5s.training_pipeline | step 67400 | loss_box=0.8082 loss_cls=1.2775 loss_dfl=0.0147 loss_total=143.0555 lr=0.00955768
+2026-07-15 08:04:18 INFO  scripts.training.yolov5s.training_pipeline | step 67450 | loss_box=0.8181 loss_cls=1.2916 loss_dfl=0.0148 loss_total=138.1199 lr=0.00955696
+2026-07-15 08:04:57 INFO  scripts.training.yolov5s.training_pipeline | step 67500 | loss_box=0.8907 loss_cls=1.3751 loss_dfl=0.0178 loss_total=159.8120 lr=0.00955624
+2026-07-15 08:05:28 INFO  scripts.training.yolov5s.training_pipeline | step 67550 | loss_box=0.8320 loss_cls=1.1868 loss_dfl=0.0185 loss_total=145.8999 lr=0.00955552
+2026-07-15 08:06:04 INFO  scripts.training.yolov5s.training_pipeline | step 67600 | loss_box=0.7995 loss_cls=1.3670 loss_dfl=0.0125 loss_total=141.1471 lr=0.0095548
+2026-07-15 08:06:57 INFO  scripts.training.yolov5s.training_pipeline | step 67650 | loss_box=0.8116 loss_cls=1.5159 loss_dfl=0.0156 loss_total=153.2712 lr=0.00955408
+2026-07-15 08:07:26 INFO  scripts.training.yolov5s.training_pipeline | step 67700 | loss_box=0.7899 loss_cls=1.1852 loss_dfl=0.0133 loss_total=137.3379 lr=0.00955336
+2026-07-15 08:07:57 INFO  scripts.training.yolov5s.training_pipeline | step 67750 | loss_box=0.7856 loss_cls=1.2353 loss_dfl=0.0141 loss_total=136.3718 lr=0.00955263
+2026-07-15 08:08:54 INFO  scripts.training.yolov5s.training_pipeline | step 67800 | loss_box=0.8538 loss_cls=1.4790 loss_dfl=0.0155 loss_total=150.7128 lr=0.00955191
+2026-07-15 08:09:52 INFO  scripts.training.yolov5s.training_pipeline | step 67850 | loss_box=0.7572 loss_cls=1.2099 loss_dfl=0.0125 loss_total=134.3891 lr=0.00955118
+2026-07-15 08:10:52 INFO  scripts.training.yolov5s.training_pipeline | step 67900 | loss_box=0.8710 loss_cls=1.3051 loss_dfl=0.0164 loss_total=157.7666 lr=0.00955046
+2026-07-15 08:11:55 INFO  scripts.training.yolov5s.training_pipeline | step 67950 | loss_box=0.7700 loss_cls=1.0969 loss_dfl=0.0145 loss_total=126.8949 lr=0.00954973
+2026-07-15 08:13:11 INFO  scripts.training.yolov5s.training_pipeline | step 68000 | loss_box=0.8873 loss_cls=1.1156 loss_dfl=0.0162 loss_total=134.0270 lr=0.00954901
+2026-07-15 08:14:14 INFO  scripts.training.yolov5s.training_pipeline | step 68050 | loss_box=0.8975 loss_cls=1.3713 loss_dfl=0.0144 loss_total=147.6786 lr=0.00954828
+2026-07-15 08:15:07 INFO  scripts.training.yolov5s.training_pipeline | step 68100 | loss_box=0.9078 loss_cls=1.3057 loss_dfl=0.0135 loss_total=145.0128 lr=0.00954756
+2026-07-15 08:15:59 INFO  scripts.training.yolov5s.training_pipeline | step 68150 | loss_box=0.8722 loss_cls=1.3425 loss_dfl=0.0156 loss_total=154.4686 lr=0.00954683
+2026-07-15 08:17:21 INFO  scripts.training.yolov5s.training_pipeline | step 68200 | loss_box=0.6394 loss_cls=1.0449 loss_dfl=0.0134 loss_total=112.4055 lr=0.0095461
+2026-07-15 08:18:38 INFO  scripts.training.yolov5s.training_pipeline | step 68250 | loss_box=0.7600 loss_cls=1.4102 loss_dfl=0.0127 loss_total=153.8306 lr=0.00954537
+2026-07-15 08:19:30 INFO  scripts.training.yolov5s.training_pipeline | step 68300 | loss_box=0.9097 loss_cls=1.2072 loss_dfl=0.0151 loss_total=136.1737 lr=0.00954464
+2026-07-15 08:20:28 INFO  scripts.training.yolov5s.training_pipeline | epoch 30/200 — train done in 2398.4s | avg loss_box=0.8193 loss_cls=1.2555 loss_dfl=0.0155 loss_total=140.3326
+2026-07-15 08:20:28 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 08:37:36 INFO  scripts.training.yolov5s.training_pipeline | epoch 30/200 — val mAP50=0.5170 mAP50_95=0.4182 (selection mAP50_95=0.4182)
+2026-07-15 08:37:37 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.5170 val/mAP50_95=0.4182 (step=29)
+2026-07-15 08:37:38 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 08:37:38 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 08:37:38 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.4182 at epoch 30
+2026-07-15 08:37:38 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 08:37:38 INFO  scripts.training.yolov5s.training_pipeline | epoch 30/200 done — next lr=0.00954407, epochs_since_improve=0/20
+2026-07-15 08:37:38 INFO  scripts.training.yolov5s.training_pipeline | epoch 31/200 — train start (lr=0.00954407, batches=2278)
+2026-07-15 08:37:50 INFO  scripts.training.yolov5s.training_pipeline | step 68350 | loss_box=0.7749 loss_cls=1.1866 loss_dfl=0.0159 loss_total=131.5822 lr=0.00954391
+2026-07-15 08:38:15 INFO  scripts.training.yolov5s.training_pipeline | step 68400 | loss_box=0.7758 loss_cls=1.3019 loss_dfl=0.0158 loss_total=143.5443 lr=0.00954318
+2026-07-15 08:38:41 INFO  scripts.training.yolov5s.training_pipeline | step 68450 | loss_box=0.8953 loss_cls=1.1992 loss_dfl=0.0153 loss_total=137.5036 lr=0.00954245
+2026-07-15 08:39:06 INFO  scripts.training.yolov5s.training_pipeline | step 68500 | loss_box=0.7054 loss_cls=1.0778 loss_dfl=0.0148 loss_total=117.6530 lr=0.00954172
+2026-07-15 08:39:32 INFO  scripts.training.yolov5s.training_pipeline | step 68550 | loss_box=0.8399 loss_cls=1.2253 loss_dfl=0.0160 loss_total=130.3304 lr=0.00954099
+2026-07-15 08:40:14 INFO  scripts.training.yolov5s.training_pipeline | step 68600 | loss_box=0.8437 loss_cls=1.4022 loss_dfl=0.0149 loss_total=146.2046 lr=0.00954026
+2026-07-15 08:40:47 INFO  scripts.training.yolov5s.training_pipeline | step 68650 | loss_box=0.7604 loss_cls=1.1844 loss_dfl=0.0154 loss_total=131.4976 lr=0.00953952
+2026-07-15 08:41:39 INFO  scripts.training.yolov5s.training_pipeline | step 68700 | loss_box=0.8311 loss_cls=0.9786 loss_dfl=0.0166 loss_total=122.5933 lr=0.00953879
+2026-07-15 08:42:46 INFO  scripts.training.yolov5s.training_pipeline | step 68750 | loss_box=0.7578 loss_cls=1.3343 loss_dfl=0.0141 loss_total=139.4934 lr=0.00953806
+2026-07-15 08:43:41 INFO  scripts.training.yolov5s.training_pipeline | step 68800 | loss_box=0.7640 loss_cls=1.1386 loss_dfl=0.0136 loss_total=130.1565 lr=0.00953732
+2026-07-15 08:45:05 INFO  scripts.training.yolov5s.training_pipeline | step 68850 | loss_box=0.7135 loss_cls=1.1460 loss_dfl=0.0144 loss_total=124.6062 lr=0.00953659
+2026-07-15 08:46:03 INFO  scripts.training.yolov5s.training_pipeline | step 68900 | loss_box=0.7724 loss_cls=1.3222 loss_dfl=0.0143 loss_total=147.7443 lr=0.00953585
+2026-07-15 08:46:45 INFO  scripts.training.yolov5s.training_pipeline | step 68950 | loss_box=0.7690 loss_cls=1.2519 loss_dfl=0.0135 loss_total=132.0443 lr=0.00953511
+2026-07-15 08:47:38 INFO  scripts.training.yolov5s.training_pipeline | step 69000 | loss_box=0.7328 loss_cls=0.9973 loss_dfl=0.0135 loss_total=119.0789 lr=0.00953438
+2026-07-15 08:48:14 INFO  scripts.training.yolov5s.training_pipeline | step 69050 | loss_box=0.8325 loss_cls=1.2932 loss_dfl=0.0172 loss_total=143.2167 lr=0.00953364
+2026-07-15 08:49:16 INFO  scripts.training.yolov5s.training_pipeline | step 69100 | loss_box=0.8183 loss_cls=0.9582 loss_dfl=0.0177 loss_total=125.9372 lr=0.0095329
+2026-07-15 08:50:16 INFO  scripts.training.yolov5s.training_pipeline | step 69150 | loss_box=0.8889 loss_cls=1.0417 loss_dfl=0.0158 loss_total=127.1630 lr=0.00953216
+2026-07-15 08:51:23 INFO  scripts.training.yolov5s.training_pipeline | step 69200 | loss_box=0.7015 loss_cls=1.1153 loss_dfl=0.0135 loss_total=130.4532 lr=0.00953143
+2026-07-15 08:52:19 INFO  scripts.training.yolov5s.training_pipeline | step 69250 | loss_box=0.8519 loss_cls=1.1609 loss_dfl=0.0153 loss_total=142.3472 lr=0.00953069
+2026-07-15 08:53:30 INFO  scripts.training.yolov5s.training_pipeline | step 69300 | loss_box=0.9703 loss_cls=1.1282 loss_dfl=0.0191 loss_total=133.1562 lr=0.00952995
+2026-07-15 08:54:52 INFO  scripts.training.yolov5s.training_pipeline | step 69350 | loss_box=0.8055 loss_cls=1.0101 loss_dfl=0.0152 loss_total=118.9203 lr=0.0095292
+2026-07-15 08:56:03 INFO  scripts.training.yolov5s.training_pipeline | step 69400 | loss_box=0.8451 loss_cls=1.2720 loss_dfl=0.0159 loss_total=144.0771 lr=0.00952846
+2026-07-15 08:57:34 INFO  scripts.training.yolov5s.training_pipeline | step 69450 | loss_box=0.7753 loss_cls=1.0321 loss_dfl=0.0153 loss_total=128.0870 lr=0.00952772
+2026-07-15 08:58:22 INFO  scripts.training.yolov5s.training_pipeline | step 69500 | loss_box=0.8062 loss_cls=1.1998 loss_dfl=0.0163 loss_total=135.4311 lr=0.00952698
+2026-07-15 08:59:14 INFO  scripts.training.yolov5s.training_pipeline | step 69550 | loss_box=0.8457 loss_cls=1.2159 loss_dfl=0.0183 loss_total=136.5554 lr=0.00952624
+2026-07-15 08:59:53 INFO  scripts.training.yolov5s.training_pipeline | step 69600 | loss_box=0.7286 loss_cls=1.4231 loss_dfl=0.0136 loss_total=147.1776 lr=0.00952549
+2026-07-15 09:00:39 INFO  scripts.training.yolov5s.training_pipeline | step 69650 | loss_box=0.8035 loss_cls=1.3208 loss_dfl=0.0167 loss_total=137.7770 lr=0.00952475
+2026-07-15 09:01:35 INFO  scripts.training.yolov5s.training_pipeline | step 69700 | loss_box=0.8235 loss_cls=1.0260 loss_dfl=0.0140 loss_total=125.0249 lr=0.009524
+2026-07-15 09:02:22 INFO  scripts.training.yolov5s.training_pipeline | step 69750 | loss_box=0.8117 loss_cls=1.3642 loss_dfl=0.0158 loss_total=137.8768 lr=0.00952326
+2026-07-15 09:03:21 INFO  scripts.training.yolov5s.training_pipeline | step 69800 | loss_box=0.7812 loss_cls=1.0772 loss_dfl=0.0154 loss_total=133.2964 lr=0.00952251
+2026-07-15 09:04:32 INFO  scripts.training.yolov5s.training_pipeline | step 69850 | loss_box=0.8051 loss_cls=1.2373 loss_dfl=0.0149 loss_total=144.7501 lr=0.00952177
+2026-07-15 09:05:16 INFO  scripts.training.yolov5s.training_pipeline | step 69900 | loss_box=0.8352 loss_cls=1.0905 loss_dfl=0.0176 loss_total=129.8766 lr=0.00952102
+2026-07-15 09:07:24 INFO  scripts.training.yolov5s.training_pipeline | step 69950 | loss_box=0.8088 loss_cls=1.2122 loss_dfl=0.0158 loss_total=139.9775 lr=0.00952027
+2026-07-15 09:08:28 INFO  scripts.training.yolov5s.training_pipeline | step 70000 | loss_box=0.7993 loss_cls=1.2025 loss_dfl=0.0141 loss_total=130.3846 lr=0.00951952
+2026-07-15 09:09:34 INFO  scripts.training.yolov5s.training_pipeline | step 70050 | loss_box=0.9328 loss_cls=1.3812 loss_dfl=0.0159 loss_total=156.8980 lr=0.00951878
+2026-07-15 09:10:19 INFO  scripts.training.yolov5s.training_pipeline | step 70100 | loss_box=0.9178 loss_cls=1.3108 loss_dfl=0.0177 loss_total=146.3047 lr=0.00951803
+2026-07-15 09:11:16 INFO  scripts.training.yolov5s.training_pipeline | step 70150 | loss_box=0.8162 loss_cls=1.1839 loss_dfl=0.0136 loss_total=145.3820 lr=0.00951728
+2026-07-15 09:11:55 INFO  scripts.training.yolov5s.training_pipeline | step 70200 | loss_box=0.8709 loss_cls=1.4020 loss_dfl=0.0170 loss_total=143.9490 lr=0.00951653
+2026-07-15 09:13:19 INFO  scripts.training.yolov5s.training_pipeline | step 70250 | loss_box=0.8594 loss_cls=1.1376 loss_dfl=0.0147 loss_total=133.8994 lr=0.00951578
+2026-07-15 09:14:53 INFO  scripts.training.yolov5s.training_pipeline | step 70300 | loss_box=0.7191 loss_cls=1.1332 loss_dfl=0.0143 loss_total=119.7372 lr=0.00951503
+2026-07-15 09:16:15 INFO  scripts.training.yolov5s.training_pipeline | step 70350 | loss_box=0.7633 loss_cls=1.0232 loss_dfl=0.0156 loss_total=127.4379 lr=0.00951427
+2026-07-15 09:17:02 INFO  scripts.training.yolov5s.training_pipeline | step 70400 | loss_box=0.8415 loss_cls=1.2477 loss_dfl=0.0163 loss_total=145.0325 lr=0.00951352
+2026-07-15 09:17:56 INFO  scripts.training.yolov5s.training_pipeline | step 70450 | loss_box=0.7337 loss_cls=1.2220 loss_dfl=0.0135 loss_total=133.7953 lr=0.00951277
+2026-07-15 09:18:43 INFO  scripts.training.yolov5s.training_pipeline | step 70500 | loss_box=0.7774 loss_cls=1.5269 loss_dfl=0.0142 loss_total=155.2850 lr=0.00951202
+2026-07-15 09:19:42 INFO  scripts.training.yolov5s.training_pipeline | step 70550 | loss_box=0.8021 loss_cls=1.2326 loss_dfl=0.0166 loss_total=139.9699 lr=0.00951126
+2026-07-15 09:20:22 INFO  scripts.training.yolov5s.training_pipeline | step 70600 | loss_box=0.7738 loss_cls=1.1371 loss_dfl=0.0141 loss_total=131.6864 lr=0.00951051
+2026-07-15 09:20:30 INFO  scripts.training.yolov5s.training_pipeline | epoch 31/200 — train done in 2571.3s | avg loss_box=0.8142 loss_cls=1.2431 loss_dfl=0.0154 loss_total=138.7629
+2026-07-15 09:20:30 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 09:35:19 INFO  scripts.training.yolov5s.training_pipeline | epoch 31/200 — val mAP50=0.5227 mAP50_95=0.4239 (selection mAP50_95=0.4239)
+2026-07-15 09:35:20 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.5227 val/mAP50_95=0.4239 (step=30)
+2026-07-15 09:35:20 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 09:35:20 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 09:35:20 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.4239 at epoch 31
+2026-07-15 09:35:21 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 09:35:21 INFO  scripts.training.yolov5s.training_pipeline | epoch 31/200 done — next lr=0.00951025, epochs_since_improve=0/20
+2026-07-15 09:35:21 INFO  scripts.training.yolov5s.training_pipeline | epoch 32/200 — train start (lr=0.00951025, batches=2278)
+2026-07-15 09:35:45 INFO  scripts.training.yolov5s.training_pipeline | step 70650 | loss_box=0.8084 loss_cls=1.0061 loss_dfl=0.0146 loss_total=134.9340 lr=0.00950975
+2026-07-15 09:36:36 INFO  scripts.training.yolov5s.training_pipeline | step 70700 | loss_box=0.8050 loss_cls=1.2577 loss_dfl=0.0169 loss_total=136.7841 lr=0.009509
+2026-07-15 09:37:23 INFO  scripts.training.yolov5s.training_pipeline | step 70750 | loss_box=0.7843 loss_cls=1.3231 loss_dfl=0.0150 loss_total=135.1805 lr=0.00950824
+2026-07-15 09:38:17 INFO  scripts.training.yolov5s.training_pipeline | step 70800 | loss_box=0.9517 loss_cls=1.3791 loss_dfl=0.0151 loss_total=152.5947 lr=0.00950748
+2026-07-15 09:38:47 INFO  scripts.training.yolov5s.training_pipeline | step 70850 | loss_box=0.8634 loss_cls=1.0061 loss_dfl=0.0182 loss_total=133.9247 lr=0.00950673
+2026-07-15 09:40:15 INFO  scripts.training.yolov5s.training_pipeline | step 70900 | loss_box=0.7858 loss_cls=1.1710 loss_dfl=0.0167 loss_total=134.5722 lr=0.00950597
+2026-07-15 09:41:18 INFO  scripts.training.yolov5s.training_pipeline | step 70950 | loss_box=0.8130 loss_cls=1.2328 loss_dfl=0.0139 loss_total=145.0475 lr=0.00950521
+2026-07-15 09:42:08 INFO  scripts.training.yolov5s.training_pipeline | step 71000 | loss_box=0.7298 loss_cls=1.1145 loss_dfl=0.0129 loss_total=129.4522 lr=0.00950445
+2026-07-15 09:43:00 INFO  scripts.training.yolov5s.training_pipeline | step 71050 | loss_box=0.7595 loss_cls=1.3803 loss_dfl=0.0140 loss_total=143.1794 lr=0.00950369
+2026-07-15 09:44:07 INFO  scripts.training.yolov5s.training_pipeline | step 71100 | loss_box=0.8172 loss_cls=0.9268 loss_dfl=0.0169 loss_total=110.0539 lr=0.00950293
+2026-07-15 09:45:13 INFO  scripts.training.yolov5s.training_pipeline | step 71150 | loss_box=0.7823 loss_cls=1.2396 loss_dfl=0.0157 loss_total=133.5926 lr=0.00950217
+2026-07-15 09:45:59 INFO  scripts.training.yolov5s.training_pipeline | step 71200 | loss_box=0.8852 loss_cls=1.1040 loss_dfl=0.0147 loss_total=139.2155 lr=0.00950141
+2026-07-15 09:46:57 INFO  scripts.training.yolov5s.training_pipeline | step 71250 | loss_box=0.8405 loss_cls=1.0955 loss_dfl=0.0143 loss_total=135.8225 lr=0.00950065
+2026-07-15 09:48:08 INFO  scripts.training.yolov5s.training_pipeline | step 71300 | loss_box=0.7821 loss_cls=1.0783 loss_dfl=0.0152 loss_total=126.8632 lr=0.00949989
+2026-07-15 09:48:58 INFO  scripts.training.yolov5s.training_pipeline | step 71350 | loss_box=0.8447 loss_cls=1.3484 loss_dfl=0.0158 loss_total=147.3498 lr=0.00949912
+2026-07-15 09:49:45 INFO  scripts.training.yolov5s.training_pipeline | step 71400 | loss_box=0.6752 loss_cls=1.3871 loss_dfl=0.0146 loss_total=141.0251 lr=0.00949836
+2026-07-15 09:51:42 INFO  scripts.training.yolov5s.training_pipeline | step 71450 | loss_box=0.8658 loss_cls=1.3852 loss_dfl=0.0146 loss_total=148.9167 lr=0.0094976
+2026-07-15 09:52:47 INFO  scripts.training.yolov5s.training_pipeline | step 71500 | loss_box=0.8604 loss_cls=1.2762 loss_dfl=0.0172 loss_total=137.9615 lr=0.00949683
+2026-07-15 09:53:43 INFO  scripts.training.yolov5s.training_pipeline | step 71550 | loss_box=0.9459 loss_cls=1.1217 loss_dfl=0.0183 loss_total=139.0007 lr=0.00949607
+2026-07-15 09:55:30 INFO  scripts.training.yolov5s.training_pipeline | step 71600 | loss_box=0.7498 loss_cls=1.3038 loss_dfl=0.0125 loss_total=133.2326 lr=0.0094953
+2026-07-15 09:56:23 INFO  scripts.training.yolov5s.training_pipeline | step 71650 | loss_box=0.8801 loss_cls=1.2981 loss_dfl=0.0143 loss_total=148.8197 lr=0.00949453
+2026-07-15 09:57:17 INFO  scripts.training.yolov5s.training_pipeline | step 71700 | loss_box=0.8540 loss_cls=1.2945 loss_dfl=0.0157 loss_total=143.2675 lr=0.00949377
+2026-07-15 09:58:47 INFO  scripts.training.yolov5s.training_pipeline | step 71750 | loss_box=0.6553 loss_cls=0.9741 loss_dfl=0.0128 loss_total=116.4957 lr=0.009493
+2026-07-15 10:00:36 INFO  scripts.training.yolov5s.training_pipeline | step 71800 | loss_box=0.9639 loss_cls=1.0747 loss_dfl=0.0200 loss_total=134.2649 lr=0.00949223
+2026-07-15 10:01:50 INFO  scripts.training.yolov5s.training_pipeline | step 71850 | loss_box=0.7957 loss_cls=1.1964 loss_dfl=0.0153 loss_total=136.3209 lr=0.00949146
+2026-07-15 10:03:21 INFO  scripts.training.yolov5s.training_pipeline | step 71900 | loss_box=0.9464 loss_cls=1.4953 loss_dfl=0.0196 loss_total=168.6478 lr=0.00949069
+2026-07-15 10:04:41 INFO  scripts.training.yolov5s.training_pipeline | step 71950 | loss_box=0.8261 loss_cls=1.2872 loss_dfl=0.0128 loss_total=140.1708 lr=0.00948993
+2026-07-15 10:05:44 INFO  scripts.training.yolov5s.training_pipeline | step 72000 | loss_box=0.7708 loss_cls=1.1186 loss_dfl=0.0150 loss_total=125.8573 lr=0.00948916
+2026-07-15 10:06:34 INFO  scripts.training.yolov5s.training_pipeline | step 72050 | loss_box=0.8743 loss_cls=1.3842 loss_dfl=0.0141 loss_total=139.0771 lr=0.00948839
+2026-07-15 10:07:29 INFO  scripts.training.yolov5s.training_pipeline | step 72100 | loss_box=0.7699 loss_cls=1.1179 loss_dfl=0.0151 loss_total=131.1873 lr=0.00948761
+2026-07-15 10:08:07 INFO  scripts.training.yolov5s.training_pipeline | step 72150 | loss_box=0.8346 loss_cls=1.0475 loss_dfl=0.0160 loss_total=138.5236 lr=0.00948684
+2026-07-15 10:08:44 INFO  scripts.training.yolov5s.training_pipeline | step 72200 | loss_box=0.8410 loss_cls=1.3819 loss_dfl=0.0142 loss_total=143.7744 lr=0.00948607
+2026-07-15 10:09:37 INFO  scripts.training.yolov5s.training_pipeline | step 72250 | loss_box=0.8154 loss_cls=0.9601 loss_dfl=0.0180 loss_total=130.1629 lr=0.0094853
+2026-07-15 10:10:36 INFO  scripts.training.yolov5s.training_pipeline | step 72300 | loss_box=0.8003 loss_cls=1.2440 loss_dfl=0.0151 loss_total=139.5619 lr=0.00948452
+2026-07-15 10:12:05 INFO  scripts.training.yolov5s.training_pipeline | step 72350 | loss_box=0.8005 loss_cls=1.0210 loss_dfl=0.0173 loss_total=129.6732 lr=0.00948375
+2026-07-15 10:13:27 INFO  scripts.training.yolov5s.training_pipeline | step 72400 | loss_box=0.8359 loss_cls=1.3823 loss_dfl=0.0147 loss_total=155.2528 lr=0.00948298
+2026-07-15 10:14:52 INFO  scripts.training.yolov5s.training_pipeline | step 72450 | loss_box=0.7250 loss_cls=1.0048 loss_dfl=0.0140 loss_total=121.6510 lr=0.0094822
+2026-07-15 10:15:39 INFO  scripts.training.yolov5s.training_pipeline | step 72500 | loss_box=0.6245 loss_cls=1.3215 loss_dfl=0.0121 loss_total=132.8442 lr=0.00948143
+2026-07-15 10:16:46 INFO  scripts.training.yolov5s.training_pipeline | step 72550 | loss_box=0.9060 loss_cls=1.2045 loss_dfl=0.0177 loss_total=146.1147 lr=0.00948065
+2026-07-15 10:18:00 INFO  scripts.training.yolov5s.training_pipeline | step 72600 | loss_box=0.7934 loss_cls=1.2062 loss_dfl=0.0149 loss_total=144.0894 lr=0.00947987
+2026-07-15 10:18:36 INFO  scripts.training.yolov5s.training_pipeline | step 72650 | loss_box=0.7546 loss_cls=1.1761 loss_dfl=0.0160 loss_total=135.5468 lr=0.0094791
+2026-07-15 10:19:37 INFO  scripts.training.yolov5s.training_pipeline | step 72700 | loss_box=0.7649 loss_cls=1.2267 loss_dfl=0.0144 loss_total=142.8953 lr=0.00947832
+2026-07-15 10:20:11 INFO  scripts.training.yolov5s.training_pipeline | step 72750 | loss_box=0.6915 loss_cls=0.9711 loss_dfl=0.0153 loss_total=129.2445 lr=0.00947754
+2026-07-15 10:21:11 INFO  scripts.training.yolov5s.training_pipeline | step 72800 | loss_box=0.8851 loss_cls=1.4907 loss_dfl=0.0176 loss_total=153.4330 lr=0.00947676
+2026-07-15 10:21:52 INFO  scripts.training.yolov5s.training_pipeline | step 72850 | loss_box=0.7868 loss_cls=1.1809 loss_dfl=0.0158 loss_total=130.6150 lr=0.00947598
+2026-07-15 10:22:55 INFO  scripts.training.yolov5s.training_pipeline | epoch 32/200 — train done in 2853.7s | avg loss_box=0.8124 loss_cls=1.2270 loss_dfl=0.0154 loss_total=137.5607
+2026-07-15 10:22:55 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 10:39:10 INFO  scripts.training.yolov5s.training_pipeline | epoch 32/200 — val mAP50=0.5293 mAP50_95=0.4299 (selection mAP50_95=0.4299)
+2026-07-15 10:39:11 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.5293 val/mAP50_95=0.4299 (step=31)
+2026-07-15 10:39:11 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 10:39:11 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 10:39:11 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.4299 at epoch 32
+2026-07-15 10:39:12 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 10:39:12 INFO  scripts.training.yolov5s.training_pipeline | epoch 32/200 done — next lr=0.00947528, epochs_since_improve=0/20
+2026-07-15 10:39:12 INFO  scripts.training.yolov5s.training_pipeline | epoch 33/200 — train start (lr=0.00947528, batches=2278)
+2026-07-15 10:39:21 INFO  scripts.training.yolov5s.training_pipeline | step 72900 | loss_box=0.7999 loss_cls=1.2613 loss_dfl=0.0141 loss_total=137.9741 lr=0.0094752
+2026-07-15 10:39:46 INFO  scripts.training.yolov5s.training_pipeline | step 72950 | loss_box=0.8217 loss_cls=1.1933 loss_dfl=0.0165 loss_total=130.3277 lr=0.00947442
+2026-07-15 10:40:11 INFO  scripts.training.yolov5s.training_pipeline | step 73000 | loss_box=0.8097 loss_cls=1.0043 loss_dfl=0.0135 loss_total=120.3452 lr=0.00947364
+2026-07-15 10:40:36 INFO  scripts.training.yolov5s.training_pipeline | step 73050 | loss_box=0.6248 loss_cls=1.3032 loss_dfl=0.0108 loss_total=126.6494 lr=0.00947286
+2026-07-15 10:41:08 INFO  scripts.training.yolov5s.training_pipeline | step 73100 | loss_box=0.7383 loss_cls=1.1848 loss_dfl=0.0157 loss_total=141.2799 lr=0.00947208
+2026-07-15 10:41:43 INFO  scripts.training.yolov5s.training_pipeline | step 73150 | loss_box=0.7906 loss_cls=1.1829 loss_dfl=0.0161 loss_total=134.3450 lr=0.00947129
+2026-07-15 10:42:23 INFO  scripts.training.yolov5s.training_pipeline | step 73200 | loss_box=0.7791 loss_cls=1.0247 loss_dfl=0.0152 loss_total=127.7254 lr=0.00947051
+2026-07-15 10:42:57 INFO  scripts.training.yolov5s.training_pipeline | step 73250 | loss_box=0.9125 loss_cls=1.1424 loss_dfl=0.0179 loss_total=144.1850 lr=0.00946973
+2026-07-15 10:44:09 INFO  scripts.training.yolov5s.training_pipeline | step 73300 | loss_box=0.8583 loss_cls=1.2834 loss_dfl=0.0144 loss_total=133.8267 lr=0.00946894
+2026-07-15 10:45:00 INFO  scripts.training.yolov5s.training_pipeline | step 73350 | loss_box=0.7553 loss_cls=1.1799 loss_dfl=0.0152 loss_total=127.8745 lr=0.00946816
+2026-07-15 10:46:14 INFO  scripts.training.yolov5s.training_pipeline | step 73400 | loss_box=0.8094 loss_cls=1.5359 loss_dfl=0.0124 loss_total=146.4650 lr=0.00946737
+2026-07-15 10:46:58 INFO  scripts.training.yolov5s.training_pipeline | step 73450 | loss_box=0.7323 loss_cls=1.1670 loss_dfl=0.0139 loss_total=130.8833 lr=0.00946659
+2026-07-15 10:48:04 INFO  scripts.training.yolov5s.training_pipeline | step 73500 | loss_box=0.7715 loss_cls=1.3043 loss_dfl=0.0156 loss_total=147.5644 lr=0.0094658
+2026-07-15 10:48:53 INFO  scripts.training.yolov5s.training_pipeline | step 73550 | loss_box=0.8520 loss_cls=1.1292 loss_dfl=0.0148 loss_total=136.6132 lr=0.00946501
+2026-07-15 10:50:33 INFO  scripts.training.yolov5s.training_pipeline | step 73600 | loss_box=0.8000 loss_cls=1.4648 loss_dfl=0.0156 loss_total=148.8619 lr=0.00946423
+2026-07-15 10:52:14 INFO  scripts.training.yolov5s.training_pipeline | step 73650 | loss_box=0.6860 loss_cls=1.0976 loss_dfl=0.0126 loss_total=117.7189 lr=0.00946344
+2026-07-15 10:53:07 INFO  scripts.training.yolov5s.training_pipeline | step 73700 | loss_box=0.8642 loss_cls=1.2902 loss_dfl=0.0153 loss_total=142.7928 lr=0.00946265
+2026-07-15 10:54:19 INFO  scripts.training.yolov5s.training_pipeline | step 73750 | loss_box=0.8028 loss_cls=1.1976 loss_dfl=0.0169 loss_total=138.4435 lr=0.00946186
+2026-07-15 10:55:10 INFO  scripts.training.yolov5s.training_pipeline | step 73800 | loss_box=0.7655 loss_cls=1.2321 loss_dfl=0.0126 loss_total=137.0042 lr=0.00946107
+2026-07-15 10:56:09 INFO  scripts.training.yolov5s.training_pipeline | step 73850 | loss_box=0.7535 loss_cls=1.3192 loss_dfl=0.0160 loss_total=135.1537 lr=0.00946028
+2026-07-15 10:57:53 INFO  scripts.training.yolov5s.training_pipeline | step 73900 | loss_box=0.8405 loss_cls=1.1519 loss_dfl=0.0143 loss_total=138.6314 lr=0.00945949
+2026-07-15 10:59:08 INFO  scripts.training.yolov5s.training_pipeline | step 73950 | loss_box=0.8024 loss_cls=1.1322 loss_dfl=0.0152 loss_total=129.6755 lr=0.0094587
+2026-07-15 11:00:21 INFO  scripts.training.yolov5s.training_pipeline | step 74000 | loss_box=0.8163 loss_cls=1.2166 loss_dfl=0.0159 loss_total=134.5406 lr=0.00945791
+2026-07-15 11:02:13 INFO  scripts.training.yolov5s.training_pipeline | step 74050 | loss_box=0.7868 loss_cls=1.2489 loss_dfl=0.0149 loss_total=131.3687 lr=0.00945711
+2026-07-15 11:03:36 INFO  scripts.training.yolov5s.training_pipeline | step 74100 | loss_box=0.7658 loss_cls=1.1380 loss_dfl=0.0145 loss_total=131.3687 lr=0.00945632
+2026-07-15 11:04:28 INFO  scripts.training.yolov5s.training_pipeline | step 74150 | loss_box=0.7688 loss_cls=1.2369 loss_dfl=0.0141 loss_total=148.7178 lr=0.00945553
+2026-07-15 11:05:07 INFO  scripts.training.yolov5s.training_pipeline | step 74200 | loss_box=0.8762 loss_cls=1.2186 loss_dfl=0.0168 loss_total=146.4438 lr=0.00945473
+2026-07-15 11:06:08 INFO  scripts.training.yolov5s.training_pipeline | step 74250 | loss_box=0.6757 loss_cls=1.2460 loss_dfl=0.0123 loss_total=129.5827 lr=0.00945394
+2026-07-15 11:07:01 INFO  scripts.training.yolov5s.training_pipeline | step 74300 | loss_box=0.8051 loss_cls=1.0751 loss_dfl=0.0167 loss_total=122.8042 lr=0.00945314
+2026-07-15 11:07:59 INFO  scripts.training.yolov5s.training_pipeline | step 74350 | loss_box=0.7710 loss_cls=1.0208 loss_dfl=0.0141 loss_total=128.6403 lr=0.00945235
+2026-07-15 11:08:33 INFO  scripts.training.yolov5s.training_pipeline | step 74400 | loss_box=0.8766 loss_cls=1.2090 loss_dfl=0.0161 loss_total=133.9114 lr=0.00945155
+2026-07-15 11:09:26 INFO  scripts.training.yolov5s.training_pipeline | step 74450 | loss_box=0.8058 loss_cls=1.3419 loss_dfl=0.0169 loss_total=141.1773 lr=0.00945076
+2026-07-15 11:10:05 INFO  scripts.training.yolov5s.training_pipeline | step 74500 | loss_box=0.7364 loss_cls=1.2358 loss_dfl=0.0122 loss_total=125.4132 lr=0.00944996
+2026-07-15 11:11:50 INFO  scripts.training.yolov5s.training_pipeline | step 74550 | loss_box=0.7754 loss_cls=1.4098 loss_dfl=0.0148 loss_total=147.4429 lr=0.00944916
+2026-07-15 11:12:43 INFO  scripts.training.yolov5s.training_pipeline | step 74600 | loss_box=0.8126 loss_cls=1.1626 loss_dfl=0.0151 loss_total=133.4808 lr=0.00944836
+2026-07-15 11:15:08 INFO  scripts.training.yolov5s.training_pipeline | step 74650 | loss_box=0.8187 loss_cls=1.1887 loss_dfl=0.0150 loss_total=132.4072 lr=0.00944756
+2026-07-15 11:16:01 INFO  scripts.training.yolov5s.training_pipeline | step 74700 | loss_box=0.7994 loss_cls=1.1996 loss_dfl=0.0149 loss_total=138.3443 lr=0.00944676
+2026-07-15 11:17:27 INFO  scripts.training.yolov5s.training_pipeline | step 74750 | loss_box=0.8294 loss_cls=1.2476 loss_dfl=0.0130 loss_total=133.8168 lr=0.00944596
+2026-07-15 11:18:50 INFO  scripts.training.yolov5s.training_pipeline | step 74800 | loss_box=0.8689 loss_cls=1.4144 loss_dfl=0.0160 loss_total=152.2436 lr=0.00944516
+2026-07-15 11:20:22 INFO  scripts.training.yolov5s.training_pipeline | step 74850 | loss_box=0.9039 loss_cls=1.4386 loss_dfl=0.0162 loss_total=157.9333 lr=0.00944436
+2026-07-15 11:21:22 INFO  scripts.training.yolov5s.training_pipeline | step 74900 | loss_box=0.8566 loss_cls=1.3633 loss_dfl=0.0159 loss_total=160.0793 lr=0.00944356
+2026-07-15 11:22:37 INFO  scripts.training.yolov5s.training_pipeline | step 74950 | loss_box=0.8317 loss_cls=1.2377 loss_dfl=0.0158 loss_total=133.8258 lr=0.00944276
+2026-07-15 11:23:29 INFO  scripts.training.yolov5s.training_pipeline | step 75000 | loss_box=0.8600 loss_cls=1.4877 loss_dfl=0.0137 loss_total=149.5150 lr=0.00944196
+2026-07-15 11:24:34 INFO  scripts.training.yolov5s.training_pipeline | step 75050 | loss_box=0.9352 loss_cls=1.3355 loss_dfl=0.0160 loss_total=137.8040 lr=0.00944115
+2026-07-15 11:25:21 INFO  scripts.training.yolov5s.training_pipeline | step 75100 | loss_box=0.7485 loss_cls=1.3711 loss_dfl=0.0158 loss_total=137.8935 lr=0.00944035
+2026-07-15 11:26:47 INFO  scripts.training.yolov5s.training_pipeline | step 75150 | loss_box=0.7736 loss_cls=1.2203 loss_dfl=0.0141 loss_total=131.7035 lr=0.00943954
+2026-07-15 11:27:32 INFO  scripts.training.yolov5s.training_pipeline | epoch 33/200 — train done in 2900.2s | avg loss_box=0.8073 loss_cls=1.2186 loss_dfl=0.0153 loss_total=136.4012
+2026-07-15 11:27:32 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches
+2026-07-15 11:43:46 INFO  scripts.training.yolov5s.training_pipeline | epoch 33/200 — val mAP50=0.5350 mAP50_95=0.4351 (selection mAP50_95=0.4351)
+2026-07-15 11:43:47 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val/mAP50=0.5350 val/mAP50_95=0.4351 (step=32)
+2026-07-15 11:43:47 INFO  scripts.training.yolo26n.evaluation | mlflow: logged val per-class AP table (225 classes)
+2026-07-15 11:43:47 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/best.pt
+2026-07-15 11:43:47 INFO  scripts.training.yolov5s.training_pipeline | new best mAP50_95=0.4351 at epoch 33
+2026-07-15 11:43:48 INFO  scripts.training.yolov5s.training_pipeline | saved checkpoint: /home/ubuntu/Master-Thesis/scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/last.pt
+2026-07-15 11:43:48 INFO  scripts.training.yolov5s.training_pipeline | epoch 33/200 done — next lr=0.00943917, epochs_since_improve=0/20
+2026-07-15 11:43:48 INFO  scripts.training.yolov5s.training_pipeline | epoch 34/200 — train start (lr=0.00943917, batches=2278)
+2026-07-15 11:44:13 INFO  scripts.training.yolov5s.training_pipeline | step 75200 | loss_box=0.8005 loss_cls=1.1457 loss_dfl=0.0168 loss_total=138.7372 lr=0.00943874
+2026-07-15 11:44:49 INFO  scripts.training.yolov5s.training_pipeline | step 75250 | loss_box=0.8217 loss_cls=1.2297 loss_dfl=0.0136 loss_total=133.3994 lr=0.00943793
+2026-07-15 11:45:25 INFO  scripts.training.yolov5s.training_pipeline | step 75300 | loss_box=0.7890 loss_cls=1.0412 loss_dfl=0.0148 loss_total=118.9790 lr=0.00943713
+2026-07-15 11:46:02 INFO  scripts.training.yolov5s.training_pipeline | step 75350 | loss_box=0.7602 loss_cls=0.9426 loss_dfl=0.0161 loss_total=124.9988 lr=0.00943632
+2026-07-15 11:46:43 INFO  scripts.training.yolov5s.training_pipeline | step 75400 | loss_box=0.8420 loss_cls=1.2977 loss_dfl=0.0163 loss_total=137.8480 lr=0.00943551
+2026-07-15 11:47:54 INFO  scripts.training.yolov5s.training_pipeline | step 75450 | loss_box=0.7785 loss_cls=1.1763 loss_dfl=0.0146 loss_total=125.3676 lr=0.00943471
+2026-07-15 11:49:23 INFO  scripts.training.yolov5s.training_pipeline | step 75500 | loss_box=0.6697 loss_cls=1.1589 loss_dfl=0.0129 loss_total=123.8972 lr=0.0094339
+2026-07-15 11:51:12 INFO  scripts.training.yolov5s.training_pipeline | step 75550 | loss_box=0.9380 loss_cls=1.2943 loss_dfl=0.0206 loss_total=149.7889 lr=0.00943309
+2026-07-15 11:52:24 INFO  scripts.training.yolov5s.training_pipeline | step 75600 | loss_box=0.7594 loss_cls=1.4087 loss_dfl=0.0136 loss_total=146.8202 lr=0.00943228
+2026-07-15 11:53:44 INFO  scripts.training.yolov5s.training_pipeline | step 75650 | loss_box=0.7898 loss_cls=1.0233 loss_dfl=0.0136 loss_total=125.7527 lr=0.00943147
+2026-07-15 11:55:03 INFO  scripts.training.yolov5s.training_pipeline | step 75700 | loss_box=0.8785 loss_cls=1.2364 loss_dfl=0.0168 loss_total=133.0151 lr=0.00943066
+2026-07-15 11:56:04 INFO  scripts.training.yolov5s.training_pipeline | step 75750 | loss_box=0.8577 loss_cls=1.4703 loss_dfl=0.0164 loss_total=153.7011 lr=0.00942985
+2026-07-15 11:57:39 INFO  scripts.training.yolov5s.training_pipeline | step 75800 | loss_box=0.9079 loss_cls=1.1993 loss_dfl=0.0175 loss_total=138.5096 lr=0.00942904
+2026-07-15 11:58:21 INFO  scripts.training.yolov5s.training_pipeline | step 75850 | loss_box=0.8122 loss_cls=1.1266 loss_dfl=0.0143 loss_total=127.8513 lr=0.00942823
+2026-07-15 11:59:21 INFO  scripts.training.yolov5s.training_pipeline | step 75900 | loss_box=0.9707 loss_cls=1.2089 loss_dfl=0.0176 loss_total=143.8152 lr=0.00942741
+2026-07-15 12:00:58 INFO  scripts.training.yolov5s.training_pipeline | step 75950 | loss_box=0.8351 loss_cls=1.1936 loss_dfl=0.0182 loss_total=137.5858 lr=0.0094266
+2026-07-15 12:02:27 INFO  scripts.training.yolov5s.training_pipeline | step 76000 | loss_box=0.6924 loss_cls=1.0510 loss_dfl=0.0109 loss_total=128.4193 lr=0.00942579
+2026-07-15 12:04:13 INFO  scripts.training.yolov5s.training_pipeline | step 76050 | loss_box=0.7573 loss_cls=1.1477 loss_dfl=0.0126 loss_total=127.4076 lr=0.00942497
+2026-07-15 12:06:11 INFO  scripts.training.yolov5s.training_pipeline | step 76100 | loss_box=0.7980 loss_cls=1.1313 loss_dfl=0.0151 loss_total=132.6925 lr=0.00942416
+2026-07-15 12:06:56 INFO  scripts.training.yolov5s.training_pipeline | step 76150 | loss_box=0.7472 loss_cls=0.9753 loss_dfl=0.0144 loss_total=123.5307 lr=0.00942334
+2026-07-15 12:07:52 INFO  scripts.training.yolov5s.training_pipeline | step 76200 | loss_box=0.8858 loss_cls=1.2497 loss_dfl=0.0178 loss_total=148.6559 lr=0.00942253
+2026-07-15 12:08:31 INFO  scripts.training.yolov5s.training_pipeline | step 76250 | loss_box=0.6625 loss_cls=1.1420 loss_dfl=0.0129 loss_total=119.4300 lr=0.00942171
+2026-07-15 12:09:38 INFO  scripts.training.yolov5s.training_pipeline | step 76300 | loss_box=0.9334 loss_cls=1.3111 loss_dfl=0.0147 loss_total=152.9811 lr=0.00942089
+2026-07-15 12:10:47 INFO  scripts.training.yolov5s.training_pipeline | step 76350 | loss_box=0.6564 loss_cls=1.1702 loss_dfl=0.0130 loss_total=123.7071 lr=0.00942008
+2026-07-15 12:12:47 INFO  scripts.training.yolov5s.training_pipeline | step 76400 | loss_box=0.7486 loss_cls=1.2244 loss_dfl=0.0147 loss_total=141.4774 lr=0.00941926
+2026-07-15 12:13:49 INFO  scripts.training.yolov5s.training_pipeline | step 76450 | loss_box=0.7613 loss_cls=1.2392 loss_dfl=0.0136 loss_total=136.3593 lr=0.00941844
+2026-07-15 12:14:59 INFO  scripts.training.yolov5s.training_pipeline | step 76500 | loss_box=0.7712 loss_cls=1.2643 loss_dfl=0.0144 loss_total=135.0402 lr=0.00941762
+2026-07-15 12:16:05 INFO  scripts.training.yolov5s.training_pipeline | step 76550 | loss_box=0.7194 loss_cls=0.9684 loss_dfl=0.0163 loss_total=118.1481 lr=0.0094168
+2026-07-15 12:17:33 INFO  scripts.training.yolov5s.training_pipeline | step 76600 | loss_box=0.7220 loss_cls=1.1296 loss_dfl=0.0142 loss_total=118.4156 lr=0.00941598
+2026-07-15 12:18:49 INFO  scripts.training.yolov5s.training_pipeline | step 76650 | loss_box=0.8515 loss_cls=1.4017 loss_dfl=0.0141 loss_total=153.5117 lr=0.00941516
+2026-07-15 12:20:34 INFO  scripts.training.yolov5s.training_pipeline | step 76700 | loss_box=0.8461 loss_cls=1.1212 loss_dfl=0.0180 loss_total=126.5717 lr=0.00941434
+2026-07-15 12:22:16 INFO  scripts.training.yolov5s.training_pipeline | step 76750 | loss_box=0.8813 loss_cls=1.3259 loss_dfl=0.0141 loss_total=141.0284 lr=0.00941352
+2026-07-15 12:23:24 INFO  scripts.training.yolov5s.training_pipeline | step 76800 | loss_box=0.8226 loss_cls=1.0971 loss_dfl=0.0156 loss_total=123.7839 lr=0.00941269
+2026-07-15 12:25:05 INFO  scripts.training.yolov5s.training_pipeline | step 76850 | loss_box=0.6843 loss_cls=0.8430 loss_dfl=0.0135 loss_total=105.7862 lr=0.00941187
+2026-07-15 12:25:52 INFO  scripts.training.yolov5s.training_pipeline | step 76900 | loss_box=0.7652 loss_cls=1.0825 loss_dfl=0.0117 loss_total=115.3174 lr=0.00941105
+2026-07-15 12:27:13 INFO  scripts.training.yolov5s.training_pipeline | step 76950 | loss_box=0.8497 loss_cls=1.1998 loss_dfl=0.0184 loss_total=138.8052 lr=0.00941022
+2026-07-15 12:28:47 INFO  scripts.training.yolov5s.training_pipeline | step 77000 | loss_box=0.6725 loss_cls=1.2039 loss_dfl=0.0118 loss_total=135.6849 lr=0.0094094
+2026-07-15 12:30:35 INFO  scripts.training.yolov5s.training_pipeline | step 77050 | loss_box=0.8131 loss_cls=1.4392 loss_dfl=0.0132 loss_total=151.5641 lr=0.00940858
+2026-07-15 12:31:31 INFO  scripts.training.yolov5s.training_pipeline | step 77100 | loss_box=0.7393 loss_cls=1.0414 loss_dfl=0.0136 loss_total=132.7226 lr=0.00940775
+2026-07-15 12:32:28 INFO  scripts.training.yolov5s.training_pipeline | step 77150 | loss_box=0.7155 loss_cls=1.1322 loss_dfl=0.0146 loss_total=123.0263 lr=0.00940692
+2026-07-15 12:33:32 INFO  scripts.training.yolov5s.training_pipeline | step 77200 | loss_box=0.8666 loss_cls=1.1331 loss_dfl=0.0165 loss_total=135.8502 lr=0.0094061
+2026-07-15 12:34:35 INFO  scripts.training.yolov5s.training_pipeline | step 77250 | loss_box=0.7856 loss_cls=1.5117 loss_dfl=0.0113 loss_total=159.7307 lr=0.00940527
+2026-07-15 12:35:28 INFO  scripts.training.yolov5s.training_pipeline | step 77300 | loss_box=0.8286 loss_cls=1.3225 loss_dfl=0.0160 loss_total=143.1975 lr=0.00940444
+2026-07-15 12:36:20 INFO  scripts.training.yolov5s.training_pipeline | step 77350 | loss_box=0.7798 loss_cls=1.2917 loss_dfl=0.0139 loss_total=134.7925 lr=0.00940361
+2026-07-15 12:37:12 INFO  scripts.training.yolov5s.training_pipeline | step 77400 | loss_box=0.7340 loss_cls=1.1110 loss_dfl=0.0140 loss_total=126.0749 lr=0.00940279
+2026-07-15 12:37:50 INFO  scripts.training.yolov5s.training_pipeline | step 77450 | loss_box=0.8006 loss_cls=1.2080 loss_dfl=0.0131 loss_total=136.4192 lr=0.00940196
+2026-07-15 12:37:53 INFO  scripts.training.yolov5s.training_pipeline | epoch 34/200 — train done in 3244.7s | avg loss_box=0.8009 loss_cls=1.2056 loss_dfl=0.0152 loss_total=134.9653
+2026-07-15 12:37:53 INFO  scripts.training.yolo26n.evaluation | evaluating on 197 batches

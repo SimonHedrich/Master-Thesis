@@ -3,10 +3,15 @@
 data/*
 resources/SNPredictions_all*
 output/*
+mlruns/*
 scripts/evaluation/outputs/
 
 __pycache__/
 *.py[codz]
 *$py.class
+
+*.pt
+*.pth
+*.onnx
 
 reports/dataset_split_manifest.json

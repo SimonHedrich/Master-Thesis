@@ -1,0 +1,106 @@
+2026-07-01 20:49:11 INFO  __main__ | === yolov5s training run ===
+2026-07-01 20:49:11 INFO  __main__ | run_name=yolov5s-smoke-20260701-204911 experiment=yolov5s-wildlife225
+2026-07-01 20:49:11 INFO  __main__ | mlflow tracking_uri=(unset)
+2026-07-01 20:49:11 INFO  __main__ | run dir: /home/ubuntu/Master-Thesis/scripts/training/yolov5s/model_exports/yolov5s-smoke-20260701-204911
+2026-07-01 20:49:11 INFO  __main__ | log file: /home/ubuntu/Master-Thesis/scripts/training/yolov5s/model_exports/yolov5s-smoke-20260701-204911/yolov5s-smoke-20260701-204911.log
+2026-07-01 20:49:11 INFO  __main__ | seed=42 device=cuda epochs=1 smoke=True
+2026-07-01 20:49:11 INFO  scripts.training.yolov5s.dataset | dataset annotations_val.json: 12545 images, 12519 annotations, 225 classes
+2026-07-01 20:49:11 INFO  scripts.training.yolov5s.dataset | dataset annotations_val.json: 12545 images, 12519 annotations, 225 classes
+2026-07-01 20:49:11 INFO  scripts.training.yolov5s.dataset | dataset annotations_val.json: 12545 images, 12519 annotations, 225 classes
+2026-07-01 20:49:18 INFO  scripts.training.yolov5s.yolov5s_model | loaded 343/349 keys from /home/ubuntu/Master-Thesis/weights/yolov5s.pt (skipped 6 shape-mismatched)
+2026-07-01 20:49:18 INFO  scripts.training.yolov5s.yolov5s_model | model: yolov5s, nc=225, params=7.63M, device=cuda
+2026-07-01 20:49:18 INFO  scripts.training.yolov5s.yolov5s_model | optimizer=SGD lr=0.001 | param groups: g0(BN,no-decay)=57 g1(conv,decay=0.0005)=60 g2(bias,no-decay)=60
+2026-07-01 20:49:18 INFO  scripts.training.yolov5s.yolov5s_model | scheduler: linear warmup 3 epochs (in loop) → ReduceLROnPlateau(mode=max, factor=0.5, patience=5, min_lr=1e-05, threshold=0.001 abs)
+2026-07-01 20:49:18 INFO  __main__ | run config:
+2026-07-01 20:49:18 INFO  __main__ |   ANNOTATIONS_TEST = /home/ubuntu/Master-Thesis/data/real/annotations_test.json
+2026-07-01 20:49:18 INFO  __main__ |   ANNOTATIONS_TRAIN = /home/ubuntu/Master-Thesis/data/real/annotations_train.json
+2026-07-01 20:49:18 INFO  __main__ |   ANNOTATIONS_VAL = /home/ubuntu/Master-Thesis/data/real/annotations_val.json
+2026-07-01 20:49:18 INFO  __main__ |   AUG_CLOSE_MOSAIC = 0
+2026-07-01 20:49:18 INFO  __main__ |   AUG_COPY_PASTE = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   AUG_DEGREES = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   AUG_FLIPUD = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   AUG_HFLIP = True
+2026-07-01 20:49:18 INFO  __main__ |   AUG_HSV = True
+2026-07-01 20:49:18 INFO  __main__ |   AUG_HSV_H = 0.015
+2026-07-01 20:49:18 INFO  __main__ |   AUG_HSV_S = 0.7
+2026-07-01 20:49:18 INFO  __main__ |   AUG_HSV_V = 0.4
+2026-07-01 20:49:18 INFO  __main__ |   AUG_MIXUP = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   AUG_MOSAIC = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   AUG_PERSPECTIVE = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   AUG_SCALE = 0.5
+2026-07-01 20:49:18 INFO  __main__ |   AUG_SHEAR = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   AUG_TRANSLATE = 0.1
+2026-07-01 20:49:18 INFO  __main__ |   BATCH_SIZE = 32
+2026-07-01 20:49:18 INFO  __main__ |   DATA_ROOT = /home/ubuntu/Master-Thesis/data
+2026-07-01 20:49:18 INFO  __main__ |   EARLY_STOP = True
+2026-07-01 20:49:18 INFO  __main__ |   EARLY_STOP_MIN_DELTA = 0.001
+2026-07-01 20:49:18 INFO  __main__ |   EARLY_STOP_PATIENCE = 20
+2026-07-01 20:49:18 INFO  __main__ |   EPOCH_COUNT = 200
+2026-07-01 20:49:18 INFO  __main__ |   EVAL_CONF_THRES = 0.001
+2026-07-01 20:49:18 INFO  __main__ |   EVAL_IOU_THRES = 0.6
+2026-07-01 20:49:18 INFO  __main__ |   EVAL_MAX_DET = 100
+2026-07-01 20:49:18 INFO  __main__ |   HYP_ANCHOR_T = 4.0
+2026-07-01 20:49:18 INFO  __main__ |   HYP_BOX = 0.05
+2026-07-01 20:49:18 INFO  __main__ |   HYP_CLS = 0.5
+2026-07-01 20:49:18 INFO  __main__ |   HYP_CLS_PW = 1.0
+2026-07-01 20:49:18 INFO  __main__ |   HYP_FL_GAMMA = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   HYP_IOU_T = 0.2
+2026-07-01 20:49:18 INFO  __main__ |   HYP_LABEL_SMOOTHING = 0.0
+2026-07-01 20:49:18 INFO  __main__ |   HYP_OBJ = 1.0
+2026-07-01 20:49:18 INFO  __main__ |   HYP_OBJ_PW = 1.0
+2026-07-01 20:49:18 INFO  __main__ |   IMAGE_ROOT = /home/ubuntu/Master-Thesis
+2026-07-01 20:49:18 INFO  __main__ |   IMAGE_SIZE = 640
+2026-07-01 20:49:18 INFO  __main__ |   LEARNING_RATE = 0.001
+2026-07-01 20:49:18 INFO  __main__ |   MLFLOW_EXPERIMENT_DEFAULT = yolov5s-wildlife225
+2026-07-01 20:49:18 INFO  __main__ |   MLFLOW_LOG_EVERY_N_STEPS = 50
+2026-07-01 20:49:18 INFO  __main__ |   MODEL_CONFIG = yolov5s.yaml
+2026-07-01 20:49:18 INFO  __main__ |   MOMENTUM = 0.937
+2026-07-01 20:49:18 INFO  __main__ |   NESTEROV = True
+2026-07-01 20:49:18 INFO  __main__ |   NUM_CLASSES = 225
+2026-07-01 20:49:18 INFO  __main__ |   NUM_WORKERS = 8
+2026-07-01 20:49:18 INFO  __main__ |   OPTIMIZER = SGD
+2026-07-01 20:49:18 INFO  __main__ |   OUTPUT_DIR = /home/ubuntu/Master-Thesis/scripts/training/yolov5s/model_exports
+2026-07-01 20:49:18 INFO  __main__ |   PLATEAU_FACTOR = 0.5
+2026-07-01 20:49:18 INFO  __main__ |   PLATEAU_MIN_LR = 1e-05
+2026-07-01 20:49:18 INFO  __main__ |   PLATEAU_PATIENCE = 5
+2026-07-01 20:49:18 INFO  __main__ |   PRETRAINED_WEIGHTS = /home/ubuntu/Master-Thesis/weights/yolov5s.pt
+2026-07-01 20:49:18 INFO  __main__ |   REPO_ROOT = /home/ubuntu/Master-Thesis
+2026-07-01 20:49:18 INFO  __main__ |   SEED = 42
+2026-07-01 20:49:18 INFO  __main__ |   SELECTION_METRIC = mAP50_95
+2026-07-01 20:49:18 INFO  __main__ |   USE_AMP = True
+2026-07-01 20:49:18 INFO  __main__ |   USE_EMA = True
+2026-07-01 20:49:18 INFO  __main__ |   WARMUP_EPOCHS = 3
+2026-07-01 20:49:18 INFO  __main__ |   WEIGHT_DECAY = 0.0005
+2026-07-01 20:49:18 INFO  __main__ |   dataset_size_test = 12545
+2026-07-01 20:49:18 INFO  __main__ |   dataset_size_train = 12545
+2026-07-01 20:49:18 INFO  __main__ |   dataset_size_val = 12545
+2026-07-01 20:49:18 INFO  __main__ |   device = cuda
+2026-07-01 20:49:18 INFO  __main__ |   epochs_actual = 1
+2026-07-01 20:49:18 INFO  __main__ |   git_sha = 9484080c5c2661a500c7ba06196da48a617e8fda
+2026-07-01 20:49:18 INFO  __main__ |   smoke = True
+2026-07-01 20:49:18 INFO  scripts.training.yolov5s.training_pipeline | output dir: /home/ubuntu/Master-Thesis/scripts/training/yolov5s/model_exports/yolov5s-smoke-20260701-204911 | selection_metric=mAP50_95 early_stop=True(patience=20, min_delta=0.001) ema=True amp=True
+2026-07-01 20:49:18 INFO  scripts.training.yolov5s.training_pipeline | starting training: ceiling=1 epochs | train_batches=392 val_batches=393 test_batches=393 | device=cuda
+2026-07-01 20:49:18 INFO  scripts.training.yolov5s.training_pipeline | epoch 1/1 — train start (lr=0.000333333, batches=392)
+2026-07-01 20:49:18 ERROR __main__ | run failed: cv2.imread returned None for: /home/ubuntu/Master-Thesis/data/inaturalist/images/chimpanzee/inat_chimpanzee_00206.jpg
+Traceback (most recent call last):
+  File "/home/ubuntu/Master-Thesis/scripts/training/yolov5s/run_training_pipeline.py", line 168, in training_run
+    result = pipeline.run_pipeline()
+  File "/home/ubuntu/Master-Thesis/scripts/training/yolov5s/training_pipeline.py", line 229, in run_pipeline
+    self._train_one_epoch(epoch)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/ubuntu/Master-Thesis/scripts/training/yolov5s/training_pipeline.py", line 123, in _train_one_epoch
+    for imgs, targets, _, _ in pbar:
+                               ^^^^
+  File "/home/ubuntu/Master-Thesis/.venv/lib/python3.13/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+               ^^^^^^^^
+  File "/home/ubuntu/Master-Thesis/.venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 718, in __next__
+    data = self._next_data()
+  File "/home/ubuntu/Master-Thesis/.venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 778, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+  File "/home/ubuntu/Master-Thesis/.venv/lib/python3.13/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/home/ubuntu/Master-Thesis/scripts/training/yolov5s/dataset.py", line 229, in __getitem__
+    raise FileNotFoundError(f"cv2.imread returned None for: {path}")
+FileNotFoundError: cv2.imread returned None for: /home/ubuntu/Master-Thesis/data/inaturalist/images/chimpanzee/inat_chimpanzee_00206.jpg

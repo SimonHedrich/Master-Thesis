@@ -1,0 +1,86 @@
+2026-07-01 23:34:43 INFO  __main__ | === teacher_finetune (SpeciesNet classifier) training run ===
+2026-07-01 23:34:43 INFO  __main__ | run_name=teacher-finetune-smoke-20260701-233443 experiment=teacher-finetune-speciesnet225
+2026-07-01 23:34:43 INFO  __main__ | mlflow tracking_uri=(unset)
+2026-07-01 23:34:43 INFO  __main__ | run dir: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-smoke-20260701-233443
+2026-07-01 23:34:43 INFO  __main__ | log file: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-smoke-20260701-233443/teacher-finetune-smoke-20260701-233443.log
+2026-07-01 23:34:43 INFO  __main__ | seed=42 device=cuda epochs=1 smoke=True
+2026-07-01 23:35:07 INFO  absl | Loading model from /root/.cache/kagglehub/models/google/speciesnet/pyTorch/v4.0.3a/1/always_crop_99710272_22x8_v12_epoch_00148.pt.
+2026-07-01 23:35:08 INFO  absl | Loaded SpeciesNetClassifier in 24.38 seconds on CUDA.
+2026-07-01 23:35:08 INFO  scripts.training.teacher_finetune.teacher_model | froze 245/490 parameter tensors (fraction=0.50), 245 trainable
+2026-07-01 23:35:08 INFO  scripts.training.teacher_finetune.teacher_model | model: speciesnet-classifier, nc=2498, params=52.71M (43.55M trainable), device=cuda
+2026-07-01 23:35:08 INFO  scripts.training.teacher_finetune.dataset | dataset annotations_val.json: 12519 crops, 225 classes
+2026-07-01 23:35:08 INFO  scripts.training.teacher_finetune.dataset | dataset annotations_val.json: 12519 crops, 225 classes
+2026-07-01 23:35:08 INFO  scripts.training.teacher_finetune.dataset | dataset annotations_val.json: 12519 crops, 225 classes
+2026-07-01 23:35:08 INFO  scripts.training.teacher_finetune.teacher_model | optimizer=AdamW lr=0.0001 weight_decay=0.0001 | trainable params=245
+2026-07-01 23:35:08 INFO  scripts.training.teacher_finetune.teacher_model | scheduler: linear warmup 3 epochs (in loop) → ReduceLROnPlateau(mode=max, factor=0.5, patience=5, min_lr=1e-06, threshold=0.001 abs)
+2026-07-01 23:35:09 INFO  absl | Loading model from /root/.cache/kagglehub/models/google/speciesnet/pyTorch/v4.0.3a/1/always_crop_99710272_22x8_v12_epoch_00148.pt.
+2026-07-01 23:35:10 INFO  absl | Loaded SpeciesNetClassifier in 1.49 seconds on CUDA.
+2026-07-01 23:35:10 WARNING scripts.training.teacher_finetune.loss | 11 idx_225 classes have an EMPTY leaf group (no matching SpeciesNet leaf class) — samples with these labels are excluded from the loss (ignore_index-style), not treated as NaN. idx_225 set: [27, 74, 79, 120, 126, 164, 182, 188, 191, 212, 223]. See this module's docstring for the full class list/framing.
+2026-07-01 23:35:10 INFO  scripts.training.teacher_finetune.loss | GroupedCrossEntropyLoss: 171 single-member groups (plain CE fast path), 43 multi-member groups (grouped CE), 11 empty (ignored)
+2026-07-01 23:35:10 INFO  __main__ | run config:
+2026-07-01 23:35:10 INFO  __main__ |   ANNOTATIONS_TEST = /app/data/real/annotations_test.json
+2026-07-01 23:35:10 INFO  __main__ |   ANNOTATIONS_TRAIN = /app/data/real/annotations_train.json
+2026-07-01 23:35:10 INFO  __main__ |   ANNOTATIONS_VAL = /app/data/real/annotations_val.json
+2026-07-01 23:35:10 INFO  __main__ |   BATCH_SIZE = 32
+2026-07-01 23:35:10 INFO  __main__ |   CLASSES_225_PATH = /app/reports/classes_225.csv
+2026-07-01 23:35:10 INFO  __main__ |   DATA_ROOT = /app/data
+2026-07-01 23:35:10 INFO  __main__ |   EARLY_STOP = True
+2026-07-01 23:35:10 INFO  __main__ |   EARLY_STOP_MIN_DELTA = 0.001
+2026-07-01 23:35:10 INFO  __main__ |   EARLY_STOP_PATIENCE = 15
+2026-07-01 23:35:10 INFO  __main__ |   EPOCH_COUNT = 100
+2026-07-01 23:35:10 INFO  __main__ |   FREEZE_PARAM_FRACTION = 0.5
+2026-07-01 23:35:10 INFO  __main__ |   IMAGE_ROOT = /app
+2026-07-01 23:35:10 INFO  __main__ |   IMAGE_SIZE = 480
+2026-07-01 23:35:10 INFO  __main__ |   LEARNING_RATE = 0.0001
+2026-07-01 23:35:10 INFO  __main__ |   MLFLOW_EXPERIMENT_DEFAULT = teacher-finetune-speciesnet225
+2026-07-01 23:35:10 INFO  __main__ |   MLFLOW_LOG_EVERY_N_STEPS = 50
+2026-07-01 23:35:10 INFO  __main__ |   NUM_CLASSES_225 = 225
+2026-07-01 23:35:10 INFO  __main__ |   NUM_CLASSES_LEAF = 2498
+2026-07-01 23:35:10 INFO  __main__ |   NUM_WORKERS = 8
+2026-07-01 23:35:10 INFO  __main__ |   OPTIMIZER = AdamW
+2026-07-01 23:35:10 INFO  __main__ |   OUTPUT_DIR = /app/scripts/training/teacher_finetune/model_exports
+2026-07-01 23:35:10 INFO  __main__ |   PLATEAU_FACTOR = 0.5
+2026-07-01 23:35:10 INFO  __main__ |   PLATEAU_MIN_LR = 1e-06
+2026-07-01 23:35:10 INFO  __main__ |   PLATEAU_PATIENCE = 5
+2026-07-01 23:35:10 INFO  __main__ |   REPO_ROOT = /app
+2026-07-01 23:35:10 INFO  __main__ |   SEED = 42
+2026-07-01 23:35:10 INFO  __main__ |   SELECTION_METRIC = f1_macro
+2026-07-01 23:35:10 INFO  __main__ |   TAXONOMY_PATH = /app/resources/speciesnet_taxonomy_release.txt
+2026-07-01 23:35:10 INFO  __main__ |   USE_AMP = True
+2026-07-01 23:35:10 INFO  __main__ |   USE_EMA = True
+2026-07-01 23:35:10 INFO  __main__ |   WARMUP_EPOCHS = 3
+2026-07-01 23:35:10 INFO  __main__ |   WEIGHT_DECAY = 0.0001
+2026-07-01 23:35:10 INFO  __main__ |   dataset_size_test = 12519
+2026-07-01 23:35:10 INFO  __main__ |   dataset_size_train = 12519
+2026-07-01 23:35:10 INFO  __main__ |   dataset_size_val = 12519
+2026-07-01 23:35:10 INFO  __main__ |   device = cuda
+2026-07-01 23:35:10 INFO  __main__ |   epochs_actual = 1
+2026-07-01 23:35:10 INFO  __main__ |   git_sha = 
+2026-07-01 23:35:10 INFO  __main__ |   smoke = True
+2026-07-01 23:35:10 INFO  scripts.training.teacher_finetune.training_pipeline | output dir: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-smoke-20260701-233443 | selection_metric=f1_macro early_stop=True(patience=15, min_delta=0.001) ema=True amp=True
+2026-07-01 23:35:10 INFO  scripts.training.teacher_finetune.training_pipeline | starting training: ceiling=1 epochs | train_batches=391 val_batches=392 test_batches=392 | device=cuda
+2026-07-01 23:35:10 INFO  scripts.training.teacher_finetune.training_pipeline | epoch 1/1 — train start (lr=3.33333e-05, batches=391)
+2026-07-01 23:39:03 INFO  scripts.training.teacher_finetune.training_pipeline | step 50 | loss_grouped_ce=1.9545 lr=3.33333e-05
+2026-07-01 23:42:41 INFO  scripts.training.teacher_finetune.training_pipeline | step 100 | loss_grouped_ce=0.6515 lr=3.33333e-05
+2026-07-01 23:47:36 INFO  scripts.training.teacher_finetune.training_pipeline | step 150 | loss_grouped_ce=0.7919 lr=3.33333e-05
+2026-07-01 23:53:43 INFO  scripts.training.teacher_finetune.training_pipeline | step 200 | loss_grouped_ce=1.1114 lr=3.33333e-05
+2026-07-01 23:59:02 INFO  scripts.training.teacher_finetune.training_pipeline | step 250 | loss_grouped_ce=0.4886 lr=3.33333e-05
+2026-07-02 00:02:48 INFO  scripts.training.teacher_finetune.training_pipeline | step 300 | loss_grouped_ce=0.5105 lr=3.33333e-05
+2026-07-02 00:06:38 INFO  scripts.training.teacher_finetune.training_pipeline | step 350 | loss_grouped_ce=0.4529 lr=3.33333e-05
+2026-07-02 00:09:45 INFO  scripts.training.teacher_finetune.training_pipeline | epoch 1/1 — train done in 2074.6s | avg loss_grouped_ce=0.8007
+2026-07-02 00:09:45 INFO  scripts.training.teacher_finetune.evaluate | evaluating on 392 batches
+2026-07-02 00:38:39 INFO  scripts.training.teacher_finetune.training_pipeline | epoch 1/1 — val accuracy_top1=0.9002 f1_macro=0.8504 f1_micro=0.9002 (selection f1_macro=0.8504)
+2026-07-02 00:38:39 INFO  scripts.training.teacher_finetune.evaluate | mlflow: logged val/accuracy_top1=0.9002 val/f1_macro=0.8504 val/f1_micro=0.9002 (step=0, n=12519)
+2026-07-02 00:38:39 INFO  scripts.training.teacher_finetune.evaluate | mlflow: logged val per-source accuracy table (6 sources)
+2026-07-02 00:38:40 INFO  scripts.training.teacher_finetune.training_pipeline | saved checkpoint: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-smoke-20260701-233443/best.pt
+2026-07-02 00:38:40 INFO  scripts.training.teacher_finetune.training_pipeline | new best f1_macro=0.8504 at epoch 1
+2026-07-02 00:38:40 INFO  scripts.training.teacher_finetune.training_pipeline | epoch 1/1 done — next lr=3.33333e-05, epochs_since_improve=0/15
+2026-07-02 00:38:41 INFO  scripts.training.teacher_finetune.training_pipeline | saved checkpoint: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-smoke-20260701-233443/last.pt
+2026-07-02 00:38:41 INFO  scripts.training.teacher_finetune.training_pipeline | training finished — loading best.pt for final test evaluation
+2026-07-02 00:38:43 INFO  scripts.training.teacher_finetune.training_pipeline | loaded best.pt (f1_macro=0.8504 @ epoch 0)
+2026-07-02 00:38:43 INFO  scripts.training.teacher_finetune.evaluate | evaluating on 392 batches
+2026-07-02 01:07:47 INFO  scripts.training.teacher_finetune.training_pipeline | test accuracy_top1=0.9002 f1_macro=0.8504 f1_micro=0.9002
+2026-07-02 01:07:47 INFO  scripts.training.teacher_finetune.evaluate | mlflow: logged test/accuracy_top1=0.9002 test/f1_macro=0.8504 test/f1_micro=0.9002 (step=None, n=12519)
+2026-07-02 01:07:47 INFO  scripts.training.teacher_finetune.evaluate | mlflow: logged test per-source accuracy table (6 sources)
+2026-07-02 01:07:49 INFO  scripts.training.teacher_finetune.training_pipeline | uploaded checkpoints to MLflow
+2026-07-02 01:07:49 INFO  __main__ | uploaded log artifact: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-smoke-20260701-233443/teacher-finetune-smoke-20260701-233443.log

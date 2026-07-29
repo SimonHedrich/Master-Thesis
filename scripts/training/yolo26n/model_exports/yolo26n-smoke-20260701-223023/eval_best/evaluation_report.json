@@ -1,0 +1,2407 @@
+{
+  "checkpoint": "scripts/training/yolo26n/model_exports/yolo26n-smoke-20260701-223023/best.pt",
+  "config": {
+    "max_det": 100,
+    "bootstrap_n": 0,
+    "has_synthetic": false
+  },
+  "notes": [
+    "Synthetic test set was not supplied; 'mixed' == 'real', and the domain-shift / synthetic-only sections are omitted."
+  ],
+  "test_limited_classes": {
+    "african civet": 1,
+    "african wild dog": 1,
+    "agouti genus": 2,
+    "alpine marmot": 1,
+    "asian elephant": 1,
+    "ateles species": 1,
+    "baird's tapir": 1,
+    "beaver genus": 1,
+    "bornean orangutan": 1,
+    "cheetah": 1,
+    "chital": 3,
+    "common eland": 1,
+    "common fallow deer": 1,
+    "cottontail rabbits genus": 2,
+    "eulemur species": 1,
+    "eurasian badger": 1,
+    "european hare": 1,
+    "grant's gazelle": 1,
+    "hedgehog family": 2,
+    "impala": 1,
+    "leopard": 2,
+    "lion": 1,
+    "mongoose family": 1,
+    "mountain zebra": 1,
+    "muridae family": 1,
+    "north american river otter": 1,
+    "northern chamois": 1,
+    "ocelot": 1,
+    "opossum family": 2,
+    "plains zebra": 1,
+    "red squirrel": 1,
+    "snow leopard": 1,
+    "squirrel family": 1
+  },
+  "tier1": {
+    "headline_mixed_fine": {
+      "map": 0.0006097586010582745,
+      "map_50": 0.004426203202456236,
+      "map_75": 0.0,
+      "map_small": NaN,
+      "map_medium": 0.0,
+      "map_large": 0.0006707344437018037,
+      "mar_1": 0.00909090880304575,
+      "mar_10": 0.012121211737394333,
+      "mar_100": 0.012121211737394333,
+      "mar_small": NaN,
+      "mar_medium": 0.0,
+      "mar_large": 0.013333333656191826
+    },
+    "headline_real_fine": {
+      "map": 0.0006097586010582745,
+      "map_50": 0.004426203202456236,
+      "map_75": 0.0,
+      "map_small": NaN,
+      "map_medium": 0.0,
+      "map_large": 0.0006707344437018037,
+      "mar_1": 0.00909090880304575,
+      "mar_10": 0.012121211737394333,
+      "mar_100": 0.012121211737394333,
+      "mar_small": NaN,
+      "mar_medium": 0.0,
+      "mar_large": 0.013333333656191826
+    },
+    "detect_analog": {
+      "mixed_map": 0.008298966102302074,
+      "mixed_map_50": 0.033205777406692505,
+      "real_map": 0.008298966102302074,
+      "real_map_50": 0.033205777406692505
+    },
+    "headline_mixed_map_excl_test_limited": NaN,
+    "headline_mixed_map_count_weighted": 0.0005407337099313736,
+    "headline_real_map_count_weighted": 0.0005407337099313736,
+    "n_test_limited_classes": 33
+  },
+  "tier2_granularity": {
+    "detect": {
+      "map": 0.008298966102302074,
+      "map_50": 0.033205777406692505
+    },
+    "coarse": {
+      "map": 0.0006490978412330151,
+      "map_50": 0.004711764864623547
+    },
+    "fine": {
+      "map": 0.0006097586010582745,
+      "map_50": 0.004426203202456236
+    },
+    "delta_coarse_map": 0.007649868261069059,
+    "delta_fine_map": 3.933924017474055e-05,
+    "delta_coarse_map_50": 0.02849401254206896,
+    "delta_fine_map_50": 0.0002855616621673107
+  },
+  "tier2_band_grid": {
+    "mixed": {
+      "A": {
+        "n_images": 3,
+        "fine_map": 0.0,
+        "fine_map_50": 0.0,
+        "coarse_map": 0.0,
+        "coarse_map_50": 0.0
+      },
+      "B": {
+        "n_images": 3,
+        "fine_map": 0.0,
+        "fine_map_50": 0.0,
+        "coarse_map": 0.0,
+        "coarse_map_50": 0.0
+      },
+      "C": {
+        "n_images": 8,
+        "fine_map": 0.0,
+        "fine_map_50": 0.0,
+        "coarse_map": 0.0,
+        "coarse_map_50": 0.0
+      },
+      "D": {
+        "n_images": 26,
+        "fine_map": 0.0014306409284472466,
+        "fine_map_50": 0.010554565116763115,
+        "coarse_map": 0.0015021730214357376,
+        "coarse_map_50": 0.011082293465733528
+      }
+    },
+    "real": {
+      "A": {
+        "n_images": 3,
+        "fine_map": 0.0,
+        "fine_map_50": 0.0,
+        "coarse_map": 0.0,
+        "coarse_map_50": 0.0
+      },
+      "B": {
+        "n_images": 3,
+        "fine_map": 0.0,
+        "fine_map_50": 0.0,
+        "coarse_map": 0.0,
+        "coarse_map_50": 0.0
+      },
+      "C": {
+        "n_images": 8,
+        "fine_map": 0.0,
+        "fine_map_50": 0.0,
+        "coarse_map": 0.0,
+        "coarse_map_50": 0.0
+      },
+      "D": {
+        "n_images": 26,
+        "fine_map": 0.0014306409284472466,
+        "fine_map_50": 0.010554565116763115,
+        "coarse_map": 0.0015021730214357376,
+        "coarse_map_50": 0.011082293465733528
+      }
+    }
+  },
+  "tier2_within_group_confusion": {
+    "overall_confusion_rate": NaN,
+    "by_group": {
+      "bison": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "bos": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "canis": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "capra": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "sciurus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "sus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "sylvilagus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "cervus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "tapirus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "connochaetes": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "tragelaphus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "ursus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "zebra": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "elephant": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "equine_unstriped": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "felis": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "gazelle": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "hippotragus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "hyaena": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "kobus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "leopardus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "lepus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "lynx_caracal_cluster": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "macaca": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "macropus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "marmota": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "nasua": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "odocoileus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "ovis": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "panthera_rosette": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      }
+    },
+    "pairs": []
+  },
+  "tier3_per_class": [
+    {
+      "coco_id": 1,
+      "class_name": "aardvark",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 2,
+      "class_name": "aardwolf",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 3,
+      "class_name": "african buffalo",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 4,
+      "class_name": "african civet",
+      "band": "A",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 5,
+      "class_name": "african elephant",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 6,
+      "class_name": "african wild dog",
+      "band": "B",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 7,
+      "class_name": "agouti genus",
+      "band": "D",
+      "real_test_images": 2,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 8,
+      "class_name": "alpine ibex",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 9,
+      "class_name": "alpine marmot",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 10,
+      "class_name": "american badger",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 11,
+      "class_name": "american bison",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 12,
+      "class_name": "american black bear",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 13,
+      "class_name": "american mink",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 14,
+      "class_name": "arizona black-tailed prairie dog",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 15,
+      "class_name": "asian elephant",
+      "band": "B",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 16,
+      "class_name": "asiatic black bear",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 17,
+      "class_name": "asiatic wild ass",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 18,
+      "class_name": "ateles species",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 19,
+      "class_name": "aye-aye",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 20,
+      "class_name": "baboon genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 21,
+      "class_name": "baird's tapir",
+      "band": "B",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 22,
+      "class_name": "bat-eared fox",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 23,
+      "class_name": "beaver genus",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 24,
+      "class_name": "bighorn sheep",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 25,
+      "class_name": "binturong",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 26,
+      "class_name": "black wildebeest",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 27,
+      "class_name": "black-backed jackal",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 28,
+      "class_name": "blackbuck",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 29,
+      "class_name": "blesbok",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 30,
+      "class_name": "bobcat",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 31,
+      "class_name": "bongo",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 32,
+      "class_name": "bornean orangutan",
+      "band": "C",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 33,
+      "class_name": "brown bear",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 34,
+      "class_name": "brown hyaena",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 35,
+      "class_name": "brown-throated sloth",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 36,
+      "class_name": "bushbuck",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 37,
+      "class_name": "california ground squirrel",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 38,
+      "class_name": "callicebus genus",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 39,
+      "class_name": "callithrix species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 40,
+      "class_name": "canada lynx",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 41,
+      "class_name": "capybara",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 42,
+      "class_name": "caracal",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 43,
+      "class_name": "cebus species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 44,
+      "class_name": "cephalophus species",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 45,
+      "class_name": "cercopithecus species",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 46,
+      "class_name": "cheetah",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.00909090880304575,
+      "ap_real_fine": 0.00909090880304575
+    },
+    {
+      "coco_id": 47,
+      "class_name": "chimpanzee",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 48,
+      "class_name": "chipmunk genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 49,
+      "class_name": "chital",
+      "band": "C",
+      "real_test_images": 3,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 50,
+      "class_name": "clouded leopard",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 51,
+      "class_name": "collared peccary",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 52,
+      "class_name": "colobus species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 53,
+      "class_name": "common duiker",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 54,
+      "class_name": "common eland",
+      "band": "C",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 55,
+      "class_name": "common fallow deer",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 56,
+      "class_name": "common warthog",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 57,
+      "class_name": "common wildebeest",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 58,
+      "class_name": "common wombat",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 59,
+      "class_name": "cottontail rabbits genus",
+      "band": "D",
+      "real_test_images": 2,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 60,
+      "class_name": "coyote",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 61,
+      "class_name": "cricetidae family",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 62,
+      "class_name": "dhole",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 63,
+      "class_name": "dingo",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 64,
+      "class_name": "domestic cat",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 65,
+      "class_name": "domestic cattle",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 66,
+      "class_name": "domestic dog",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 67,
+      "class_name": "domestic donkey",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 68,
+      "class_name": "domestic goat",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 69,
+      "class_name": "domestic horse",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 70,
+      "class_name": "domestic pig",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 71,
+      "class_name": "domestic sheep",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 72,
+      "class_name": "domestic water buffalo",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 73,
+      "class_name": "drill",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 74,
+      "class_name": "dromedary camel",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 75,
+      "class_name": "eared seals",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 76,
+      "class_name": "eastern cottontail",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 77,
+      "class_name": "eastern fox squirrel",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 78,
+      "class_name": "eastern gray squirrel",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 79,
+      "class_name": "eastern grey kangaroo",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 80,
+      "class_name": "elephant seal",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 81,
+      "class_name": "elk",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 82,
+      "class_name": "eulemur species",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 83,
+      "class_name": "eurasian badger",
+      "band": "A",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 84,
+      "class_name": "eurasian lynx",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 85,
+      "class_name": "eurasian otter",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 86,
+      "class_name": "eurasian red squirrel",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 87,
+      "class_name": "european bison",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 88,
+      "class_name": "european hare",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 89,
+      "class_name": "european rabbit",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 90,
+      "class_name": "european roe deer",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 91,
+      "class_name": "fisher",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 92,
+      "class_name": "fossa",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 93,
+      "class_name": "gemsbok",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 94,
+      "class_name": "genet genus",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 95,
+      "class_name": "gerenuk",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 96,
+      "class_name": "giant anteater",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 97,
+      "class_name": "giant armadillo",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 98,
+      "class_name": "giant otter",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 99,
+      "class_name": "giant panda",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 100,
+      "class_name": "giraffe",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 101,
+      "class_name": "glaucomys species",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 102,
+      "class_name": "golden jackal",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 103,
+      "class_name": "golden mantled ground squirrel",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 104,
+      "class_name": "gorilla species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 105,
+      "class_name": "grant's gazelle",
+      "band": "C",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 106,
+      "class_name": "greater kudu",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 107,
+      "class_name": "grevy's zebra",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 108,
+      "class_name": "grey fox",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 109,
+      "class_name": "grey wolf",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 110,
+      "class_name": "hares and jackrabbits genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 111,
+      "class_name": "hartebeest",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 112,
+      "class_name": "hedgehog family",
+      "band": "D",
+      "real_test_images": 2,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0015073148533701897,
+      "ap_real_fine": 0.0015073148533701897
+    },
+    {
+      "coco_id": 113,
+      "class_name": "hippopotamus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 114,
+      "class_name": "hoffmann's two-toed sloth",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 115,
+      "class_name": "hog badger genus",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 116,
+      "class_name": "honey badger",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 117,
+      "class_name": "howler monkey genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 118,
+      "class_name": "human",
+      "band": "negative",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 119,
+      "class_name": "impala",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 120,
+      "class_name": "jaguar",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 121,
+      "class_name": "japanese macaque",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 122,
+      "class_name": "kangaroo family",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 123,
+      "class_name": "kinkajou",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 124,
+      "class_name": "kirk's dik-dik",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 125,
+      "class_name": "klipspringer",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 126,
+      "class_name": "koala",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 127,
+      "class_name": "kob",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 128,
+      "class_name": "leaf monkeys genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 129,
+      "class_name": "leopard",
+      "band": "D",
+      "real_test_images": 2,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 130,
+      "class_name": "leopard cat",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 131,
+      "class_name": "leopardus species",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 132,
+      "class_name": "lion",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 133,
+      "class_name": "llama genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 134,
+      "class_name": "lowland tapir",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 135,
+      "class_name": "lycalopex species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 136,
+      "class_name": "macaque species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 137,
+      "class_name": "malay tapir",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 138,
+      "class_name": "maned wolf",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 139,
+      "class_name": "mangabeys genus",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 140,
+      "class_name": "martes species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 141,
+      "class_name": "meerkat",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 142,
+      "class_name": "mongoose family",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 143,
+      "class_name": "moose",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 144,
+      "class_name": "mouflon",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 145,
+      "class_name": "mountain goat",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 146,
+      "class_name": "mountain zebra",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 147,
+      "class_name": "mule deer",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 148,
+      "class_name": "muntjac genus",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 149,
+      "class_name": "muridae family",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.009523809887468815,
+      "ap_real_fine": 0.009523809887468815
+    },
+    {
+      "coco_id": 150,
+      "class_name": "muskrat",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 151,
+      "class_name": "nilgai",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 152,
+      "class_name": "nine-banded armadillo",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 153,
+      "class_name": "north american porcupine",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 154,
+      "class_name": "north american river otter",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 155,
+      "class_name": "northern chamois",
+      "band": "C",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 156,
+      "class_name": "northern raccoon",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 157,
+      "class_name": "nutria",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 158,
+      "class_name": "nyala",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 159,
+      "class_name": "ocelot",
+      "band": "A",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 160,
+      "class_name": "old world porcupine family",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 161,
+      "class_name": "opossum family",
+      "band": "D",
+      "real_test_images": 2,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 162,
+      "class_name": "pangolin family",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 163,
+      "class_name": "patas monkey",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 164,
+      "class_name": "pikas genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 165,
+      "class_name": "pinniped clade",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 166,
+      "class_name": "plains zebra",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 167,
+      "class_name": "pronghorn",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 168,
+      "class_name": "puma",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 169,
+      "class_name": "quokka",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 170,
+      "class_name": "raccoon dog",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 171,
+      "class_name": "rattus genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 172,
+      "class_name": "red brocket",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 173,
+      "class_name": "red deer",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 174,
+      "class_name": "red fox",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 175,
+      "class_name": "red kangaroo",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 176,
+      "class_name": "red panda",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 177,
+      "class_name": "red river hog",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 178,
+      "class_name": "red squirrel",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 179,
+      "class_name": "red-necked wallaby",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 180,
+      "class_name": "reedbuck genus",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 181,
+      "class_name": "reindeer",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 182,
+      "class_name": "rhinoceros family",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 183,
+      "class_name": "ring-tailed lemur",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 184,
+      "class_name": "ringtail",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 185,
+      "class_name": "roan antelope",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 186,
+      "class_name": "rock hyrax",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 187,
+      "class_name": "sable antelope",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 188,
+      "class_name": "saguinus species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 189,
+      "class_name": "saiga",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 190,
+      "class_name": "saimiri species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 191,
+      "class_name": "sambar",
+      "band": "C",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 192,
+      "class_name": "sea otter",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 193,
+      "class_name": "serval",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 194,
+      "class_name": "short-beaked echidna",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 195,
+      "class_name": "sika deer",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 196,
+      "class_name": "sloth bear",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 197,
+      "class_name": "snow leopard",
+      "band": "C",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 198,
+      "class_name": "south american coati",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 199,
+      "class_name": "spectacled bear",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 200,
+      "class_name": "spilogale species",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 201,
+      "class_name": "spotted hyaena",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 202,
+      "class_name": "springbok",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 203,
+      "class_name": "squirrel family",
+      "band": "D",
+      "real_test_images": 1,
+      "test_limited": true,
+      "ap_mixed_fine": 0.0,
+      "ap_real_fine": 0.0
+    },
+    {
+      "coco_id": 204,
+      "class_name": "steenbok",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 205,
+      "class_name": "striped hyaena",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 206,
+      "class_name": "striped skunk",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 207,
+      "class_name": "sun bear",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 208,
+      "class_name": "swamp wallaby",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 209,
+      "class_name": "tayra",
+      "band": "B",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 210,
+      "class_name": "thomson's gazelle",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 211,
+      "class_name": "tiger",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 212,
+      "class_name": "vervet monkey",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 213,
+      "class_name": "walrus",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 214,
+      "class_name": "water deer",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 215,
+      "class_name": "waterbuck",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 216,
+      "class_name": "weasel species",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 217,
+      "class_name": "western gray squirrel",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 218,
+      "class_name": "white-nosed coati",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 219,
+      "class_name": "white-tailed deer",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 220,
+      "class_name": "wild boar",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 221,
+      "class_name": "wild cat",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 222,
+      "class_name": "wolverine",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 223,
+      "class_name": "woodchuck",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 224,
+      "class_name": "yak",
+      "band": "A",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    },
+    {
+      "coco_id": 225,
+      "class_name": "yellow-bellied marmot",
+      "band": "D",
+      "real_test_images": 0,
+      "test_limited": false,
+      "ap_mixed_fine": NaN,
+      "ap_real_fine": NaN
+    }
+  ],
+  "tier3_band_coco12": {
+    "A": {
+      "map": 0.0,
+      "map_50": 0.0,
+      "map_75": 0.0,
+      "map_small": NaN,
+      "map_medium": NaN,
+      "map_large": 0.0,
+      "mar_1": 0.0,
+      "mar_10": 0.0,
+      "mar_100": 0.0,
+      "mar_small": NaN,
+      "mar_medium": NaN,
+      "mar_large": 0.0
+    },
+    "B": {
+      "map": 0.0,
+      "map_50": 0.0,
+      "map_75": 0.0,
+      "map_small": NaN,
+      "map_medium": 0.0,
+      "map_large": 0.0,
+      "mar_1": 0.0,
+      "mar_10": 0.0,
+      "mar_100": 0.0,
+      "mar_small": NaN,
+      "mar_medium": 0.0,
+      "mar_large": 0.0
+    },
+    "C": {
+      "map": 0.0,
+      "map_50": 0.0,
+      "map_75": 0.0,
+      "map_small": NaN,
+      "map_medium": 0.0,
+      "map_large": 0.0,
+      "mar_1": 0.0,
+      "mar_10": 0.0,
+      "mar_100": 0.0,
+      "mar_small": NaN,
+      "mar_medium": 0.0,
+      "mar_large": 0.0
+    },
+    "D": {
+      "map": 0.0014306409284472466,
+      "map_50": 0.010554565116763115,
+      "map_75": 0.0,
+      "map_small": NaN,
+      "map_medium": 0.0,
+      "map_large": 0.0015021730214357376,
+      "mar_1": 0.014285714365541935,
+      "mar_10": 0.01904761977493763,
+      "mar_100": 0.01904761977493763,
+      "mar_small": NaN,
+      "mar_medium": 0.0,
+      "mar_large": 0.019999999552965164
+    }
+  }
+}

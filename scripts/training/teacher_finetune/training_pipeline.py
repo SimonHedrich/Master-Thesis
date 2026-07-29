@@ -1,25 +1,58 @@
-"""Training loop for YOLOv5s fine-tuning.
+"""Training loop for the SpeciesNet classifier fine-tune.
 
-LR/auto-stop design (see
-docs/plans/2026-06-10_training-hyperparameters-autostop-lr-schedule.md):
-OneCycleLR (warmup → peak → cosine annealing), stepped every batch, with
-patience-based early stopping keyed off a single validation metric
-(``selection_metric``). EMA (smoothed weights) and AMP (mixed precision) are
-optional bolt-ons that do not change the control flow.
+New `TrainingPipeline` class (not an import from `yolov5s/training_pipeline.py`
+— unlike Goal A's detector-to-detector reuse, this loop has no bbox decode, no
+letterbox, no mAP metric, and a different validation contract). It mirrors the
+same engineering conventions as the detector pipelines exactly: EMA, AMP,
+`OneCycleLR` (warmup → peak → cosine anneal, stepped every batch),
+absolute-min-delta early-stop, per-run checkpoint dir, and MLflow logging
+cadence — per the implementation plan's explicit instruction that this file
+share "the same engineering conventions... but not hyperparameter-identical."
 """
 from __future__ import annotations
 
 import logging
 import shutil
 import time
+from copy import deepcopy
 from pathlib import Path
 
 import mlflow
 import torch
 from tqdm import tqdm
-from yolov5.utils.torch_utils import ModelEMA
+
+from scripts.training.teacher_finetune.evaluate import eval_log_mlflow, evaluate
 
 logger = logging.getLogger(__name__)
+
+
+class ModelEMA:
+    """Exponential moving average of model weights.
+
+    A small, self-contained reimplementation of `yolov5.utils.torch_utils.ModelEMA`
+    (same decay-ramp formula) rather than importing the `yolov5` package into
+    the SpeciesNet Docker image — that package is detector-specific and pulls
+    in dependencies this classifier-only environment has no other use for.
+    """
+
+    def __init__(self, model: torch.nn.Module, decay: float = 0.9999, tau: int = 2000) -> None:
+        import math
+
+        self.ema = deepcopy(model).eval()
+        self.updates = 0
+        self._decay_fn = lambda x: decay * (1 - math.exp(-x / tau))
+        for p in self.ema.parameters():
+            p.requires_grad_(False)
+
+    def update(self, model: torch.nn.Module) -> None:
+        self.updates += 1
+        d = self._decay_fn(self.updates)
+        msd = model.state_dict()
+        with torch.no_grad():
+            for k, v in self.ema.state_dict().items():
+                if v.dtype.is_floating_point:
+                    v *= d
+                    v += (1 - d) * msd[k].detach()
 
 
 class TrainingPipeline:
@@ -36,9 +69,6 @@ class TrainingPipeline:
         epochs: int,
         output_dir: Path,
         log_every_n_steps: int,
-        eval_conf_thres: float,
-        eval_iou_thres: float,
-        eval_max_det: int,
         warmup_epochs: int,
         selection_metric: str,
         early_stop: bool,
@@ -46,22 +76,12 @@ class TrainingPipeline:
         early_stop_min_delta: float,
         use_ema: bool,
         use_amp: bool,
+        idx_to_label: dict[int, str],
+        genus_species_to_225: dict[str, int],
+        genus_to_225: dict[str, int],
+        family_to_225: dict[str, int],
         resume_from: Path | None = None,
-        evaluate_fn=None,
-        eval_log_mlflow_fn=None,
     ) -> None:
-        # Injected so callers with a different model output format (e.g.
-        # yolo26n's NMS-free decode) can supply their own evaluate()/
-        # eval_log_mlflow() instead of yolov5s' NMS-based ones. Defaults to
-        # yolov5s' own, so its call site needs no changes.
-        if evaluate_fn is None or eval_log_mlflow_fn is None:
-            from scripts.training.yolov5s.evaluation import eval_log_mlflow, evaluate
-
-            evaluate_fn = evaluate_fn or evaluate
-            eval_log_mlflow_fn = eval_log_mlflow_fn or eval_log_mlflow
-        self._evaluate = evaluate_fn
-        self._eval_log_mlflow = eval_log_mlflow_fn
-
         self.model = model
         self.loss_fn = loss_fn
         self.optimizer = optimizer
@@ -73,19 +93,19 @@ class TrainingPipeline:
         self.epochs = epochs
         self.output_dir = output_dir
         self.log_every_n_steps = log_every_n_steps
-        self.eval_conf_thres = eval_conf_thres
-        self.eval_iou_thres = eval_iou_thres
-        self.eval_max_det = eval_max_det
 
-        # Scheduler / auto-stop config.
         self.warmup_epochs = warmup_epochs
         self.selection_metric = selection_metric
         self.early_stop = early_stop
         self.early_stop_patience = early_stop_patience
         self.early_stop_min_delta = early_stop_min_delta
 
-        # Training-quality add-ons. AMP is CUDA-only; it degrades to a no-op on CPU
-        # (e.g. smoke runs on a machine without a GPU) so the code path stays single.
+        # Projection tables, threaded through to evaluate() at val/test time.
+        self.idx_to_label = idx_to_label
+        self.genus_species_to_225 = genus_species_to_225
+        self.genus_to_225 = genus_to_225
+        self.family_to_225 = family_to_225
+
         self.use_amp = use_amp and self.device.type == "cuda"
         self.scaler = torch.amp.GradScaler(self.device.type, enabled=self.use_amp)
         self.ema = ModelEMA(self.model) if use_ema else None
@@ -111,7 +131,6 @@ class TrainingPipeline:
         )
 
     def _eval_model(self) -> torch.nn.Module:
-        """The weights to evaluate / checkpoint: EMA copy if enabled, else raw."""
         return self.ema.ema if self.ema is not None else self.model
 
     def _load_resume_checkpoint(self, path: Path) -> None:
@@ -158,18 +177,30 @@ class TrainingPipeline:
             self.epochs_since_improve,
         )
 
+    def _evaluate(self, data_loader) -> dict:
+        return evaluate(
+            self._eval_model(),
+            data_loader,
+            self.device,
+            self.idx_to_label,
+            self.genus_species_to_225,
+            self.genus_to_225,
+            self.family_to_225,
+        )
+
     def _train_one_epoch(self, epoch: int) -> dict[str, float]:
         self.model.train()
-        # Keyed generically off whatever loss_fn returns (rather than a fixed
-        # {loss_box, loss_obj, loss_cls, loss_total} literal) so this loop
-        # works unchanged for loss wrappers with a different part vocabulary
-        # (e.g. yolo26n's Yolo26Loss returns loss_dfl, not loss_obj — no
-        # objectness term in an anchor-free, NMS-free loss).
         sums: dict[str, float] = {}
         count = 0
 
         lr_start = self.optimizer.param_groups[0]["lr"]
-        logger.info("epoch %d/%d — train start (lr=%g, batches=%d)", epoch + 1, self.epochs, lr_start, len(self.dl_train))
+        logger.info(
+            "epoch %d/%d — train start (lr=%g, batches=%d)",
+            epoch + 1,
+            self.epochs,
+            lr_start,
+            len(self.dl_train),
+        )
         t0 = time.time()
 
         pbar = tqdm(
@@ -179,26 +210,16 @@ class TrainingPipeline:
             leave=False,
             dynamic_ncols=True,
         )
-        # Unpacked generically (not a fixed 4-tuple) so this loop works
-        # unchanged for loss wrappers that need extra per-batch tensors beyond
-        # imgs/targets (e.g. yolo26n's KD mode, which adds a `teacher_probs`
-        # tensor between `targets` and the trailing `paths`/`shapes` pair).
-        # `batch[2:-2]` is `()` for the existing 4-tuple (imgs, targets, paths,
-        # shapes) — zero behavior change for yolov5s / direct-FT yolo26n.
-        for batch in pbar:
-            imgs, targets = batch[0], batch[1]
-            extra = tuple(
-                x.to(self.device) if isinstance(x, torch.Tensor) else x for x in batch[2:-2]
-            )
-            imgs = imgs.to(self.device)
-            targets = targets.to(self.device)
+        for arrs, labels in pbar:
+            arrs = arrs.to(self.device)
+            labels = labels.to(self.device)
 
             with torch.autocast(device_type=self.device.type, enabled=self.use_amp):
-                preds = self.model(imgs)
-                total, parts = self.loss_fn(preds, targets, *extra)
+                logits = self.model(arrs)
+                loss = self.loss_fn(logits, labels)
 
             self.optimizer.zero_grad(set_to_none=True)
-            self.scaler.scale(total).backward()
+            self.scaler.scale(loss).backward()
             self.scaler.step(self.optimizer)
             self.scaler.update()
             self.scheduler.step()
@@ -206,6 +227,7 @@ class TrainingPipeline:
             if self.ema is not None:
                 self.ema.update(self.model)
 
+            parts = {"loss_grouped_ce": loss.item()}
             for k, v in parts.items():
                 sums[k] = sums.get(k, 0.0) + v
             count += 1
@@ -235,21 +257,12 @@ class TrainingPipeline:
             time.time() - t0,
             avgs_str,
         )
-
-        # Per-epoch hook for loss functions with internal annealing state (e.g.
-        # yolo26n's E2ELoss one2many/one2one weight mix). No-op for loss_fn
-        # objects without an update() method (e.g. yolov5s' YoloLoss) — same
-        # defensive getattr style as the close-mosaic set_epoch hook below.
-        getattr(self.loss_fn, "update", lambda: None)()
-
         return avgs
 
     def _save_checkpoint(self, name: str) -> None:
-        """Save the deployable (EMA if enabled) weights plus resume/provenance state.
-
-        ``model`` always holds the weights downstream loaders should deploy — the
-        EMA copy when EMA is on — so ``best.pt`` reflects the published-quality
-        model, not the last noisy step.
+        """Save the deployable (EMA if enabled) weights plus resume/provenance
+        state. `model` is a plain `state_dict()` — per §2.4 of the implementation
+        plan, this is exactly the artifact Goal B needs.
         """
         path = self.output_dir / name
         ckpt: dict[str, object] = {
@@ -288,41 +301,22 @@ class TrainingPipeline:
         for epoch in range(self.start_epoch, self.epochs):
             self.current_epoch = epoch
 
-            # Notify the training dataset of the current epoch so the
-            # close-mosaic tail (AUG_CLOSE_MOSAIC) can suppress compositing
-            # for the final N epochs.  Guarded with getattr so this is a no-op
-            # when the dataset does not expose set_epoch (e.g. in unit tests).
-            _ds = getattr(self.dl_train, "dataset", None)
-            if _ds is not None and hasattr(_ds, "set_epoch"):
-                _ds.set_epoch(epoch, self.epochs)
-
             self._train_one_epoch(epoch)
 
-            # Evaluate the EMA weights (smoother, published-quality) when EMA is on.
-            val_result = self._evaluate(
-                self._eval_model(),
-                self.dl_val,
-                self.device,
-                self.eval_conf_thres,
-                self.eval_iou_thres,
-                self.eval_max_det,
-            )
+            val_result = self._evaluate(self.dl_val)
             metric = val_result[self.selection_metric]
             logger.info(
-                "epoch %d/%d — val mAP50=%.4f mAP50_95=%.4f (selection %s=%.4f)",
+                "epoch %d/%d — val accuracy_top1=%.4f f1_macro=%.4f f1_micro=%.4f (selection %s=%.4f)",
                 epoch + 1,
                 self.epochs,
-                val_result["mAP50"],
-                val_result["mAP50_95"],
+                val_result["accuracy_top1"],
+                val_result["f1_macro"],
+                val_result["f1_micro"],
                 self.selection_metric,
                 metric,
             )
-            self._eval_log_mlflow(val_result, "val", step=epoch)
+            eval_log_mlflow(val_result, "val", step=epoch)
 
-            # Checkpoint + early-stop bookkeeping, both keyed off the single
-            # selection metric. Warmup epochs are excluded from patience counting
-            # (the metric is too noisy to trust early), but a warmup improvement
-            # still updates best.pt.
             if metric > self.best_metric + self.early_stop_min_delta:
                 self.best_metric = metric
                 self._save_checkpoint("best.pt")
@@ -333,9 +327,10 @@ class TrainingPipeline:
                 self.epochs_since_improve += 1
 
             # Refresh last.pt every epoch (not only at run end) so a crash at
-            # any point leaves a current resume checkpoint — the 2026-07-05
+            # any point leaves a current resume checkpoint — the yolov5s
             # log_table crash lost last.pt entirely because it was only written
-            # after the loop.
+            # after the loop (see
+            # docs/progress_notes/2026-07-13_mlflow-log-table-crash-and-resume.md).
             self._save_checkpoint("last.pt")
 
             current_lr = self.optimizer.param_groups[0]["lr"]
@@ -361,9 +356,6 @@ class TrainingPipeline:
 
         self._save_checkpoint("last.pt")
 
-        # Final test eval on the BEST checkpoint, not the last (possibly-overfit)
-        # weights. best.pt is written at least once (epoch-0 metric beats the
-        # -1.0 sentinel); the guard is defensive.
         logger.info("training finished — loading best.pt for final test evaluation")
         eval_model = self._eval_model()
         best_path = self.output_dir / "best.pt"
@@ -379,20 +371,14 @@ class TrainingPipeline:
         else:
             logger.warning("best.pt not found — running final test eval on current weights")
 
-        test_result = self._evaluate(
-            eval_model,
-            self.dl_test,
-            self.device,
-            self.eval_conf_thres,
-            self.eval_iou_thres,
-            self.eval_max_det,
-        )
+        test_result = self._evaluate(self.dl_test)
         logger.info(
-            "test mAP50=%.4f mAP50_95=%.4f",
-            test_result["mAP50"],
-            test_result["mAP50_95"],
+            "test accuracy_top1=%.4f f1_macro=%.4f f1_micro=%.4f",
+            test_result["accuracy_top1"],
+            test_result["f1_macro"],
+            test_result["f1_micro"],
         )
-        self._eval_log_mlflow(test_result, "test")
+        eval_log_mlflow(test_result, "test")
 
         mlflow.log_artifact(str(self.output_dir / "best.pt"))
         mlflow.log_artifact(str(self.output_dir / "last.pt"))

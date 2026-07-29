@@ -1,0 +1,226 @@
+coco_id,class_name,band,real_test_images,test_limited,ap_mixed_fine,ap_real_fine
+1,aardvark,A,0,False,nan,nan
+2,aardwolf,A,0,False,nan,nan
+3,african buffalo,D,0,False,nan,nan
+4,african civet,A,1,True,0.0,0.0
+5,african elephant,D,0,False,nan,nan
+6,african wild dog,B,1,True,0.0,0.0
+7,agouti genus,D,2,True,0.0,0.0
+8,alpine ibex,D,0,False,nan,nan
+9,alpine marmot,D,1,True,0.0,0.0
+10,american badger,B,0,False,nan,nan
+11,american bison,D,0,False,nan,nan
+12,american black bear,D,0,False,nan,nan
+13,american mink,B,0,False,nan,nan
+14,arizona black-tailed prairie dog,D,0,False,nan,nan
+15,asian elephant,B,1,True,0.0,0.0
+16,asiatic black bear,A,0,False,nan,nan
+17,asiatic wild ass,A,0,False,nan,nan
+18,ateles species,D,1,True,0.0,0.0
+19,aye-aye,A,0,False,nan,nan
+20,baboon genus,D,0,False,nan,nan
+21,baird's tapir,B,1,True,0.0,0.0
+22,bat-eared fox,B,0,False,nan,nan
+23,beaver genus,D,1,True,0.0,0.0
+24,bighorn sheep,D,0,False,nan,nan
+25,binturong,A,0,False,nan,nan
+26,black wildebeest,B,0,False,nan,nan
+27,black-backed jackal,A,0,False,nan,nan
+28,blackbuck,D,0,False,nan,nan
+29,blesbok,D,0,False,nan,nan
+30,bobcat,D,0,False,nan,nan
+31,bongo,A,0,False,nan,nan
+32,bornean orangutan,C,1,True,0.0,0.0
+33,brown bear,D,0,False,nan,nan
+34,brown hyaena,A,0,False,nan,nan
+35,brown-throated sloth,D,0,False,nan,nan
+36,bushbuck,C,0,False,nan,nan
+37,california ground squirrel,D,0,False,nan,nan
+38,callicebus genus,A,0,False,nan,nan
+39,callithrix species,D,0,False,nan,nan
+40,canada lynx,B,0,False,nan,nan
+41,capybara,D,0,False,nan,nan
+42,caracal,B,0,False,nan,nan
+43,cebus species,D,0,False,nan,nan
+44,cephalophus species,A,0,False,nan,nan
+45,cercopithecus species,C,0,False,nan,nan
+46,cheetah,D,1,True,0.00909090880304575,0.00909090880304575
+47,chimpanzee,B,0,False,nan,nan
+48,chipmunk genus,D,0,False,nan,nan
+49,chital,C,3,True,0.0,0.0
+50,clouded leopard,A,0,False,nan,nan
+51,collared peccary,D,0,False,nan,nan
+52,colobus species,D,0,False,nan,nan
+53,common duiker,D,0,False,nan,nan
+54,common eland,C,1,True,0.0,0.0
+55,common fallow deer,D,1,True,0.0,0.0
+56,common warthog,D,0,False,nan,nan
+57,common wildebeest,D,0,False,nan,nan
+58,common wombat,B,0,False,nan,nan
+59,cottontail rabbits genus,D,2,True,0.0,0.0
+60,coyote,D,0,False,nan,nan
+61,cricetidae family,D,0,False,nan,nan
+62,dhole,B,0,False,nan,nan
+63,dingo,C,0,False,nan,nan
+64,domestic cat,D,0,False,nan,nan
+65,domestic cattle,D,0,False,nan,nan
+66,domestic dog,D,0,False,nan,nan
+67,domestic donkey,C,0,False,nan,nan
+68,domestic goat,C,0,False,nan,nan
+69,domestic horse,D,0,False,nan,nan
+70,domestic pig,A,0,False,nan,nan
+71,domestic sheep,D,0,False,nan,nan
+72,domestic water buffalo,A,0,False,nan,nan
+73,drill,A,0,False,nan,nan
+74,dromedary camel,C,0,False,nan,nan
+75,eared seals,D,0,False,nan,nan
+76,eastern cottontail,D,0,False,nan,nan
+77,eastern fox squirrel,D,0,False,nan,nan
+78,eastern gray squirrel,D,0,False,nan,nan
+79,eastern grey kangaroo,D,0,False,nan,nan
+80,elephant seal,D,0,False,nan,nan
+81,elk,D,0,False,nan,nan
+82,eulemur species,D,1,True,0.0,0.0
+83,eurasian badger,A,1,True,0.0,0.0
+84,eurasian lynx,B,0,False,nan,nan
+85,eurasian otter,B,0,False,nan,nan
+86,eurasian red squirrel,D,0,False,nan,nan
+87,european bison,B,0,False,nan,nan
+88,european hare,D,1,True,0.0,0.0
+89,european rabbit,D,0,False,nan,nan
+90,european roe deer,D,0,False,nan,nan
+91,fisher,A,0,False,nan,nan
+92,fossa,A,0,False,nan,nan
+93,gemsbok,D,0,False,nan,nan
+94,genet genus,A,0,False,nan,nan
+95,gerenuk,B,0,False,nan,nan
+96,giant anteater,C,0,False,nan,nan
+97,giant armadillo,A,0,False,nan,nan
+98,giant otter,C,0,False,nan,nan
+99,giant panda,B,0,False,nan,nan
+100,giraffe,D,0,False,nan,nan
+101,glaucomys species,B,0,False,nan,nan
+102,golden jackal,D,0,False,nan,nan
+103,golden mantled ground squirrel,D,0,False,nan,nan
+104,gorilla species,D,0,False,nan,nan
+105,grant's gazelle,C,1,True,0.0,0.0
+106,greater kudu,D,0,False,nan,nan
+107,grevy's zebra,B,0,False,nan,nan
+108,grey fox,D,0,False,nan,nan
+109,grey wolf,C,0,False,nan,nan
+110,hares and jackrabbits genus,D,0,False,nan,nan
+111,hartebeest,C,0,False,nan,nan
+112,hedgehog family,D,2,True,0.0015073148533701897,0.0015073148533701897
+113,hippopotamus,D,0,False,nan,nan
+114,hoffmann's two-toed sloth,D,0,False,nan,nan
+115,hog badger genus,A,0,False,nan,nan
+116,honey badger,A,0,False,nan,nan
+117,howler monkey genus,D,0,False,nan,nan
+118,human,negative,0,False,nan,nan
+119,impala,D,1,True,0.0,0.0
+120,jaguar,D,0,False,nan,nan
+121,japanese macaque,D,0,False,nan,nan
+122,kangaroo family,D,0,False,nan,nan
+123,kinkajou,A,0,False,nan,nan
+124,kirk's dik-dik,B,0,False,nan,nan
+125,klipspringer,D,0,False,nan,nan
+126,koala,D,0,False,nan,nan
+127,kob,C,0,False,nan,nan
+128,leaf monkeys genus,D,0,False,nan,nan
+129,leopard,D,2,True,0.0,0.0
+130,leopard cat,A,0,False,nan,nan
+131,leopardus species,A,0,False,nan,nan
+132,lion,D,1,True,0.0,0.0
+133,llama genus,D,0,False,nan,nan
+134,lowland tapir,B,0,False,nan,nan
+135,lycalopex species,D,0,False,nan,nan
+136,macaque species,D,0,False,nan,nan
+137,malay tapir,A,0,False,nan,nan
+138,maned wolf,A,0,False,nan,nan
+139,mangabeys genus,A,0,False,nan,nan
+140,martes species,D,0,False,nan,nan
+141,meerkat,C,0,False,nan,nan
+142,mongoose family,D,1,True,0.0,0.0
+143,moose,D,0,False,nan,nan
+144,mouflon,A,0,False,nan,nan
+145,mountain goat,D,0,False,nan,nan
+146,mountain zebra,D,1,True,0.0,0.0
+147,mule deer,D,0,False,nan,nan
+148,muntjac genus,C,0,False,nan,nan
+149,muridae family,D,1,True,0.009523809887468815,0.009523809887468815
+150,muskrat,D,0,False,nan,nan
+151,nilgai,D,0,False,nan,nan
+152,nine-banded armadillo,A,0,False,nan,nan
+153,north american porcupine,D,0,False,nan,nan
+154,north american river otter,D,1,True,0.0,0.0
+155,northern chamois,C,1,True,0.0,0.0
+156,northern raccoon,D,0,False,nan,nan
+157,nutria,D,0,False,nan,nan
+158,nyala,D,0,False,nan,nan
+159,ocelot,A,1,True,0.0,0.0
+160,old world porcupine family,A,0,False,nan,nan
+161,opossum family,D,2,True,0.0,0.0
+162,pangolin family,A,0,False,nan,nan
+163,patas monkey,B,0,False,nan,nan
+164,pikas genus,D,0,False,nan,nan
+165,pinniped clade,A,0,False,nan,nan
+166,plains zebra,D,1,True,0.0,0.0
+167,pronghorn,D,0,False,nan,nan
+168,puma,C,0,False,nan,nan
+169,quokka,C,0,False,nan,nan
+170,raccoon dog,A,0,False,nan,nan
+171,rattus genus,D,0,False,nan,nan
+172,red brocket,A,0,False,nan,nan
+173,red deer,D,0,False,nan,nan
+174,red fox,D,0,False,nan,nan
+175,red kangaroo,C,0,False,nan,nan
+176,red panda,C,0,False,nan,nan
+177,red river hog,A,0,False,nan,nan
+178,red squirrel,D,1,True,0.0,0.0
+179,red-necked wallaby,A,0,False,nan,nan
+180,reedbuck genus,D,0,False,nan,nan
+181,reindeer,D,0,False,nan,nan
+182,rhinoceros family,D,0,False,nan,nan
+183,ring-tailed lemur,C,0,False,nan,nan
+184,ringtail,A,0,False,nan,nan
+185,roan antelope,C,0,False,nan,nan
+186,rock hyrax,D,0,False,nan,nan
+187,sable antelope,D,0,False,nan,nan
+188,saguinus species,D,0,False,nan,nan
+189,saiga,A,0,False,nan,nan
+190,saimiri species,D,0,False,nan,nan
+191,sambar,C,0,False,nan,nan
+192,sea otter,D,0,False,nan,nan
+193,serval,B,0,False,nan,nan
+194,short-beaked echidna,D,0,False,nan,nan
+195,sika deer,D,0,False,nan,nan
+196,sloth bear,A,0,False,nan,nan
+197,snow leopard,C,1,True,0.0,0.0
+198,south american coati,D,0,False,nan,nan
+199,spectacled bear,B,0,False,nan,nan
+200,spilogale species,A,0,False,nan,nan
+201,spotted hyaena,D,0,False,nan,nan
+202,springbok,B,0,False,nan,nan
+203,squirrel family,D,1,True,0.0,0.0
+204,steenbok,D,0,False,nan,nan
+205,striped hyaena,A,0,False,nan,nan
+206,striped skunk,D,0,False,nan,nan
+207,sun bear,A,0,False,nan,nan
+208,swamp wallaby,D,0,False,nan,nan
+209,tayra,B,0,False,nan,nan
+210,thomson's gazelle,D,0,False,nan,nan
+211,tiger,D,0,False,nan,nan
+212,vervet monkey,D,0,False,nan,nan
+213,walrus,A,0,False,nan,nan
+214,water deer,A,0,False,nan,nan
+215,waterbuck,D,0,False,nan,nan
+216,weasel species,D,0,False,nan,nan
+217,western gray squirrel,D,0,False,nan,nan
+218,white-nosed coati,D,0,False,nan,nan
+219,white-tailed deer,D,0,False,nan,nan
+220,wild boar,D,0,False,nan,nan
+221,wild cat,A,0,False,nan,nan
+222,wolverine,A,0,False,nan,nan
+223,woodchuck,D,0,False,nan,nan
+224,yak,A,0,False,nan,nan
+225,yellow-bellied marmot,D,0,False,nan,nan
