@@ -1,0 +1,70 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Training-Time Data Augmentation}\label{sec:data_augmentation}
+
+Where \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation,sec:synthetic_data_supplementation} describe how the dataset itself was constructed, this section describes how it is transformed at training time. An early draft of the augmentation strategy motivated it by a supposed domain shift between iNaturalist-style source imagery and the \textit{AX Visio} binocular's optics, analogous to the bachelor thesis's treatment of augmentation as a tool for closing a sensor-specific gap. That framing does not apply here: this thesis includes no AX-Visio-specific evaluation, so there is no simulated-optics transform to design for. Augmentation is instead treated as a variable to be controlled for in service of the central research question -- whether distillation from a teacher outperforms direct fine-tuning -- rather than as an independent object of study in its own right.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Augmentation as a Controlled Variable}\label{sec:augmentation_controlled_variable}
+
+Two properties of a given augmentation transform determine how it may be used in this experimental design. The first is \emph{distillation compatibility}: single-image transforms such as flipping, color jitter, and affine scaling preserve a well-defined one-to-one correspondence between an original image and its augmented version, so the same augmented image can be shown to both the teacher and the student during distillation. Multi-image compositing transforms such as mosaic, mixup, and copy-paste construct a new image from fragments of several source images, for which there is no well-defined single teacher view -- the teacher would need to independently process and reconcile predictions for several unrelated source crops assembled into one frame, which is not how the teacher is otherwise used. Compositing transforms are therefore never used in the distillation training condition. The second property is \emph{architecture specificity}: some transforms are architecture-agnostic (flipping, color jitter, scale and translation) while others are coupled to a particular detector family's design (mosaic in particular is tuned to YOLO's anchor-coverage assumptions and is not a generic transform applicable unchanged to arbitrary architectures).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Experimental Setups}\label{sec:augmentation_setups}
+
+Three training configurations share a fixed student architecture (\textit{YOLOv5s} \cite{jocher_yolov5_2020}) and differ only in loss function and augmentation policy, as summarized in \Cref{tab:augmentation-setups}.
+
+\begin{table}[H]
+\centering
+\caption{Experimental setups sharing a fixed student architecture.}
+\label{tab:augmentation-setups}
+\begin{tabularx}{\textwidth}{@{}clXX@{}}
+\toprule
+Setup & Loss & Augmentation & Role \\
+\midrule
+A & Teacher$\rightarrow$student distillation & Basic set only (\Cref{sec:basic_augmentation}) & Distillation condition \\
+B & Direct detection & Basic set only, byte-identical to Setup A & Direct-fine-tuning baseline \\
+C & Direct detection & Basic set $+$ compositing (\Cref{sec:compositing_augmentation}) & Student's augmentation ceiling \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The comparison between Setup A and Setup B isolates the benefit attributable to distillation itself, since the two configurations are identical in every respect except the training signal (teacher-guided versus direct); this is the headline comparison the thesis is built around, and it requires the two augmentation pipelines to be byte-identical, not merely nominally the same. The comparison between Setup B and Setup C isolates the benefit attributable to compositing augmentation on top of direct training. The comparison between Setup A and Setup C is acknowledged as a practitioner's question -- \enquote{is distillation with modest augmentation better than direct training with the student's full augmentation budget?} -- rather than a clean single-factor comparison, since it varies both the training signal and the augmentation policy simultaneously.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Basic Augmentation Set (Setups A and B)}\label{sec:basic_augmentation}
+
+\Cref{tab:basic-augmentation} lists the transforms included in the basic set shared by Setups A and B, and the transforms considered and excluded.
+
+\begin{table}[H]
+\centering
+\caption{Basic augmentation set used identically in Setups A and B.}
+\label{tab:basic-augmentation}
+\begin{tabularx}{\textwidth}{@{}lcX@{}}
+\toprule
+Transform & Included & Rationale \\
+\midrule
+Horizontal flip ($p=0.5$) & Yes & Standard, label-preserving, doubles effective viewpoint coverage \\
+HSV color jitter (H $0.015$, S $0.7$, V $0.4$) & Yes & Improves robustness to lighting/sensor color variation without altering geometry \\
+Random scale ($\pm 0.5$) and translation ($0.1$) & Yes & Implemented via the tested \texttt{yolov5.utils.augmentations.random\_perspective} routine rather than a hand-rolled equivalent \\
+Rotation, shear, perspective warp & No & Risk of bounding-box distortion outweighs expected benefit for this dataset \\
+Vertical flip & No & Terrestrial mammals are consistently upright; an inverted animal is not a realistic training example \\
+Blur, CutOut, grayscale & No & Kept out to keep the basic set minimal and easy to reason about \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The scale and translation transform is deliberately reused from the existing, tested \textit{YOLOv5} \cite{jocher_yolov5_2020} codebase rather than reimplemented, both to reduce the risk of subtle bugs in bounding-box coordinate transforms and to keep the augmentation pipeline consistent with the student architecture's own reference implementation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Compositing Augmentation (Setup C)}\label{sec:compositing_augmentation}
+
+Setup C adds three compositing transforms on top of the basic set: mosaic, which tiles four training images into a single composite frame (probability $\approx 1.0$, following \textit{YOLOv4}/\textit{YOLOv5} convention \cite{bochkovskiy_yolov4_2020}); mixup, which linearly blends two images and their labels (probability $\approx 0.1$, the default used in both \textit{YOLOv5} and \textit{YOLOX} \cite{zhang_mixup_2017}); and copy-paste, which pastes segmented instances from one image onto another \cite{ghiasi_copypaste_2021}. Copy-paste is present in the implementation but is a documented no-op in this setting, since the ground truth produced by the curation pipeline (\Cref{sec:data_quality_and_curation}) consists of bounding boxes only, with no instance segmentation masks to paste. Its inclusion in the augmentation stack is retained for completeness and for any future work that adds mask annotations, but it contributes no augmentation effect to the experiments reported here. Consistent with common practice, mosaic and mixup are disabled for approximately the final $10\%$ of training epochs (the \enquote{close-mosaic} tail), allowing the model to fine-tune on the true, un-composited image distribution before training ends.
+
+The literature reports meaningful gains from copy-paste-style augmentation in general (on the order of an $8\% \pm 2\%$ mAP improvement), and it can reasonably be understood as roughly doubling to tripling the effective variance of a fixed image pool. It is explicitly not treated as a substitute for real training data in this thesis: augmenting a small set of images many times over produces a model that is well-fit to those images' specific poses and backgrounds rather than to the underlying class, which is the reasoning behind the hard $100$-real-image floor implicit in the Band C control condition of \Cref{sec:band_structure} (augmentation as a variance multiplier is only applied on top of an adequately sized real or synthetic pool, never in place of one).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Reproducibility and Confound Control}\label{sec:augmentation_reproducibility}
+
+Because the Setup A/B comparison is the thesis's central result, the two configurations share a single \texttt{CocoYoloDataset}/transforms code path rather than parallel implementations, so that any difference in outcome can be attributed to the presence or absence of the teacher rather than to an implementation discrepancy between two augmentation pipelines. Random-number-generator seeding is controlled so that the same augmented image is shown to the teacher and the student within a given distillation step, and an explicit assertion in the distillation training path verifies that compositing flags are disabled before each run begins, rather than relying on configuration alone. The full augmentation configuration for every run is logged to \textit{MLflow} alongside the standard training metrics (\Cref{sec:model_training_experiment_tracking}), and Band A test mAP is logged as a separate diagnostic figure, since Band A classes are trained entirely on synthetic imagery and are therefore the most likely to reveal augmentation interacting badly with synthetic-image texture artifacts (for example, scale augmentation amplifying generation artifacts that would otherwise be imperceptible at native resolution).
+
+The implementation of this augmentation strategy was deliberately sequenced after the ground-truth multi-box annotation fix described in \Cref{sec:gt_annotation_integrity}, since several of the transforms above interact directly with the number and layout of ground-truth boxes on an image -- scale and translation visibility, and mosaic's tiling behavior in particular, behave differently once images can carry genuinely multiple, verified instances rather than the single (and in some cases incorrectly single) box the pre-fix pipeline produced.

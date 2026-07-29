@@ -1,0 +1,110 @@
+\documentclass[
+    paper = a4,
+    fontsize = 12pt,
+    headinclude = true,
+    % start chapters on the right side
+    open = right,
+    % Use twosided layout. Every chapter starts on the right side, therefore sometimes blank pages are added between chapters.
+    twoside = true,
+    BCOR = 10mm,
+    % add lists and bibliography to table of contents
+    toc = listofnumbered,
+    toc = bibnumbered,
+    % enumerate chapters as x.y instead of x.y.
+    numbers = noendperiod
+]{scrreprt}
+
+\usepackage{geometry}
+\geometry{a4paper, outer=2cm, inner=2.5cm, top=3cm, bottom=3cm, footskip=10mm}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[english]{babel}
+\usepackage{setspace}
+% single abbreviation mechanism for this thesis -- see preamble/acronyms.tex
+\usepackage[acronym]{glossaries}
+\makeglossaries
+
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows.meta}
+\tikzset{font={\fontsize{10pt}{12}\selectfont}}
+\usepackage{pdfpages}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{bm}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+\usepackage{csquotes}
+\graphicspath{ {./figures/} }
+
+\usepackage[backend=biber,style=numeric,sorting=none,url=true]{biblatex}
+\addbibresource{bibliography/references.bib}
+
+\usepackage[hidelinks,colorlinks=true,linkcolor=black,urlcolor=black,citecolor=blue]{hyperref}
+\usepackage{cleveref}
+
+\DeclareRobustCommand{\legendbox}[1]{%
+  \setlength{\fboxrule}{1.5pt}% Adjust the thickness here
+  \textcolor{#1}{\fbox{\rule{0pt}{0.9ex}\rule{0.9ex}{0pt}}}%
+}
+
+\setlength{\parskip}{0.5em}
+
+% include acronyms (the single abbreviation mechanism for this thesis)
+\input{preamble/acronyms}
+
+\usepackage{titletoc}
+\renewcommand{\contentsname}{\vspace*{-20cm}Contents\vspace*{10cm}}
+
+\onehalfspacing
+
+\begin{document}
+% use roman numbering for preamble
+    \pagenumbering{Roman}
+    % NOTE: unlike the bachelor thesis, no pre-rendered title-page PDF exists yet
+    % (that thesis spliced one in via \includepdf), so the LaTeX-native title page
+    % is compiled directly. Replace with \includepdf[pages={1}]{preamble/<file>.pdf}
+    % once a final designed title page is available.
+    \input{preamble/title_page}
+    \input{preamble/eidesstattliche_erklaerung}
+    \input{preamble/abstract}
+    \newpage
+    \cleardoublepage
+    % print table of contents
+    \setcounter{tocdepth}{1}
+    \newpage
+    \cleardoublepage
+    \tableofcontents
+    % use arabic numbering for main part
+    \cleardoublepage\pagenumbering{arabic}
+    % create a tex file for each chapter and include it below
+    \include{chapters/1-Introduction}
+    \include{chapters/2-Literature_Review}
+    \include{chapters/3-Methods_and_Implementation/30-Overview}
+    \include{chapters/4-Results}
+    \include{chapters/5-Discussion_and_Conclusion}
+
+    \appendix
+        % create a tex file for each appendix and include it below
+        \include{appendices/appendix}
+        % single abbreviation mechanism: glossaries-printed acronym list.
+        % \glsaddall forces every \newacronym entry to print regardless of
+        % whether \gls{} was invoked in-text, since the chapters spell
+        % abbreviations out directly on first use rather than via \gls.
+        \glsaddall
+        \printglossary[type=\acronymtype, title={Abbreviations}]
+        % add lists of figures and tables to the appendix
+        \listoffigures
+        \listoftables
+
+        % add bibliography
+        \printbibliography
+
+\end{document}

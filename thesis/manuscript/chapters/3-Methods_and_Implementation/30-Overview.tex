@@ -1,0 +1,15 @@
+\newpage
+\cleardoublepage
+\chapter{Methods and Implementation}\label{chapter:methods_implementation}
+
+This chapter details the methodology used to investigate whether distilling a large teacher model into a lightweight student model yields better results than directly fine-tuning the student on the target wildlife domain. Because the target domain (non-bird mammal species, as observed through the \textit{AX Visio} binocular) departs substantially from the COCO-style classes most detection datasets are built around, a large share of the methodological work lies not in model architecture but in constructing a dataset that is large enough, clean enough, and balanced enough across $225$ species-level classes to support a fair comparison between the two training strategies. This data-engineering effort is presented first, in its own set of sections, deliberately kept separate from model selection, training, and evaluation so that the scale and specificity of the decisions involved are not diluted among unrelated modeling concerns.
+
+The chapter proceeds in three parts. \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation,sec:synthetic_data_supplementation,sec:data_augmentation} describe the dataset: how the class taxonomy and source imagery were selected, how the raw corpus was cleaned and its ground truth verified, how classes with insufficient real imagery were supplemented with synthetic data, and how training-time augmentation was designed as a controlled variable rather than an afterthought. The remaining sections describe the choice of teacher and student architectures, the training and experiment-tracking setup, and the evaluation framework used to compare configurations.
+
+\input{chapters/3-Methods_and_Implementation/31-Data_Sourcing_and_Taxonomy}
+\input{chapters/3-Methods_and_Implementation/32-Data_Quality_and_Curation}
+\input{chapters/3-Methods_and_Implementation/33-Synthetic_Data_Supplementation}
+\input{chapters/3-Methods_and_Implementation/34-Data_Augmentation}
+\input{chapters/3-Methods_and_Implementation/35-Model_Selection}
+\input{chapters/3-Methods_and_Implementation/36-Model_Training_and_Experiment_Tracking}
+\input{chapters/3-Methods_and_Implementation/37-Evaluation_Framework}

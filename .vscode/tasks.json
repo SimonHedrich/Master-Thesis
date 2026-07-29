@@ -8,7 +8,12 @@
       "isBackground": true,
       "problemMatcher": [],
       "presentation": { "panel": "new", "reveal": "always", "focus": true },
-      "runOptions": { "runOn": "folderOpen" }
+      "runOptions": { "runOn": "folderOpen" },
+      "options": {
+        "env": {
+          "PATH": "/opt/homebrew/bin:/usr/local/bin:${env:PATH}"
+        }
+      }
     },
     {
       "label": "tmux: bravo",
@@ -17,7 +22,12 @@
       "isBackground": true,
       "problemMatcher": [],
       "presentation": { "panel": "new", "reveal": "always", "focus": false },
-      "runOptions": { "runOn": "folderOpen" }
+      "runOptions": { "runOn": "folderOpen" },
+      "options": {
+        "env": {
+          "PATH": "/opt/homebrew/bin:/usr/local/bin:${env:PATH}"
+        }
+      }
     },
     {
       "label": "tmux: charlie",
@@ -26,7 +36,12 @@
       "isBackground": true,
       "problemMatcher": [],
       "presentation": { "panel": "new", "reveal": "always", "focus": false },
-      "runOptions": { "runOn": "folderOpen" }
+      "runOptions": { "runOn": "folderOpen" },
+      "options": {
+        "env": {
+          "PATH": "/opt/homebrew/bin:/usr/local/bin:${env:PATH}"
+        }
+      }
     },
     {
       "label": "tmux: delta",
@@ -35,7 +50,12 @@
       "isBackground": true,
       "problemMatcher": [],
       "presentation": { "panel": "new", "reveal": "always", "focus": false },
-      "runOptions": { "runOn": "folderOpen" }
+      "runOptions": { "runOn": "folderOpen" },
+      "options": {
+        "env": {
+          "PATH": "/opt/homebrew/bin:/usr/local/bin:${env:PATH}"
+        }
+      }
     },
     {
       "label": "tmux: echo",
@@ -44,7 +64,12 @@
       "isBackground": true,
       "problemMatcher": [],
       "presentation": { "panel": "new", "reveal": "always", "focus": false },
-      "runOptions": { "runOn": "folderOpen" }
+      "runOptions": { "runOn": "folderOpen" },
+      "options": {
+        "env": {
+          "PATH": "/opt/homebrew/bin:/usr/local/bin:${env:PATH}"
+        }
+      }
     }
   ]
 }
