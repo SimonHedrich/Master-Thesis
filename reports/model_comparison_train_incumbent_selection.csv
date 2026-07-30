@@ -1,0 +1,8 @@
+class,band,pool_size,selected_count,n_environments_covered,n_environments_available,n_distinct_poses_selected,n_distinct_poses_available
+grevy's zebra,B,100,100,8,8,41,41
+kinkajou,A,200,100,8,8,39,45
+water deer,A,200,100,8,8,39,45
+ringtail,A,200,100,8,8,39,45
+saiga,A,200,100,8,8,40,45
+aye-aye,A,200,100,8,8,40,45
+pangolin family,A,200,100,8,8,54,65

@@ -1,0 +1,64 @@
+generator,class,index,filename,width,height,seconds
+realvisxl-lightning,lion,1,d_lion_001.png,1152,896,1.54
+realvisxl-lightning,lion,2,d_lion_002.png,1152,896,1.05
+sd35m,lion,1,d_lion_001.png,1152,864,46.73
+sd35m,lion,2,d_lion_002.png,1152,864,27.5
+flux-schnell,lion,1,d_lion_001.png,1152,864,10.34
+flux-schnell,lion,2,d_lion_002.png,1152,864,8.86
+realvisxl-lightning,plains zebra,1,d_plains_zebra_001.png,1152,896,1.67
+realvisxl-lightning,plains zebra,2,d_plains_zebra_002.png,1152,896,1.05
+realvisxl-lightning,plains zebra,3,d_plains_zebra_003.png,1152,896,1.09
+realvisxl-lightning,plains zebra,4,d_plains_zebra_004.png,1152,896,1.07
+realvisxl-lightning,plains zebra,5,d_plains_zebra_005.png,1152,896,1.08
+realvisxl-lightning,plains zebra,6,d_plains_zebra_006.png,1152,896,1.09
+realvisxl-lightning,plains zebra,7,d_plains_zebra_007.png,1152,896,1.07
+realvisxl-lightning,plains zebra,8,d_plains_zebra_008.png,1152,896,1.11
+realvisxl-lightning,plains zebra,9,d_plains_zebra_009.png,1152,896,1.05
+realvisxl-lightning,plains zebra,10,d_plains_zebra_010.png,1152,896,1.07
+sd35m,plains zebra,1,d_plains_zebra_001.png,1152,864,34.72
+sd35m,plains zebra,2,d_plains_zebra_002.png,1152,864,28.86
+sd35m,plains zebra,3,d_plains_zebra_003.png,1152,864,26.18
+sd35m,plains zebra,4,d_plains_zebra_004.png,1152,864,26.12
+sd35m,plains zebra,5,d_plains_zebra_005.png,1152,864,25.98
+sd35m,plains zebra,6,d_plains_zebra_006.png,1152,864,25.9
+sd35m,plains zebra,7,d_plains_zebra_007.png,1152,864,26.08
+sd35m,plains zebra,8,d_plains_zebra_008.png,1152,864,26.09
+sd35m,plains zebra,9,d_plains_zebra_009.png,1152,864,26.56
+sd35m,plains zebra,10,d_plains_zebra_010.png,1152,864,26.78
+flux-schnell,plains zebra,1,d_plains_zebra_001.png,1152,864,11.99
+flux-schnell,plains zebra,2,d_plains_zebra_002.png,1152,864,10.16
+flux-schnell,plains zebra,3,d_plains_zebra_003.png,1152,864,8.86
+flux-schnell,plains zebra,4,d_plains_zebra_004.png,1152,864,9.01
+flux-schnell,plains zebra,5,d_plains_zebra_005.png,1152,864,9.01
+flux-schnell,plains zebra,6,d_plains_zebra_006.png,1152,864,8.84
+flux-schnell,plains zebra,7,d_plains_zebra_007.png,1152,864,8.8
+flux-schnell,plains zebra,8,d_plains_zebra_008.png,1152,864,8.73
+flux-schnell,plains zebra,9,d_plains_zebra_009.png,1152,864,8.76
+flux-schnell,plains zebra,10,d_plains_zebra_010.png,1152,864,8.73
+sd35m,plains zebra,1,d_plains_zebra_001.png,1152,864,14.84
+flux2-klein-9b,plains zebra,1,d_plains_zebra_001.png,1152,864,139.48
+flux2-klein-9b,plains zebra,2,d_plains_zebra_002.png,1152,864,50.85
+flux2-klein-9b,plains zebra,3,d_plains_zebra_003.png,1152,864,48.77
+flux2-klein-9b,plains zebra,4,d_plains_zebra_004.png,1152,864,46.08
+flux2-klein-9b,plains zebra,5,d_plains_zebra_005.png,1152,864,47.42
+sd35-large,plains zebra,1,d_plains_zebra_001.png,1152,864,63.86
+sd35-large,plains zebra,2,d_plains_zebra_002.png,1152,864,59.1
+sd35-large,plains zebra,3,d_plains_zebra_003.png,1152,864,57.82
+sd35-large,plains zebra,4,d_plains_zebra_004.png,1152,864,57.8
+sd35-large,plains zebra,5,d_plains_zebra_005.png,1152,864,57.89
+qwen-image,plains zebra,1,d_plains_zebra_001.png,1152,864,105.59
+qwen-image,plains zebra,2,d_plains_zebra_002.png,1152,864,103.53
+qwen-image,plains zebra,3,d_plains_zebra_003.png,1152,864,101.57
+qwen-image,plains zebra,4,d_plains_zebra_004.png,1152,864,101.35
+qwen-image,plains zebra,5,d_plains_zebra_005.png,1152,864,101.21
+sd35-large-turbo,plains zebra,1,d_plains_zebra_001.png,1152,864,32.41
+sd35-large-turbo,plains zebra,2,d_plains_zebra_002.png,1152,864,26.55
+sd35-large-turbo,plains zebra,3,d_plains_zebra_003.png,1152,864,25.65
+sd35-large-turbo,plains zebra,4,d_plains_zebra_004.png,1152,864,25.09
+sd35-large-turbo,plains zebra,5,d_plains_zebra_005.png,1152,864,24.76
+hidream-i1,lion,1,d_lion_001.png,1152,864,128.04
+hidream-i1,plains zebra,1,d_plains_zebra_001.png,1152,864,152.66
+hidream-i1,plains zebra,2,d_plains_zebra_002.png,1152,864,128.96
+hidream-i1,plains zebra,3,d_plains_zebra_003.png,1152,864,124.05
+hidream-i1,plains zebra,4,d_plains_zebra_004.png,1152,864,121.67
+hidream-i1,plains zebra,5,d_plains_zebra_005.png,1152,864,121.89

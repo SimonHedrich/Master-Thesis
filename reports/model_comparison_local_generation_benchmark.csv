@@ -1,0 +1,10 @@
+generator,n_images,total_seconds,avg_seconds_per_image,estimated_hours_for_1200
+realvisxl-lightning,10,11.35,1.14,0.38
+sd35m,10,273.27,27.33,9.11
+flux-schnell,10,92.89,9.29,3.1
+sd35m,1,14.84,14.84,4.95
+flux2-klein-9b,5,332.6,66.52,22.17
+sd35-large,5,296.47,59.29,19.76
+qwen-image,5,513.25,102.65,34.22
+sd35-large-turbo,5,134.46,26.89,8.96
+hidream-i1,5,649.23,129.85,43.28

@@ -21,6 +21,7 @@ import torch
 from dotenv import load_dotenv
 
 import scripts.training.yolov5s.constants as constants
+from scripts.training.yolov5s.autoanchor import check_anchor_fit
 from scripts.training.yolov5s.dataset import CocoYoloDataset, Dataloader, collate_fn, make_worker_init_fn
 from scripts.training.yolov5s.logging_setup import setup_logging
 from scripts.training.yolov5s.loss import YoloLoss
@@ -120,6 +121,14 @@ def training_run(
     model, _preprocess = yolov5s_model(constants.NUM_CLASSES, constants.PRETRAINED_WEIGHTS, device)
     model.names = ds_train.class_names
 
+    autoanchor_result = {"bpr": None, "anchors_changed": None}
+    if resume_from is None:
+        # Skip on resume: the checkpoint's anchors already reflect whatever a
+        # prior run (or this same check) set them to.
+        autoanchor_result = check_anchor_fit(
+            model, ds_train, thr=constants.HYP_ANCHOR_T, img_size=constants.IMAGE_SIZE
+        )
+
     optimizer = model_optimizer(model)
     scheduler = model_scheduler(optimizer, steps_per_epoch=len(dl_train), epochs=epochs)
     loss_fn = YoloLoss(model)
@@ -143,6 +152,13 @@ def training_run(
     params["smoke"] = smoke
     params["epochs_actual"] = epochs
     params["resume_from"] = str(resume_from) if resume_from is not None else ""
+    # Effective (nc/nl/imgsz-autoscaled) loss gains actually used by ComputeLoss —
+    # distinct from the raw HYP_BOX/CLS/OBJ constants above (see yolov5s_model._hyp_dict).
+    params["hyp_box_effective"] = model.hyp["box"]
+    params["hyp_cls_effective"] = model.hyp["cls"]
+    params["hyp_obj_effective"] = model.hyp["obj"]
+    params["autoanchor_bpr"] = autoanchor_result["bpr"]
+    params["autoanchor_anchors_changed"] = autoanchor_result["anchors_changed"]
     # mlflow.log_params accepts str values only
     mlflow.log_params({k: str(v) for k, v in params.items()})
 

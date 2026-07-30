@@ -21,6 +21,15 @@ from torchmetrics.detection import MeanAveragePrecision
 
 logger = logging.getLogger(__name__)
 
+# Cap on images built into torchmetrics tensors per metric.update() call.
+# score() can be asked to evaluate 60k+ images at once (full real+synthetic
+# test set); building one Python list of per-image tensors for all of them
+# and feeding it to MeanAveragePrecision in a single update() nearly OOM'd a
+# 47GB host (RSS climbed past 30GB on the very first "headline" call before
+# it was killed). Chunking avoids holding our own per-image tensor lists and
+# a duplicate copy inside torchmetrics simultaneously at peak.
+_SCORE_UPDATE_CHUNK_SIZE = 2000
+
 # ---------------------------------------------------------------------------
 # GT index builder
 # ---------------------------------------------------------------------------
@@ -217,110 +226,137 @@ def score(
         )
         return _empty_result(class_metrics)
 
-    # ── build per-image torchmetrics lists ────────────────────────────────────
-    tm_preds: list[dict] = []
-    tm_targets: list[dict] = []
+    # ── cap predictions per image at max_det, across ALL classes combined ─────
+    # (COCO semantics: the cap applies per-image, not per-class — a class's box
+    # can be pushed out by higher-scoring boxes of *other* classes in the same
+    # image, so this must happen before any per-class split below.)
+    capped_preds_by_image: dict[int, list[dict]] = {
+        iid: sorted(raw, key=lambda p: p["score"], reverse=True)[:max_det]
+        for iid, raw in preds_by_image.items()
+    }
 
-    for iid in sorted(image_ids):  # sorted for reproducibility
-        # --- predictions ---
-        raw_preds = preds_by_image.get(iid, [])
-        if raw_preds:
-            # sort by score descending, then cap at max_det
-            raw_preds_sorted = sorted(raw_preds, key=lambda p: p["score"], reverse=True)[:max_det]
-            boxes_p = torch.tensor(
-                [_xywh_to_xyxy(p["bbox"]) for p in raw_preds_sorted],
-                dtype=torch.float32,
-            )
-            scores_p = torch.tensor([p["score"] for p in raw_preds_sorted], dtype=torch.float32)
-            labels_p = torch.tensor(
-                [_apply_remap(p["category_id"], remap) for p in raw_preds_sorted],
-                dtype=torch.long,
-            )
-        else:
-            boxes_p = torch.zeros((0, 4), dtype=torch.float32)
-            scores_p = torch.zeros(0, dtype=torch.float32)
-            labels_p = torch.zeros(0, dtype=torch.long)
+    # ── remap once, and discover the class universe (GT ∪ predicted) ──────────
+    # gt_by_image / pred_by_image hold (label, xyxy_box[, score]) tuples so each
+    # per-class pass below can filter without touching the raw dicts again.
+    gt_by_image: dict[int, list[tuple[int, list[float]]]] = {}
+    pred_by_image: dict[int, list[tuple[int, list[float], float]]] = {}
+    gt_classes: set[int] = set()
+    pred_only_classes: set[int] = set()
 
-        tm_preds.append({"boxes": boxes_p, "scores": scores_p, "labels": labels_p})
+    for iid in image_ids:
+        gts = [
+            (_apply_remap(g["category_id"], remap), _xywh_to_xyxy(g["bbox"]))
+            for g in all_anns.get(iid, [])
+        ]
+        gt_by_image[iid] = gts
+        gt_classes.update(lbl for lbl, _ in gts)
 
-        # --- ground truth ---
-        raw_gts = all_anns.get(iid, [])
-        if raw_gts:
-            boxes_g = torch.tensor(
-                [_xywh_to_xyxy(g["bbox"]) for g in raw_gts],
-                dtype=torch.float32,
-            )
-            labels_g = torch.tensor(
-                [_apply_remap(g["category_id"], remap) for g in raw_gts],
-                dtype=torch.long,
-            )
-        else:
-            boxes_g = torch.zeros((0, 4), dtype=torch.float32)
-            labels_g = torch.zeros(0, dtype=torch.long)
+        preds = [
+            (_apply_remap(p["category_id"], remap), _xywh_to_xyxy(p["bbox"]), p["score"])
+            for p in capped_preds_by_image[iid]
+        ]
+        pred_by_image[iid] = preds
+        pred_only_classes.update(lbl for lbl, _, _ in preds)
 
-        tm_targets.append({"boxes": boxes_g, "labels": labels_g})
+    pred_only_classes -= gt_classes
+    all_classes = sorted(gt_classes | pred_only_classes)
 
-    # ── run torchmetrics MeanAveragePrecision ─────────────────────────────────
-    metric = MeanAveragePrecision(
-        box_format="xyxy",
-        iou_type="bbox",
-        class_metrics=class_metrics,
-        max_detection_thresholds=[1, 10, max_det],
-    )
-    # Update in one shot (all images already in memory; avoids per-batch overhead)
-    metric.update(tm_preds, tm_targets)
-    result = metric.compute()
-
-    logger.debug(
-        "score(): n_images=%d n_gt=%d n_dets=%d  mAP=%.4f mAP50=%.4f",
-        len(image_ids),
-        n_gt,
-        n_dets,
-        result["map"].item(),
-        result["map_50"].item(),
+    # ── per-class AP, one class at a time ──────────────────────────────────────
+    # torchmetrics' MeanAveragePrecision keeps every image's boxes/labels/scores
+    # resident until compute() — at full test-set scale (tens of thousands of
+    # images × hundreds of classes) that single multi-class call is what drove
+    # RSS past 30GB and OOM-killed the process. Scoring one class at a time,
+    # restricted to only the images relevant to that class, keeps at most one
+    # class's data resident at once. The final aggregate below reproduces
+    # torchmetrics' own macro-average-over-classes-with-GT convention exactly
+    # (validated against the prior single-call implementation).
+    metric_keys = (
+        "map", "map_50", "map_75", "map_small", "map_medium", "map_large",
+        "mar_1", "mar_10", "mar_100", "mar_small", "mar_medium", "mar_large",
     )
 
-    # ── per-class AP alignment ────────────────────────────────────────────────
-    map_per_class_dict: dict[int, float] = {}
-    if class_metrics:
-        per_class_tensor = result.get("map_per_class")
-        classes_tensor = result.get("classes")
-
-        if per_class_tensor is not None and classes_tensor is not None:
-            # torchmetrics returns a scalar (0-D) when only one class is present,
-            # and a 1-D tensor when multiple classes are present.  Normalise both.
-            if per_class_tensor.ndim == 0:
-                # single class: classes_tensor is also a 0-D scalar
-                single_class_id = int(classes_tensor.item())
-                map_per_class_dict[single_class_id] = float(per_class_tensor.item())
-            else:
-                # multi-class: zip aligned tensors
-                for cid, ap in zip(classes_tensor.tolist(), per_class_tensor.tolist()):
-                    map_per_class_dict[int(cid)] = float(ap)
-
-    # ── assemble flat output dict ─────────────────────────────────────────────
-    def _safe_float(t: torch.Tensor) -> float:
-        v = t.item()
+    def _safe_float(v) -> float:
+        v = v.item() if hasattr(v, "item") else float(v)
         return float(v) if not (math.isnan(v) or math.isinf(v)) else float("nan")
 
+    map_per_class_dict: dict[int, float] = {}
+    agg_sum = {k: 0.0 for k in metric_keys}
+    agg_count = {k: 0 for k in metric_keys}
+
+    for cid in all_classes:
+        relevant_ids = [
+            iid for iid in image_ids
+            if any(lbl == cid for lbl, _ in gt_by_image[iid])
+            or any(lbl == cid for lbl, _, _ in pred_by_image[iid])
+        ]
+
+        metric_c = MeanAveragePrecision(
+            box_format="xyxy",
+            iou_type="bbox",
+            class_metrics=False,
+            max_detection_thresholds=[1, 10, max_det],
+        )
+        for chunk_start in range(0, len(relevant_ids), _SCORE_UPDATE_CHUNK_SIZE):
+            chunk_ids = relevant_ids[chunk_start : chunk_start + _SCORE_UPDATE_CHUNK_SIZE]
+            tm_preds: list[dict] = []
+            tm_targets: list[dict] = []
+
+            for iid in chunk_ids:
+                gts_here = [box for lbl, box in gt_by_image[iid] if lbl == cid]
+                if gts_here:
+                    boxes_g = torch.tensor(gts_here, dtype=torch.float32)
+                    labels_g = torch.zeros(len(gts_here), dtype=torch.long)
+                else:
+                    boxes_g = torch.zeros((0, 4), dtype=torch.float32)
+                    labels_g = torch.zeros(0, dtype=torch.long)
+                tm_targets.append({"boxes": boxes_g, "labels": labels_g})
+
+                preds_here = [(box, sc) for lbl, box, sc in pred_by_image[iid] if lbl == cid]
+                if preds_here:
+                    boxes_p = torch.tensor([box for box, _ in preds_here], dtype=torch.float32)
+                    scores_p = torch.tensor([sc for _, sc in preds_here], dtype=torch.float32)
+                    labels_p = torch.zeros(len(preds_here), dtype=torch.long)
+                else:
+                    boxes_p = torch.zeros((0, 4), dtype=torch.float32)
+                    scores_p = torch.zeros(0, dtype=torch.float32)
+                    labels_p = torch.zeros(0, dtype=torch.long)
+                tm_preds.append({"boxes": boxes_p, "scores": scores_p, "labels": labels_p})
+
+            metric_c.update(tm_preds, tm_targets)
+
+        result_c = metric_c.compute()
+        has_gt = cid in gt_classes
+
+        if class_metrics:
+            map_per_class_dict[cid] = _safe_float(result_c["map"]) if has_gt else -1.0
+
+        if not has_gt:
+            continue  # predictions-only class: excluded from the macro mean (matches
+                       # torchmetrics' own -1-for-no-GT convention)
+        for k in metric_keys:
+            v = _safe_float(result_c[k])
+            if v == -1.0:
+                continue  # this class has no qualifying GT/pred for this specific
+                          # submetric (e.g. no medium-sized instances) — exclude
+                          # only from that submetric's mean, same as torchmetrics
+            agg_sum[k] += v
+            agg_count[k] += 1
+
+    logger.debug(
+        "score(): n_images=%d n_gt=%d n_dets=%d n_classes=%d  mAP=%.4f mAP50=%.4f",
+        len(image_ids), n_gt, n_dets, len(all_classes),
+        agg_sum["map"] / agg_count["map"] if agg_count["map"] else -1.0,
+        agg_sum["map_50"] / agg_count["map_50"] if agg_count["map_50"] else -1.0,
+    )
+
+    # ── assemble flat output dict ─────────────────────────────────────────────
     out: dict = {
-        "map": _safe_float(result["map"]),
-        "map_50": _safe_float(result["map_50"]),
-        "map_75": _safe_float(result["map_75"]),
-        "map_small": _safe_float(result["map_small"]),
-        "map_medium": _safe_float(result["map_medium"]),
-        "map_large": _safe_float(result["map_large"]),
-        "mar_1": _safe_float(result["mar_1"]),
-        "mar_10": _safe_float(result["mar_10"]),
-        "mar_100": _safe_float(result["mar_100"]),
-        "mar_small": _safe_float(result["mar_small"]),
-        "mar_medium": _safe_float(result["mar_medium"]),
-        "mar_large": _safe_float(result["mar_large"]),
-        "map_per_class": map_per_class_dict,
-        "n_images": len(image_ids),
-        "n_dets": n_dets,
-        "n_gt": n_gt,
+        k: (agg_sum[k] / agg_count[k] if agg_count[k] else -1.0) for k in metric_keys
     }
+    out["map_per_class"] = map_per_class_dict
+    out["n_images"] = len(image_ids)
+    out["n_dets"] = n_dets
+    out["n_gt"] = n_gt
     return out
 
 

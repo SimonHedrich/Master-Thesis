@@ -15,12 +15,21 @@ from scripts.training.yolov5s import transforms
 logger = logging.getLogger(__name__)
 
 
-def _hyp_dict() -> dict:
+def _hyp_dict(num_classes: int, nl: int) -> dict:
+    """Loss-gain hyp dict, autoscaled per YOLOv5's own ``train.py`` convention.
+
+    ``constants.HYP_BOX/CLS/OBJ`` are COCO (nc=80) reference values; YOLOv5
+    scales them for the actual class count / image size / detection-layer
+    count (``box *= 3/nl``, ``cls *= nc/80 * 3/nl``, ``obj *= (imgsz/640)**2 *
+    3/nl`` — see ``yolov5/train.py``). Skipping this (as the raw constants
+    would) under-weights cls loss by ``80/nc`` for nc > 80, biasing the
+    box/cls balance toward pure localization on many-class datasets.
+    """
     return {
-        "box": constants.HYP_BOX,
-        "cls": constants.HYP_CLS,
+        "box": constants.HYP_BOX * 3 / nl,
+        "cls": constants.HYP_CLS * num_classes / 80 * 3 / nl,
         "cls_pw": constants.HYP_CLS_PW,
-        "obj": constants.HYP_OBJ,
+        "obj": constants.HYP_OBJ * (constants.IMAGE_SIZE / 640) ** 2 * 3 / nl,
         "obj_pw": constants.HYP_OBJ_PW,
         "iou_t": constants.HYP_IOU_T,
         "anchor_t": constants.HYP_ANCHOR_T,
@@ -57,14 +66,23 @@ def yolov5s_model(
     else:
         logger.info("no pretrained weights — training from random initialization")
 
+    nl = model.model[-1].nl  # number of detection layers, for hyp autoscaling
     model.nc = num_classes
-    model.hyp = _hyp_dict()
+    model.hyp = _hyp_dict(num_classes, nl)
     model.gr = 1.0  # objectness gain for IoU; ComputeLoss reads this
     model.names = [str(i) for i in range(num_classes)]
     model.to(device)
 
     num_params = sum(p.numel() for p in model.parameters())
     logger.info("model: yolov5s, nc=%d, params=%.2fM, device=%s", num_classes, num_params / 1e6, device)
+    logger.info(
+        "hyp (autoscaled for nc=%d, nl=%d): box=%.5g cls=%.5g obj=%.5g",
+        num_classes,
+        nl,
+        model.hyp["box"],
+        model.hyp["cls"],
+        model.hyp["obj"],
+    )
 
     def preprocess(img: np.ndarray) -> torch.Tensor:
         img_lb, _, _ = transforms.letterbox(img, new_shape=constants.IMAGE_SIZE)

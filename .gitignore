@@ -16,3 +16,5 @@ __pycache__/
 *.onnx
 
 reports/dataset_split_manifest.json
+predictions_real.json
+predictions_synth.json

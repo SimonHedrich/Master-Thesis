@@ -32,11 +32,16 @@ and local generators, evaluated on qualitative, automatic, and downstream axes.
 | [`01_experiment-design.md`](01_experiment-design.md) | The controlled protocol: what varies (generator, prompt regime) vs what's held fixed; tractable model grid; cost |
 | [`02_class-selection.md`](02_class-selection.md) | The 12 proposed classes and rationale (rare vs robust-test vs zebra look-alike), with test-count/GBIF data and the central tension |
 | [`03_api-models-landscape-and-pricing.md`](03_api-models-landscape-and-pricing.md) | OpenAI (multiple models!), Google (Nano Banana + Imagen), FLUX/Stability/Ideogram/Recraft/Firefly/Midjourney/fal/Replicate; pricing, dimensions, quality, batch, licensing |
-| [`04_local-models-and-output-parameters.md`](04_local-models-and-output-parameters.md) | Local diffusion models (already implemented), **prompt-length limits**, output resolutions, 500×500 downscaling, throughput/cost, licensing |
+| [`04_local-models-and-output-parameters.md`](04_local-models-and-output-parameters.md) | Local diffusion models, **prompt-length limits**, native output resolutions (see update note re: the superseded 500×500 downscale idea), throughput/cost, licensing |
 | [`05_prompt-strategy-and-length-limits.md`](05_prompt-strategy-and-length-limits.md) | How to build fair prompts across models with wildly different limits; the ≤75-token compressed prompt; worked examples |
 | [`06_evaluation-methodology.md`](06_evaluation-methodology.md) | The three evaluation axes (blind multi-rater rubric; automatic proxies; downstream real-test mAP); statistics; the final results table |
 | [`07_open-questions-and-what-to-reconsider.md`](07_open-questions-and-what-to-reconsider.md) | Confounds, gaps, framing risks, and decisions to make before generating |
 | [`08_classes-and-models-overview.md`](08_classes-and-models-overview.md) | Condensed summary: the 12 output classes, and the model grid with cost/image and full-vs-compressed prompt length |
+| [`09_test-subset-build.md`](09_test-subset-build.md) | Build log for the materialized 12-class real test subset (`data/synthetic_model_comparison/`): the §4a expansion rule, live vs. doc counts, output layout, and the build script |
+| [`10_train-subset-incumbent-selection.md`](10_train-subset-incumbent-selection.md) | Selecting the incumbent generator's synthetic train subset (7 of 12 classes) by reusing already-generated production images: the stratify-by-environment, greedy-diversify selection algorithm, live coverage results, output layout |
+| [`11_detector-architecture-selection.md`](11_detector-architecture-selection.md) | Deciding the fixed Axis-C detector architecture: YOLO26n vs. YOLOv5s, why NanoDet/PicoDet are out of scope, the KD-strategy-doc precedent resolving simple-vs-heavy, capacity/floor-effect reasoning, a log-derived training-time estimate for this experiment's much smaller per-cell dataset, and the internal-val-split recommendation |
+| [`12_additional-generator-cells-build-log.md`](12_additional-generator-cells-build-log.md) | Build log for the Nano Banana 2 Lite and gpt-image-2 (low/medium) `full`-regime cells (generic reuse scripts, resolution/token-limit/char-limit fixes, actual-vs-estimated cost), the shared `compressed` prompt regime, and the local-model tier's pipeline + smoke tests |
+| [`13_local-model-roster-overhaul-and-maxlen-regime.md`](13_local-model-roster-overhaul-and-maxlen-regime.md) | Build log for the GPU-memory-offload fix (~1.8x speedup), the roster overhaul (3→7 models, with FLUX.2-dev researched and rejected, and HiDream-I1 initially rejected then unblocked and added — §10), full benchmarking of all seven models, the new `maxlen` prompt regime (256/512-token tiers, and why naively truncating the `full` prompt didn't work), and the first full 1,200-image production cell (`sd35-large-turbo`) |
 | [`scraped_sources/`](scraped_sources/) | Verbatim scrapes of the OpenAI and Gemini pricing pages (primary sources) |
 
 ## Key facts at a glance
@@ -50,13 +55,26 @@ and local generators, evaluated on qualitative, automatic, and downstream axes.
   = effectively unlimited (Gemini 32k-token context; OpenAI 32k chars). The
   incumbent prompts were ~1,300 words — hence a mandatory *compressed* prompt
   regime for fair comparison.
-- **Output size:** generate at each model's native ~1 MP and **downscale to
-  500×500** (native 500 px is invalid/off-native for the local models).
+- **Output size:** generate at each model's native ~1 MP 4:3 bucket and save
+  as-is — no forced downscale. (An earlier version of this doc recommended
+  downscaling to a fixed 500×500; that number matched no other convention in
+  the repo — every other generator cell stores images at whatever resolution
+  the model natively produces, and this experiment's training pipeline
+  letterboxes every input to 640×640 regardless of source size. See
+  [`04`](04_local-models-and-output-parameters.md) §3.)
 - **Class subset (proposed 12):** 3 zebras (fine-grained); red fox / American
   black bear / lion (robust-test anchors); kinkajou / water deer / ringtail
   (rare **and** >100 test); saiga / aye-aye / pangolin (iconic rare, test-limited).
-- **Local generation already exists:** `scripts/synthetic/2-generate_synthetic_images_local.py`
-  (FLUX.1-schnell, RealVisXL+SDXL-Lightning, SD 3.5 Medium).
+- **Local-model roster (current, 7 models):** `flux2-klein-9b`, `realvisxl-lightning`,
+  `sd35m`, `sd35-large`, `sd35-large-turbo`, `qwen-image`, `hidream-i1` — see
+  [`04`](04_local-models-and-output-parameters.md) §7-9 for the roster,
+  measured benchmark numbers (~126 GPU-hours total for all seven 1,200-image
+  cells), and the GPU-memory-offload finding (removing an unneeded
+  `enable_model_cpu_offload()` call gave SD 3.5 Medium a ~1.8x speedup).
+  FLUX.2-dev was evaluated and not included (too large). HiDream-I1 was
+  initially blocked on a gated Llama dependency but that access was later
+  granted, so it was added and benchmarked as the 7th model (doc
+  [`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §10).
 
 ## Related existing docs
 
@@ -70,5 +88,76 @@ and local generators, evaluated on qualitative, automatic, and downstream axes.
 
 Open decisions are collected in [`07`](07_open-questions-and-what-to-reconsider.md)
 §5 — euro cap, final class count, rater setup, detector-vs-classifier, and the
-name-only prior-knowledge probe. Nothing has been generated yet; this is the
-planning stage.
+name-only prior-knowledge probe. Generation is well underway — see below.
+
+The 12-class **real** test subset (§4a of `02`) has been materialized —
+see [`09`](09_test-subset-build.md) — at
+`data/synthetic_model_comparison/test/` (9,742 images, ~4.6 GB) with a
+matching COCO json.
+
+The **incumbent generator's** synthetic train subset is complete for all 12
+classes (1,200/1,200 images) — see [`10`](10_train-subset-incumbent-selection.md).
+
+**Three more `full`-regime cells are complete** — Nano Banana 2 Lite
+(`gemini-3.1-flash-lite-image`) and both `gpt-image-2` quality tiers (`low`,
+`medium`), 1,200/1,200 images each. **The shared `compressed` prompt regime
+(all 12 classes) is built.** See
+[`12`](12_additional-generator-cells-build-log.md) for the generic
+reuse-script pattern, the resolution/token-limit/char-limit issues found
+and fixed along the way, and actual-vs-estimated API costs.
+
+**The local-model tier is now benchmarked on all seven models** (roster
+above) — every model works end-to-end, per-image timing measured, and one
+real bug found only by actually running each new model (FLUX.2-klein-9B
+needed `Flux2KleinPipeline`, not `Flux2Pipeline`; Qwen-Image needed
+custom on-the-fly NF4 quantization since no pre-quantized checkpoint
+exists). `hidream-i1` was added last, after its gated Llama dependency was
+unblocked, and is the slowest model in the roster at 129.85s/image even
+after NF4-quantizing its two largest components. See
+[`04`](04_local-models-and-output-parameters.md) §8 for the full results
+table (~126 GPU-hours to generate all seven full 1,200-image cells) and
+the GPU-offload finding.
+
+**A second prompt regime, `maxlen`, now exists alongside `compressed`** —
+built by `1h-generate_prompts_maxlen.py` / `1i-generate_images_local_maxlen.py`,
+sized to each model's *real* text-encoder capacity (256/512 tokens instead
+of the fairness-motivated 75) for the actual production dataset, keeping
+the `compressed` cells untouched for a possible later ablation against the
+best proprietary model. See [`05`](05_prompt-strategy-and-length-limits.md)
+§7 for the design (and why the first, naive "truncate the full prompt"
+idea didn't work).
+
+**`sd35-large-turbo`'s full 1,200-image `maxlen` cell is complete** —
+1,200/1,200 images, 0 failures, 8h16min total (24.8s/image average). It was
+chosen as the fastest of the four newly-added models, to validate the new
+script/prompt design at production scale before committing the much larger
+GPU-hour investment the other models would need. See
+[`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §6 for the full
+results. The other six models' full `maxlen` cells are **not yet
+generated** — each is a separate multi-hour-to-multi-day go-ahead, not run
+automatically (`hidream-i1`, added and benchmarked later, has no `maxlen`
+tier built for it either — same not-yet-started status).
+
+Still open: the fifth API cell (Nano Banana Pro), the `compressed`-regime
+ablation pair (incumbent + gpt-image-2 low), and the remaining six local
+models' full `maxlen` cells (`realvisxl-lightning` ~0.4h, `sd35m` ~5h,
+`flux2-klein-9b` ~16-22h, `sd35-large` ~19-20h, `qwen-image` ~34h,
+`hidream-i1` ~43h).
+
+The **fixed Axis-C detector architecture is decided: YOLO26n**, not YOLOv5s
+— see [`11`](11_detector-architecture-selection.md) for the full rationale
+(matches the thesis's actual embedded-deployment target per the KD strategy
+doc; training time is not a differentiator at this experiment's much smaller
+per-cell data scale).
+
+**Labeling and training code now exists** (per generator × prompt-regime
+cell, not gated on every cell existing first):
+`scripts/synthetic_model_comparison/2-run_megadetector.py` through
+`5-export_coco.py` adapt the production MegaDetector → triage-review →
+bbox-labeling → COCO-export chain for this experiment's per-cell layout, and
+`scripts/synthetic_model_comparison/training/` is a self-contained YOLO26n
+pipeline (copied and adapted from `scripts/training/yolo26n/`; see its own
+README) that trains on one cell's labeled images and evaluates on the fixed
+real test set. Not yet run end-to-end on real cell data — running the
+labeling chain and a first training pass, now that four `full`-regime cells
+have images, is the natural next step.

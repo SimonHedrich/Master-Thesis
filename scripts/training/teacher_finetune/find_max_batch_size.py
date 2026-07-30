@@ -112,6 +112,7 @@ def main() -> None:
     one_arr = _synthetic_arr(preprocess_fn)
 
     last_good: int | None = None
+    first_bad: int | None = None
     batch_size = args.start
 
     while batch_size <= args.max:
@@ -123,14 +124,33 @@ def main() -> None:
             batch_size *= 2
         else:
             print(f"batch {batch_size:>5}: OOM")
+            first_bad = batch_size
             break
 
     print()
     if last_good is None:
         print("No batch size succeeded — check your GPU memory and model setup.")
         sys.exit(1)
-    else:
-        print(f"Max batch size: {last_good}")
+
+    if first_bad is None:
+        print(
+            f"Max batch size: {last_good} "
+            f"(reached --max cap of {args.max} without OOM; true max may be higher)"
+        )
+        return
+
+    lo, hi = last_good, first_bad
+    while hi - lo > 1:
+        mid = (lo + hi) // 2
+        ok = _try_batch_size(mid, model, optimizer, loss_fn, one_arr, device)
+        status = f"OK    {_vram_used_gb(device)}" if ok else "OOM"
+        print(f"batch {mid:>5}: {status}  (binary search)")
+        if ok:
+            lo = mid
+        else:
+            hi = mid
+
+    print(f"\nMax batch size: {lo}")
 
 
 if __name__ == "__main__":

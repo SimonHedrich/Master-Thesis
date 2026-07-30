@@ -117,10 +117,20 @@ def granularity_scores(
     image_ids: set[int] | None,
     max_det: int,
     class_metrics: bool = False,
+    precomputed: dict[str, dict] | None = None,
 ) -> dict[str, dict]:
-    """Score the same (gt, preds, image set) at detect / coarse / fine granularity."""
-    out: dict[str, dict] = {}
+    """Score the same (gt, preds, image set) at detect / coarse / fine granularity.
+
+    *precomputed* lets a caller supply an already-computed result for a level
+    (e.g. Tier 1's headline_mixed is the exact same (gt, preds, all-images,
+    fine-remap) computation as this function's "fine" level) so it isn't
+    scored a second time — each of these calls stratifies per class and is
+    expensive at full test-set scale.
+    """
+    out: dict[str, dict] = dict(precomputed or {})
     for level in ("detect", "coarse", "fine"):
+        if level in out:
+            continue
         out[level] = scoring.score(
             gt, preds, image_ids=image_ids, remap=remaps[level],
             max_det=max_det, class_metrics=class_metrics,
@@ -213,7 +223,8 @@ def build_full_report(
     # ── TIER 2.1 — Granularity gap decomposition (mixed, all) ──────────────────
     logger.info("Tier 2.1: granularity gap (detect/coarse/fine, mixed, all)")
     gran = granularity_scores(mixed_gt, mixed_preds, remaps, image_ids=None,
-                              max_det=max_det, class_metrics=False)
+                              max_det=max_det, class_metrics=False,
+                              precomputed={"fine": headline_mixed})
     d_map, c_map, f_map = gran["detect"]["map"], gran["coarse"]["map"], gran["fine"]["map"]
     d_50, c_50, f_50 = gran["detect"]["map_50"], gran["coarse"]["map_50"], gran["fine"]["map_50"]
     report["tier2_granularity"] = {

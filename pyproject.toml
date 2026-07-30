@@ -36,6 +36,18 @@ dependencies = [
     # Utilities
     "python-dotenv>=1.0.0",
     "psutil>=6.0.0",
+    "google-genai>=2.14.0",
+    "openai>=2.48.0",
+    "tiktoken>=0.13.0",
+    # Local text-to-image generation (synthetic-model-comparison experiment's
+    # local-model tier: FLUX.1-schnell, RealVisXL+SDXL-Lightning, SD 3.5 Medium)
+    "diffusers>=0.31.0",
+    "transformers>=4.46.0",
+    "accelerate>=1.1.0",
+    "bitsandbytes>=0.43.0",
+    "sentencepiece>=0.2.0",
+    "protobuf>=5.28.0",
+    "peft>=0.20.0",
 ]
 
 [dependency-groups]

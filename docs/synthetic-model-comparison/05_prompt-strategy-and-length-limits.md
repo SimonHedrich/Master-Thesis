@@ -45,6 +45,18 @@ an important, non-obvious result.
 
 ## 3. Constructing the `compressed` prompt (≤75 CLIP tokens)
 
+> **Update (2026-07-29):** built for all 12 classes × 100 images via
+> `scripts/synthetic_model_comparison/1f-generate_prompts_compressed.py` —
+> `data/synthetic_model_comparison/train/prompts_compressed/` +
+> `reports/model_comparison_compressed_prompt_metadata.jsonl`. Verified
+> against the SDXL CLIP-L tokenizer (`openai/clip-vit-large-patch14`); max
+> observed length across all 1,200 prompts is 57 tokens, comfortably under
+> budget. Habitat is fixed per class (one hand-written short phrase, in the
+> style of the worked examples below) rather than rotated — only *pose*
+> rotates across a class's 100 images, per rule 2 below; diagnostic features
+> are pulled automatically from `reports/synthetic_scene_profiles.json` per
+> rule 3.
+
 CLIP ignores everything after ~75 tokens and weights early tokens most, so the
 compressed prompt must be **dense, front-loaded, and ordered by importance**.
 Recommended slot structure (drop trailing slots first if over budget):
@@ -101,3 +113,90 @@ largely ignores CFG-based negatives at guidance 0). API models have no negative
 prompt. To stay fair, treat negatives as a **model-native affordance**: use each
 model's standard negative-prompt setup (or none), and document it — do not try to
 force parity where the mechanism doesn't exist.
+
+## 7. The `maxlen` regime — a third regime for production, not comparison
+
+**Added 2026-07-30.** `compressed` (§3) answers a *comparison* question: does
+prompt-length handicap explain a local model's gap vs. the incumbent? That's
+still useful, and the `compressed` cells stay as-is for a possible later
+ablation against the best proprietary model. But for the actual **production**
+1,200-image/model dataset, giving every model the same ≤75-token prompt wastes
+most local models' real capacity — SD 3.5's T5 branch holds 256 tokens;
+FLUX.2-klein-9B and Qwen-Image's Qwen-family encoders hold 512. `maxlen` (built
+by `scripts/synthetic_model_comparison/1h-generate_prompts_maxlen.py`, consumed
+by `1i-generate_images_local_maxlen.py`) uses each model's real budget instead:
+
+| Tier | Generators | Token budget (target) |
+|---|---|---|
+| 75 (unchanged) | `realvisxl-lightning` | reuses the existing `compressed` prompt verbatim — already fills this tier (§3) |
+| 256 | `sd35m`, `sd35-large`, `sd35-large-turbo` | ~230-245 tokens (T5-XXL) |
+| 512 | `flux2-klein-9b`, `qwen-image` | ~480-495 tokens (Qwen-family encoders) |
+
+### 7a. Why truncating the `full` prompt doesn't work
+
+The first approach tried: take the existing `full`-regime prompt (already
+built for all 12 classes, ~1,300-word incumbent-style template) and truncate
+it to fit each tier. Inspecting an actual full prompt file
+(`data/synthetic_model_comparison/train/prompts_full/lion/001.txt`) showed
+this isn't feasible — its own **structural** sections (SCENE SPECIFICATION +
+PHOTOGRAPHY STYLE + CRITICAL REQUIREMENTS, i.e. everything that *isn't* a
+free-text Wikipedia excerpt) already total ~464 words (~600+ T5 tokens) on
+their own, more than the entire 256-token budget before a single word of
+species description is added. Free-text section length also varies wildly by
+class (696 words for aye-aye's *entire* full prompt vs. 5,438 for red fox's),
+so "keep structure, trim only the free text" simply doesn't fit regardless of
+how aggressively the free text is cut.
+
+### 7b. What was built instead
+
+The simpler, already-proven `build_prompt()` template shape from
+`scripts/synthetic/2-generate_synthetic_images_local.py` — this is exactly
+§1's "path A" tier (~90-130 words), which the table above already noted fits
+FLUX/SD3.5's 256-token budget with room to spare. `1h` extends that same
+shape to actually **fill** each budget (not just clear it) and adds genuine
+per-image scene variation:
+
+```
+Realistic wildlife photograph of a/an {class} ({scientific name}).
+Species characteristics: {1-3 diagnostic features}. {description excerpt,
+accumulated sentence-by-sentence up to the tier budget}. {pose sentence}
+{environment sentence}. {STYLE_SUFFIX}. Exactly one {class} in frame,
+diagnostic features clearly visible, no other individuals of the same
+species.
+```
+
+- **Description excerpt**: parsed once per class from the *existing*
+  `train/prompts_full/<slug>/001.txt`'s `SPECIES DESCRIPTION:` section
+  (same content for all 100 images of a class), then greedily accumulated
+  sentence-by-sentence until the next sentence would exceed the tier's token
+  budget — the inverse of `1f`'s trim-down `fit_to_token_budget`, building
+  up instead.
+- **Pose / environment**: real per-image values, pulled directly from the
+  canonical `train/gemini-3.1-flash-image-preview/full/index.jsonl` (1,200
+  already-parsed records, one per class × image) rather than re-deriving the
+  production `SHOT_SCHEDULE` — this gives genuine per-image angle/lighting/
+  behavior variation the `compressed` regime's simple 5-item pose rotation
+  doesn't have, at no extra engineering cost.
+- **Index numbers aren't always contiguous 1-100**: the 6 Bucket-3 classes
+  (kinkajou, water deer, ringtail, saiga, aye-aye, pangolin family) keep
+  their original index out of a 200-image pool (per
+  `10_train-subset-incumbent-selection.md`'s stratify-diversify selection),
+  so `1h` iterates whatever 100 indices the canonical index.jsonl actually
+  has for a class rather than assuming `range(1, 101)`.
+
+Token verification: `T5TokenizerFast` loaded from SD 3.5 Medium's
+`tokenizer_3` subfolder for the 256 tier; `Qwen/Qwen-Image`'s own tokenizer
+for the 512 tier (FLUX.2-klein-9B's "Qwen3" encoder and Qwen-Image's
+Qwen2.5-VL encoder are both Qwen-family BPE — close enough for budgeting
+given the safety margin below each nominal ceiling). Measured across all
+2,400 generated prompts: max 245/245 (256 tier) and 495/495 (512 tier) —
+comfortably at or under budget for every class, including the two extremes
+(aye-aye's short Wikipedia article naturally produces shorter prompts;
+red fox's very long one still fits since the tier budget, not the source
+length, is what's being filled).
+
+Output: `data/synthetic_model_comparison/train/prompts_maxlen_256/<slug>/`,
+`.../prompts_maxlen_512/<slug>/`,
+`reports/model_comparison_maxlen_prompt_metadata.jsonl`. Generated images
+land in a new `<generator>/maxlen/` cell (sibling to `<generator>/compressed/`,
+which stays untouched).

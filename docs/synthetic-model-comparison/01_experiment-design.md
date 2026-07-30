@@ -44,8 +44,17 @@ Reuse the existing production tooling wherever possible:
 - Generation: `scripts/synthetic/2-generate_images.py` (Gemini),
   `1-generate_synthetic_images_openrounter.py` (OpenRouter → many models),
   `2-generate_synthetic_images_local.py` (local diffusion).
-- Labeling: `scripts/synthetic/3-run_megadetector.py` + the bbox review server.
-- Training/eval: the YOLOv5s pipeline and `eval_suite/` already in the repo.
+- Labeling: `scripts/synthetic_model_comparison/2-run_megadetector.py`
+  through `5-export_coco.py` — per-cell adaptations of the production
+  MegaDetector → triage-review → bbox-labeling → COCO-export chain
+  (`scripts/synthetic/{3,4,5,6}-*.py`).
+- Training/eval: `scripts/synthetic_model_comparison/training/` — a
+  self-contained YOLO26n pipeline copied and adapted from
+  `scripts/training/yolo26n/` (12 classes, per-cell data, internal
+  train/val split) — see
+  [`11_detector-architecture-selection.md`](11_detector-architecture-selection.md)
+  for why YOLO26n rather than YOLOv5s, and that package's own README for
+  usage.
 
 ## 4. Why the prompt regime is a *factor*, not an afterthought
 
@@ -128,8 +137,11 @@ Why two models, and why these two:
    whole point and aligns with the thesis evaluation strategy (real-only is the
    anchor metric; never judge on synthetic). See `CLAUDE.md` and
    `docs/plans/2026-06-10_model-evaluation-strategy.md`.
-4. **Architecture + hyperparameters.** One detector (YOLOv5s, existing config)
-   and/or one classifier, identical schedule/seed policy for every cell.
+4. **Architecture + hyperparameters.** One detector (**YOLO26n**, existing
+   config — see
+   [`11_detector-architecture-selection.md`](11_detector-architecture-selection.md)
+   for why not YOLOv5s) and/or one classifier, identical schedule/seed policy
+   for every cell.
 5. **Augmentation.** Identical.
 
 ## 6. Keeping it tractable (and cheap)
