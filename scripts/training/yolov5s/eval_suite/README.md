@@ -59,34 +59,46 @@ visual look-alikes; strategy doc §5.)
 
 The ensemble is a teacher-class baseline: MegaDetector v5 detects animals; SpeciesNet
 classifies each crop; the joint `md_conf × sn_score` is the detection confidence.
-Both steps run inside the default training container (make run).
+Both steps run inside the default training container (make run). Its outputs live in
+their own package, `scripts/training/megadet_speciesnet_ensemble/model_exports/`, not
+under `yolov5s/` — see that directory's README for the `pretrained/` vs
+`finetuned-<run>/` convention.
 
 **Step 1 — generate predictions** (inside the default training container):
 
 ```bash
-# Smoke test (100 images/domain, ~5 min):
-uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble \
-    --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/ \
-    --limit 100
+# Off-the-shelf (pretrained) SpeciesNet — output-dir defaults to
+# megadet_speciesnet_ensemble/model_exports/pretrained/:
+uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble
 
-# Full run (~2–3 hours for 63K real + 11K synth):
+# Smoke test (100 images/domain, ~5 min):
+uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble --limit 100
+
+# Fine-tuned SpeciesNet classifier (a scripts/training/teacher_finetune run) —
+# output-dir defaults to megadet_speciesnet_ensemble/model_exports/finetuned-<run_name>/:
 uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble \
-    --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/
+    --checkpoint scripts/training/teacher_finetune/model_exports/<run_name>/best.pt
+
+# Full run (~2–3 hours for 63K real + 11K synth), explicit --output-dir override:
+uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble \
+    --output-dir scripts/training/megadet_speciesnet_ensemble/model_exports/pretrained/
 ```
 
-Output: `megadet_speciesnet_ensemble/predictions_real.json` + `predictions_synth.json`.
+Output: `<output-dir>/predictions_real.json` + `predictions_synth.json`.
 
 **Step 2 — score** (same container, after Step 1):
 
 ```bash
 uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation \
-    --real-predictions scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/predictions_real.json \
-    --synth-predictions scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/predictions_synth.json \
-    --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/eval/
+    --real-predictions scripts/training/megadet_speciesnet_ensemble/model_exports/pretrained/predictions_real.json \
+    --synth-predictions scripts/training/megadet_speciesnet_ensemble/model_exports/pretrained/predictions_synth.json \
+    --output-dir scripts/training/megadet_speciesnet_ensemble/model_exports/pretrained/eval/
 ```
 
-Output: `megadet_speciesnet_ensemble/eval/evaluation_report.md` (same format as a
-YOLOv5s eval report). Step 2 takes ~55 min (same scoring workload).
+(swap `pretrained/` for `finetuned-<run_name>/` to score a fine-tuned run).
+
+Output: `<output-dir>/eval/evaluation_report.md` (same format as a YOLOv5s eval
+report). Step 2 takes ~55 min (same scoring workload).
 
 ## Modules
 

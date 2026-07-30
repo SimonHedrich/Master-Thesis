@@ -11,21 +11,25 @@ Run inside the default training container (make run).
 
 Usage
 -----
-    # inside the default training container (make run):
-    uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble \\
-        --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/
+    # off-the-shelf (pretrained) ensemble — output-dir defaults to
+    # scripts/training/megadet_speciesnet_ensemble/model_exports/pretrained/:
+    uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble
 
     # smoke test (100 images per domain):
+    uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble --limit 100
+
+    # fine-tuned SpeciesNet classifier — output-dir defaults to
+    # scripts/training/megadet_speciesnet_ensemble/model_exports/finetuned-<run_name>/
+    # (derived from the checkpoint's parent directory name):
     uv run python -m scripts.training.yolov5s.eval_suite.predict_ensemble \\
-        --output-dir scripts/training/yolov5s/model_exports/megadet_speciesnet_ensemble/ \\
-        --limit 100
+        --checkpoint scripts/training/teacher_finetune/model_exports/<run_name>/best.pt
 
 Output JSON schema (frozen contract, same as predict.py)
 ---------------------------------------------------------
 ::
 
     {
-      "checkpoint": "megadet_speciesnet_ensemble",
+      "checkpoint": "<megadet_speciesnet_ensemble-pretrained | path to fine-tuned .pt>",
       "annotations": "<path str>",
       "eval": {"conf_thres": <md_conf>, "iou_thres": 0.6, "max_det": 300, "image_size": null},
       "num_images": <int>,
@@ -45,7 +49,6 @@ import csv
 import json
 import logging
 import sys
-import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -56,9 +59,10 @@ logger = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 CLASSES_225_PATH = REPO_ROOT / "reports" / "classes_225.csv"
+ENSEMBLE_MODEL_EXPORTS = REPO_ROOT / "scripts" / "training" / "megadet_speciesnet_ensemble" / "model_exports"
 
-# Identifier stored in the predictions JSON header (no real checkpoint path).
-ENSEMBLE_CHECKPOINT_ID = "megadet_speciesnet_ensemble"
+# Identifier stored in the predictions JSON header when no --checkpoint is given.
+PRETRAINED_CHECKPOINT_ID = "megadet_speciesnet_ensemble-pretrained"
 
 _DEFAULT_REAL_ANN = REPO_ROOT / "data" / "real" / "annotations_test.json"
 _DEFAULT_SYNTH_ANN = REPO_ROOT / "data" / "synthetic" / "annotations_test.json"
@@ -208,70 +212,80 @@ def _detect_animals(
 
 # ── SpeciesNet classifier ─────────────────────────────────────────────────────
 
-def _load_speciesnet():
+def _load_speciesnet(checkpoint_path: Path | None = None):
+    """Load the stock SpeciesNet classifier, optionally overwriting its weights.
+
+    If *checkpoint_path* is given, it must be a ``teacher_finetune``-style
+    checkpoint (a dict with a ``"model"`` key holding a plain ``state_dict()``
+    for ``SpeciesNet(...).classifier.model`` — see
+    ``scripts/training/teacher_finetune/training_pipeline.py``'s
+    ``_save_checkpoint`` and ``cache_soft_labels.py``'s reload of the same
+    checkpoint format). MegaDetector is untouched either way — fine-tuning is
+    currently scoped to the SpeciesNet classifier only.
+    """
     from speciesnet import SpeciesNet, DEFAULT_MODEL
     logger.info("Loading SpeciesNet classifier ...")
-    return SpeciesNet(DEFAULT_MODEL, components="classifier", geofence=False)
+    sn = SpeciesNet(DEFAULT_MODEL, components="classifier", geofence=False)
+
+    if checkpoint_path is not None:
+        import torch
+        logger.info("Loading fine-tuned classifier weights from %s", checkpoint_path)
+        ckpt = torch.load(checkpoint_path, map_location=sn.classifier.device, weights_only=False)
+        sn.classifier.model.load_state_dict(ckpt["model"])
+        sn.classifier.model.eval()
+
+    return sn
 
 
 def _classify_crops(
     sn,
     crops: list[Image.Image],
-    tmp_dir: Path,
-    batch_index: int,
 ) -> list[tuple[list[str], list[float]] | None]:
-    """Save PIL crops to tmpdir, classify via sn.classify(), delete files.
+    """Classify PIL crops in-memory via the classifier's preprocess/batch_predict.
 
-    Returns one (classes, scores) tuple per crop (None on failure or no result).
-    Uses filepaths as keys to match SpeciesNet results back to crops.
+    Bypasses ``SpeciesNet.classify()``'s file-based orchestration (temp-file
+    save/read/delete + internal thread-pool queues), which is unnecessary
+    overhead here since the crops already live in memory and the whole batch
+    can go through the classifier model in a single stacked forward pass
+    (``SpeciesNetClassifier.batch_predict``). Equivalent to the previous
+    ``sn.classify(filepaths=...)`` call: no bboxes are passed either way, since
+    MegaDetector's crop has already been applied.
+
+    Returns one (classes, scores) tuple per crop (None on preprocessing failure).
     """
     if not crops:
         return []
 
-    crop_paths: list[str | None] = []
+    fake_paths = [f"crop_{i:04d}" for i in range(len(crops))]
+    imgs = []
     for i, crop in enumerate(crops):
-        p = tmp_dir / f"b{batch_index:06d}_c{i:04d}.jpg"
         try:
-            crop.save(p, "JPEG", quality=85)
-            crop_paths.append(str(p))
+            imgs.append(sn.classifier.preprocess(crop, bboxes=None, resize=True))
         except Exception as exc:
-            logger.warning("failed to save crop b%d c%d: %s", batch_index, i, exc)
-            crop_paths.append(None)
+            logger.warning("failed to preprocess crop %d: %s", i, exc)
+            imgs.append(None)
 
-    valid_paths = [p for p in crop_paths if p is not None]
-    fp_to_cls: dict[str, tuple[list[str], list[float]]] = {}
+    try:
+        results = sn.classifier.batch_predict(fake_paths, imgs)
+    except Exception as exc:
+        logger.warning("SpeciesNet batch_predict failed: %s", exc)
+        return [None] * len(crops)
 
-    if valid_paths:
-        try:
-            result = sn.classify(filepaths=valid_paths)
-            if result and "predictions" in result:
-                for pred_entry in result["predictions"]:
-                    fp = pred_entry.get("filepath", "")
-                    cls_data = pred_entry.get("classifications")
-                    if cls_data:
-                        fp_to_cls[fp] = (
-                            cls_data.get("classes", []),
-                            cls_data.get("scores", []),
-                        )
-        except Exception as exc:
-            logger.warning("SpeciesNet classify failed on batch %d: %s", batch_index, exc)
-
-    # Delete temp files
-    for p in crop_paths:
-        if p is not None:
-            try:
-                Path(p).unlink(missing_ok=True)
-            except Exception:
-                pass
-
-    return [fp_to_cls.get(p) if p is not None else None for p in crop_paths]
+    out: list[tuple[list[str], list[float]] | None] = []
+    for r in results:
+        cls_data = r.get("classifications")
+        if cls_data:
+            out.append((cls_data.get("classes", []), cls_data.get("scores", [])))
+        else:
+            out.append(None)
+    return out
 
 
 # ── Caching helpers ───────────────────────────────────────────────────────────
 
-def _build_header(annotations_path: Path, md_conf: float) -> dict[str, Any]:
+def _build_header(annotations_path: Path, md_conf: float, checkpoint_path: Path | None) -> dict[str, Any]:
     return {
-        "checkpoint": ENSEMBLE_CHECKPOINT_ID,
+        "checkpoint": str(checkpoint_path) if checkpoint_path is not None else PRETRAINED_CHECKPOINT_ID,
         "annotations": str(annotations_path),
         "eval": {
             "conf_thres": md_conf,
@@ -300,6 +314,7 @@ def run_inference(
     sn_batch_size: int,
     cache: bool,
     limit: int | None,
+    checkpoint_path: Path | None = None,
 ) -> dict:
     """Run MegaDetector→SpeciesNet on all images in annotations_path.
 
@@ -319,6 +334,11 @@ def run_inference(
         Return cached predictions if output_path exists with a matching header.
     limit:
         If not None, subsample this many images (fixed seed, smoke-test mode).
+    checkpoint_path:
+        If given, a fine-tuned SpeciesNet classifier checkpoint (see
+        ``_load_speciesnet``) used instead of the stock pretrained weights.
+        Recorded in the cache header so pretrained and fine-tuned runs are
+        never mistaken for cache hits of one another.
 
     Returns
     -------
@@ -327,7 +347,7 @@ def run_inference(
     annotations_path = Path(annotations_path)
     output_path = Path(output_path)
 
-    header = _build_header(annotations_path, md_conf)
+    header = _build_header(annotations_path, md_conf, checkpoint_path)
 
     if cache and output_path.exists():
         try:
@@ -363,21 +383,18 @@ def run_inference(
 
     gs_to_225, g_to_225, f_to_225 = _load_taxonomy_maps()
     md_model = _load_megadetector(device)
-    sn = _load_speciesnet()
+    sn = _load_speciesnet(checkpoint_path)
 
     predictions: list[dict[str, Any]] = []
 
     # Rolling crop buffer: flush to SpeciesNet every sn_batch_size crops.
     crop_buffer: list[dict[str, Any]] = []
-    batch_index = 0
 
     def _flush() -> None:
-        nonlocal batch_index
         if not crop_buffer:
             return
         crops_pil = [item["crop"] for item in crop_buffer]
-        sn_results = _classify_crops(sn, crops_pil, tmp_dir, batch_index)
-        batch_index += 1
+        sn_results = _classify_crops(sn, crops_pil)
 
         for item, sn_res in zip(crop_buffer, sn_results):
             if sn_res is None:
@@ -412,44 +429,41 @@ def run_inference(
 
         crop_buffer.clear()
 
-    with tempfile.TemporaryDirectory(prefix="sn_crops_") as tmpdir_str:
-        tmp_dir = Path(tmpdir_str)
+    for rec in tqdm(image_records, desc="ensemble-predict", unit="img", dynamic_ncols=True):
+        image_path = REPO_ROOT / rec["file_name"]
+        try:
+            img = Image.open(image_path).convert("RGB")
+        except Exception as exc:
+            logger.warning("cannot open %s: %s", image_path, exc)
+            continue
 
-        for rec in tqdm(image_records, desc="ensemble-predict", unit="img", dynamic_ncols=True):
-            image_path = REPO_ROOT / rec["file_name"]
-            try:
-                img = Image.open(image_path).convert("RGB")
-            except Exception as exc:
-                logger.warning("cannot open %s: %s", image_path, exc)
+        W, H = img.size
+
+        try:
+            detections = _detect_animals(md_model, img, device, md_conf)
+        except Exception as exc:
+            logger.warning("MegaDetector failed on %s: %s", image_path, exc)
+            continue
+
+        for det in detections:
+            x1, y1, x2, y2 = det["x1"], det["y1"], det["x2"], det["y2"]
+            w_box = x2 - x1
+            h_box = y2 - y1
+            if w_box < 2 or h_box < 2:
                 continue
+            crop = img.crop((x1, y1, x2, y2))
+            crop_buffer.append({
+                "image_id": rec["id"],
+                "x1": float(x1), "y1": float(y1),
+                "w": float(w_box), "h": float(h_box),
+                "md_conf": det["conf"],
+                "crop": crop,
+            })
 
-            W, H = img.size
+            if len(crop_buffer) >= sn_batch_size:
+                _flush()
 
-            try:
-                detections = _detect_animals(md_model, img, device, md_conf)
-            except Exception as exc:
-                logger.warning("MegaDetector failed on %s: %s", image_path, exc)
-                continue
-
-            for det in detections:
-                x1, y1, x2, y2 = det["x1"], det["y1"], det["x2"], det["y2"]
-                w_box = x2 - x1
-                h_box = y2 - y1
-                if w_box < 2 or h_box < 2:
-                    continue
-                crop = img.crop((x1, y1, x2, y2))
-                crop_buffer.append({
-                    "image_id": rec["id"],
-                    "x1": float(x1), "y1": float(y1),
-                    "w": float(w_box), "h": float(h_box),
-                    "md_conf": det["conf"],
-                    "crop": crop,
-                })
-
-                if len(crop_buffer) >= sn_batch_size:
-                    _flush()
-
-        _flush()  # remaining crops
+    _flush()  # remaining crops
 
     logger.info(
         "ensemble inference complete: %d predictions over %d images",
@@ -486,8 +500,15 @@ def main() -> None:
         help="Synthetic test annotations; pass 'none' to skip.",
     )
     p.add_argument(
-        "--output-dir", type=Path, required=True,
-        help="Write predictions_real.json / predictions_synth.json here.",
+        "--checkpoint", type=Path, default=None,
+        help="Fine-tuned SpeciesNet classifier checkpoint (a teacher_finetune-style "
+        "best.pt/last.pt). Omit to use the stock pretrained SpeciesNet classifier.",
+    )
+    p.add_argument(
+        "--output-dir", type=Path, default=None,
+        help="Write predictions_real.json / predictions_synth.json here. Defaults to "
+        "megadet_speciesnet_ensemble/model_exports/pretrained/ (no --checkpoint) or "
+        ".../model_exports/finetuned-<checkpoint's run dir name>/ (with --checkpoint).",
     )
     p.add_argument("--device", default="auto", help="'auto' | 'cuda' | 'cpu'")
     p.add_argument("--md-conf", type=float, default=0.1,
@@ -507,6 +528,14 @@ def main() -> None:
     device = ("cuda" if torch.cuda.is_available() else "cpu") if args.device == "auto" else args.device
     logger.info("device: %s", device)
 
+    if args.output_dir is None:
+        if args.checkpoint is not None:
+            run_label = f"finetuned-{args.checkpoint.resolve().parent.name}"
+        else:
+            run_label = "pretrained"
+        args.output_dir = ENSEMBLE_MODEL_EXPORTS / run_label
+        logger.info("--output-dir not given; defaulting to %s", args.output_dir)
+
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     run_inference(
@@ -517,6 +546,7 @@ def main() -> None:
         sn_batch_size=args.batch_size,
         cache=not args.no_cache,
         limit=args.limit,
+        checkpoint_path=args.checkpoint,
     )
 
     synth_ann = None if str(args.synth_ann).lower() == "none" else args.synth_ann
@@ -530,6 +560,7 @@ def main() -> None:
                 sn_batch_size=args.batch_size,
                 cache=not args.no_cache,
                 limit=args.limit,
+                checkpoint_path=args.checkpoint,
             )
         else:
             logger.warning("synthetic annotations not found at %s — skipping", synth_ann)
