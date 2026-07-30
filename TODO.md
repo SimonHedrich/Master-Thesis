@@ -127,13 +127,17 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 ## 3. Synthetic-model-comparison experiment
 
 - [ ] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
-      `realvisxl-lightning` (~0.4h), `sd35m` (~5h), `flux2-klein-9b`
-      (~16-22h), `sd35-large` (~19-20h), `qwen-image` (~34h), `hidream-i1`
-      (~43h). `sd35-large-turbo` is the only one done so far. Run in this
+      `sd35m` (~5h, next up), `flux2-klein-9b` (~16-22h), `sd35-large`
+      (~19-20h), `qwen-image` (~34h), `hidream-i1` (~43h). `sd35-large-turbo`
+      and `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
+      1200/1200, 0 failures — doc `13` §6) are done. Run in this
       cheapest-first order with a check-in between each cell (§1.2) — not as
-      one unattended 119-hour queue. All four of the larger models already
+      one unattended queue. All four of the remaining larger models already
       need `enable_model_cpu_offload()` on this 24GB card, so this work
-      cannot move to the 3060 (§1.1).
+      cannot move to the 3060 (§1.1). Note: `hidream-i1` also needs
+      `1i-generate_images_local_maxlen.py` extended with its loader/tier
+      support (currently only in `1g`, the `compressed`-regime script —
+      doc `13` §9) before that cell can run.
 - [ ] **3.2 [3060] (gap) Run the labeling pipeline**
       (`scripts/synthetic_model_comparison/2-run_megadetector.py` through
       `5-export_coco.py`) on each generated cell — **not yet run on any

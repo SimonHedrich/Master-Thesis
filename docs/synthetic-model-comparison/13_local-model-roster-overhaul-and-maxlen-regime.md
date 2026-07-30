@@ -4,8 +4,8 @@
 **Status:** roster expanded from 3 to 7 models, all benchmarked (including
 HiDream-I1, initially rejected on a gated-repo access check and later
 unblocked and adopted once real access was confirmed); a second prompt
-regime (`maxlen`) built alongside `compressed`; first full 1,200-image
-production cell (`sd35-large-turbo`) complete
+regime (`maxlen`) built alongside `compressed`; two full 1,200-image
+production cells complete (`sd35-large-turbo`, `realvisxl-lightning`)
 **Depends on:** [`04_local-models-and-output-parameters.md`](04_local-models-and-output-parameters.md),
 [`05_prompt-strategy-and-length-limits.md`](05_prompt-strategy-and-length-limits.md),
 [`12_additional-generator-cells-build-log.md`](12_additional-generator-cells-build-log.md)
@@ -116,7 +116,7 @@ Full table and the GPU-offload finding are in doc `04` §8; summary:
 
 | Generator | s/image (steady-state) | Est. hours for 1,200 | Benchmarked | Full `maxlen` cell |
 |---|---|---|---|---|
-| `realvisxl-lightning` | 1.14 | 0.38 | ✅ | ❌ |
+| `realvisxl-lightning` | 1.14 (0.93 at full-cell scale) | 0.38 | ✅ | ✅ — §6 |
 | `sd35m` (offload removed) | 14.84 | 4.95 | ✅ | ❌ |
 | `sd35-large-turbo` | ~25.5 | 8.5 | ✅ | ✅ — §6 |
 | `flux2-klein-9b` | ~48 | 16.0 | ✅ | ❌ |
@@ -284,6 +284,22 @@ anatomically coherent subjects with the diagnostic features and per-image
 scene variation the `maxlen` prompt was designed to carry (e.g. the
 pangolin's scaled body rendered accurately amid rocky terrain).
 
+**Second full production cell: `realvisxl-lightning`** (next cheapest in
+the cheapest-first queue, TODO.md §1.2/§3.1). Smoke-tested with
+`--classes lion --limit 2` first (0.9-1.5s/image, matching the benchmark),
+then the full cell.
+
+**Result: 1,200/1,200 images, 0 failures.** Total inference time 1,121.65s
+(~18.7 min) across all 1,200 images, averaging **0.93s/image** — noticeably
+faster than the small-sample benchmark's 1.14s/image estimate (§4), so the
+~0.38h TODO.md estimate was conservative. `index.jsonl` confirms all 12
+classes at 100/100 images each. GPU memory returned to 0MiB after pipeline
+unload. Visually spot-checked `lion` and `pangolin_family` — both clean,
+anatomically coherent, consistent with `sd35-large-turbo`'s quality bar
+above; `realvisxl-lightning` reuses the unchanged `compressed`-regime
+77-token prompt (§5), so this cell's images carry the same per-image scene
+variation fields (pose/environment/lighting) as any other cell.
+
 ## 7. Output layout (new since doc `12`)
 
 ```
@@ -295,9 +311,12 @@ data/synthetic_model_comparison/train/
 ├── sd35-large-turbo/
 │   ├── compressed/                              # benchmark only (5 images) — §4
 │   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
+├── realvisxl-lightning/
+│   ├── compressed/                              # benchmark only, from doc 12, unchanged
+│   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
 ├── qwen-image/compressed/                       # benchmark only (5 images) — §4
 ├── hidream-i1/compressed/                       # benchmark only (5 images) — §4
-└── ... (flux-schnell/, realvisxl-lightning/compressed/, sd35m/compressed/ from doc 12, unchanged)
+└── ... (flux-schnell/, sd35m/compressed/ from doc 12, unchanged)
 ```
 
 New reports: `reports/model_comparison_local_generation_benchmark.csv`,
@@ -325,11 +344,20 @@ within this machine's ~500GB disk).
 
 ## 9. Not built here
 
-- **The other six models' full `maxlen` cells** (`realvisxl-lightning`,
-  `sd35m`, `flux2-klein-9b`, `sd35-large`, `qwen-image`, `hidream-i1`) —
-  each a separate multi-hour-to-multi-day GPU commitment (up to ~43h for
-  `hidream-i1`, the roster's slowest model), left for a follow-up
-  go-ahead per model, not run automatically.
+- **The remaining four models' full `maxlen` cells** (`sd35m`,
+  `flux2-klein-9b`, `sd35-large`, `qwen-image`) — each a separate
+  multi-hour GPU commitment, left for a follow-up go-ahead per model, not
+  run automatically.
+- **`hidream-i1`'s full `maxlen` cell** — beyond the GPU-time commitment
+  (~43h, the roster's slowest model), it also needs code that doesn't
+  exist yet: `1i-generate_images_local_maxlen.py`'s `AVAILABLE_GENERATORS`,
+  `GENERATOR_TIER`, `RESOLUTIONS`, and loader/generator dicts only cover
+  the other six models — `hidream-i1` support was only ever added to `1g`
+  (the `compressed`-regime script). Porting `_load_hidream_i1`/
+  `_generate_hidream_i1` into `1i` and picking its maxlen tier (512, matching
+  `qwen-image`/`flux2-klein-9b`'s large-context text encoders, is the
+  natural choice) is needed before that cell can run — not done here since
+  it's last in the cheapest-first queue.
 - **Batching multiple prompts per pipeline call** and **`torch.compile`** —
   both documented as real throughput follow-ups in doc `04` §4/§8, given
   the GPU headroom found in §2, but not implemented — not necessary to
