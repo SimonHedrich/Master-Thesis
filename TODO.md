@@ -127,13 +127,16 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 ## 3. Synthetic-model-comparison experiment
 
 - [ ] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
-      `flux2-klein-9b` (~16-22h, next up), `sd35-large` (~19-20h),
-      `qwen-image` (~34h), `hidream-i1` (~43h). `sd35-large-turbo`,
-      `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
-      1200/1200, 0 failures) and `sd35m` (actual: 7.98h inference,
-      23.94s/image — above the ~5h estimate, `maxlen` prompts cost real
-      extra time over the compressed-regime benchmark, 1200/1200, 0
-      failures) are done — doc `13` §6. Run in this cheapest-first order
+      `sd35-large` (~19-20h, next up), `qwen-image` (~34h), `hidream-i1`
+      (~43h). `sd35-large-turbo`, `realvisxl-lightning` (actual: 0.31h
+      inference, 0.93s/image, 1200/1200, 0 failures), `sd35m` (actual: 7.98h
+      inference, 23.94s/image — above the ~5h estimate, 1200/1200, 0
+      failures) and `flux2-klein-9b` (actual: 10.40h inference,
+      31.19s/image — under the ~16-22h estimate, 1200/1200, 0 failures;
+      **quality note:** `kinkajou` renders show a consistent
+      genet/civet-like ringed tail rather than the real species' plain
+      tail — a per-class model-accuracy signal for §3.4/3.5, not a pipeline
+      failure) are done — doc `13` §6. Run in this cheapest-first order
       with a check-in between each cell (§1.2) — not as one unattended
       queue. The remaining larger models already need
       `enable_model_cpu_offload()` on this 24GB card, so this work cannot
