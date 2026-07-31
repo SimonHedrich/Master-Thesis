@@ -127,14 +127,17 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 ## 3. Synthetic-model-comparison experiment
 
 - [ ] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
-      `sd35m` (~5h, next up), `flux2-klein-9b` (~16-22h), `sd35-large`
-      (~19-20h), `qwen-image` (~34h), `hidream-i1` (~43h). `sd35-large-turbo`
-      and `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
-      1200/1200, 0 failures — doc `13` §6) are done. Run in this
-      cheapest-first order with a check-in between each cell (§1.2) — not as
-      one unattended queue. All four of the remaining larger models already
-      need `enable_model_cpu_offload()` on this 24GB card, so this work
-      cannot move to the 3060 (§1.1). Note: `hidream-i1` also needs
+      `flux2-klein-9b` (~16-22h, next up), `sd35-large` (~19-20h),
+      `qwen-image` (~34h), `hidream-i1` (~43h). `sd35-large-turbo`,
+      `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
+      1200/1200, 0 failures) and `sd35m` (actual: 7.98h inference,
+      23.94s/image — above the ~5h estimate, `maxlen` prompts cost real
+      extra time over the compressed-regime benchmark, 1200/1200, 0
+      failures) are done — doc `13` §6. Run in this cheapest-first order
+      with a check-in between each cell (§1.2) — not as one unattended
+      queue. The remaining larger models already need
+      `enable_model_cpu_offload()` on this 24GB card, so this work cannot
+      move to the 3060 (§1.1). Note: `hidream-i1` also needs
       `1i-generate_images_local_maxlen.py` extended with its loader/tier
       support (currently only in `1g`, the `compressed`-regime script —
       doc `13` §9) before that cell can run.

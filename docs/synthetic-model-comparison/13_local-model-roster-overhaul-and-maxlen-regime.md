@@ -4,8 +4,9 @@
 **Status:** roster expanded from 3 to 7 models, all benchmarked (including
 HiDream-I1, initially rejected on a gated-repo access check and later
 unblocked and adopted once real access was confirmed); a second prompt
-regime (`maxlen`) built alongside `compressed`; two full 1,200-image
-production cells complete (`sd35-large-turbo`, `realvisxl-lightning`)
+regime (`maxlen`) built alongside `compressed`; three full 1,200-image
+production cells complete (`sd35-large-turbo`, `realvisxl-lightning`,
+`sd35m`)
 **Depends on:** [`04_local-models-and-output-parameters.md`](04_local-models-and-output-parameters.md),
 [`05_prompt-strategy-and-length-limits.md`](05_prompt-strategy-and-length-limits.md),
 [`12_additional-generator-cells-build-log.md`](12_additional-generator-cells-build-log.md)
@@ -117,7 +118,7 @@ Full table and the GPU-offload finding are in doc `04` §8; summary:
 | Generator | s/image (steady-state) | Est. hours for 1,200 | Benchmarked | Full `maxlen` cell |
 |---|---|---|---|---|
 | `realvisxl-lightning` | 1.14 (0.93 at full-cell scale) | 0.38 | ✅ | ✅ — §6 |
-| `sd35m` (offload removed) | 14.84 | 4.95 | ✅ | ❌ |
+| `sd35m` (offload removed) | 14.84 (23.94 at full-cell scale, `maxlen` prompts) | 4.95 (7.98 actual) | ✅ | ✅ — §6 |
 | `sd35-large-turbo` | ~25.5 | 8.5 | ✅ | ✅ — §6 |
 | `flux2-klein-9b` | ~48 | 16.0 | ✅ | ❌ |
 | `sd35-large` | ~57.8 | 19.3 | ✅ | ❌ |
@@ -300,6 +301,25 @@ above; `realvisxl-lightning` reuses the unchanged `compressed`-regime
 77-token prompt (§5), so this cell's images carry the same per-image scene
 variation fields (pose/environment/lighting) as any other cell.
 
+**Third full production cell: `sd35m`** (next cheapest, TODO.md §1.2/§3.1).
+Smoke-tested with `--classes lion --limit 2` first: both images generated
+cleanly, ~23s/image — already above the compressed-regime benchmark's
+14.84s/image (§2/§4), plausibly the 256-token `maxlen` T5-XXL prompt vs.
+compressed's ~75-token one. Expected, repeated `transformers` warnings
+throughout the run ("truncated ... CLIP can only handle sequences up to 77
+tokens") are inherent to SD3.5's architecture, not a bug: only the T5-XXL
+branch consumes the full `maxlen` prompt, while the bundled CLIP/OpenCLIP
+branches always cap at 77 tokens regardless of input length.
+
+**Result: 1,200/1,200 images, 0 failures.** Total inference time 28,730.99s
+(~7.98h), averaging **23.94s/image** — notably above TODO.md's ~4.95h/~5h
+estimate (which was based on the compressed-regime benchmark number), so
+the `maxlen` regime's longer T5 prompts cost real, measurable extra time
+over the compressed-regime figure for this model. `index.jsonl` confirms
+all 12 classes at 100/100. GPU memory returned to 0MiB after unload.
+Visually spot-checked `red_fox` and `pangolin_family` — clean, sharp,
+anatomically coherent, no artifacts from the CLIP-truncation warnings above.
+
 ## 7. Output layout (new since doc `12`)
 
 ```
@@ -314,9 +334,12 @@ data/synthetic_model_comparison/train/
 ├── realvisxl-lightning/
 │   ├── compressed/                              # benchmark only, from doc 12, unchanged
 │   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
+├── sd35m/
+│   ├── compressed/                              # benchmark only, from doc 12, unchanged
+│   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
 ├── qwen-image/compressed/                       # benchmark only (5 images) — §4
 ├── hidream-i1/compressed/                       # benchmark only (5 images) — §4
-└── ... (flux-schnell/, sd35m/compressed/ from doc 12, unchanged)
+└── ... (flux-schnell/ from doc 12, unchanged)
 ```
 
 New reports: `reports/model_comparison_local_generation_benchmark.csv`,
@@ -344,10 +367,9 @@ within this machine's ~500GB disk).
 
 ## 9. Not built here
 
-- **The remaining four models' full `maxlen` cells** (`sd35m`,
-  `flux2-klein-9b`, `sd35-large`, `qwen-image`) — each a separate
-  multi-hour GPU commitment, left for a follow-up go-ahead per model, not
-  run automatically.
+- **The remaining three models' full `maxlen` cells** (`flux2-klein-9b`,
+  `sd35-large`, `qwen-image`) — each a separate multi-hour GPU commitment,
+  left for a follow-up go-ahead per model, not run automatically.
 - **`hidream-i1`'s full `maxlen` cell** — beyond the GPU-time commitment
   (~43h, the roster's slowest model), it also needs code that doesn't
   exist yet: `1i-generate_images_local_maxlen.py`'s `AVAILABLE_GENERATORS`,
