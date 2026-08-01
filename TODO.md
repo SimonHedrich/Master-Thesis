@@ -127,23 +127,25 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 ## 3. Synthetic-model-comparison experiment
 
 - [ ] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
-      `sd35-large` (~19-20h, next up), `qwen-image` (~34h), `hidream-i1`
-      (~43h). `sd35-large-turbo`, `realvisxl-lightning` (actual: 0.31h
-      inference, 0.93s/image, 1200/1200, 0 failures), `sd35m` (actual: 7.98h
-      inference, 23.94s/image — above the ~5h estimate, 1200/1200, 0
-      failures) and `flux2-klein-9b` (actual: 10.40h inference,
-      31.19s/image — under the ~16-22h estimate, 1200/1200, 0 failures;
-      **quality note:** `kinkajou` renders show a consistent
-      genet/civet-like ringed tail rather than the real species' plain
-      tail — a per-class model-accuracy signal for §3.4/3.5, not a pipeline
-      failure) are done — doc `13` §6. Run in this cheapest-first order
-      with a check-in between each cell (§1.2) — not as one unattended
-      queue. The remaining larger models already need
-      `enable_model_cpu_offload()` on this 24GB card, so this work cannot
-      move to the 3060 (§1.1). Note: `hidream-i1` also needs
-      `1i-generate_images_local_maxlen.py` extended with its loader/tier
-      support (currently only in `1g`, the `compressed`-regime script —
-      doc `13` §9) before that cell can run.
+      `qwen-image` (~34h, next up), `hidream-i1` (~43h). `sd35-large-turbo`,
+      `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
+      1200/1200, 0 failures), `sd35m` (actual: 7.98h inference,
+      23.94s/image — above the ~5h estimate, 1200/1200, 0 failures),
+      `flux2-klein-9b` (actual: 10.40h inference, 31.19s/image — under the
+      ~16-22h estimate, 1200/1200, 0 failures; **quality note:** `kinkajou`
+      renders show a consistent genet/civet-like ringed tail rather than
+      the real species' plain tail — a per-class model-accuracy signal for
+      §3.4/3.5, not a pipeline failure) and `sd35-large` (actual: 18.11h
+      inference, 54.34s/image — within the ~19-20h estimate, 1200/1200, 0
+      failures; its own `kinkajou` renders are correct, confirming the
+      tail-confusion above is specific to `flux2-klein-9b`) are done —
+      doc `13` §6. Run in this cheapest-first order with a check-in
+      between each cell (§1.2) — not as one unattended queue. `qwen-image`
+      and `hidream-i1` already need `enable_model_cpu_offload()` on this
+      24GB card, so this work cannot move to the 3060 (§1.1). Note:
+      `hidream-i1` also needs `1i-generate_images_local_maxlen.py` extended
+      with its loader/tier support (currently only in `1g`, the
+      `compressed`-regime script — doc `13` §9) before that cell can run.
 - [ ] **3.2 [3060] (gap) Run the labeling pipeline**
       (`scripts/synthetic_model_comparison/2-run_megadetector.py` through
       `5-export_coco.py`) on each generated cell — **not yet run on any

@@ -4,9 +4,9 @@
 **Status:** roster expanded from 3 to 7 models, all benchmarked (including
 HiDream-I1, initially rejected on a gated-repo access check and later
 unblocked and adopted once real access was confirmed); a second prompt
-regime (`maxlen`) built alongside `compressed`; four full 1,200-image
+regime (`maxlen`) built alongside `compressed`; five full 1,200-image
 production cells complete (`sd35-large-turbo`, `realvisxl-lightning`,
-`sd35m`, `flux2-klein-9b`)
+`sd35m`, `flux2-klein-9b`, `sd35-large`)
 **Depends on:** [`04_local-models-and-output-parameters.md`](04_local-models-and-output-parameters.md),
 [`05_prompt-strategy-and-length-limits.md`](05_prompt-strategy-and-length-limits.md),
 [`12_additional-generator-cells-build-log.md`](12_additional-generator-cells-build-log.md)
@@ -121,7 +121,7 @@ Full table and the GPU-offload finding are in doc `04` §8; summary:
 | `sd35m` (offload removed) | 14.84 (23.94 at full-cell scale, `maxlen` prompts) | 4.95 (7.98 actual) | ✅ | ✅ — §6 |
 | `sd35-large-turbo` | ~25.5 | 8.5 | ✅ | ✅ — §6 |
 | `flux2-klein-9b` | ~48 (31.19 at full-cell scale) | 16.0 (10.40 actual) | ✅ | ✅ — §6 |
-| `sd35-large` | ~57.8 | 19.3 | ✅ | ❌ |
+| `sd35-large` | ~57.8 (54.34 at full-cell scale) | 19.3 (18.11 actual) | ✅ | ✅ — §6 |
 | `qwen-image` | ~101.4 | 33.8 | ✅ | ❌ |
 | `hidream-i1` | 129.85 | 43.28 | ✅ | ❌ |
 
@@ -347,6 +347,21 @@ qualitative rating / §3.5 comparison writeup as a per-class, per-model
 quality signal rather than a pipeline failure. Other spot-checked classes
 (`lion`, `red_fox`, `pangolin_family`, `saiga`) showed no comparable issue.
 
+**Fifth full production cell: `sd35-large`** (next cheapest, TODO.md
+§1.2/§3.1). Weights already cached from prior benchmarking, no download
+needed. Smoke-tested with `--classes lion --limit 2` first: both clean,
+steady-state ~54-58s/image.
+
+**Result: 1,200/1,200 images, 0 failures.** Total inference time 65,213.94s
+(~18.11h), averaging **54.34s/image** — within TODO.md's ~19-20h estimate.
+`index.jsonl` confirms all 12 classes at 100/100. GPU memory returned to
+0MiB after unload; disk finished at 48GB free. Visually spot-checked
+`kinkajou` and `mountain_zebra` — both clean and anatomically correct;
+notably `kinkajou` here shows the real species' plain golden-brown coat and
+unringed tail, confirming the ringed-tail/spotted-coat confusion found in
+`flux2-klein-9b`'s cell above is specific to that model, not a
+prompt-level issue.
+
 ## 7. Output layout (new since doc `12`)
 
 ```
@@ -366,6 +381,9 @@ data/synthetic_model_comparison/train/
 │   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
 ├── flux2-klein-9b/
 │   ├── compressed/                              # benchmark only (10 images) — §4
+│   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
+├── sd35-large/
+│   ├── compressed/                              # benchmark only (5 images) — §4
 │   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
 ├── qwen-image/compressed/                       # benchmark only (5 images) — §4
 ├── hidream-i1/compressed/                       # benchmark only (5 images) — §4
@@ -397,9 +415,8 @@ within this machine's ~500GB disk).
 
 ## 9. Not built here
 
-- **The remaining two models' full `maxlen` cells** (`sd35-large`,
-  `qwen-image`) — each a separate multi-hour GPU commitment, left for a
-  follow-up go-ahead per model, not run automatically.
+- **`qwen-image`'s full `maxlen` cell** — a separate multi-hour GPU
+  commitment (~34h), left for a follow-up go-ahead, not run automatically.
 - **`hidream-i1`'s full `maxlen` cell** — beyond the GPU-time commitment
   (~43h, the roster's slowest model), it also needs code that doesn't
   exist yet: `1i-generate_images_local_maxlen.py`'s `AVAILABLE_GENERATORS`,
