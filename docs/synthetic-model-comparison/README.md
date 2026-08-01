@@ -133,16 +133,25 @@ chosen as the fastest of the four newly-added models, to validate the new
 script/prompt design at production scale before committing the much larger
 GPU-hour investment the other models would need. See
 [`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §6 for the full
-results. The other six models' full `maxlen` cells are **not yet
-generated** — each is a separate multi-hour-to-multi-day go-ahead, not run
-automatically (`hidream-i1`, added and benchmarked later, has no `maxlen`
-tier built for it either — same not-yet-started status).
+results. `realvisxl-lightning`, `sd35m`, `flux2-klein-9b`, and `sd35-large`
+have since completed the same way.
+
+**`qwen-image`'s full `maxlen` cell was dropped, not deferred** — its
+`compressed`-regime 5-image smoke test showed clearly visible
+quantization-artifact graininess (stippled noise in flat regions — sky,
+grass), the same issue first flagged in doc [`04`](04_local-models-and-output-parameters.md)
+§8. Since `qwen-image` was never a headline model (kept mainly for its
+Apache-2.0 license) and the artifact is structural to the on-the-fly NF4
+quantization this box's VRAM requires, the ~34h production run was skipped
+rather than generated and discarded later. See
+[`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §9.
+`hidream-i1` (added and benchmarked later) still has no `maxlen` tier built
+for it — separate, not-yet-started status.
 
 Still open: the fifth API cell (Nano Banana Pro), the `compressed`-regime
-ablation pair (incumbent + gpt-image-2 low), and the remaining six local
-models' full `maxlen` cells (`realvisxl-lightning` ~0.4h, `sd35m` ~5h,
-`flux2-klein-9b` ~16-22h, `sd35-large` ~19-20h, `qwen-image` ~34h,
-`hidream-i1` ~43h).
+ablation pair (incumbent + gpt-image-2 low), and `hidream-i1`'s full
+`maxlen` cell (~43h, plus porting its loader into `1i` first — see
+[`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §9).
 
 The **fixed Axis-C detector architecture is decided: YOLO26n**, not YOLOv5s
 — see [`11`](11_detector-architecture-selection.md) for the full rationale
@@ -158,6 +167,24 @@ bbox-labeling → COCO-export chain for this experiment's per-cell layout, and
 `scripts/synthetic_model_comparison/training/` is a self-contained YOLO26n
 pipeline (copied and adapted from `scripts/training/yolo26n/`; see its own
 README) that trains on one cell's labeled images and evaluates on the fixed
-real test set. Not yet run end-to-end on real cell data — running the
-labeling chain and a first training pass, now that four `full`-regime cells
-have images, is the natural next step.
+real test set.
+
+**Stage 2 (MegaDetector) has now run on all five completed `maxlen`
+cells** — `realvisxl-lightning`, `sd35m`, `flux2-klein-9b`, `sd35-large`,
+`sd35-large-turbo`, all 1,200/1,200 images, 0 missing. `2-run_megadetector.py`'s
+`--prompt-regime` choices didn't yet include `maxlen` (added when the regime
+was introduced in doc `13` after this script was written) — fixed as part
+of this run. Per-cell `n_significant` distribution (share of images with
+0 / 1 / ≥2 detections ≥0.5 conf):
+
+| Cell | 0 | 1 | ≥2 |
+|---|---|---|---|
+| `realvisxl-lightning` | 0.0% | 97.1% | 2.9% |
+| `sd35m` | 0.3% | 98.2% | 1.5% |
+| `flux2-klein-9b` | 0.2% | 93.6% | 6.2% |
+| `sd35-large` | 0.1% | 98.8% | 1.2% |
+| `sd35-large-turbo` | 0.1% | 97.1% | 2.8% |
+
+Stages 3–5 (triage review, bbox labeling, COCO export) are still pending —
+those are human-in-the-loop review steps, not yet run on any cell. A first
+training pass is the natural next step once a cell clears them.

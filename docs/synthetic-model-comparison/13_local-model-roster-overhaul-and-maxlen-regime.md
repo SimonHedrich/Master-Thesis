@@ -122,7 +122,7 @@ Full table and the GPU-offload finding are in doc `04` §8; summary:
 | `sd35-large-turbo` | ~25.5 | 8.5 | ✅ | ✅ — §6 |
 | `flux2-klein-9b` | ~48 (31.19 at full-cell scale) | 16.0 (10.40 actual) | ✅ | ✅ — §6 |
 | `sd35-large` | ~57.8 (54.34 at full-cell scale) | 19.3 (18.11 actual) | ✅ | ✅ — §6 |
-| `qwen-image` | ~101.4 | 33.8 | ✅ | ❌ |
+| `qwen-image` | ~101.4 | 33.8 | ✅ | ❌ — dropped, §9 |
 | `hidream-i1` | 129.85 | 43.28 | ✅ | ❌ |
 
 **Total ≈ 126 GPU-hours (~5.3 days continuous)** for all seven full cells
@@ -415,8 +415,20 @@ within this machine's ~500GB disk).
 
 ## 9. Not built here
 
-- **`qwen-image`'s full `maxlen` cell** — a separate multi-hour GPU
-  commitment (~34h), left for a follow-up go-ahead, not run automatically.
+- **`qwen-image`'s full `maxlen` cell** — decided against, not just deferred.
+  Ahead of committing the ~34h GPU run, the `compressed`-regime 5-image
+  smoke test (§4/§8) was re-inspected and confirmed the documented
+  quantization-artifact graininess (stippled noise in flat regions — sky,
+  grass) is real and clearly visible, not a marginal/borderline call. Since
+  `qwen-image` was never a headline model (kept mainly for its Apache-2.0
+  license, not output quality) and the artifact is structural to the
+  on-the-fly NF4 quantization this box's VRAM requires (no pre-quantized
+  checkpoint exists to try instead), the full production cell was dropped
+  rather than generated and discarded later. `qwen-image` stays in
+  `1i-generate_images_local_maxlen.py`'s `AVAILABLE_GENERATORS` (the loader
+  code is unaffected) in case full-precision hardware or a pre-quantized
+  checkpoint becomes available later — it is simply not queued for this
+  experiment's production dataset.
 - **`hidream-i1`'s full `maxlen` cell** — beyond the GPU-time commitment
   (~43h, the roster's slowest model), it also needs code that doesn't
   exist yet: `1i-generate_images_local_maxlen.py`'s `AVAILABLE_GENERATORS`,

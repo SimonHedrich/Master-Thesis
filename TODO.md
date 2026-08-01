@@ -148,10 +148,17 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       `compressed`-regime script — doc `13` §9) before that cell can run.
 - [ ] **3.2 [3060] (gap) Run the labeling pipeline**
       (`scripts/synthetic_model_comparison/2-run_megadetector.py` through
-      `5-export_coco.py`) on each generated cell — **not yet run on any
-      cell**, and blocks the training step below. Runs per-cell as soon as
-      that cell's images are rsynced over from the A40 (§1.3), not gated on
-      the whole §3.1 queue finishing.
+      `5-export_coco.py`) on each generated cell — blocks the training step
+      below. Stage 2 (MegaDetector) done directly on the A40 (GPU was idle,
+      cheap enough not to wait for a 3060 handoff) for all five completed
+      `maxlen` cells: `realvisxl-lightning`, `sd35m`, `flux2-klein-9b`,
+      `sd35-large`, `sd35-large-turbo` — 1,200/1,200 images each, 0 missing.
+      Required adding `"maxlen"` to `2-run_megadetector.py`'s
+      `--prompt-regime` choices (only had `full`/`compressed`, a gap from
+      before doc `13` introduced the `maxlen` regime). See
+      `docs/synthetic-model-comparison/README.md` for the per-cell
+      `n_significant` breakdown. Stages 3–5 (triage review, bbox labeling,
+      COCO export) still not run on any cell.
 - [ ] **3.3 [3060] Train yolo26n on each comparison dataset**
       (`scripts/synthetic_model_comparison/training/`), ideally multiple runs
       per dataset for averaged metrics — code exists, never run end-to-end on

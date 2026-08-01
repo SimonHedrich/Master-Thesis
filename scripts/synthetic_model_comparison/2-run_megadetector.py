@@ -281,7 +281,7 @@ def main() -> None:
     )
     parser.add_argument("--generator", metavar="NAME",
                         help="Generator slug, e.g. gemini-3.1-flash-image-preview")
-    parser.add_argument("--prompt-regime", choices=["full", "compressed"],
+    parser.add_argument("--prompt-regime", choices=["full", "compressed", "maxlen"],
                         help="Prompt regime for the selected generator")
     parser.add_argument("--all", action="store_true",
                         help="Process every cell found under train/*/*/index.jsonl")
