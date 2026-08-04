@@ -206,6 +206,16 @@ to `3-single_detect_review.py`, `4-bbox_labeling_server.py`,
 `5-export_coco.py`, and `training/run_training_pipeline.py`'s argparse
 choices (the same gap `2-run_megadetector.py` already had fixed).
 
+**`hidream-i1` exported the same way, 2026-08-04, on the A40**: 1,200
+images, 1,198 annotated / 2 skipped (its two `n_significant == 0` images
+from the table above fell through to the zero-detection SKIP path this
+time), 1,229 boxes total. Same provisional caveat as the other five —
+stages 3/4 have not run on this cell either. `annotations.json` lives
+under `data/synthetic_model_comparison/train/hidream-i1/maxlen/`, which is
+gitignored, so it currently exists only on the A40; it needs an rsync
+(TODO.md §1.3) before §3.3 training can pick it up on the 3060, the same
+way the other five cells' exports did.
+
 Running §3.3 end-to-end on real data for the first time surfaced two
 latent bugs in the shared training loop (`scripts/training/yolov5s/training_pipeline.py`,
 imported by both the main YOLOv5s and YOLO26n pipelines, and duplicated

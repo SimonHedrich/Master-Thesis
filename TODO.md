@@ -183,7 +183,13 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       bbox labeling) still have not run on any cell** — these exports are
       explicitly provisional/not thesis-final until they do (§3.4). Needed
       the same `"maxlen"` argparse-choices fix in `3-single_detect_review.py`,
-      `4-bbox_labeling_server.py`, and `5-export_coco.py` too.
+      `4-bbox_labeling_server.py`, and `5-export_coco.py` too. **`hidream-i1`
+      exported the same way (2026-08-04, on the A40):** 1,200 images, 1,198
+      annotated / 2 skipped (its two `n_significant == 0` images from the
+      MegaDetector table above), 1,229 boxes total — also provisional, same
+      caveat. `annotations.json` is gitignored (`data/*`), so it exists only
+      on the A40 for now — needs an rsync per §1.3 before the 3060 can run
+      §3.3 training on this cell.
 - [x] **3.3 [3060] Train yolo26n on each comparison dataset**
       (`scripts/synthetic_model_comparison/training/`), ideally multiple runs
       per dataset for averaged metrics — code exists, never run end-to-end on
