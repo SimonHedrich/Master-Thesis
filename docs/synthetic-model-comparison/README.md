@@ -212,9 +212,11 @@ from the table above fell through to the zero-detection SKIP path this
 time), 1,229 boxes total. Same provisional caveat as the other five —
 stages 3/4 have not run on this cell either. `annotations.json` lives
 under `data/synthetic_model_comparison/train/hidream-i1/maxlen/`, which is
-gitignored, so it currently exists only on the A40; it needs an rsync
-(TODO.md §1.3) before §3.3 training can pick it up on the 3060, the same
-way the other five cells' exports did.
+gitignored — rsynced straight to `gpu-server` (the 3060) right after
+export, checksums confirmed matching, so §3.3 training can pick it up
+there the same way it did for the other five cells. See TODO.md §1.1 for
+the now-confirmed host alias/login user (`gpu-server.taile550ef.ts.net`,
+user `debian`) — previously only inferred, not verified.
 
 Running §3.3 end-to-end on real data for the first time surfaced two
 latent bugs in the shared training loop (`scripts/training/yolov5s/training_pipeline.py`,

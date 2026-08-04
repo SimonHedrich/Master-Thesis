@@ -29,10 +29,14 @@ teacher-finetune smoke test — `docs/plans/2026-06-30_yolo26-kd-and-teacher-fin
 necessarily a script bug. Disk is also at 95% (29GB free) — check headroom
 before queuing the largest generation cells.
 
-The RTX 3060 (12GB) is confirmed already set up with the repo and dataset —
-likely the Makefile's `REMOTE_HOST` (`gpu.local` / tailscale `gpu-server`);
-**confirm the exact host alias before scripting any rsync commands against
-it**, since this wasn't verified directly, only inferred from naming.
+The RTX 3060 (12GB) is confirmed already set up with the repo and dataset.
+**Host alias confirmed live (2026-08-04):** the Makefile's `REMOTE_HOST`
+(`gpu.local`) doesn't resolve from the A40 — use the Tailscale MagicDNS
+name `gpu-server.taile550ef.ts.net` instead (same pattern as `ICS_HOST`).
+Login user is `debian`, not `ubuntu` (the A40's own `ICS_HOST` user) —
+`ssh-copy-id` was needed first, key auth wasn't already in place from the
+A40 side. Verified via `nvidia-smi` (RTX 3060, 12288MiB) and an existing
+`~/Master-Thesis` checkout on connection.
 
 Split rationale (from measured VRAM/timing data already in the repo):
 
@@ -187,9 +191,12 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       exported the same way (2026-08-04, on the A40):** 1,200 images, 1,198
       annotated / 2 skipped (its two `n_significant == 0` images from the
       MegaDetector table above), 1,229 boxes total — also provisional, same
-      caveat. `annotations.json` is gitignored (`data/*`), so it exists only
-      on the A40 for now — needs an rsync per §1.3 before the 3060 can run
-      §3.3 training on this cell.
+      caveat. `annotations.json` is gitignored (`data/*`); rsynced to
+      `gpu-server` (the 3060) right after export, checksums confirmed
+      matching — the 3060 can now run §3.3 training on this cell whenever
+      it picks it up. Note: `gpu-server`'s login user is `debian`, not
+      `ubuntu` as the A40's own `ICS_HOST` uses — confirmed live, since
+      TODO.md previously only inferred the host alias, not the user.
 - [x] **3.3 [3060] Train yolo26n on each comparison dataset**
       (`scripts/synthetic_model_comparison/training/`), ideally multiple runs
       per dataset for averaged metrics — code exists, never run end-to-end on
