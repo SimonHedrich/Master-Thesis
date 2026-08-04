@@ -111,22 +111,35 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 
 ## 2. Infrastructure prerequisite
 
-- [ ] **2.1 [Either] (gap) Fix `eval_suite` scoring performance.** Full
-      evaluation currently takes ~5h/run (per-class
-      `torchmetrics.MeanAveragePrecision` loop —
-      `scripts/training/yolov5s/eval_suite/scoring.py`). Confirmed still
-      unresolved — no code change since the investigation, `faster-coco-eval`
-      never installed. This blocks everything below that needs repeated
-      evaluation (§3.3, §4.1–4.5): with 7 synthetic-comparison cells ×
-      multiple runs, plus teacher/KD/YOLOv5s evals, unresolved this is
-      75-100+ hours of scoring alone. See
-      `docs/plans/2026-07-22_eval-suite-scoring-performance-investigation.md`
-      for the go/no-go plan (benchmark `faster-coco-eval` first). CPU/RAM-bound
-      — run on whichever machine is free, doesn't occupy a GPU (§1.1).
+- [x] **2.1 [Either] (gap) Fix `eval_suite` scoring performance.** Fixed
+      2026-07-31 on `gpu-server`: benchmarked `faster-coco-eval` per the
+      investigation's go/no-go plan, found a naive single-call replacement
+      is 11-15x faster but peaks at 23-27GB RSS (too tight on this 31GB
+      host), and shipped a hybrid instead — kept the memory-safe per-class
+      loop, swapped only the inner engine (`_fce_backend.py`) — ~5x speedup,
+      no memory-risk increase. Validated via a new parity test
+      (`eval_suite/tests/`), a real-data smoke-test diff, and a full re-run
+      against `yolo26n-20260715-010031`: **~5h → 67.8min confirmed**, memory
+      stable ~19.5GB throughout, no OOM. See
+      `docs/progress_notes/2026-07-30_eval-suite-scoring-perf-fix.md` for
+      full results.
+      **Headline numbers did not reproduce (0.451/0.410 vs. the published
+      0.523/0.481) — root-caused to a data issue, not this fix**: old and
+      new scoring engines agree exactly on identical predictions (ruling out
+      the rewrite); the A40's `data/real/annotations_test.json` predates the
+      2026-06-09 multi-animal-per-image contamination-flagging work (single
+      box/image, `date_created: 2026-05-26`) while this machine's copy
+      postdates it (~1.44 boxes/image, `date_created: 2026-06-09`) — a stale
+      `data/*` file on the A40 that was never resynced per §1.3. **Needs a
+      decision**: which annotation-file version is authoritative, and an
+      A40 `data/` resync before trusting any further cross-machine eval
+      comparison (also affects the yolov5s headline numbers if that
+      checkpoint was evaluated against the same stale file — not yet
+      checked).
 
 ## 3. Synthetic-model-comparison experiment
 
-- [ ] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
+- [x] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
       all six non-dropped cells are now complete — `sd35-large-turbo`,
       `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
       1200/1200, 0 failures), `sd35m` (actual: 7.98h inference,
@@ -152,7 +165,7 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       generated, due to confirmed NF4-quantization graininess (doc `13`
       §9) — its `enable_model_cpu_offload()` requirement is therefore now
       moot for this task.
-- [ ] **3.2 [3060] (gap) Run the labeling pipeline**
+- [x] **3.2 [3060] (gap) Run the labeling pipeline**
       (`scripts/synthetic_model_comparison/2-run_megadetector.py` through
       `5-export_coco.py`) on each generated cell — blocks the training step
       below. Stage 2 (MegaDetector) done directly on the A40 (GPU was idle,
@@ -163,13 +176,38 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       `--prompt-regime` choices (only had `full`/`compressed`, a gap from
       before doc `13` introduced the `maxlen` regime). See
       `docs/synthetic-model-comparison/README.md` for the per-cell
-      `n_significant` breakdown. Stages 3–5 (triage review, bbox labeling,
-      COCO export) still not run on any cell.
-- [ ] **3.3 [3060] Train yolo26n on each comparison dataset**
+      `n_significant` breakdown. **2026-08-04: stage 5 (COCO export) run
+      for all five cells** using `5-export_coco.py`'s documented best-effort
+      fallback (MegaDetector's own boxes, no human review) — all five
+      exported 1,200/1,200 images, 0 skipped. **Stages 3/4 (triage review,
+      bbox labeling) still have not run on any cell** — these exports are
+      explicitly provisional/not thesis-final until they do (§3.4). Needed
+      the same `"maxlen"` argparse-choices fix in `3-single_detect_review.py`,
+      `4-bbox_labeling_server.py`, and `5-export_coco.py` too.
+- [x] **3.3 [3060] Train yolo26n on each comparison dataset**
       (`scripts/synthetic_model_comparison/training/`), ideally multiple runs
       per dataset for averaged metrics — code exists, never run end-to-end on
       real cell data yet. Lightweight enough to run continuously on the 3060
       between §3.2 arrivals, in parallel with the A40's ongoing §3.1 queue.
+      **2026-08-04: run end-to-end on all five cells, 2 seeds (42/43) each,
+      `--full-eval` against the full real test set** — results provisional,
+      not thesis-final (built on §3.2's un-reviewed best-effort exports; will
+      need re-running once §3.4 lands). Avg real-test map: `sd35-large`
+      0.055, `sd35m` 0.054, `sd35-large-turbo` 0.043, `flux2-klein-9b` 0.037,
+      `realvisxl-lightning` 0.024 — see `docs/synthetic-model-comparison/README.md`
+      2026-08-04 update for the full per-seed table. All in the same
+      low-map range as the historic incumbent-generator direct-FT run
+      (0.064), as expected for ~960-image synthetic fine-tunes.
+      **Two real bugs found and fixed along the way** (both also existed in
+      the main, non-comparison training pipeline — see
+      `scripts/training/yolov5s/training_pipeline.py`, imported by both main
+      pipelines, and this package's own copy): (1) no gradient clipping
+      anywhere in the training step, causing NaN divergence during LR
+      warmup on real data — fixed via `clip_grad_norm_(max_norm=10.0)`,
+      matching Ultralytics' own trainer; (2) the post-training full-eval
+      hook hangs indefinitely (7+ hrs, 0% GPU/CPU util, no error) because it
+      forks a fresh `num_workers=8` DataLoader deep into an already-CUDA-
+      active process — fixed by forcing `num_workers=0` for that call only.
 - [ ] **3.4 [Human] (gap) Blind multi-rater qualitative rubric**
       (`docs/synthetic-model-comparison/06_evaluation-methodology.md`) — the
       human-rating axis, distinct from automatic proxies/downstream mAP; not

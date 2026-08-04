@@ -1,0 +1,911 @@
+2026-08-04 04:31:52 INFO  __main__ | === yolo26n synthetic-model-comparison training run ===
+2026-08-04 04:31:52 INFO  __main__ | run_name=yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152 experiment=yolo26n-synthetic-model-comparison
+2026-08-04 04:31:52 INFO  __main__ | mlflow tracking_uri=http://hetzner.taile550ef.ts.net:5000/
+2026-08-04 04:31:52 INFO  __main__ | run dir: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152
+2026-08-04 04:31:52 INFO  __main__ | log file: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152.log
+2026-08-04 04:31:53 INFO  __main__ | generator=sd35-large-turbo prompt_regime=maxlen seed=43 device=cuda epochs=200 smoke=False
+2026-08-04 04:31:53 INFO  scripts.synthetic_model_comparison.training.split_dataset | split already up to date: annotations_train_split.json / annotations_val_split.json
+2026-08-04 04:31:53 INFO  scripts.synthetic_model_comparison.training.dataset | dataset annotations_val_split.json: 240 images, 249 annotations, 12 classes
+2026-08-04 04:31:53 INFO  scripts.synthetic_model_comparison.training.dataset | dataset annotations_test.json: 9742 images, 9742 annotations, 12 classes
+2026-08-04 04:31:53 INFO  scripts.synthetic_model_comparison.training.dataset | dataset annotations_train_split.json: 960 images, 993 annotations, 12 classes
+2026-08-04 04:31:53 INFO  scripts.synthetic_model_comparison.training.yolo26n_model | no pretrained weights — training from random initialization
+2026-08-04 04:31:53 INFO  scripts.synthetic_model_comparison.training.yolo26n_model | model: yolo26n, nc=12, params=2.51M, device=cuda
+2026-08-04 04:31:53 INFO  scripts.synthetic_model_comparison.training.optim | optimizer=SGD lr=0.001 | param groups: g0(BN,no-decay)=114 g1(conv,decay=0.0005)=126 g2(bias,no-decay)=126
+2026-08-04 04:31:53 INFO  scripts.synthetic_model_comparison.training.optim | scheduler: OneCycleLR(max_lr=0.01, total_steps=3000, pct_start=0.015, div_factor=10, final_div_factor=100) — stepped per batch
+2026-08-04 04:31:54 INFO  __main__ | run config:
+2026-08-04 04:31:54 INFO  __main__ |   ANNOTATIONS_TEST = /home/debian/Master-Thesis/data/synthetic_model_comparison/test/annotations_test.json
+2026-08-04 04:31:54 INFO  __main__ |   AUG_CLOSE_MOSAIC = 0
+2026-08-04 04:31:54 INFO  __main__ |   AUG_COPY_PASTE = 0.0
+2026-08-04 04:31:54 INFO  __main__ |   AUG_DEGREES = 0.0
+2026-08-04 04:31:54 INFO  __main__ |   AUG_FLIPUD = 0.0
+2026-08-04 04:31:54 INFO  __main__ |   AUG_HFLIP = True
+2026-08-04 04:31:54 INFO  __main__ |   AUG_HSV = True
+2026-08-04 04:31:54 INFO  __main__ |   AUG_HSV_H = 0.015
+2026-08-04 04:31:54 INFO  __main__ |   AUG_HSV_S = 0.7
+2026-08-04 04:31:54 INFO  __main__ |   AUG_HSV_V = 0.4
+2026-08-04 04:31:54 INFO  __main__ |   AUG_MIXUP = 0.0
+2026-08-04 04:31:54 INFO  __main__ |   AUG_MOSAIC = 0.0
+2026-08-04 04:31:54 INFO  __main__ |   AUG_PERSPECTIVE = 0.0
+2026-08-04 04:31:54 INFO  __main__ |   AUG_SCALE = 0.5
+2026-08-04 04:31:54 INFO  __main__ |   AUG_SHEAR = 0.0
+2026-08-04 04:31:54 INFO  __main__ |   AUG_TRANSLATE = 0.1
+2026-08-04 04:31:54 INFO  __main__ |   BATCH_SIZE = 64
+2026-08-04 04:31:54 INFO  __main__ |   DATA_ROOT = /home/debian/Master-Thesis/data
+2026-08-04 04:31:54 INFO  __main__ |   EARLY_STOP = True
+2026-08-04 04:31:54 INFO  __main__ |   EARLY_STOP_MIN_DELTA = 0.001
+2026-08-04 04:31:54 INFO  __main__ |   EARLY_STOP_PATIENCE = 20
+2026-08-04 04:31:54 INFO  __main__ |   EPOCH_COUNT = 200
+2026-08-04 04:31:54 INFO  __main__ |   EVAL_CONF_THRES = 0.001
+2026-08-04 04:31:54 INFO  __main__ |   EVAL_IOU_THRES = 0.6
+2026-08-04 04:31:54 INFO  __main__ |   EVAL_MAX_DET = 100
+2026-08-04 04:31:54 INFO  __main__ |   EXPERIMENT_DATA_ROOT = /home/debian/Master-Thesis/data/synthetic_model_comparison
+2026-08-04 04:31:54 INFO  __main__ |   HYP_BOX = 7.5
+2026-08-04 04:31:54 INFO  __main__ |   HYP_CLS = 0.5
+2026-08-04 04:31:54 INFO  __main__ |   HYP_DFL = 1.5
+2026-08-04 04:31:54 INFO  __main__ |   IMAGE_ROOT = /home/debian/Master-Thesis
+2026-08-04 04:31:54 INFO  __main__ |   IMAGE_SIZE = 640
+2026-08-04 04:31:54 INFO  __main__ |   LEARNING_RATE = 0.001
+2026-08-04 04:31:54 INFO  __main__ |   MLFLOW_EXPERIMENT_DEFAULT = yolo26n-synthetic-model-comparison
+2026-08-04 04:31:54 INFO  __main__ |   MLFLOW_LOG_EVERY_N_STEPS = 50
+2026-08-04 04:31:54 INFO  __main__ |   MODEL_CONFIG = yolo26n.yaml
+2026-08-04 04:31:54 INFO  __main__ |   MOMENTUM = 0.937
+2026-08-04 04:31:54 INFO  __main__ |   NESTEROV = True
+2026-08-04 04:31:54 INFO  __main__ |   NUM_CLASSES = 12
+2026-08-04 04:31:54 INFO  __main__ |   NUM_WORKERS = 8
+2026-08-04 04:31:54 INFO  __main__ |   ONE_CYCLE_DIV_FACTOR = 10.0
+2026-08-04 04:31:54 INFO  __main__ |   ONE_CYCLE_FINAL_DIV_FACTOR = 100.0
+2026-08-04 04:31:54 INFO  __main__ |   ONE_CYCLE_MAX_LR = 0.01
+2026-08-04 04:31:54 INFO  __main__ |   ONE_CYCLE_PCT_START = 0.015
+2026-08-04 04:31:54 INFO  __main__ |   OPTIMIZER = SGD
+2026-08-04 04:31:54 INFO  __main__ |   OUTPUT_DIR = /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports
+2026-08-04 04:31:54 INFO  __main__ |   PRETRAINED_WEIGHTS = /home/debian/Master-Thesis/weights/yolo26n.pt
+2026-08-04 04:31:54 INFO  __main__ |   REPO_ROOT = /home/debian/Master-Thesis
+2026-08-04 04:31:54 INFO  __main__ |   SEED = 42
+2026-08-04 04:31:54 INFO  __main__ |   SELECTION_METRIC = mAP50_95
+2026-08-04 04:31:54 INFO  __main__ |   SPLIT_SEED = 42
+2026-08-04 04:31:54 INFO  __main__ |   TRAIN_ROOT = /home/debian/Master-Thesis/data/synthetic_model_comparison/train
+2026-08-04 04:31:54 INFO  __main__ |   USE_AMP = True
+2026-08-04 04:31:54 INFO  __main__ |   USE_EMA = True
+2026-08-04 04:31:54 INFO  __main__ |   VAL_FRACTION = 0.2
+2026-08-04 04:31:54 INFO  __main__ |   WARMUP_EPOCHS = 3
+2026-08-04 04:31:54 INFO  __main__ |   WEIGHT_DECAY = 0.0005
+2026-08-04 04:31:54 INFO  __main__ |   dataset_size_test = 9742
+2026-08-04 04:31:54 INFO  __main__ |   dataset_size_train = 960
+2026-08-04 04:31:54 INFO  __main__ |   dataset_size_val = 240
+2026-08-04 04:31:54 INFO  __main__ |   device = cuda
+2026-08-04 04:31:54 INFO  __main__ |   epochs_actual = 200
+2026-08-04 04:31:54 INFO  __main__ |   generator = sd35-large-turbo
+2026-08-04 04:31:54 INFO  __main__ |   git_sha = 21fea51bf389d6c242b324643e593ed613aaa4aa
+2026-08-04 04:31:54 INFO  __main__ |   prompt_regime = maxlen
+2026-08-04 04:31:54 INFO  __main__ |   resume_from = 
+2026-08-04 04:31:54 INFO  __main__ |   run_seed = 43
+2026-08-04 04:31:54 INFO  __main__ |   smoke = False
+2026-08-04 04:31:54 INFO  __main__ |   weights_path = /home/debian/Master-Thesis/weights/yolo26n.pt
+2026-08-04 04:31:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | output dir: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152 | selection_metric=mAP50_95 early_stop=True(patience=20, min_delta=0.001) ema=True amp=True
+2026-08-04 04:31:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | starting training: ceiling=200 epochs | train_batches=15 val_batches=4 test_batches=153 | device=cuda
+2026-08-04 04:31:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 1/200 — train start (lr=0.001, batches=15)
+2026-08-04 04:32:16 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 1/200 — train done in 22.8s | avg loss_box=4.7201 loss_cls=44.6912 loss_dfl=0.1599 loss_total=1581.5797
+2026-08-04 04:32:16 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:32:22 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 1/200 — val mAP50=0.0000 mAP50_95=0.0000 (selection mAP50_95=0.0000)
+2026-08-04 04:32:23 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0000 val/mAP50_95=0.0000 (step=0)
+2026-08-04 04:32:24 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:32:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:32:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.0000 at epoch 1
+2026-08-04 04:32:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:32:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 1/200 done — next lr=0.00334338, epochs_since_improve=0/20
+2026-08-04 04:32:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 2/200 — train start (lr=0.00334338, batches=15)
+2026-08-04 04:32:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 2/200 — train done in 12.0s | avg loss_box=4.6039 loss_cls=41.4304 loss_dfl=0.1536 loss_total=1490.9797
+2026-08-04 04:32:36 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:32:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 2/200 — val mAP50=0.0000 mAP50_95=0.0000 (selection mAP50_95=0.0000)
+2026-08-04 04:32:42 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0000 val/mAP50_95=0.0000 (step=1)
+2026-08-04 04:32:42 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:32:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:32:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 2/200 done — next lr=0.00793288, epochs_since_improve=0/20
+2026-08-04 04:32:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 3/200 — train start (lr=0.00793288, batches=15)
+2026-08-04 04:32:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 3/200 — train done in 11.9s | avg loss_box=4.6293 loss_cls=38.1783 loss_dfl=0.1559 loss_total=1391.1190
+2026-08-04 04:32:54 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:32:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 3/200 — val mAP50=0.0000 mAP50_95=0.0000 (selection mAP50_95=0.0000)
+2026-08-04 04:33:00 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0000 val/mAP50_95=0.0000 (step=2)
+2026-08-04 04:33:00 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:33:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:33:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 3/200 done — next lr=0.01, epochs_since_improve=0/20
+2026-08-04 04:33:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 4/200 — train start (lr=0.01, batches=15)
+2026-08-04 04:33:09 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 50 | loss_box=4.5507 loss_cls=39.1269 loss_dfl=0.1605 loss_total=1387.0612 lr=0.00999986
+2026-08-04 04:33:14 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 4/200 — train done in 13.3s | avg loss_box=4.2715 loss_cls=33.6145 loss_dfl=0.1434 loss_total=1263.4975
+2026-08-04 04:33:14 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:33:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 4/200 — val mAP50=0.0000 mAP50_95=0.0000 (selection mAP50_95=0.0000)
+2026-08-04 04:33:19 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0000 val/mAP50_95=0.0000 (step=3)
+2026-08-04 04:33:20 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:33:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:33:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 4/200 done — next lr=0.00999928, epochs_since_improve=1/20
+2026-08-04 04:33:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 5/200 — train start (lr=0.00999928, batches=15)
+2026-08-04 04:33:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 5/200 — train done in 11.8s | avg loss_box=3.4159 loss_cls=21.7020 loss_dfl=0.1157 loss_total=920.8185
+2026-08-04 04:33:32 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:33:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 5/200 — val mAP50=0.0000 mAP50_95=0.0000 (selection mAP50_95=0.0000)
+2026-08-04 04:33:38 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0000 val/mAP50_95=0.0000 (step=4)
+2026-08-04 04:33:38 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:33:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:33:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 5/200 done — next lr=0.00999729, epochs_since_improve=2/20
+2026-08-04 04:33:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 6/200 — train start (lr=0.00999729, batches=15)
+2026-08-04 04:33:50 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 6/200 — train done in 11.6s | avg loss_box=2.7076 loss_cls=12.9913 loss_dfl=0.0919 loss_total=659.1993
+2026-08-04 04:33:50 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:33:56 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 6/200 — val mAP50=0.0000 mAP50_95=0.0000 (selection mAP50_95=0.0000)
+2026-08-04 04:33:56 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0000 val/mAP50_95=0.0000 (step=5)
+2026-08-04 04:33:57 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:33:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:33:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 6/200 done — next lr=0.00999403, epochs_since_improve=3/20
+2026-08-04 04:33:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 7/200 — train start (lr=0.00999403, batches=15)
+2026-08-04 04:34:08 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 100 | loss_box=2.2282 loss_cls=9.0697 loss_dfl=0.0736 loss_total=503.5100 lr=0.00999083
+2026-08-04 04:34:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 7/200 — train done in 13.7s | avg loss_box=2.2775 loss_cls=9.6813 loss_dfl=0.0762 loss_total=533.0260
+2026-08-04 04:34:11 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:34:16 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 7/200 — val mAP50=0.0325 mAP50_95=0.0122 (selection mAP50_95=0.0122)
+2026-08-04 04:34:17 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0325 val/mAP50_95=0.0122 (step=6)
+2026-08-04 04:34:17 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:34:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:34:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.0122 at epoch 7
+2026-08-04 04:34:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:34:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 7/200 done — next lr=0.0099895, epochs_since_improve=0/20
+2026-08-04 04:34:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 8/200 — train start (lr=0.0099895, batches=15)
+2026-08-04 04:34:29 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 8/200 — train done in 11.8s | avg loss_box=2.0941 loss_cls=7.8376 loss_dfl=0.0688 loss_total=458.5986
+2026-08-04 04:34:29 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:34:35 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 8/200 — val mAP50=0.0008 mAP50_95=0.0001 (selection mAP50_95=0.0001)
+2026-08-04 04:34:35 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0008 val/mAP50_95=0.0001 (step=7)
+2026-08-04 04:34:36 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:34:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:34:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 8/200 done — next lr=0.0099837, epochs_since_improve=1/20
+2026-08-04 04:34:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 9/200 — train start (lr=0.0099837, batches=15)
+2026-08-04 04:34:48 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 9/200 — train done in 12.0s | avg loss_box=2.0426 loss_cls=6.6305 loss_dfl=0.0673 loss_total=413.1170
+2026-08-04 04:34:48 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:34:53 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 9/200 — val mAP50=0.0576 mAP50_95=0.0183 (selection mAP50_95=0.0183)
+2026-08-04 04:34:54 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0576 val/mAP50_95=0.0183 (step=8)
+2026-08-04 04:34:54 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:34:55 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:34:55 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.0183 at epoch 9
+2026-08-04 04:34:55 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:34:55 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 9/200 done — next lr=0.00997664, epochs_since_improve=0/20
+2026-08-04 04:34:55 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 10/200 — train start (lr=0.00997664, batches=15)
+2026-08-04 04:35:07 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 10/200 — train done in 11.9s | avg loss_box=1.9641 loss_cls=5.6914 loss_dfl=0.0648 loss_total=378.6628
+2026-08-04 04:35:07 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:35:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 10/200 — val mAP50=0.0071 mAP50_95=0.0014 (selection mAP50_95=0.0014)
+2026-08-04 04:35:12 WARNING urllib3.connectionpool | Retrying (Retry(total=6, connect=7, read=6, redirect=7, status=7)) after connection broken by 'RemoteDisconnected('Remote end closed connection without response')': /api/2.0/mlflow/runs/log-metric
+2026-08-04 04:35:13 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0071 val/mAP50_95=0.0014 (step=9)
+2026-08-04 04:35:13 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:35:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:35:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 10/200 done — next lr=0.00996832, epochs_since_improve=1/20
+2026-08-04 04:35:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 11/200 — train start (lr=0.00996832, batches=15)
+2026-08-04 04:35:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 150 | loss_box=2.0903 loss_cls=5.3698 loss_dfl=0.0662 loss_total=375.3544 lr=0.00996772
+2026-08-04 04:35:27 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 11/200 — train done in 13.4s | avg loss_box=1.8748 loss_cls=4.9746 loss_dfl=0.0610 loss_total=347.4598
+2026-08-04 04:35:27 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:35:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 11/200 — val mAP50=0.0497 mAP50_95=0.0129 (selection mAP50_95=0.0129)
+2026-08-04 04:35:33 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0497 val/mAP50_95=0.0129 (step=10)
+2026-08-04 04:35:33 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:35:33 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:35:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 11/200 done — next lr=0.00995873, epochs_since_improve=2/20
+2026-08-04 04:35:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 12/200 — train start (lr=0.00995873, batches=15)
+2026-08-04 04:35:45 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 12/200 — train done in 11.6s | avg loss_box=1.8782 loss_cls=4.4254 loss_dfl=0.0613 loss_total=328.3065
+2026-08-04 04:35:45 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:35:51 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 12/200 — val mAP50=0.0836 mAP50_95=0.0215 (selection mAP50_95=0.0215)
+2026-08-04 04:35:52 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0836 val/mAP50_95=0.0215 (step=11)
+2026-08-04 04:35:52 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:35:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:35:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.0215 at epoch 12
+2026-08-04 04:35:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:35:53 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 12/200 done — next lr=0.00994788, epochs_since_improve=0/20
+2026-08-04 04:35:53 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 13/200 — train start (lr=0.00994788, batches=15)
+2026-08-04 04:36:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 13/200 — train done in 11.8s | avg loss_box=1.8217 loss_cls=3.9680 loss_dfl=0.0581 loss_total=308.4870
+2026-08-04 04:36:05 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:36:10 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 13/200 — val mAP50=0.1943 mAP50_95=0.0739 (selection mAP50_95=0.0739)
+2026-08-04 04:36:11 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.1943 val/mAP50_95=0.0739 (step=12)
+2026-08-04 04:36:11 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:36:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:36:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.0739 at epoch 13
+2026-08-04 04:36:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:36:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 13/200 done — next lr=0.00993577, epochs_since_improve=0/20
+2026-08-04 04:36:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 14/200 — train start (lr=0.00993577, batches=15)
+2026-08-04 04:36:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 200 | loss_box=1.8801 loss_cls=3.6997 loss_dfl=0.0653 loss_total=306.5302 lr=0.00993058
+2026-08-04 04:36:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 14/200 — train done in 13.7s | avg loss_box=1.7968 loss_cls=3.6515 loss_dfl=0.0578 loss_total=294.5873
+2026-08-04 04:36:25 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:36:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 14/200 — val mAP50=0.2532 mAP50_95=0.1165 (selection mAP50_95=0.1165)
+2026-08-04 04:36:32 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.2532 val/mAP50_95=0.1165 (step=13)
+2026-08-04 04:36:32 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:36:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:36:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.1165 at epoch 14
+2026-08-04 04:36:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:36:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 14/200 done — next lr=0.00992241, epochs_since_improve=0/20
+2026-08-04 04:36:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 15/200 — train start (lr=0.00992241, batches=15)
+2026-08-04 04:36:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 15/200 — train done in 11.9s | avg loss_box=1.7563 loss_cls=3.3339 loss_dfl=0.0570 loss_total=279.8616
+2026-08-04 04:36:44 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:36:50 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 15/200 — val mAP50=0.2689 mAP50_95=0.1144 (selection mAP50_95=0.1144)
+2026-08-04 04:36:51 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.2689 val/mAP50_95=0.1144 (step=14)
+2026-08-04 04:36:51 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:36:51 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:36:51 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 15/200 done — next lr=0.00990781, epochs_since_improve=1/20
+2026-08-04 04:36:51 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 16/200 — train start (lr=0.00990781, batches=15)
+2026-08-04 04:37:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 16/200 — train done in 12.1s | avg loss_box=1.7447 loss_cls=3.0957 loss_dfl=0.0569 loss_total=270.8049
+2026-08-04 04:37:04 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:37:09 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 16/200 — val mAP50=0.2481 mAP50_95=0.0806 (selection mAP50_95=0.0806)
+2026-08-04 04:37:10 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.2481 val/mAP50_95=0.0806 (step=15)
+2026-08-04 04:37:10 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:37:10 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:37:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 16/200 done — next lr=0.00989195, epochs_since_improve=2/20
+2026-08-04 04:37:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 17/200 — train start (lr=0.00989195, batches=15)
+2026-08-04 04:37:21 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 250 | loss_box=1.8102 loss_cls=2.8770 loss_dfl=0.0565 loss_total=262.2477 lr=0.00987953
+2026-08-04 04:37:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 17/200 — train done in 13.6s | avg loss_box=1.7341 loss_cls=2.8794 loss_dfl=0.0558 loss_total=260.6913
+2026-08-04 04:37:24 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:37:30 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 17/200 — val mAP50=0.3487 mAP50_95=0.1286 (selection mAP50_95=0.1286)
+2026-08-04 04:37:31 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.3487 val/mAP50_95=0.1286 (step=16)
+2026-08-04 04:37:31 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:37:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:37:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.1286 at epoch 17
+2026-08-04 04:37:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:37:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 17/200 done — next lr=0.00987485, epochs_since_improve=0/20
+2026-08-04 04:37:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 18/200 — train start (lr=0.00987485, batches=15)
+2026-08-04 04:37:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 18/200 — train done in 11.4s | avg loss_box=1.7012 loss_cls=2.6980 loss_dfl=0.0539 loss_total=251.3287
+2026-08-04 04:37:43 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:37:49 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 18/200 — val mAP50=0.2896 mAP50_95=0.1123 (selection mAP50_95=0.1123)
+2026-08-04 04:37:49 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.2896 val/mAP50_95=0.1123 (step=17)
+2026-08-04 04:37:50 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:37:50 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:37:50 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 18/200 done — next lr=0.00985651, epochs_since_improve=1/20
+2026-08-04 04:37:50 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 19/200 — train start (lr=0.00985651, batches=15)
+2026-08-04 04:38:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 19/200 — train done in 12.3s | avg loss_box=1.6842 loss_cls=2.5839 loss_dfl=0.0539 loss_total=246.2018
+2026-08-04 04:38:03 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:38:08 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 19/200 — val mAP50=0.3554 mAP50_95=0.1517 (selection mAP50_95=0.1517)
+2026-08-04 04:38:09 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.3554 val/mAP50_95=0.1517 (step=18)
+2026-08-04 04:38:09 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:38:09 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:38:09 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.1517 at epoch 19
+2026-08-04 04:38:10 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:38:10 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 19/200 done — next lr=0.00983694, epochs_since_improve=0/20
+2026-08-04 04:38:10 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 20/200 — train start (lr=0.00983694, batches=15)
+2026-08-04 04:38:21 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 20/200 — train done in 11.2s | avg loss_box=1.6072 loss_cls=2.4188 loss_dfl=0.0512 loss_total=232.2503
+2026-08-04 04:38:21 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:38:27 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 20/200 — val mAP50=0.3576 mAP50_95=0.1434 (selection mAP50_95=0.1434)
+2026-08-04 04:38:28 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.3576 val/mAP50_95=0.1434 (step=19)
+2026-08-04 04:38:28 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:38:28 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:38:28 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 20/200 done — next lr=0.00981614, epochs_since_improve=1/20
+2026-08-04 04:38:28 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 21/200 — train start (lr=0.00981614, batches=15)
+2026-08-04 04:38:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 300 | loss_box=1.6679 loss_cls=2.4263 loss_dfl=0.0525 loss_total=228.1870 lr=0.00981471
+2026-08-04 04:38:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 21/200 — train done in 13.4s | avg loss_box=1.6733 loss_cls=2.2916 loss_dfl=0.0533 loss_total=230.7109
+2026-08-04 04:38:42 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:38:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 21/200 — val mAP50=0.3877 mAP50_95=0.1315 (selection mAP50_95=0.1315)
+2026-08-04 04:38:48 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.3877 val/mAP50_95=0.1315 (step=20)
+2026-08-04 04:38:48 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:38:49 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:38:49 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 21/200 done — next lr=0.00979412, epochs_since_improve=2/20
+2026-08-04 04:38:49 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 22/200 — train start (lr=0.00979412, batches=15)
+2026-08-04 04:39:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 22/200 — train done in 11.3s | avg loss_box=1.6176 loss_cls=2.2255 loss_dfl=0.0519 loss_total=225.1290
+2026-08-04 04:39:00 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:39:06 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 22/200 — val mAP50=0.4715 mAP50_95=0.1864 (selection mAP50_95=0.1864)
+2026-08-04 04:39:07 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.4715 val/mAP50_95=0.1864 (step=21)
+2026-08-04 04:39:07 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:39:07 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:39:07 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.1864 at epoch 22
+2026-08-04 04:39:07 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:39:08 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 22/200 done — next lr=0.00977087, epochs_since_improve=0/20
+2026-08-04 04:39:08 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 23/200 — train start (lr=0.00977087, batches=15)
+2026-08-04 04:39:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 23/200 — train done in 11.7s | avg loss_box=1.5904 loss_cls=2.0866 loss_dfl=0.0500 loss_total=216.6719
+2026-08-04 04:39:19 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:39:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 23/200 — val mAP50=0.4012 mAP50_95=0.1385 (selection mAP50_95=0.1385)
+2026-08-04 04:39:26 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.4012 val/mAP50_95=0.1385 (step=22)
+2026-08-04 04:39:26 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:39:26 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:39:26 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 23/200 done — next lr=0.00974642, epochs_since_improve=1/20
+2026-08-04 04:39:26 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 24/200 — train start (lr=0.00974642, batches=15)
+2026-08-04 04:39:35 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 350 | loss_box=1.6163 loss_cls=2.2986 loss_dfl=0.0470 loss_total=230.5520 lr=0.0097363
+2026-08-04 04:39:40 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 24/200 — train done in 13.6s | avg loss_box=1.5874 loss_cls=2.0323 loss_dfl=0.0500 loss_total=215.3204
+2026-08-04 04:39:40 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:39:46 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 24/200 — val mAP50=0.4768 mAP50_95=0.2488 (selection mAP50_95=0.2488)
+2026-08-04 04:39:46 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.4768 val/mAP50_95=0.2488 (step=23)
+2026-08-04 04:39:47 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:39:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:39:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.2488 at epoch 24
+2026-08-04 04:39:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:39:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 24/200 done — next lr=0.00972076, epochs_since_improve=0/20
+2026-08-04 04:39:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 25/200 — train start (lr=0.00972076, batches=15)
+2026-08-04 04:39:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 25/200 — train done in 12.0s | avg loss_box=1.5461 loss_cls=1.9849 loss_dfl=0.0489 loss_total=210.3779
+2026-08-04 04:39:59 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:40:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 25/200 — val mAP50=0.4955 mAP50_95=0.2474 (selection mAP50_95=0.2474)
+2026-08-04 04:40:06 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.4955 val/mAP50_95=0.2474 (step=24)
+2026-08-04 04:40:06 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:40:06 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:40:07 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 25/200 done — next lr=0.0096939, epochs_since_improve=1/20
+2026-08-04 04:40:07 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 26/200 — train start (lr=0.0096939, batches=15)
+2026-08-04 04:40:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 26/200 — train done in 11.6s | avg loss_box=1.5689 loss_cls=1.8847 loss_dfl=0.0488 loss_total=206.1447
+2026-08-04 04:40:18 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:40:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 26/200 — val mAP50=0.5681 mAP50_95=0.2709 (selection mAP50_95=0.2709)
+2026-08-04 04:40:24 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.5681 val/mAP50_95=0.2709 (step=25)
+2026-08-04 04:40:25 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:40:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:40:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.2709 at epoch 26
+2026-08-04 04:40:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:40:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 26/200 done — next lr=0.00966585, epochs_since_improve=0/20
+2026-08-04 04:40:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 27/200 — train start (lr=0.00966585, batches=15)
+2026-08-04 04:40:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 400 | loss_box=1.6299 loss_cls=1.9479 loss_dfl=0.0478 loss_total=217.4523 lr=0.00964453
+2026-08-04 04:40:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 27/200 — train done in 13.1s | avg loss_box=1.5208 loss_cls=1.7846 loss_dfl=0.0480 loss_total=199.1906
+2026-08-04 04:40:39 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:40:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 27/200 — val mAP50=0.4795 mAP50_95=0.1987 (selection mAP50_95=0.1987)
+2026-08-04 04:40:45 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.4795 val/mAP50_95=0.1987 (step=26)
+2026-08-04 04:40:45 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:40:45 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:40:46 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 27/200 done — next lr=0.00963661, epochs_since_improve=1/20
+2026-08-04 04:40:46 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 28/200 — train start (lr=0.00963661, batches=15)
+2026-08-04 04:40:58 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 28/200 — train done in 11.8s | avg loss_box=1.5447 loss_cls=1.7808 loss_dfl=0.0487 loss_total=199.3335
+2026-08-04 04:40:58 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:41:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 28/200 — val mAP50=0.4294 mAP50_95=0.2092 (selection mAP50_95=0.2092)
+2026-08-04 04:41:04 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.4294 val/mAP50_95=0.2092 (step=27)
+2026-08-04 04:41:04 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:41:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:41:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 28/200 done — next lr=0.0096062, epochs_since_improve=2/20
+2026-08-04 04:41:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 29/200 — train start (lr=0.0096062, batches=15)
+2026-08-04 04:41:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 29/200 — train done in 12.1s | avg loss_box=1.4845 loss_cls=1.7506 loss_dfl=0.0473 loss_total=194.7847
+2026-08-04 04:41:17 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:41:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 29/200 — val mAP50=0.5553 mAP50_95=0.2964 (selection mAP50_95=0.2964)
+2026-08-04 04:41:24 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.5553 val/mAP50_95=0.2964 (step=28)
+2026-08-04 04:41:24 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:41:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:41:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.2964 at epoch 29
+2026-08-04 04:41:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:41:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 29/200 done — next lr=0.00957462, epochs_since_improve=0/20
+2026-08-04 04:41:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 30/200 — train start (lr=0.00957462, batches=15)
+2026-08-04 04:41:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 30/200 — train done in 12.8s | avg loss_box=1.5312 loss_cls=1.6701 loss_dfl=0.0481 loss_total=191.7560
+2026-08-04 04:41:37 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:41:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 30/200 — val mAP50=0.6164 mAP50_95=0.3365 (selection mAP50_95=0.3365)
+2026-08-04 04:41:44 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6164 val/mAP50_95=0.3365 (step=29)
+2026-08-04 04:41:44 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:41:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:41:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.3365 at epoch 30
+2026-08-04 04:41:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:41:45 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 30/200 done — next lr=0.00954187, epochs_since_improve=0/20
+2026-08-04 04:41:45 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 31/200 — train start (lr=0.00954187, batches=15)
+2026-08-04 04:41:50 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 450 | loss_box=1.4594 loss_cls=1.5724 loss_dfl=0.0455 loss_total=181.6803 lr=0.00953965
+2026-08-04 04:41:58 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 31/200 — train done in 13.0s | avg loss_box=1.4618 loss_cls=1.6108 loss_dfl=0.0463 loss_total=185.6590
+2026-08-04 04:41:58 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:42:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 31/200 — val mAP50=0.5829 mAP50_95=0.2776 (selection mAP50_95=0.2776)
+2026-08-04 04:42:04 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.5829 val/mAP50_95=0.2776 (step=30)
+2026-08-04 04:42:04 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:42:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:42:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 31/200 done — next lr=0.00950797, epochs_since_improve=1/20
+2026-08-04 04:42:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 32/200 — train start (lr=0.00950797, batches=15)
+2026-08-04 04:42:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 32/200 — train done in 12.3s | avg loss_box=1.4935 loss_cls=1.5840 loss_dfl=0.0466 loss_total=184.2668
+2026-08-04 04:42:17 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:42:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 32/200 — val mAP50=0.4464 mAP50_95=0.1737 (selection mAP50_95=0.1737)
+2026-08-04 04:42:24 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.4464 val/mAP50_95=0.1737 (step=31)
+2026-08-04 04:42:24 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:42:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:42:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 32/200 done — next lr=0.00947292, epochs_since_improve=2/20
+2026-08-04 04:42:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 33/200 — train start (lr=0.00947292, batches=15)
+2026-08-04 04:42:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 33/200 — train done in 12.0s | avg loss_box=1.4246 loss_cls=1.5494 loss_dfl=0.0446 loss_total=179.5622
+2026-08-04 04:42:37 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:42:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 33/200 — val mAP50=0.3635 mAP50_95=0.1493 (selection mAP50_95=0.1493)
+2026-08-04 04:42:43 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.3635 val/mAP50_95=0.1493 (step=32)
+2026-08-04 04:42:43 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:42:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:42:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 33/200 done — next lr=0.00943674, epochs_since_improve=3/20
+2026-08-04 04:42:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 34/200 — train start (lr=0.00943674, batches=15)
+2026-08-04 04:42:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 500 | loss_box=1.5219 loss_cls=1.4915 loss_dfl=0.0509 loss_total=176.2617 lr=0.00942195
+2026-08-04 04:42:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 34/200 — train done in 13.0s | avg loss_box=1.4273 loss_cls=1.5338 loss_dfl=0.0450 loss_total=178.8685
+2026-08-04 04:42:57 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:43:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 34/200 — val mAP50=0.6352 mAP50_95=0.3380 (selection mAP50_95=0.3380)
+2026-08-04 04:43:04 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6352 val/mAP50_95=0.3380 (step=33)
+2026-08-04 04:43:04 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:43:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:43:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.3380 at epoch 34
+2026-08-04 04:43:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:43:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 34/200 done — next lr=0.00939943, epochs_since_improve=0/20
+2026-08-04 04:43:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 35/200 — train start (lr=0.00939943, batches=15)
+2026-08-04 04:43:16 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 35/200 — train done in 11.7s | avg loss_box=1.4156 loss_cls=1.4682 loss_dfl=0.0440 loss_total=174.2426
+2026-08-04 04:43:16 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:43:22 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 35/200 — val mAP50=0.6347 mAP50_95=0.3323 (selection mAP50_95=0.3323)
+2026-08-04 04:43:22 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6347 val/mAP50_95=0.3323 (step=34)
+2026-08-04 04:43:23 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:43:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:43:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 35/200 done — next lr=0.00936101, epochs_since_improve=1/20
+2026-08-04 04:43:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 36/200 — train start (lr=0.00936101, batches=15)
+2026-08-04 04:43:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 36/200 — train done in 13.1s | avg loss_box=1.3656 loss_cls=1.4092 loss_dfl=0.0420 loss_total=168.9492
+2026-08-04 04:43:36 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:43:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 36/200 — val mAP50=0.5252 mAP50_95=0.2145 (selection mAP50_95=0.2145)
+2026-08-04 04:43:43 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.5252 val/mAP50_95=0.2145 (step=35)
+2026-08-04 04:43:43 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:43:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:43:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 36/200 done — next lr=0.00932147, epochs_since_improve=2/20
+2026-08-04 04:43:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 37/200 — train start (lr=0.00932147, batches=15)
+2026-08-04 04:43:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 550 | loss_box=1.3865 loss_cls=1.2381 loss_dfl=0.0413 loss_total=163.0804 lr=0.00929178
+2026-08-04 04:43:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 37/200 — train done in 13.4s | avg loss_box=1.3899 loss_cls=1.3957 loss_dfl=0.0432 loss_total=169.1883
+2026-08-04 04:43:57 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:44:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 37/200 — val mAP50=0.6258 mAP50_95=0.3177 (selection mAP50_95=0.3177)
+2026-08-04 04:44:04 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6258 val/mAP50_95=0.3177 (step=36)
+2026-08-04 04:44:04 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:44:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:44:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 37/200 done — next lr=0.00928084, epochs_since_improve=3/20
+2026-08-04 04:44:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 38/200 — train start (lr=0.00928084, batches=15)
+2026-08-04 04:44:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 38/200 — train done in 12.1s | avg loss_box=1.3717 loss_cls=1.3363 loss_dfl=0.0433 loss_total=165.5957
+2026-08-04 04:44:17 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:44:22 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 38/200 — val mAP50=0.6365 mAP50_95=0.3164 (selection mAP50_95=0.3164)
+2026-08-04 04:44:23 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6365 val/mAP50_95=0.3164 (step=37)
+2026-08-04 04:44:23 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:44:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:44:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 38/200 done — next lr=0.00923912, epochs_since_improve=4/20
+2026-08-04 04:44:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 39/200 — train start (lr=0.00923912, batches=15)
+2026-08-04 04:44:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 39/200 — train done in 11.7s | avg loss_box=1.3377 loss_cls=1.3381 loss_dfl=0.0424 loss_total=163.2207
+2026-08-04 04:44:36 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:44:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 39/200 — val mAP50=0.6549 mAP50_95=0.3992 (selection mAP50_95=0.3992)
+2026-08-04 04:44:42 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6549 val/mAP50_95=0.3992 (step=38)
+2026-08-04 04:44:42 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:44:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:44:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.3992 at epoch 39
+2026-08-04 04:44:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:44:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 39/200 done — next lr=0.00919633, epochs_since_improve=0/20
+2026-08-04 04:44:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 40/200 — train start (lr=0.00919633, batches=15)
+2026-08-04 04:44:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 40/200 — train done in 11.6s | avg loss_box=1.3640 loss_cls=1.3441 loss_dfl=0.0421 loss_total=165.7694
+2026-08-04 04:44:54 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:45:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 40/200 — val mAP50=0.6333 mAP50_95=0.3221 (selection mAP50_95=0.3221)
+2026-08-04 04:45:01 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6333 val/mAP50_95=0.3221 (step=39)
+2026-08-04 04:45:01 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:45:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:45:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 40/200 done — next lr=0.00915247, epochs_since_improve=1/20
+2026-08-04 04:45:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 41/200 — train start (lr=0.00915247, batches=15)
+2026-08-04 04:45:08 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 600 | loss_box=1.2703 loss_cls=1.2170 loss_dfl=0.0377 loss_total=153.1129 lr=0.0091495
+2026-08-04 04:45:16 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 41/200 — train done in 13.8s | avg loss_box=1.3005 loss_cls=1.2420 loss_dfl=0.0404 loss_total=155.1161
+2026-08-04 04:45:16 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:45:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 41/200 — val mAP50=0.6850 mAP50_95=0.3938 (selection mAP50_95=0.3938)
+2026-08-04 04:45:24 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6850 val/mAP50_95=0.3938 (step=40)
+2026-08-04 04:45:24 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:45:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:45:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 41/200 done — next lr=0.00910755, epochs_since_improve=2/20
+2026-08-04 04:45:25 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 42/200 — train start (lr=0.00910755, batches=15)
+2026-08-04 04:45:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 42/200 — train done in 11.6s | avg loss_box=1.3029 loss_cls=1.2335 loss_dfl=0.0405 loss_total=155.8763
+2026-08-04 04:45:36 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:45:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 42/200 — val mAP50=0.5511 mAP50_95=0.2879 (selection mAP50_95=0.2879)
+2026-08-04 04:45:43 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.5511 val/mAP50_95=0.2879 (step=41)
+2026-08-04 04:45:43 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:45:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:45:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 42/200 done — next lr=0.00906159, epochs_since_improve=3/20
+2026-08-04 04:45:44 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 43/200 — train start (lr=0.00906159, batches=15)
+2026-08-04 04:45:56 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 43/200 — train done in 11.8s | avg loss_box=1.2840 loss_cls=1.3154 loss_dfl=0.0396 loss_total=159.1181
+2026-08-04 04:45:56 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:46:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 43/200 — val mAP50=0.6579 mAP50_95=0.4126 (selection mAP50_95=0.4126)
+2026-08-04 04:46:02 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6579 val/mAP50_95=0.4126 (step=42)
+2026-08-04 04:46:02 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:46:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:46:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.4126 at epoch 43
+2026-08-04 04:46:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:46:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 43/200 done — next lr=0.0090146, epochs_since_improve=0/20
+2026-08-04 04:46:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 44/200 — train start (lr=0.0090146, batches=15)
+2026-08-04 04:46:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 650 | loss_box=1.2236 loss_cls=1.1631 loss_dfl=0.0403 loss_total=146.3447 lr=0.00899552
+2026-08-04 04:46:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 44/200 — train done in 13.5s | avg loss_box=1.2867 loss_cls=1.2148 loss_dfl=0.0394 loss_total=152.4464
+2026-08-04 04:46:17 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:46:22 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 44/200 — val mAP50=0.5558 mAP50_95=0.2821 (selection mAP50_95=0.2821)
+2026-08-04 04:46:23 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.5558 val/mAP50_95=0.2821 (step=43)
+2026-08-04 04:46:23 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:46:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:46:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 44/200 done — next lr=0.00896659, epochs_since_improve=1/20
+2026-08-04 04:46:24 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 45/200 — train start (lr=0.00896659, batches=15)
+2026-08-04 04:46:35 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 45/200 — train done in 11.6s | avg loss_box=1.2605 loss_cls=1.1959 loss_dfl=0.0382 loss_total=150.6343
+2026-08-04 04:46:35 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:46:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 45/200 — val mAP50=0.7090 mAP50_95=0.4131 (selection mAP50_95=0.4131)
+2026-08-04 04:46:42 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7090 val/mAP50_95=0.4131 (step=44)
+2026-08-04 04:46:42 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:46:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:46:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 45/200 done — next lr=0.00891757, epochs_since_improve=2/20
+2026-08-04 04:46:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 46/200 — train start (lr=0.00891757, batches=15)
+2026-08-04 04:46:55 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 46/200 — train done in 11.9s | avg loss_box=1.2958 loss_cls=1.1644 loss_dfl=0.0406 loss_total=151.8559
+2026-08-04 04:46:55 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:47:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 46/200 — val mAP50=0.7114 mAP50_95=0.4416 (selection mAP50_95=0.4416)
+2026-08-04 04:47:01 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7114 val/mAP50_95=0.4416 (step=45)
+2026-08-04 04:47:02 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:47:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:47:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.4416 at epoch 46
+2026-08-04 04:47:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:47:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 46/200 done — next lr=0.00886756, epochs_since_improve=0/20
+2026-08-04 04:47:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 47/200 — train start (lr=0.00886756, batches=15)
+2026-08-04 04:47:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 700 | loss_box=1.2412 loss_cls=1.3220 loss_dfl=0.0344 loss_total=154.7249 lr=0.00883025
+2026-08-04 04:47:16 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 47/200 — train done in 13.8s | avg loss_box=1.2704 loss_cls=1.1397 loss_dfl=0.0386 loss_total=148.0238
+2026-08-04 04:47:16 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:47:22 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 47/200 — val mAP50=0.7272 mAP50_95=0.4548 (selection mAP50_95=0.4548)
+2026-08-04 04:47:22 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7272 val/mAP50_95=0.4548 (step=46)
+2026-08-04 04:47:23 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:47:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:47:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.4548 at epoch 47
+2026-08-04 04:47:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:47:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 47/200 done — next lr=0.00881656, epochs_since_improve=0/20
+2026-08-04 04:47:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 48/200 — train start (lr=0.00881656, batches=15)
+2026-08-04 04:47:35 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 48/200 — train done in 11.9s | avg loss_box=1.2513 loss_cls=1.1439 loss_dfl=0.0386 loss_total=146.5016
+2026-08-04 04:47:35 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:47:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 48/200 — val mAP50=0.7189 mAP50_95=0.3747 (selection mAP50_95=0.3747)
+2026-08-04 04:47:42 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7189 val/mAP50_95=0.3747 (step=47)
+2026-08-04 04:47:42 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:47:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:47:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 48/200 done — next lr=0.00876459, epochs_since_improve=1/20
+2026-08-04 04:47:43 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 49/200 — train start (lr=0.00876459, batches=15)
+2026-08-04 04:47:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 49/200 — train done in 11.5s | avg loss_box=1.2253 loss_cls=1.1062 loss_dfl=0.0370 loss_total=143.5019
+2026-08-04 04:47:54 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:48:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 49/200 — val mAP50=0.7296 mAP50_95=0.4041 (selection mAP50_95=0.4041)
+2026-08-04 04:48:01 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7296 val/mAP50_95=0.4041 (step=48)
+2026-08-04 04:48:01 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:48:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:48:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 49/200 done — next lr=0.00871167, epochs_since_improve=2/20
+2026-08-04 04:48:02 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 50/200 — train start (lr=0.00871167, batches=15)
+2026-08-04 04:48:14 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 50/200 — train done in 12.2s | avg loss_box=1.2238 loss_cls=1.0806 loss_dfl=0.0375 loss_total=141.3698
+2026-08-04 04:48:14 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:48:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 50/200 — val mAP50=0.7061 mAP50_95=0.4068 (selection mAP50_95=0.4068)
+2026-08-04 04:48:20 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7061 val/mAP50_95=0.4068 (step=49)
+2026-08-04 04:48:21 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:48:21 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:48:21 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 50/200 done — next lr=0.00865781, epochs_since_improve=3/20
+2026-08-04 04:48:21 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 51/200 — train start (lr=0.00865781, batches=15)
+2026-08-04 04:48:27 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 750 | loss_box=1.2451 loss_cls=0.9885 loss_dfl=0.0392 loss_total=139.7513 lr=0.00865419
+2026-08-04 04:48:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 51/200 — train done in 13.3s | avg loss_box=1.1860 loss_cls=1.0482 loss_dfl=0.0364 loss_total=137.9416
+2026-08-04 04:48:34 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:48:40 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 51/200 — val mAP50=0.7155 mAP50_95=0.4287 (selection mAP50_95=0.4287)
+2026-08-04 04:48:41 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7155 val/mAP50_95=0.4287 (step=50)
+2026-08-04 04:48:41 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:48:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:48:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 51/200 done — next lr=0.00860302, epochs_since_improve=4/20
+2026-08-04 04:48:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 52/200 — train start (lr=0.00860302, batches=15)
+2026-08-04 04:48:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 52/200 — train done in 12.0s | avg loss_box=1.1552 loss_cls=1.0357 loss_dfl=0.0352 loss_total=135.9734
+2026-08-04 04:48:54 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:49:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 52/200 — val mAP50=0.6645 mAP50_95=0.3214 (selection mAP50_95=0.3214)
+2026-08-04 04:49:00 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6645 val/mAP50_95=0.3214 (step=51)
+2026-08-04 04:49:01 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:49:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:49:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 52/200 done — next lr=0.00854731, epochs_since_improve=5/20
+2026-08-04 04:49:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 53/200 — train start (lr=0.00854731, batches=15)
+2026-08-04 04:49:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 53/200 — train done in 12.2s | avg loss_box=1.1779 loss_cls=0.9909 loss_dfl=0.0353 loss_total=135.1918
+2026-08-04 04:49:13 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:49:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 53/200 — val mAP50=0.7414 mAP50_95=0.4487 (selection mAP50_95=0.4487)
+2026-08-04 04:49:20 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7414 val/mAP50_95=0.4487 (step=52)
+2026-08-04 04:49:20 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:49:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:49:21 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 53/200 done — next lr=0.0084907, epochs_since_improve=6/20
+2026-08-04 04:49:21 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 54/200 — train start (lr=0.0084907, batches=15)
+2026-08-04 04:49:29 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 800 | loss_box=0.9451 loss_cls=0.9997 loss_dfl=0.0299 loss_total=121.7503 lr=0.00846781
+2026-08-04 04:49:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 54/200 — train done in 13.6s | avg loss_box=1.1569 loss_cls=1.0165 loss_dfl=0.0353 loss_total=134.6876
+2026-08-04 04:49:34 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:49:40 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 54/200 — val mAP50=0.7864 mAP50_95=0.4693 (selection mAP50_95=0.4693)
+2026-08-04 04:49:41 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7864 val/mAP50_95=0.4693 (step=53)
+2026-08-04 04:49:41 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:49:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:49:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.4693 at epoch 54
+2026-08-04 04:49:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:49:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 54/200 done — next lr=0.00843321, epochs_since_improve=0/20
+2026-08-04 04:49:42 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 55/200 — train start (lr=0.00843321, batches=15)
+2026-08-04 04:49:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 55/200 — train done in 11.9s | avg loss_box=1.1685 loss_cls=0.9822 loss_dfl=0.0349 loss_total=133.2242
+2026-08-04 04:49:54 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:49:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 55/200 — val mAP50=0.6951 mAP50_95=0.3906 (selection mAP50_95=0.3906)
+2026-08-04 04:50:00 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6951 val/mAP50_95=0.3906 (step=54)
+2026-08-04 04:50:00 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:50:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:50:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 55/200 done — next lr=0.00837484, epochs_since_improve=1/20
+2026-08-04 04:50:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 56/200 — train start (lr=0.00837484, batches=15)
+2026-08-04 04:50:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 56/200 — train done in 12.3s | avg loss_box=1.1597 loss_cls=1.0023 loss_dfl=0.0353 loss_total=134.0042
+2026-08-04 04:50:13 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:50:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 56/200 — val mAP50=0.6969 mAP50_95=0.3175 (selection mAP50_95=0.3175)
+2026-08-04 04:50:20 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6969 val/mAP50_95=0.3175 (step=55)
+2026-08-04 04:50:20 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:50:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:50:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 56/200 done — next lr=0.00831562, epochs_since_improve=2/20
+2026-08-04 04:50:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 57/200 — train start (lr=0.00831562, batches=15)
+2026-08-04 04:50:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 850 | loss_box=1.1867 loss_cls=0.8625 loss_dfl=0.0337 loss_total=129.2810 lr=0.00827165
+2026-08-04 04:50:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 57/200 — train done in 13.6s | avg loss_box=1.1570 loss_cls=0.9592 loss_dfl=0.0349 loss_total=130.8755
+2026-08-04 04:50:34 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:50:40 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 57/200 — val mAP50=0.6855 mAP50_95=0.3764 (selection mAP50_95=0.3764)
+2026-08-04 04:50:41 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6855 val/mAP50_95=0.3764 (step=56)
+2026-08-04 04:50:41 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:50:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:50:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 57/200 done — next lr=0.00825555, epochs_since_improve=3/20
+2026-08-04 04:50:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 58/200 — train start (lr=0.00825555, batches=15)
+2026-08-04 04:50:53 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 58/200 — train done in 11.8s | avg loss_box=1.1285 loss_cls=0.9525 loss_dfl=0.0343 loss_total=128.8591
+2026-08-04 04:50:53 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:50:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 58/200 — val mAP50=0.7878 mAP50_95=0.5061 (selection mAP50_95=0.5061)
+2026-08-04 04:51:00 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7878 val/mAP50_95=0.5061 (step=57)
+2026-08-04 04:51:00 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:51:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:51:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.5061 at epoch 58
+2026-08-04 04:51:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:51:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 58/200 done — next lr=0.00819466, epochs_since_improve=0/20
+2026-08-04 04:51:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 59/200 — train start (lr=0.00819466, batches=15)
+2026-08-04 04:51:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 59/200 — train done in 11.9s | avg loss_box=1.0938 loss_cls=0.9438 loss_dfl=0.0333 loss_total=127.0007
+2026-08-04 04:51:13 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:51:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 59/200 — val mAP50=0.5150 mAP50_95=0.2695 (selection mAP50_95=0.2695)
+2026-08-04 04:51:19 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.5150 val/mAP50_95=0.2695 (step=58)
+2026-08-04 04:51:19 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:51:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:51:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 59/200 done — next lr=0.00813295, epochs_since_improve=1/20
+2026-08-04 04:51:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 60/200 — train start (lr=0.00813295, batches=15)
+2026-08-04 04:51:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 60/200 — train done in 12.0s | avg loss_box=1.0819 loss_cls=0.9018 loss_dfl=0.0329 loss_total=123.8494
+2026-08-04 04:51:32 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:51:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 60/200 — val mAP50=0.7241 mAP50_95=0.4673 (selection mAP50_95=0.4673)
+2026-08-04 04:51:38 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7241 val/mAP50_95=0.4673 (step=59)
+2026-08-04 04:51:38 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:51:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:51:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 60/200 done — next lr=0.00807046, epochs_since_improve=2/20
+2026-08-04 04:51:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 61/200 — train start (lr=0.00807046, batches=15)
+2026-08-04 04:51:45 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 900 | loss_box=0.9609 loss_cls=0.8896 loss_dfl=0.0286 loss_total=116.1488 lr=0.00806626
+2026-08-04 04:51:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 61/200 — train done in 13.5s | avg loss_box=1.0445 loss_cls=0.9186 loss_dfl=0.0315 loss_total=122.2653
+2026-08-04 04:51:52 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:51:58 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 61/200 — val mAP50=0.7682 mAP50_95=0.5103 (selection mAP50_95=0.5103)
+2026-08-04 04:51:59 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7682 val/mAP50_95=0.5103 (step=60)
+2026-08-04 04:51:59 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:51:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:51:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.5103 at epoch 61
+2026-08-04 04:52:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:52:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 61/200 done — next lr=0.00800718, epochs_since_improve=0/20
+2026-08-04 04:52:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 62/200 — train start (lr=0.00800718, batches=15)
+2026-08-04 04:52:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 62/200 — train done in 11.8s | avg loss_box=1.0632 loss_cls=0.8825 loss_dfl=0.0328 loss_total=121.6853
+2026-08-04 04:52:12 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:52:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 62/200 — val mAP50=0.7218 mAP50_95=0.4383 (selection mAP50_95=0.4383)
+2026-08-04 04:52:18 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7218 val/mAP50_95=0.4383 (step=61)
+2026-08-04 04:52:19 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:52:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:52:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 62/200 done — next lr=0.00794314, epochs_since_improve=1/20
+2026-08-04 04:52:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 63/200 — train start (lr=0.00794314, batches=15)
+2026-08-04 04:52:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 63/200 — train done in 11.5s | avg loss_box=1.0744 loss_cls=0.8587 loss_dfl=0.0323 loss_total=120.2135
+2026-08-04 04:52:31 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:52:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 63/200 — val mAP50=0.6552 mAP50_95=0.3554 (selection mAP50_95=0.3554)
+2026-08-04 04:52:37 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6552 val/mAP50_95=0.3554 (step=62)
+2026-08-04 04:52:37 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:52:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:52:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 63/200 done — next lr=0.00787835, epochs_since_improve=2/20
+2026-08-04 04:52:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 64/200 — train start (lr=0.00787835, batches=15)
+2026-08-04 04:52:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 950 | loss_box=1.1402 loss_cls=1.1620 loss_dfl=0.0282 loss_total=139.4622 lr=0.00785222
+2026-08-04 04:52:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 64/200 — train done in 13.9s | avg loss_box=1.0770 loss_cls=0.8458 loss_dfl=0.0318 loss_total=121.0882
+2026-08-04 04:52:52 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:52:58 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 64/200 — val mAP50=0.7314 mAP50_95=0.4442 (selection mAP50_95=0.4442)
+2026-08-04 04:52:58 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7314 val/mAP50_95=0.4442 (step=63)
+2026-08-04 04:52:59 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:52:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:52:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 64/200 done — next lr=0.00781283, epochs_since_improve=3/20
+2026-08-04 04:52:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 65/200 — train start (lr=0.00781283, batches=15)
+2026-08-04 04:53:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 65/200 — train done in 12.4s | avg loss_box=1.0199 loss_cls=0.8458 loss_dfl=0.0310 loss_total=116.6656
+2026-08-04 04:53:11 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:53:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 65/200 — val mAP50=0.7369 mAP50_95=0.4605 (selection mAP50_95=0.4605)
+2026-08-04 04:53:18 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7369 val/mAP50_95=0.4605 (step=64)
+2026-08-04 04:53:18 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:53:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:53:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 65/200 done — next lr=0.00774659, epochs_since_improve=4/20
+2026-08-04 04:53:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 66/200 — train start (lr=0.00774659, batches=15)
+2026-08-04 04:53:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 66/200 — train done in 12.4s | avg loss_box=1.0367 loss_cls=0.8516 loss_dfl=0.0307 loss_total=118.2176
+2026-08-04 04:53:31 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:53:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 66/200 — val mAP50=0.6883 mAP50_95=0.4457 (selection mAP50_95=0.4457)
+2026-08-04 04:53:40 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6883 val/mAP50_95=0.4457 (step=65)
+2026-08-04 04:53:40 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:53:40 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:53:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 66/200 done — next lr=0.00767966, epochs_since_improve=5/20
+2026-08-04 04:53:41 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 67/200 — train start (lr=0.00767966, batches=15)
+2026-08-04 04:53:51 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 1000 | loss_box=0.9058 loss_cls=0.6507 loss_dfl=0.0255 loss_total=100.4110 lr=0.00763015
+2026-08-04 04:53:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 67/200 — train done in 13.2s | avg loss_box=1.0421 loss_cls=0.8024 loss_dfl=0.0312 loss_total=115.7545
+2026-08-04 04:53:54 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:54:00 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 67/200 — val mAP50=0.7689 mAP50_95=0.4887 (selection mAP50_95=0.4887)
+2026-08-04 04:54:00 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7689 val/mAP50_95=0.4887 (step=66)
+2026-08-04 04:54:01 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:54:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:54:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 67/200 done — next lr=0.00761205, epochs_since_improve=6/20
+2026-08-04 04:54:01 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 68/200 — train start (lr=0.00761205, batches=15)
+2026-08-04 04:54:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 68/200 — train done in 11.7s | avg loss_box=1.0446 loss_cls=0.8200 loss_dfl=0.0310 loss_total=115.8599
+2026-08-04 04:54:13 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:54:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 68/200 — val mAP50=0.6732 mAP50_95=0.3581 (selection mAP50_95=0.3581)
+2026-08-04 04:54:19 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6732 val/mAP50_95=0.3581 (step=67)
+2026-08-04 04:54:20 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:54:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:54:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 68/200 done — next lr=0.00754378, epochs_since_improve=7/20
+2026-08-04 04:54:20 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 69/200 — train start (lr=0.00754378, batches=15)
+2026-08-04 04:54:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 69/200 — train done in 11.9s | avg loss_box=1.0443 loss_cls=0.8105 loss_dfl=0.0317 loss_total=115.5309
+2026-08-04 04:54:32 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:54:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 69/200 — val mAP50=0.7970 mAP50_95=0.5432 (selection mAP50_95=0.5432)
+2026-08-04 04:54:38 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7970 val/mAP50_95=0.5432 (step=68)
+2026-08-04 04:54:39 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:54:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:54:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.5432 at epoch 69
+2026-08-04 04:54:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:54:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 69/200 done — next lr=0.00747486, epochs_since_improve=0/20
+2026-08-04 04:54:39 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 70/200 — train start (lr=0.00747486, batches=15)
+2026-08-04 04:54:51 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 70/200 — train done in 12.0s | avg loss_box=0.9757 loss_cls=0.7610 loss_dfl=0.0295 loss_total=110.4747
+2026-08-04 04:54:51 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:54:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 70/200 — val mAP50=0.8085 mAP50_95=0.5446 (selection mAP50_95=0.5446)
+2026-08-04 04:54:58 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.8085 val/mAP50_95=0.5446 (step=69)
+2026-08-04 04:54:58 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:54:58 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 04:54:58 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.5446 at epoch 70
+2026-08-04 04:54:58 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:54:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 70/200 done — next lr=0.00740531, epochs_since_improve=0/20
+2026-08-04 04:54:59 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 71/200 — train start (lr=0.00740531, batches=15)
+2026-08-04 04:55:04 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 1050 | loss_box=0.9760 loss_cls=0.8000 loss_dfl=0.0305 loss_total=110.0657 lr=0.00740065
+2026-08-04 04:55:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 71/200 — train done in 13.0s | avg loss_box=0.9752 loss_cls=0.7830 loss_dfl=0.0287 loss_total=109.6563
+2026-08-04 04:55:12 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:55:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 71/200 — val mAP50=0.7834 mAP50_95=0.5415 (selection mAP50_95=0.5415)
+2026-08-04 04:55:18 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7834 val/mAP50_95=0.5415 (step=70)
+2026-08-04 04:55:19 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:55:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:55:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 71/200 done — next lr=0.00733515, epochs_since_improve=1/20
+2026-08-04 04:55:19 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 72/200 — train start (lr=0.00733515, batches=15)
+2026-08-04 04:55:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 72/200 — train done in 11.5s | avg loss_box=0.9824 loss_cls=0.7578 loss_dfl=0.0301 loss_total=109.6408
+2026-08-04 04:55:31 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:55:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 72/200 — val mAP50=0.6770 mAP50_95=0.3770 (selection mAP50_95=0.3770)
+2026-08-04 04:55:37 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6770 val/mAP50_95=0.3770 (step=71)
+2026-08-04 04:55:37 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:55:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:55:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 72/200 done — next lr=0.0072644, epochs_since_improve=2/20
+2026-08-04 04:55:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 73/200 — train start (lr=0.0072644, batches=15)
+2026-08-04 04:55:50 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 73/200 — train done in 12.1s | avg loss_box=0.9926 loss_cls=0.7669 loss_dfl=0.0296 loss_total=109.2516
+2026-08-04 04:55:50 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:55:56 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 73/200 — val mAP50=0.7721 mAP50_95=0.4948 (selection mAP50_95=0.4948)
+2026-08-04 04:55:56 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7721 val/mAP50_95=0.4948 (step=72)
+2026-08-04 04:55:57 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:55:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:55:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 73/200 done — next lr=0.00719307, epochs_since_improve=3/20
+2026-08-04 04:55:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 74/200 — train start (lr=0.00719307, batches=15)
+2026-08-04 04:56:06 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 1100 | loss_box=1.0409 loss_cls=0.9104 loss_dfl=0.0297 loss_total=121.0177 lr=0.00716439
+2026-08-04 04:56:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 74/200 — train done in 13.9s | avg loss_box=0.9622 loss_cls=0.7676 loss_dfl=0.0287 loss_total=108.4220
+2026-08-04 04:56:11 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:56:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 74/200 — val mAP50=0.7705 mAP50_95=0.5138 (selection mAP50_95=0.5138)
+2026-08-04 04:56:17 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7705 val/mAP50_95=0.5138 (step=73)
+2026-08-04 04:56:18 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:56:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:56:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 74/200 done — next lr=0.00712119, epochs_since_improve=4/20
+2026-08-04 04:56:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 75/200 — train start (lr=0.00712119, batches=15)
+2026-08-04 04:56:30 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 75/200 — train done in 12.0s | avg loss_box=0.9893 loss_cls=0.7572 loss_dfl=0.0298 loss_total=108.9860
+2026-08-04 04:56:30 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:56:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 75/200 — val mAP50=0.7757 mAP50_95=0.5353 (selection mAP50_95=0.5353)
+2026-08-04 04:56:37 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7757 val/mAP50_95=0.5353 (step=74)
+2026-08-04 04:56:37 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:56:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:56:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 75/200 done — next lr=0.00704877, epochs_since_improve=5/20
+2026-08-04 04:56:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 76/200 — train start (lr=0.00704877, batches=15)
+2026-08-04 04:56:49 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 76/200 — train done in 12.0s | avg loss_box=0.9535 loss_cls=0.6991 loss_dfl=0.0284 loss_total=104.3957
+2026-08-04 04:56:49 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:56:55 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 76/200 — val mAP50=0.7877 mAP50_95=0.4944 (selection mAP50_95=0.4944)
+2026-08-04 04:56:56 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7877 val/mAP50_95=0.4944 (step=75)
+2026-08-04 04:56:56 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:56:56 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:56:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 76/200 done — next lr=0.00697583, epochs_since_improve=6/20
+2026-08-04 04:56:57 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 77/200 — train start (lr=0.00697583, batches=15)
+2026-08-04 04:57:07 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 1150 | loss_box=1.0257 loss_cls=0.7003 loss_dfl=0.0292 loss_total=109.2599 lr=0.00692202
+2026-08-04 04:57:10 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 77/200 — train done in 13.4s | avg loss_box=0.9425 loss_cls=0.7176 loss_dfl=0.0277 loss_total=104.8350
+2026-08-04 04:57:10 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:57:16 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 77/200 — val mAP50=0.6965 mAP50_95=0.3731 (selection mAP50_95=0.3731)
+2026-08-04 04:57:17 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6965 val/mAP50_95=0.3731 (step=76)
+2026-08-04 04:57:17 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:57:17 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:57:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 77/200 done — next lr=0.00690239, epochs_since_improve=7/20
+2026-08-04 04:57:18 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 78/200 — train start (lr=0.00690239, batches=15)
+2026-08-04 04:57:29 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 78/200 — train done in 11.6s | avg loss_box=0.9393 loss_cls=0.7291 loss_dfl=0.0280 loss_total=104.3089
+2026-08-04 04:57:29 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:57:35 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 78/200 — val mAP50=0.7690 mAP50_95=0.4871 (selection mAP50_95=0.4871)
+2026-08-04 04:57:36 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7690 val/mAP50_95=0.4871 (step=77)
+2026-08-04 04:57:36 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:57:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:57:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 78/200 done — next lr=0.00682847, epochs_since_improve=8/20
+2026-08-04 04:57:37 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 79/200 — train start (lr=0.00682847, batches=15)
+2026-08-04 04:57:49 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 79/200 — train done in 12.4s | avg loss_box=0.9370 loss_cls=0.6821 loss_dfl=0.0281 loss_total=102.8096
+2026-08-04 04:57:49 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:57:55 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 79/200 — val mAP50=0.7490 mAP50_95=0.4124 (selection mAP50_95=0.4124)
+2026-08-04 04:57:55 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7490 val/mAP50_95=0.4124 (step=78)
+2026-08-04 04:57:56 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:57:56 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:57:56 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 79/200 done — next lr=0.00675408, epochs_since_improve=9/20
+2026-08-04 04:57:56 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 80/200 — train start (lr=0.00675408, batches=15)
+2026-08-04 04:58:08 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 80/200 — train done in 11.8s | avg loss_box=0.9041 loss_cls=0.7020 loss_dfl=0.0268 loss_total=101.5876
+2026-08-04 04:58:08 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:58:14 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 80/200 — val mAP50=0.8123 mAP50_95=0.5387 (selection mAP50_95=0.5387)
+2026-08-04 04:58:14 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.8123 val/mAP50_95=0.5387 (step=79)
+2026-08-04 04:58:15 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:58:15 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:58:15 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 80/200 done — next lr=0.00667925, epochs_since_improve=10/20
+2026-08-04 04:58:15 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 81/200 — train start (lr=0.00667925, batches=15)
+2026-08-04 04:58:22 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 1200 | loss_box=0.8533 loss_cls=0.5856 loss_dfl=0.0267 loss_total=92.3160 lr=0.00667424
+2026-08-04 04:58:29 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 81/200 — train done in 13.5s | avg loss_box=0.8926 loss_cls=0.6863 loss_dfl=0.0270 loss_total=99.4459
+2026-08-04 04:58:29 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:58:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 81/200 — val mAP50=0.8020 mAP50_95=0.5394 (selection mAP50_95=0.5394)
+2026-08-04 04:58:35 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.8020 val/mAP50_95=0.5394 (step=80)
+2026-08-04 04:58:35 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:58:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:58:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 81/200 done — next lr=0.00660399, epochs_since_improve=11/20
+2026-08-04 04:58:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 82/200 — train start (lr=0.00660399, batches=15)
+2026-08-04 04:58:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 82/200 — train done in 11.2s | avg loss_box=0.9101 loss_cls=0.6494 loss_dfl=0.0268 loss_total=99.0098
+2026-08-04 04:58:47 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:58:53 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 82/200 — val mAP50=0.7693 mAP50_95=0.5042 (selection mAP50_95=0.5042)
+2026-08-04 04:58:54 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7693 val/mAP50_95=0.5042 (step=81)
+2026-08-04 04:58:54 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:58:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:58:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 82/200 done — next lr=0.00652832, epochs_since_improve=12/20
+2026-08-04 04:58:54 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 83/200 — train start (lr=0.00652832, batches=15)
+2026-08-04 04:59:06 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 83/200 — train done in 11.6s | avg loss_box=0.8727 loss_cls=0.6388 loss_dfl=0.0257 loss_total=96.9717
+2026-08-04 04:59:06 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:59:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 83/200 — val mAP50=0.8084 mAP50_95=0.5249 (selection mAP50_95=0.5249)
+2026-08-04 04:59:13 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.8084 val/mAP50_95=0.5249 (step=82)
+2026-08-04 04:59:13 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:59:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:59:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 83/200 done — next lr=0.00645227, epochs_since_improve=13/20
+2026-08-04 04:59:13 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 84/200 — train start (lr=0.00645227, batches=15)
+2026-08-04 04:59:22 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 1250 | loss_box=0.8475 loss_cls=0.5409 loss_dfl=0.0247 loss_total=91.4712 lr=0.00642175
+2026-08-04 04:59:27 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 84/200 — train done in 13.4s | avg loss_box=0.8687 loss_cls=0.6521 loss_dfl=0.0257 loss_total=97.1448
+2026-08-04 04:59:27 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:59:32 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 84/200 — val mAP50=0.6928 mAP50_95=0.3838 (selection mAP50_95=0.3838)
+2026-08-04 04:59:33 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.6928 val/mAP50_95=0.3838 (step=83)
+2026-08-04 04:59:33 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:59:33 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:59:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 84/200 done — next lr=0.00637585, epochs_since_improve=14/20
+2026-08-04 04:59:34 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 85/200 — train start (lr=0.00637585, batches=15)
+2026-08-04 04:59:45 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 85/200 — train done in 11.3s | avg loss_box=0.8794 loss_cls=0.6389 loss_dfl=0.0259 loss_total=96.1470
+2026-08-04 04:59:45 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 04:59:51 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 85/200 — val mAP50=0.7711 mAP50_95=0.4405 (selection mAP50_95=0.4405)
+2026-08-04 04:59:52 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7711 val/mAP50_95=0.4405 (step=84)
+2026-08-04 04:59:52 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 04:59:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 04:59:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 85/200 done — next lr=0.00629908, epochs_since_improve=15/20
+2026-08-04 04:59:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 86/200 — train start (lr=0.00629908, batches=15)
+2026-08-04 05:00:05 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 86/200 — train done in 12.3s | avg loss_box=0.8616 loss_cls=0.6446 loss_dfl=0.0256 loss_total=95.1154
+2026-08-04 05:00:05 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 05:00:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 86/200 — val mAP50=0.7712 mAP50_95=0.5061 (selection mAP50_95=0.5061)
+2026-08-04 05:00:11 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7712 val/mAP50_95=0.5061 (step=85)
+2026-08-04 05:00:12 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 05:00:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 05:00:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 86/200 done — next lr=0.00622199, epochs_since_improve=16/20
+2026-08-04 05:00:12 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 87/200 — train start (lr=0.00622199, batches=15)
+2026-08-04 05:00:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | step 1300 | loss_box=0.9299 loss_cls=0.8997 loss_dfl=0.0237 loss_total=112.8592 lr=0.00616525
+2026-08-04 05:00:26 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 87/200 — train done in 13.5s | avg loss_box=0.8509 loss_cls=0.6299 loss_dfl=0.0250 loss_total=93.7053
+2026-08-04 05:00:26 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 05:00:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 87/200 — val mAP50=0.7522 mAP50_95=0.4360 (selection mAP50_95=0.4360)
+2026-08-04 05:00:32 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7522 val/mAP50_95=0.4360 (step=86)
+2026-08-04 05:00:32 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 05:00:33 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 05:00:33 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 87/200 done — next lr=0.00614458, epochs_since_improve=17/20
+2026-08-04 05:00:33 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 88/200 — train start (lr=0.00614458, batches=15)
+2026-08-04 05:00:45 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 88/200 — train done in 11.8s | avg loss_box=0.8712 loss_cls=0.6002 loss_dfl=0.0255 loss_total=93.5187
+2026-08-04 05:00:45 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 05:00:50 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 88/200 — val mAP50=0.8050 mAP50_95=0.5288 (selection mAP50_95=0.5288)
+2026-08-04 05:00:51 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.8050 val/mAP50_95=0.5288 (step=87)
+2026-08-04 05:00:51 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 05:00:51 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 05:00:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 88/200 done — next lr=0.00606688, epochs_since_improve=18/20
+2026-08-04 05:00:52 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 89/200 — train start (lr=0.00606688, batches=15)
+2026-08-04 05:01:03 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 89/200 — train done in 11.6s | avg loss_box=0.8474 loss_cls=0.6017 loss_dfl=0.0249 loss_total=91.9515
+2026-08-04 05:01:03 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 05:01:09 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 89/200 — val mAP50=0.7454 mAP50_95=0.4292 (selection mAP50_95=0.4292)
+2026-08-04 05:01:10 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7454 val/mAP50_95=0.4292 (step=88)
+2026-08-04 05:01:10 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 05:01:10 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 05:01:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 89/200 done — next lr=0.00598891, epochs_since_improve=19/20
+2026-08-04 05:01:11 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 90/200 — train start (lr=0.00598891, batches=15)
+2026-08-04 05:01:23 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 90/200 — train done in 12.1s | avg loss_box=0.8649 loss_cls=0.6141 loss_dfl=0.0256 loss_total=92.8751
+2026-08-04 05:01:23 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-04 05:01:29 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 90/200 — val mAP50=0.7971 mAP50_95=0.5139 (selection mAP50_95=0.5139)
+2026-08-04 05:01:29 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.7971 val/mAP50_95=0.5139 (step=89)
+2026-08-04 05:01:30 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-04 05:01:30 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 05:01:30 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 90/200 done — next lr=0.0059107, epochs_since_improve=20/20
+2026-08-04 05:01:30 INFO  scripts.synthetic_model_comparison.training.training_pipeline | early stopping at epoch 90 — no mAP50_95 improvement (>0.001) for 20 epochs
+2026-08-04 05:01:30 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/last.pt
+2026-08-04 05:01:30 INFO  scripts.synthetic_model_comparison.training.training_pipeline | training finished — loading best.pt for final test evaluation
+2026-08-04 05:01:31 INFO  scripts.synthetic_model_comparison.training.training_pipeline | loaded best.pt (mAP50_95=0.5446 @ epoch 69)
+2026-08-04 05:01:31 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 153 batches
+2026-08-04 05:04:46 INFO  scripts.synthetic_model_comparison.training.training_pipeline | test mAP50=0.0875 mAP50_95=0.0395
+2026-08-04 05:04:46 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged test/mAP50=0.0875 test/mAP50_95=0.0395 (step=None)
+2026-08-04 05:04:47 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged test per-class AP table (12 classes)
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.training_pipeline | uploaded checkpoints to MLflow
+2026-08-04 05:04:56 INFO  __main__ | === post-training full evaluation (limit=None) ===
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.eval_suite.run_evaluation | === evaluation (real-only) ===
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.eval_suite.run_evaluation | checkpoint=/home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt device=cuda output_dir=/home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/evaluation
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.eval_suite.run_evaluation | real_ann=/home/debian/Master-Thesis/data/synthetic_model_comparison/test/annotations_test.json max_det=100
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.dataset | dataset annotations_test.json: 9742 images, 9742 annotations, 12 classes
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.eval_suite.predict | loading checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/best.pt
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.yolo26n_model | no pretrained weights — training from random initialization
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.yolo26n_model | model: yolo26n, nc=12, params=2.51M, device=cuda
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.eval_suite.predict | checkpoint format: training dict (state_dict under 'model' key)
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.eval_suite.predict | loaded 708/708 keys from checkpoint (skipped 0 shape-mismatched / missing)
+2026-08-04 05:04:56 INFO  scripts.synthetic_model_comparison.training.eval_suite.predict | running inference: 9742 images, batch=64, max_det=100 (NMS-free: conf/iou thresholds unused)
+2026-08-04 05:09:10 INFO  scripts.synthetic_model_comparison.training.eval_suite.predict | inference complete: 974200 predictions over 9742 images
+2026-08-04 05:09:24 INFO  scripts.synthetic_model_comparison.training.eval_suite.predict | predictions written to /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/evaluation/predictions_real.json
+2026-08-04 05:09:24 INFO  scripts.synthetic_model_comparison.training.eval_suite.scoring | loading GT index from /home/debian/Master-Thesis/data/synthetic_model_comparison/test/annotations_test.json
+2026-08-04 05:09:24 INFO  scripts.synthetic_model_comparison.training.eval_suite.scoring | GT index: 9742 images, 12 categories, 9742 annotated images
+2026-08-04 05:09:24 INFO  scripts.synthetic_model_comparison.training.eval_suite.report | headline: real-test mAP (fine)
+2026-08-04 05:11:08 INFO  scripts.synthetic_model_comparison.training.eval_suite.report | per-class AP table
+2026-08-04 05:11:08 INFO  scripts.synthetic_model_comparison.training.eval_suite.report | within-look-alike-group confusion
+2026-08-04 05:11:12 INFO  scripts.synthetic_model_comparison.training.eval_suite.report | wrote markdown report: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/evaluation/evaluation_report.md
+2026-08-04 05:11:12 INFO  scripts.synthetic_model_comparison.training.eval_suite.report | wrote CSV artifacts: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/evaluation/eval_per_class.csv, /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/evaluation/eval_confusion_pairs.csv
+2026-08-04 05:11:12 INFO  scripts.synthetic_model_comparison.training.eval_suite.report | wrote JSON report: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/evaluation/evaluation_report.json
+2026-08-04 05:11:16 INFO  scripts.synthetic_model_comparison.training.eval_suite.report | logged eval scalars to MLflow under 'eval/'
+2026-08-04 05:11:18 INFO  scripts.synthetic_model_comparison.training.eval_suite.run_evaluation | evaluation complete — report at /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/evaluation/evaluation_report.md
+2026-08-04 05:11:18 INFO  __main__ | uploaded log artifact: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152/yolo26n-sd35-large-turbo-maxlen-seed43-20260804-043152.log

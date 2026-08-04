@@ -199,6 +199,11 @@ class TrainingPipeline:
 
             self.optimizer.zero_grad(set_to_none=True)
             self.scaler.scale(total).backward()
+            # Matches ultralytics/engine/trainer.py's own clipping (same
+            # max_norm) — this custom loop replaces Trainer._do_train but
+            # otherwise trains the same underlying model.
+            self.scaler.unscale_(self.optimizer)
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=10.0)
             self.scaler.step(self.optimizer)
             self.scaler.update()
             self.scheduler.step()

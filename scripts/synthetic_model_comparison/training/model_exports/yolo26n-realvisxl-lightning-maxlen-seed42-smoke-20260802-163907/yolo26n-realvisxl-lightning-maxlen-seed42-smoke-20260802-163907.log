@@ -1,0 +1,116 @@
+2026-08-02 16:39:07 INFO  __main__ | === yolo26n synthetic-model-comparison training run ===
+2026-08-02 16:39:07 INFO  __main__ | run_name=yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907 experiment=yolo26n-synthetic-model-comparison
+2026-08-02 16:39:07 INFO  __main__ | mlflow tracking_uri=http://hetzner.taile550ef.ts.net:5000/
+2026-08-02 16:39:07 INFO  __main__ | run dir: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907
+2026-08-02 16:39:07 INFO  __main__ | log file: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907.log
+2026-08-02 16:39:08 INFO  __main__ | generator=realvisxl-lightning prompt_regime=maxlen seed=42 device=cuda epochs=1 smoke=True
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset | split annotations.json: 1200 images -> 960 train / 240 val (val_fraction=0.20, seed=42)
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   american black bear       train= 82  val= 20
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   aye-aye                   train= 80  val= 21
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   grevy's zebra             train= 83  val= 22
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   kinkajou                  train= 82  val= 21
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   lion                      train= 80  val= 20
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   mountain zebra            train= 82  val= 21
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   pangolin family           train= 84  val= 22
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   plains zebra              train= 89  val= 21
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   red fox                   train= 83  val= 20
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   ringtail                  train= 80  val= 20
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   saiga                     train= 80  val= 20
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.split_dataset |   water deer                train= 83  val= 20
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.dataset | dataset annotations_val_split.json: 240 images, 248 annotations, 12 classes
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.dataset | dataset annotations_val_split.json: 240 images, 248 annotations, 12 classes
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.dataset | dataset annotations_val_split.json: 240 images, 248 annotations, 12 classes
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.yolo26n_model | no pretrained weights — training from random initialization
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.yolo26n_model | model: yolo26n, nc=12, params=2.51M, device=cuda
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.optim | optimizer=SGD lr=0.001 | param groups: g0(BN,no-decay)=114 g1(conv,decay=0.0005)=126 g2(bias,no-decay)=126
+2026-08-02 16:39:08 INFO  scripts.synthetic_model_comparison.training.optim | scheduler: OneCycleLR(max_lr=0.01, total_steps=3, pct_start=0.015, div_factor=10, final_div_factor=100) — stepped per batch
+2026-08-02 16:39:09 INFO  __main__ | run config:
+2026-08-02 16:39:09 INFO  __main__ |   ANNOTATIONS_TEST = /home/debian/Master-Thesis/data/synthetic_model_comparison/test/annotations_test.json
+2026-08-02 16:39:09 INFO  __main__ |   AUG_CLOSE_MOSAIC = 0
+2026-08-02 16:39:09 INFO  __main__ |   AUG_COPY_PASTE = 0.0
+2026-08-02 16:39:09 INFO  __main__ |   AUG_DEGREES = 0.0
+2026-08-02 16:39:09 INFO  __main__ |   AUG_FLIPUD = 0.0
+2026-08-02 16:39:09 INFO  __main__ |   AUG_HFLIP = True
+2026-08-02 16:39:09 INFO  __main__ |   AUG_HSV = True
+2026-08-02 16:39:09 INFO  __main__ |   AUG_HSV_H = 0.015
+2026-08-02 16:39:09 INFO  __main__ |   AUG_HSV_S = 0.7
+2026-08-02 16:39:09 INFO  __main__ |   AUG_HSV_V = 0.4
+2026-08-02 16:39:09 INFO  __main__ |   AUG_MIXUP = 0.0
+2026-08-02 16:39:09 INFO  __main__ |   AUG_MOSAIC = 0.0
+2026-08-02 16:39:09 INFO  __main__ |   AUG_PERSPECTIVE = 0.0
+2026-08-02 16:39:09 INFO  __main__ |   AUG_SCALE = 0.5
+2026-08-02 16:39:09 INFO  __main__ |   AUG_SHEAR = 0.0
+2026-08-02 16:39:09 INFO  __main__ |   AUG_TRANSLATE = 0.1
+2026-08-02 16:39:09 INFO  __main__ |   BATCH_SIZE = 64
+2026-08-02 16:39:09 INFO  __main__ |   DATA_ROOT = /home/debian/Master-Thesis/data
+2026-08-02 16:39:09 INFO  __main__ |   EARLY_STOP = True
+2026-08-02 16:39:09 INFO  __main__ |   EARLY_STOP_MIN_DELTA = 0.001
+2026-08-02 16:39:09 INFO  __main__ |   EARLY_STOP_PATIENCE = 20
+2026-08-02 16:39:09 INFO  __main__ |   EPOCH_COUNT = 200
+2026-08-02 16:39:09 INFO  __main__ |   EVAL_CONF_THRES = 0.001
+2026-08-02 16:39:09 INFO  __main__ |   EVAL_IOU_THRES = 0.6
+2026-08-02 16:39:09 INFO  __main__ |   EVAL_MAX_DET = 100
+2026-08-02 16:39:09 INFO  __main__ |   EXPERIMENT_DATA_ROOT = /home/debian/Master-Thesis/data/synthetic_model_comparison
+2026-08-02 16:39:09 INFO  __main__ |   HYP_BOX = 7.5
+2026-08-02 16:39:09 INFO  __main__ |   HYP_CLS = 0.5
+2026-08-02 16:39:09 INFO  __main__ |   HYP_DFL = 1.5
+2026-08-02 16:39:09 INFO  __main__ |   IMAGE_ROOT = /home/debian/Master-Thesis
+2026-08-02 16:39:09 INFO  __main__ |   IMAGE_SIZE = 640
+2026-08-02 16:39:09 INFO  __main__ |   LEARNING_RATE = 0.001
+2026-08-02 16:39:09 INFO  __main__ |   MLFLOW_EXPERIMENT_DEFAULT = yolo26n-synthetic-model-comparison
+2026-08-02 16:39:09 INFO  __main__ |   MLFLOW_LOG_EVERY_N_STEPS = 50
+2026-08-02 16:39:09 INFO  __main__ |   MODEL_CONFIG = yolo26n.yaml
+2026-08-02 16:39:09 INFO  __main__ |   MOMENTUM = 0.937
+2026-08-02 16:39:09 INFO  __main__ |   NESTEROV = True
+2026-08-02 16:39:09 INFO  __main__ |   NUM_CLASSES = 12
+2026-08-02 16:39:09 INFO  __main__ |   NUM_WORKERS = 8
+2026-08-02 16:39:09 INFO  __main__ |   ONE_CYCLE_DIV_FACTOR = 10.0
+2026-08-02 16:39:09 INFO  __main__ |   ONE_CYCLE_FINAL_DIV_FACTOR = 100.0
+2026-08-02 16:39:09 INFO  __main__ |   ONE_CYCLE_MAX_LR = 0.01
+2026-08-02 16:39:09 INFO  __main__ |   ONE_CYCLE_PCT_START = 0.015
+2026-08-02 16:39:09 INFO  __main__ |   OPTIMIZER = SGD
+2026-08-02 16:39:09 INFO  __main__ |   OUTPUT_DIR = /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports
+2026-08-02 16:39:09 INFO  __main__ |   PRETRAINED_WEIGHTS = /home/debian/Master-Thesis/weights/yolo26n.pt
+2026-08-02 16:39:09 INFO  __main__ |   REPO_ROOT = /home/debian/Master-Thesis
+2026-08-02 16:39:09 INFO  __main__ |   SEED = 42
+2026-08-02 16:39:09 INFO  __main__ |   SELECTION_METRIC = mAP50_95
+2026-08-02 16:39:09 INFO  __main__ |   SPLIT_SEED = 42
+2026-08-02 16:39:09 INFO  __main__ |   TRAIN_ROOT = /home/debian/Master-Thesis/data/synthetic_model_comparison/train
+2026-08-02 16:39:09 INFO  __main__ |   USE_AMP = True
+2026-08-02 16:39:09 INFO  __main__ |   USE_EMA = True
+2026-08-02 16:39:09 INFO  __main__ |   VAL_FRACTION = 0.2
+2026-08-02 16:39:09 INFO  __main__ |   WARMUP_EPOCHS = 3
+2026-08-02 16:39:09 INFO  __main__ |   WEIGHT_DECAY = 0.0005
+2026-08-02 16:39:09 INFO  __main__ |   dataset_size_test = 240
+2026-08-02 16:39:09 INFO  __main__ |   dataset_size_train = 240
+2026-08-02 16:39:09 INFO  __main__ |   dataset_size_val = 240
+2026-08-02 16:39:09 INFO  __main__ |   device = cuda
+2026-08-02 16:39:09 INFO  __main__ |   epochs_actual = 1
+2026-08-02 16:39:09 INFO  __main__ |   generator = realvisxl-lightning
+2026-08-02 16:39:09 INFO  __main__ |   git_sha = 21fea51bf389d6c242b324643e593ed613aaa4aa
+2026-08-02 16:39:09 INFO  __main__ |   prompt_regime = maxlen
+2026-08-02 16:39:09 INFO  __main__ |   resume_from = 
+2026-08-02 16:39:09 INFO  __main__ |   run_seed = 42
+2026-08-02 16:39:09 INFO  __main__ |   smoke = True
+2026-08-02 16:39:09 INFO  __main__ |   weights_path = /home/debian/Master-Thesis/weights/yolo26n.pt
+2026-08-02 16:39:09 INFO  scripts.synthetic_model_comparison.training.training_pipeline | output dir: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907 | selection_metric=mAP50_95 early_stop=True(patience=20, min_delta=0.001) ema=True amp=True
+2026-08-02 16:39:09 INFO  scripts.synthetic_model_comparison.training.training_pipeline | starting training: ceiling=1 epochs | train_batches=3 val_batches=4 test_batches=4 | device=cuda
+2026-08-02 16:39:09 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 1/1 — train start (lr=0.00763917, batches=3)
+2026-08-02 16:39:26 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 1/1 — train done in 17.1s | avg loss_box=5.0621 loss_cls=49.6929 loss_dfl=0.1898 loss_total=1737.6618
+2026-08-02 16:39:26 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-02 16:39:36 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 1/1 — val mAP50=0.0000 mAP50_95=0.0000 (selection mAP50_95=0.0000)
+2026-08-02 16:39:37 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val/mAP50=0.0000 val/mAP50_95=0.0000 (step=0)
+2026-08-02 16:39:37 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged val per-class AP table (12 classes)
+2026-08-02 16:39:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907/best.pt
+2026-08-02 16:39:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | new best mAP50_95=0.0000 at epoch 1
+2026-08-02 16:39:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907/last.pt
+2026-08-02 16:39:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | epoch 1/1 done — next lr=0.0025768, epochs_since_improve=0/20
+2026-08-02 16:39:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | saved checkpoint: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907/last.pt
+2026-08-02 16:39:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | training finished — loading best.pt for final test evaluation
+2026-08-02 16:39:38 INFO  scripts.synthetic_model_comparison.training.training_pipeline | loaded best.pt (mAP50_95=0.0000 @ epoch 0)
+2026-08-02 16:39:38 INFO  scripts.synthetic_model_comparison.training.evaluation | evaluating on 4 batches
+2026-08-02 16:39:47 INFO  scripts.synthetic_model_comparison.training.training_pipeline | test mAP50=0.0000 mAP50_95=0.0000
+2026-08-02 16:39:48 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged test/mAP50=0.0000 test/mAP50_95=0.0000 (step=None)
+2026-08-02 16:39:48 INFO  scripts.synthetic_model_comparison.training.evaluation | mlflow: logged test per-class AP table (12 classes)
+2026-08-02 16:39:53 INFO  scripts.synthetic_model_comparison.training.training_pipeline | uploaded checkpoints to MLflow
+2026-08-02 16:39:54 INFO  __main__ | uploaded log artifact: /home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907/yolo26n-realvisxl-lightning-maxlen-seed42-smoke-20260802-163907.log

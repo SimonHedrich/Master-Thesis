@@ -72,8 +72,10 @@ NAS_HOST := debian@data-server.taile550ef.ts.net
 NAS_PATH  := /data/raid1_6t/Master-Thesis/
 
 # ics-server — second repo instance (repo already cloned, only missing gitignored files)
-# prerequisite: ssh-copy-id ubuntu@thesis.taile550ef.ts.net
-ICS_HOST := ubuntu@thesis.taile550ef.ts.net
+# prerequisite: ssh-copy-id ubuntu@ics-server.taile550ef.ts.net
+# Note: the A40's OS hostname is "thesis", but its Tailscale DNS name is
+# "ics-server" (confirmed via `tailscale status --json`) — use the latter.
+ICS_HOST := ubuntu@ics-server.taile550ef.ts.net
 ICS_PATH  := /home/ubuntu/Master-Thesis/
 
 # Set to true to skip files already present on the remote, false to overwrite
