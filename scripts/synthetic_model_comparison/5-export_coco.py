@@ -307,7 +307,7 @@ def export_cell(
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--generator", metavar="NAME")
-    parser.add_argument("--prompt-regime", choices=["full", "compressed"])
+    parser.add_argument("--prompt-regime", choices=["full", "compressed", "maxlen"])
     parser.add_argument("--all", action="store_true", help="Export every cell found under train/*/*/index.jsonl")
     args = parser.parse_args()
 

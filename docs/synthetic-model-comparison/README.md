@@ -188,3 +188,62 @@ of this run. Per-cell `n_significant` distribution (share of images with
 Stages 3–5 (triage review, bbox labeling, COCO export) are still pending —
 those are human-in-the-loop review steps, not yet run on any cell. A first
 training pass is the natural next step once a cell clears them.
+
+**Update 2026-08-04 — best-effort export + first full §3.3 training pass
+on all five `maxlen` cells, results provisional, not thesis-final.**
+Stages 3/4 (human triage/bbox review) still have not run on any cell — the
+numbers below use `5-export_coco.py`'s documented best-effort fallback
+(MegaDetector's own boxes, no human review), which the training package's
+own README already flags as *"useful for pipeline verification, but full
+review is still required before a cell's numbers are thesis-final."*
+**These cells will need re-export and re-training once §3.4 lands.** All
+five cells exported cleanly at 1,200/1,200 images, 0 skipped (every image
+had at least one MD detection above 0.5 conf, so nothing fell through to
+the zero-detection SKIP path). `--prompt-regime maxlen` also needed adding
+to `3-single_detect_review.py`, `4-bbox_labeling_server.py`,
+`5-export_coco.py`, and `training/run_training_pipeline.py`'s argparse
+choices (the same gap `2-run_megadetector.py` already had fixed).
+
+Running §3.3 end-to-end on real data for the first time surfaced two
+latent bugs in the shared training loop (`scripts/training/yolov5s/training_pipeline.py`,
+imported by both the main YOLOv5s and YOLO26n pipelines, and duplicated
+into this package's own `training/training_pipeline.py`) — both now fixed
+in all three copies:
+
+1. **No gradient clipping anywhere in the training step** — training
+   diverged to NaN partway through the 3-epoch LR warmup on 2 of 5 cells
+   tested before the fix (confirmed not data-corruption: bbox geometry was
+   clean, and the historic incumbent-generator run had trained fine, just
+   with a lower initial loss). Fixed by adding
+   `scaler.unscale_` + `clip_grad_norm_(max_norm=10.0)` before
+   `scaler.step()`, matching Ultralytics' own trainer's clipping exactly.
+2. **The post-training full-eval hook hangs indefinitely** — it builds a
+   fresh `num_workers=8` DataLoader deep into a process that has already
+   been driving CUDA for the whole training run (unlike `dl_train`/`dl_val`/
+   `dl_test`, which fork their workers once near process start, before any
+   CUDA activity). Forking new workers at that point hung at 0% GPU/CPU
+   utilization for 7+ hours in practice with no error. Fixed by forcing
+   `num_workers=0` for that specific call; the *standalone* post-hoc eval
+   entrypoint (`eval_suite/run_evaluation.py --run-dir ...`, run as its own
+   fresh process) was unaffected and still defaults to
+   `constants.NUM_WORKERS`.
+
+Real-test results, 2 seeds (42/43) per cell, `--full-eval` on the fixed full
+9,742-image real test set:
+
+| Cell | seed 42 map / map_50 | seed 43 map / map_50 | avg map |
+|---|---|---|---|
+| `realvisxl-lightning` | 0.023 / 0.049 | 0.024 / 0.052 | 0.024 |
+| `sd35m` | 0.054 / 0.101 | 0.053 / 0.100 | 0.054 |
+| `flux2-klein-9b` | 0.037 / 0.079 | 0.036 / 0.075 | 0.037 |
+| `sd35-large` | 0.056 / 0.100 | 0.054 / 0.094 | 0.055 |
+| `sd35-large-turbo` | 0.047 / 0.093 | 0.039 / 0.088 | 0.043 |
+
+`sd35-large` and `sd35m` currently rank highest, `realvisxl-lightning`
+lowest — all in the same low-map range expected for a direct fine-tune on
+~960 synthetic training images (12 classes, one 80/20 internal split),
+consistent with the historic incumbent-generator run's own real-test map
+of 0.064 on the same test set. Per-run logs, eval reports, and per-class/
+confusion CSVs are at `scripts/synthetic_model_comparison/training/model_exports/yolo26n-<cell>-maxlen-seed<N>-<timestamp>/`.
+**Do not treat this ranking as final** — it reflects MegaDetector's
+best-effort boxes only, not the reviewed labels §3.4 will produce.

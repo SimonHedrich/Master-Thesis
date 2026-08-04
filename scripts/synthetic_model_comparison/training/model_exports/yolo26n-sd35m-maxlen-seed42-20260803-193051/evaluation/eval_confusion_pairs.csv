@@ -1,0 +1,7 @@
+true_species,pred_species,count
+plains zebra,mountain zebra,218
+plains zebra,grevy's zebra,189
+mountain zebra,plains zebra,157
+grevy's zebra,plains zebra,75
+mountain zebra,grevy's zebra,34
+grevy's zebra,mountain zebra,12

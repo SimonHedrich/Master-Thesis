@@ -61,7 +61,12 @@ def _run_full_evaluation(run_dir: Path, smoke: bool, device: torch.device) -> No
         device=device,
         max_det=constants.EVAL_MAX_DET,
         batch_size=constants.BATCH_SIZE,
-        num_workers=constants.NUM_WORKERS,
+        # 0, not constants.NUM_WORKERS: this DataLoader is freshly constructed
+        # here, deep into a process that has already been driving CUDA for
+        # the whole training run — forking new worker processes at this point
+        # (rather than near process start, like dl_train/dl_val/dl_test) hung
+        # indefinitely at 0% GPU/CPU utilization in practice.
+        num_workers=0,
         log_mlflow=True,
         limit=limit,
     )

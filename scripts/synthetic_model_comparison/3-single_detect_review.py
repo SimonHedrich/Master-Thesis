@@ -787,7 +787,7 @@ function onKey(e) {
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Synthetic Model Comparison — Single-Detection Triage Server")
     parser.add_argument("--generator", required=True, metavar="NAME")
-    parser.add_argument("--prompt-regime", required=True, choices=["full", "compressed"])
+    parser.add_argument("--prompt-regime", required=True, choices=["full", "compressed", "maxlen"])
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=8082)
     parser.add_argument("--force", action="store_true", help="Re-review already-decided images")

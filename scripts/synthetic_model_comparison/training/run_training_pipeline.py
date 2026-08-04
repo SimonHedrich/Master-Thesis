@@ -103,7 +103,12 @@ def _run_full_evaluation(run_dir: Path, generator: str, prompt_regime: str, smok
         device=device,
         max_det=constants.EVAL_MAX_DET,
         batch_size=constants.BATCH_SIZE,
-        num_workers=constants.NUM_WORKERS,
+        # 0, not constants.NUM_WORKERS: this DataLoader is freshly constructed
+        # here, deep into a process that has already been driving CUDA for
+        # the whole training run — forking new worker processes at this point
+        # (rather than near process start, like dl_train/dl_val/dl_test) hung
+        # indefinitely at 0% GPU/CPU utilization in practice.
+        num_workers=0,
         log_mlflow=True,
         limit=limit,
     )
@@ -256,7 +261,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--generator", required=True, metavar="NAME",
                         help="e.g. gemini-3.1-flash-image-preview")
-    parser.add_argument("--prompt-regime", required=True, choices=["full", "compressed"])
+    parser.add_argument("--prompt-regime", required=True, choices=["full", "compressed", "maxlen"])
     parser.add_argument("--seed", type=int, default=None,
                          help="Training-run seed override (default: constants.SEED). "
                               "The internal train/val split stays fixed across seeds "
