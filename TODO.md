@@ -66,9 +66,9 @@ multi-model GPU batch queue unattended): pause after each cell completes and
 check in before starting the next, in cheapest-first order
 (`realvisxl-lightning` → `sd35m` → `flux2-klein-9b` → `sd35-large` →
 `qwen-image` → `hidream-i1`) so a shortened campaign still bought the most
-model diversity per hour spent. `qwen-image`/`hidream-i1` stay in the queue
-(user decision 2026-07-30) but are the first candidates to drop if time runs
-short.
+model diversity per hour spent. `qwen-image` was dropped mid-queue (user
+decision 2026-07-30, confirmed via its `compressed`-regime smoke test —
+doc `13` §9); `hidream-i1` ran last and completed the queue — §3.1.
 
 ### 1.3 Git sync protocol
 
@@ -127,7 +127,7 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 ## 3. Synthetic-model-comparison experiment
 
 - [ ] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
-      `qwen-image` (~34h, next up), `hidream-i1` (~43h). `sd35-large-turbo`,
+      all six non-dropped cells are now complete — `sd35-large-turbo`,
       `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
       1200/1200, 0 failures), `sd35m` (actual: 7.98h inference,
       23.94s/image — above the ~5h estimate, 1200/1200, 0 failures),
@@ -135,25 +135,31 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       ~16-22h estimate, 1200/1200, 0 failures; **quality note:** `kinkajou`
       renders show a consistent genet/civet-like ringed tail rather than
       the real species' plain tail — a per-class model-accuracy signal for
-      §3.4/3.5, not a pipeline failure) and `sd35-large` (actual: 18.11h
+      §3.4/3.5, not a pipeline failure), `sd35-large` (actual: 18.11h
       inference, 54.34s/image — within the ~19-20h estimate, 1200/1200, 0
       failures; its own `kinkajou` renders are correct, confirming the
-      tail-confusion above is specific to `flux2-klein-9b`) are done —
-      doc `13` §6. Run in this cheapest-first order with a check-in
-      between each cell (§1.2) — not as one unattended queue. `qwen-image`
-      and `hidream-i1` already need `enable_model_cpu_offload()` on this
-      24GB card, so this work cannot move to the 3060 (§1.1). Note:
-      `hidream-i1` also needs `1i-generate_images_local_maxlen.py` extended
-      with its loader/tier support (currently only in `1g`, the
-      `compressed`-regime script — doc `13` §9) before that cell can run.
+      tail-confusion above is specific to `flux2-klein-9b`), and
+      `hidream-i1` (actual: 47.97h inference, 143.92s/image — above the
+      ~43h estimate, 1200/1200, 0 failures; its `kinkajou` renders are also
+      correct) — doc `13` §6. Run in this cheapest-first order with a
+      check-in between each cell (§1.2) — not as one unattended queue.
+      `hidream-i1` first needed `1i-generate_images_local_maxlen.py`
+      extended with its loader/tier support (previously only in `1g`, the
+      `compressed`-regime script), including fixing a copy-paste bug where
+      its generator function would otherwise have hardcoded
+      `max_sequence_length=128` instead of the 512 its maxlen tier
+      assignment requires — doc `13` §9. `qwen-image` was dropped, not
+      generated, due to confirmed NF4-quantization graininess (doc `13`
+      §9) — its `enable_model_cpu_offload()` requirement is therefore now
+      moot for this task.
 - [ ] **3.2 [3060] (gap) Run the labeling pipeline**
       (`scripts/synthetic_model_comparison/2-run_megadetector.py` through
       `5-export_coco.py`) on each generated cell — blocks the training step
       below. Stage 2 (MegaDetector) done directly on the A40 (GPU was idle,
-      cheap enough not to wait for a 3060 handoff) for all five completed
+      cheap enough not to wait for a 3060 handoff) for all six completed
       `maxlen` cells: `realvisxl-lightning`, `sd35m`, `flux2-klein-9b`,
-      `sd35-large`, `sd35-large-turbo` — 1,200/1,200 images each, 0 missing.
-      Required adding `"maxlen"` to `2-run_megadetector.py`'s
+      `sd35-large`, `sd35-large-turbo`, `hidream-i1` — 1,200/1,200 images
+      each, 0 missing. Required adding `"maxlen"` to `2-run_megadetector.py`'s
       `--prompt-regime` choices (only had `full`/`compressed`, a gap from
       before doc `13` introduced the `maxlen` regime). See
       `docs/synthetic-model-comparison/README.md` for the per-cell

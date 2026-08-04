@@ -2,7 +2,7 @@
 """
 Stage 1i — Generate a local-model generator cell at the `maxlen` prompt regime
 
-Duplicate of 1g-generate_images_local.py (same six model loaders/generators,
+Duplicate of 1g-generate_images_local.py (same seven model loaders/generators,
 copied per this directory's convention rather than imported) adapted to
 consume the `maxlen` prompt regime built by 1h-generate_prompts_maxlen.py
 instead of the `compressed` regime. Where 1g gives every model the same
@@ -23,8 +23,9 @@ Per-generator prompt tier (`GENERATOR_TIER` below):
     sd35m                 256 T5 tokens — reads 1h's `prompts_maxlen_256`
     sd35-large            metadata (reports/model_comparison_maxlen_prompt_metadata.jsonl,
     sd35-large-turbo      filtered to tier == 256).
-    flux2-klein-9b        512 Qwen-family tokens — reads 1h's
+    flux2-klein-9b        512 Qwen-family/Llama-family tokens — reads 1h's
     qwen-image            `prompts_maxlen_512` metadata (tier == 512).
+    hidream-i1
 
 Output goes to data/synthetic_model_comparison/train/<generator>/maxlen/
 (a new prompt-regime folder, sibling to <generator>/compressed/) with its
@@ -89,6 +90,7 @@ AVAILABLE_GENERATORS = (
     "sd35-large",
     "sd35-large-turbo",
     "qwen-image",
+    "hidream-i1",
 )
 HEADLINE_GENERATORS = ("flux2-klein-9b", "realvisxl-lightning", "sd35m")
 
@@ -100,6 +102,7 @@ GENERATOR_TIER: dict[str, int] = {
     "sd35-large-turbo": 256,
     "flux2-klein-9b": 512,
     "qwen-image": 512,
+    "hidream-i1": 512,
 }
 
 # Nearest 4:3 ~1MP native bucket per model family (doc 04 §3):
@@ -111,6 +114,7 @@ RESOLUTIONS: dict[str, tuple[int, int]] = {
     "sd35-large": (1152, 864),
     "sd35-large-turbo": (1152, 864),
     "qwen-image": (1152, 864),
+    "hidream-i1": (1152, 864),
 }
 
 # Negative prompt for the SDXL/SD3/Qwen families (FLUX ignores CFG-based
@@ -371,6 +375,76 @@ def _generate_qwen_image(pipe, prompt: str, seed: int, width: int, height: int) 
     ).images[0]
 
 
+def _load_hidream_i1():
+    from diffusers import BitsAndBytesConfig as DiffusersBnbConfig
+    from diffusers import HiDreamImagePipeline, HiDreamImageTransformer2DModel
+    from transformers import AutoTokenizer
+    from transformers import BitsAndBytesConfig as TransformersBnbConfig
+    from transformers import LlamaForCausalLM
+
+    _enable_tf32()
+
+    nf4_diffusers = DiffusersBnbConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.bfloat16,
+    )
+    nf4_transformers = TransformersBnbConfig(
+        load_in_4bit=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.bfloat16,
+    )
+
+    model_id = "HiDream-ai/HiDream-I1-Full"
+    llama_id = "meta-llama/Llama-3.1-8B-Instruct"
+
+    print("  Loading Llama-3.1-8B text encoder (NF4) ...")
+    tokenizer_4 = AutoTokenizer.from_pretrained(llama_id)
+    text_encoder_4 = LlamaForCausalLM.from_pretrained(
+        llama_id,
+        output_hidden_states=True,
+        quantization_config=nf4_transformers,
+        torch_dtype=torch.bfloat16,
+    )
+
+    print("  Loading HiDream-I1 transformer (NF4) ...")
+    transformer = HiDreamImageTransformer2DModel.from_pretrained(
+        model_id,
+        subfolder="transformer",
+        quantization_config=nf4_diffusers,
+        torch_dtype=torch.bfloat16,
+    )
+
+    print("  Assembling HiDreamImagePipeline ...")
+    pipe = HiDreamImagePipeline.from_pretrained(
+        model_id,
+        transformer=transformer,
+        tokenizer_4=tokenizer_4,
+        text_encoder_4=text_encoder_4,
+        torch_dtype=torch.bfloat16,
+    )
+    pipe.enable_model_cpu_offload()
+    return pipe
+
+
+def _generate_hidream_i1(pipe, prompt: str, seed: int, width: int, height: int) -> Image.Image:
+    # max_sequence_length also gates the Llama-3.1-8B (tokenizer_4) branch of
+    # encode_prompt(), so it must match this generator's 512 maxlen tier —
+    # the compressed-regime script's 128 default would silently truncate
+    # every maxlen prompt back down and defeat the tier assignment.
+    generator = torch.Generator("cpu").manual_seed(seed)
+    return pipe(
+        prompt=prompt,
+        negative_prompt=NEGATIVE_PROMPT,
+        num_inference_steps=50,
+        guidance_scale=5.0,
+        height=height,
+        width=width,
+        generator=generator,
+        max_sequence_length=512,
+    ).images[0]
+
+
 _LOADERS = {
     "flux2-klein-9b": _load_flux2_klein,
     "realvisxl-lightning": _load_realvisxl_lightning,
@@ -378,6 +452,7 @@ _LOADERS = {
     "sd35-large": _load_sd35_large,
     "sd35-large-turbo": _load_sd35_large_turbo,
     "qwen-image": _load_qwen_image,
+    "hidream-i1": _load_hidream_i1,
 }
 _GENERATORS = {
     "flux2-klein-9b": _generate_flux2_klein,
@@ -386,6 +461,7 @@ _GENERATORS = {
     "sd35-large": _generate_sd35_large,
     "sd35-large-turbo": _generate_sd35_large_turbo,
     "qwen-image": _generate_qwen_image,
+    "hidream-i1": _generate_hidream_i1,
 }
 
 # ---------------------------------------------------------------------------
