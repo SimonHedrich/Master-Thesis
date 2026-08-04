@@ -191,10 +191,14 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       exported the same way (2026-08-04, on the A40):** 1,200 images, 1,198
       annotated / 2 skipped (its two `n_significant == 0` images from the
       MegaDetector table above), 1,229 boxes total — also provisional, same
-      caveat. `annotations.json` is gitignored (`data/*`); rsynced to
-      `gpu-server` (the 3060) right after export, checksums confirmed
-      matching — the 3060 can now run §3.3 training on this cell whenever
-      it picks it up. Note: `gpu-server`'s login user is `debian`, not
+      caveat. `annotations.json`, `index.jsonl`, and all 1,200 images
+      (`data/*`, gitignored) rsynced to `gpu-server` (the 3060), checksums
+      and counts confirmed matching on both ends (1,200/1,200 images,
+      1.5GB) — the 3060 can now run §3.3 training on this cell whenever
+      it picks it up. Found and fixed a stale partial copy already sitting
+      on `gpu-server` (21 images, a 2-record `index.jsonl` — from an
+      earlier, unrelated attempt) before syncing the authoritative version
+      over it. Note: `gpu-server`'s login user is `debian`, not
       `ubuntu` as the A40's own `ICS_HOST` uses — confirmed live, since
       TODO.md previously only inferred the host alias, not the user.
 - [x] **3.3 [3060] Train yolo26n on each comparison dataset**
