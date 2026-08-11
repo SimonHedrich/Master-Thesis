@@ -139,26 +139,23 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 
 ## 3. Synthetic-model-comparison experiment
 
-- [ ] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
-      `qwen-image` (~34h, next up), `hidream-i1` (~43h). `sd35-large-turbo`,
-      `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
-      1200/1200, 0 failures), `sd35m` (actual: 7.98h inference,
+- [x] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
+      `sd35-large-turbo`, `realvisxl-lightning` (actual: 0.31h inference,
+      0.93s/image, 1200/1200, 0 failures), `sd35m` (actual: 7.98h inference,
       23.94s/image — above the ~5h estimate, 1200/1200, 0 failures),
       `flux2-klein-9b` (actual: 10.40h inference, 31.19s/image — under the
       ~16-22h estimate, 1200/1200, 0 failures; **quality note:** `kinkajou`
       renders show a consistent genet/civet-like ringed tail rather than
       the real species' plain tail — a per-class model-accuracy signal for
-      §3.4/3.5, not a pipeline failure) and `sd35-large` (actual: 18.11h
+      §3.4/3.5, not a pipeline failure), `sd35-large` (actual: 18.11h
       inference, 54.34s/image — within the ~19-20h estimate, 1200/1200, 0
       failures; its own `kinkajou` renders are correct, confirming the
-      tail-confusion above is specific to `flux2-klein-9b`) are done —
-      doc `13` §6. Run in this cheapest-first order with a check-in
-      between each cell (§1.2) — not as one unattended queue. `qwen-image`
-      and `hidream-i1` already need `enable_model_cpu_offload()` on this
-      24GB card, so this work cannot move to the 3060 (§1.1). Note:
-      `hidream-i1` also needs `1i-generate_images_local_maxlen.py` extended
-      with its loader/tier support (currently only in `1g`, the
-      `compressed`-regime script — doc `13` §9) before that cell can run.
+      tail-confusion above is specific to `flux2-klein-9b`), and now
+      **`hidream-i1`** (1200/1200 images, exported) are all done — doc `13`
+      §6/§9. `qwen-image` was **dropped, not deferred**, after its
+      `compressed`-regime smoke test showed structural NF4-quantization
+      graininess (doc `13` §9) — the six-model `maxlen` grid is now
+      considered complete rather than seven-model.
 - [x] **3.2 [3060] (gap) Run the labeling pipeline**
       (`scripts/synthetic_model_comparison/2-run_megadetector.py` through
       `5-export_coco.py`) on each generated cell — blocks the training step
@@ -173,7 +170,9 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       `n_significant` breakdown. **2026-08-04: stage 5 (COCO export) run
       for all five cells** using `5-export_coco.py`'s documented best-effort
       fallback (MegaDetector's own boxes, no human review) — all five
-      exported 1,200/1,200 images, 0 skipped. **Stages 3/4 (triage review,
+      exported 1,200/1,200 images, 0 skipped. **`hidream-i1` has since been
+      exported the same way too** (1,200/1,200 `annotations.json`), completing
+      the six-cell set — see §3.1. **Stages 3/4 (triage review,
       bbox labeling) still have not run on any cell** — these exports are
       explicitly provisional/not thesis-final until they do (§3.4). Needed
       the same `"maxlen"` argparse-choices fix in `3-single_detect_review.py`,
@@ -192,6 +191,69 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       2026-08-04 update for the full per-seed table. All in the same
       low-map range as the historic incumbent-generator direct-FT run
       (0.064), as expected for ~960-image synthetic fine-tunes.
+      **2026-08-05: `hidream-i1` trained the same way, completing the
+      6-cell `maxlen` grid** — avg real-test map 0.029, second-to-last
+      despite being by far the most expensive cell to generate (~43h). A new
+      aggregation script (`scripts/synthetic_model_comparison/6-compare_maxlen_cells.py`)
+      and a dedicated deep-comparison writeup
+      (`docs/synthetic-model-comparison/14_maxlen-cell-deep-comparison.md`,
+      with charts in `reports/model_comparison_maxlen_*`) now cover all six
+      cells: headline ranking, per-class/band breakdown, cost-vs-quality
+      (no monotonic relationship — `sd35m` is the standout cost/quality
+      tradeoff), and look-alike-group confusion (zebra confusion tracks
+      overall detector quality rather than being an independent failure
+      mode). §3.4/§3.5 remain intentionally deferred (not run this pass),
+      so this comparison is downstream-mAP-only and still provisional.
+      **Same day: a second comparison** adds the one already-trained
+      API-model cell (`gemini-3.1-flash-image-preview`, `full` regime, 1
+      seed) alongside the six `maxlen` cells —
+      `scripts/synthetic_model_comparison/7-compare_all_cells.py` and
+      `docs/synthetic-model-comparison/15_all-cells-comparison-with-api-incumbent.md`.
+      The incumbent tops the ranking (0.064 mAP) but the comparison isn't
+      controlled (unabridged `full` prompt vs. length-capped `maxlen`, 1
+      seed vs. 2); its lead turns out to be concentrated in the zebra
+      classes specifically, and looks like better zebra detection rather
+      than better fine-species discrimination (its zebra confusion rate
+      isn't the lowest in the grid). `gemini-3.1-flash-lite-image` and both
+      `gpt-image-2` tiers remain unlabeled/untrained — left out rather than
+      triggering a new labeling campaign.
+      **2026-08-07: the controlled full-vs-compressed ablation, plus every
+      remaining API cell labeled and trained.** Fixed both API generation
+      scripts (`1e-generate_images_openai.py`, `1d-generate_images_new_generator.py`)
+      to support `--prompt-regime compressed` (stale guard / hardcoded
+      `"full"`, respectively). Generated `gpt-image-2-low/compressed`
+      (1,200/1,200, ~$3.60 estimated on the remaining OpenAI credit) and
+      `gemini-3.1-flash-lite-image/compressed` (1,200/1,200, flexible
+      Google/Gemini budget, no exact cost data point). Labeled + trained
+      (2 seeds, `--full-eval`) five cells total: those two plus the three
+      previously-generated-but-untrained `full`-regime cells
+      (`gpt-image-2-low/full`, `gemini-3.1-flash-lite-image/full`,
+      `gpt-image-2-medium/full`) — `gpt-image-2-medium` had never had a
+      compressed generation requested, so it's a bonus fifth cell outside
+      the controlled pair. New script
+      `scripts/synthetic_model_comparison/8-compare_prompt_regime_ablation.py`
+      and doc `docs/synthetic-model-comparison/16_prompt-length-ablation.md`.
+      **Headline: prompt length cuts downstream mAP ~42-49%, independent of
+      model** (`gpt-image-2-low` 0.130→0.075; `gemini-3.1-flash-lite-image`
+      0.094→0.048) — resolves the confound flagged in the previous entry.
+      **Bonus finding: `gpt-image-2-low/full` (0.130) and
+      `gpt-image-2-medium/full` (0.132) are the two best-performing cells
+      in the entire experiment**, over 2x the best local `maxlen` cell and
+      ~2x the gemini incumbent. Same provisional caveat as every comparison
+      so far.
+      **2026-08-08: consolidated into one full-experiment comparison** —
+      `scripts/synthetic_model_comparison/9-compare_all_models.py` and
+      `docs/synthetic-model-comparison/17_full-experiment-comparison.md`
+      bring all 12 trained cells into one ranking and surface a new result:
+      comparing the two `full`-regime gemini cells directly (a genuinely
+      single-variable comparison neither previous doc made) shows
+      `gemini-3.1-flash-lite-image` (0.094 mAP) clearly beats the
+      production incumbent `gemini-3.1-flash-image-preview` (0.064 mAP) on
+      nearly every class. Combined with `gpt-image-2-low` tying
+      `gpt-image-2-medium` at a third of the cost, the cheaper tier is not
+      the worse one on either API family. The top 5 of 12 cells overall are
+      all API models — every local `maxlen` cell trails even the weakest
+      API cell. Same provisional caveat as every comparison so far.
       **Two real bugs found and fixed along the way** (both also existed in
       the main, non-comparison training pipeline — see
       `scripts/training/yolov5s/training_pipeline.py`, imported by both main

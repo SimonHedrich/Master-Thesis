@@ -1,0 +1,145 @@
+generator,prompt_regime,category,class_name,band,real_test_images,ap_mean,ap_std
+realvisxl-lightning,maxlen,local,american black bear,D,2097,0.07236539199948311,0.0014118930833346306
+realvisxl-lightning,maxlen,local,aye-aye,A,29,0.001879547897260636,0.0006062689979848605
+realvisxl-lightning,maxlen,local,grevy's zebra,B,224,0.0063629006035625935,7.460387313133033e-05
+realvisxl-lightning,maxlen,local,kinkajou,A,160,0.005265006446279585,0.00464051998019465
+realvisxl-lightning,maxlen,local,lion,D,2097,0.027816765010356903,0.0010316916312739196
+realvisxl-lightning,maxlen,local,mountain zebra,D,467,0.05266127549111843,0.0005504194023060525
+realvisxl-lightning,maxlen,local,pangolin family,A,52,0.005526433233171701,0.00048178194241704563
+realvisxl-lightning,maxlen,local,plains zebra,D,2079,0.0671343095600605,0.019954188351459904
+realvisxl-lightning,maxlen,local,red fox,D,2150,0.03286031633615494,0.004280328567645121
+realvisxl-lightning,maxlen,local,ringtail,A,186,0.0016648554883431643,0.0010848875806987793
+realvisxl-lightning,maxlen,local,saiga,A,50,0.0013246860180515796,0.0004990576639720515
+realvisxl-lightning,maxlen,local,water deer,A,151,0.003297876799479127,0.0019238966210397654
+sd35m,maxlen,local,american black bear,D,2097,0.1871461719274521,0.024170754005664107
+sd35m,maxlen,local,aye-aye,A,29,0.0009024460159707814,0.000217989715512138
+sd35m,maxlen,local,grevy's zebra,B,224,0.025654518976807594,0.0010746392699065206
+sd35m,maxlen,local,kinkajou,A,160,0.0024941092706285417,0.0010197335331437788
+sd35m,maxlen,local,lion,D,2097,0.07736480236053467,0.008469230084157984
+sd35m,maxlen,local,mountain zebra,D,467,0.045232102274894714,0.012077290076274026
+sd35m,maxlen,local,pangolin family,A,52,0.0026211662916466594,0.0009279341574103213
+sd35m,maxlen,local,plains zebra,D,2079,0.13392215222120285,0.01788289728646021
+sd35m,maxlen,local,red fox,D,2150,0.14126784354448318,0.010690874762864231
+sd35m,maxlen,local,ringtail,A,186,0.0017772270366549492,0.0004117533072549253
+sd35m,maxlen,local,saiga,A,50,0.011534207034856081,0.00010230554785962342
+sd35m,maxlen,local,water deer,A,151,0.015290972776710987,0.002658577105951637
+flux2-klein-9b,maxlen,local,american black bear,D,2097,0.11842884868383408,0.00469305158168805
+flux2-klein-9b,maxlen,local,aye-aye,A,29,0.006625397363677621,0.0022054481058046654
+flux2-klein-9b,maxlen,local,grevy's zebra,B,224,0.017504900693893433,0.005973507083763426
+flux2-klein-9b,maxlen,local,kinkajou,A,160,0.006358684506267309,0.0021506028728185945
+flux2-klein-9b,maxlen,local,lion,D,2097,0.0367418359965086,0.0013855486688372901
+flux2-klein-9b,maxlen,local,mountain zebra,D,467,0.02978905476629734,0.0022733351542268258
+flux2-klein-9b,maxlen,local,pangolin family,A,52,0.0011324216320645064,0.00033536235012408854
+flux2-klein-9b,maxlen,local,plains zebra,D,2079,0.1335565224289894,0.010204078662563405
+flux2-klein-9b,maxlen,local,red fox,D,2150,0.08658665046095848,0.0042490398009818455
+flux2-klein-9b,maxlen,local,ringtail,A,186,0.0008076440135482699,0.00028404271747956673
+flux2-klein-9b,maxlen,local,saiga,A,50,0.002278679923620075,0.0014486574006275915
+flux2-klein-9b,maxlen,local,water deer,A,151,0.0017630428774282336,0.00011264601372396808
+sd35-large-turbo,maxlen,local,american black bear,D,2097,0.1737360805273056,0.03224187549550032
+sd35-large-turbo,maxlen,local,aye-aye,A,29,0.007820588303729892,0.003720932215878502
+sd35-large-turbo,maxlen,local,grevy's zebra,B,224,0.015234895516186953,0.0011084351155116858
+sd35-large-turbo,maxlen,local,kinkajou,A,160,0.003040654060896486,0.0024285561527099403
+sd35-large-turbo,maxlen,local,lion,D,2097,0.05263424478471279,0.015287233571534194
+sd35-large-turbo,maxlen,local,mountain zebra,D,467,0.02801891602575779,0.001013033748273753
+sd35-large-turbo,maxlen,local,pangolin family,A,52,0.003291945206001401,0.002610422026622162
+sd35-large-turbo,maxlen,local,plains zebra,D,2079,0.15142527967691422,0.0037463174602999656
+sd35-large-turbo,maxlen,local,red fox,D,2150,0.07604371756315231,0.012261698343577378
+sd35-large-turbo,maxlen,local,ringtail,A,186,0.0013524257228709757,0.00024554399974773824
+sd35-large-turbo,maxlen,local,saiga,A,50,0.0005406557902460918,0.0003904359128387865
+sd35-large-turbo,maxlen,local,water deer,A,151,0.00512171967420727,0.0020873863866831743
+sd35-large,maxlen,local,american black bear,D,2097,0.1834459751844406,0.01777821505147128
+sd35-large,maxlen,local,aye-aye,A,29,0.0021892074728384614,0.0008613125022602495
+sd35-large,maxlen,local,grevy's zebra,B,224,0.032543850131332874,0.017224393608236986
+sd35-large,maxlen,local,kinkajou,A,160,0.005821139784529805,0.0015369194045364199
+sd35-large,maxlen,local,lion,D,2097,0.08030625060200691,0.017548709656261267
+sd35-large,maxlen,local,mountain zebra,D,467,0.03589645214378834,0.0036729529679326587
+sd35-large,maxlen,local,pangolin family,A,52,0.01431720843538642,0.002009125121990635
+sd35-large,maxlen,local,plains zebra,D,2079,0.16699997335672379,0.008088349014165035
+sd35-large,maxlen,local,red fox,D,2150,0.10279764607548714,0.0020566239617179046
+sd35-large,maxlen,local,ringtail,A,186,0.007953396299853921,0.006227834009296066
+sd35-large,maxlen,local,saiga,A,50,0.006529214791953564,0.00207903949968062
+sd35-large,maxlen,local,water deer,A,151,0.017862887121737003,0.003385096578048332
+hidream-i1,maxlen,local,american black bear,D,2097,0.08779121935367584,0.02891083093357819
+hidream-i1,maxlen,local,aye-aye,A,29,0.0011273912678007036,0.0007633768499604406
+hidream-i1,maxlen,local,grevy's zebra,B,224,0.009847179986536503,0.00851048526340507
+hidream-i1,maxlen,local,kinkajou,A,160,0.0005141001602169126,7.95498304995028e-05
+hidream-i1,maxlen,local,lion,D,2097,0.03540456295013428,0.0002806769376582988
+hidream-i1,maxlen,local,mountain zebra,D,467,0.04709012433886528,0.0036718861258297265
+hidream-i1,maxlen,local,pangolin family,A,52,0.021794352680444717,0.00698148057603784
+hidream-i1,maxlen,local,plains zebra,D,2079,0.08870532363653183,0.02538956710761427
+hidream-i1,maxlen,local,red fox,D,2150,0.05022416263818741,0.0005241224030132866
+hidream-i1,maxlen,local,ringtail,A,186,0.0008548919577151537,0.00012754393685580713
+hidream-i1,maxlen,local,saiga,A,50,0.0027594903658609837,0.002636681530037005
+hidream-i1,maxlen,local,water deer,A,151,0.0074068071553483605,0.00651188746928292
+gemini-3.1-flash-image-preview,full,api_full,american black bear,D,2097,0.16720010340213776,0.0
+gemini-3.1-flash-image-preview,full,api_full,aye-aye,A,29,0.024443095549941063,0.0
+gemini-3.1-flash-image-preview,full,api_full,grevy's zebra,B,224,0.11880235373973846,0.0
+gemini-3.1-flash-image-preview,full,api_full,kinkajou,A,160,0.012055527418851852,0.0
+gemini-3.1-flash-image-preview,full,api_full,lion,D,2097,0.031010935083031654,0.0
+gemini-3.1-flash-image-preview,full,api_full,mountain zebra,D,467,0.10552748292684555,0.0
+gemini-3.1-flash-image-preview,full,api_full,pangolin family,A,52,0.004144907929003239,0.0
+gemini-3.1-flash-image-preview,full,api_full,plains zebra,D,2079,0.20667831599712372,0.0
+gemini-3.1-flash-image-preview,full,api_full,red fox,D,2150,0.08476731181144714,0.0
+gemini-3.1-flash-image-preview,full,api_full,ringtail,A,186,0.0014150619972497225,0.0
+gemini-3.1-flash-image-preview,full,api_full,saiga,A,50,0.009831429459154606,0.0
+gemini-3.1-flash-image-preview,full,api_full,water deer,A,151,0.002996646799147129,0.0
+gpt-image-2-low,full,api_full,american black bear,D,2097,0.31489890813827515,0.017663828504612712
+gpt-image-2-low,full,api_full,aye-aye,A,29,0.03249874245375395,0.023116757471904812
+gpt-image-2-low,full,api_full,grevy's zebra,B,224,0.18522270768880844,0.004891320893795423
+gpt-image-2-low,full,api_full,kinkajou,A,160,0.0177976181730628,0.003048530285086556
+gpt-image-2-low,full,api_full,lion,D,2097,0.14096026867628098,0.02752693916272298
+gpt-image-2-low,full,api_full,mountain zebra,D,467,0.20125968009233475,0.025103685034164873
+gpt-image-2-low,full,api_full,pangolin family,A,52,0.021980508463457227,0.020551352230759334
+gpt-image-2-low,full,api_full,plains zebra,D,2079,0.2869359850883484,0.01448119353300957
+gpt-image-2-low,full,api_full,red fox,D,2150,0.26487109810113907,0.05655920570357318
+gpt-image-2-low,full,api_full,ringtail,A,186,0.010512969456613064,0.005983682913500776
+gpt-image-2-low,full,api_full,saiga,A,50,0.02396500948816538,0.0017941057303227212
+gpt-image-2-low,full,api_full,water deer,A,151,0.05364994890987873,0.004433455970819294
+gpt-image-2-medium,full,api_full,american black bear,D,2097,0.34177082777023315,0.021427542076635546
+gpt-image-2-medium,full,api_full,aye-aye,A,29,0.011325402650982141,0.002557881040869523
+gpt-image-2-medium,full,api_full,grevy's zebra,B,224,0.17973796278238297,0.003308854246181141
+gpt-image-2-medium,full,api_full,kinkajou,A,160,0.01764464075677097,0.014078250234182438
+gpt-image-2-medium,full,api_full,lion,D,2097,0.12093910202383995,0.002498101663157392
+gpt-image-2-medium,full,api_full,mountain zebra,D,467,0.2537377253174782,0.020973357100370026
+gpt-image-2-medium,full,api_full,pangolin family,A,52,0.011046220548450947,0.0019479035318060215
+gpt-image-2-medium,full,api_full,plains zebra,D,2079,0.29891590774059296,0.02510310551499785
+gpt-image-2-medium,full,api_full,red fox,D,2150,0.2606905996799469,0.027592150874081463
+gpt-image-2-medium,full,api_full,ringtail,A,186,0.005887642968446016,0.0002055086918836273
+gpt-image-2-medium,full,api_full,saiga,A,50,0.03631775267422199,0.004165728652365968
+gpt-image-2-medium,full,api_full,water deer,A,151,0.04108728468418121,0.0040378314063816275
+gemini-3.1-flash-lite-image,full,api_full,american black bear,D,2097,0.2521842420101166,0.002227671678043304
+gemini-3.1-flash-lite-image,full,api_full,aye-aye,A,29,0.031883539631962776,0.027644009936996086
+gemini-3.1-flash-lite-image,full,api_full,grevy's zebra,B,224,0.15599020943045616,0.04832787877419101
+gemini-3.1-flash-lite-image,full,api_full,kinkajou,A,160,0.02133827656507492,0.0008979280708124696
+gemini-3.1-flash-lite-image,full,api_full,lion,D,2097,0.07057761214673519,0.012038997030223847
+gemini-3.1-flash-lite-image,full,api_full,mountain zebra,D,467,0.1140463575720787,0.03521747461050582
+gemini-3.1-flash-lite-image,full,api_full,pangolin family,A,52,0.003442605258896947,0.0012018480076077646
+gemini-3.1-flash-lite-image,full,api_full,plains zebra,D,2079,0.2544469088315964,0.008382439186361926
+gemini-3.1-flash-lite-image,full,api_full,red fox,D,2150,0.19631696492433548,0.005742118251260586
+gemini-3.1-flash-lite-image,full,api_full,ringtail,A,186,0.005288468906655908,0.0015013138786233182
+gemini-3.1-flash-lite-image,full,api_full,saiga,A,50,0.012998045422136784,0.007217630685333395
+gemini-3.1-flash-lite-image,full,api_full,water deer,A,151,0.00881232414394617,7.315507521376835e-05
+gpt-image-2-low,compressed,api_compressed,american black bear,D,2097,0.23872023820877075,0.015151728819393638
+gpt-image-2-low,compressed,api_compressed,aye-aye,A,29,0.04733141977339983,0.03514572355218307
+gpt-image-2-low,compressed,api_compressed,grevy's zebra,B,224,0.0894569642841816,0.005691979306600814
+gpt-image-2-low,compressed,api_compressed,kinkajou,A,160,0.029337050393223763,0.007013016955436117
+gpt-image-2-low,compressed,api_compressed,lion,D,2097,0.05055978335440159,0.001333144331070057
+gpt-image-2-low,compressed,api_compressed,mountain zebra,D,467,0.12667406722903252,0.022319690760845962
+gpt-image-2-low,compressed,api_compressed,pangolin family,A,52,0.0022043164062779397,0.0021407175023682974
+gpt-image-2-low,compressed,api_compressed,plains zebra,D,2079,0.20370028167963028,0.012240761896579593
+gpt-image-2-low,compressed,api_compressed,red fox,D,2150,0.10370418801903725,0.017869826495065768
+gpt-image-2-low,compressed,api_compressed,ringtail,A,186,0.0014919490204192698,0.0003764246169893668
+gpt-image-2-low,compressed,api_compressed,saiga,A,50,0.0031442653853446245,0.00196534475382769
+gpt-image-2-low,compressed,api_compressed,water deer,A,151,0.004970603855326772,0.002002188343415799
+gemini-3.1-flash-lite-image,compressed,api_compressed,american black bear,D,2097,0.15774491429328918,0.0002808665984765978
+gemini-3.1-flash-lite-image,compressed,api_compressed,aye-aye,A,29,0.020135926082730293,0.02141290394931211
+gemini-3.1-flash-lite-image,compressed,api_compressed,grevy's zebra,B,224,0.07084541395306587,0.018527506992654014
+gemini-3.1-flash-lite-image,compressed,api_compressed,kinkajou,A,160,0.010614450089633465,0.0024921655429624356
+gemini-3.1-flash-lite-image,compressed,api_compressed,lion,D,2097,0.035929614678025246,0.0026100990105409967
+gemini-3.1-flash-lite-image,compressed,api_compressed,mountain zebra,D,467,0.03926128335297108,0.008143384895786168
+gemini-3.1-flash-lite-image,compressed,api_compressed,pangolin family,A,52,0.00038646812026854604,2.880446924545777e-05
+gemini-3.1-flash-lite-image,compressed,api_compressed,plains zebra,D,2079,0.16049014776945114,0.026845108520937994
+gemini-3.1-flash-lite-image,compressed,api_compressed,red fox,D,2150,0.07094575092196465,0.008391095095374852
+gemini-3.1-flash-lite-image,compressed,api_compressed,ringtail,A,186,0.0006076513964217156,0.00011741531652787417
+gemini-3.1-flash-lite-image,compressed,api_compressed,saiga,A,50,0.002955616160761565,0.0023775337705927093
+gemini-3.1-flash-lite-image,compressed,api_compressed,water deer,A,151,0.005934417247772217,0.004255023336381377

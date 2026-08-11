@@ -6,15 +6,20 @@ API, reusing an existing cell's metadata and shared prompt text
 Materializes a full 12-class x 100-images/class generator cell for the
 synthetic-model-comparison experiment
 (docs/synthetic-model-comparison/01_experiment-design.md) without
-re-deriving prompt metadata: it reads the incumbent
-(gemini-3.1-flash-image-preview) cell's index.jsonl as the canonical source
-of per-image class/band/shot_type/distance/lighting/occlusion/pose/
-environment metadata, and reads prompt text from each record's
-`dest_prompt_file` (the shared data/synthetic_model_comparison/train/
-prompts_full/<slug>/<NNN>.txt location that
+re-deriving prompt metadata. For `--prompt-regime full` (default), it reads
+the incumbent (gemini-3.1-flash-image-preview) cell's index.jsonl as the
+canonical source of per-image class/band/shot_type/distance/lighting/
+occlusion/pose/environment metadata, and reads prompt text from each
+record's `dest_prompt_file` (the shared data/synthetic_model_comparison/
+train/prompts_full/<slug>/<NNN>.txt location that
 docs/synthetic-model-comparison/10_train-subset-incumbent-selection.md §5
 specifically designed for reuse across generators running the same `full`
-regime).
+regime). For `--prompt-regime compressed`, metadata instead comes from the
+shared, generator-agnostic
+reports/model_comparison_compressed_prompt_metadata.jsonl (built by
+1f-generate_prompts_compressed.py; all 12 classes, 1,200 records) — no
+generator has a full-scale compressed index.jsonl, only small benchmark
+sets, so `--source-generator` is ignored for that regime.
 
 Generic over `--generator`: point it at any Gemini-API-compatible model ID
 that hasn't had a cell generated yet (e.g. gemini-3.1-flash-lite-image).
@@ -44,6 +49,10 @@ Usage:
         --generator gemini-3.1-flash-lite-image --mode status
     uv run python scripts/synthetic_model_comparison/1d-generate_images_new_generator.py \\
         --generator gemini-3.1-flash-lite-image --mode retrieve
+
+    # compressed-regime cell (shared metadata, --source-generator ignored):
+    uv run python scripts/synthetic_model_comparison/1d-generate_images_new_generator.py \\
+        --generator gemini-3.1-flash-lite-image --prompt-regime compressed --image-size 1K --mode run --classes lion --limit 3
 
 Requirements:
     pip install google-genai httpx pillow python-dotenv
@@ -84,6 +93,9 @@ TRAIN_ROOT = REPO_ROOT / "data" / "synthetic_model_comparison" / "train"
 # Shared credentials with the production pipeline — not duplicated per experiment.
 ENV_PATH = REPO_ROOT / "scripts" / "synthetic" / ".env"
 
+# Shared, generator-agnostic compressed-prompt metadata (1f-generate_prompts_compressed.py).
+COMPRESSED_METADATA_PATH = REPO_ROOT / "reports" / "model_comparison_compressed_prompt_metadata.jsonl"
+
 IMAGE_ASPECT_RATIO = "4:3"
 POLL_INTERVAL = 60  # seconds
 
@@ -100,8 +112,8 @@ _GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta"
 # I/O
 # ---------------------------------------------------------------------------
 
-def load_source_index(source_generator: str) -> list[dict]:
-    path = TRAIN_ROOT / source_generator / "full" / "index.jsonl"
+def load_source_index(source_generator: str, prompt_regime: str) -> list[dict]:
+    path = TRAIN_ROOT / source_generator / prompt_regime / "index.jsonl"
     if not path.exists():
         sys.exit(f"Error: {path} not found (--source-generator cell must already exist).")
     records = []
@@ -110,6 +122,27 @@ def load_source_index(source_generator: str) -> list[dict]:
             line = line.strip()
             if line:
                 records.append(json.loads(line))
+    return records
+
+
+def load_compressed_metadata() -> list[dict]:
+    """Load the shared, generator-agnostic compressed-prompt metadata instead
+    of another cell's index.jsonl — no generator has a full 1,200-record
+    compressed index.jsonl yet (every */compressed/ dir is a 5-12-image
+    benchmark set only). `dest_prompt_file` is aliased to `prompt_file`,
+    matching how the local-model compressed cells' own index.jsonl records
+    already carry both fields identical."""
+    if not COMPRESSED_METADATA_PATH.exists():
+        sys.exit(f"Error: {COMPRESSED_METADATA_PATH} not found. Run 1f-generate_prompts_compressed.py first.")
+    records = []
+    with open(COMPRESSED_METADATA_PATH, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            rec = json.loads(line)
+            rec["dest_prompt_file"] = rec["prompt_file"]
+            records.append(rec)
     return records
 
 
@@ -401,8 +434,17 @@ def main() -> None:
         "--source-generator",
         default="gemini-3.1-flash-image-preview",
         dest="source_generator",
-        help="Existing 'full'-regime cell to read per-image metadata + prompt paths from "
-             "(default: the incumbent, gemini-3.1-flash-image-preview).",
+        help="Existing cell to read per-image metadata + prompt paths from "
+             "(default: the incumbent, gemini-3.1-flash-image-preview). "
+             "Ignored when --prompt-regime compressed (uses the shared metadata file instead).",
+    )
+    parser.add_argument(
+        "--prompt-regime",
+        default="full",
+        dest="prompt_regime",
+        choices=["full", "compressed"],
+        help="Prompt regime (default: full; compressed reads the shared "
+             "reports/model_comparison_compressed_prompt_metadata.jsonl, ignoring --source-generator).",
     )
     parser.add_argument(
         "--image-size",
@@ -448,7 +490,7 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    cell_dir = TRAIN_ROOT / args.generator / "full"
+    cell_dir = TRAIN_ROOT / args.generator / args.prompt_regime
     images_dir = cell_dir / "images"
     index_path = cell_dir / "index.jsonl"
     batch_jsonl = cell_dir / "fresh_batch_input.jsonl"
@@ -474,9 +516,14 @@ def main() -> None:
             print(f"Error: {job.error}")
         return
 
-    all_source_records = load_source_index(args.source_generator)
-    print(f"Loaded {len(all_source_records)} records from "
-          f"{args.source_generator}/full/index.jsonl")
+    if args.prompt_regime == "compressed":
+        all_source_records = load_compressed_metadata()
+        print(f"Loaded {len(all_source_records)} records from the shared compressed-prompt "
+              f"metadata ({COMPRESSED_METADATA_PATH.relative_to(REPO_ROOT)})")
+    else:
+        all_source_records = load_source_index(args.source_generator, args.prompt_regime)
+        print(f"Loaded {len(all_source_records)} records from "
+              f"{args.source_generator}/{args.prompt_regime}/index.jsonl")
 
     records = all_source_records
     if args.classes:

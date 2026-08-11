@@ -42,6 +42,10 @@ and local generators, evaluated on qualitative, automatic, and downstream axes.
 | [`11_detector-architecture-selection.md`](11_detector-architecture-selection.md) | Deciding the fixed Axis-C detector architecture: YOLO26n vs. YOLOv5s, why NanoDet/PicoDet are out of scope, the KD-strategy-doc precedent resolving simple-vs-heavy, capacity/floor-effect reasoning, a log-derived training-time estimate for this experiment's much smaller per-cell dataset, and the internal-val-split recommendation |
 | [`12_additional-generator-cells-build-log.md`](12_additional-generator-cells-build-log.md) | Build log for the Nano Banana 2 Lite and gpt-image-2 (low/medium) `full`-regime cells (generic reuse scripts, resolution/token-limit/char-limit fixes, actual-vs-estimated cost), the shared `compressed` prompt regime, and the local-model tier's pipeline + smoke tests |
 | [`13_local-model-roster-overhaul-and-maxlen-regime.md`](13_local-model-roster-overhaul-and-maxlen-regime.md) | Build log for the GPU-memory-offload fix (~1.8x speedup), the roster overhaul (3→7 models, with FLUX.2-dev researched and rejected, and HiDream-I1 initially rejected then unblocked and added — §10), full benchmarking of all seven models, the new `maxlen` prompt regime (256/512-token tiers, and why naively truncating the `full` prompt didn't work), and the first full 1,200-image production cell (`sd35-large-turbo`) |
+| [`14_maxlen-cell-deep-comparison.md`](14_maxlen-cell-deep-comparison.md) | Deep comparison across all six `maxlen` cells (incl. `hidream-i1`): aggregated headline/per-class/confusion results, charts, cost-vs-quality analysis, and the reasoning behind the ranking |
+| [`15_all-cells-comparison-with-api-incumbent.md`](15_all-cells-comparison-with-api-incumbent.md) | Extends `14` with the trained API incumbent (`gemini-3.1-flash-image-preview`, `full` regime): headline ranking, the `full`-vs-`maxlen` prompt-length confound, and why its mAP lead is concentrated in the zebra classes specifically |
+| [`16_prompt-length-ablation.md`](16_prompt-length-ablation.md) | The controlled ablation doc `15` called for: `full` vs. `compressed` prompts, same model held fixed, across `gpt-image-2-low` and `gemini-3.1-flash-lite-image` — resolves the confound (prompt length cuts mAP ~40-50%, model-independent) and surfaces `gpt-image-2-low/full`'s downstream mAP as the best in the experiment so far |
+| [`17_full-experiment-comparison.md`](17_full-experiment-comparison.md) | Consolidates docs `14`-`16` into one ranking of all 12 trained cells, plus a new finding only visible at full scale: the production incumbent is beaten by its own cheaper tier (`gemini-3.1-flash-lite-image`) under the identical prompt regime |
 | [`scraped_sources/`](scraped_sources/) | Verbatim scrapes of the OpenAI and Gemini pricing pages (primary sources) |
 
 ## Key facts at a glance
@@ -145,13 +149,11 @@ Apache-2.0 license) and the artifact is structural to the on-the-fly NF4
 quantization this box's VRAM requires, the ~34h production run was skipped
 rather than generated and discarded later. See
 [`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §9.
-`hidream-i1` (added and benchmarked later) still has no `maxlen` tier built
-for it — separate, not-yet-started status.
+`hidream-i1`'s full `maxlen` cell has since been generated and exported
+(1,200/1,200 images) — see the 2026-08-05 update below.
 
-Still open: the fifth API cell (Nano Banana Pro), the `compressed`-regime
-ablation pair (incumbent + gpt-image-2 low), and `hidream-i1`'s full
-`maxlen` cell (~43h, plus porting its loader into `1i` first — see
-[`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §9).
+Still open: the fifth API cell (Nano Banana Pro) and the `compressed`-regime
+ablation pair (incumbent + gpt-image-2 low).
 
 The **fixed Axis-C detector architecture is decided: YOLO26n**, not YOLOv5s
 — see [`11`](11_detector-architecture-selection.md) for the full rationale
@@ -247,3 +249,91 @@ of 0.064 on the same test set. Per-run logs, eval reports, and per-class/
 confusion CSVs are at `scripts/synthetic_model_comparison/training/model_exports/yolo26n-<cell>-maxlen-seed<N>-<timestamp>/`.
 **Do not treat this ranking as final** — it reflects MegaDetector's
 best-effort boxes only, not the reviewed labels §3.4 will produce.
+
+**Update 2026-08-05 — `hidream-i1` trained (6th and final `maxlen` cell),
+plus a deep cross-cell comparison.** `hidream-i1` was trained the same way
+as the other five (2 seeds, `--full-eval`), completing the `maxlen` grid:
+seed 42 map=0.028, seed 43 map=0.031, avg map=0.029 — second-to-last in the
+grid despite being by far the most expensive cell to generate (~43.3h vs.
+`sd35-large`'s 18.11h). Both runs completed cleanly, no recurrence of the
+gradient-divergence or eval-hang bugs fixed 2026-08-04.
+
+A new script, `scripts/synthetic_model_comparison/6-compare_maxlen_cells.py`,
+now aggregates all six cells' `evaluation_report.json` files (mean/std
+across seeds) into `reports/model_comparison_maxlen_downstream_map.csv` and
+`reports/model_comparison_maxlen_per_class_ap.csv`, plus four charts — no
+such cross-cell aggregation existed before this (the table above was
+assembled by hand). Full ranking, per-class/confusion breakdowns, the
+cost-vs-quality analysis, and a specific check of whether
+`flux2-klein-9b`'s documented kinkajou-tail rendering bug shows up as
+measurable AP loss (it doesn't — both `flux2-klein-9b` and `sd35-large`
+land at ~0.006 AP, indistinguishable within the Band-A noise floor) are
+written up in [`14_maxlen-cell-deep-comparison.md`](14_maxlen-cell-deep-comparison.md).
+Headline: the SD3.5 family wins (`sd35-large` ≈ `sd35m` > `sd35-large-turbo`),
+generation cost does not predict downstream quality (`hidream-i1`, the most
+expensive, and `realvisxl-lightning`, the cheapest, are the two weakest),
+and zebra-group confusion tracks overall detector quality rather than
+behaving as an independent failure mode. Same caveat as above: still
+provisional pending §3.4.
+
+**Same day — a second comparison including the API incumbent.** Per
+follow-up request, extended the comparison to also include
+`gemini-3.1-flash-image-preview` (the only API-model cell trained so far;
+`gemini-3.1-flash-lite-image` and both `gpt-image-2` tiers aren't labeled or
+trained yet, so were left out rather than triggering a new labeling
+campaign). New script `scripts/synthetic_model_comparison/7-compare_all_cells.py`
+and doc [`15`](15_all-cells-comparison-with-api-incumbent.md). Headline:
+the incumbent tops the 7-cell ranking (0.064 mAP) but **this isn't a
+controlled comparison** — it used the unabridged `full` prompt regime
+(~1,300 words) vs. the local cells' length-capped `maxlen` regime
+(256/512 tokens), and has only 1 seed vs. 2. Per-class, its lead turns out
+to be concentrated almost entirely in the three zebra classes (especially
+`grevy's zebra`, a 3.6x margin over the best local cell) while it's
+mid-pack-or-below on every other class — and its zebra confusion rate
+isn't actually the lowest in the grid, suggesting the advantage is better
+zebra *detection*, not better fine-species *discrimination*. Doc 14's
+six-cell grid remains the fair, apples-to-apples comparison.
+
+**2026-08-07 — the controlled ablation, plus every remaining API cell
+labeled and trained.** Per follow-up request: fixed both API generation
+scripts (`1e-generate_images_openai.py`, `1d-generate_images_new_generator.py`)
+to support `--prompt-regime compressed` (both had a stale
+guard/hardcoded-`"full"` blocker — see doc `16` for the root cause and
+fix), generated `gpt-image-2-low/compressed` (1,200/1,200 images, ~$3.60
+estimated) and `gemini-3.1-flash-lite-image/compressed` (1,200/1,200,
+flexible Google/Gemini budget), then labeled (best-effort MegaDetector
+export) and trained (2 seeds, `--full-eval`) **five** cells total: those
+two plus the three previously-generated-but-never-trained `full`-regime
+cells (`gpt-image-2-low/full`, `gemini-3.1-flash-lite-image/full`,
+`gpt-image-2-medium/full`). New script
+`scripts/synthetic_model_comparison/8-compare_prompt_regime_ablation.py`
+and doc [`16`](16_prompt-length-ablation.md).
+
+**Headline: prompt length is a real, large, model-independent effect** —
+compressing the prompt cuts downstream mAP by ~42% (`gpt-image-2-low`:
+0.130→0.075) and ~49% (`gemini-3.1-flash-lite-image`: 0.094→0.048), and
+zebra-group confusion gets *worse* under `compressed` for both models too
+(unlike doc 15's incumbent case, where confusion didn't track the mAP
+lead). This resolves doc 15's confound: the gemini incumbent's edge over
+the local `maxlen` cells is much more plausibly its longer prompt than the
+model itself. **Bonus finding**: `gpt-image-2-low/full` (0.130) and
+`gpt-image-2-medium/full` (0.132) both clearly beat every other cell in
+the experiment — over 2x the best local `maxlen` cell and ~2x the gemini
+incumbent. Same provisional caveat as every comparison so far.
+
+**2026-08-08 — consolidated into one full-experiment comparison.** New
+script `scripts/synthetic_model_comparison/9-compare_all_models.py` and
+doc [`17`](17_full-experiment-comparison.md) bring all 12 trained cells
+(the 6 local `maxlen` cells + 6 API cells: the incumbent, both
+`gpt-image-2` tiers, and `gemini-3.1-flash-lite-image`, each `full` and/or
+`compressed`) into one ranking, ties docs 14-16's findings together, and
+surfaces a new result only visible with everything side by side: comparing
+the two `full`-regime gemini cells directly (a genuinely single-variable
+comparison neither doc 15 nor 16 made) shows **`gemini-3.1-flash-lite-image`
+(0.094 mAP) clearly beats the production incumbent
+`gemini-3.1-flash-image-preview` (0.064 mAP)** on nearly every class and
+with lower zebra confusion too. Combined with `gpt-image-2-low` tying
+`gpt-image-2-medium` at a third of the cost, the pattern holds on both API
+families: **the cheaper tier is not the worse one.** The top 5 of 12 cells
+are all API models — every local diffusion cell trails even the weakest
+API cell. Same provisional caveat as every comparison so far.

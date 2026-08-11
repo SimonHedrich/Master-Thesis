@@ -9,19 +9,21 @@ synthetic-model-comparison experiment
 scripts/synthetic_model_comparison/1d-generate_images_new_generator.py but
 for OpenAI's gpt-image-2 (docs/synthetic-model-comparison/03_api-models-landscape-and-pricing.md
 §0/§2: gpt-image-2 low + medium are two of the five decided API
-generators). Reads per-image class/band/shot_type/distance/lighting/
-occlusion/pose/environment metadata from an existing cell's index.jsonl and
-prompt text from each record's `dest_prompt_file` (the shared
+generators). For `--prompt-regime full`, reads per-image class/band/
+shot_type/distance/lighting/occlusion/pose/environment metadata from an
+existing cell's index.jsonl and prompt text from each record's
+`dest_prompt_file` (the shared
 data/synthetic_model_comparison/train/prompts_full/<slug>/<NNN>.txt
 location).
 
 Quality tier (low/medium/high) is a distinct axis from the model name per
 doc 01, so each tier gets its own generator-cell directory:
-train/gpt-image-2-<quality>/<prompt-regime>/. Only the `full` prompt regime
-exists today (`compressed` prompts haven't been authored for any model
-yet, per docs/synthetic-model-comparison/05_prompt-strategy-and-length-limits.md
-§6) — passing --prompt-regime compressed will fail fast with a clear error
-rather than silently reusing full-regime prompts.
+train/gpt-image-2-<quality>/<prompt-regime>/. For `--prompt-regime
+compressed`, metadata comes from the shared, generator-agnostic
+reports/model_comparison_compressed_prompt_metadata.jsonl (built by
+1f-generate_prompts_compressed.py; all 12 classes, 1,200 records) instead
+of another cell's index.jsonl — no generator has a full-scale compressed
+index.jsonl, only small benchmark sets.
 
 Size defaults to 1024x768 (4:3, matching every other generator cell's fixed
 aspect ratio per doc 01 §3) — satisfies gpt-image-2's constraints (divisible
@@ -82,6 +84,9 @@ TRAIN_ROOT = REPO_ROOT / "data" / "synthetic_model_comparison" / "train"
 # Shared credentials with the production pipeline — not duplicated per experiment.
 ENV_PATH = REPO_ROOT / "scripts" / "synthetic" / ".env"
 
+# Shared, generator-agnostic compressed-prompt metadata (1f-generate_prompts_compressed.py).
+COMPRESSED_METADATA_PATH = REPO_ROOT / "reports" / "model_comparison_compressed_prompt_metadata.jsonl"
+
 MODEL = "gpt-image-2"
 DEFAULT_SIZE = "1024x768"
 POLL_INTERVAL = 60  # seconds
@@ -116,6 +121,27 @@ def load_source_index(source_generator: str, prompt_regime: str) -> list[dict]:
             line = line.strip()
             if line:
                 records.append(json.loads(line))
+    return records
+
+
+def load_compressed_metadata() -> list[dict]:
+    """Load the shared, generator-agnostic compressed-prompt metadata instead
+    of another cell's index.jsonl — no generator has a full 1,200-record
+    compressed index.jsonl yet (every */compressed/ dir is a 5-12-image
+    benchmark set only). `dest_prompt_file` is aliased to `prompt_file`,
+    matching how the local-model compressed cells' own index.jsonl records
+    already carry both fields identical."""
+    if not COMPRESSED_METADATA_PATH.exists():
+        sys.exit(f"Error: {COMPRESSED_METADATA_PATH} not found. Run 1f-generate_prompts_compressed.py first.")
+    records = []
+    with open(COMPRESSED_METADATA_PATH, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            rec = json.loads(line)
+            rec["dest_prompt_file"] = rec["prompt_file"]
+            records.append(rec)
     return records
 
 
@@ -451,14 +477,16 @@ def main() -> None:
         default="gemini-3.1-flash-image-preview",
         dest="source_generator",
         help="Existing cell to read per-image metadata + prompt paths from "
-             "(default: the incumbent, gemini-3.1-flash-image-preview).",
+             "(default: the incumbent, gemini-3.1-flash-image-preview). "
+             "Ignored when --prompt-regime compressed (uses the shared metadata file instead).",
     )
     parser.add_argument(
         "--prompt-regime",
         default="full",
         dest="prompt_regime",
         choices=["full", "compressed"],
-        help="Prompt regime (default: full — 'compressed' prompts don't exist yet for any model).",
+        help="Prompt regime (default: full; compressed reads the shared "
+             "reports/model_comparison_compressed_prompt_metadata.jsonl, ignoring --source-generator).",
     )
     parser.add_argument(
         "--mode",
@@ -506,14 +534,6 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    if args.prompt_regime == "compressed":
-        sys.exit(
-            "Error: no 'compressed' prompts exist yet for any generator "
-            "(docs/synthetic-model-comparison/05_prompt-strategy-and-length-limits.md §6). "
-            "Build them first; this script only consumes existing prompt files, it "
-            "does not author new ones."
-        )
-
     generator_slug = f"gpt-image-2-{args.quality}"
     cell_dir = TRAIN_ROOT / generator_slug / args.prompt_regime
     images_dir = cell_dir / "images"
@@ -543,9 +563,14 @@ def main() -> None:
             print(f"Errors : {batch.errors}")
         return
 
-    all_source_records = load_source_index(args.source_generator, args.prompt_regime)
-    print(f"Loaded {len(all_source_records)} records from "
-          f"{args.source_generator}/{args.prompt_regime}/index.jsonl")
+    if args.prompt_regime == "compressed":
+        all_source_records = load_compressed_metadata()
+        print(f"Loaded {len(all_source_records)} records from the shared compressed-prompt "
+              f"metadata ({COMPRESSED_METADATA_PATH.relative_to(REPO_ROOT)})")
+    else:
+        all_source_records = load_source_index(args.source_generator, args.prompt_regime)
+        print(f"Loaded {len(all_source_records)} records from "
+              f"{args.source_generator}/{args.prompt_regime}/index.jsonl")
 
     records = all_source_records
     if args.classes:

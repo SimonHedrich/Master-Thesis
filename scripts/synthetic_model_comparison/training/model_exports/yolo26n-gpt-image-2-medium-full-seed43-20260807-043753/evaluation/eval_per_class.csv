@@ -1,0 +1,13 @@
+coco_id,class_name,band,real_test_images,test_limited,ap
+12,american black bear,D,2097,False,0.3266192674636841
+19,aye-aye,A,29,True,0.013134097680449486
+107,grevy's zebra,B,224,False,0.17739824950695038
+123,kinkajou,A,160,False,0.02759946696460247
+132,lion,D,2097,False,0.11917267739772797
+146,mountain zebra,D,467,False,0.2389073222875595
+162,pangolin family,A,52,False,0.009668844752013683
+166,plains zebra,D,2079,False,0.28116533160209656
+174,red fox,D,2150,False,0.24118000268936157
+184,ringtail,A,186,False,0.005742326378822327
+189,saiga,A,50,False,0.03337213769555092
+214,water deer,A,151,False,0.03823210671544075
