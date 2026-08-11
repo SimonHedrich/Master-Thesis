@@ -192,6 +192,7 @@ class TrainingPipeline:
         self.model.train()
         sums: dict[str, float] = {}
         count = 0
+        skipped = 0
 
         lr_start = self.optimizer.param_groups[0]["lr"]
         logger.info(
@@ -214,12 +215,57 @@ class TrainingPipeline:
             arrs = arrs.to(self.device)
             labels = labels.to(self.device)
 
+            # Snapshot BatchNorm running stats before the forward pass. They
+            # update in-place during model(arrs) regardless of whether the
+            # optimizer step below is later skipped, so this is the only
+            # point that can undo a batch that overflows them. Buffers only
+            # (not the full state_dict) -- cheap next to the model's weights.
+            bn_snapshot = {
+                name: buf.detach().clone()
+                for name, buf in self.model.named_buffers()
+                if buf.is_floating_point()
+            }
+
             with torch.autocast(device_type=self.device.type, enabled=self.use_amp):
                 logits = self.model(arrs)
                 loss = self.loss_fn(logits, labels)
 
+            if not (torch.isfinite(loss) and torch.isfinite(logits).all()):
+                # A hard batch overflowed under fp16 autocast. GradScaler's
+                # own inf/nan check protects the optimizer step from a bad
+                # gradient, but nothing protects BatchNorm running_mean/
+                # running_var -- they update directly during the forward
+                # pass, outside the gradient path, and once NaN they poison
+                # every future forward pass forever (the running-stat update
+                # is `momentum * batch_stat + (1 - momentum) * old`, so a NaN
+                # `old` stays NaN regardless of `batch_stat`). The EMA copy
+                # below then inherits that same corruption permanently on its
+                # next update, since EMA has no reset mechanism either --
+                # this combination silently destroyed a full run (2026-08-06
+                # investigation: last.pt ended up with 43.5M non-finite
+                # values after one contaminated batch went unhandled).
+                # Restore the buffers this batch just corrupted and skip
+                # backward/scheduler/EMA entirely, as if it never happened.
+                with torch.no_grad():
+                    for name, buf in self.model.named_buffers():
+                        if name in bn_snapshot:
+                            buf.copy_(bn_snapshot[name])
+                skipped += 1
+                logger.warning(
+                    "epoch %d step %d: non-finite loss/logits — skipped batch, "
+                    "restored BN buffers (%d skipped so far this epoch)",
+                    epoch + 1,
+                    self.global_step,
+                    skipped,
+                )
+                continue
+
             self.optimizer.zero_grad(set_to_none=True)
             self.scaler.scale(loss).backward()
+            # Matches yolov5s/training_pipeline.py's clipping (same max_norm) —
+            # guards against NaN divergence during OneCycleLR warmup.
+            self.scaler.unscale_(self.optimizer)
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=10.0)
             self.scaler.step(self.optimizer)
             self.scaler.update()
             self.scheduler.step()
@@ -248,14 +294,17 @@ class TrainingPipeline:
         avgs = {k: v / max(count, 1) for k, v in sums.items()}
         for k, v in avgs.items():
             mlflow.log_metric(f"train/epoch_{k}", v, step=epoch)
+        mlflow.log_metric("train/epoch_batches_skipped_nonfinite", skipped, step=epoch)
 
         avgs_str = " ".join(f"{k}={v:.4f}" for k, v in avgs.items())
         logger.info(
-            "epoch %d/%d — train done in %.1fs | avg %s",
+            "epoch %d/%d — train done in %.1fs | avg %s | skipped=%d/%d batches (non-finite)",
             epoch + 1,
             self.epochs,
             time.time() - t0,
             avgs_str,
+            skipped,
+            len(self.dl_train),
         )
         return avgs
 

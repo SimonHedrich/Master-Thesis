@@ -102,10 +102,19 @@ SEED = 42  # same seed, same data/real/ splits as every other model in the compa
 # the warmup window matches the patience-gating window used by early stopping.
 
 WARMUP_EPOCHS = 3  # early-stop patience gating; also sets ONE_CYCLE_PCT_START
-ONE_CYCLE_MAX_LR = 1e-3             # peak LR (10× LEARNING_RATE; super-convergence)
+ONE_CYCLE_DIV_FACTOR = 10.0         # initial_lr = max_lr / div_factor
+# ONE_CYCLE_MAX_LR was 1e-3 (10x LEARNING_RATE, copied from the "super-
+# convergence" convention without verifying it against this specific
+# model/freeze-fraction/AMP combo). Empirically diverges to NaN within a few
+# dozen steps at any point the schedule nears that LR — confirmed via a fixed-
+# LR probe (scripts/training/teacher_finetune/, 2026-08-05 investigation):
+# gradient norms already inf at lr=5e-4 by step ~10, NaN loss by step ~27;
+# stable and well-behaved (bounded, shrinking gradient norms) at lr=3e-4 over
+# 80 steps. Lowered to 3e-4 (3x LEARNING_RATE) — the highest of the tested
+# values that stayed stable, still enabling a real cyclic LR schedule.
+ONE_CYCLE_MAX_LR = 3e-4
 ONE_CYCLE_PCT_START = WARMUP_EPOCHS / EPOCH_COUNT  # warmup fraction
-ONE_CYCLE_DIV_FACTOR = 10.0         # initial_lr = max_lr / div_factor = LEARNING_RATE
-ONE_CYCLE_FINAL_DIV_FACTOR = 100.0  # min_lr = initial_lr / final_div_factor = 1e-6
+ONE_CYCLE_FINAL_DIV_FACTOR = 100.0  # min_lr = initial_lr / final_div_factor
 
 # ─── Auto-stop + selection metric ──────────────────────────────────────────────
 
