@@ -235,15 +235,58 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 
 ## 4. Core model training campaign
 
-- [ ] **4.1 [3060] Fine-tune SpeciesNet's classifier head** (in the MD+SN
-      ensemble) on the 225-class taxonomy and evaluate — scaffolding complete
-      (`scripts/training/teacher_finetune/`,
-      `scripts/training/megadet_speciesnet_ensemble/`), not yet actually run.
-      54M-param EfficientNetV2-M head, comfortably fits 12GB without the
-      contention the shared A40 has shown. Note: no `make speciesnet-*`
-      target exists yet despite being documented — run via the manual `uv
-      run python -m ...` commands in the script docstrings, or add the
-      Makefile targets first.
+- [x] **4.1 [3060] Fine-tune SpeciesNet's classifier head** (in the MD+SN
+      ensemble) on the 225-class taxonomy and evaluate — run 2026-08-05/06,
+      on the A40 (not the 3060 as originally tagged; scaffolding fit
+      comfortably even on the shared/contended box). Added the missing
+      `make speciesnet-build/start/stop/shell/finetune` targets
+      (`Makefile`) — `speciesnet-start` also needed
+      `--dns 100.100.100.100 --dns 192.168.178.2` since containers on this
+      host can't otherwise resolve the Tailscale-hosted MLflow server.
+      First resynced this machine's `data/real/annotations_*.json` from
+      `gpu-server` — it had the pre-contamination-flagging copy §2.1
+      flagged as stale, resolving that open question for the A40 as a side
+      effect.
+
+      **Two real bugs found by actually running training, not by
+      inspection** (both fixed in `scripts/training/teacher_finetune/`):
+      `ONE_CYCLE_MAX_LR=1e-3` (copied by convention from the detector
+      pipelines' "10x base LR" rule) reliably diverges for this
+      classifier/freeze-fraction/AMP combo — confirmed via isolated
+      fixed-LR probes (gradient norms already `inf` within ~10 steps, NaN
+      loss by ~27); lowered to `3e-4` (`constants.py`), empirically stable.
+      Missing gradient clipping (`training_pipeline.py`) — same class of
+      bug as the sibling detector pipelines' §3.3 fix, added
+      `unscale_`+`clip_grad_norm_`. Even at the corrected LR, occasional
+      hard batches under AMP still overflow and permanently poison
+      BatchNorm running stats and, via the unconditional EMA update, the
+      EMA copy used for eval/checkpointing — verified directly (one full
+      run's `last.pt` came out with 43.5M non-finite values after a single
+      unhandled batch). Added a finite-check guard that snapshots
+      BatchNorm buffers before each forward pass and restores them if that
+      batch's loss/logits are non-finite, skipping backward/EMA/scheduler
+      for it entirely — verified clean (zero non-finite values in
+      `best.pt`/`last.pt`) across three full runs, including two that hit
+      sustained near-100%-batch-failure episodes and had to be killed.
+
+      **Result, confirmed reproducible across two independent full runs**
+      (byte-identical epoch-by-epoch losses/val-metrics through epoch 5,
+      identical final test numbers): `best.pt` at epoch 4
+      (`val f1_macro=0.7645`) — training past that point oscillates and
+      eventually destabilizes rather than improving, a genuine ceiling for
+      this LR/architecture/freeze-fraction setup, not noise. Final test-set
+      eval (92,094 samples): `accuracy_top1=0.6688`, `f1_macro=0.5390`,
+      `f1_micro=0.6688` (per-source: 98.5% coco_humans, 82.6% images_cv,
+      68.1% inaturalist, 64.3% gbif, 59.4% wikimedia, 43.0% openimages) —
+      per `teacher_finetune/README.md`'s documented ceiling caveat, macro
+      metrics are capped ~4.9 points below 100% by the 11/225 classes with
+      no matching SpeciesNet leaf class. Checkpoint only exists on this A40
+      machine so far (gitignored, not yet rsynced to the NAS backup per
+      §1.3's durability step) — `scripts/training/teacher_finetune/model_exports/teacher-finetune-20260806-131233/best.pt`.
+      Downstream steps (re-running `predict_ensemble.py` for
+      `megadet_speciesnet_ensemble/model_exports/finetuned-*`, caching soft
+      labels for §4.4's KD) not yet done — §4.1 itself is just the
+      fine-tune + eval.
 - [ ] **4.2 [3060] (gap) KD ladder Phase 0 — zero-shot baselines** (untrained
       teacher/student) — needed as the floor for the Phase 4 comparison
       table; confirm whether these are already logged anywhere before
