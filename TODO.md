@@ -288,11 +288,17 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       187,705 records; `--split val`: 19,732 records — both match their
       annotation counts exactly) — `data/real/teacher_soft_labels_{train,val}.jsonl`.
       Re-ran `predict_ensemble.py --checkpoint best.pt` for the fine-tuned
-      MD+SN ensemble predictions (`megadet_speciesnet_ensemble/model_exports/finetuned-teacher-finetune-20260806-131233/`)
-      — still running as of this writing (real+synth test sets through the
-      full MD→SN pipeline, ~8h estimated); not yet scored against ground
-      truth. NAS backup of `best.pt` still not done (§1.3's durability
-      step), by request.
+      MD+SN ensemble predictions
+      (`megadet_speciesnet_ensemble/model_exports/finetuned-teacher-finetune-20260806-131233/`,
+      110,812 predictions/63,802 real images, 12,491/11,250 synth images —
+      this script tolerates the §4.6 `data/blanks` gap as a warning, not a
+      crash) and scored them (`run_evaluation.py --real-predictions
+      --synth-predictions`, `.../eval/evaluation_report.md`): **fine-tuned
+      ensemble mixed mAP 0.549 / real 0.536, vs. the pretrained baseline's
+      0.487 / 0.445** — a solid, genuine improvement from the classifier
+      fine-tune, visible downstream in detection quality, not just the
+      classifier's own metric. NAS backup of `best.pt` still not done
+      (§1.3's durability step), by request.
 - [ ] **4.2 [3060] (gap) KD ladder Phase 0 — zero-shot baselines** (untrained
       teacher/student) — needed as the floor for the Phase 4 comparison
       table. **Teacher zero-shot is already done and current**: the
