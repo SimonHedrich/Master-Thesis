@@ -283,27 +283,71 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       no matching SpeciesNet leaf class. Checkpoint only exists on this A40
       machine so far (gitignored, not yet rsynced to the NAS backup per
       §1.3's durability step) — `scripts/training/teacher_finetune/model_exports/teacher-finetune-20260806-131233/best.pt`.
-      Downstream steps (re-running `predict_ensemble.py` for
-      `megadet_speciesnet_ensemble/model_exports/finetuned-*`, caching soft
-      labels for §4.4's KD) not yet done — §4.1 itself is just the
-      fine-tune + eval.
+      **2026-08-13: downstream steps for §4.4 done.** Cached teacher soft
+      labels for both splits (`cache_soft_labels.py --split train`:
+      187,705 records; `--split val`: 19,732 records — both match their
+      annotation counts exactly) — `data/real/teacher_soft_labels_{train,val}.jsonl`.
+      Re-ran `predict_ensemble.py --checkpoint best.pt` for the fine-tuned
+      MD+SN ensemble predictions (`megadet_speciesnet_ensemble/model_exports/finetuned-teacher-finetune-20260806-131233/`)
+      — still running as of this writing (real+synth test sets through the
+      full MD→SN pipeline, ~8h estimated); not yet scored against ground
+      truth. NAS backup of `best.pt` still not done (§1.3's durability
+      step), by request.
 - [ ] **4.2 [3060] (gap) KD ladder Phase 0 — zero-shot baselines** (untrained
       teacher/student) — needed as the floor for the Phase 4 comparison
-      table; confirm whether these are already logged anywhere before
-      assuming they need a fresh run. Inference-only, cheap.
+      table. **Teacher zero-shot is already done and current**: the
+      off-the-shelf MD+SN eval at
+      `scripts/training/megadet_speciesnet_ensemble/model_exports/pretrained/eval/evaluation_report.md`
+      (mixed mAP 0.487 / real 0.445) was verified 2026-08-13 to already be
+      scored against the *current* (post-contamination-flagging)
+      `annotations_test.json`, not stale — no rerun needed.
+      **Student zero-shot attempted 2026-08-13, failed**: `uv run -m
+      scripts.training.yolo26n.eval_suite.run_evaluation --checkpoint
+      weights/yolo26n.pt` (raw COCO weights, 225-class head untrained —
+      the standard reading of "zero-shot student") crashed near the end of
+      the real+synth pass with `FileNotFoundError` on
+      `data/blanks/images/blank_211.jpg` — see new gap **4.6** below. Not
+      yet retried.
 - [ ] **4.3 [3060] Retrain YOLOv5s** with the new anchor/loss-autoscaling
       implementation (`autoanchor.py` fix from
       `docs/progress_notes/2026-07-16_yolov5s-underperformance-hyp-scaling-fix.md`)
-      — fix is implemented, full retrain not yet done.
+      — **running as of 2026-08-13**, dispatched to `gpu-server` (3060) per
+      the machine tag, fresh run (no `--resume-from`, confirmed via
+      `hyp_cls_effective=1.40625` in the run log — the fix is active).
+      `val mAP50_95` climbing steadily each epoch (0.05 → 0.10 → 0.14 →
+      0.16 by epoch 4), no instability. Multi-day job (the last comparable
+      full run took ~6.5 days elapsed) — check
+      `docker exec training-container cat /tmp/yolov5s_retrain.log` on
+      gpu-server for current status.
 - [ ] **4.4 [3060, or A40 once §3.1 frees it] Train YOLO26n with knowledge
       distillation**, MD+SN ensemble as teacher (Phase 3 of
       `docs/plans/2026-06-30_knowledge-distillation-and-teacher-finetuning-strategy.md`).
-      Not VRAM-bound either way — take whichever GPU is idle first.
+      **2026-08-13: `--kd` wiring validated for the first time** —
+      `smoke_test_kd_loss.py` and `run_training_pipeline.py --kd --smoke`
+      both pass end-to-end (forward → KD-loss blend → backward →
+      checkpoint → eval) against the real cached teacher soft labels from
+      §4.1. **Full run (`--kd --full-eval`, default `T=4/α=0.5` point)
+      attempted, failed** at epoch 1 (~28min in) on the same
+      `data/blanks/` `FileNotFoundError` as §4.2 — see gap **4.6**. Not yet
+      retried; the 4-point `(T,α)` hyperparameter grid the strategy doc's
+      §3.5 calls for is deferred until a single run completes (scope
+      decision: one default-point run is the §4.4 bar, not the full grid).
 - [ ] **4.5 [Either, no GPU] (gap) KD ladder Phase 4 — final comparison
       synthesis**: assemble direct-FT vs. teacher-FT vs. KD results into the
       comparison the strategy doc's experimental ladder is building toward.
       Pure analysis over the (git-tracked) eval reports from §4.1–4.4 —
       needs §2.1 fixed first so those evals were affordable to produce.
+- [ ] **4.6 [Either] (gap) `data/blanks/` (negative/no-object training
+      images) is incomplete on at least two machines** — discovered
+      2026-08-13 when it broke both §4.2 and §4.4. This A40 has 170 images
+      under `data/blanks/images/`, `gpu-server` has 174, but annotations
+      reference indices up to at least `blank_216` — neither machine has a
+      complete set, and the NAS backup (`data-server`) isn't SSH-trusted
+      from the A40 yet (`ssh-copy-id` not done, per §1.3's prerequisite
+      note). Blocks §4.2's student zero-shot eval and §4.4's KD training
+      (and, unverified, may also affect any other pipeline that pulls
+      negative examples from this directory) until the authoritative
+      source/count is located and resynced.
 
 ## 5. Deployment / embedded pipeline
 
