@@ -1,0 +1,170 @@
+2026-08-13 18:19:16 INFO  __main__ | === yolo26n training run ===
+2026-08-13 18:19:16 INFO  __main__ | run_name=yolo26n-kd-20260813-181915 experiment=yolo26n-wildlife225
+2026-08-13 18:19:16 INFO  __main__ | mlflow tracking_uri=http://hetzner.taile550ef.ts.net:5000/
+2026-08-13 18:19:16 INFO  __main__ | run dir: /app/scripts/training/yolo26n/model_exports/yolo26n-kd-20260813-181915
+2026-08-13 18:19:16 INFO  __main__ | log file: /app/scripts/training/yolo26n/model_exports/yolo26n-kd-20260813-181915/yolo26n-kd-20260813-181915.log
+2026-08-13 18:19:16 INFO  __main__ | seed=42 device=cuda epochs=200 smoke=False kd=True init_from=coco
+2026-08-13 18:19:16 INFO  scripts.training.yolov5s.dataset | dataset annotations_val.json: 12543 images, 19732 annotations, 225 classes
+2026-08-13 18:19:17 INFO  scripts.training.yolov5s.dataset | dataset annotations_test.json: 63802 images, 92094 annotations, 225 classes
+2026-08-13 18:19:19 INFO  scripts.training.yolov5s.dataset | dataset annotations_train.json: 145728 images, 187705 annotations, 225 classes
+2026-08-13 18:19:49 INFO  scripts.training.yolo26n.kd_dataset | loaded teacher soft-label cache /app/data/real/teacher_soft_labels_train.jsonl: 145606 images (42099 secondary/non-primary detections discarded — single-label KD scope)
+2026-08-13 18:19:50 INFO  scripts.training.yolo26n.kd_dataset | 122/145728 training images have NO cached teacher record — teacher_probs will be all-zero for those (hard-label-only fallback)
+2026-08-13 18:20:07 INFO  scripts.training.yolo26n.yolo26n_model | loaded 606/708 keys from /app/weights/yolo26n.pt (skipped 102 shape-mismatched)
+2026-08-13 18:20:07 INFO  scripts.training.yolo26n.yolo26n_model | model: yolo26n, nc=225, params=2.71M, device=cuda
+2026-08-13 18:20:07 INFO  scripts.training.yolov5s.yolov5s_model | optimizer=SGD lr=0.001 | param groups: g0(BN,no-decay)=114 g1(conv,decay=0.0005)=126 g2(bias,no-decay)=126
+2026-08-13 18:20:07 INFO  scripts.training.yolov5s.yolov5s_model | scheduler: OneCycleLR(max_lr=0.01, total_steps=455400, pct_start=0.015, div_factor=10, final_div_factor=100) — stepped per batch
+2026-08-13 18:20:08 INFO  __main__ | run config:
+2026-08-13 18:20:08 INFO  __main__ |   ANNOTATIONS_TEST = /app/data/real/annotations_test.json
+2026-08-13 18:20:08 INFO  __main__ |   ANNOTATIONS_TRAIN = /app/data/real/annotations_train.json
+2026-08-13 18:20:08 INFO  __main__ |   ANNOTATIONS_VAL = /app/data/real/annotations_val.json
+2026-08-13 18:20:08 INFO  __main__ |   AUG_CLOSE_MOSAIC = 0
+2026-08-13 18:20:08 INFO  __main__ |   AUG_COPY_PASTE = 0.0
+2026-08-13 18:20:08 INFO  __main__ |   AUG_DEGREES = 0.0
+2026-08-13 18:20:08 INFO  __main__ |   AUG_FLIPUD = 0.0
+2026-08-13 18:20:08 INFO  __main__ |   AUG_HFLIP = True
+2026-08-13 18:20:08 INFO  __main__ |   AUG_HSV = True
+2026-08-13 18:20:08 INFO  __main__ |   AUG_HSV_H = 0.015
+2026-08-13 18:20:08 INFO  __main__ |   AUG_HSV_S = 0.7
+2026-08-13 18:20:08 INFO  __main__ |   AUG_HSV_V = 0.4
+2026-08-13 18:20:08 INFO  __main__ |   AUG_MIXUP = 0.0
+2026-08-13 18:20:08 INFO  __main__ |   AUG_MOSAIC = 0.0
+2026-08-13 18:20:08 INFO  __main__ |   AUG_PERSPECTIVE = 0.0
+2026-08-13 18:20:08 INFO  __main__ |   AUG_SCALE = 0.5
+2026-08-13 18:20:08 INFO  __main__ |   AUG_SHEAR = 0.0
+2026-08-13 18:20:08 INFO  __main__ |   AUG_TRANSLATE = 0.1
+2026-08-13 18:20:08 INFO  __main__ |   BATCH_SIZE = 64
+2026-08-13 18:20:08 INFO  __main__ |   DATA_ROOT = /app/data
+2026-08-13 18:20:08 INFO  __main__ |   EARLY_STOP = True
+2026-08-13 18:20:08 INFO  __main__ |   EARLY_STOP_MIN_DELTA = 0.001
+2026-08-13 18:20:08 INFO  __main__ |   EARLY_STOP_PATIENCE = 20
+2026-08-13 18:20:08 INFO  __main__ |   EPOCH_COUNT = 200
+2026-08-13 18:20:08 INFO  __main__ |   EVAL_CONF_THRES = 0.001
+2026-08-13 18:20:08 INFO  __main__ |   EVAL_IOU_THRES = 0.6
+2026-08-13 18:20:08 INFO  __main__ |   EVAL_MAX_DET = 100
+2026-08-13 18:20:08 INFO  __main__ |   HYP_BOX = 7.5
+2026-08-13 18:20:08 INFO  __main__ |   HYP_CLS = 0.5
+2026-08-13 18:20:08 INFO  __main__ |   HYP_DFL = 1.5
+2026-08-13 18:20:08 INFO  __main__ |   IMAGE_ROOT = /app
+2026-08-13 18:20:08 INFO  __main__ |   IMAGE_SIZE = 640
+2026-08-13 18:20:08 INFO  __main__ |   KD_ALPHA = 0.5
+2026-08-13 18:20:08 INFO  __main__ |   KD_APPLY_TO = one2one
+2026-08-13 18:20:08 INFO  __main__ |   KD_TEMPERATURE = 4.0
+2026-08-13 18:20:08 INFO  __main__ |   LEARNING_RATE = 0.001
+2026-08-13 18:20:08 INFO  __main__ |   MLFLOW_EXPERIMENT_DEFAULT = yolo26n-wildlife225
+2026-08-13 18:20:08 INFO  __main__ |   MLFLOW_LOG_EVERY_N_STEPS = 50
+2026-08-13 18:20:08 INFO  __main__ |   MODEL_CONFIG = yolo26n.yaml
+2026-08-13 18:20:08 INFO  __main__ |   MOMENTUM = 0.937
+2026-08-13 18:20:08 INFO  __main__ |   NESTEROV = True
+2026-08-13 18:20:08 INFO  __main__ |   NUM_CLASSES = 225
+2026-08-13 18:20:08 INFO  __main__ |   NUM_WORKERS = 8
+2026-08-13 18:20:08 INFO  __main__ |   ONE_CYCLE_DIV_FACTOR = 10.0
+2026-08-13 18:20:08 INFO  __main__ |   ONE_CYCLE_FINAL_DIV_FACTOR = 100.0
+2026-08-13 18:20:08 INFO  __main__ |   ONE_CYCLE_MAX_LR = 0.01
+2026-08-13 18:20:08 INFO  __main__ |   ONE_CYCLE_PCT_START = 0.015
+2026-08-13 18:20:08 INFO  __main__ |   OPTIMIZER = SGD
+2026-08-13 18:20:08 INFO  __main__ |   OUTPUT_DIR = /app/scripts/training/yolo26n/model_exports
+2026-08-13 18:20:08 INFO  __main__ |   PRETRAINED_WEIGHTS = /app/weights/yolo26n.pt
+2026-08-13 18:20:08 INFO  __main__ |   REPO_ROOT = /app
+2026-08-13 18:20:08 INFO  __main__ |   SEED = 42
+2026-08-13 18:20:08 INFO  __main__ |   SELECTION_METRIC = mAP50_95
+2026-08-13 18:20:08 INFO  __main__ |   USE_AMP = True
+2026-08-13 18:20:08 INFO  __main__ |   USE_EMA = True
+2026-08-13 18:20:08 INFO  __main__ |   WARMUP_EPOCHS = 3
+2026-08-13 18:20:08 INFO  __main__ |   WEIGHT_DECAY = 0.0005
+2026-08-13 18:20:08 INFO  __main__ |   dataset_size_test = 63802
+2026-08-13 18:20:08 INFO  __main__ |   dataset_size_train = 145728
+2026-08-13 18:20:08 INFO  __main__ |   dataset_size_val = 12543
+2026-08-13 18:20:08 INFO  __main__ |   device = cuda
+2026-08-13 18:20:08 INFO  __main__ |   epochs_actual = 200
+2026-08-13 18:20:08 INFO  __main__ |   git_sha = 
+2026-08-13 18:20:08 INFO  __main__ |   init_from = coco
+2026-08-13 18:20:08 INFO  __main__ |   kd = True
+2026-08-13 18:20:08 INFO  __main__ |   resume_from = 
+2026-08-13 18:20:08 INFO  __main__ |   smoke = False
+2026-08-13 18:20:08 INFO  __main__ |   weights_path = /app/weights/yolo26n.pt
+2026-08-13 18:20:08 INFO  scripts.training.yolov5s.training_pipeline | output dir: /app/scripts/training/yolo26n/model_exports/yolo26n-kd-20260813-181915 | selection_metric=mAP50_95 early_stop=True(patience=20, min_delta=0.001) ema=True amp=True
+2026-08-13 18:20:08 INFO  scripts.training.yolov5s.training_pipeline | starting training: ceiling=200 epochs | train_batches=2277 val_batches=196 test_batches=997 | device=cuda
+2026-08-13 18:20:08 INFO  scripts.training.yolov5s.training_pipeline | epoch 1/200 — train start (lr=0.001, batches=2277)
+2026-08-13 18:21:34 INFO  scripts.training.yolov5s.training_pipeline | step 50 | loss_box=0.5949 loss_cls=11.3407 loss_dfl=0.0094 loss_total=473.1927 lr=0.00100124
+2026-08-13 18:22:20 INFO  scripts.training.yolov5s.training_pipeline | step 100 | loss_box=0.5943 loss_cls=11.8143 loss_dfl=0.0103 loss_total=475.7509 lr=0.00100486
+2026-08-13 18:22:56 INFO  scripts.training.yolov5s.training_pipeline | step 150 | loss_box=0.7532 loss_cls=10.4839 loss_dfl=0.0104 loss_total=446.6032 lr=0.00101085
+2026-08-13 18:23:26 INFO  scripts.training.yolov5s.training_pipeline | step 200 | loss_box=0.7746 loss_cls=11.2443 loss_dfl=0.0110 loss_total=455.8751 lr=0.00101922
+2026-08-13 18:23:58 INFO  scripts.training.yolov5s.training_pipeline | step 250 | loss_box=0.6314 loss_cls=10.1653 loss_dfl=0.0097 loss_total=394.9201 lr=0.00102996
+2026-08-13 18:24:28 INFO  scripts.training.yolov5s.training_pipeline | step 300 | loss_box=0.6681 loss_cls=10.1171 loss_dfl=0.0094 loss_total=385.3107 lr=0.00104306
+2026-08-13 18:24:58 INFO  scripts.training.yolov5s.training_pipeline | step 350 | loss_box=0.6531 loss_cls=11.6111 loss_dfl=0.0119 loss_total=423.9592 lr=0.00105852
+2026-08-13 18:25:28 INFO  scripts.training.yolov5s.training_pipeline | step 400 | loss_box=0.6891 loss_cls=10.7656 loss_dfl=0.0104 loss_total=416.8846 lr=0.00107633
+2026-08-13 18:25:58 INFO  scripts.training.yolov5s.training_pipeline | step 450 | loss_box=0.6305 loss_cls=10.4229 loss_dfl=0.0131 loss_total=384.9576 lr=0.00109648
+2026-08-13 18:26:43 INFO  scripts.training.yolov5s.training_pipeline | step 500 | loss_box=0.6915 loss_cls=10.4067 loss_dfl=0.0099 loss_total=395.8862 lr=0.00111896
+2026-08-13 18:27:26 INFO  scripts.training.yolov5s.training_pipeline | step 550 | loss_box=0.5604 loss_cls=9.8925 loss_dfl=0.0107 loss_total=362.5872 lr=0.00114375
+2026-08-13 18:28:14 INFO  scripts.training.yolov5s.training_pipeline | step 600 | loss_box=0.8116 loss_cls=10.0661 loss_dfl=0.0139 loss_total=388.6090 lr=0.00117085
+2026-08-13 18:29:03 INFO  scripts.training.yolov5s.training_pipeline | step 650 | loss_box=0.5809 loss_cls=9.6751 loss_dfl=0.0095 loss_total=347.2405 lr=0.00120024
+2026-08-13 18:29:48 INFO  scripts.training.yolov5s.training_pipeline | step 700 | loss_box=0.7553 loss_cls=9.1509 loss_dfl=0.0154 loss_total=344.3569 lr=0.00123191
+2026-08-13 18:30:37 INFO  scripts.training.yolov5s.training_pipeline | step 750 | loss_box=0.6369 loss_cls=9.9326 loss_dfl=0.0119 loss_total=357.8723 lr=0.00126583
+2026-08-13 18:31:36 INFO  scripts.training.yolov5s.training_pipeline | step 800 | loss_box=0.5808 loss_cls=9.3693 loss_dfl=0.0088 loss_total=338.5578 lr=0.00130199
+2026-08-13 18:32:33 INFO  scripts.training.yolov5s.training_pipeline | step 850 | loss_box=0.5688 loss_cls=9.5207 loss_dfl=0.0101 loss_total=337.6391 lr=0.00134037
+2026-08-13 18:33:19 INFO  scripts.training.yolov5s.training_pipeline | step 900 | loss_box=0.6382 loss_cls=9.7804 loss_dfl=0.0107 loss_total=351.5699 lr=0.00138095
+2026-08-13 18:34:15 INFO  scripts.training.yolov5s.training_pipeline | step 950 | loss_box=0.6165 loss_cls=9.3097 loss_dfl=0.0103 loss_total=344.9920 lr=0.00142371
+2026-08-13 18:35:24 INFO  scripts.training.yolov5s.training_pipeline | step 1000 | loss_box=0.5587 loss_cls=9.7690 loss_dfl=0.0109 loss_total=357.7029 lr=0.00146862
+2026-08-13 18:36:03 INFO  scripts.training.yolov5s.training_pipeline | step 1050 | loss_box=0.6517 loss_cls=9.2460 loss_dfl=0.0101 loss_total=325.9327 lr=0.00151567
+2026-08-13 18:36:58 INFO  scripts.training.yolov5s.training_pipeline | step 1100 | loss_box=0.7251 loss_cls=8.1816 loss_dfl=0.0117 loss_total=304.8465 lr=0.00156482
+2026-08-13 18:37:42 INFO  scripts.training.yolov5s.training_pipeline | step 1150 | loss_box=0.8160 loss_cls=8.2451 loss_dfl=0.0131 loss_total=315.9958 lr=0.00161606
+2026-08-13 18:38:37 INFO  scripts.training.yolov5s.training_pipeline | step 1200 | loss_box=0.7353 loss_cls=9.1173 loss_dfl=0.0133 loss_total=341.2265 lr=0.00166935
+2026-08-13 18:39:19 INFO  scripts.training.yolov5s.training_pipeline | step 1250 | loss_box=0.7983 loss_cls=8.5266 loss_dfl=0.0128 loss_total=339.3015 lr=0.00172467
+2026-08-13 18:40:17 INFO  scripts.training.yolov5s.training_pipeline | step 1300 | loss_box=0.8157 loss_cls=8.4653 loss_dfl=0.0123 loss_total=323.8084 lr=0.00178198
+2026-08-13 18:41:15 INFO  scripts.training.yolov5s.training_pipeline | step 1350 | loss_box=0.7949 loss_cls=7.6234 loss_dfl=0.0126 loss_total=293.1511 lr=0.00184126
+2026-08-13 18:42:08 INFO  scripts.training.yolov5s.training_pipeline | step 1400 | loss_box=0.7530 loss_cls=7.9466 loss_dfl=0.0098 loss_total=306.5563 lr=0.00190248
+2026-08-13 18:43:01 INFO  scripts.training.yolov5s.training_pipeline | step 1450 | loss_box=0.6664 loss_cls=7.8930 loss_dfl=0.0100 loss_total=278.2554 lr=0.00196559
+2026-08-13 18:43:57 INFO  scripts.training.yolov5s.training_pipeline | step 1500 | loss_box=0.7302 loss_cls=7.7458 loss_dfl=0.0115 loss_total=296.4804 lr=0.00203058
+2026-08-13 18:45:09 INFO  scripts.training.yolov5s.training_pipeline | step 1550 | loss_box=0.7357 loss_cls=7.6420 loss_dfl=0.0096 loss_total=285.3044 lr=0.0020974
+2026-08-13 18:46:12 INFO  scripts.training.yolov5s.training_pipeline | step 1600 | loss_box=0.6869 loss_cls=7.9383 loss_dfl=0.0121 loss_total=297.6534 lr=0.00216602
+2026-08-13 18:47:02 INFO  scripts.training.yolov5s.training_pipeline | step 1650 | loss_box=0.6704 loss_cls=7.4844 loss_dfl=0.0114 loss_total=288.4891 lr=0.00223641
+2026-08-13 18:47:49 INFO  scripts.training.yolov5s.training_pipeline | step 1700 | loss_box=0.5838 loss_cls=7.6521 loss_dfl=0.0092 loss_total=286.7705 lr=0.00230852
+2026-08-13 18:48:05 ERROR __main__ | run failed: Caught FileNotFoundError in DataLoader worker process 4.
+Original Traceback (most recent call last):
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/data/_utils/worker.py", line 374, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/app/scripts/training/yolo26n/kd_dataset.py", line 95, in __getitem__
+    img, targets, path, shapes = self.base[idx]
+                                 ~~~~~~~~~^^^^^
+  File "/app/scripts/training/yolov5s/dataset.py", line 229, in __getitem__
+    raise FileNotFoundError(f"cv2.imread returned None for: {path}")
+FileNotFoundError: cv2.imread returned None for: /app/data/blanks/images/blank_149.jpg
+Traceback (most recent call last):
+  File "/app/scripts/training/yolo26n/run_training_pipeline.py", line 235, in training_run
+    result = pipeline.run_pipeline()
+  File "/app/scripts/training/yolov5s/training_pipeline.py", line 304, in run_pipeline
+    self._train_one_epoch(epoch)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/app/scripts/training/yolov5s/training_pipeline.py", line 188, in _train_one_epoch
+    for batch in pbar:
+                 ^^^^
+  File "/opt/venv/lib/python3.13/site-packages/tqdm/std.py", line 1181, in __iter__
+    for obj in iterable:
+               ^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 718, in __next__
+    data = self._next_data()
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1495, in _next_data
+    return self._process_data(data, worker_id)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/data/dataloader.py", line 1563, in _process_data
+    data.reraise()
+    ~~~~~~~~~~~~^^
+  File "/opt/venv/lib/python3.13/site-packages/torch/_utils.py", line 774, in reraise
+    raise exception
+FileNotFoundError: Caught FileNotFoundError in DataLoader worker process 4.
+Original Traceback (most recent call last):
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/data/_utils/worker.py", line 374, in _worker_loop
+    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/data/_utils/fetch.py", line 54, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/app/scripts/training/yolo26n/kd_dataset.py", line 95, in __getitem__
+    img, targets, path, shapes = self.base[idx]
+                                 ~~~~~~~~~^^^^^
+  File "/app/scripts/training/yolov5s/dataset.py", line 229, in __getitem__
+    raise FileNotFoundError(f"cv2.imread returned None for: {path}")
+FileNotFoundError: cv2.imread returned None for: /app/data/blanks/images/blank_149.jpg
+
