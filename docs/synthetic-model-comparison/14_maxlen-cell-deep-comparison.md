@@ -147,12 +147,12 @@ both the lowest mAP and the highest zebra confusion (68% / 63%). That's not
 two independent findings — it reads as the same underlying detector-quality
 axis, not a distinct zebra-specific failure mode.
 
-The `ursus` group (american black bear) shows **zero confusion for every
-generator** — but this is a structural artifact of the 12-class subset, not
-a finding: `american black bear` is the only member of the `ursus`
-look-alike group present here, so there is no other class it could be
-confused with. It says nothing about generator quality, unlike the
-genuinely varying black-bear AP itself (0.072–0.187) discussed above.
+`ursus` is excluded from this metric: `american black bear` is the only
+member of that look-alike group present in this 12-class subset, so its
+within-group confusion rate is structurally 0 for every cell regardless of
+generator quality (there is no other class it could be confused with) — not
+a real signal, so it isn't reported. The genuinely varying black-bear AP
+itself (0.072–0.187) is the real per-generator signal, discussed above.
 
 ## Takeaways
 

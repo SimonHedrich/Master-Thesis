@@ -56,18 +56,32 @@ HEADLINE_METRICS = [
     "map", "map_50", "map_75", "map_medium", "map_large",
     "mar_1", "mar_10", "mar_100", "mar_medium", "mar_large",
 ]
-CONFUSION_GROUPS = ["zebra", "ursus"]
+CONFUSION_GROUPS = ["zebra"]  # ursus dropped: this 12-class subset has only 1 ursus-group member
+                              # (american black bear) so its confusion rate is structurally 0, not a finding
 
 # Palette (docs/synthetic-model-comparison dataviz convention — validated categorical order).
 BLUE = "#2a78d6"      # local diffusion
 ORANGE = "#eb6834"    # API, full prompt
 AQUA = "#1baf7a"       # API, compressed prompt
 CATEGORY_COLOR = {"local": BLUE, "api_full": ORANGE, "api_compressed": AQUA}
-CATEGORY_LABEL = {
-    "local": "local diffusion (maxlen, 2 seeds)",
-    "api_full": "API, full prompt (1-2 seeds)",
-    "api_compressed": "API, compressed prompt (2 seeds)",
+CATEGORY_BASE_LABEL = {
+    "local": "local diffusion (maxlen)",
+    "api_full": "API, full prompt",
+    "api_compressed": "API, compressed prompt",
 }
+
+
+def category_label(cells: list[dict], category: str) -> str:
+    """Seed count varies per cell and changes as more seeds are trained —
+    compute the range from the actual aggregated data instead of hardcoding it."""
+    seeds = sorted({c["n_seeds"] for c in cells if c["category"] == category})
+    if not seeds:
+        seed_str = "0 seeds"
+    elif len(seeds) == 1:
+        seed_str = f"{seeds[0]} seed" + ("" if seeds[0] == 1 else "s")
+    else:
+        seed_str = f"{seeds[0]}-{seeds[-1]} seeds"
+    return f"{CATEGORY_BASE_LABEL[category]}, {seed_str}"
 MUTED = "#898781"
 GRID = "#e1e0d9"
 INK_SECONDARY = "#52514e"
@@ -221,7 +235,7 @@ def plot_headline_map(cells: list[dict], path: Path) -> None:
     ax.spines[["left", "bottom"]].set_color(MUTED)
     ax.yaxis.grid(True, color=GRID, linewidth=1, zorder=0)
     ax.set_axisbelow(True)
-    handles = [plt.matplotlib.patches.Patch(color=CATEGORY_COLOR[k], label=CATEGORY_LABEL[k]) for k in ["local", "api_full", "api_compressed"]]
+    handles = [plt.matplotlib.patches.Patch(color=CATEGORY_COLOR[k], label=category_label(cells, k)) for k in ["local", "api_full", "api_compressed"]]
     ax.legend(handles=handles, frameon=False, loc="upper right")
     fig.tight_layout()
     fig.savefig(path, dpi=150)
@@ -270,26 +284,20 @@ def plot_confusion(cells: list[dict], path: Path) -> None:
     ranked = sorted(cells, key=lambda c: c["headline"]["map"][0] or 0.0, reverse=True)
     names = [label(c) for c in ranked]
     xs = np.arange(len(names))
-    width = 0.32
 
     fig, ax = plt.subplots(figsize=(14, 6.5))
-    for offset, group, color in [(-width / 2, "zebra", BLUE), (width / 2, "ursus", ORANGE)]:
-        values = [(c["confusion_groups"][group][0] or 0.0) for c in ranked]
-        ax.bar(xs + offset, values, width=width, color=color, zorder=2, label=f"{group} group")
+    values = [(c["confusion_groups"]["zebra"][0] or 0.0) for c in ranked]
+    ax.bar(xs, values, width=0.55, color=BLUE, zorder=2)
 
     ax.set_xticks(xs)
     ax.set_xticklabels(names, rotation=25, ha="right", fontsize=8)
     ax.set_ylabel("Within-group confusion rate")
-    ax.set_title("Look-alike-group confusion — all 12 cells, ranked by mAP (same order as headline chart)", fontsize=11)
+    ax.set_title("Zebra-group confusion — all 12 cells, ranked by mAP (same order as headline chart)", fontsize=11)
     ax.spines[["top", "right"]].set_visible(False)
     ax.spines[["left", "bottom"]].set_color(MUTED)
     ax.yaxis.grid(True, color=GRID, linewidth=1, zorder=0)
     ax.set_axisbelow(True)
-    ax.legend(frameon=False, loc="upper right", bbox_to_anchor=(1.0, 1.0))
-    fig.tight_layout(rect=(0, 0.05, 1, 1))
-    fig.text(0.5, 0.01,
-             "ursus group: 0.000 across all cells — bears are never confused with each other in this class subset.",
-             ha="center", fontsize=8, color=INK_SECONDARY)
+    fig.tight_layout()
     fig.savefig(path, dpi=150)
     plt.close(fig)
     print(f"wrote {path.relative_to(REPO_ROOT)}")

@@ -1,0 +1,306 @@
+{
+  "checkpoint": "/home/debian/Master-Thesis/scripts/synthetic_model_comparison/training/model_exports/yolo26n-gemini-3-1-flash-lite-image-compressed-seed44-20260826-225816/best.pt",
+  "config": {
+    "max_det": 100,
+    "bootstrap_n": 0
+  },
+  "headline": {
+    "map": 0.051775459200143814,
+    "map_50": 0.10264979302883148,
+    "map_75": 0.047157254070043564,
+    "map_small": NaN,
+    "map_medium": 0.007256650365889072,
+    "map_large": 0.057137537747621536,
+    "mar_1": 0.19062523543834686,
+    "mar_10": 0.2601425349712372,
+    "mar_100": 0.2684861123561859,
+    "mar_small": NaN,
+    "mar_medium": 0.014844660647213459,
+    "mar_large": 0.2992415130138397
+  },
+  "per_class": [
+    {
+      "coco_id": 12,
+      "class_name": "american black bear",
+      "band": "D",
+      "real_test_images": 2097,
+      "test_limited": false,
+      "ap": 0.17838187515735626
+    },
+    {
+      "coco_id": 19,
+      "class_name": "aye-aye",
+      "band": "A",
+      "real_test_images": 29,
+      "test_limited": true,
+      "ap": 0.005194926168769598
+    },
+    {
+      "coco_id": 107,
+      "class_name": "grevy's zebra",
+      "band": "B",
+      "real_test_images": 224,
+      "test_limited": false,
+      "ap": 0.07029923796653748
+    },
+    {
+      "coco_id": 123,
+      "class_name": "kinkajou",
+      "band": "A",
+      "real_test_images": 160,
+      "test_limited": false,
+      "ap": 0.015721432864665985
+    },
+    {
+      "coco_id": 132,
+      "class_name": "lion",
+      "band": "D",
+      "real_test_images": 2097,
+      "test_limited": false,
+      "ap": 0.03623740375041962
+    },
+    {
+      "coco_id": 146,
+      "class_name": "mountain zebra",
+      "band": "D",
+      "real_test_images": 467,
+      "test_limited": false,
+      "ap": 0.059712592512369156
+    },
+    {
+      "coco_id": 162,
+      "class_name": "pangolin family",
+      "band": "A",
+      "real_test_images": 52,
+      "test_limited": false,
+      "ap": 0.000257149338722229
+    },
+    {
+      "coco_id": 166,
+      "class_name": "plains zebra",
+      "band": "D",
+      "real_test_images": 2079,
+      "test_limited": false,
+      "ap": 0.1823127716779709
+    },
+    {
+      "coco_id": 174,
+      "class_name": "red fox",
+      "band": "D",
+      "real_test_images": 2150,
+      "test_limited": false,
+      "ap": 0.06755736470222473
+    },
+    {
+      "coco_id": 184,
+      "class_name": "ringtail",
+      "band": "A",
+      "real_test_images": 186,
+      "test_limited": false,
+      "ap": 0.0016462734201923013
+    },
+    {
+      "coco_id": 189,
+      "class_name": "saiga",
+      "band": "A",
+      "real_test_images": 50,
+      "test_limited": false,
+      "ap": 0.0009637178736738861
+    },
+    {
+      "coco_id": 214,
+      "class_name": "water deer",
+      "band": "A",
+      "real_test_images": 151,
+      "test_limited": false,
+      "ap": 0.0030207461677491665
+    }
+  ],
+  "confusion": {
+    "overall_confusion_rate": 0.2972972972972973,
+    "by_group": {
+      "bison": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "bos": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "canis": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "capra": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "sciurus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "sus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "sylvilagus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "cervus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "tapirus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "connochaetes": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "tragelaphus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "ursus": {
+        "matched": 805,
+        "confused": 0,
+        "confusion_rate": 0.0
+      },
+      "zebra": {
+        "matched": 1711,
+        "confused": 748,
+        "confusion_rate": 0.43717124488603154
+      },
+      "elephant": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "equine_unstriped": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "felis": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "gazelle": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "hippotragus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "hyaena": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "kobus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "leopardus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "lepus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "lynx_caracal_cluster": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "macaca": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "macropus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "marmota": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "nasua": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "odocoileus": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "ovis": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      },
+      "panthera_rosette": {
+        "matched": 0,
+        "confused": 0,
+        "confusion_rate": NaN
+      }
+    },
+    "pairs": [
+      {
+        "true": "plains zebra",
+        "pred": "mountain zebra",
+        "count": 417
+      },
+      {
+        "true": "mountain zebra",
+        "pred": "plains zebra",
+        "count": 111
+      },
+      {
+        "true": "plains zebra",
+        "pred": "grevy's zebra",
+        "count": 110
+      },
+      {
+        "true": "grevy's zebra",
+        "pred": "mountain zebra",
+        "count": 47
+      },
+      {
+        "true": "grevy's zebra",
+        "pred": "plains zebra",
+        "count": 33
+      },
+      {
+        "true": "mountain zebra",
+        "pred": "grevy's zebra",
+        "count": 30
+      }
+    ]
+  }
+}

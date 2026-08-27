@@ -61,11 +61,11 @@ HEADLINE_METRICS = [
     "map", "map_50", "map_75", "map_medium", "map_large",
     "mar_1", "mar_10", "mar_100", "mar_medium", "mar_large",
 ]
-CONFUSION_GROUPS = ["zebra", "ursus"]  # only groups with any matched instances in this 12-class subset
+CONFUSION_GROUPS = ["zebra"]  # ursus dropped: this 12-class subset has only 1 ursus-group member
+                              # (american black bear) so its confusion rate is structurally 0, not a finding
 
 # Palette (docs/synthetic-model-comparison dataviz convention — validated categorical order)
 BLUE = "#2a78d6"
-ORANGE = "#eb6834"
 MUTED = "#898781"
 GRID = "#e1e0d9"
 INK_SECONDARY = "#52514e"
@@ -261,27 +261,21 @@ def plot_confusion(cells: list[dict], path: Path) -> None:
     ranked = sorted(cells, key=lambda c: c["generator"])
     names = [c["generator"] for c in ranked]
     xs = np.arange(len(names))
-    width = 0.32
 
     fig, ax = plt.subplots(figsize=(9, 5.5))
-    for offset, group, color in [(-width / 2, "zebra", BLUE), (width / 2, "ursus", ORANGE)]:
-        values = [(c["confusion_groups"][group][0] or 0.0) for c in ranked]
-        ax.bar(xs + offset, values, width=width, color=color, zorder=2, label=f"{group} group")
+    values = [(c["confusion_groups"]["zebra"][0] or 0.0) for c in ranked]
+    ax.bar(xs, values, width=0.6, color=BLUE, zorder=2)
 
     ax.set_xticks(xs)
     ax.set_xticklabels(names, rotation=20, ha="right")
     ax.set_ylabel("Within-group confusion rate")
-    title = "Look-alike-group confusion by generator (only groups with matched instances in this class subset)"
+    title = "Zebra-group confusion by generator (only look-alike group with >1 member in this class subset)"
     ax.set_title("\n".join(textwrap.wrap(title, 55)), fontsize=11)
     ax.spines[["top", "right"]].set_visible(False)
     ax.spines[["left", "bottom"]].set_color(MUTED)
     ax.yaxis.grid(True, color=GRID, linewidth=1, zorder=0)
     ax.set_axisbelow(True)
-    ax.legend(frameon=False, loc="upper right", bbox_to_anchor=(1.0, 1.0))
-    fig.tight_layout(rect=(0, 0.06, 1, 1))
-    fig.text(0.5, 0.01,
-             "ursus group: 0.000 across all cells — bears are never confused with each other in this class subset.",
-             ha="center", fontsize=8, color=INK_SECONDARY)
+    fig.tight_layout()
     fig.savefig(path, dpi=150)
     plt.close(fig)
     print(f"wrote {path.relative_to(REPO_ROOT)}")

@@ -43,7 +43,8 @@ HEADLINE_METRICS = [
     "map", "map_50", "map_75", "map_medium", "map_large",
     "mar_1", "mar_10", "mar_100", "mar_medium", "mar_large",
 ]
-CONFUSION_GROUPS = ["zebra", "ursus"]
+CONFUSION_GROUPS = ["zebra"]  # ursus dropped: this 12-class subset has only 1 ursus-group member
+                              # (american black bear) so its confusion rate is structurally 0, not a finding
 
 BLUE = "#2a78d6"
 ORANGE = "#eb6834"
