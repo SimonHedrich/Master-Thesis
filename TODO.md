@@ -317,43 +317,66 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 - [ ] **4.3 [3060] Retrain YOLOv5s** with the new anchor/loss-autoscaling
       implementation (`autoanchor.py` fix from
       `docs/progress_notes/2026-07-16_yolov5s-underperformance-hyp-scaling-fix.md`)
-      — **running as of 2026-08-13**, dispatched to `gpu-server` (3060) per
-      the machine tag, fresh run (no `--resume-from`, confirmed via
-      `hyp_cls_effective=1.40625` in the run log — the fix is active).
-      `val mAP50_95` climbing steadily each epoch (0.05 → 0.10 → 0.14 →
-      0.16 by epoch 4), no instability. Multi-day job (the last comparable
-      full run took ~6.5 days elapsed) — check
-      `docker exec training-container cat /tmp/yolov5s_retrain.log` on
-      gpu-server for current status.
-- [ ] **4.4 [3060, or A40 once §3.1 frees it] Train YOLO26n with knowledge
+      — dispatched to `gpu-server` (3060) 2026-08-13, fresh run (no
+      `--resume-from`, confirmed via `hyp_cls_effective=1.40625` in the run
+      log — the fix is active). **2026-08-30: spot-checked while working on
+      §4.4 — training itself finished 2026-08-18** (200/200 epochs, no
+      early-stop, best `val mAP50_95=0.5387` at epoch 192, plateaued
+      ~0.538 through epoch 200;
+      `scripts/training/yolov5s/model_exports/yolov5s-20260813-162031/{best,last}.pt`
+      on `gpu-server`). **Not yet confirmed whether the post-training test
+      eval / full eval suite ran** — no `evaluation/` output dir and no
+      `test mAP` log line found in `/tmp/yolov5s_retrain.log`, and no
+      training process is currently running there. This item is still open
+      pending that check (and, if needed, re-running `--full-eval` against
+      the existing `best.pt`) — not investigated further in this session,
+      out of scope for the §4.4 KD work this session was doing.
+- [x] **4.4 [3060, or A40 once §3.1 frees it] Train YOLO26n with knowledge
       distillation**, MD+SN ensemble as teacher (Phase 3 of
       `docs/plans/2026-06-30_knowledge-distillation-and-teacher-finetuning-strategy.md`).
       **2026-08-13: `--kd` wiring validated for the first time** —
       `smoke_test_kd_loss.py` and `run_training_pipeline.py --kd --smoke`
       both pass end-to-end (forward → KD-loss blend → backward →
       checkpoint → eval) against the real cached teacher soft labels from
-      §4.1. **Full run (`--kd --full-eval`, default `T=4/α=0.5` point)
-      attempted, failed** at epoch 1 (~28min in) on the same
-      `data/blanks/` `FileNotFoundError` as §4.2 — see gap **4.6**. Not yet
-      retried; the 4-point `(T,α)` hyperparameter grid the strategy doc's
-      §3.5 calls for is deferred until a single run completes (scope
-      decision: one default-point run is the §4.4 bar, not the full grid).
+      §4.1. **2026-08-25/30: full run (`--kd --full-eval`, default
+      `T=4/α=0.5` point) completed successfully**, on the A40, after §4.6's
+      blanks gap turned out to be only 4 missing files (fixed via rsync from
+      `gpu-server`) — see
+      `docs/progress_notes/2026-08-25_yolo26n-kd-full-run-blanks-gap-fix.md`.
+      Early-stopped at epoch 182 (best checkpoint epoch 161, val
+      `mAP50_95=0.6553`), ~4.45 days wall-clock including the full eval
+      suite. **Result: mixed mAP 0.510 / real 0.479 — essentially on par
+      with, not better than, the Phase 1 direct-FT baseline (mixed 0.523 /
+      real 0.481)** at this single default hyperparameter point. The 4-point
+      `(T,α)` hyperparameter grid (`T∈{4,8} × α∈{0.5,0.7}`) the strategy
+      doc's §3.5 calls for remains deferred (original scope decision: one
+      default-point run is the §4.4 bar) — but given this result, the grid
+      is now more clearly worth running before drawing a final KD-vs-direct-
+      FT conclusion. Checkpoint:
+      `scripts/training/yolo26n/model_exports/yolo26n-kd-20260825-164250/best.pt`
+      (gitignored, only on this A40, not yet rsynced to the NAS per §1.3).
 - [ ] **4.5 [Either, no GPU] (gap) KD ladder Phase 4 — final comparison
       synthesis**: assemble direct-FT vs. teacher-FT vs. KD results into the
       comparison the strategy doc's experimental ladder is building toward.
-      Pure analysis over the (git-tracked) eval reports from §4.1–4.4 —
-      needs §2.1 fixed first so those evals were affordable to produce.
-- [ ] **4.6 [Either] (gap) `data/blanks/` (negative/no-object training
+      Pure analysis over the (git-tracked) eval reports from §4.1–4.4 — §4.1
+      and §4.4 have eval reports now; §4.2 (student zero-shot) hasn't been
+      retried since the §4.6 fix, and §4.3 (yolov5s retrain) finished
+      training 2026-08-18 but its own eval status is unconfirmed (see §4.3's
+      updated note) — so this isn't fully unblocked yet, only closer than
+      before. Needs §2.1 fixed first so those evals were affordable to
+      produce (already true).
+- [x] **4.6 [Either] (gap) `data/blanks/` (negative/no-object training
       images) is incomplete on at least two machines** — discovered
-      2026-08-13 when it broke both §4.2 and §4.4. This A40 has 170 images
-      under `data/blanks/images/`, `gpu-server` has 174, but annotations
-      reference indices up to at least `blank_216` — neither machine has a
-      complete set, and the NAS backup (`data-server`) isn't SSH-trusted
-      from the A40 yet (`ssh-copy-id` not done, per §1.3's prerequisite
-      note). Blocks §4.2's student zero-shot eval and §4.4's KD training
-      (and, unverified, may also affect any other pipeline that pulls
-      negative examples from this directory) until the authoritative
-      source/count is located and resynced.
+      2026-08-13 when it broke both §4.2 and §4.4. **2026-08-25: resolved on
+      the A40** — re-investigation found the actual gap was only 4 specific
+      files (`blank_149.jpg`, `blank_157.jpg`, `blank_210.jpg`,
+      `blank_211.jpg`), not a large mismatch; `gpu-server` had the complete
+      174/174 set (confirmed against the count `data/real/annotations_*.json`
+      actually reference), rsynced over after the user ran `ssh-copy-id` to
+      `debian@gpu-server.taile550ef.ts.net`. This A40 now has 174/174. The
+      NAS-side durability sync (`ssh-copy-id` to `data-server`, per §1.3)
+      is still open — not required to unblock §4.2/§4.4, but worth doing so
+      the complete set has a backup beyond `gpu-server` alone.
 
 ## 5. Deployment / embedded pipeline
 
