@@ -99,13 +99,27 @@ def main() -> None:
     parser.add_argument("--start", type=int, default=1, help="Starting batch size (default: 1)")
     parser.add_argument("--device", type=str, default=None, help="Device string, e.g. 'cuda' or 'cpu' (default: auto)")
     parser.add_argument("--max", type=int, default=1024, help="Safety cap on batch size (default: 1024)")
+    parser.add_argument(
+        "--freeze-fraction",
+        type=float,
+        default=None,
+        help="Override constants.FREEZE_PARAM_FRACTION (trainable-param footprint "
+        "changes with freeze fraction, so max batch size does too). Unset = use the "
+        "constants.py default.",
+    )
     args = parser.parse_args()
 
     device = torch.device(args.device) if args.device else torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    resolved_freeze = (
+        constants.FREEZE_PARAM_FRACTION if args.freeze_fraction is None else args.freeze_fraction
+    )
 
-    print(f"\nProbing max batch size on {device} (image_size={constants.IMAGE_SIZE})\n")
+    print(
+        f"\nProbing max batch size on {device} (image_size={constants.IMAGE_SIZE}, "
+        f"freeze_fraction={resolved_freeze})\n"
+    )
 
-    model, preprocess_fn, _labels = speciesnet_model(device)
+    model, preprocess_fn, _labels = speciesnet_model(device, freeze_fraction=resolved_freeze)
     optimizer = model_optimizer(model)
     group_table, _levels = build_group_table()
     loss_fn = GroupedCrossEntropyLoss(group_table)

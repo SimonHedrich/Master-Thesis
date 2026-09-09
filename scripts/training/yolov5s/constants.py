@@ -14,6 +14,14 @@ ANNOTATIONS_TRAIN = REPO_ROOT / "data" / "real" / "annotations_train.json"
 ANNOTATIONS_VAL = REPO_ROOT / "data" / "real" / "annotations_val.json"
 ANNOTATIONS_TEST = REPO_ROOT / "data" / "real" / "annotations_test.json"
 
+# Band A (and B) classes have no/thin real training data by design — their
+# training/val images are synthetic-only, generated separately and never
+# part of `data/real/annotations_*.json`. Merged into train/val at dataset
+# construction time (never into test — test stays real-only + eval_suite's
+# separate synthetic test set). See `TODO.md` §4.7.
+ANNOTATIONS_TRAIN_SYNTH = REPO_ROOT / "data" / "synthetic" / "annotations_train.json"
+ANNOTATIONS_VAL_SYNTH = REPO_ROOT / "data" / "synthetic" / "annotations_val.json"
+
 # `file_name` fields in the COCO JSONs start with `data/...` and resolve
 # relative to the repo root.
 IMAGE_ROOT = REPO_ROOT

@@ -66,7 +66,14 @@ def _try_batch_size(
 ) -> bool:
     """Return True if the batch size fits, False on OOM."""
     model, _ = yolo26n_model(num_classes, weights_path, device)
-    optimizer = model_optimizer(model)
+    optimizer = model_optimizer(
+        model,
+        constants.OPTIMIZER,
+        constants.LEARNING_RATE,
+        constants.MOMENTUM,
+        constants.WEIGHT_DECAY,
+        constants.NESTEROV,
+    )
     loss_fn = Yolo26Loss(model)
 
     try:

@@ -1,0 +1,141 @@
+2026-08-13 16:25:33 INFO  __main__ | === yolo26n training run ===
+2026-08-13 16:25:33 INFO  __main__ | run_name=yolo26n-kd-smoke-20260813-162532 experiment=yolo26n-wildlife225
+2026-08-13 16:25:33 INFO  __main__ | mlflow tracking_uri=http://hetzner.taile550ef.ts.net:5000/
+2026-08-13 16:25:33 INFO  __main__ | run dir: /app/scripts/training/yolo26n/model_exports/yolo26n-kd-smoke-20260813-162532
+2026-08-13 16:25:33 INFO  __main__ | log file: /app/scripts/training/yolo26n/model_exports/yolo26n-kd-smoke-20260813-162532/yolo26n-kd-smoke-20260813-162532.log
+2026-08-13 16:25:33 INFO  __main__ | seed=42 device=cuda epochs=1 smoke=True kd=True init_from=coco
+2026-08-13 16:25:33 INFO  scripts.training.yolov5s.dataset | dataset annotations_val.json: 12543 images, 19732 annotations, 225 classes
+2026-08-13 16:25:33 INFO  scripts.training.yolov5s.dataset | dataset annotations_val.json: 12543 images, 19732 annotations, 225 classes
+2026-08-13 16:25:34 INFO  scripts.training.yolov5s.dataset | dataset annotations_val.json: 12543 images, 19732 annotations, 225 classes
+2026-08-13 16:25:36 INFO  scripts.training.yolo26n.kd_dataset | loaded teacher soft-label cache /app/data/real/teacher_soft_labels_val.jsonl: 12517 images (7215 secondary/non-primary detections discarded — single-label KD scope)
+2026-08-13 16:25:36 INFO  scripts.training.yolo26n.kd_dataset | 26/12543 training images have NO cached teacher record — teacher_probs will be all-zero for those (hard-label-only fallback)
+2026-08-13 16:25:54 INFO  scripts.training.yolo26n.yolo26n_model | loaded 606/708 keys from /app/weights/yolo26n.pt (skipped 102 shape-mismatched)
+2026-08-13 16:25:54 INFO  scripts.training.yolo26n.yolo26n_model | model: yolo26n, nc=225, params=2.71M, device=cuda
+2026-08-13 16:25:54 INFO  scripts.training.yolov5s.yolov5s_model | optimizer=SGD lr=0.001 | param groups: g0(BN,no-decay)=114 g1(conv,decay=0.0005)=126 g2(bias,no-decay)=126
+2026-08-13 16:25:54 INFO  scripts.training.yolov5s.yolov5s_model | scheduler: OneCycleLR(max_lr=0.01, total_steps=195, pct_start=0.015, div_factor=10, final_div_factor=100) — stepped per batch
+2026-08-13 16:25:54 INFO  __main__ | run config:
+2026-08-13 16:25:54 INFO  __main__ |   ANNOTATIONS_TEST = /app/data/real/annotations_test.json
+2026-08-13 16:25:54 INFO  __main__ |   ANNOTATIONS_TRAIN = /app/data/real/annotations_train.json
+2026-08-13 16:25:54 INFO  __main__ |   ANNOTATIONS_VAL = /app/data/real/annotations_val.json
+2026-08-13 16:25:54 INFO  __main__ |   AUG_CLOSE_MOSAIC = 0
+2026-08-13 16:25:54 INFO  __main__ |   AUG_COPY_PASTE = 0.0
+2026-08-13 16:25:54 INFO  __main__ |   AUG_DEGREES = 0.0
+2026-08-13 16:25:54 INFO  __main__ |   AUG_FLIPUD = 0.0
+2026-08-13 16:25:54 INFO  __main__ |   AUG_HFLIP = True
+2026-08-13 16:25:54 INFO  __main__ |   AUG_HSV = True
+2026-08-13 16:25:54 INFO  __main__ |   AUG_HSV_H = 0.015
+2026-08-13 16:25:54 INFO  __main__ |   AUG_HSV_S = 0.7
+2026-08-13 16:25:54 INFO  __main__ |   AUG_HSV_V = 0.4
+2026-08-13 16:25:54 INFO  __main__ |   AUG_MIXUP = 0.0
+2026-08-13 16:25:54 INFO  __main__ |   AUG_MOSAIC = 0.0
+2026-08-13 16:25:54 INFO  __main__ |   AUG_PERSPECTIVE = 0.0
+2026-08-13 16:25:54 INFO  __main__ |   AUG_SCALE = 0.5
+2026-08-13 16:25:54 INFO  __main__ |   AUG_SHEAR = 0.0
+2026-08-13 16:25:54 INFO  __main__ |   AUG_TRANSLATE = 0.1
+2026-08-13 16:25:54 INFO  __main__ |   BATCH_SIZE = 64
+2026-08-13 16:25:54 INFO  __main__ |   DATA_ROOT = /app/data
+2026-08-13 16:25:54 INFO  __main__ |   EARLY_STOP = True
+2026-08-13 16:25:54 INFO  __main__ |   EARLY_STOP_MIN_DELTA = 0.001
+2026-08-13 16:25:54 INFO  __main__ |   EARLY_STOP_PATIENCE = 20
+2026-08-13 16:25:54 INFO  __main__ |   EPOCH_COUNT = 200
+2026-08-13 16:25:54 INFO  __main__ |   EVAL_CONF_THRES = 0.001
+2026-08-13 16:25:54 INFO  __main__ |   EVAL_IOU_THRES = 0.6
+2026-08-13 16:25:54 INFO  __main__ |   EVAL_MAX_DET = 100
+2026-08-13 16:25:54 INFO  __main__ |   HYP_BOX = 7.5
+2026-08-13 16:25:54 INFO  __main__ |   HYP_CLS = 0.5
+2026-08-13 16:25:54 INFO  __main__ |   HYP_DFL = 1.5
+2026-08-13 16:25:54 INFO  __main__ |   IMAGE_ROOT = /app
+2026-08-13 16:25:54 INFO  __main__ |   IMAGE_SIZE = 640
+2026-08-13 16:25:54 INFO  __main__ |   KD_ALPHA = 0.5
+2026-08-13 16:25:54 INFO  __main__ |   KD_APPLY_TO = one2one
+2026-08-13 16:25:54 INFO  __main__ |   KD_TEMPERATURE = 4.0
+2026-08-13 16:25:54 INFO  __main__ |   LEARNING_RATE = 0.001
+2026-08-13 16:25:54 INFO  __main__ |   MLFLOW_EXPERIMENT_DEFAULT = yolo26n-wildlife225
+2026-08-13 16:25:54 INFO  __main__ |   MLFLOW_LOG_EVERY_N_STEPS = 50
+2026-08-13 16:25:54 INFO  __main__ |   MODEL_CONFIG = yolo26n.yaml
+2026-08-13 16:25:54 INFO  __main__ |   MOMENTUM = 0.937
+2026-08-13 16:25:54 INFO  __main__ |   NESTEROV = True
+2026-08-13 16:25:54 INFO  __main__ |   NUM_CLASSES = 225
+2026-08-13 16:25:54 INFO  __main__ |   NUM_WORKERS = 8
+2026-08-13 16:25:54 INFO  __main__ |   ONE_CYCLE_DIV_FACTOR = 10.0
+2026-08-13 16:25:54 INFO  __main__ |   ONE_CYCLE_FINAL_DIV_FACTOR = 100.0
+2026-08-13 16:25:54 INFO  __main__ |   ONE_CYCLE_MAX_LR = 0.01
+2026-08-13 16:25:54 INFO  __main__ |   ONE_CYCLE_PCT_START = 0.015
+2026-08-13 16:25:54 INFO  __main__ |   OPTIMIZER = SGD
+2026-08-13 16:25:54 INFO  __main__ |   OUTPUT_DIR = /app/scripts/training/yolo26n/model_exports
+2026-08-13 16:25:54 INFO  __main__ |   PRETRAINED_WEIGHTS = /app/weights/yolo26n.pt
+2026-08-13 16:25:54 INFO  __main__ |   REPO_ROOT = /app
+2026-08-13 16:25:54 INFO  __main__ |   SEED = 42
+2026-08-13 16:25:54 INFO  __main__ |   SELECTION_METRIC = mAP50_95
+2026-08-13 16:25:54 INFO  __main__ |   USE_AMP = True
+2026-08-13 16:25:54 INFO  __main__ |   USE_EMA = True
+2026-08-13 16:25:54 INFO  __main__ |   WARMUP_EPOCHS = 3
+2026-08-13 16:25:54 INFO  __main__ |   WEIGHT_DECAY = 0.0005
+2026-08-13 16:25:54 INFO  __main__ |   dataset_size_test = 12543
+2026-08-13 16:25:54 INFO  __main__ |   dataset_size_train = 12543
+2026-08-13 16:25:54 INFO  __main__ |   dataset_size_val = 12543
+2026-08-13 16:25:54 INFO  __main__ |   device = cuda
+2026-08-13 16:25:54 INFO  __main__ |   epochs_actual = 1
+2026-08-13 16:25:54 INFO  __main__ |   git_sha = 
+2026-08-13 16:25:54 INFO  __main__ |   init_from = coco
+2026-08-13 16:25:54 INFO  __main__ |   kd = True
+2026-08-13 16:25:54 INFO  __main__ |   resume_from = 
+2026-08-13 16:25:54 INFO  __main__ |   smoke = True
+2026-08-13 16:25:54 INFO  __main__ |   weights_path = /app/weights/yolo26n.pt
+2026-08-13 16:25:54 INFO  scripts.training.yolov5s.training_pipeline | output dir: /app/scripts/training/yolo26n/model_exports/yolo26n-kd-smoke-20260813-162532 | selection_metric=mAP50_95 early_stop=True(patience=20, min_delta=0.001) ema=True amp=True
+2026-08-13 16:25:54 INFO  scripts.training.yolov5s.training_pipeline | starting training: ceiling=1 epochs | train_batches=195 val_batches=196 test_batches=196 | device=cuda
+2026-08-13 16:25:54 INFO  scripts.training.yolov5s.training_pipeline | epoch 1/1 — train start (lr=0.001, batches=195)
+2026-08-13 16:26:10 ERROR __main__ | run failed: CUDA out of memory. Tried to allocate 462.00 MiB. GPU 0 has a total capacity of 23.78 GiB of which 356.62 MiB is free. Process 1138519 has 3.77 GiB memory in use. Process 1138744 has 5.22 GiB memory in use. Process 1141414 has 12.55 GiB memory in use. Of the allocated memory 12.06 GiB is allocated by PyTorch, and 178.35 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+Traceback (most recent call last):
+  File "/opt/venv/lib/python3.13/site-packages/ultralytics/utils/tal.py", line 98, in forward
+    return self._forward(pd_scores, pd_bboxes, anc_points, gt_labels, gt_bboxes, mask_gt)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/ultralytics/utils/tal.py", line 135, in _forward
+    target_labels, target_bboxes, target_scores = self.get_targets(gt_labels, gt_bboxes, target_gt_idx, fg_mask)
+                                                  ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/ultralytics/utils/tal.py", line 285, in get_targets
+    target_scores = torch.where(fg_scores_mask > 0, target_scores, 0)
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 924.00 MiB. GPU 0 has a total capacity of 23.78 GiB of which 180.62 MiB is free. Process 1138519 has 3.77 GiB memory in use. Process 1138744 has 5.22 GiB memory in use. Process 1141414 has 12.72 GiB memory in use. Of the allocated memory 12.16 GiB is allocated by PyTorch, and 251.30 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/app/scripts/training/yolo26n/run_training_pipeline.py", line 235, in training_run
+    result = pipeline.run_pipeline()
+  File "/app/scripts/training/yolov5s/training_pipeline.py", line 304, in run_pipeline
+    self._train_one_epoch(epoch)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/app/scripts/training/yolov5s/training_pipeline.py", line 198, in _train_one_epoch
+    total, parts = self.loss_fn(preds, targets, *extra)
+                   ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/scripts/training/yolo26n/kd_loss.py", line 212, in __call__
+    raw_total, parts = self.criterion(preds, batch)
+                       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/ultralytics/utils/loss.py", line 1190, in __call__
+    loss_one2one = self.one2one.loss(one2one, batch)
+  File "/opt/venv/lib/python3.13/site-packages/ultralytics/utils/loss.py", line 479, in loss
+    loss, loss_detach = self.get_assigned_targets_and_loss(preds, batch)[1:]
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/app/scripts/training/yolo26n/kd_loss.py", line 84, in get_assigned_targets_and_loss
+    _, target_bboxes, target_scores, fg_mask, target_gt_idx = self.assigner(
+                                                              ~~~~~~~~~~~~~^
+        pred_scores.detach().sigmoid(),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        mask_gt,
+        ^^^^^^^^
+    )
+    ^
+  File "/opt/venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/opt/venv/lib/python3.13/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/opt/venv/lib/python3.13/site-packages/ultralytics/utils/tal.py", line 105, in forward
+    return tuple(t.to(device) for t in result)
+  File "/opt/venv/lib/python3.13/site-packages/ultralytics/utils/tal.py", line 105, in <genexpr>
+    return tuple(t.to(device) for t in result)
+                 ~~~~^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 462.00 MiB. GPU 0 has a total capacity of 23.78 GiB of which 356.62 MiB is free. Process 1138519 has 3.77 GiB memory in use. Process 1138744 has 5.22 GiB memory in use. Process 1141414 has 12.55 GiB memory in use. Of the allocated memory 12.06 GiB is allocated by PyTorch, and 178.35 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

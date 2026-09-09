@@ -4,9 +4,10 @@
 **Status:** roster expanded from 3 to 7 models, all benchmarked (including
 HiDream-I1, initially rejected on a gated-repo access check and later
 unblocked and adopted once real access was confirmed); a second prompt
-regime (`maxlen`) built alongside `compressed`; five full 1,200-image
+regime (`maxlen`) built alongside `compressed`; six full 1,200-image
 production cells complete (`sd35-large-turbo`, `realvisxl-lightning`,
-`sd35m`, `flux2-klein-9b`, `sd35-large`)
+`sd35m`, `flux2-klein-9b`, `sd35-large`, `hidream-i1`) — the entire
+non-dropped roster; `qwen-image`'s cell was dropped, not deferred (§9)
 **Depends on:** [`04_local-models-and-output-parameters.md`](04_local-models-and-output-parameters.md),
 [`05_prompt-strategy-and-length-limits.md`](05_prompt-strategy-and-length-limits.md),
 [`12_additional-generator-cells-build-log.md`](12_additional-generator-cells-build-log.md)
@@ -123,7 +124,7 @@ Full table and the GPU-offload finding are in doc `04` §8; summary:
 | `flux2-klein-9b` | ~48 (31.19 at full-cell scale) | 16.0 (10.40 actual) | ✅ | ✅ — §6 |
 | `sd35-large` | ~57.8 (54.34 at full-cell scale) | 19.3 (18.11 actual) | ✅ | ✅ — §6 |
 | `qwen-image` | ~101.4 | 33.8 | ✅ | ❌ — dropped, §9 |
-| `hidream-i1` | 129.85 | 43.28 | ✅ | ❌ |
+| `hidream-i1` | 129.85 (143.92 at full-cell scale) | 43.28 (47.97 actual) | ✅ | ✅ — §6 |
 
 **Total ≈ 126 GPU-hours (~5.3 days continuous)** for all seven full cells
 back to back — itself a thesis-relevant finding given doc `04` §5's
@@ -362,6 +363,42 @@ unringed tail, confirming the ringed-tail/spotted-coat confusion found in
 `flux2-klein-9b`'s cell above is specific to that model, not a
 prompt-level issue.
 
+**Sixth (and final) full production cell: `hidream-i1`** — last in the
+cheapest-first queue (TODO.md §1.2/§3.1) and, per §4, the roster's slowest
+model. Required porting `_load_hidream_i1`/`_generate_hidream_i1` from
+`1g-generate_images_local.py` into `1i-generate_images_local_maxlen.py`
+first (§9), plus adding it to `AVAILABLE_GENERATORS`, `GENERATOR_TIER`
+(512, matching `qwen-image`/`flux2-klein-9b`), and `RESOLUTIONS`
+((1152, 864)). While porting, caught and fixed a copy-paste bug: the
+`compressed`-regime generator function hardcodes `max_sequence_length=128`
+(the `HiDreamImagePipeline` default), and this value also gates the
+Llama-3.1-8B (`tokenizer_4`) branch of `encode_prompt()` — left unchanged,
+it would have silently truncated every `maxlen` prompt back to 128 tokens
+and defeated the 512-token tier assignment. Set to 512 explicitly instead,
+matching how `qwen-image`/`flux2-klein-9b` already override the same
+parameter in this script.
+
+Smoke-tested with `--classes lion --limit 2` first: both images clean, no
+quantization artifacts, ~151-158s/image. GPU was confirmed idle (0MiB
+used) before the full run.
+
+**Result: 1,200/1,200 images, 0 failures.** Total inference time
+172,708.3s (~47.97h), averaging **143.92s/image** — above TODO.md's ~43h
+estimate (which came from the `compressed`-regime benchmark's 129.85s/image,
+itself measured on ~75-token prompts rather than this tier's 512-token
+ones). `index.jsonl` confirms all 12 classes at 100/100. Ran as a single
+chained background job (generation → MegaDetector labeling) rather than
+two separately-launched steps, so no manual handoff was needed between
+stages. Visually spot-checked `lion`, `kinkajou`, and `pangolin_family` —
+all clean and anatomically coherent; `kinkajou` shows the real species'
+plain golden-brown, unringed tail (like `sd35-large`'s cell), confirming
+the `flux2-klein-9b` tail-confusion finding above stays isolated to that
+one model rather than being a prompt-level issue.
+
+This completes generation for the entire non-dropped roster — `qwen-image`
+is the only model without a full `maxlen` cell, by deliberate decision
+(§9), not by omission.
+
 ## 7. Output layout (new since doc `12`)
 
 ```
@@ -386,7 +423,9 @@ data/synthetic_model_comparison/train/
 │   ├── compressed/                              # benchmark only (5 images) — §4
 │   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
 ├── qwen-image/compressed/                       # benchmark only (5 images) — §4
-├── hidream-i1/compressed/                       # benchmark only (5 images) — §4
+├── hidream-i1/
+│   ├── compressed/                              # benchmark only (5 images) — §4
+│   └── maxlen/                                  # DONE — 1,200/1,200 images — §6
 └── ... (flux-schnell/ from doc 12, unchanged)
 ```
 
@@ -429,16 +468,6 @@ within this machine's ~500GB disk).
   code is unaffected) in case full-precision hardware or a pre-quantized
   checkpoint becomes available later — it is simply not queued for this
   experiment's production dataset.
-- **`hidream-i1`'s full `maxlen` cell** — beyond the GPU-time commitment
-  (~43h, the roster's slowest model), it also needs code that doesn't
-  exist yet: `1i-generate_images_local_maxlen.py`'s `AVAILABLE_GENERATORS`,
-  `GENERATOR_TIER`, `RESOLUTIONS`, and loader/generator dicts only cover
-  the other six models — `hidream-i1` support was only ever added to `1g`
-  (the `compressed`-regime script). Porting `_load_hidream_i1`/
-  `_generate_hidream_i1` into `1i` and picking its maxlen tier (512, matching
-  `qwen-image`/`flux2-klein-9b`'s large-context text encoders, is the
-  natural choice) is needed before that cell can run — not done here since
-  it's last in the cheapest-first queue.
 - **Batching multiple prompts per pipeline call** and **`torch.compile`** —
   both documented as real throughput follow-ups in doc `04` §4/§8, given
   the GPU headroom found in §2, but not implemented — not necessary to

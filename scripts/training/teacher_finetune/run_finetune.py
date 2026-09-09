@@ -65,21 +65,38 @@ def training_run(
     run_dir: Path,
     log_file: Path | None,
     resume_from: Path | None = None,
+    freeze_fraction: float | None = None,
+    epochs_override: int | None = None,
+    batch_size_override: int | None = None,
 ) -> dict:
     set_seed(constants.SEED)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    epochs = 1 if smoke else constants.EPOCH_COUNT
+    resolved_freeze = (
+        constants.FREEZE_PARAM_FRACTION if freeze_fraction is None else freeze_fraction
+    )
+    resolved_batch_size = (
+        constants.BATCH_SIZE if batch_size_override is None else batch_size_override
+    )
+    epochs = 1 if smoke else (epochs_override if epochs_override is not None else constants.EPOCH_COUNT)
     logger.info("seed=%d device=%s epochs=%d smoke=%s", constants.SEED, device, epochs, smoke)
 
-    model, preprocess_fn, _labels = speciesnet_model(device)
+    model, preprocess_fn, _labels = speciesnet_model(device, freeze_fraction=resolved_freeze)
 
     ds_train = SpeciesNetCropDataset(
-        constants.ANNOTATIONS_VAL if smoke else constants.ANNOTATIONS_TRAIN,
+        constants.ANNOTATIONS_VAL
+        if smoke
+        else [constants.ANNOTATIONS_TRAIN, constants.ANNOTATIONS_TRAIN_SYNTH],
         constants.IMAGE_ROOT,
         preprocess_fn,
+        check_coverage=not smoke,
     )
-    ds_val = SpeciesNetCropDataset(constants.ANNOTATIONS_VAL, constants.IMAGE_ROOT, preprocess_fn)
+    ds_val = SpeciesNetCropDataset(
+        [constants.ANNOTATIONS_VAL, constants.ANNOTATIONS_VAL_SYNTH],
+        constants.IMAGE_ROOT,
+        preprocess_fn,
+        check_coverage=not smoke,
+    )
     ds_test = SpeciesNetCropDataset(
         constants.ANNOTATIONS_VAL if smoke else constants.ANNOTATIONS_TEST,
         constants.IMAGE_ROOT,
@@ -92,7 +109,7 @@ def training_run(
 
     dl_train = DataLoader(
         ds_train,
-        batch_size=constants.BATCH_SIZE,
+        batch_size=resolved_batch_size,
         shuffle=True,
         num_workers=num_workers,
         collate_fn=collate_fn,
@@ -104,7 +121,7 @@ def training_run(
     )
     dl_val = DataLoader(
         ds_val,
-        batch_size=constants.BATCH_SIZE,
+        batch_size=resolved_batch_size,
         shuffle=False,
         num_workers=num_workers,
         collate_fn=collate_fn,
@@ -113,7 +130,7 @@ def training_run(
     )
     dl_test = DataLoader(
         ds_test,
-        batch_size=constants.BATCH_SIZE,
+        batch_size=resolved_batch_size,
         shuffle=False,
         num_workers=num_workers,
         collate_fn=collate_fn,
@@ -143,6 +160,8 @@ def training_run(
         pass
 
     params = constants.as_dict()
+    params["FREEZE_PARAM_FRACTION"] = resolved_freeze
+    params["BATCH_SIZE"] = resolved_batch_size
     params["dataset_size_train"] = len(ds_train)
     params["dataset_size_val"] = len(ds_val)
     params["dataset_size_test"] = len(ds_test)
@@ -207,6 +226,30 @@ if __name__ == "__main__":
         "model/optimizer/scheduler/EMA/AMP state and continues at the next epoch, "
         "under a NEW run dir and a NEW MLflow run.",
     )
+    parser.add_argument(
+        "--freeze-fraction",
+        type=float,
+        default=None,
+        help="Override constants.FREEZE_PARAM_FRACTION for this run (fraction of "
+        "parameter tensors frozen). Unset = use the constants.py default, matching "
+        "existing behavior exactly.",
+    )
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=None,
+        help="Override constants.EPOCH_COUNT for this run, on the REAL train/val/test "
+        "splits (unlike --smoke, which also swaps the train split for val and disables "
+        "workers). For short stability/trend probes. Unset = use constants.EPOCH_COUNT.",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=None,
+        help="Override constants.BATCH_SIZE for this run — needed since trainable-param "
+        "VRAM footprint (and thus max batch size) changes with --freeze-fraction; see "
+        "find_max_batch_size.py --freeze-fraction. Unset = use constants.BATCH_SIZE.",
+    )
     args = parser.parse_args()
     smoke = args.smoke
     if args.resume_from is not None and not args.resume_from.is_file():
@@ -214,7 +257,16 @@ if __name__ == "__main__":
 
     load_dotenv(Path(__file__).parent / ".env")
 
-    run_name = f"teacher-finetune-{'smoke-' if smoke else ''}{datetime.now():%Y%m%d-%H%M%S}"
+    resolved_freeze = (
+        constants.FREEZE_PARAM_FRACTION if args.freeze_fraction is None else args.freeze_fraction
+    )
+    ff_suffix = f"ff{resolved_freeze:.2f}-" if args.freeze_fraction is not None else ""
+    bs_suffix = f"bs{args.batch_size}-" if args.batch_size is not None else ""
+    probe_suffix = "probe-" if args.epochs is not None else ""
+    run_name = (
+        f"teacher-finetune-{'smoke-' if smoke else ''}{probe_suffix}{ff_suffix}{bs_suffix}"
+        f"{datetime.now():%Y%m%d-%H%M%S}"
+    )
     run_dir = constants.OUTPUT_DIR / run_name
     run_dir.mkdir(parents=True, exist_ok=True)
     log_file = run_dir / f"{run_name}.log"
@@ -230,6 +282,7 @@ if __name__ == "__main__":
         "dataset": "wildlife225",
         "seed": str(constants.SEED),
         "smoke": str(smoke),
+        "freeze_fraction": str(resolved_freeze),
     }
 
     logger.info("=== teacher_finetune (SpeciesNet classifier) training run ===")
@@ -242,6 +295,14 @@ if __name__ == "__main__":
 
     try:
         with mlflow.start_run(run_name=run_name, tags=tags):
-            training_run(smoke, run_dir, log_file, resume_from=args.resume_from)
+            training_run(
+                smoke,
+                run_dir,
+                log_file,
+                resume_from=args.resume_from,
+                freeze_fraction=args.freeze_fraction,
+                epochs_override=args.epochs,
+                batch_size_override=args.batch_size,
+            )
     finally:
         logging.shutdown()

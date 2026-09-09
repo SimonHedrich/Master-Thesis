@@ -33,9 +33,14 @@ from scripts.training.teacher_finetune.teacher_model import _check_environment, 
 
 logger = logging.getLogger(__name__)
 
+# train/val must mirror run_training_pipeline.py's merged (real + synthetic)
+# dataset construction — kd_dataset.py looks up every merged-dataset image by
+# file_name in this cache, so a real-only cache silently falls back to
+# hard-label-only (zero teacher signal) for every Band A/B synthetic image.
+# test stays real-only (synthetic is never merged into test — see constants.py).
 _SPLIT_ANNOTATIONS = {
-    "train": constants.ANNOTATIONS_TRAIN,
-    "val": constants.ANNOTATIONS_VAL,
+    "train": [constants.ANNOTATIONS_TRAIN, constants.ANNOTATIONS_TRAIN_SYNTH],
+    "val": [constants.ANNOTATIONS_VAL, constants.ANNOTATIONS_VAL_SYNTH],
     "test": constants.ANNOTATIONS_TEST,
 }
 

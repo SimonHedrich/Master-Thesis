@@ -29,10 +29,14 @@ teacher-finetune smoke test — `docs/plans/2026-06-30_yolo26-kd-and-teacher-fin
 necessarily a script bug. Disk is also at 95% (29GB free) — check headroom
 before queuing the largest generation cells.
 
-The RTX 3060 (12GB) is confirmed already set up with the repo and dataset —
-likely the Makefile's `REMOTE_HOST` (`gpu.local` / tailscale `gpu-server`);
-**confirm the exact host alias before scripting any rsync commands against
-it**, since this wasn't verified directly, only inferred from naming.
+The RTX 3060 (12GB) is confirmed already set up with the repo and dataset.
+**Host alias confirmed live (2026-08-04):** the Makefile's `REMOTE_HOST`
+(`gpu.local`) doesn't resolve from the A40 — use the Tailscale MagicDNS
+name `gpu-server.taile550ef.ts.net` instead (same pattern as `ICS_HOST`).
+Login user is `debian`, not `ubuntu` (the A40's own `ICS_HOST` user) —
+`ssh-copy-id` was needed first, key auth wasn't already in place from the
+A40 side. Verified via `nvidia-smi` (RTX 3060, 12288MiB) and an existing
+`~/Master-Thesis` checkout on connection.
 
 Split rationale (from measured VRAM/timing data already in the repo):
 
@@ -66,9 +70,9 @@ multi-model GPU batch queue unattended): pause after each cell completes and
 check in before starting the next, in cheapest-first order
 (`realvisxl-lightning` → `sd35m` → `flux2-klein-9b` → `sd35-large` →
 `qwen-image` → `hidream-i1`) so a shortened campaign still bought the most
-model diversity per hour spent. `qwen-image`/`hidream-i1` stay in the queue
-(user decision 2026-07-30) but are the first candidates to drop if time runs
-short.
+model diversity per hour spent. `qwen-image` was dropped mid-queue (user
+decision 2026-07-30, confirmed via its `compressed`-regime smoke test —
+doc `13` §9); `hidream-i1` ran last and completed the queue — §3.1.
 
 ### 1.3 Git sync protocol
 
@@ -140,8 +144,9 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 ## 3. Synthetic-model-comparison experiment
 
 - [x] **3.1 [A40] Generate remaining local-model `maxlen` cells:**
-      `sd35-large-turbo`, `realvisxl-lightning` (actual: 0.31h inference,
-      0.93s/image, 1200/1200, 0 failures), `sd35m` (actual: 7.98h inference,
+      all six non-dropped cells are now complete — `sd35-large-turbo`,
+      `realvisxl-lightning` (actual: 0.31h inference, 0.93s/image,
+      1200/1200, 0 failures), `sd35m` (actual: 7.98h inference,
       23.94s/image — above the ~5h estimate, 1200/1200, 0 failures),
       `flux2-klein-9b` (actual: 10.40h inference, 31.19s/image — under the
       ~16-22h estimate, 1200/1200, 0 failures; **quality note:** `kinkajou`
@@ -150,20 +155,28 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       §3.4/3.5, not a pipeline failure), `sd35-large` (actual: 18.11h
       inference, 54.34s/image — within the ~19-20h estimate, 1200/1200, 0
       failures; its own `kinkajou` renders are correct, confirming the
-      tail-confusion above is specific to `flux2-klein-9b`), and now
-      **`hidream-i1`** (1200/1200 images, exported) are all done — doc `13`
-      §6/§9. `qwen-image` was **dropped, not deferred**, after its
-      `compressed`-regime smoke test showed structural NF4-quantization
-      graininess (doc `13` §9) — the six-model `maxlen` grid is now
-      considered complete rather than seven-model.
+      tail-confusion above is specific to `flux2-klein-9b`), and
+      `hidream-i1` (actual: 47.97h inference, 143.92s/image — above the
+      ~43h estimate, 1200/1200, 0 failures; its `kinkajou` renders are also
+      correct) — doc `13` §6. Run in this cheapest-first order with a
+      check-in between each cell (§1.2) — not as one unattended queue.
+      `hidream-i1` first needed `1i-generate_images_local_maxlen.py`
+      extended with its loader/tier support (previously only in `1g`, the
+      `compressed`-regime script), including fixing a copy-paste bug where
+      its generator function would otherwise have hardcoded
+      `max_sequence_length=128` instead of the 512 its maxlen tier
+      assignment requires — doc `13` §9. `qwen-image` was dropped, not
+      generated, due to confirmed NF4-quantization graininess (doc `13`
+      §9) — its `enable_model_cpu_offload()` requirement is therefore now
+      moot for this task.
 - [x] **3.2 [3060] (gap) Run the labeling pipeline**
       (`scripts/synthetic_model_comparison/2-run_megadetector.py` through
       `5-export_coco.py`) on each generated cell — blocks the training step
       below. Stage 2 (MegaDetector) done directly on the A40 (GPU was idle,
-      cheap enough not to wait for a 3060 handoff) for all five completed
+      cheap enough not to wait for a 3060 handoff) for all six completed
       `maxlen` cells: `realvisxl-lightning`, `sd35m`, `flux2-klein-9b`,
-      `sd35-large`, `sd35-large-turbo` — 1,200/1,200 images each, 0 missing.
-      Required adding `"maxlen"` to `2-run_megadetector.py`'s
+      `sd35-large`, `sd35-large-turbo`, `hidream-i1` — 1,200/1,200 images
+      each, 0 missing. Required adding `"maxlen"` to `2-run_megadetector.py`'s
       `--prompt-regime` choices (only had `full`/`compressed`, a gap from
       before doc `13` introduced the `maxlen` regime). See
       `docs/synthetic-model-comparison/README.md` for the per-cell
@@ -176,7 +189,20 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       bbox labeling) still have not run on any cell** — these exports are
       explicitly provisional/not thesis-final until they do (§3.4). Needed
       the same `"maxlen"` argparse-choices fix in `3-single_detect_review.py`,
-      `4-bbox_labeling_server.py`, and `5-export_coco.py` too.
+      `4-bbox_labeling_server.py`, and `5-export_coco.py` too. **`hidream-i1`
+      exported the same way (2026-08-04, on the A40):** 1,200 images, 1,198
+      annotated / 2 skipped (its two `n_significant == 0` images from the
+      MegaDetector table above), 1,229 boxes total — also provisional, same
+      caveat. `annotations.json`, `index.jsonl`, and all 1,200 images
+      (`data/*`, gitignored) rsynced to `gpu-server` (the 3060), checksums
+      and counts confirmed matching on both ends (1,200/1,200 images,
+      1.5GB) — the 3060 can now run §3.3 training on this cell whenever
+      it picks it up. Found and fixed a stale partial copy already sitting
+      on `gpu-server` (21 images, a 2-record `index.jsonl` — from an
+      earlier, unrelated attempt) before syncing the authoritative version
+      over it. Note: `gpu-server`'s login user is `debian`, not
+      `ubuntu` as the A40's own `ICS_HOST` uses — confirmed live, since
+      TODO.md previously only inferred the host alias, not the user.
 - [x] **3.3 [3060] Train yolo26n on each comparison dataset**
       (`scripts/synthetic_model_comparison/training/`), ideally multiple runs
       per dataset for averaged metrics — code exists, never run end-to-end on
@@ -274,32 +300,242 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
 
 ## 4. Core model training campaign
 
-- [ ] **4.1 [3060] Fine-tune SpeciesNet's classifier head** (in the MD+SN
-      ensemble) on the 225-class taxonomy and evaluate — scaffolding complete
-      (`scripts/training/teacher_finetune/`,
-      `scripts/training/megadet_speciesnet_ensemble/`), not yet actually run.
-      54M-param EfficientNetV2-M head, comfortably fits 12GB without the
-      contention the shared A40 has shown. Note: no `make speciesnet-*`
-      target exists yet despite being documented — run via the manual `uv
-      run python -m ...` commands in the script docstrings, or add the
-      Makefile targets first.
+- [x] **4.1 [3060] Fine-tune SpeciesNet's classifier head** (in the MD+SN
+      ensemble) on the 225-class taxonomy and evaluate — run 2026-08-05/06,
+      on the A40 (not the 3060 as originally tagged; scaffolding fit
+      comfortably even on the shared/contended box). Added the missing
+      `make speciesnet-build/start/stop/shell/finetune` targets
+      (`Makefile`) — `speciesnet-start` also needed
+      `--dns 100.100.100.100 --dns 192.168.178.2` since containers on this
+      host can't otherwise resolve the Tailscale-hosted MLflow server.
+      First resynced this machine's `data/real/annotations_*.json` from
+      `gpu-server` — it had the pre-contamination-flagging copy §2.1
+      flagged as stale, resolving that open question for the A40 as a side
+      effect.
+
+      **Two real bugs found by actually running training, not by
+      inspection** (both fixed in `scripts/training/teacher_finetune/`):
+      `ONE_CYCLE_MAX_LR=1e-3` (copied by convention from the detector
+      pipelines' "10x base LR" rule) reliably diverges for this
+      classifier/freeze-fraction/AMP combo — confirmed via isolated
+      fixed-LR probes (gradient norms already `inf` within ~10 steps, NaN
+      loss by ~27); lowered to `3e-4` (`constants.py`), empirically stable.
+      Missing gradient clipping (`training_pipeline.py`) — same class of
+      bug as the sibling detector pipelines' §3.3 fix, added
+      `unscale_`+`clip_grad_norm_`. Even at the corrected LR, occasional
+      hard batches under AMP still overflow and permanently poison
+      BatchNorm running stats and, via the unconditional EMA update, the
+      EMA copy used for eval/checkpointing — verified directly (one full
+      run's `last.pt` came out with 43.5M non-finite values after a single
+      unhandled batch). Added a finite-check guard that snapshots
+      BatchNorm buffers before each forward pass and restores them if that
+      batch's loss/logits are non-finite, skipping backward/EMA/scheduler
+      for it entirely — verified clean (zero non-finite values in
+      `best.pt`/`last.pt`) across three full runs, including two that hit
+      sustained near-100%-batch-failure episodes and had to be killed.
+
+      **Result, confirmed reproducible across two independent full runs**
+      (byte-identical epoch-by-epoch losses/val-metrics through epoch 5,
+      identical final test numbers): `best.pt` at epoch 4
+      (`val f1_macro=0.7645`) — training past that point oscillates and
+      eventually destabilizes rather than improving, a genuine ceiling for
+      this LR/architecture/freeze-fraction setup, not noise. Final test-set
+      eval (92,094 samples): `accuracy_top1=0.6688`, `f1_macro=0.5390`,
+      `f1_micro=0.6688` (per-source: 98.5% coco_humans, 82.6% images_cv,
+      68.1% inaturalist, 64.3% gbif, 59.4% wikimedia, 43.0% openimages) —
+      per `teacher_finetune/README.md`'s documented ceiling caveat, macro
+      metrics are capped ~4.9 points below 100% by the 11/225 classes with
+      no matching SpeciesNet leaf class. Checkpoint only exists on this A40
+      machine so far (gitignored, not yet rsynced to the NAS backup per
+      §1.3's durability step) — `scripts/training/teacher_finetune/model_exports/teacher-finetune-20260806-131233/best.pt`.
+      **2026-08-13: downstream steps for §4.4 done.** Cached teacher soft
+      labels for both splits (`cache_soft_labels.py --split train`:
+      187,705 records; `--split val`: 19,732 records — both match their
+      annotation counts exactly) — `data/real/teacher_soft_labels_{train,val}.jsonl`.
+      Re-ran `predict_ensemble.py --checkpoint best.pt` for the fine-tuned
+      MD+SN ensemble predictions
+      (`megadet_speciesnet_ensemble/model_exports/finetuned-teacher-finetune-20260806-131233/`,
+      110,812 predictions/63,802 real images, 12,491/11,250 synth images —
+      this script tolerates the §4.6 `data/blanks` gap as a warning, not a
+      crash) and scored them (`run_evaluation.py --real-predictions
+      --synth-predictions`, `.../eval/evaluation_report.md`): **fine-tuned
+      ensemble mixed mAP 0.549 / real 0.536, vs. the pretrained baseline's
+      0.487 / 0.445** — a solid, genuine improvement from the classifier
+      fine-tune, visible downstream in detection quality, not just the
+      classifier's own metric. NAS backup of `best.pt` still not done
+      (§1.3's durability step), by request.
+      **2026-09-08/09: freeze-fraction sweep supersedes this checkpoint.**
+      `FREEZE_PARAM_FRACTION=0.5` was never actually tuned (implementation
+      plan §2.2 flagged it as an unresolved guess) — ran staged 5-epoch
+      probes at `{0.0, 0.75}` first. **0.0 (full fine-tune) disqualified**:
+      catastrophic divergence (91.5%→100% non-finite batches by epoch 2,
+      val f1_macro collapsed to ~0.002), not a memory issue — full
+      backbone unfreezing needs a much lower LR than this recipe's `3e-4`,
+      deliberately not also varied (single-variable-per-run). **0.75
+      promoted and clearly better on every metric**: val f1_macro
+      0.7645→0.7864, test f1_macro 0.5390→0.5588, test accuracy_top1
+      0.6688→0.6870. New checkpoint:
+      `scripts/training/teacher_finetune/model_exports/teacher-finetune-ff0.75-20260908-075032/best.pt`
+      (also gitignored, not yet NAS-backed). Downstream refreshed
+      (soft-label cache re-cached, MD+SN ensemble re-scored): mixed mAP
+      0.549→0.567, real 0.536→0.553, and — unlike the original
+      pretrained→0.5 transition, which traded Band A for B/C/D gains —
+      this is a uniform improvement across all four bands simultaneously.
+      See `docs/progress_notes/2026-09-08_speciesnet-freeze-fraction-sweep.md`
+      for full detail, including the `run_finetune.py`/`find_max_batch_size.py`
+      `--freeze-fraction`/`--epochs`/`--batch-size` CLI additions needed to
+      run this sweep, and an important caveat carried into §4.7 below: this
+      checkpoint (both 0.5 and 0.75) has zero training exposure to Band-A
+      classes, so its Band-A numbers aren't evidence of long-tail
+      generalization.
 - [ ] **4.2 [3060] (gap) KD ladder Phase 0 — zero-shot baselines** (untrained
       teacher/student) — needed as the floor for the Phase 4 comparison
-      table; confirm whether these are already logged anywhere before
-      assuming they need a fresh run. Inference-only, cheap.
+      table. **Teacher zero-shot is already done and current**: the
+      off-the-shelf MD+SN eval at
+      `scripts/training/megadet_speciesnet_ensemble/model_exports/pretrained/eval/evaluation_report.md`
+      (mixed mAP 0.487 / real 0.445) was verified 2026-08-13 to already be
+      scored against the *current* (post-contamination-flagging)
+      `annotations_test.json`, not stale — no rerun needed.
+      **Student zero-shot attempted 2026-08-13, failed**: `uv run -m
+      scripts.training.yolo26n.eval_suite.run_evaluation --checkpoint
+      weights/yolo26n.pt` (raw COCO weights, 225-class head untrained —
+      the standard reading of "zero-shot student") crashed near the end of
+      the real+synth pass with `FileNotFoundError` on
+      `data/blanks/images/blank_211.jpg` — see new gap **4.6** below. Not
+      yet retried.
 - [ ] **4.3 [3060] Retrain YOLOv5s** with the new anchor/loss-autoscaling
       implementation (`autoanchor.py` fix from
       `docs/progress_notes/2026-07-16_yolov5s-underperformance-hyp-scaling-fix.md`)
-      — fix is implemented, full retrain not yet done.
-- [ ] **4.4 [3060, or A40 once §3.1 frees it] Train YOLO26n with knowledge
+      — dispatched to `gpu-server` (3060) 2026-08-13, fresh run (no
+      `--resume-from`, confirmed via `hyp_cls_effective=1.40625` in the run
+      log — the fix is active). **2026-08-30: spot-checked while working on
+      §4.4 — training itself finished 2026-08-18** (200/200 epochs, no
+      early-stop, best `val mAP50_95=0.5387` at epoch 192, plateaued
+      ~0.538 through epoch 200;
+      `scripts/training/yolov5s/model_exports/yolov5s-20260813-162031/{best,last}.pt`
+      on `gpu-server`). **Not yet confirmed whether the post-training test
+      eval / full eval suite ran** — no `evaluation/` output dir and no
+      `test mAP` log line found in `/tmp/yolov5s_retrain.log`, and no
+      training process is currently running there. This item is still open
+      pending that check (and, if needed, re-running `--full-eval` against
+      the existing `best.pt`) — not investigated further in this session,
+      out of scope for the §4.4 KD work this session was doing.
+- [x] **4.4 [3060, or A40 once §3.1 frees it] Train YOLO26n with knowledge
       distillation**, MD+SN ensemble as teacher (Phase 3 of
       `docs/plans/2026-06-30_knowledge-distillation-and-teacher-finetuning-strategy.md`).
-      Not VRAM-bound either way — take whichever GPU is idle first.
+      **2026-08-13: `--kd` wiring validated for the first time** —
+      `smoke_test_kd_loss.py` and `run_training_pipeline.py --kd --smoke`
+      both pass end-to-end (forward → KD-loss blend → backward →
+      checkpoint → eval) against the real cached teacher soft labels from
+      §4.1. **2026-08-25/30: full run (`--kd --full-eval`, default
+      `T=4/α=0.5` point) completed successfully**, on the A40, after §4.6's
+      blanks gap turned out to be only 4 missing files (fixed via rsync from
+      `gpu-server`) — see
+      `docs/progress_notes/2026-08-25_yolo26n-kd-full-run-blanks-gap-fix.md`.
+      Early-stopped at epoch 182 (best checkpoint epoch 161, val
+      `mAP50_95=0.6553`), ~4.45 days wall-clock including the full eval
+      suite. **Result: mixed mAP 0.510 / real 0.479 — essentially on par
+      with, not better than, the Phase 1 direct-FT baseline (mixed 0.523 /
+      real 0.481)** at this single default hyperparameter point. The 4-point
+      `(T,α)` hyperparameter grid (`T∈{4,8} × α∈{0.5,0.7}`) the strategy
+      doc's §3.5 calls for remains deferred (original scope decision: one
+      default-point run is the §4.4 bar) — but given this result, the grid
+      is now more clearly worth running before drawing a final KD-vs-direct-
+      FT conclusion. Checkpoint:
+      `scripts/training/yolo26n/model_exports/yolo26n-kd-20260825-164250/best.pt`
+      (gitignored, only on this A40, not yet rsynced to the NAS per §1.3).
 - [ ] **4.5 [Either, no GPU] (gap) KD ladder Phase 4 — final comparison
       synthesis**: assemble direct-FT vs. teacher-FT vs. KD results into the
       comparison the strategy doc's experimental ladder is building toward.
-      Pure analysis over the (git-tracked) eval reports from §4.1–4.4 —
-      needs §2.1 fixed first so those evals were affordable to produce.
+      Pure analysis over the (git-tracked) eval reports from §4.1–4.4 — §4.1
+      and §4.4 have eval reports now; §4.2 (student zero-shot) hasn't been
+      retried since the §4.6 fix, and §4.3 (yolov5s retrain) finished
+      training 2026-08-18 but its own eval status is unconfirmed (see §4.3's
+      updated note) — so this isn't fully unblocked yet, only closer than
+      before. Needs §2.1 fixed first so those evals were affordable to
+      produce (already true).
+- [x] **4.6 [Either] (gap) `data/blanks/` (negative/no-object training
+      images) is incomplete on at least two machines** — discovered
+      2026-08-13 when it broke both §4.2 and §4.4. **2026-08-25: resolved on
+      the A40** — re-investigation found the actual gap was only 4 specific
+      files (`blank_149.jpg`, `blank_157.jpg`, `blank_210.jpg`,
+      `blank_211.jpg`), not a large mismatch; `gpu-server` had the complete
+      174/174 set (confirmed against the count `data/real/annotations_*.json`
+      actually reference), rsynced over after the user ran `ssh-copy-id` to
+      `debian@gpu-server.taile550ef.ts.net`. This A40 now has 174/174. The
+      NAS-side durability sync (`ssh-copy-id` to `data-server`, per §1.3)
+      is still open — not required to unblock §4.2/§4.4, but worth doing so
+      the complete set has a backup beyond `gpu-server` alone.
+- [ ] **4.7 [Either, no GPU] (gap) Band-A synthetic training images are never
+      loaded by either core training pipeline** — discovered 2026-09-08
+      investigating why YOLOv5s scores an exact `0.000` mAP on all 50 Band-A
+      classes (§4.5 comparison doc). Root cause, fully confirmed by reading
+      the code (not inference): `scripts/training/{yolov5s,yolo26n}/constants.py`
+      hardcode `ANNOTATIONS_TRAIN`/`ANNOTATIONS_VAL` to
+      `data/real/annotations_{train,val}.json` only, and
+      `run_training_pipeline.py` for both models has no flag or code path that
+      ever reads `data/synthetic/annotations_{train,val}.json`. Verified
+      `data/real/annotations_train.json` contains **zero** `band == "A"`
+      images (0/145,728) and `annotations_val.json` likewise (0/12,543) — all
+      ~8,000 Band-A synthetic training images live only in
+      `data/synthetic/annotations_train.json`, untouched by either pipeline.
+      This contradicts the documented design:
+      `docs/plans/2026-05-19_synthetic-test-set.md` ("Band A note") explicitly
+      states the Band-A synthetic train/val images "are part of the training
+      pipeline" and only the separate 50/class synthetic *test* set is meant
+      to be held out — so this is a genuine implementation gap against the
+      plan, not an intentional scope cut. **Same root cause confirmed in
+      `scripts/training/teacher_finetune/constants.py`** (2026-09-08/09,
+      while running the §4.1 freeze-fraction sweep): `ANNOTATIONS_TRAIN`/
+      `ANNOTATIONS_VAL` are likewise hardcoded to `data/real/` only — the
+      SpeciesNet classifier fine-tune has the identical gap, not just the
+      two detector pipelines. **Consequence: every model trained so far
+      (YOLOv5s direct-FT ×3, YOLO26n direct-FT, YOLO26n KD, SpeciesNet
+      classifier fine-tune ×2) has had literal zero training exposure to
+      all 50 Band-A species** — the §4.5
+      comparison doc's Band-A numbers reflect pure held-out/zero-shot
+      behavior for every model, not weak-but-present supervision, and the
+      doc's original "KD wins 10× on Band A, confirming the long-tail
+      hypothesis" framing has been corrected there to reflect this (the
+      dataset-design long-tail hypothesis was about thin-but-present classes,
+      not fully-absent ones). Fix: wire `data/synthetic/annotations_{train,val}.json`
+      into both `dataset.py`/`run_training_pipeline.py`'s dataloader
+      construction for Band A (and arguably B, whose real pool is also thin
+      by design) before any of the affected models can be considered
+      trained as intended. **All Band-A (and possibly Band-B) results from
+      every training run to date should be treated as provisional** until
+      this is fixed and those models retrained.
+      **2026-09-09: code fix implemented and verified, retraining not yet
+      run.** `CocoYoloDataset` (`scripts/training/yolov5s/dataset.py`, shared
+      by `yolo26n`) and `SpeciesNetCropDataset`
+      (`scripts/training/teacher_finetune/dataset.py`) now accept a list of
+      annotation paths and merge them (image ids offset per source, same
+      collision-avoidance approach as `eval_suite/scoring.py::merge_domains`;
+      category tables asserted identical across sources). Added
+      `ANNOTATIONS_TRAIN_SYNTH`/`ANNOTATIONS_VAL_SYNTH` constants
+      (→ `data/synthetic/annotations_{train,val}.json`) to all three
+      packages' `constants.py`, and wired them into each
+      `run_training_pipeline.py`/`run_finetune.py`'s non-smoke train/val
+      dataset construction (smoke mode and the `test` split are untouched —
+      test must stay real-only + `eval_suite`'s separate synthetic test set).
+      For `yolo26n --kd`: synthetic images have no cached teacher soft label,
+      but `KDCocoYoloDataset`/`KDv8DetectionLoss` already treat an
+      all-zero teacher-probs vector as "uncached → hard-label-only for this
+      sample" (pre-existing, designed fallback, not new code) — so KD
+      training will now include Band A/B with hard labels only, unless the
+      teacher soft-label cache is also regenerated over the synthetic images
+      (optional follow-on, needs the ~196M-param teacher + GPU; not done).
+      Verified via direct construction checks (merged counts match exactly:
+      train 155,808 = 145,728 real + 10,080 synthetic; val 15,063 = 12,543 +
+      2,520; no image-id collisions; a Band-A sample loads with a valid
+      target) and a live `yolo26n --smoke` run (log shows
+      `dataset_size_val = 15063` and clean batch-level training). Existing
+      `smoke_test_augmentation.py` still passes unchanged. **Not yet done:
+      actually retraining YOLOv5s / YOLO26n (direct-FT + KD) / the SpeciesNet
+      classifier on the fixed pipelines** — this is the actual GPU campaign
+      that closes this gap; the code change alone doesn't produce new
+      results. Needs a scoped, checked-in-per-run GPU dispatch (KD alone was
+      a ~4.45-day run previously) before §4.5's comparison can be redone.
 
 ## 5. Deployment / embedded pipeline
 

@@ -15,15 +15,11 @@ import scripts.training.yolo26n.constants as constants
 from scripts.training.yolov5s import transforms
 
 # model_optimizer/model_scheduler are nn.Module-generic (they only walk
-# model.modules()/model.parameters() and read constants.OPTIMIZER/
-# LEARNING_RATE/MOMENTUM/WEIGHT_DECAY/NESTEROV/ONE_CYCLE_* from
-# yolov5s.constants, NOT yolo26n.constants). model_scheduler builds an
-# OneCycleLR and requires steps_per_epoch/epochs kwargs (see its call site in
-# run_training_pipeline.py). Reused as-is rather than copied — this is only
-# correct because the comparability contract
-# (docs/plans/2026-06-30_yolo26-kd-and-teacher-finetune-implementation-plan.md
-# §0) pins those specific values identical between the two packages' constants
-# files. If they ever diverge, this import silently keeps using yolov5s' values.
+# model.modules()/model.parameters()) and take every hyperparameter as an
+# explicit argument — no implicit read of either package's constants module —
+# so reusing them here can never silently pick up yolov5s' values. See their
+# call site in run_training_pipeline.py, which passes scripts.training.
+# yolo26n.constants' own OPTIMIZER/LEARNING_RATE/.../ONE_CYCLE_* values.
 from scripts.training.yolov5s.yolov5s_model import model_optimizer, model_scheduler
 
 logger = logging.getLogger(__name__)

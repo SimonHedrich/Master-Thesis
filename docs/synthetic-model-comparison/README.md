@@ -137,8 +137,10 @@ chosen as the fastest of the four newly-added models, to validate the new
 script/prompt design at production scale before committing the much larger
 GPU-hour investment the other models would need. See
 [`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §6 for the full
-results. `realvisxl-lightning`, `sd35m`, `flux2-klein-9b`, and `sd35-large`
-have since completed the same way.
+results. `realvisxl-lightning`, `sd35m`, `flux2-klein-9b`, `sd35-large`,
+and `hidream-i1` have since completed the same way — `hidream-i1` last,
+at 143.92s/image (47.97h total), the slowest cell in the roster.
+**This completes generation for the entire non-dropped roster.**
 
 **`qwen-image`'s full `maxlen` cell was dropped, not deferred** — its
 `compressed`-regime 5-image smoke test showed clearly visible
@@ -149,11 +151,10 @@ Apache-2.0 license) and the artifact is structural to the on-the-fly NF4
 quantization this box's VRAM requires, the ~34h production run was skipped
 rather than generated and discarded later. See
 [`13`](13_local-model-roster-overhaul-and-maxlen-regime.md) §9.
-`hidream-i1`'s full `maxlen` cell has since been generated and exported
-(1,200/1,200 images) — see the 2026-08-05 update below.
 
 Still open: the fifth API cell (Nano Banana Pro) and the `compressed`-regime
-ablation pair (incumbent + gpt-image-2 low).
+ablation pair (incumbent + gpt-image-2 low). Local-model `maxlen`
+generation is otherwise done — see above.
 
 The **fixed Axis-C detector architecture is decided: YOLO26n**, not YOLOv5s
 — see [`11`](11_detector-architecture-selection.md) for the full rationale
@@ -171,13 +172,15 @@ pipeline (copied and adapted from `scripts/training/yolo26n/`; see its own
 README) that trains on one cell's labeled images and evaluates on the fixed
 real test set.
 
-**Stage 2 (MegaDetector) has now run on all five completed `maxlen`
+**Stage 2 (MegaDetector) has now run on all six completed `maxlen`
 cells** — `realvisxl-lightning`, `sd35m`, `flux2-klein-9b`, `sd35-large`,
-`sd35-large-turbo`, all 1,200/1,200 images, 0 missing. `2-run_megadetector.py`'s
-`--prompt-regime` choices didn't yet include `maxlen` (added when the regime
-was introduced in doc `13` after this script was written) — fixed as part
-of this run. Per-cell `n_significant` distribution (share of images with
-0 / 1 / ≥2 detections ≥0.5 conf):
+`sd35-large-turbo`, `hidream-i1`, all 1,200/1,200 images, 0 missing.
+`2-run_megadetector.py`'s `--prompt-regime` choices didn't yet include
+`maxlen` (added when the regime was introduced in doc `13` after this
+script was written) — fixed as part of the first five cells' run;
+`hidream-i1`'s run needed no further script changes. Per-cell
+`n_significant` distribution (share of images with 0 / 1 / ≥2 detections
+≥0.5 conf):
 
 | Cell | 0 | 1 | ≥2 |
 |---|---|---|---|
@@ -186,6 +189,7 @@ of this run. Per-cell `n_significant` distribution (share of images with
 | `flux2-klein-9b` | 0.2% | 93.6% | 6.2% |
 | `sd35-large` | 0.1% | 98.8% | 1.2% |
 | `sd35-large-turbo` | 0.1% | 97.1% | 2.8% |
+| `hidream-i1` | 0.2% | 97.3% | 2.5% |
 
 Stages 3–5 (triage review, bbox labeling, COCO export) are still pending —
 those are human-in-the-loop review steps, not yet run on any cell. A first
@@ -205,6 +209,23 @@ the zero-detection SKIP path). `--prompt-regime maxlen` also needed adding
 to `3-single_detect_review.py`, `4-bbox_labeling_server.py`,
 `5-export_coco.py`, and `training/run_training_pipeline.py`'s argparse
 choices (the same gap `2-run_megadetector.py` already had fixed).
+
+**`hidream-i1` exported the same way, 2026-08-04, on the A40**: 1,200
+images, 1,198 annotated / 2 skipped (its two `n_significant == 0` images
+from the table above fell through to the zero-detection SKIP path this
+time), 1,229 boxes total. Same provisional caveat as the other five —
+stages 3/4 have not run on this cell either. `annotations.json` lives
+under `data/synthetic_model_comparison/train/hidream-i1/maxlen/`, which is
+gitignored — rsynced straight to `gpu-server` (the 3060) right after
+export, along with the full `index.jsonl` and all 1,200 images (1.5GB),
+so §3.3 training can pick this cell up there the same way it did for the
+other five. Counts (1,200/1,200) and spot-checked md5sums matched on both
+ends. A stale partial copy was already sitting on `gpu-server` (21 images,
+a 2-record `index.jsonl`, from an unrelated earlier attempt) — removed and
+replaced with the authoritative version rather than merged with it. See
+TODO.md §1.1 for the now-confirmed host alias/login user
+(`gpu-server.taile550ef.ts.net`, user `debian`) — previously only
+inferred, not verified.
 
 Running §3.3 end-to-end on real data for the first time surfaced two
 latent bugs in the shared training loop (`scripts/training/yolov5s/training_pipeline.py`,

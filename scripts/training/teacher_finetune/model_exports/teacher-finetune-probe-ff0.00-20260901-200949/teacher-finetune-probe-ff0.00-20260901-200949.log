@@ -1,0 +1,119 @@
+2026-09-01 20:09:50 INFO  __main__ | === teacher_finetune (SpeciesNet classifier) training run ===
+2026-09-01 20:09:50 INFO  __main__ | run_name=teacher-finetune-probe-ff0.00-20260901-200949 experiment=teacher-finetune-speciesnet225
+2026-09-01 20:09:50 INFO  __main__ | mlflow tracking_uri=http://hetzner.taile550ef.ts.net:5000/
+2026-09-01 20:09:50 INFO  __main__ | run dir: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-probe-ff0.00-20260901-200949
+2026-09-01 20:09:50 INFO  __main__ | log file: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-probe-ff0.00-20260901-200949/teacher-finetune-probe-ff0.00-20260901-200949.log
+2026-09-01 20:09:51 INFO  __main__ | seed=42 device=cuda epochs=5 smoke=False
+2026-09-01 20:10:05 INFO  absl | Loading model from /root/.cache/kagglehub/models/google/speciesnet/pyTorch/v4.0.3a/1/always_crop_99710272_22x8_v12_epoch_00148.pt.
+2026-09-01 20:10:06 INFO  absl | Loaded SpeciesNetClassifier in 13.29 seconds on CUDA.
+2026-09-01 20:10:06 INFO  scripts.training.teacher_finetune.teacher_model | froze 0/490 parameter tensors (fraction=0.00), 490 trainable
+2026-09-01 20:10:06 INFO  scripts.training.teacher_finetune.teacher_model | model: speciesnet-classifier, nc=2498, params=52.71M (52.71M trainable), device=cuda
+2026-09-01 20:10:07 INFO  scripts.training.teacher_finetune.dataset | dataset annotations_train.json: 187705 crops, 225 classes
+2026-09-01 20:10:08 INFO  scripts.training.teacher_finetune.dataset | dataset annotations_val.json: 19732 crops, 225 classes
+2026-09-01 20:10:09 INFO  scripts.training.teacher_finetune.dataset | dataset annotations_test.json: 92094 crops, 225 classes
+2026-09-01 20:10:09 INFO  scripts.training.teacher_finetune.teacher_model | optimizer=AdamW lr=0.0001 weight_decay=0.0001 | trainable params=490
+2026-09-01 20:10:09 INFO  scripts.training.teacher_finetune.teacher_model | scheduler: OneCycleLR(max_lr=0.0003, total_steps=29325, pct_start=0.03, div_factor=10, final_div_factor=100) — stepped per batch
+2026-09-01 20:10:09 INFO  absl | Loading model from /root/.cache/kagglehub/models/google/speciesnet/pyTorch/v4.0.3a/1/always_crop_99710272_22x8_v12_epoch_00148.pt.
+2026-09-01 20:10:09 INFO  absl | Loaded SpeciesNetClassifier in 0.59 seconds on CUDA.
+2026-09-01 20:10:09 WARNING scripts.training.teacher_finetune.loss | 11 idx_225 classes have an EMPTY leaf group (no matching SpeciesNet leaf class) — samples with these labels are excluded from the loss (ignore_index-style), not treated as NaN. idx_225 set: [27, 74, 79, 120, 126, 164, 182, 188, 191, 212, 223]. See this module's docstring for the full class list/framing.
+2026-09-01 20:10:09 INFO  scripts.training.teacher_finetune.loss | GroupedCrossEntropyLoss: 171 single-member groups (plain CE fast path), 43 multi-member groups (grouped CE), 11 empty (ignored)
+2026-09-01 20:10:10 INFO  __main__ | run config:
+2026-09-01 20:10:10 INFO  __main__ |   ANNOTATIONS_TEST = /app/data/real/annotations_test.json
+2026-09-01 20:10:10 INFO  __main__ |   ANNOTATIONS_TRAIN = /app/data/real/annotations_train.json
+2026-09-01 20:10:10 INFO  __main__ |   ANNOTATIONS_VAL = /app/data/real/annotations_val.json
+2026-09-01 20:10:10 INFO  __main__ |   BATCH_SIZE = 32
+2026-09-01 20:10:10 INFO  __main__ |   CLASSES_225_PATH = /app/reports/classes_225.csv
+2026-09-01 20:10:10 INFO  __main__ |   DATA_ROOT = /app/data
+2026-09-01 20:10:10 INFO  __main__ |   EARLY_STOP = True
+2026-09-01 20:10:10 INFO  __main__ |   EARLY_STOP_MIN_DELTA = 0.001
+2026-09-01 20:10:10 INFO  __main__ |   EARLY_STOP_PATIENCE = 15
+2026-09-01 20:10:10 INFO  __main__ |   EPOCH_COUNT = 100
+2026-09-01 20:10:10 INFO  __main__ |   FREEZE_PARAM_FRACTION = 0.0
+2026-09-01 20:10:10 INFO  __main__ |   IMAGE_ROOT = /app
+2026-09-01 20:10:10 INFO  __main__ |   IMAGE_SIZE = 480
+2026-09-01 20:10:10 INFO  __main__ |   LEARNING_RATE = 0.0001
+2026-09-01 20:10:10 INFO  __main__ |   MLFLOW_EXPERIMENT_DEFAULT = teacher-finetune-speciesnet225
+2026-09-01 20:10:10 INFO  __main__ |   MLFLOW_LOG_EVERY_N_STEPS = 50
+2026-09-01 20:10:10 INFO  __main__ |   NUM_CLASSES_225 = 225
+2026-09-01 20:10:10 INFO  __main__ |   NUM_CLASSES_LEAF = 2498
+2026-09-01 20:10:10 INFO  __main__ |   NUM_WORKERS = 8
+2026-09-01 20:10:10 INFO  __main__ |   ONE_CYCLE_DIV_FACTOR = 10.0
+2026-09-01 20:10:10 INFO  __main__ |   ONE_CYCLE_FINAL_DIV_FACTOR = 100.0
+2026-09-01 20:10:10 INFO  __main__ |   ONE_CYCLE_MAX_LR = 0.0003
+2026-09-01 20:10:10 INFO  __main__ |   ONE_CYCLE_PCT_START = 0.03
+2026-09-01 20:10:10 INFO  __main__ |   OPTIMIZER = AdamW
+2026-09-01 20:10:10 INFO  __main__ |   OUTPUT_DIR = /app/scripts/training/teacher_finetune/model_exports
+2026-09-01 20:10:10 INFO  __main__ |   REPO_ROOT = /app
+2026-09-01 20:10:10 INFO  __main__ |   SEED = 42
+2026-09-01 20:10:10 INFO  __main__ |   SELECTION_METRIC = f1_macro
+2026-09-01 20:10:10 INFO  __main__ |   TAXONOMY_PATH = /app/resources/speciesnet_taxonomy_release.txt
+2026-09-01 20:10:10 INFO  __main__ |   USE_AMP = True
+2026-09-01 20:10:10 INFO  __main__ |   USE_EMA = True
+2026-09-01 20:10:10 INFO  __main__ |   WARMUP_EPOCHS = 3
+2026-09-01 20:10:10 INFO  __main__ |   WEIGHT_DECAY = 0.0001
+2026-09-01 20:10:10 INFO  __main__ |   dataset_size_test = 92094
+2026-09-01 20:10:10 INFO  __main__ |   dataset_size_train = 187705
+2026-09-01 20:10:10 INFO  __main__ |   dataset_size_val = 19732
+2026-09-01 20:10:10 INFO  __main__ |   device = cuda
+2026-09-01 20:10:10 INFO  __main__ |   epochs_actual = 5
+2026-09-01 20:10:10 INFO  __main__ |   git_sha = 
+2026-09-01 20:10:10 INFO  __main__ |   resume_from = 
+2026-09-01 20:10:10 INFO  __main__ |   smoke = False
+2026-09-01 20:10:10 INFO  scripts.training.teacher_finetune.training_pipeline | output dir: /app/scripts/training/teacher_finetune/model_exports/teacher-finetune-probe-ff0.00-20260901-200949 | selection_metric=f1_macro early_stop=True(patience=15, min_delta=0.001) ema=True amp=True
+2026-09-01 20:10:10 INFO  scripts.training.teacher_finetune.training_pipeline | starting training: ceiling=5 epochs | train_batches=5865 val_batches=617 test_batches=2878 | device=cuda
+2026-09-01 20:10:10 INFO  scripts.training.teacher_finetune.training_pipeline | epoch 1/5 — train start (lr=3e-05, batches=5865)
+2026-09-01 20:10:47 INFO  scripts.training.teacher_finetune.training_pipeline | step 50 | loss_grouped_ce=1.3613 lr=3.22377e-05
+2026-09-01 20:11:11 INFO  scripts.training.teacher_finetune.training_pipeline | step 100 | loss_grouped_ce=1.2092 lr=3.87055e-05
+2026-09-01 20:11:36 INFO  scripts.training.teacher_finetune.training_pipeline | step 150 | loss_grouped_ce=1.5573 lr=4.91979e-05
+2026-09-01 20:12:01 INFO  scripts.training.teacher_finetune.training_pipeline | step 200 | loss_grouped_ce=1.4397 lr=6.33807e-05
+2026-09-01 20:12:26 INFO  scripts.training.teacher_finetune.training_pipeline | step 250 | loss_grouped_ce=0.7268 lr=8.08019e-05
+2026-09-01 20:12:50 INFO  scripts.training.teacher_finetune.training_pipeline | step 300 | loss_grouped_ce=1.5418 lr=0.000100906
+2026-09-01 20:13:15 INFO  scripts.training.teacher_finetune.training_pipeline | step 350 | loss_grouped_ce=1.8432 lr=0.000123053
+2026-09-01 20:13:40 INFO  scripts.training.teacher_finetune.training_pipeline | step 400 | loss_grouped_ce=0.9578 lr=0.000146537
+2026-09-01 20:14:04 INFO  scripts.training.teacher_finetune.training_pipeline | step 450 | loss_grouped_ce=1.9281 lr=0.000170609
+2026-09-01 20:14:30 INFO  scripts.training.teacher_finetune.training_pipeline | step 500 | loss_grouped_ce=2.1025 lr=0.000194502
+2026-09-01 20:14:54 INFO  scripts.training.teacher_finetune.training_pipeline | step 550 | loss_grouped_ce=2.7621 lr=0.000217455
+2026-09-01 20:15:19 INFO  scripts.training.teacher_finetune.training_pipeline | step 600 | loss_grouped_ce=1.8660 lr=0.000238737
+2026-09-01 20:15:44 INFO  scripts.training.teacher_finetune.training_pipeline | step 650 | loss_grouped_ce=1.7262 lr=0.000257669
+2026-09-01 20:16:09 INFO  scripts.training.teacher_finetune.training_pipeline | step 700 | loss_grouped_ce=3.1685 lr=0.000273647
+2026-09-01 20:16:20 WARNING scripts.training.teacher_finetune.training_pipeline | epoch 1 step 722: non-finite loss/logits — skipped batch, restored BN buffers (1 skipped so far this epoch)
+2026-09-01 20:16:20 ERROR __main__ | run failed: CUDA out of memory. Tried to allocate 170.00 MiB. GPU 0 has a total capacity of 23.78 GiB of which 154.88 MiB is free. Process 884850 has 21.75 GiB memory in use. Of the allocated memory 20.87 GiB is allocated by PyTorch, and 561.71 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+Traceback (most recent call last):
+  File "/app/scripts/training/teacher_finetune/run_finetune.py", line 193, in training_run
+    result = pipeline.run_pipeline()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/scripts/training/teacher_finetune/training_pipeline.py", line 353, in run_pipeline
+    self._train_one_epoch(epoch)
+  File "/app/scripts/training/teacher_finetune/training_pipeline.py", line 230, in _train_one_epoch
+    logits = self.model(arrs)
+             ^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/torch/fx/graph_module.py", line 949, in call_wrapped
+    return self._wrapped_call(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/torch/fx/graph_module.py", line 461, in __call__
+    raise e
+  File "/opt/venv/lib/python3.11/site-packages/torch/fx/graph_module.py", line 447, in __call__
+    return super(self.cls, obj).__call__(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<eval_with_key>.1 from <eval_with_key>.0:10 in forward", line 44, in forward
+    species_net_efficientnetv2_m_block2e_expand_conv_conv2d = getattr(self, "SpeciesNet/efficientnetv2-m/block2e_expand_conv/Conv2D")(species_net_efficientnetv2_m_block2d_add_add)
+                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 553, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/venv/lib/python3.11/site-packages/torch/nn/modules/conv.py", line 548, in _conv_forward
+    return F.conv2d(
+           ^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 170.00 MiB. GPU 0 has a total capacity of 23.78 GiB of which 154.88 MiB is free. Process 884850 has 21.75 GiB memory in use. Of the allocated memory 20.87 GiB is allocated by PyTorch, and 561.71 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

@@ -19,17 +19,97 @@ logger = logging.getLogger(__name__)
 # Emitted at most once per process for the copy-paste no-op warning.
 _COPY_PASTE_WARNED = False
 
+# The 4 known data bands (see data/real/annotations_*.json's image["band"]
+# field) — every non-smoke, full train/val dataset must cover all four.
+KNOWN_BANDS = {"A", "B", "C", "D"}
+
+
+def _check_coverage(images: list[dict], anns_by_image_id: dict[int, list[dict]], cat_id_to_yolo: dict[int, int], source_desc: str) -> None:
+    """Raise if any class or known data band has zero images after merging sources.
+
+    Guards against a repeat of the Band-A bug (docs/progress_notes covers the
+    original incident): a whole class/band silently getting zero training
+    images because a source annotation file wasn't wired into the merge.
+    """
+    cat_ids_with_images: set[int] = set()
+    for img in images:
+        for ann in anns_by_image_id.get(img["id"], []):
+            cat_ids_with_images.add(ann["category_id"])
+    missing_classes = sorted(cat_id_to_yolo[c] for c in cat_id_to_yolo if c not in cat_ids_with_images)
+    if missing_classes:
+        raise ValueError(
+            f"coverage check failed for [{source_desc}]: {len(missing_classes)} class(es) "
+            f"have zero images after merging — yolo class indices {missing_classes}"
+        )
+
+    bands_present = {img["band"] for img in images if img.get("band") in KNOWN_BANDS}
+    missing_bands = KNOWN_BANDS - bands_present
+    if missing_bands:
+        raise ValueError(
+            f"coverage check failed for [{source_desc}]: data band(s) {sorted(missing_bands)} "
+            f"entirely absent from {len(images)} merged images — a source annotation file is "
+            "likely missing from the merge"
+        )
+
+
+def _load_and_merge_coco(paths: list[Path]) -> dict:
+    """Load one or more COCO JSONs (e.g. real + synthetic) into a single dict.
+
+    Each source's image ids are offset past the running max so far before
+    concatenation — same collision-avoidance approach as
+    `eval_suite/scoring.py::merge_domains`, generalised to any number of
+    sources. All sources must share the same category table (id -> name);
+    every annotation file in this project is built from `classes_225.csv`,
+    so a mismatch means the wrong file was passed in, not a real taxonomy
+    difference to reconcile.
+    """
+    merged_images: list[dict] = []
+    merged_annotations: list[dict] = []
+    categories: list[dict] | None = None
+    id_offset = 0
+    for path in paths:
+        with open(path) as f:
+            coco = json.load(f)
+
+        cats = sorted(coco["categories"], key=lambda c: c["id"])
+        if categories is None:
+            categories = cats
+        elif [(c["id"], c["name"]) for c in cats] != [(c["id"], c["name"]) for c in categories]:
+            raise ValueError(f"{path}: category table does not match the first source file")
+
+        for img in coco["images"]:
+            new_img = dict(img)
+            new_img["id"] = img["id"] + id_offset
+            merged_images.append(new_img)
+        for ann in coco["annotations"]:
+            new_ann = dict(ann)
+            new_ann["image_id"] = ann["image_id"] + id_offset
+            merged_annotations.append(new_ann)
+
+        if coco["images"]:
+            id_offset += max(img["id"] for img in coco["images"]) + 1
+
+        logger.info(
+            "dataset source %s: %d images, %d annotations",
+            path.name,
+            len(coco["images"]),
+            len(coco["annotations"]),
+        )
+
+    return {"images": merged_images, "annotations": merged_annotations, "categories": categories}
+
 
 class CocoYoloDataset(Dataset):
     def __init__(
         self,
-        annotations_path: Path,
+        annotations_path: Path | list[Path],
         image_root: Path,
         image_size: int,
         augment: bool = False,
+        check_coverage: bool = False,
     ) -> None:
-        with open(annotations_path) as f:
-            coco = json.load(f)
+        paths = [annotations_path] if isinstance(annotations_path, Path) else list(annotations_path)
+        coco = _load_and_merge_coco(paths)
 
         self.image_root = image_root
         self.image_size = image_size
@@ -50,12 +130,20 @@ class CocoYoloDataset(Dataset):
         self._total_epochs: int = 0
 
         logger.info(
-            "dataset %s: %d images, %d annotations, %d classes",
-            annotations_path.name,
+            "dataset [%s]: %d images, %d annotations, %d classes (merged)",
+            ", ".join(p.name for p in paths),
             len(self.images),
             len(coco["annotations"]),
             len(self.class_names),
         )
+
+        if check_coverage:
+            _check_coverage(
+                self.images,
+                self.anns_by_image_id,
+                self.cat_id_to_yolo,
+                ", ".join(p.name for p in paths),
+            )
 
     def set_epoch(self, epoch: int, total_epochs: int) -> None:
         """Inform the dataset of the current training epoch.

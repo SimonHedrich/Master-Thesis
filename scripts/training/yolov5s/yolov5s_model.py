@@ -91,7 +91,20 @@ def yolov5s_model(
     return model, preprocess
 
 
-def model_optimizer(model: nn.Module) -> torch.optim.Optimizer:
+def model_optimizer(
+    model: nn.Module,
+    optimizer_name: str,
+    lr: float,
+    momentum: float,
+    weight_decay: float,
+    nesterov: bool,
+) -> torch.optim.Optimizer:
+    """Build the SGD/AdamW optimizer with YOLOv5's 3-group (BN/conv/bias) decay split.
+
+    Values are passed in explicitly (not read from a module-level constants
+    import) so this function is safe to share between packages with separate
+    constants.py files — see yolo26n_model.py's re-export.
+    """
     g0: list[nn.Parameter] = []  # BN weights — no decay
     g1: list[nn.Parameter] = []  # conv weights — with decay
     g2: list[nn.Parameter] = []  # biases — no decay
@@ -104,29 +117,29 @@ def model_optimizer(model: nn.Module) -> torch.optim.Optimizer:
         elif hasattr(v, "weight") and isinstance(v.weight, nn.Parameter):
             g1.append(v.weight)
 
-    if constants.OPTIMIZER == "SGD":
+    if optimizer_name == "SGD":
         optimizer: torch.optim.Optimizer = torch.optim.SGD(
             g0,
-            lr=constants.LEARNING_RATE,
-            momentum=constants.MOMENTUM,
-            nesterov=constants.NESTEROV,
+            lr=lr,
+            momentum=momentum,
+            nesterov=nesterov,
         )
     else:
         optimizer = torch.optim.AdamW(
             g0,
-            lr=constants.LEARNING_RATE,
-            betas=(constants.MOMENTUM, 0.999),
+            lr=lr,
+            betas=(momentum, 0.999),
         )
 
-    optimizer.add_param_group({"params": g1, "weight_decay": constants.WEIGHT_DECAY})
+    optimizer.add_param_group({"params": g1, "weight_decay": weight_decay})
     optimizer.add_param_group({"params": g2, "weight_decay": 0.0})
 
     logger.info(
         "optimizer=%s lr=%g | param groups: g0(BN,no-decay)=%d g1(conv,decay=%g)=%d g2(bias,no-decay)=%d",
-        constants.OPTIMIZER,
-        constants.LEARNING_RATE,
+        optimizer_name,
+        lr,
         len(g0),
-        constants.WEIGHT_DECAY,
+        weight_decay,
         len(g1),
         len(g2),
     )
@@ -137,6 +150,10 @@ def model_scheduler(
     optimizer: torch.optim.Optimizer,
     steps_per_epoch: int,
     epochs: int,
+    max_lr: float,
+    pct_start: float,
+    div_factor: float,
+    final_div_factor: float,
 ) -> torch.optim.lr_scheduler.OneCycleLR:
     """OneCycleLR: warmup → peak LR → cosine annealing, stepped every batch.
 
@@ -144,24 +161,28 @@ def model_scheduler(
     stopping will fire before the cycle completes if the model converges early,
     which is fine — ``best.pt`` captures the peak regardless. Call
     ``scheduler.step()`` once per batch (not per epoch), with no metric argument.
+
+    Values are passed in explicitly (not read from a module-level constants
+    import) so this function is safe to share between packages with separate
+    constants.py files — see yolo26n_model.py's re-export.
     """
     total_steps = steps_per_epoch * epochs
     scheduler = torch.optim.lr_scheduler.OneCycleLR(
         optimizer,
-        max_lr=constants.ONE_CYCLE_MAX_LR,
+        max_lr=max_lr,
         total_steps=total_steps,
-        pct_start=constants.ONE_CYCLE_PCT_START,
+        pct_start=pct_start,
         anneal_strategy="cos",
-        div_factor=constants.ONE_CYCLE_DIV_FACTOR,
-        final_div_factor=constants.ONE_CYCLE_FINAL_DIV_FACTOR,
+        div_factor=div_factor,
+        final_div_factor=final_div_factor,
     )
     logger.info(
         "scheduler: OneCycleLR(max_lr=%g, total_steps=%d, pct_start=%g, "
         "div_factor=%g, final_div_factor=%g) — stepped per batch",
-        constants.ONE_CYCLE_MAX_LR,
+        max_lr,
         total_steps,
-        constants.ONE_CYCLE_PCT_START,
-        constants.ONE_CYCLE_DIV_FACTOR,
-        constants.ONE_CYCLE_FINAL_DIV_FACTOR,
+        pct_start,
+        div_factor,
+        final_div_factor,
     )
     return scheduler

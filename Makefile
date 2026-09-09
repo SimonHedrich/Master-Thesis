@@ -55,6 +55,52 @@ yolov5s-train:
 	set -a && . scripts/training/yolov5s/.env && set +a && \
 	PYTHONPATH=/app uv run python -m scripts.training.yolov5s.run_training_pipeline $(YOLOV5S_ARGS)
 
+# ─── Training: SpeciesNet teacher fine-tune ───────────────────────────────────
+
+# Separate Python 3.11 Docker environment (the `speciesnet` PyPI package
+# constrains to Python <3.13) — see Dockerfile.speciesnet and
+# scripts/training/teacher_finetune/README.md.
+SPECIESNET_IMAGE_NAME = wildlife-speciesnet
+SPECIESNET_CONTAINER_NAME = speciesnet-container
+
+# Build the SpeciesNet training image.
+speciesnet-build:
+	docker build -f Dockerfile.speciesnet -t $(SPECIESNET_IMAGE_NAME) .
+
+# Start a persistent container with the repo/data live-mounted and drop into
+# a shell. Requires scripts/training/teacher_finetune/.env (MLflow
+# credentials) to exist.
+#
+# --dns 100.100.100.100 = Tailscale MagicDNS (resolves *.taile550ef.ts.net,
+# e.g. the MLflow server); --dns 192.168.178.2 = this host's LAN resolver,
+# used as fallback for everything else (e.g. api.kaggle.com) since MagicDNS
+# answers SERVFAIL for non-tailnet names on this host (no default route).
+speciesnet-start: speciesnet-stop
+	docker run -d $(GPU_FLAG) \
+	--shm-size 16G \
+	--dns 100.100.100.100 --dns 192.168.178.2 \
+	-v $(REPO_ROOT):/app \
+	-v $(DATA_DIR):/app/data \
+	--name $(SPECIESNET_CONTAINER_NAME) \
+	$(SPECIESNET_IMAGE_NAME) tail -f /dev/null
+	docker exec -it $(SPECIESNET_CONTAINER_NAME) /bin/bash
+
+# Attach another shell to the already-running container.
+speciesnet-shell:
+	docker exec -it $(SPECIESNET_CONTAINER_NAME) /bin/bash
+
+# Stop and remove the SpeciesNet container if it exists.
+speciesnet-stop:
+	-@docker rm -f $(SPECIESNET_CONTAINER_NAME) 2>/dev/null || true
+
+# Run the SpeciesNet classifier-head fine-tuning pipeline inside the running
+# container (requires `make speciesnet-start` first).
+#   make speciesnet-finetune SPECIESNET_ARGS="--resume-from scripts/training/teacher_finetune/model_exports/<run>/last.pt"
+SPECIESNET_ARGS ?=
+speciesnet-finetune:
+	docker exec -it $(SPECIESNET_CONTAINER_NAME) bash -c \
+	  "set -a && . scripts/training/teacher_finetune/.env && set +a && cd /app && python -m scripts.training.teacher_finetune.run_finetune $(SPECIESNET_ARGS)"
+
 # ─── Dependencies ─────────────────────────────────────────────────────────────
 
 # Pin all dependencies to uv.lock (commit for reproducibility)
