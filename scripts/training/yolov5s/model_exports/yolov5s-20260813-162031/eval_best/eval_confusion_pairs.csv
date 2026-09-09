@@ -1,0 +1,121 @@
+true_species,pred_species,count
+asian elephant,african elephant,1450
+domestic donkey,domestic horse,552
+springbok,thomson's gazelle,508
+dingo,domestic dog,282
+snow leopard,leopard,206
+common eland,greater kudu,172
+european bison,american bison,153
+grey wolf,domestic dog,143
+yak,domestic cattle,117
+grant's gazelle,thomson's gazelle,115
+black wildebeest,common wildebeest,107
+mule deer,white-tailed deer,104
+grevy's zebra,plains zebra,102
+wild cat,domestic cat,100
+grey wolf,coyote,95
+american black bear,brown bear,85
+asiatic black bear,american black bear,81
+bongo,nyala,81
+eastern gray squirrel,western gray squirrel,78
+eastern cottontail,cottontail rabbits genus,76
+striped hyaena,spotted hyaena,71
+black-backed jackal,coyote,70
+asiatic wild ass,domestic donkey,68
+domestic pig,wild boar,68
+hares and jackrabbits genus,european hare,68
+baird's tapir,lowland tapir,62
+elk,red deer,59
+western gray squirrel,eastern gray squirrel,57
+macaque species,japanese macaque,55
+eurasian lynx,bobcat,52
+grey wolf,golden jackal,49
+malay tapir,baird's tapir,49
+cottontail rabbits genus,eastern cottontail,48
+mouflon,domestic sheep,47
+asiatic wild ass,domestic horse,40
+white-nosed coati,south american coati,39
+european hare,hares and jackrabbits genus,38
+grevy's zebra,mountain zebra,34
+canada lynx,bobcat,28
+south american coati,white-nosed coati,26
+springbok,grant's gazelle,26
+woodchuck,yellow-bellied marmot,25
+asiatic black bear,brown bear,24
+white-tailed deer,mule deer,24
+eastern fox squirrel,western gray squirrel,21
+lowland tapir,baird's tapir,21
+eastern gray squirrel,eastern fox squirrel,20
+dingo,coyote,19
+jaguar,leopard,19
+eurasian red squirrel,western gray squirrel,18
+bighorn sheep,domestic sheep,17
+black-backed jackal,golden jackal,17
+brown hyaena,spotted hyaena,15
+bushbuck,nyala,15
+eurasian lynx,canada lynx,15
+sika deer,red deer,15
+eastern fox squirrel,eastern gray squirrel,13
+golden jackal,coyote,13
+mountain zebra,plains zebra,13
+coyote,domestic dog,12
+grant's gazelle,springbok,12
+nyala,greater kudu,12
+roan antelope,sable antelope,12
+brown bear,american black bear,11
+bushbuck,greater kudu,11
+coyote,golden jackal,11
+dingo,grey wolf,11
+domestic goat,alpine ibex,11
+alpine marmot,yellow-bellied marmot,9
+eurasian red squirrel,eastern fox squirrel,9
+leopard,jaguar,9
+eastern gray squirrel,eurasian red squirrel,8
+japanese macaque,macaque species,8
+woodchuck,alpine marmot,8
+black-backed jackal,domestic dog,7
+eurasian red squirrel,eastern gray squirrel,7
+leopard,snow leopard,7
+yellow-bellied marmot,woodchuck,7
+domestic dog,dingo,6
+domestic sheep,bighorn sheep,6
+greater kudu,nyala,6
+mouflon,bighorn sheep,6
+plains zebra,mountain zebra,6
+red deer,sika deer,6
+red deer,elk,6
+western gray squirrel,eastern fox squirrel,6
+common eland,nyala,5
+dingo,golden jackal,5
+malay tapir,lowland tapir,5
+plains zebra,grevy's zebra,5
+sika deer,elk,5
+yellow-bellied marmot,alpine marmot,5
+alpine marmot,woodchuck,4
+grey wolf,dingo,4
+bongo,greater kudu,3
+caracal,bobcat,3
+domestic dog,grey wolf,3
+domestic dog,golden jackal,3
+elk,sika deer,3
+american bison,european bison,2
+bobcat,caracal,2
+bobcat,eurasian lynx,2
+coyote,dingo,2
+coyote,grey wolf,2
+domestic dog,coyote,2
+eastern fox squirrel,eurasian red squirrel,2
+nyala,bushbuck,2
+red-necked wallaby,eastern grey kangaroo,2
+snow leopard,jaguar,2
+thomson's gazelle,grant's gazelle,2
+western gray squirrel,eurasian red squirrel,2
+african elephant,asian elephant,1
+black-backed jackal,dingo,1
+bobcat,canada lynx,1
+common wildebeest,black wildebeest,1
+domestic horse,domestic donkey,1
+golden jackal,domestic dog,1
+jaguar,snow leopard,1
+sable antelope,roan antelope,1
+bongo,bushbuck,1

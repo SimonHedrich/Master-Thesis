@@ -88,10 +88,12 @@ def training_run(
     teacher_cache: Path | None = None,
     init_from: str = "coco",
     resume_from: Path | None = None,
+    batch_size_override: int | None = None,
 ) -> dict:
     set_seed(constants.SEED)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    resolved_batch_size = constants.BATCH_SIZE if batch_size_override is None else batch_size_override
     epochs = 1 if smoke else constants.EPOCH_COUNT
     logger.info(
         "seed=%d device=%s epochs=%d smoke=%s kd=%s init_from=%s",
@@ -113,7 +115,11 @@ def training_run(
         logger.info("--init-from phase1: loading weights from %s", weights_path)
 
     ds_val = CocoYoloDataset(
-        constants.ANNOTATIONS_VAL, constants.IMAGE_ROOT, constants.IMAGE_SIZE, augment=False
+        [constants.ANNOTATIONS_VAL, constants.ANNOTATIONS_VAL_SYNTH],
+        constants.IMAGE_ROOT,
+        constants.IMAGE_SIZE,
+        augment=False,
+        check_coverage=not smoke,
     )
     ds_test = CocoYoloDataset(
         constants.ANNOTATIONS_VAL if smoke else constants.ANNOTATIONS_TEST,
@@ -129,10 +135,13 @@ def training_run(
     train_worker_init = make_worker_init_fn(constants.SEED)
 
     base_train = CocoYoloDataset(
-        constants.ANNOTATIONS_VAL if smoke else constants.ANNOTATIONS_TRAIN,
+        constants.ANNOTATIONS_VAL
+        if smoke
+        else [constants.ANNOTATIONS_TRAIN, constants.ANNOTATIONS_TRAIN_SYNTH],
         constants.IMAGE_ROOT,
         constants.IMAGE_SIZE,
         augment=True,
+        check_coverage=not smoke,
     )
     if kd:
         cache_path = _resolve_teacher_cache(smoke, teacher_cache)
@@ -150,21 +159,36 @@ def training_run(
 
     dl_train = Dataloader(
         ds_train,
-        constants.BATCH_SIZE,
+        resolved_batch_size,
         shuffle=True,
         num_workers=num_workers,
         collate_fn=train_collate_fn,
         worker_init_fn=train_worker_init,
         generator=train_generator,
     ).get_dataloader()
-    dl_val = Dataloader(ds_val, constants.BATCH_SIZE, shuffle=False, num_workers=num_workers, collate_fn=collate_fn).get_dataloader()
-    dl_test = Dataloader(ds_test, constants.BATCH_SIZE, shuffle=False, num_workers=num_workers, collate_fn=collate_fn).get_dataloader()
+    dl_val = Dataloader(ds_val, resolved_batch_size, shuffle=False, num_workers=num_workers, collate_fn=collate_fn).get_dataloader()
+    dl_test = Dataloader(ds_test, resolved_batch_size, shuffle=False, num_workers=num_workers, collate_fn=collate_fn).get_dataloader()
 
     model, _preprocess = yolo26n_model(constants.NUM_CLASSES, weights_path, device)
     model.names = ds_train.class_names
 
-    optimizer = model_optimizer(model)
-    scheduler = model_scheduler(optimizer, steps_per_epoch=len(dl_train), epochs=epochs)
+    optimizer = model_optimizer(
+        model,
+        constants.OPTIMIZER,
+        constants.LEARNING_RATE,
+        constants.MOMENTUM,
+        constants.WEIGHT_DECAY,
+        constants.NESTEROV,
+    )
+    scheduler = model_scheduler(
+        optimizer,
+        steps_per_epoch=len(dl_train),
+        epochs=epochs,
+        max_lr=constants.ONE_CYCLE_MAX_LR,
+        pct_start=constants.ONE_CYCLE_PCT_START,
+        div_factor=constants.ONE_CYCLE_DIV_FACTOR,
+        final_div_factor=constants.ONE_CYCLE_FINAL_DIV_FACTOR,
+    )
     if kd:
         loss_fn = KDYolo26Loss(
             model,
@@ -197,6 +221,7 @@ def training_run(
     params["init_from"] = init_from if kd else "coco"
     params["weights_path"] = str(weights_path)
     params["resume_from"] = str(resume_from) if resume_from is not None else ""
+    params["batch_size_effective"] = resolved_batch_size
     # mlflow.log_params accepts str values only
     mlflow.log_params({k: str(v) for k, v in params.items()})
 
@@ -290,6 +315,13 @@ if __name__ == "__main__":
         "model/optimizer/scheduler/EMA/AMP state and continues at the next epoch, "
         "under a NEW run dir and a NEW MLflow run.",
     )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=None,
+        help="Override constants.BATCH_SIZE for this run — VRAM footprint is "
+        "machine-specific, see find_max_batch_size.py. Unset = use constants.BATCH_SIZE.",
+    )
     args = parser.parse_args()
     smoke = args.smoke
     if args.resume_from is not None and not args.resume_from.is_file():
@@ -297,8 +329,9 @@ if __name__ == "__main__":
 
     load_dotenv(Path(__file__).parent / ".env")
 
+    bs_suffix = f"bs{args.batch_size}-" if args.batch_size is not None else ""
     run_name = (
-        f"yolo26n-{'kd-' if args.kd else ''}{'smoke-' if smoke else ''}"
+        f"yolo26n-{'kd-' if args.kd else ''}{'smoke-' if smoke else ''}{bs_suffix}"
         f"{datetime.now():%Y%m%d-%H%M%S}"
     )
     # Each run gets its own timestamped sub-directory; checkpoints, the log, and
@@ -340,6 +373,7 @@ if __name__ == "__main__":
                 teacher_cache=args.teacher_cache,
                 init_from=args.init_from,
                 resume_from=args.resume_from,
+                batch_size_override=args.batch_size,
             )
     finally:
         logging.shutdown()

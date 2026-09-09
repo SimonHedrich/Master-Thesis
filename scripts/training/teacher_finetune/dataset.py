@@ -28,62 +28,107 @@ from torch.utils.data import Dataset
 
 logger = logging.getLogger(__name__)
 
+# The 4 known data bands (see data/real/annotations_*.json's image["band"]
+# field) — every non-smoke, full train/val dataset must cover all four.
+KNOWN_BANDS = {"A", "B", "C", "D"}
+
 
 class SpeciesNetCropDataset(Dataset):
     def __init__(
         self,
-        annotations_path: Path,
+        annotations_path: Path | list[Path],
         image_root: Path,
         preprocess_fn: Callable[[Image.Image, list], "np.ndarray | None"],
+        check_coverage: bool = False,
     ) -> None:
-        with open(annotations_path) as f:
-            coco = json.load(f)
+        paths = [annotations_path] if isinstance(annotations_path, Path) else list(annotations_path)
 
         self.image_root = image_root
         self.preprocess_fn = preprocess_fn
 
-        images_by_id = {img["id"]: img for img in coco["images"]}
-        # COCO category ids are 1-based, in classes_225.csv row order — same
-        # convention `category_id - 1 == idx_225` used by the detector pipelines.
-        self.class_names: list[str] = [
-            c["name"] for c in sorted(coco["categories"], key=lambda c: c["id"])
-        ]
-
+        self.class_names: list[str] | None = None
         self.samples: list[tuple[str, list, int, int, int]] = []
         # Parallel array (same index as `samples`) — used only by evaluate.py's
         # per-source accuracy breakdown, so training's __getitem__ doesn't pay
         # for it. Relies on eval dataloaders using shuffle=False (the existing
         # convention), so batch order matches this list's order.
         self.sources: list[str] = []
-        skipped = 0
-        for ann in coco["annotations"]:
-            image = images_by_id.get(ann["image_id"])
-            if image is None:
-                skipped += 1
-                continue
-            self.samples.append(
-                (
-                    image["file_name"],
-                    ann["bbox"],  # absolute pixel COCO [x, y, w, h]
-                    ann["category_id"],
-                    image["width"],
-                    image["height"],
+
+        # Coverage bookkeeping (only populated when check_coverage=True) —
+        # guards against a repeat of the Band-A bug: a whole class/band
+        # silently getting zero images because a source file wasn't merged in.
+        cat_ids_with_images: set[int] = set()
+        bands_present: set[str] = set()
+
+        # Each source file is resolved (image_id -> image record) independently
+        # rather than merged into one global dict, so per-file id numbering
+        # (e.g. real vs. synthetic COCO JSONs both starting at id=1) can never
+        # collide — `samples`/`sources` are flat, position-based lists that
+        # don't retain any notion of image id past this loop.
+        for path in paths:
+            with open(path) as f:
+                coco = json.load(f)
+
+            # COCO category ids are 1-based, in classes_225.csv row order —
+            # same convention `category_id - 1 == idx_225` used by the
+            # detector pipelines. Every source must share this taxonomy.
+            cats = [c["name"] for c in sorted(coco["categories"], key=lambda c: c["id"])]
+            if self.class_names is None:
+                self.class_names = cats
+            elif cats != self.class_names:
+                raise ValueError(f"{path}: category table does not match the first source file")
+
+            images_by_id = {img["id"]: img for img in coco["images"]}
+            skipped = 0
+            for ann in coco["annotations"]:
+                image = images_by_id.get(ann["image_id"])
+                if image is None:
+                    skipped += 1
+                    continue
+                self.samples.append(
+                    (
+                        image["file_name"],
+                        ann["bbox"],  # absolute pixel COCO [x, y, w, h]
+                        ann["category_id"],
+                        image["width"],
+                        image["height"],
+                    )
                 )
-            )
-            self.sources.append(image.get("source", "unknown"))
-        if skipped:
-            logger.warning(
-                "dataset %s: skipped %d annotations with no matching image",
-                annotations_path.name,
-                skipped,
-            )
+                self.sources.append(image.get("source", "unknown"))
+                if check_coverage:
+                    cat_ids_with_images.add(ann["category_id"])
+                    if image.get("band") in KNOWN_BANDS:
+                        bands_present.add(image["band"])
+            if skipped:
+                logger.warning(
+                    "dataset %s: skipped %d annotations with no matching image",
+                    path.name,
+                    skipped,
+                )
 
         logger.info(
-            "dataset %s: %d crops, %d classes",
-            annotations_path.name,
+            "dataset [%s]: %d crops, %d classes (merged)",
+            ", ".join(p.name for p in paths),
             len(self.samples),
             len(self.class_names),
         )
+
+        if check_coverage:
+            source_desc = ", ".join(p.name for p in paths)
+            all_cat_ids = set(range(1, len(self.class_names) + 1))
+            missing_classes = sorted(all_cat_ids - cat_ids_with_images)
+            if missing_classes:
+                raise ValueError(
+                    f"coverage check failed for [{source_desc}]: {len(missing_classes)} "
+                    f"class(es) have zero crops after merging — category ids {missing_classes}"
+                )
+            missing_bands = KNOWN_BANDS - bands_present
+            if missing_bands:
+                raise ValueError(
+                    f"coverage check failed for [{source_desc}]: data band(s) "
+                    f"{sorted(missing_bands)} entirely absent from {len(self.samples)} "
+                    "merged crops — a source annotation file is likely missing from the merge"
+                )
 
     def __len__(self) -> int:
         return len(self.samples)

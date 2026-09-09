@@ -84,11 +84,19 @@ def training_run(
     model, preprocess_fn, _labels = speciesnet_model(device, freeze_fraction=resolved_freeze)
 
     ds_train = SpeciesNetCropDataset(
-        constants.ANNOTATIONS_VAL if smoke else constants.ANNOTATIONS_TRAIN,
+        constants.ANNOTATIONS_VAL
+        if smoke
+        else [constants.ANNOTATIONS_TRAIN, constants.ANNOTATIONS_TRAIN_SYNTH],
         constants.IMAGE_ROOT,
         preprocess_fn,
+        check_coverage=not smoke,
     )
-    ds_val = SpeciesNetCropDataset(constants.ANNOTATIONS_VAL, constants.IMAGE_ROOT, preprocess_fn)
+    ds_val = SpeciesNetCropDataset(
+        [constants.ANNOTATIONS_VAL, constants.ANNOTATIONS_VAL_SYNTH],
+        constants.IMAGE_ROOT,
+        preprocess_fn,
+        check_coverage=not smoke,
+    )
     ds_test = SpeciesNetCropDataset(
         constants.ANNOTATIONS_VAL if smoke else constants.ANNOTATIONS_TEST,
         constants.IMAGE_ROOT,

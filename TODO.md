@@ -440,6 +440,37 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       trained as intended. **All Band-A (and possibly Band-B) results from
       every training run to date should be treated as provisional** until
       this is fixed and those models retrained.
+      **2026-09-09: code fix implemented and verified, retraining not yet
+      run.** `CocoYoloDataset` (`scripts/training/yolov5s/dataset.py`, shared
+      by `yolo26n`) and `SpeciesNetCropDataset`
+      (`scripts/training/teacher_finetune/dataset.py`) now accept a list of
+      annotation paths and merge them (image ids offset per source, same
+      collision-avoidance approach as `eval_suite/scoring.py::merge_domains`;
+      category tables asserted identical across sources). Added
+      `ANNOTATIONS_TRAIN_SYNTH`/`ANNOTATIONS_VAL_SYNTH` constants
+      (→ `data/synthetic/annotations_{train,val}.json`) to all three
+      packages' `constants.py`, and wired them into each
+      `run_training_pipeline.py`/`run_finetune.py`'s non-smoke train/val
+      dataset construction (smoke mode and the `test` split are untouched —
+      test must stay real-only + `eval_suite`'s separate synthetic test set).
+      For `yolo26n --kd`: synthetic images have no cached teacher soft label,
+      but `KDCocoYoloDataset`/`KDv8DetectionLoss` already treat an
+      all-zero teacher-probs vector as "uncached → hard-label-only for this
+      sample" (pre-existing, designed fallback, not new code) — so KD
+      training will now include Band A/B with hard labels only, unless the
+      teacher soft-label cache is also regenerated over the synthetic images
+      (optional follow-on, needs the ~196M-param teacher + GPU; not done).
+      Verified via direct construction checks (merged counts match exactly:
+      train 155,808 = 145,728 real + 10,080 synthetic; val 15,063 = 12,543 +
+      2,520; no image-id collisions; a Band-A sample loads with a valid
+      target) and a live `yolo26n --smoke` run (log shows
+      `dataset_size_val = 15063` and clean batch-level training). Existing
+      `smoke_test_augmentation.py` still passes unchanged. **Not yet done:
+      actually retraining YOLOv5s / YOLO26n (direct-FT + KD) / the SpeciesNet
+      classifier on the fixed pipelines** — this is the actual GPU campaign
+      that closes this gap; the code change alone doesn't produce new
+      results. Needs a scoped, checked-in-per-run GPU dispatch (KD alone was
+      a ~4.45-day run previously) before §4.5's comparison can be redone.
 
 ## 5. Deployment / embedded pipeline
 
