@@ -299,6 +299,30 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       fine-tune, visible downstream in detection quality, not just the
       classifier's own metric. NAS backup of `best.pt` still not done
       (§1.3's durability step), by request.
+      **2026-09-08/09: freeze-fraction sweep supersedes this checkpoint.**
+      `FREEZE_PARAM_FRACTION=0.5` was never actually tuned (implementation
+      plan §2.2 flagged it as an unresolved guess) — ran staged 5-epoch
+      probes at `{0.0, 0.75}` first. **0.0 (full fine-tune) disqualified**:
+      catastrophic divergence (91.5%→100% non-finite batches by epoch 2,
+      val f1_macro collapsed to ~0.002), not a memory issue — full
+      backbone unfreezing needs a much lower LR than this recipe's `3e-4`,
+      deliberately not also varied (single-variable-per-run). **0.75
+      promoted and clearly better on every metric**: val f1_macro
+      0.7645→0.7864, test f1_macro 0.5390→0.5588, test accuracy_top1
+      0.6688→0.6870. New checkpoint:
+      `scripts/training/teacher_finetune/model_exports/teacher-finetune-ff0.75-20260908-075032/best.pt`
+      (also gitignored, not yet NAS-backed). Downstream refreshed
+      (soft-label cache re-cached, MD+SN ensemble re-scored): mixed mAP
+      0.549→0.567, real 0.536→0.553, and — unlike the original
+      pretrained→0.5 transition, which traded Band A for B/C/D gains —
+      this is a uniform improvement across all four bands simultaneously.
+      See `docs/progress_notes/2026-09-08_speciesnet-freeze-fraction-sweep.md`
+      for full detail, including the `run_finetune.py`/`find_max_batch_size.py`
+      `--freeze-fraction`/`--epochs`/`--batch-size` CLI additions needed to
+      run this sweep, and an important caveat carried into §4.7 below: this
+      checkpoint (both 0.5 and 0.75) has zero training exposure to Band-A
+      classes, so its Band-A numbers aren't evidence of long-tail
+      generalization.
 - [ ] **4.2 [3060] (gap) KD ladder Phase 0 — zero-shot baselines** (untrained
       teacher/student) — needed as the floor for the Phase 4 comparison
       table. **Teacher zero-shot is already done and current**: the
@@ -377,6 +401,45 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       NAS-side durability sync (`ssh-copy-id` to `data-server`, per §1.3)
       is still open — not required to unblock §4.2/§4.4, but worth doing so
       the complete set has a backup beyond `gpu-server` alone.
+- [ ] **4.7 [Either, no GPU] (gap) Band-A synthetic training images are never
+      loaded by either core training pipeline** — discovered 2026-09-08
+      investigating why YOLOv5s scores an exact `0.000` mAP on all 50 Band-A
+      classes (§4.5 comparison doc). Root cause, fully confirmed by reading
+      the code (not inference): `scripts/training/{yolov5s,yolo26n}/constants.py`
+      hardcode `ANNOTATIONS_TRAIN`/`ANNOTATIONS_VAL` to
+      `data/real/annotations_{train,val}.json` only, and
+      `run_training_pipeline.py` for both models has no flag or code path that
+      ever reads `data/synthetic/annotations_{train,val}.json`. Verified
+      `data/real/annotations_train.json` contains **zero** `band == "A"`
+      images (0/145,728) and `annotations_val.json` likewise (0/12,543) — all
+      ~8,000 Band-A synthetic training images live only in
+      `data/synthetic/annotations_train.json`, untouched by either pipeline.
+      This contradicts the documented design:
+      `docs/plans/2026-05-19_synthetic-test-set.md` ("Band A note") explicitly
+      states the Band-A synthetic train/val images "are part of the training
+      pipeline" and only the separate 50/class synthetic *test* set is meant
+      to be held out — so this is a genuine implementation gap against the
+      plan, not an intentional scope cut. **Same root cause confirmed in
+      `scripts/training/teacher_finetune/constants.py`** (2026-09-08/09,
+      while running the §4.1 freeze-fraction sweep): `ANNOTATIONS_TRAIN`/
+      `ANNOTATIONS_VAL` are likewise hardcoded to `data/real/` only — the
+      SpeciesNet classifier fine-tune has the identical gap, not just the
+      two detector pipelines. **Consequence: every model trained so far
+      (YOLOv5s direct-FT ×3, YOLO26n direct-FT, YOLO26n KD, SpeciesNet
+      classifier fine-tune ×2) has had literal zero training exposure to
+      all 50 Band-A species** — the §4.5
+      comparison doc's Band-A numbers reflect pure held-out/zero-shot
+      behavior for every model, not weak-but-present supervision, and the
+      doc's original "KD wins 10× on Band A, confirming the long-tail
+      hypothesis" framing has been corrected there to reflect this (the
+      dataset-design long-tail hypothesis was about thin-but-present classes,
+      not fully-absent ones). Fix: wire `data/synthetic/annotations_{train,val}.json`
+      into both `dataset.py`/`run_training_pipeline.py`'s dataloader
+      construction for Band A (and arguably B, whose real pool is also thin
+      by design) before any of the affected models can be considered
+      trained as intended. **All Band-A (and possibly Band-B) results from
+      every training run to date should be treated as provisional** until
+      this is fixed and those models retrained.
 
 ## 5. Deployment / embedded pipeline
 
