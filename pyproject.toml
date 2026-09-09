@@ -48,6 +48,7 @@ dependencies = [
     "sentencepiece>=0.2.0",
     "protobuf>=5.28.0",
     "peft>=0.20.0",
+    "faster-coco-eval>=1.7.2",
 ]
 
 [dependency-groups]
@@ -91,4 +92,4 @@ torchvision = [
 ]
 
 [tool.pytest.ini_options]
-pythonpath = ["scripts"]
+pythonpath = ["."]

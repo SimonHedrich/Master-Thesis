@@ -17,18 +17,10 @@ from typing import Optional
 
 import numpy as np
 import torch
-from torchmetrics.detection import MeanAveragePrecision
+
+from scripts.training.yolov5s.eval_suite import _fce_backend
 
 logger = logging.getLogger(__name__)
-
-# Cap on images built into torchmetrics tensors per metric.update() call.
-# score() can be asked to evaluate 60k+ images at once (full real+synthetic
-# test set); building one Python list of per-image tensors for all of them
-# and feeding it to MeanAveragePrecision in a single update() nearly OOM'd a
-# 47GB host (RSS climbed past 30GB on the very first "headline" call before
-# it was killed). Chunking avoids holding our own per-image tensor lists and
-# a duplicate copy inside torchmetrics simultaneously at peak.
-_SCORE_UPDATE_CHUNK_SIZE = 2000
 
 # ---------------------------------------------------------------------------
 # GT index builder
@@ -262,22 +254,25 @@ def score(
     all_classes = sorted(gt_classes | pred_only_classes)
 
     # ── per-class AP, one class at a time ──────────────────────────────────────
-    # torchmetrics' MeanAveragePrecision keeps every image's boxes/labels/scores
-    # resident until compute() — at full test-set scale (tens of thousands of
-    # images × hundreds of classes) that single multi-class call is what drove
-    # RSS past 30GB and OOM-killed the process. Scoring one class at a time,
-    # restricted to only the images relevant to that class, keeps at most one
-    # class's data resident at once. The final aggregate below reproduces
-    # torchmetrics' own macro-average-over-classes-with-GT convention exactly
-    # (validated against the prior single-call implementation).
-    metric_keys = (
-        "map", "map_50", "map_75", "map_small", "map_medium", "map_large",
-        "mar_1", "mar_10", "mar_100", "mar_small", "mar_medium", "mar_large",
-    )
+    # Restricting each class's evaluation to only its relevant images bounds
+    # peak memory to one class's data at a time — this is what avoids the OOM
+    # a prior single-call-all-classes design hit (RSS past 30GB on a 47GB
+    # host). The per-class engine itself is faster_coco_eval (C++-backed);
+    # a single all-classes-at-once faster_coco_eval call is ~11-15x faster
+    # still, but was benchmarked at 23-27GB peak RSS at real/mixed test-set
+    # scale — too tight on smaller-RAM hosts — so the per-class restriction is
+    # kept and only the inner engine is swapped (see
+    # docs/plans/2026-07-22_eval-suite-scoring-performance-investigation.md).
+    metric_keys = _fce_backend.METRIC_KEYS
 
     def _safe_float(v) -> float:
         v = v.item() if hasattr(v, "item") else float(v)
         return float(v) if not (math.isnan(v) or math.isinf(v)) else float("nan")
+
+    image_wh: dict[int, tuple[int, int]] = {
+        iid: (all_images[iid].get("width", 0) or 0, all_images[iid].get("height", 0) or 0)
+        for iid in image_ids
+    }
 
     map_per_class_dict: dict[int, float] = {}
     agg_sum = {k: 0.0 for k in metric_keys}
@@ -290,41 +285,9 @@ def score(
             or any(lbl == cid for lbl, _, _ in pred_by_image[iid])
         ]
 
-        metric_c = MeanAveragePrecision(
-            box_format="xyxy",
-            iou_type="bbox",
-            class_metrics=False,
-            max_detection_thresholds=[1, 10, max_det],
+        result_c = _fce_backend.score_class(
+            cid, relevant_ids, gt_by_image, pred_by_image, image_wh, max_det,
         )
-        for chunk_start in range(0, len(relevant_ids), _SCORE_UPDATE_CHUNK_SIZE):
-            chunk_ids = relevant_ids[chunk_start : chunk_start + _SCORE_UPDATE_CHUNK_SIZE]
-            tm_preds: list[dict] = []
-            tm_targets: list[dict] = []
-
-            for iid in chunk_ids:
-                gts_here = [box for lbl, box in gt_by_image[iid] if lbl == cid]
-                if gts_here:
-                    boxes_g = torch.tensor(gts_here, dtype=torch.float32)
-                    labels_g = torch.zeros(len(gts_here), dtype=torch.long)
-                else:
-                    boxes_g = torch.zeros((0, 4), dtype=torch.float32)
-                    labels_g = torch.zeros(0, dtype=torch.long)
-                tm_targets.append({"boxes": boxes_g, "labels": labels_g})
-
-                preds_here = [(box, sc) for lbl, box, sc in pred_by_image[iid] if lbl == cid]
-                if preds_here:
-                    boxes_p = torch.tensor([box for box, _ in preds_here], dtype=torch.float32)
-                    scores_p = torch.tensor([sc for _, sc in preds_here], dtype=torch.float32)
-                    labels_p = torch.zeros(len(preds_here), dtype=torch.long)
-                else:
-                    boxes_p = torch.zeros((0, 4), dtype=torch.float32)
-                    scores_p = torch.zeros(0, dtype=torch.float32)
-                    labels_p = torch.zeros(0, dtype=torch.long)
-                tm_preds.append({"boxes": boxes_p, "scores": scores_p, "labels": labels_p})
-
-            metric_c.update(tm_preds, tm_targets)
-
-        result_c = metric_c.compute()
         has_gt = cid in gt_classes
 
         if class_metrics:
@@ -332,13 +295,13 @@ def score(
 
         if not has_gt:
             continue  # predictions-only class: excluded from the macro mean (matches
-                       # torchmetrics' own -1-for-no-GT convention)
+                       # the COCO/pycocotools -1-for-no-GT convention)
         for k in metric_keys:
             v = _safe_float(result_c[k])
             if v == -1.0:
                 continue  # this class has no qualifying GT/pred for this specific
                           # submetric (e.g. no medium-sized instances) — exclude
-                          # only from that submetric's mean, same as torchmetrics
+                          # only from that submetric's mean
             agg_sum[k] += v
             agg_count[k] += 1
 
