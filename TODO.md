@@ -536,6 +536,145 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       that closes this gap; the code change alone doesn't produce new
       results. Needs a scoped, checked-in-per-run GPU dispatch (KD alone was
       a ~4.45-day run previously) before §4.5's comparison can be redone.
+- [ ] **4.8 [Either, monitoring only] (gap) Band-A retrain campaign —
+      IN PROGRESS, resume monitoring here.** §4.7's fix landed and all four
+      models are being retrained/re-evaluated on it. **Read this whole item
+      before touching anything** — it's written as a handoff for whichever
+      session picks this up next with no prior context.
+
+      **Done and committed** (numbers already reflect the Band-A fix):
+      - SpeciesNet teacher (`--freeze-fraction 0.75`): test `f1_macro=0.6220`
+        (up from 0.5588). Commit `5f12c0a`.
+      - MD+SN ensemble re-eval on the new teacher: mixed mAP **0.663** / real
+        **0.599** (up from 0.567/0.553); **Band A alone: 0.027 → 0.447**.
+        Same commit.
+      - KD teacher soft-label cache regenerated
+        (`data/real/teacher_soft_labels_{train,val}.jsonl`) — verified it now
+        contains exactly 10,264 `data/synthetic/...` records, matching the
+        synthetic annotation count exactly. Only on the A40 and `gpu-server`
+        so far (rsynced manually between them, see gotcha below) — **not
+        backed up to NAS per §1.3, and not git-tracked** (`data/*` is
+        gitignored) — if both machines are ever wiped this needs
+        regenerating via `cache_soft_labels.py --split {train,val}`.
+      - YOLOv5s retrain: mixed mAP **0.496** / real **0.407** (up from
+        0.417/0.386); **Band A: 0.000 → 0.384**. Commit `377d917`. Its
+        built-in post-training test-eval got silently OOM-killed on
+        `gpu-server` (confirmed via `journalctl -k` — accumulated DataLoader
+        worker RSS across the 5-day run exceeded the 31GB host, same failure
+        class as `docs/progress_notes/2026-07-22`'s yolo26n incident, just a
+        different model) — **the checkpoint was intact**, recovered by
+        re-running `eval_suite.run_evaluation --run-dir <run_dir>` standalone
+        (fresh process, no accumulated worker memory — this is the safe
+        recovery pattern, see gotcha below).
+
+      **Still running as of 2026-09-16, ~11:00 UTC** (check current state
+      with the commands below — don't trust these numbers, they're already
+      stale by the time you read this):
+      - **YOLO26n direct-FT**, on **this A40**, batch 32,
+        `nohup ... > /tmp/yolo26n_direct_bandA.log`, run dir
+        `scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/`.
+        Last known: epoch 104/200, best val `mAP50_95=0.7248` @ epoch 103.
+      - **YOLO26n KD**, originally started on this A40, **moved to
+        `gpu-server` mid-run** (epoch 67) once YOLOv5s finished there and
+        this A40 was showing memory pressure (swap climbing) from running
+        two jobs at once — resumed cleanly via `--resume-from`, zero
+        progress lost. Now: `nohup ... > /tmp/yolo26n_kd_resumed_v2.log` on
+        `gpu-server`, run dir
+        `scripts/training/yolo26n/model_exports/yolo26n-kd-bs16-20260916-101612/`.
+        Last known: resumed at epoch 67 (best val `mAP50_95=0.6245` @ epoch
+        65, carried over from before the move).
+      - The old A40 KD log (`/tmp/yolo26n_kd_bandA.log`) and run dir
+        (`yolo26n-kd-bs16-20260911-162339/`) are dead/superseded — ignore
+        them, don't resume from there.
+
+      **How to check status** (run from the A40 — this repo checkout; ssh
+      key to `gpu-server` already works passwordlessly):
+      ```
+      # YOLO26n direct-FT (A40, this machine)
+      docker exec training-container bash -lc "tr -d '\r' < /tmp/yolo26n_direct_bandA.log | grep -aE '^[0-9]{4}-.*(new best|early stop|test mAP|evaluation complete|Traceback|CUDA out of memory)' | tail -5"
+
+      # YOLO26n KD (gpu-server)
+      ssh debian@gpu-server.taile550ef.ts.net "docker exec training-container bash -lc \"tr -d '\\r' < /tmp/yolo26n_kd_resumed_v2.log | grep -aE '^[0-9]{4}-.*(new best|early stop|test mAP|evaluation complete|Traceback|CUDA out of memory)' | tail -5\""
+
+      # GPU/memory health on both
+      nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv
+      ssh debian@gpu-server.taile550ef.ts.net "nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv; free -h"
+      ```
+      A `0%` GPU-util reading in a single snapshot is usually nothing —
+      nvidia-smi is instantaneous, not averaged, and both jobs have shown
+      brief legitimate gaps between batches. Only worry if the log file's
+      mtime is stale (`ls -la <logfile>` vs `date`) — that means the process
+      actually died, not just between batches.
+
+      **When each job finishes** (`--full-eval` is set on both, so a normal
+      finish auto-runs the full `eval_suite` report — but per the YOLOv5s
+      incident above, **check for a silent OOM first**: if the log goes
+      stale right after the quick test-eval's batch counter hits 100% but
+      before an `evaluation complete` line appears, that's the same crash —
+      recover with a standalone
+      `uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation --run-dir <run_dir> --device cuda`,
+      no data lost, checkpoints are saved every epoch regardless):
+      1. `rsync -az --exclude='predictions_*.json' <host>:<run_dir>/eval_best-or-evaluation/ <same path locally>`
+         (mirror how YOLOv5s's `eval_best/` and the teacher/ensemble outputs
+         were pulled back — see commits `377d917`/`5f12c0a` for the exact
+         pattern) and rsync the run's own `.log` file too (skip if it's
+         >~5MB of raw tqdm spam with no real content — check `wc -l` first;
+         the YOLOv5s *training* log was fine at 3.5MB/21k lines, but a
+         *standalone eval*'s raw log can hit 12MB of near-useless tqdm
+         carriage-returns — that one was deliberately left uncommitted).
+      2. `git add` the eval report files (`.md`/`.json`/`.csv`, never the
+         gitignored `predictions_*.json`/`*.pt`), commit, push. `git pull`
+         on whichever machine you didn't just push from.
+      3. Once **both** YOLO26n runs are done (direct-FT and KD), this item
+         is complete — proceed to the final synthesis below.
+
+      **Known gotchas hit this session, don't repeat them:**
+      - **`speciesnet-container` uses plain `python`, never `uv run`.** It
+        shares this same host directory (and therefore the same `.venv`) as
+        `training-container` via the bind mount — running `uv run` inside
+        `speciesnet-container` triggers a full venv rebuild with the WRONG
+        Python version, silently breaking `training-container`'s
+        environment too. If this happens again: `sudo rm -rf .venv && uv
+        sync` from the host fixes it (a running process survives since its
+        interpreter is already loaded in memory; only new `uv run`
+        invocations would break until fixed).
+      - **`gpu-server` doesn't auto-sync everything `training-container`
+        needs.** `.env` files (gitignored, contain MLflow credentials) and
+        `data/*` contents (gitignored, includes the teacher soft-label
+        cache) are NOT pulled by `git pull` — they were manually rsynced
+        this session. If dispatching a new run type there for the first
+        time, check both exist before assuming a crash is something else
+        (`--kd` fails fast with a clear `SystemExit` if the cache is
+        missing, at least).
+      - **Files created inside a container are root-owned** on the host and
+        block `git`/`rm` from the `debian`/`ubuntu` user — `sudo chown -R
+        <user>:<user> <path>` before retrying, don't fight it with `-f`.
+      - **`find_max_batch_size.py`'s result depends on what else is running
+        on that GPU right now** — it dropped from 64 (isolated) to 39 (with
+        one other yolo26n job already running) to 51 (different moment,
+        different concurrent load). Re-check it fresh before every dispatch
+        rather than reusing an old number, and when resuming a killed run
+        with `--resume-from`, **keep the original batch size** — changing
+        it would desync the resumed optimizer/scheduler state from
+        `OneCycleLR`'s step-count expectations.
+
+      **Final synthesis, once all four models (teacher, YOLOv5s, YOLO26n
+      direct-FT, YOLO26n KD) are retrained and evaluated:**
+      1. `git pull` on whichever machine you're working from.
+      2. Update `docs/2026-09-07_model-comparison-teacher-and-students.md`
+         with all four sets of final numbers, replacing the "provisional /
+         not yet retrained" caveats with the real post-fix results. The
+         teacher/YOLOv5s numbers above are already final; just need the two
+         YOLO26n rows. Pay particular attention to the Band-A story across
+         all four models (0.000→0.384 for YOLOv5s, 0.027→0.447 for the
+         teacher — expect similarly dramatic YOLO26n movement) and to
+         whether KD now actually beats direct-FT anywhere, band-by-band —
+         that's the core research question this whole campaign exists to
+         answer.
+      3. Update this TODO.md: mark §4.8 done, update §4.2-§4.5's own status
+         notes with final numbers, following the existing dated-note
+         convention used throughout this file.
+      4. Commit + push.
 
 ## 5. Deployment / embedded pipeline
 
