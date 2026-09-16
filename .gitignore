@@ -6,6 +6,7 @@ output/*
 mlruns/*
 resources/Thesis_Bachelor
 scripts/evaluation/outputs/
+research/literature/sources/*.pdf
 
 __pycache__/
 *.py[codz]

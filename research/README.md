@@ -23,3 +23,8 @@ This directory contains papers, notes, and resources collected for the Master's 
 |------|-------------|
 | `cv-wildlife-classification-resources.md` | Curated reading list of computer vision resources for wildlife classification, including iNaturalist competitions, the iNat Geomodel, and links to all papers above. |
 | `elicit_search_query.md` | Elicit search query used to find relevant literature on the thesis topic. |
+| `sota-survey-prompt.md` | Prompt used to generate an LLM-assisted survey of state-of-the-art object detection models. |
+
+### Literature corpus (Zotero-managed)
+
+See [`literature/README.md`](literature/README.md) — a 199-entry BibTeX bibliography exported from Zotero, LLM-generated survey summaries, and (where available) the original source PDFs with Markdown extractions under `literature/sources/`.

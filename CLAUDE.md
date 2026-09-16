@@ -30,6 +30,7 @@ scripts/      — Utility scripts (data exploration, visualization, etc.)
 **Key research:**
 - `research/cv-wildlife-classification-resources.md` — Curated reading list
 - `research/A Review of Real-Time Deep Learning–Based Object Detection Models.md` — Primary survey paper on YOLO/SSD/NanoDet for edge deployment
+- `research/literature/README.md` — Zotero-managed bibliography (`references.bib`), LLM-generated survey summaries, and source PDFs + Markdown extractions (`literature/sources/`)
 
 ## Running Code
 
@@ -39,6 +40,12 @@ scripts/      — Utility scripts (data exploration, visualization, etc.)
 - Numbered pipeline scripts (`1-foo.py` — invalid module names, cannot use `-m`):
   `uv run python scripts/<dir>/<N>-<name>.py`
 - Every runnable script's module docstring must state its exact run command in this form.
+- **Exception:** `scripts/literature/` (Zotero PDF sourcing/extraction pipeline) uses
+  `uv run --script scripts/literature/<N>-<name>.py` (PEP 723 inline dependencies) instead.
+  Plain `uv run` only resolves on Linux here (`pyproject.toml`'s `[tool.uv] environments`
+  restriction, for the training stack), so it doesn't work on macOS outside the container —
+  and this pipeline needs native host access to `~/Zotero`, which isn't mounted into the
+  container. `uv run --script` sidesteps both without touching the shared project lockfile.
 
 ### Containers: one image, exec in, then uv
 - `make build` builds the single `training` image; `make run` starts the container and

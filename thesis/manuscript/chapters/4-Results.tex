@@ -2,26 +2,142 @@
 \cleardoublepage
 \chapter{Results}\label{chapter:results}
 
-% TODO: one subsection per experimental setup (A/B/C, Sec. \ref{sec:augmentation_setups}),
-% following the bachelor thesis's per-setup template (trend paragraph -> table ->
-% plot -> qualitative example), then a cross-setup comparison and general observations.
+% TODO: lead-in paragraph stating the chapter's restructured weighting up
+% front, mirroring the framing added to Chapter \ref{chapter:literature_review}.
+% The headline results are (1) the practicability of synthetic training data,
+% evaluated through the generator comparison of
+% docs/synthetic-model-comparison (\Cref{sec:results_synthetic_data_practicability}),
+% and (2) detection performance across the real/synthetic training-and-test
+% regimes defined in docs/plans/2026-06-10_model-evaluation-strategy.md
+% (\Cref{sec:results_regime_comparison}), since these are where the bulk of the
+% thesis's actual experimental work went. Knowledge distillation and the
+% embedded hardware check are demoted to a single smaller, explicitly-scoped-
+% as-basic closing section (\Cref{sec:results_kd_and_embedded}), reflecting
+% that only a single teacher/student comparison and a simple runtime check
+% were carried out, not the fuller distillation-vs-direct-fine-tuning research
+% program originally planned.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Setup A: Knowledge Distillation}\label{sec:results_setup_a}
-% TODO
+\section{Practicability of Synthetic Training Data: Generator Comparison}\label{sec:results_synthetic_data_practicability}
+% TODO: reports the controlled comparison designed in
+% docs/synthetic-model-comparison/01_experiment-design.md across the reduced
+% class subset (docs/synthetic-model-comparison/02_class-selection.md) and the
+% generator grid (docs/synthetic-model-comparison/03_api-models-landscape-and-pricing.md,
+% 04_local-models-and-output-parameters.md): the incumbent
+% \texttt{gemini-3.1-flash-image-preview}, other API models (gpt-image-2 at
+% multiple tiers, Nano Banana 2 Lite/Pro), and local diffusion baselines
+% (FLUX.1-schnell, RealVisXL+SDXL-Lightning, SD 3.5 Medium), each at full and
+% prompt-length-compressed regimes where applicable
+% (docs/synthetic-model-comparison/05_prompt-strategy-and-length-limits.md).
+% Follows the three-axis methodology of
+% docs/synthetic-model-comparison/06_evaluation-methodology.md.
+
+\subsection{Qualitative Rubric Results}\label{sec:results_qualitative_rubric}
+% TODO: blind, multi-rater scores per generator on the fixed rubric
+% (anatomical correctness, diagnostic-feature fidelity, species identity,
+% habitat plausibility, photorealism, artifact rate); report inter-rater
+% agreement (Cohen's/Fleiss' kappa) alongside the scores, not as a footnote.
+
+\subsection{Automatic Proxy Results}\label{sec:results_automatic_proxies}
+% TODO: teacher-recognition confidence (SpeciesNet-on-synthetic top-1 and mean
+% confidence) as the primary proxy, per-class FID/KID against real imagery,
+% CLIP-score for prompt adherence, and MegaDetector auto-label yield per
+% generator (a practicality signal, not just a quality one).
+
+\subsection{Downstream Utility: Real-Test mAP per Generator}\label{sec:results_downstream_utility}
+% TODO: the fixed detector/classifier trained on each cell's synthetic images,
+% evaluated on the held-out real test set only (mixed and real-only
+% breakouts per the evaluation strategy); the three-zebra-species fine-grained
+% probe as the decisive look-alike test; per-generator €/image and
+% images/hour alongside the accuracy numbers, following the single
+% cross-axis ranking table sketched in
+% docs/synthetic-model-comparison/06_evaluation-methodology.md \S7.
+
+\subsection{Practicability Verdict}\label{sec:results_practicability_verdict}
+% TODO: synthesize the three axes into a single practicability judgment --
+% does the current generation of text-to-image models produce training data
+% usable for this task at all, and was the production choice of Gemini
+% justified against the alternatives on the axes that matter (real-test mAP
+% and diagnostic fidelity), not merely on informal photorealism. This is the
+% section that most directly answers the professor's original methodological
+% objection (docs/synthetic-model-comparison/00_motivation-and-research-question.md).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Setup B: Direct Fine-Tuning Baseline}\label{sec:results_setup_b}
-% TODO
+\section{Detection Performance Across Training Regimes and Test Domains}\label{sec:results_regime_comparison}
+% TODO: the thesis's other headline result, reporting the Tier 1/Tier 2
+% structure of docs/plans/2026-06-10_model-evaluation-strategy.md \S9 for the
+% YOLOv5s detector trained under the Band A-D data regimes
+% (Methods \Cref{sec:band_structure}).
+
+\subsection{Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout}\label{sec:results_headline_mixed}
+% TODO: Tier 1 table -- G=fine, D=mixed, B=all, full COCO-12 vector, alongside
+% the real-only breakout (the public-comparison anchor) and the
+% \texttt{mAP\_detect} class-agnostic analog (evaluation strategy \S7).
+
+\subsection{Granularity Gap Decomposition}\label{sec:results_granularity_gaps}
+% TODO: detect/coarse/fine mAP as a gap decomposition
+% ($\Delta_{\text{coarse}}$, $\Delta_{\text{fine}}$, evaluation strategy \S4),
+% backed by a TIDE error-type chart; interpret a large $\Delta_{\text{fine}}$
+% with a small $\Delta_{\text{coarse}}$ as the expected look-alike-confusion
+% signature for this dataset.
+
+\subsection{Band $\times$ Granularity: Does Training Regime Change Accuracy?}\label{sec:results_band_granularity}
+% TODO: the dataset's core scientific comparison -- the 4-band $\times$
+% \{fine, coarse\} $\times$ \{mAP, mAP50\} grid (evaluation strategy \S6a),
+% reported on the mixed domain with the real-only grid alongside it as the
+% synthetic-vs-real-training tie-breaker, since Band A/B are partly scored
+% on their own training domain under \texttt{mixed}.
+
+\subsection{Domain-Shift Delta: Real vs.\ Synthetic Test Performance}\label{sec:results_domain_shift}
+% TODO: the paired $\Delta_{\text{domain}}(\text{class}) = \text{mAP}_{\text{real}} -
+% \text{mAP}_{\text{synthetic}}$ per class (evaluation strategy \S6b), reported
+% as a distribution per band; this is also the watchdog check for the
+% \texttt{mixed} default itself -- state explicitly whether the check passed
+% (no revision of the default axes triggered) or whether a discrepancy emerged.
+
+\subsection{Look-Alike Within-Group Confusion}\label{sec:results_lookalike_confusion}
+% TODO: per-look-alike-group confusion table plus the block-diagonal confusion
+% matrix restricted to the frozen look-alike groups
+% (docs/plans/2026-06-11_lookalike-groups-review.md), using the same
+% taxonomic-tolerance groups mined during ground-truth review
+% (Methods \Cref{sec:gt_annotation_integrity}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Setup C: Direct Fine-Tuning with Compositing Augmentation}\label{sec:results_setup_c}
-% TODO
+\section{Knowledge Distillation and Embedded Feasibility}\label{sec:results_kd_and_embedded}
+% TODO: explicitly frame this section, in its opening paragraph, as
+% intentionally reduced in scope relative to the original research question --
+% a single basic comparison and a single runtime check, not an exploration of
+% the wider design space surveyed in
+% \Cref{sec:lit_knowledge_distillation,sec:lit_embedded_inference}. State the
+% time-budget reason plainly rather than presenting the reduced scope as if it
+% were the original plan.
+
+\subsection{Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison}\label{sec:results_kd_basic_comparison}
+% TODO: Setup A vs.\ Setup B (Methods \Cref{sec:augmentation_setups}), byte-identical
+% augmentation pipelines, isolating the effect of the teacher signal alone;
+% report the same headline mAP figure as \Cref{sec:results_headline_mixed} for
+% both setups side by side. State clearly that this is one direct comparison
+% at one teacher/student pairing, not a sweep over distillation strategies,
+% temperature values, or teacher architectures.
+
+\subsection{Runtime Benchmark on AX Visio Hardware}\label{sec:results_ax_visio_benchmark}
+% TODO: the export pipeline used to get the trained YOLOv5s model onto the
+% \textit{AX Visio} device, and the measured wall-clock inference
+% latency/throughput (FPS) on-device; report it alongside the equivalent
+% Raspberry Pi 5 proxy measurement to close the loop on the hardware-proxy
+% reasoning of docs/2026-03-09_hardware-proxy-selection.md. State plainly
+% whether the unoptimized model met a stated real-time threshold, since no
+% quantization or other embedded optimization was applied -- this is a
+% feasibility check, not an optimization result.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Comparison Across Setups}\label{sec:results_comparison}
-% TODO
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{General Observations}\label{sec:results_general_observations}
-% TODO
+\section{Cross-Cutting Observations}\label{sec:results_general_observations}
+% TODO: collects findings that don't belong to any single section above:
+% training-time comparison across bands/setups; whether the synthetic-data
+% practicability verdict (\Cref{sec:results_practicability_verdict}) is
+% consistent with the band-comparison results
+% (\Cref{sec:results_band_granularity}); an explicit closing statement that the
+% knowledge-distillation and embedded-benchmark results
+% (\Cref{sec:results_kd_and_embedded}) are preliminary/indicative given the time
+% budget, setting up the Further Work section of Chapter
+% \ref{chapter:discussion_conclusion} rather than being over-interpreted here.
