@@ -1,0 +1,288 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Comparing Synthetic-Image Generators}\label{sec:generator_comparison}
+
+The synthetic imagery described in \Cref{sec:synthetic_data_supplementation} was produced by a single generative model, chosen early in the project on the strength of a visual comparison against a handful of alternatives. That choice is load-bearing: if a cheaper or freely available model would have served equally well, or if the apparent realism of the chosen model's output does not translate into downstream detection accuracy, the conclusions drawn from the synthetic-data experiments change accordingly. This section describes the controlled comparison built to test that choice -- what was compared, how the comparison was made fair, and how the generators were judged.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Motivation and Scoped Research Question}\label{sec:generator_comparison_motivation}
+
+The production generator was selected by inspecting sample outputs and judging that its images looked more realistic than those of the locally-run diffusion models available at the time. In a supervision meeting this was identified as methodologically insufficient for a thesis: selecting a model by eye and asserting the result is not a defensible selection argument, even when identifying the best generator is not itself the research question. The objection is correct, and this sub-study is the response to it.
+
+The thesis's actual question about synthetic data is whether current image-generation models can produce training data useful for wildlife detection, particularly for long-tail species where real imagery is scarce. That question is nonetheless comparative in character: \enquote{useful} has meaning only relative to alternatives, and a single-model study cannot distinguish a property of synthetic data in general from a property of one vendor's model. The scoped, secondary question addressed here is therefore:
+
+\begin{quote}
+On a purposively chosen subset of classes, how do synthetic images from different generators -- proprietary API services and locally-run open-weight models -- compare, both under a structured qualitative rubric and under downstream detection accuracy measured on real photographs, and does the resulting ranking justify the production choice?
+\end{quote}
+
+One hard constraint shapes every subsequent design decision. The production run had already consumed most of the synthetic-image budget (approximately \texteuro$500$--$630$ for $12{,}600$ images), so regenerating the full dataset once per candidate generator was never an option. The comparison therefore had to be run on a reduced set of classes at a modest per-class image count, chosen so that the subset is representative of the phenomena that matter rather than merely convenient (\Cref{sec:generator_comparison_classes}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Experimental Design and Fixed Controls}\label{sec:generator_comparison_design}
+
+The design is a single-factor experiment with one deliberate secondary factor. Everything -- the class set, the number of images per class, the annotation procedure, the detector architecture and its hyperparameters, the augmentation policy, and the held-out real test set -- is held fixed, so that any difference in outcome is attributable to the generator that produced a cell's training images. \Cref{fig:generator-comparison-pipeline} shows the resulting per-cell pipeline.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=0.45cm and 0.75cm,
+  stage/.style={rectangle, draw, rounded corners, fill=gray!10, minimum width=2.3cm, minimum height=1.0cm, align=center, font=\small},
+  fixed/.style={rectangle, draw, dashed, rounded corners, fill=gray!3, minimum width=2.3cm, minimum height=1.0cm, align=center, font=\small},
+  arr/.style={-{Latex[length=2mm]}, thick}
+]
+\node[fixed] (p) {Shared\\prompt};
+\node[stage, right=of p] (g) {Generate\\$1{,}200$ images};
+\node[stage, right=of g] (l) {Automatic\\annotation};
+\node[stage, right=of l] (t) {Train fixed\\detector};
+\node[fixed, below=1.0cm of t] (r) {Fixed real\\test set};
+\node[stage, right=of t] (s) {Score};
+\draw[arr] (p) -- (g);
+\draw[arr] (g) -- (l);
+\draw[arr] (l) -- (t);
+\draw[arr] (t) -- (s);
+\draw[arr] (r.east) -| (s.south);
+\end{tikzpicture}
+\caption{One generator$\times$prompt-regime cell. Dashed boxes are shared across every cell and never vary; only the generator (and, deliberately, the prompt regime) changes.}
+\label{fig:generator-comparison-pipeline}
+\end{figure}
+
+Several of these controls are structural rather than procedural, which is what makes them credible. The prompt text is stored one level above any individual generator's output directory, so it is physically the same text for every model that runs a given regime and cannot drift per model. Annotation was deliberately postponed until every cell had been generated, so that a single pass covers all of them under identical rules rather than each cell being annotated under whatever conventions happened to hold when it was produced. Category identifiers are taken unchanged from the real test set instead of being renumbered per cell, so every cell is scored in exactly the same label space. Each cell's synthetic images are training data by construction, with no synthetic image ever entering evaluation. Finally, the training code for this sub-study is a copy of the main pipeline rather than an import of it, so the comparison cannot silently change behaviour when the main $225$-class pipeline is modified.
+
+\Cref{tab:generator-comparison-factors} lists the two factors that do vary. The prompt regime is treated as a factor rather than an implementation detail for a reason developed in \Cref{sec:generator_comparison_prompts}: the candidate models differ by more than two orders of magnitude in how much text they can condition on, so holding the prompt constant and holding the conditioning constant are not the same thing, and a naive comparison would confound generative quality with prompt capacity.
+
+\begin{table}[H]
+\centering
+\caption{The two factors varied in the comparison. Everything else is a fixed control.}
+\label{tab:generator-comparison-factors}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Factor & Levels \\
+\midrule
+Generator & Four API services and six locally-run open-weight models (\Cref{sec:generator_comparison_roster}) \\
+Prompt regime & \texttt{full} (the unabridged production prompt), \texttt{compressed} (an identical short prompt every model can read), \texttt{maxlen} (each model's own maximum usable prompt length) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Each cell comprises $12$ classes $\times\ 100$ images $= 1{,}200$ synthetic training images. The per-class count was fixed in advance and applied uniformly: under-provisioning a single generator would bias its downstream result in a way no later analysis could repair. Conditioning is zero-shot text-to-image throughout -- no generator was given reference images -- since supplying visual examples to some models and not others would confound the models' prior knowledge of a species with few-shot assistance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Class-Subset Selection}\label{sec:generator_comparison_classes}
+
+The subset must expose three distinct phenomena. First, long-tail species that are plausibly under-represented in the generators' own pretraining data, which test whether a model can render a species it has rarely seen from a textual description alone. Second, classes with enough real test images for a downstream accuracy difference to be distinguishable from noise. Third, visually near-identical species, which test whether synthetic data can teach the fine-grained diagnostic markers on which species-level discrimination depends.
+
+These pull against each other, and the tension is worth stating plainly rather than hiding: the rarest species -- the best probes for absent prior knowledge -- are precisely those with the fewest real test images, and therefore the worst probes for downstream statistical power. The subset resolves this by covering all three properties \emph{as a set} rather than in every class: a few rare species that nonetheless clear a useful test-set size are included specifically to decouple rarity from test-set size, while the genuinely test-limited rare species are carried for the qualitative and per-image automatic measures, which have sample size at the image level, rather than for their downstream accuracy.
+
+\Cref{tab:generator-comparison-classes} lists the resulting $12$ classes. The rarity proxy is the per-species image count recorded in the GBIF survey used for class selection (\Cref{sec:target_class_definition}); because that survey caps at approximately $300$ images per taxon, a count at the ceiling means only \enquote{at least $300$}, whereas a low count indicates genuine scarcity rather than a sampling artefact.
+
+\begin{table}[H]
+\centering
+\caption{The $12$-class comparison subset, grouped by the property each class contributes. \enquote{Real test} is the number of real photographs used to score every cell; \enquote{GBIF} is the rarity proxy, capped near $300$.}
+\label{tab:generator-comparison-classes}
+\begin{tabularx}{\textwidth}{@{}lllrrX@{}}
+\toprule
+Class & Band & Group & Real test & GBIF & Contribution \\
+\midrule
+Plains zebra & D & Look-alike & $2{,}079$ & $\geq 300$ & Broad stripes with brown shadow stripes \\
+Grévy's zebra & B & Look-alike & $224$ & $84$ & Narrow dense stripes, white belly \\
+Mountain zebra & D & Look-alike & $467$ & $173$ & Gridiron rump pattern, dewlap \\
+\midrule
+Red fox & D & Anchor & $2{,}150$ & $\geq 300$ & Ubiquitous; any capable model should succeed \\
+American black bear & D & Anchor & $2{,}097$ & $\geq 300$ & Large, common, well represented \\
+Lion & D & Anchor & $2{,}097$ & $\geq 300$ & Iconic; a sanity ceiling for every model \\
+\midrule
+Kinkajou & A & Rare & $160$ & $294$ & Rare but test-robust \\
+Water deer & A & Rare & $151$ & $204$ & Rare but test-robust; tusks, no antlers \\
+Ringtail & A & Rare & $186$ & $300$ & Rare but test-robust; banded tail \\
+Saiga & A & Rare & $50$ & $58$ & Distinctive proboscis; test-limited \\
+Aye-aye & A & Rare & $29$ & $29$ & Extreme morphology; test-limited \\
+Pangolin family & A & Rare & $52$ & $1$--$63$ & Scaled body, exotic texture; test-limited \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Because this experiment never trains on real images, the real photographs that the production split reserves for training and validation are idle here and were folded into the test set for Band B, C and D classes, substantially increasing statistical power for the anchor classes in particular. Band A classes, whose real images are already entirely allocated to testing (\Cref{sec:band_structure}), are unaffected. One consequence must be acknowledged: the production split assigns training images greedily by quality score and validation images from the middle of the quality distribution, whereas its test images were sampled without that bias, so folding all three together skews the enlarged test set toward higher image quality than a random sample of the class pool. This does not bias the comparison between generators, since every generator is scored on the identical enlarged set, but it does mean this test set is specific to this sub-study and is not the project's general real-image benchmark. The full pool comprises $9{,}742$ real photographs. The class list was frozen to a file before any image was generated, following the same freeze-then-run discipline used for the dataset splits.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Generator Roster}\label{sec:generator_comparison_roster}
+
+Candidates were drawn from two tiers with different cost structures and different licensing implications: proprietary services billed per image, and open-weight models run locally on project hardware at the cost of GPU time only. \Cref{tab:generator-api-roster} lists the API tier and \Cref{tab:generator-local-roster} the local tier.
+
+\begin{table}[H]
+\centering
+\caption{API generators included in the comparison, and the candidates excluded with their reasons.}
+\label{tab:generator-api-roster}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Model & Role or reason for exclusion \\
+\midrule
+\texttt{gemini-3.1-flash-image-preview} \cite{google_gemini_image} & The production incumbent; its \texttt{full}-regime images already existed \\
+\texttt{gemini-3.1-flash-lite-image} & The same vendor's cheaper tier -- tests whether the incumbent's price buys quality \\
+\texttt{gpt-image-2} (low) \cite{openai_gpt_image_2} & Cross-vendor price floor \\
+\texttt{gpt-image-2} (medium) & Quality-tier contrast against \texttt{low} at matched prompt \\
+\midrule
+\texttt{gpt-image-2} (high) & Excluded: roughly an order of magnitude above the incumbent's per-image cost \\
+Nano Banana Pro & Intended as the quality ceiling; never generated -- the most expensive site and the least decision-relevant, since training data would not be produced at that price regardless \\
+Imagen 4 & Excluded: withdrawn from the vendor's API during the study \\
+Midjourney & Excluded: no official API; unofficial clients breach the terms of service \\
+Adobe Firefly & Excluded: the cleanest data provenance of any candidate, but only via an enterprise contract far beyond the project budget \\
+FLUX API & Excluded: its terms restrict training models on its outputs and sell synthetic-data rights separately \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The FLUX API exclusion is worth noting explicitly, because it is the same category of reasoning that governs image licensing in \Cref{sec:candidate_sources_licensing}: a service whose terms forbid training on its outputs is unusable for this purpose regardless of output quality, and no amount of visual inspection would have revealed that.
+
+\begin{table}[H]
+\centering
+\caption{Locally-run open-weight generators. \enquote{Offload} indicates whether the model had to stream weights between host and device memory to fit the available $23.8\,\mathrm{GB}$ of video memory.}
+\label{tab:generator-local-roster}
+\begin{tabularx}{\textwidth}{@{}lXllc@{}}
+\toprule
+Model & Scale & License & Precision & Offload \\
+\midrule
+RealVisXL + SDXL-Lightning \cite{podellSDXLImprovingLatent2023} & SDXL-scale, $4$-step distilled & OpenRAIL++ & fp16 & No \\
+Stable Diffusion 3.5 Medium \cite{esserScalingRectifiedFlow2024} & $2.5\,\mathrm{B}$ transformer & Stability Community & bf16 & No \\
+Stable Diffusion 3.5 Large & $8\,\mathrm{B}$ transformer & Stability Community & bf16 & Yes \\
+Stable Diffusion 3.5 Large Turbo & $8\,\mathrm{B}$, $4$-step distilled & Stability Community & bf16 & Yes \\
+FLUX.2-klein \cite{labsBlackForestLabs} & $9\,\mathrm{B}$ transformer, $4$-step distilled & FLUX non-commercial & bf16 & Yes \\
+HiDream-I1 \cite{hidream_i1} & $17\,\mathrm{B}$ transformer, four text encoders & MIT (composite) & NF4 & Yes \\
+\midrule
+Qwen-Image \cite{qwen_image} & $20.4\,\mathrm{B}$ transformer & Apache-2.0 & NF4 & Dropped \\
+FLUX.2-dev & $32\,\mathrm{B}$ transformer & FLUX non-commercial & --- & Rejected \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The composition of this roster is the outcome of a sequence of decisions that are more informative than the final list. \textit{FLUX.2-dev} was evaluated first as the strongest available open model and rejected on memory grounds: even its pre-quantised four-bit community checkpoint totals roughly $34\,\mathrm{GB}$ of weights against $23.8\,\mathrm{GB}$ of video memory, making weight streaming mandatory and an out-of-memory failure a live risk. \textit{FLUX.2-klein} replaced it, and the reason is not a smaller footprint -- it is also approximately $34\,\mathrm{GB}$ and also streams -- but step distillation: at four denoising steps rather than twenty-eight to fifty, it pays the streaming penalty an order of magnitude fewer times per image.
+
+\textit{HiDream-I1} was initially rejected and later readmitted, and the episode is recorded here because it changed how model availability was verified. It requires a gated third-party language model as its fourth text encoder, which is not bundled with it; an initial access check failed with a live authorisation error. A metadata query against the same repository had reported the gate as satisfiable, which it was not -- so availability was thereafter confirmed by actually downloading a file rather than by querying metadata. When access was subsequently granted, the model was admitted. Its footprint made it the most constrained model onboarded: at full precision its components total roughly $63.5\,\mathrm{GB}$, more than the host's memory, and because weight streaming loads the entire pipeline into host memory before moving parts to the device, a naive load risked failing before generation began. Quantising its two largest components to four-bit brought resident memory to roughly $25.5\,\mathrm{GB}$, which fits the host while still exceeding device memory -- so streaming remained mandatory regardless.
+
+\textit{Qwen-Image} was the roster's most permissively licensed candidate and was dropped nonetheless. Because no pre-quantised checkpoint exists for it, it had to be quantised to four-bit at load time, and inspection of its benchmark output showed visible quantisation artefacts -- stippled noise in flat regions such as sky and grass -- that the other quantised model did not exhibit. Since it had been retained primarily for its license rather than its output, and since the artefact is structural to the quantisation this hardware requires rather than a property of the model at full precision, its full run was cancelled before committing the approximately $34$ hours of GPU time it would have cost. This is stated as a limitation rather than a finding: the comparison contains no evidence about Qwen-Image at full precision.
+
+Licensing was tracked for the local tier as it was for image sources. Two models carry genuinely permissive licenses; the remainder carry community or non-commercial terms that would need review before any production use, and HiDream-I1's nominally permissive license is in practice a composite that inherits the terms of its gated text encoder. For a comparison whose purpose is to inform a commercial product, a model's license is part of its score, not a footnote to it.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Prompt Regimes}\label{sec:generator_comparison_prompts}
+
+The production prompts are long: approximately $1{,}300$ words of species description, behaviour, habitat, scene specification, photography style and explicit requirements. The SDXL-family text encoder stops reading after $77$ tokens \cite{radfordLearningTransferableVisual2021}, roughly $50$ words. Handing both models the same text therefore does not give them the same information, and a quality gap measured that way would confound two distinct causes: how well a model generates, and how much it was allowed to condition on. \Cref{tab:generator-prompt-regimes} defines the three regimes used to separate them.
+
+\begin{table}[H]
+\centering
+\caption{The three prompt regimes and what each is for.}
+\label{tab:generator-prompt-regimes}
+\begin{tabularx}{\textwidth}{@{}llX@{}}
+\toprule
+Regime & Budget & Purpose \\
+\midrule
+\texttt{full} & $\approx 1{,}300$ words & Each API model at its maximum usable prompt; reproduces production conditions \\
+\texttt{compressed} & $\leq 75$ tokens & An \emph{identical} prompt every model can read in full; the apples-to-apples condition \\
+\texttt{maxlen} & $75 / 256 / 512$ tokens & Each local model at its own encoder's capacity; the best each can actually do \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The \texttt{compressed} prompt is dense and ordered by importance, because the encoder weights early tokens most heavily and discards everything past its limit. Its slot order -- species name, one to three diagnostic features, pose, habitat, then style anchors -- is also a priority statement, made explicit by the trimming rule applied when a prompt exceeds budget: habitat is dropped first, then pose, then diagnostic features are reduced from three to two to one, so the species name and at least one diagnostic marker are the last elements to survive. Across all $1{,}200$ prompts the longest reached $57$ tokens against the $75$-token budget, verified with the target encoder's own tokeniser rather than estimated from word counts. Because the budget leaves no room for the six-axis scene grid used in production, only the pose varies across a class's images in this regime, with habitat fixed per class.
+
+The \texttt{maxlen} regime pursues the opposite goal and uses the opposite construction. A first attempt truncated the \texttt{full} prompt to each model's budget and was abandoned after inspection: the prompt's structural sections alone -- scene specification, photography style and the numbered requirements, that is, everything which is not free-text species description -- total approximately $464$ words, already more than the entire $256$-token budget before a single word of species description is added. The regime was instead built by accumulation rather than truncation, starting from a short template and adding description sentences until the next one would breach the budget, which is the exact inverse of the \texttt{compressed} regime's trimming cascade. Per-image pose and environment are carried over from the production image list, so the prompts retain genuine per-image variation rather than cycling a small fixed set. Measured across all $2{,}400$ generated prompts, the longest reached $245$ tokens in the $256$-token tier and $495$ in the $512$-token tier, both deliberately under their nominal ceilings to absorb the difference between the two related tokenisers that share the larger tier.
+
+\Cref{fig:prompt-regime-example} illustrates the practical scale of the difference for a single class, which conveys the fairness problem more directly than any description of the builders.
+
+\begin{figure}[H]
+\centering
+\begin{minipage}{0.95\textwidth}
+\small
+\textbf{\texttt{compressed}} ($150$ characters):
+\begin{quote}\itshape
+lion, tawny uniform coat, tufted tail, muscular shoulders, standing alert, on open savanna grassland, wildlife photograph, telephoto, photorealistic, full body
+\end{quote}
+\textbf{\texttt{maxlen}, $256$-token tier} (excerpt):
+\begin{quote}\itshape
+Realistic wildlife photograph of a lion (panthera leo). Species characteristics: tawny uniform coat, tufted tail, muscular shoulders. The lion is a muscular, broad-chested cat with a short, rounded head\ldots{} The lion trots along a game trail, its body fluid and powerful as it investigates a scent. A sun-bleached savanna with golden tall grass\ldots{} Exactly one lion in frame, diagnostic features clearly visible, no other individuals of the same species.
+\end{quote}
+\textbf{\texttt{full}} ($4{,}642$ words): task framing, verbatim species description, natural behaviour and habitat, a six-axis scene specification, photography style, and eight numbered critical requirements.
+\end{minipage}
+\caption{The same class under the three prompt regimes. The content is matched -- the same species facts are expressed throughout -- and only the verbosity changes, so the contrast measures how much text a model can use rather than what the text says.}
+\label{fig:prompt-regime-example}
+\end{figure}
+
+Two asymmetries remain and are disclosed rather than smoothed over. First, the \texttt{full} regime is not byte-identical across vendors: one API caps prompts at $32{,}000$ characters, which several species with long encyclopaedia articles exceed, so their free-text description was trimmed in the request while the generation-critical scene specification and requirements were left intact. Second, negative prompts could not be applied uniformly, because the FLUX-family pipeline accepts no plain-text negative prompt at all. Rather than forcing parity by removing a capability the other models genuinely have, negative prompts were treated as a model-native affordance and documented as such -- but one cell consequently lacks a control the others have.
+
+Reproducibility differs between the tiers in a way that cannot be engineered away. The local models are fully deterministic: per-image seeds are derived from a fixed class ordering, so they remain stable regardless of which subset of classes a given run covers. The API services do not expose a seed, so their exact images cannot be regenerated; for those cells the archived images, together with the recorded model identifier, request parameters and submission time, are the reproducible artefact. One further caveat applies within the local tier: the \texttt{compressed} and \texttt{maxlen} regimes index their seeds differently, so an image occupying the same slot in the two regimes was not generated from the same seed. The two regimes are therefore internally reproducible but not seed-matched to each other, which adds noise to any direct comparison between them.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Throughput, Cost and Hardware}\label{sec:generator_comparison_cost}
+
+Generation ran on a single NVIDIA A40 virtual GPU instance with $23.8\,\mathrm{GB}$ of video memory and $47\,\mathrm{GB}$ of host memory; detector training ran separately on an RTX 3060. Throughput is reported as a first-class result rather than as background detail, because a generator that produces excellent images at an unusable rate is not a practical source of training data. \Cref{tab:generator-throughput} gives the measured wall-clock cost of each complete $1{,}200$-image cell.
+
+\begin{table}[H]
+\centering
+\caption{Measured generation cost per complete $1{,}200$-image cell. Every local cell completed with zero failures. API costs are the amounts actually billed.}
+\label{tab:generator-throughput}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Generator & Seconds per image & Cost per cell \\
+\midrule
+RealVisXL + SDXL-Lightning & $0.93$ & $0.31\,\mathrm{h}$ \\
+Stable Diffusion 3.5 Medium & $23.94$ & $7.98\,\mathrm{h}$ \\
+Stable Diffusion 3.5 Large Turbo & $24.82$ & $8.27\,\mathrm{h}$ \\
+FLUX.2-klein & $31.19$ & $10.40\,\mathrm{h}$ \\
+Stable Diffusion 3.5 Large & $54.34$ & $18.11\,\mathrm{h}$ \\
+HiDream-I1 & $143.92$ & $47.97\,\mathrm{h}$ \\
+\midrule
+\texttt{gpt-image-2} (low), \texttt{full} & --- & $\$10.11$ \\
+\texttt{gpt-image-2} (medium), \texttt{full} & --- & $\$29.36$ \\
+\texttt{gemini-3.1-flash-image-preview} & --- & $\approx$~\texteuro$48$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The six local cells consumed approximately $93$ GPU-hours in total. This figure is itself relevant to the thesis's practicability question: generating the full $12{,}600$-image production set locally, rather than the $1{,}200$-image comparison subset, would have taken weeks of continuous GPU time on this hardware, which is a substantial part of why an API service was the practical choice for production irrespective of output quality.
+
+Two observations about these measurements are worth recording. First, small-sample benchmarks proved unreliable predictors in both directions: the two models whose \texttt{maxlen} prompts are longest ran materially slower than their short-prompt benchmarks suggested, because prompt length has a real and measurable encoding cost, while two others ran faster because their benchmarks were contaminated by cold-start overhead. Second, an investigation into why device memory utilisation sat between $23\%$ and $39\%$ found that weight streaming had been applied to every model as a blanket default inherited from a script targeting a $12\,\mathrm{GB}$ card. Removing it for the one model that comfortably fits without it produced a $1.8\times$ speed-up ($27.33$ to $14.84$ seconds per image), confirmed by re-measurement. The finding does not generalise: the four largest models exceed device memory before activations are counted, so they retain streaming and have no headroom to reclaim.
+
+The API cost figures also carry a lesson that is not visible from published price lists. The cheapest tier's measured cost was roughly $2.8$ times its naive estimate, because prompt text is billed as input tokens separately from image generation, and the \texttt{full} regime's long prompts add an approximately fixed per-image surcharge. For long-prompt workloads, prompt length is a cost driver and not only a quality lever.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Annotation, Detector and Training Protocol}\label{sec:generator_comparison_training}
+
+Every cell was annotated by the same detector \cite{beery_megadetector_2019} and procedure used for the production synthetic images (\Cref{sec:synthetic_annotation}), with identical detection thresholds, so that the comparison audits exactly the kind of ground truth that the production pipeline ships. One deviation must be stated clearly, because it qualifies every downstream number reported in \Cref{sec:results_synthetic_data_practicability}: the human review stages of that procedure were never executed for this sub-study, so all cells use the automatic detector's own boxes under the documented best-effort fallback. The consequence is that the comparison is provisional. It is the best comparison currently obtainable, and the relative ranking is unlikely to be an artefact of annotation since every cell was annotated identically, but the absolute accuracy figures are not final.
+
+The proportion of images for which the detector found exactly one adequately sized animal is itself reported as a quality signal rather than treated as bookkeeping, since a low yield indicates malformed or ambiguous subjects and also imposes a real annotation cost. Across the local cells this ranged from $93.6\%$ to $98.8\%$, with essentially no images containing no detectable animal at all.
+
+\textit{YOLO26n} \cite{ultralytics_yolo26} was fixed as the detector for every cell. The alternative already available in the project was \textit{YOLOv5s} \cite{jocher_yolov5_2020}, and the choice between them is a choice about what question the experiment answers. \textit{YOLOv5s}, at $7.2\,\mathrm{M}$ parameters, is approximately the size of the detector already deployed in the production binocular pipeline, so a result obtained on it would answer \enquote{is this synthetic data good enough for the model that already ships}. \textit{YOLO26n}, at $2.4\,\mathrm{M}$ parameters, is the architecture class this thesis actually targets for embedded deployment, so a result obtained on it remains load-bearing for the main study. The usual objection to the smaller model -- that a capacity-starved network cannot resolve differences between two reasonable datasets -- does not apply at this scale: each cell trains on $1{,}200$ images across $12$ classes from pretrained weights, a regime in which neither model is remotely capacity-limited, and where the binding constraint is the transferability of the synthetic images' features rather than parameter count. Training time was verified not to differ materially between the two, so it did not enter the decision.
+
+Model selection and early stopping require held-out data, and the real test set is deliberately not it. A fifth of each cell's synthetic images is carved off as an internal validation split, stratified per class and drawn with a split seed independent of the training seed -- so the split is identical across a cell's repeated runs and only weight initialisation and batch ordering differ between them. The real test set is scored exactly once per run, at the end, on the best checkpoint. This serves two purposes: it prevents model selection from peeking at the set that produces the headline metric, and it avoids spending several minutes per epoch scoring $9{,}742$ images, which would otherwise dominate a run whose training step takes seconds.
+
+Because a single training run on a dataset this small is noisy, each cell was trained repeatedly with different seeds and its results averaged. In the final state every API cell has three seeds and every local cell two, short of the three that the protocol itself recommends for the local tier. \Cref{sec:results_synthetic_data_practicability} shows why this matters in practice.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Evaluation Methodology}\label{sec:generator_comparison_evaluation}
+
+The objection this sub-study answers was to a single informal judgement. The remedy is not to abandon qualitative evaluation but to make it structured, blind and multi-rater, and to triangulate it against two quantitative axes that do not depend on human impression. A generator's standing is reported on all three, and a claim is strong only when they agree. \Cref{tab:generator-evaluation-axes} summarises the three axes together with what was actually carried out, since the gap between the two is material to how the results should be read.
+
+\begin{table}[H]
+\centering
+\caption{The three evaluation axes as designed, and their execution status.}
+\label{tab:generator-evaluation-axes}
+\begin{tabularx}{\textwidth}{@{}lXl@{}}
+\toprule
+Axis & Instrument & Executed \\
+\midrule
+A -- Qualitative & Blind, multi-rater rubric with inter-rater agreement & No \\
+B -- Automatic proxies & Teacher recognition, FID/KID, CLIP-score, annotation yield & Yield only \\
+C -- Downstream utility & Detection accuracy on real photographs & Yes, all $12$ cells \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Axis A -- Structured Qualitative Rubric}
+Each generated image, or a fixed random sample per class and model, is scored on six pre-registered criteria: anatomical correctness (limb count, proportions, absence of fused or duplicated parts), diagnostic-feature fidelity (whether the species-defining markers are present and correct), species identity (whether a knowledgeable observer would name the intended species rather than a generic relative), habitat plausibility, photorealism, and a binary or counted artefact rate covering text, watermarks, extra animals and impossible geometry. What makes this thesis-grade rather than impressionistic is the protocol around it: model identity hidden and presentation order randomised, at least two and preferably three independent raters, an inter-rater agreement statistic reported alongside the scores rather than relegated to a footnote, and the rubric frozen before any output is examined so that the criteria cannot be reverse-engineered toward a preferred model. This axis is the only instrument in the study capable of separating generators on the rare classes, where -- as \Cref{sec:results_per_class_structure} shows -- downstream accuracy is uniformly at a noise floor. It was specified in full and not executed within the time available, which is recorded here as a named limitation rather than omitted.
+
+\paragraph{Axis B -- Automatic Proxies}
+Four measures were specified, each scaling to every image and therefore supplying the statistical power the rare classes lack. The primary one is teacher-recognition confidence: running the project's own classifier \cite{gadot_speciesnet_2024} over the generated images asks directly whether the model that would act as a distillation teacher recognises the intended species, and with what confidence, which is close to a direct measurement of whether the diagnostic features are present. The remaining three are per-class Fréchet and kernel distances against the real images of the same class \cite{heuselGANsTrainedTwo2018,binkowskiDemystifyingMMDGANs2021}, computed per class because a global score conceals per-species failure; a CLIP-based image--prompt alignment score for prompt adherence \cite{hesselCLIPScoreReferencefreeEvaluation2021}, computed with an encoder used by none of the generators; and the automatic annotation yield already described. Only the last of these was computed. The absence of the other three is a real gap, and it is the reason the results chapter leads with downstream accuracy rather than with a converged multi-axis judgement.
+
+\paragraph{Axis C -- Downstream Utility}
+The fixed detector is trained on each cell's synthetic images and evaluated on real photographs only, never on synthetic ones, consistent with the evaluation policy set out in \Cref{sec:evaluation_framework}. The headline measure is mean average precision over the real test set. Alongside it, two finer measures address the subset's design: per-class average precision, which separates the data-rich anchors from the rare classes; and the within-group confusion rate over the three zebra species, defined as the fraction of correctly localised detections that land in the right look-alike group but are assigned the wrong species. That last measure is the sharpest available test of whether synthetic data can teach species-level discrimination at all. Of the frozen look-alike groups (\Cref{sec:gt_annotation_integrity}), only the zebras have more than one member inside this $12$-class subset, so the bear group's confusion rate is structurally zero and is excluded as carrying no signal rather than reported as a perfect score.
+
+\paragraph{Decision Rule}
+Fixing the criterion in advance matters as much as fixing the rubric. A generator counts as usable if it lands within a stated margin of the incumbent on the axes that matter -- downstream accuracy on real photographs and diagnostic fidelity -- \emph{and} is practical on cost and throughput; raw photorealism alone is explicitly not sufficient, since it is precisely the impression that motivated the original unjustified choice. Correspondingly, the production choice is justified only if the incumbent sits at or near the top on those axes. Because differences between cells on a dataset this small may fall within run-to-run noise, no winner is declared from a single run: results are reported as a mean with its spread across seeds, and two cells whose intervals overlap are reported as indistinguishable rather than ranked.
