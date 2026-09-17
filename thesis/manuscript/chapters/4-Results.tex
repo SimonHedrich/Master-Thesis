@@ -53,7 +53,7 @@ $12$ & RealVisXL + Lightning & \texttt{maxlen} & $2$ & $0.023 \pm 0.001$ & $0.62
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{plots/model_comparison_full_headline_map.png}
+\includegraphics[width=\textwidth]{figures/plots/model_comparison_full_headline_map.png}
 \caption{Mean average precision on the real test set for all twelve cells, with error bars showing the standard deviation across training seeds. Bars are coloured by tier: proprietary API services at the unabridged prompt, the same services at the compressed prompt, and locally-run open-weight models.}
 \label{fig:generator-headline-map}
 \end{figure}
@@ -85,7 +85,7 @@ Generator & \texttt{full} & \texttt{compressed} & Relative loss \\
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{plots/model_comparison_prompt_ablation_headline_map.png}
+\includegraphics[width=0.85\textwidth]{figures/plots/model_comparison_prompt_ablation_headline_map.png}
 \caption{The prompt-length ablation. Each model appears twice, differing only in the length of the prompt it was conditioned on.}
 \label{fig:prompt-length-ablation}
 \end{figure}
@@ -101,7 +101,7 @@ Within the local tier, generation cost and downstream quality are unrelated to t
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth]{plots/model_comparison_maxlen_cost_vs_map.png}
+\includegraphics[width=0.85\textwidth]{figures/plots/model_comparison_maxlen_cost_vs_map.png}
 \caption{Generation cost against downstream accuracy for the six locally-run generators. The absence of any trend is the result: the most and least expensive cells are the two weakest.}
 \label{fig:generator-cost-vs-map}
 \end{figure}
@@ -117,7 +117,7 @@ The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced acr
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{plots/model_comparison_full_per_class_heatmap.png}
+\includegraphics[width=\textwidth]{figures/plots/model_comparison_full_per_class_heatmap.png}
 \caption{Per-class average precision for every cell. The contrast between the data-rich columns, which carry the ranking, and the rare-class columns, which are uniformly near zero, is the section's central observation.}
 \label{fig:generator-per-class-heatmap}
 \end{figure}
