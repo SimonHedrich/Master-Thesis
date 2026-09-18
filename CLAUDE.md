@@ -40,12 +40,21 @@ scripts/      — Utility scripts (data exploration, visualization, etc.)
 - Numbered pipeline scripts (`1-foo.py` — invalid module names, cannot use `-m`):
   `uv run python scripts/<dir>/<N>-<name>.py`
 - Every runnable script's module docstring must state its exact run command in this form.
-- **Exception:** `scripts/literature/` (Zotero PDF sourcing/extraction pipeline) uses
+- **Exception A:** `scripts/literature/` (Zotero PDF sourcing/extraction pipeline) uses
   `uv run --script scripts/literature/<N>-<name>.py` (PEP 723 inline dependencies) instead.
   Plain `uv run` only resolves on Linux here (`pyproject.toml`'s `[tool.uv] environments`
   restriction, for the training stack), so it doesn't work on macOS outside the container —
   and this pipeline needs native host access to `~/Zotero`, which isn't mounted into the
   container. `uv run --script` sidesteps both without touching the shared project lockfile.
+- **Exception B:** `scripts/benchmark/`'s device-side scripts (`2-bench_latency.py`,
+  `3-bench_parity.py`, `pi/monitor.py`, `pi/device_profile.py`) and its host-side
+  `1b-convert_and_verify.py` also use `uv run --script` (PEP 723). The device-side
+  ones run on the Raspberry Pi 400, where `pyproject.toml`'s `pytorch-cu130` torch
+  pin resolves to CUDA SBSA wheels that cannot run on an SBC — and where the repo
+  isn't checked out at all, so they import no project code. `1b-` needs
+  `onnxruntime`/`onnxslim`/`pnnx`, which would otherwise have to be added to the
+  shared lockfile and synced into a venv that is often mid-training.
+  See `scripts/benchmark/README.md`.
 
 ### Containers: one image, exec in, then uv
 - `make build` builds the single `training` image; `make run` starts the container and

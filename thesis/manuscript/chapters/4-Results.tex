@@ -210,15 +210,166 @@ One episode during this study is worth reporting because it bears on how the tab
 % at one teacher/student pairing, not a sweep over distillation strategies,
 % temperature values, or teacher architectures.
 
-\subsection{Runtime Benchmark on AX Visio Hardware}\label{sec:results_ax_visio_benchmark}
-% TODO: the export pipeline used to get the trained YOLOv5s model onto the
-% \textit{AX Visio} device, and the measured wall-clock inference
-% latency/throughput (FPS) on-device; report it alongside the equivalent
-% Raspberry Pi 5 proxy measurement to close the loop on the hardware-proxy
-% reasoning of docs/2026-03-09_hardware-proxy-selection.md. State plainly
-% whether the unoptimized model met a stated real-time threshold, since no
-% quantization or other embedded optimization was applied -- this is a
-% feasibility check, not an optimization result.
+\subsection{Runtime Benchmark on the Embedded Proxy}\label{sec:results_embedded_benchmark}
+
+Every model evaluated in this thesis was exported and timed on a
+\textit{Raspberry Pi 400}, the proxy whose relationship to the \textit{QCS605}
+is set out in \Cref{sec:lit_embedded_inference}. No measurement was taken on
+\textit{AX Visio} hardware, which was not available. The check is a feasibility
+result for full-precision models on a target-adjacent CPU, not an optimization
+result: no quantization, pruning or compression of any kind was applied.
+
+The export path runs from each training checkpoint to TorchScript and to ONNX
+at opset~$17$ with static batch-1 shapes. Because both detector pipelines
+bypass \textit{Ultralytics}' high-level interface and store bare parameter
+dictionaries, the exporter rebuilds each architecture through this project's own
+model factories before tracing. Every exported graph was then checked against
+its \textit{PyTorch} reference on the host before it reached the device, and all
+five reproduce it to within floating-point accumulation noise.
+% reports/embedded_benchmark/pi_results/, scripts/benchmark/1b-convert_and_verify.py
+
+\Cref{tab:embedded-latency} reports the result. The timed window follows the
+\textit{MLPerf Tiny} convention discussed in \Cref{sec:lit_embedded_inference}:
+$W_{\mathrm{infer}}$ covers the forward call alone, on an input tensor already
+resident in memory, and excludes model loading and warm-up. $W_{\mathrm{e2e}}$
+adds JPEG decode, letterboxing and post-processing, and is the figure that
+answers a per-frame budget question. Batch size, core affinity, thread count and
+CPU governor were held fixed across all $76$ measured cells.
+
+\begin{table}[htbp]
+  \centering
+  \caption[Runtime benchmark on the Raspberry Pi 400]{Measured runtime of every evaluated model on the \textit{Raspberry Pi 400} proxy: ONNX Runtime, 4 threads, batch size $1$, full precision, \texttt{performance} governor. $W_{\mathrm{infer}}$ is the forward pass alone (the \textit{MLPerf Tiny} measurement scope); $W_{\mathrm{e2e}}$ adds JPEG decode, letterboxing and post-processing. Median of three independent process invocations, interquartile range in parentheses.}
+  \label{tab:embedded-latency}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Model & Params & GFLOPs & $W_{\mathrm{infer}}$ & $W_{\mathrm{e2e}}$ & FPS & Peak RSS \\
+     & (M) & & (ms) & (ms) & & (MB) \\
+    \midrule
+    \textit{YOLO26n direct-FT} & $2.71$ & $6.8$ & $401$ (3) & $423$ & $2.36$ & $284$ \\
+    \textit{YOLO26n KD} & $2.71$ & $6.8$ & $419$ (5) & $442$ & $2.26$ & $284$ \\
+    \textit{YOLOv5s} & $7.63$ & $17.7$ & $929$ (15) & $949$ & $1.05$ & $362$ \\
+    \textit{SpeciesNet classifier} & $52.71$ & $49.2$ & $2,546$ (33) & $2,543$ & $0.39$ & $567$ \\
+    \textit{MegaDetector v5a} & $140.06$ & $831.6$ & $30,998$ (97) & $30,963$ & $0.03$ & $1,570$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% Pass band: a Pi 400 measurement at or below 33 ms implies <= 30 ms on the QCS605 CPU
+% (QCS605 ~ Pi400 x 0.85-0.90; docs/2026-03-09_hardware-proxy-selection.md). CPU path only.
+
+The project's design targets for the \textit{QCS605} are $\leq 30$\,ms per
+frame at $640\times640$ and a $\leq 500$\,MB memory ceiling; both are internal
+estimates rather than vendor-certified figures.
+% docs/2026-03-10_object-detection-models-for-embedded-systems.md
+No configuration measured here passes either. The fastest model, \textit{YOLO26n}, needs
+$423$\,ms per frame, which the proxy relationship translates to roughly
+$360$--$381$\,ms on the \textit{QCS605} CPU: about twelve times the budget.
+% reports/embedded_benchmark/latency_summary.csv
+\textit{YOLOv5s}, the architecture closest to the detector already deployed in
+the production binocular, needs $949$\,ms. The memory target is met by all three
+detectors but not by either teacher component. This outcome was expected rather
+than surprising: a vendor-published figure puts \textit{YOLO26n} at $67.7$\,ms on the faster
+\textit{Raspberry Pi 5}, already above the budget before this device's slower
+cores are accounted for,
+% docs/progress_notes/2026-03-18_speciesnet-pipeline-and-experiment-design.md
+and the remaining gap was always intended to be closed by the quantization pass
+this thesis did not carry out.
+
+The teacher's cost is the more decisive number. \textit{MegaDetector v5a} alone
+takes $31.0$\,s per frame at $1280\times1280$ and peaks at $1{,}570$\,MB, and a
+composed ensemble estimate -- one detector pass plus a mean of $1.7$ classifier
+crops per image -- comes to roughly $35$\,s per frame.
+% reports/embedded_benchmark/embedded_benchmark.md
+That is three orders of magnitude above the budget, and it converts
+\Cref{sec:lit_yolo_family}'s reasoned argument that the ensemble cannot ship on
+this hardware into a measured one.
+
+\Cref{fig:embedded-latency-vs-map} places accuracy against measured latency for
+every system that has both. The ranking is unambiguous in both dimensions at
+once: the ensemble buys its $0.663$ mixed-set mAP at roughly $83$ times the
+latency of \textit{YOLO26n}, and \textit{YOLOv5s} is both slower and less
+accurate than \textit{YOLO26n}, which reinforces the architecture choice argued
+in \Cref{sec:model_selection} on grounds independent of accuracy.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{figures/plots/embedded_latency_vs_map.png}
+  \caption[Accuracy against measured latency on the embedded proxy]{Accuracy
+  against measured end-to-end latency on the \textit{Raspberry Pi 400}, ONNX
+  Runtime at $4$ threads. Each model contributes two readings, the mixed-set
+  headline and its real-only breakout, joined by a vertical rule. The shaded
+  band is the device-side pass band implied by the
+  $\leq 30$\,ms \textit{QCS605} budget. The ensemble point is a derived
+  estimate: one detector pass plus a mean of $1.7$ classifier crops per image.}
+  \label{fig:embedded-latency-vs-map}
+\end{figure}
+
+Two observations concern the runtime rather than the models. ONNX Runtime was
+faster than TorchScript for every model that ran under both, by factors of
+$1.16$ to $1.75$. It was also the only runtime that executed every
+configuration without aborting: multi-threaded TorchScript terminates with an
+illegal-instruction fault on \textit{YOLO26n} on this ARMv8.0 core. Disabling
+its oneDNN backend was tried as a remedy and extended that failure to every
+model rather than removing it.
+% reports/embedded_benchmark/torchscript_sigill_finding.md
+Runtime selection on this class of hardware is therefore a correctness question
+before it is a performance one. Second, no NCNN or GPU figure could be produced:
+the device's Vulkan stack is functional, but the only available
+ONNX-to-NCNN converter fails on both detectors, so the \textit{VideoCore VI} was
+never reachable.
+% reports/embedded_benchmark/ncnn_conversion_finding.md
+
+Pre-processing is a small but non-trivial share of the per-frame cost, and it
+scales with capture resolution rather than with model size. Decoding and
+letterboxing a median test image costs $21$--$35$\,ms, while the same operation
+on a native $4192\times3120$ \textit{AX Visio} still costs $256$--$275$\,ms --
+comparable to a full \textit{YOLO26n} forward pass, and a cost that a deployment
+reading frames at sensor resolution would pay on every frame.
+% reports/embedded_benchmark/latency_summary.csv
+
+The measurements are not thermally compromised. All $76$ cells were taken under
+the \texttt{performance} governor with a monitor sampling core temperature,
+frequency and the SoC throttle register throughout; none tripped the validity
+gate, the peak temperature reached was $64.8$\,\textdegree C against an
+$80$\,\textdegree C threshold, and the throttle register read zero for the
+entire campaign. Sustained runs of several hundred iterations drifted by between
+$+0.28\,\%$ and $+2.33\,\%$, which bounds the thermal effect on this passively
+cooled device at a level well below the differences the table reports.
+% reports/embedded_benchmark/thermal_summary.csv
+
+Exporting the detectors and running them on a different instruction set does
+not change what they compute. Over a fixed $600$-image subset, the device
+reproduces between $98.97\,\%$ and $99.47\,\%$ of the host's detections at an
+intersection-over-union of $0.99$ or better, and the subset mAP differs by at
+most $0.0020$.
+% reports/embedded_benchmark/parity_summary.json
+That residual is best read against a same-machine control: host GPU and host
+CPU, identical weights and identical code, already disagree on $0.15$--$0.31\,\%$
+of detections, because floating-point accumulation order differs between
+kernels and a near-tie in score can reorder which box survives. One of the six
+comparisons falls marginally below the $99\,\%$ criterion set in advance, at
+$98.97\,\%$; it is reported as a miss rather than absorbed by relaxing the
+threshold after the fact, and its mAP delta stays inside tolerance.
+
+The check also caught a defect that had nothing to do with hardware. An earlier
+run reported a $47\,\%$ match with both device runtimes agreeing exactly with
+each other -- a pattern that indicates differing weights, not differing
+arithmetic. The direct fine-tuning checkpoint came from a training run still in
+progress, and the file had been rewritten between the export and the generation
+of the host reference. The export stage now freezes a hashed copy of each
+source checkpoint, and the reference is built from that copy.
+
+Three limits apply to everything above. The models are full-precision and
+unoptimized, so the figures are an upper bound on latency rather than an
+estimate of what the hardware can do. The campaign covers one device, and the
+translation to the \textit{QCS605} rests on a published CPU-performance estimate
+rather than a measurement of the target. Most importantly, the
+\textit{QCS605}'s Hexagon~685 DSP has no analogue on the proxy, so the
+accelerated path -- the one the quantization literature in
+\Cref{sec:lit_embedded_inference} reports order-of-magnitude gains for, and the
+one a shipping product would use -- remains entirely unmeasured. Whether the
+$30$\,ms budget is reachable on the target is therefore still an open question,
+and \Cref{sec:further_work} treats it as the first item of further work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cross-Cutting Observations}\label{sec:results_general_observations}

@@ -682,12 +682,29 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       training (QAT).** Named in `CLAUDE.md`'s pipeline description but
       explicitly out of scope in the KD strategy doc. Confirm this is a
       deliberate deferral (and when it picks back up), not a dropped step.
-- [ ] **5.2 [RPi5 / QCS605 target hardware, not A40/3060] (gap) Export +
-      on-device benchmarking** on the RPi 5 proxy (and/or QCS605 target).
-      Nothing in the repo yet exports or times a model on real target
-      hardware — this is the thesis's core "real-time inference on embedded
-      hardware" claim and currently has no artifact behind it. Neither GPU
-      machine is the target here; this needs the actual proxy/target device.
+      *Note 2026-09-18:* §5.2's benchmark deliberately excluded it and measured
+      full-precision models only, so it remains open — and is now the single
+      largest lever on the headline result. Two caveats for whoever picks it
+      up: the Pi 400's Cortex-A72 is ARMv8.0 and has neither `asimddp` nor
+      fp16 arithmetic, so an INT8 speedup measured *there* would understate
+      the target's (the QCS605's ARMv8.2 Kryo 300 has both, and the Hexagon
+      685's HVX more again); and even a 4× INT8 gain leaves YOLO26n around
+      100 ms/frame, i.e. still above the 30 ms budget on the CPU path alone.
+- [x] **5.2 Export + on-device benchmarking.** **Done 2026-09-18** on a
+      **Raspberry Pi 400** (not the RPi 5 originally specified — see the dated
+      addendum in `docs/2026-03-09_hardware-proxy-selection.md`: the Pi 4/400
+      sits at −10 % CPU vs. the QCS605, so it is a near-parity floor rather
+      than a +60 % ceiling, which is the stronger claim). Implemented by
+      `scripts/benchmark/`; plan in
+      `docs/plans/2026-09-17_on-device-benchmarking-plan.md`; results in
+      `reports/embedded_benchmark/` and written up in
+      `docs/2026-09-18_embedded-benchmark-results.md`.
+      76 measured cells, 0 failing the thermal validity gate, peak 64.8 °C.
+      Headline: YOLO26n 423 ms/frame end-to-end (≈360–381 ms implied on the
+      QCS605 CPU, ~12× the 30 ms target); YOLOv5s 949 ms; the MD+SpeciesNet
+      teacher ≈35 s/frame. No GPU number — `pnnx` cannot convert either
+      detector, and NCNN-Vulkan was the device's only GPU compute path.
+      No measurement was taken on AX Visio hardware, which was not available.
 
 ## 6. Scope decisions to confirm (not tasks, but open questions)
 

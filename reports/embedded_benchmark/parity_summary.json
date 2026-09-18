@@ -1,0 +1,162 @@
+[
+  {
+    "model": "yolo26n-direct",
+    "reference": "host_cuda",
+    "reference_map": 0.5917969539860504,
+    "tolerances": {
+      "t1_atol": 1e-05,
+      "t1_rtol": 1e-05,
+      "t2_min_match_rate": 0.99,
+      "t2_iou": 0.99,
+      "t2_max_score_delta": 0.01,
+      "t3_max_map_delta": 0.002,
+      "export_gate_atol": 1e-05,
+      "export_gate_rtol": 1e-05
+    },
+    "comparisons": [
+      {
+        "side": "host_cpu",
+        "kind": "baseline (same ISA family, x86)",
+        "t2": {
+          "ref_detections": 60000,
+          "pi_detections": 60000,
+          "matched": 59813,
+          "match_rate": 0.996883,
+          "max_score_delta": 0.009218,
+          "passed": true
+        },
+        "map": 0.5914993161084036,
+        "map_delta": -0.0002976378776468058,
+        "t3_passed": true
+      },
+      {
+        "side": "pi_onnxruntime",
+        "kind": "device (aarch64 Cortex-A72)",
+        "t1": {
+          "available": true,
+          "max_abs": 0.0001220703125,
+          "mean_abs": 3.370724355287772e-05,
+          "ref_absmax": 645.8023681640625,
+          "bound": 0.006468023681640625,
+          "passed": true
+        },
+        "t2": {
+          "ref_detections": 60000,
+          "pi_detections": 60000,
+          "matched": 59381,
+          "match_rate": 0.989683,
+          "max_score_delta": 0.009994,
+          "passed": false
+        },
+        "map": 0.5898048224376723,
+        "map_delta": -0.0019921315483780733,
+        "images_per_second": 2.234,
+        "t3_passed": true
+      },
+      {
+        "side": "pi_torchscript",
+        "kind": "device (aarch64 Cortex-A72)",
+        "t1": {
+          "available": true,
+          "max_abs": 0.00030517578125,
+          "mean_abs": 7.167165702412604e-05,
+          "ref_absmax": 645.8023681640625,
+          "bound": 0.006468023681640625,
+          "passed": true
+        },
+        "t2": {
+          "ref_detections": 60000,
+          "pi_detections": 60000,
+          "matched": 59475,
+          "match_rate": 0.99125,
+          "max_score_delta": 0.009994,
+          "passed": true
+        },
+        "map": 0.5898048486803152,
+        "map_delta": -0.0019921053057351257,
+        "images_per_second": 0.777,
+        "t3_passed": true
+      }
+    ]
+  },
+  {
+    "model": "yolo26n-kd",
+    "reference": "host_cuda",
+    "reference_map": 0.5564089760682543,
+    "tolerances": {
+      "t1_atol": 1e-05,
+      "t1_rtol": 1e-05,
+      "t2_min_match_rate": 0.99,
+      "t2_iou": 0.99,
+      "t2_max_score_delta": 0.01,
+      "t3_max_map_delta": 0.002,
+      "export_gate_atol": 1e-05,
+      "export_gate_rtol": 1e-05
+    },
+    "comparisons": [
+      {
+        "side": "host_cpu",
+        "kind": "baseline (same ISA family, x86)",
+        "t2": {
+          "ref_detections": 60000,
+          "pi_detections": 60000,
+          "matched": 59912,
+          "match_rate": 0.998533,
+          "max_score_delta": 0.005964,
+          "passed": true
+        },
+        "map": 0.5563556661882144,
+        "map_delta": -5.33098800399312e-05,
+        "t3_passed": true
+      },
+      {
+        "side": "pi_onnxruntime",
+        "kind": "device (aarch64 Cortex-A72)",
+        "t1": {
+          "available": true,
+          "max_abs": 0.0001220703125,
+          "mean_abs": 3.538155850643913e-05,
+          "ref_absmax": 640.991455078125,
+          "bound": 0.00641991455078125,
+          "passed": true
+        },
+        "t2": {
+          "ref_detections": 60000,
+          "pi_detections": 60000,
+          "matched": 59683,
+          "match_rate": 0.994717,
+          "max_score_delta": 0.008695,
+          "passed": true
+        },
+        "map": 0.5561711212808086,
+        "map_delta": -0.00023785478744575705,
+        "images_per_second": 2.248,
+        "t3_passed": true
+      },
+      {
+        "side": "pi_torchscript",
+        "kind": "device (aarch64 Cortex-A72)",
+        "t1": {
+          "available": true,
+          "max_abs": 0.0003662109375,
+          "mean_abs": 7.09826733994608e-05,
+          "ref_absmax": 640.991455078125,
+          "bound": 0.00641991455078125,
+          "passed": true
+        },
+        "t2": {
+          "ref_detections": 60000,
+          "pi_detections": 60000,
+          "matched": 59682,
+          "match_rate": 0.9947,
+          "max_score_delta": 0.008695,
+          "passed": true
+        },
+        "map": 0.5561711212808086,
+        "map_delta": -0.00023785478744575705,
+        "images_per_second": 0.777,
+        "t3_passed": true
+      }
+    ]
+  }
+]

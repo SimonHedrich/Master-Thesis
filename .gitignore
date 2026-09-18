@@ -19,3 +19,11 @@ __pycache__/
 reports/dataset_split_manifest.json
 predictions_real.json
 predictions_synth.json
+# On-device benchmark artifacts (scripts/benchmark) — large, regenerable
+scripts/benchmark/exports/
+data/benchmark_subset/
+reports/embedded_benchmark/pi_results/
+reports/embedded_benchmark/host_reference/
+*.torchscript
+*.ncnn.param
+*.ncnn.bin
