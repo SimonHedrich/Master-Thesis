@@ -1,0 +1,136 @@
+true_species,pred_species,count
+asian elephant,african elephant,1545
+domestic donkey,domestic horse,493
+springbok,thomson's gazelle,468
+common eland,greater kudu,349
+snow leopard,leopard,181
+grey wolf,domestic dog,175
+dingo,domestic dog,159
+grant's gazelle,thomson's gazelle,155
+european bison,american bison,151
+grevy's zebra,plains zebra,112
+eastern gray squirrel,western gray squirrel,86
+yak,domestic cattle,83
+elk,red deer,80
+mule deer,white-tailed deer,77
+black wildebeest,common wildebeest,71
+hares and jackrabbits genus,european hare,70
+macaque species,japanese macaque,70
+wild cat,domestic cat,64
+asiatic black bear,american black bear,62
+grey wolf,coyote,62
+american black bear,brown bear,59
+domestic donkey,asiatic wild ass,58
+cottontail rabbits genus,eastern cottontail,57
+eastern cottontail,cottontail rabbits genus,55
+eastern grey kangaroo,red-necked wallaby,48
+wild boar,domestic pig,44
+grey wolf,golden jackal,43
+golden jackal,black-backed jackal,43
+american black bear,asiatic black bear,42
+bongo,nyala,40
+black-backed jackal,coyote,39
+white-nosed coati,south american coati,39
+domestic cat,wild cat,35
+asiatic wild ass,domestic horse,33
+canada lynx,bobcat,32
+western gray squirrel,eastern gray squirrel,32
+american bison,european bison,30
+white-tailed deer,mule deer,29
+eurasian lynx,bobcat,28
+coyote,black-backed jackal,27
+lowland tapir,baird's tapir,25
+baird's tapir,lowland tapir,24
+european hare,hares and jackrabbits genus,24
+domestic pig,wild boar,21
+eastern fox squirrel,western gray squirrel,21
+eastern gray squirrel,eastern fox squirrel,21
+grevy's zebra,mountain zebra,21
+nyala,bongo,21
+black-backed jackal,golden jackal,20
+bobcat,eurasian lynx,20
+south american coati,white-nosed coati,20
+asiatic wild ass,domestic donkey,19
+bighorn sheep,domestic sheep,19
+woodchuck,yellow-bellied marmot,19
+sika deer,red deer,17
+eurasian red squirrel,western gray squirrel,15
+grant's gazelle,springbok,15
+jaguar,leopard,15
+bighorn sheep,mouflon,15
+dingo,coyote,14
+mountain zebra,plains zebra,14
+striped hyaena,spotted hyaena,14
+woodchuck,alpine marmot,14
+coyote,golden jackal,13
+bobcat,canada lynx,13
+brown hyaena,spotted hyaena,12
+nyala,greater kudu,12
+yellow-bellied marmot,alpine marmot,12
+mountain zebra,grevy's zebra,12
+brown bear,american black bear,11
+leopard,jaguar,11
+yellow-bellied marmot,woodchuck,11
+dingo,grey wolf,10
+domestic sheep,mouflon,10
+eastern gray squirrel,eurasian red squirrel,10
+african elephant,asian elephant,9
+grey wolf,black-backed jackal,9
+asiatic black bear,brown bear,8
+eastern fox squirrel,eastern gray squirrel,8
+eurasian red squirrel,eastern gray squirrel,8
+grey wolf,dingo,8
+red deer,elk,8
+roan antelope,sable antelope,8
+domestic horse,asiatic wild ass,8
+alpine marmot,yellow-bellied marmot,7
+bushbuck,nyala,7
+domestic dog,grey wolf,7
+leopard,snow leopard,7
+dingo,golden jackal,6
+golden jackal,coyote,6
+japanese macaque,macaque species,6
+common eland,nyala,5
+coyote,domestic dog,5
+eurasian red squirrel,eastern fox squirrel,5
+malay tapir,baird's tapir,5
+domestic dog,black-backed jackal,5
+alpine marmot,woodchuck,4
+bongo,greater kudu,4
+coyote,grey wolf,4
+domestic goat,alpine ibex,4
+leopardus species,ocelot,4
+mouflon,bighorn sheep,4
+red-necked wallaby,eastern grey kangaroo,4
+sika deer,elk,4
+springbok,grant's gazelle,4
+domestic dog,dingo,3
+domestic sheep,bighorn sheep,3
+malay tapir,lowland tapir,3
+sable antelope,roan antelope,3
+western gray squirrel,eastern fox squirrel,3
+western gray squirrel,eurasian red squirrel,3
+bushbuck,bongo,3
+black-backed jackal,domestic dog,2
+bushbuck,greater kudu,2
+caracal,bobcat,2
+elk,sika deer,2
+mouflon,domestic sheep,2
+red deer,sika deer,2
+snow leopard,jaguar,2
+thomson's gazelle,grant's gazelle,2
+waterbuck,kob,2
+dingo,black-backed jackal,2
+baird's tapir,malay tapir,1
+black-backed jackal,grey wolf,1
+canada lynx,eurasian lynx,1
+caracal,eurasian lynx,1
+coyote,dingo,1
+domestic dog,coyote,1
+eastern fox squirrel,eurasian red squirrel,1
+eurasian lynx,caracal,1
+golden jackal,grey wolf,1
+nyala,bushbuck,1
+plains zebra,grevy's zebra,1
+plains zebra,mountain zebra,1
+thomson's gazelle,springbok,1
