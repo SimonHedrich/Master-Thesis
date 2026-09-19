@@ -64,6 +64,32 @@ scripts/      — Utility scripts (data exploration, visualization, etc.)
   image/container when something genuinely cannot run in the default one
   (document the reason when you do).
 
+## Version Control
+
+**Commit directly to `main`, then push.** This repo deliberately does not use
+feature branches — in a single-author thesis repo they cost more than they
+return. This overrides the general assistant default of branching before
+committing to a default branch: do not create a branch, and do not ask whether
+to.
+
+- Commit to `main` and `git push origin main` as one step. **This section is
+  standing authorization for that push** — do not stop to confirm it.
+- `git fetch` first if the remote may have moved. If a push is rejected,
+  `git pull --rebase` then push again. Never force-push.
+- Stage only the files belonging to the change at hand. This working tree
+  routinely carries unrelated modified and untracked files — in-flight training
+  run directories, scratch logs, local skill definitions, and sometimes live
+  edits from a concurrent session — and none of those are yours to commit.
+  Check `git status` before staging, and never `git add -A`.
+- Because every commit is pushed immediately, treat it as public and permanent:
+  no credentials, and no large regenerable artifacts (weights, exports,
+  prediction caches — see `.gitignore`).
+- **One exception:** a large, genuinely risky refactor may use a branch. The bar
+  is high — work that could leave `main` broken, or that you expect to need
+  review before it lands. Say out loud that you are branching and why. Anything
+  routine — a fix, a doc, a new script, a results write-up — goes straight to
+  `main`.
+
 ## Thesis Research Context
 
 ### Core Research Question
