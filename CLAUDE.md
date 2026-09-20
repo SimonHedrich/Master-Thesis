@@ -17,20 +17,14 @@ This is a research repository for a Master's Thesis on **optimizing deep learnin
 docs/         — Analysis documents and progress notes produced during the thesis
 research/     — Papers (PDF + Markdown summaries) and literature notes
 resources/    — Raw data files and example images from the AX Visio binocular
-scripts/      — Utility scripts (data exploration, visualization, etc.)
+scripts/      — Utility scripts, organized into subpackages (training, benchmark,
+                literature, thesis, etc.), each with its own README where one exists
+thesis/       — The manuscript (Overleaf-synced), thesis-phase toolchain docs, and
+                writing-process notes
 ```
 
-**Key docs:**
-- `docs/2026-03-09_thesis-overview.md` — High-level research objectives and technical approaches
-- `docs/2026-03-09_hardware-proxy-selection.md` — Why RPi 5 was chosen over alternatives
-- `docs/2026-03-10_object-detection-models-for-embedded-systems.md` — Model architecture analysis
-- `docs/2026-03-12_knowledge_distillation_research_overview.md` — KD approaches and findings
-- `docs/progress_notes/` — Chronological meeting and thinking notes
-
-**Key research:**
-- `research/cv-wildlife-classification-resources.md` — Curated reading list
-- `research/A Review of Real-Time Deep Learning–Based Object Detection Models.md` — Primary survey paper on YOLO/SSD/NanoDet for edge deployment
-- `research/literature/README.md` — Zotero-managed bibliography (`references.bib`), LLM-generated survey summaries, and source PDFs + Markdown extractions (`literature/sources/`)
+`docs/README.md`, `research/README.md`, and `thesis/README.md` are the maintained
+indexes for their directories — check those rather than this file for current contents.
 
 ## Running Code
 
@@ -41,20 +35,18 @@ scripts/      — Utility scripts (data exploration, visualization, etc.)
   `uv run python scripts/<dir>/<N>-<name>.py`
 - Every runnable script's module docstring must state its exact run command in this form.
 - **Exception A:** `scripts/literature/` (Zotero PDF sourcing/extraction pipeline) uses
-  `uv run --script scripts/literature/<N>-<name>.py` (PEP 723 inline dependencies) instead.
-  Plain `uv run` only resolves on Linux here (`pyproject.toml`'s `[tool.uv] environments`
-  restriction, for the training stack), so it doesn't work on macOS outside the container —
-  and this pipeline needs native host access to `~/Zotero`, which isn't mounted into the
-  container. `uv run --script` sidesteps both without touching the shared project lockfile.
-- **Exception B:** `scripts/benchmark/`'s device-side scripts (`2-bench_latency.py`,
-  `3-bench_parity.py`, `pi/monitor.py`, `pi/device_profile.py`) and its host-side
-  `1b-convert_and_verify.py` also use `uv run --script` (PEP 723). The device-side
-  ones run on the Raspberry Pi 400, where `pyproject.toml`'s `pytorch-cu130` torch
-  pin resolves to CUDA SBSA wheels that cannot run on an SBC — and where the repo
-  isn't checked out at all, so they import no project code. `1b-` needs
-  `onnxruntime`/`onnxslim`/`pnnx`, which would otherwise have to be added to the
-  shared lockfile and synced into a venv that is often mid-training.
-  See `scripts/benchmark/README.md`.
+  `uv run --script scripts/literature/<N>-<name>.py` (PEP 723 inline deps) instead — it
+  needs native host access to `~/Zotero` and to run outside the Linux-only container.
+- **Exception B:** `scripts/benchmark/`'s device-side scripts and host-side
+  `1b-convert_and_verify.py` also use `uv run --script` (PEP 723) instead. See
+  `scripts/benchmark/README.md` for which scripts and why.
+
+### Thesis manuscript: Overleaf is the compiler
+The manuscript (`thesis/manuscript/`) is compiled on Overleaf, not in the container.
+Sync it with `make overleaf` (or `make overleaf-push|overleaf-pull|overleaf-status` to
+force a direction), from the repo root and on the designated `thesis/overleaf-sync`
+branch. `OVERLEAF_TOKEN` lives in `.env` and must stay the only copy. See
+`scripts/thesis/README.md` for the full sync behavior.
 
 ### Containers: one image, exec in, then uv
 - `make build` builds the single `training` image; `make run` starts the container and
@@ -92,25 +84,17 @@ to.
 
 ## Thesis Research Context
 
-### Core Research Question
-Does distilling a large teacher model into a lightweight student model yield better results than directly fine-tuning the student on the target wildlife domain — especially given the domain shift from COCO-style classes to animal species?
+The manuscript (`thesis/manuscript/chapters/`, especially Chapter 1 and Chapter 4) is
+now the authoritative statement of the research question, technical approach, and
+findings — read it, not this file, for the current framing. `thesis/README.md` has
+the current draft status per chapter.
 
-### Technical Approach
-1. **Teacher models** (too large for target hardware): YOLOv12, RT-DETR, SpeciesNet, DINOv3
-2. **Student models** (deployable on QCS605): YOLO-nano variants, NanoDet, PicoDet, EfficientDet-Lite
-3. **Pipeline:** Fine-tune teacher on wildlife species → distill into student → quantization-aware training → benchmark on RPi 5 proxy
-
-### Dataset Strategy
-- Primary: [iNaturalist Competition](https://www.kaggle.com/competitions/inaturalist-2021) (open dataset, preferred)
-- Class universe: SpeciesNet taxonomy, filtered to non-bird mammals
-- Species inclusion threshold: Based on GBIF image counts (`resources/GBIF_image_counts.csv`)
-- Geo-filtering: Post-hoc output filter (not model-level input), applied after inference
-
-### Important Constraints
+**Constraints that still apply to any code or writing** (not derivable from the
+manuscript draft or code alone):
 - **YOLOv5 license:** Only commercially usable up to commit `5cdad89` — later commits require additional licensing
 - Run own benchmarks rather than relying on published numbers
 - **Primary evaluation = the mixed (real + synthetic) test set.** The default headline metric is computed over the union of the real test images and the balanced 225×50 synthetic test set. Rationale: the consistent 50 synthetic images/class stabilise evaluation for classes with few or low-quality real photos (Band A), while remaining a negligible, consistent addition for well-resourced classes (Band D, up to 500 real test images). The model must **never** be judged on synthetic images alone. The **real-only breakout** is always reported alongside the mixed headline as the primary-evaluation figure and the anchor for any comparison to public (real-image) benchmarks. The real-vs-synthetic domain-shift delta is monitored as a watchdog: **if a clear discrepancy between the mixed and real (or synthetic and real) results emerges, the default evaluation axes will be revised.** See `docs/plans/2026-06-10_model-evaluation-strategy.md`.
 
 ## Maintaining Documentation
 
-Both `docs/README.md` and `research/README.md` serve as indices — keep them updated whenever files are added to those directories.
+`docs/README.md`, `research/README.md`, and `thesis/README.md` all serve as indices — keep them updated whenever files are added to those directories.
