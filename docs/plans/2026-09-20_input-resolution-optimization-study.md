@@ -197,12 +197,36 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 0 — Arm 1 latency (Pi 400) | ✅ done | 2026-09-20 | 30 new cells, gate PASS ×3; W_e2e 423 / 283 / 180 / **109 ms** at 4 threads |
 | 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
 | 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
-| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC; 852 s/epoch measured → **ETA ~Sep 23 01:00** |
+| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC; **1,012 s/epoch over 5 completed epochs → ETA Sep 23 ~09:00**; full 200 epochs confirmed by the user |
 | 3 — 72 h gate | ⬜ not started | | keep / discard + reason |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-20 18:35 — timing re-measured from completed epochs: 1,012 s/epoch.** Both
+  earlier figures (511 s, then 852 s) came from step-rate windows sampled mid-epoch,
+  and both read optimistic because the page cache was warm over images the previous
+  run had just read. The five completed epochs are 959.9 / 1038.6 / 997.3 / 1001.0 /
+  1062.7 s, mean **1,012 s**. Projection: 56.2 h train + ~7.8 h validation ≈ **64 h**,
+  finishing Sep 23 ~09:00 against a Sep 23 13:00 deadline. **Lesson for the rest of
+  this run: quote timings only from completed epochs, never from a step window.**
+- **2026-09-20 — Arm 2 needs no new on-device benchmark.** Latency depends on
+  architecture and input shape only, never on weight values (`scripts/benchmark/README.md`
+  makes this explicit, and it is why the campaign could benchmark an
+  architecture-only YOLOv5s export). The resolution-native 320 px model has the same
+  architecture and the same 320×320 input as the `yolo26n-direct-res320` export
+  already measured, so its W_infer/W_e2e are the cells already in
+  `latency_summary.csv` (102.5 / 109.0 ms at 4 threads). Arm 2's remaining cost is
+  therefore the full test eval alone (~1–2 h at 320 px) plus regenerating
+  `6-resolution_report.py` — not the ~3–4 h a fresh Pi campaign would take.
+- **2026-09-20 — decision (user): run the full 200 epochs rather than restart.** The
+  alternatives offered were a 160-epoch restart (~17 h margin; a complete annealed
+  OneCycle landing where the 640 px baseline actually peaked — best @ epoch 172, KD
+  best @ 161) and a bs256 restart keeping 200 epochs (~1.4× on the training half, at
+  the cost of LR scaling to √8 ≈ 2.8× against documented AMP instability). The user
+  chose the full 200 epochs, accepting ~4 h of margin. Arm 1 is already complete and
+  committed, so a late failure costs Arm 2 only, not the study.
 
 - **2026-09-20 — corrected projection: ~55.6 h, not 36.7 h.** The 36.7 h figure was
   extrapolated from a 0.42 s/step sample taken over 50 steps immediately after the
