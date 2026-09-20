@@ -197,12 +197,33 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 0 — Arm 1 latency (Pi 400) | ✅ done | 2026-09-20 | 30 new cells, gate PASS ×3; W_e2e 423 / 283 / 180 / **109 ms** at 4 threads |
 | 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
 | 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
-| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC, ETA ~Sep 22 06:00 |
+| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC; 852 s/epoch measured → **ETA ~Sep 23 01:00** |
 | 3 — 72 h gate | ⬜ not started | | keep / discard + reason |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-20 — corrected projection: ~55.6 h, not 36.7 h.** The 36.7 h figure was
+  extrapolated from a 0.42 s/step sample taken over 50 steps immediately after the
+  previous run was killed, with the page cache still warm over the same images.
+  Steady state is **0.70 s/step → 852 s/epoch**, measured over epoch 1 (959.9 s
+  including startup) and mid-epoch-2:
+
+  | | extrapolated | measured |
+  |---|---|---|
+  | train / epoch | 511 s | **852 s** |
+  | train, 200 epochs | 28.4 h | **47.3 h** |
+  | validation, 40 passes | 8.3 h | 8.3 h |
+  | **total** | **36.7 h** | **≈55.6 h** |
+
+  The `--eval-schedule` saving is unaffected (validation cost does not depend on step
+  rate); only the baseline it was subtracted from was wrong. ETA ~Sep 23 01:00
+  against a Sep 23 13:00 deadline — ~12 h of slack for the full-test eval, export,
+  Pi benchmark and write-up. Remaining lever if more margin is needed: GPU
+  utilisation is still only ~50 % at bs128, so bs256 would likely buy another
+  1.3–1.5× on the training half, at the cost of a third restart and pushing LR
+  scaling to √8 ≈ 2.8× — declined for now as the run already fits.
 
 - **2026-09-20 — non-uniform validation schedule (`--eval-schedule 0:20,100:5,150:2`),
   replacing the uniform every-2.** Under OneCycleLR the peak LR anneals toward zero,
