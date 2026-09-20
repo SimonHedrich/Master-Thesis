@@ -191,15 +191,59 @@ Produces the accuracy-vs-latency curve from the **existing**
 
 | Phase | Status | Date | Notes / artefacts |
 |---|---|---|---|
-| A — plan document | ✅ done | 2026-09-20 | this file; indexed in `docs/README.md` |
-| 0 — Arm 1 accuracy (GPU) | ⬜ not started | | mAP at 320/416/512/640, `--limit 8000` |
-| 0 — Arm 1 latency (Pi 400) | ⬜ not started | | `W_infer`/`W_e2e` at 320/416/512 |
-| 1 — probe + go/no-go | ⬜ not started | | measured s/epoch, chosen batch size |
-| 2 — 200-epoch run @ 320 px | ⬜ not started | | run dir, epochs reached |
+| A — plan document | ✅ done | 2026-09-20 | this file; indexed in `docs/README.md`; commit `13b1ea4` |
+| — code plumbing | ✅ done | 2026-09-20 | `--image-size` on training + eval suite, 320/416/512 export specs, 2 latent bugs fixed; commit `296e0e9` |
+| 0 — Arm 1 accuracy (GPU) | ✅ done | 2026-09-20 | mixed mAP 0.6134 / 0.5799 / 0.5379 / 0.4609 at 640/512/416/320 |
+| 0 — Arm 1 latency (Pi 400) | ✅ done | 2026-09-20 | 30 new cells, gate PASS ×3; W_e2e 423 / 283 / 180 / **109 ms** at 4 threads |
+| 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
+| 1 — probe + go/no-go | 🔄 in progress | 2026-09-20 | 0.20 s/step idle at 320 px/bs32 → ~16 min/epoch train; awaiting a measured full epoch |
+| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs32-20260920-160041`, started 16:00 UTC |
 | 3 — 72 h gate | ⬜ not started | | keep / discard + reason |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
-| Incidental — `MAP_SOURCES` fix | ⬜ not started | | regenerated `embedded_latency_vs_map.png` |
+| Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
 
-_(none yet)_
+- **2026-09-20 — Arm 1 results.** One 640-px-trained checkpoint, four inference
+  resolutions, fixed subsample, Pi 400 @ 4 threads:
+
+  | Input | GFLOPs | W_e2e (ms) | QCS605 est. | RSS (MB) | mixed mAP | real mAP | Δ real |
+  |---:|---:|---:|---:|---:|---:|---:|---:|
+  | 640 | 6.81 | 423.5 | 360–381 | 284 | 0.6134 | 0.5483 | — |
+  | 512 | 4.33 | 283.1 | 241–255 | 260 | 0.5799 | 0.5044 | −8.0 % |
+  | 416 | 2.85 | 179.8 | 153–162 | 241 | 0.5379 | 0.4529 | −17.4 % |
+  | 320 | 1.68 | 109.0 | 93–98 | 226 | 0.4609 | 0.3541 | −35.4 % |
+
+  Latency tracks (res/640)² almost exactly, confirming the forward pass is
+  compute-bound on this core. Reducing input 640→320 buys a **3.9× latency
+  reduction** and moves the QCS605 projection from ~12× over the 30 ms target to
+  ~3×; memory was never the binding constraint. Without retraining it costs 35 %
+  of real-only mAP — which is the upper bound Arm 2 exists to beat.
+- **2026-09-20 — Phase 1 merged into Phase 2's first epochs.** Rather than a separate
+  2-epoch probe run followed by a fresh start, the real 200-epoch run was started and
+  its own first epochs are the timing measurement. The run is resumable and abortable,
+  so a separate probe would only have cost ~40 min of the budget. The go/no-go
+  thresholds are applied unchanged.
+
+- **2026-09-20 — Phase 0 step 2: proportional subsample instead of `--limit 8000`.**
+  `--limit N` applies the same N to *both* domains, which would have shifted the mixed
+  real:synth image ratio from the full test set's 85:15 to 50:50 and made the `mixed`
+  aggregate incomparable to the published headline. Replaced with two fixed-seed (42)
+  standalone annotation files built once and reused unchanged at every resolution:
+  `data/_resolution_sweep/annotations_test_real_8k.json` (8,000 of 63,802 real) and
+  `annotations_test_synth_prop.json` (1,411 of 11,250 synthetic), preserving the ratio.
+- **2026-09-20 — the subsample carries a small constant optimistic offset.** The 640 px
+  control scores **0.6134 mixed / 0.5483 real** on it, against the published full-test
+  **0.5989 / 0.5292** (+0.015 / +0.019). Expected for 8,000-image per-class AP. It is
+  constant across resolutions and therefore cancels in the curve, but the curve's
+  absolute values must **not** be quoted alongside full-test numbers.
+- **2026-09-20 — the resolution curve gets its own figure**, not
+  `embedded_latency_vs_map.png` as Phase 4 step 12 originally implied. That figure's
+  points are full-test mAP; mixing subsample mAP into it would be inconsistent. The
+  incidental `MAP_SOURCES` fix still lands in it, unchanged.
+- **2026-09-20 — two latent bugs found and fixed while wiring the study** (commit
+  `296e0e9`), both of which would have produced wrong numbers rather than an error:
+  `_run_full_evaluation` did not pass `image_size` (a 320 px model would have been
+  scored at 640 after training), and `4-score_parity.py` built its host reference at
+  the training `IMAGE_SIZE` rather than the model spec's (any reduced-resolution
+  export would have been reported as a parity failure that was an artefact).
