@@ -115,6 +115,11 @@ EARLY_STOP = True
 # ~12.5 min regardless of image size or batch size, so N>1 is the only lever on
 # it. With N>1, EARLY_STOP_PATIENCE counts evaluations, not epochs.
 EVAL_EVERY = 1
+# Optional non-uniform schedule: [(start_epoch, every), ...], last match wins.
+# None = use EVAL_EVERY uniformly. Under OneCycleLR the LR anneals toward zero,
+# so late epochs are where best.pt is actually decided — spend the validation
+# budget there rather than uniformly.
+EVAL_SCHEDULE = None
 
 EARLY_STOP_PATIENCE = 20  # epochs without improvement before stopping
 EARLY_STOP_MIN_DELTA = 0.001  # min metric gain to count as an improvement (filters noise)

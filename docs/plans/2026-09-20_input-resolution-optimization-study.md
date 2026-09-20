@@ -197,12 +197,34 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 0 — Arm 1 latency (Pi 400) | ✅ done | 2026-09-20 | 30 new cells, gate PASS ×3; W_e2e 423 / 283 / 180 / **109 ms** at 4 threads |
 | 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
 | 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
-| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-164041`, started 16:40 UTC, ETA ~Sep 22 18:00 |
+| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC, ETA ~Sep 22 06:00 |
 | 3 — 72 h gate | ⬜ not started | | keep / discard + reason |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-20 — non-uniform validation schedule (`--eval-schedule 0:20,100:5,150:2`),
+  replacing the uniform every-2.** Under OneCycleLR the peak LR anneals toward zero,
+  so essentially all late improvement — the part that decides `best.pt` and whether
+  the curve has plateaued — lands in the final third. A uniform interval spends most
+  of the validation budget at epochs from which no checkpoint will ever be selected.
+  The schedule validates at epochs 20/40/60/80/100, then every 5th to 150, then every
+  2nd to 200: **40 evaluations instead of 100**, 8.3 h of scoring instead of 20.9 h.
+
+  | | uniform every-2 | scheduled |
+  |---|---|---|
+  | evaluations | 100 | **40** |
+  | validation time | 20.9 h | **8.3 h** |
+  | projected total | 49.2 h | **≈36.7 h** |
+
+  Verified before restarting: the schedule yields exactly 40 evaluations with the
+  final epoch always included, and both pre-existing paths (no schedule, and a
+  uniform `eval_every`) are bit-identical to before. Known cost: a divergence
+  between two evaluations is visible only in the train loss until the next one —
+  acceptable, since the train loss is logged every `LOG_EVERY_N_STEPS` steps
+  regardless. Also note `best.pt` does not exist until epoch 20; `last.pt` is still
+  written every epoch, so a crash before then is still resumable.
 
 - **2026-09-20 — the go/no-go rule failed at bs32, and the fix was not the one the
   rule anticipated.** Measured epoch 1 of `yolo26n-res320-bs32-20260920-160041`:

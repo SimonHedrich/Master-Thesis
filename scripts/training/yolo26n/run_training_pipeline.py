@@ -257,6 +257,7 @@ def training_run(
         use_ema=constants.USE_EMA,
         use_amp=constants.USE_AMP,
         eval_every=constants.EVAL_EVERY,
+        eval_schedule=constants.EVAL_SCHEDULE,
         resume_from=resume_from,
         evaluate_fn=evaluate,
         eval_log_mlflow_fn=eval_log_mlflow,
@@ -355,6 +356,17 @@ if __name__ == "__main__":
         "EVALUATIONS, not epochs. Unset = every epoch.",
     )
     parser.add_argument(
+        "--eval-schedule",
+        type=str,
+        default=None,
+        help="Non-uniform validation schedule as 'START:EVERY[,START:EVERY...]', "
+        "e.g. '0:20,100:5,150:2' = every 20th epoch up to 100, every 5th to 150, "
+        "every 2nd after. Last matching entry wins; the final epoch is always "
+        "evaluated. Overrides --eval-every. Under OneCycleLR nearly all late "
+        "improvement lands in the final third, so a uniform interval spends most "
+        "of the validation budget where no checkpoint will ever be selected.",
+    )
+    parser.add_argument(
         "--lr-scale",
         type=float,
         default=None,
@@ -384,6 +396,20 @@ if __name__ == "__main__":
         if args.eval_every < 1:
             parser.error(f"--eval-every must be >= 1, got {args.eval_every}")
         constants.EVAL_EVERY = args.eval_every
+    if args.eval_schedule is not None:
+        try:
+            sched = []
+            for part in args.eval_schedule.split(","):
+                start, every = part.split(":")
+                sched.append((int(start), int(every)))
+        except ValueError:
+            parser.error(
+                f"--eval-schedule must be 'START:EVERY[,START:EVERY...]', got "
+                f"{args.eval_schedule!r}"
+            )
+        if not sched or any(st < 0 or ev < 1 for st, ev in sched):
+            parser.error(f"--eval-schedule entries need START>=0 and EVERY>=1: {sched}")
+        constants.EVAL_SCHEDULE = sorted(sched)
     if args.lr_scale is not None:
         if args.lr_scale <= 0:
             parser.error(f"--lr-scale must be > 0, got {args.lr_scale}")
@@ -430,12 +456,13 @@ if __name__ == "__main__":
     logger.info("run dir: %s", run_dir)
     logger.info("log file: %s", log_file)
     logger.info(
-        "image_size=%d (default %d) num_workers=%d eval_every=%d "
+        "image_size=%d (default %d) num_workers=%d eval_every=%d eval_schedule=%s "
         "lr=%g one_cycle_max_lr=%g (lr_scale=%s)",
         constants.IMAGE_SIZE,
         default_image_size,
         constants.NUM_WORKERS,
         constants.EVAL_EVERY,
+        constants.EVAL_SCHEDULE,
         constants.LEARNING_RATE,
         constants.ONE_CYCLE_MAX_LR,
         args.lr_scale if args.lr_scale is not None else "1.0 (unset)",

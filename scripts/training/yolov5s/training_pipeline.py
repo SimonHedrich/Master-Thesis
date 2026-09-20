@@ -47,6 +47,7 @@ class TrainingPipeline:
         use_ema: bool,
         use_amp: bool,
         eval_every: int = 1,
+        eval_schedule: "list[tuple[int, int]] | None" = None,
         resume_from: Path | None = None,
         evaluate_fn=None,
         eval_log_mlflow_fn=None,
@@ -91,6 +92,15 @@ class TrainingPipeline:
         # clock; patience is then counted in EVALUATIONS, not epochs. The final
         # epoch is always evaluated so best.pt reflects the end of the schedule.
         self.eval_every = max(1, int(eval_every))
+        # A *schedule* generalises that: [(start_epoch, every), ...], the last
+        # matching entry winning. Under OneCycleLR the LR anneals toward zero, so
+        # essentially all late improvement — the part that decides best.pt and
+        # whether the curve has plateaued — is concentrated in the final third.
+        # Validating densely at epoch 40 buys nothing; validating densely at
+        # epoch 180 is what the run is judged on. Caveat: a divergence between
+        # two evaluations is only visible in the train loss until the next one,
+        # which is logged every LOG_EVERY_N_STEPS steps regardless.
+        self.eval_schedule = sorted(eval_schedule) if eval_schedule else None
 
         # Training-quality add-ons. AMP is CUDA-only; it degrades to a no-op on CPU
         # (e.g. smoke runs on a machine without a GPU) so the code path stays single.
@@ -117,6 +127,19 @@ class TrainingPipeline:
             self.ema is not None,
             self.use_amp,
         )
+
+    def _eval_interval(self, epoch: int) -> int:
+        """Validation interval in force at *epoch* (schedule wins over eval_every)."""
+        if not self.eval_schedule:
+            return self.eval_every
+        every = self.eval_every
+        for start, n in self.eval_schedule:
+            if epoch >= start:
+                every = n
+        return max(1, every)
+
+    def _should_evaluate(self, epoch: int) -> bool:
+        return (epoch + 1) % self._eval_interval(epoch) == 0
 
     def _eval_model(self) -> torch.nn.Module:
         """The weights to evaluate / checkpoint: EMA copy if enabled, else raw."""
@@ -312,16 +335,16 @@ class TrainingPipeline:
             self._train_one_epoch(epoch)
 
             is_last = epoch == self.epochs - 1
-            if self.eval_every > 1 and not is_last and (epoch + 1) % self.eval_every:
+            if not is_last and not self._should_evaluate(epoch):
                 # Skipped-eval epoch: no metric, so no best.pt update and no
                 # patience movement. last.pt is still refreshed so a crash here
                 # leaves a current resume point.
                 self._save_checkpoint("last.pt")
                 logger.info(
-                    "epoch %d/%d done — validation skipped (eval_every=%d), next lr=%g",
+                    "epoch %d/%d done — validation skipped (every %d here), next lr=%g",
                     epoch + 1,
                     self.epochs,
-                    self.eval_every,
+                    self._eval_interval(epoch),
                     self.optimizer.param_groups[0]["lr"],
                 )
                 continue
