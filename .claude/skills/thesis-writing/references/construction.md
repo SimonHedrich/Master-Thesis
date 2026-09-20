@@ -108,7 +108,9 @@ own most recent writing.** They are a floor already reached, not a new register.
 A sentence over 55 words is almost always a paragraph that lost its punctuation. Clause-length
 measurement shows why it is fixable: only 2.5% of sentences contain a single clause over 55
 words, against 18.3% of sentences over 55 words overall. The long sentences are long by
-*accumulation*, and the split points are already marked with semicolons, colons and dashes.
+*accumulation*, and the split points are already marked with colons, semicolons and dashes —
+turn each one into a full stop rather than keeping the semicolon or dash as the joiner; see
+`conflicts.md` §3.
 
 ### 2.2 Paragraph length
 
