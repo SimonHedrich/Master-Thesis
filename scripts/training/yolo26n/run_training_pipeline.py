@@ -256,6 +256,7 @@ def training_run(
         early_stop_min_delta=constants.EARLY_STOP_MIN_DELTA,
         use_ema=constants.USE_EMA,
         use_amp=constants.USE_AMP,
+        eval_every=constants.EVAL_EVERY,
         resume_from=resume_from,
         evaluate_fn=evaluate,
         eval_log_mlflow_fn=eval_log_mlflow,
@@ -343,6 +344,26 @@ if __name__ == "__main__":
         help="Override constants.NUM_WORKERS. Throughput only — changes no "
         "optimization math. Unset = use constants.NUM_WORKERS.",
     )
+    parser.add_argument(
+        "--eval-every",
+        type=int,
+        default=None,
+        help="Run the per-epoch validation pass every Nth epoch instead of every "
+        "epoch (the final epoch is always evaluated). The val pass is dominated by "
+        "single-threaded 225-class mAP scoring that costs the same regardless of "
+        "image size or batch size. With N>1, early-stop patience counts "
+        "EVALUATIONS, not epochs. Unset = every epoch.",
+    )
+    parser.add_argument(
+        "--lr-scale",
+        type=float,
+        default=None,
+        help="Multiply LEARNING_RATE and ONE_CYCLE_MAX_LR by this factor. Use when "
+        "changing --batch-size: with no gradient accumulation, a larger batch means "
+        "proportionally fewer optimizer steps at the same step size, which "
+        "undertrains unless the LR is scaled with it. sqrt(batch ratio) is the "
+        "conservative choice, linear the SGD convention.",
+    )
     args = parser.parse_args()
     smoke = args.smoke
     default_image_size = constants.IMAGE_SIZE
@@ -359,6 +380,15 @@ if __name__ == "__main__":
         constants.IMAGE_SIZE = args.image_size
     if args.num_workers is not None:
         constants.NUM_WORKERS = args.num_workers
+    if args.eval_every is not None:
+        if args.eval_every < 1:
+            parser.error(f"--eval-every must be >= 1, got {args.eval_every}")
+        constants.EVAL_EVERY = args.eval_every
+    if args.lr_scale is not None:
+        if args.lr_scale <= 0:
+            parser.error(f"--lr-scale must be > 0, got {args.lr_scale}")
+        constants.LEARNING_RATE *= args.lr_scale
+        constants.ONE_CYCLE_MAX_LR *= args.lr_scale
     if args.resume_from is not None and not args.resume_from.is_file():
         parser.error(f"--resume-from checkpoint not found: {args.resume_from}")
 
@@ -400,10 +430,15 @@ if __name__ == "__main__":
     logger.info("run dir: %s", run_dir)
     logger.info("log file: %s", log_file)
     logger.info(
-        "image_size=%d (default %d) num_workers=%d",
+        "image_size=%d (default %d) num_workers=%d eval_every=%d "
+        "lr=%g one_cycle_max_lr=%g (lr_scale=%s)",
         constants.IMAGE_SIZE,
         default_image_size,
         constants.NUM_WORKERS,
+        constants.EVAL_EVERY,
+        constants.LEARNING_RATE,
+        constants.ONE_CYCLE_MAX_LR,
+        args.lr_scale if args.lr_scale is not None else "1.0 (unset)",
     )
 
     try:

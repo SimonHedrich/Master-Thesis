@@ -196,13 +196,63 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 0 — Arm 1 accuracy (GPU) | ✅ done | 2026-09-20 | mixed mAP 0.6134 / 0.5799 / 0.5379 / 0.4609 at 640/512/416/320 |
 | 0 — Arm 1 latency (Pi 400) | ✅ done | 2026-09-20 | 30 new cells, gate PASS ×3; W_e2e 423 / 283 / 180 / **109 ms** at 4 threads |
 | 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
-| 1 — probe + go/no-go | 🔄 in progress | 2026-09-20 | 0.20 s/step idle at 320 px/bs32 → ~16 min/epoch train; awaiting a measured full epoch |
-| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs32-20260920-160041`, started 16:00 UTC |
+| 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
+| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-164041`, started 16:40 UTC, ETA ~Sep 22 18:00 |
 | 3 — 72 h gate | ⬜ not started | | keep / discard + reason |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-20 — the go/no-go rule failed at bs32, and the fix was not the one the
+  rule anticipated.** Measured epoch 1 of `yolo26n-res320-bs32-20260920-160041`:
+  **1,476.7 s train + 751 s validate = 37.1 min/epoch → 124 h for 200 epochs**,
+  against ~69 h remaining. Phase 1's rule said 60–70 h → raise the batch size; this
+  was far past even that, and batch size alone could not have fixed it:
+
+  - **The validation pass is the hidden fixed cost.** It is dominated by
+    single-threaded 225-class mAP scoring — one process at 106 % CPU with the
+    machine 93 % idle and no IO wait — and it costs the *same* ~12.5 min at 320 px
+    as the 13–16 min the 640 px run spent. Resolution does not touch it. Across 200
+    epochs that is **43 h of pure scoring**, independent of every other knob.
+  - **Training was latency-bound, not compute- or data-bound.** At bs32: GPU
+    14–27 %, whole machine 21 % CPU, 48 dataloader workers averaging 8 % each, zero
+    IO wait — *nothing* saturated. A 2.71M-param model fed 32 images per step
+    spends its time in per-step Python and kernel-launch overhead. This is the
+    regime where a larger batch pays, and the 640 px runs already showed it
+    (bs64 was 1.7× more efficient per image than bs32).
+
+  Re-specced and restarted with three changes, at the user's explicit preference
+  for shorter wall clock over an exact batch-size match:
+
+  | | before | after |
+  |---|---|---|
+  | batch size | 32 | **128** (2.3 → 7.6 GB of 24 GB) |
+  | `ONE_CYCLE_MAX_LR` | 0.01 | **0.02** |
+  | validation | every epoch | **every 2nd epoch** |
+  | throughput | 105 img/s | **305 img/s (2.9×)** |
+  | projected 200 epochs | 124 h | **≈49 h** |
+
+  **Why the LR moved with the batch:** the pipeline has no gradient accumulation and
+  does not scale LR with batch size, so 4× the batch at an unchanged peak LR means
+  4× fewer optimizer steps at the same step size — it would undertrain. Scaled by
+  the conservative √ rule (×2) rather than linear (×4), because the teacher run has
+  a documented history of AMP instability at high LR. With `eval_every=2`,
+  `EARLY_STOP_PATIENCE=20` now counts **evaluations**, i.e. 40 epochs — more
+  tolerant, not less.
+
+  **Comparability impact:** the 640 px baseline used effective batch 32, so batch
+  size is now a second changed variable alongside resolution. This is an accepted
+  cost — `scripts/training/yolo26n/README.md`'s comparability contract explicitly
+  exempts `BATCH_SIZE` and requires only that it be logged, and the Aug-25 KD run
+  already used 64 against the same baseline. The study's reported axis is latency,
+  which is weight-independent and wholly unaffected. It must be stated in the
+  write-up.
+- **2026-09-20 — corrected a stale comment in `scripts/training/yolo26n/constants.py`**
+  claiming the applied LR schedule comes from `yolov5s.constants`. It does not —
+  `run_training_pipeline.py` passes yolo26n's own values explicitly. Had the comment
+  been right, `--lr-scale` would have been a silent no-op that still logged the
+  scaled value to MLflow.
 
 - **2026-09-20 — Arm 1 results.** One 640-px-trained checkpoint, four inference
   resolutions, fixed subsample, Pi 400 @ 4 threads:

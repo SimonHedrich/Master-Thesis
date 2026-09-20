@@ -46,6 +46,7 @@ class TrainingPipeline:
         early_stop_min_delta: float,
         use_ema: bool,
         use_amp: bool,
+        eval_every: int = 1,
         resume_from: Path | None = None,
         evaluate_fn=None,
         eval_log_mlflow_fn=None,
@@ -83,6 +84,13 @@ class TrainingPipeline:
         self.early_stop = early_stop
         self.early_stop_patience = early_stop_patience
         self.early_stop_min_delta = early_stop_min_delta
+        # Validate every Nth epoch instead of every epoch. The per-epoch val pass
+        # is dominated by the single-threaded 225-class mAP scoring, which costs
+        # the same ~13 min regardless of image size or batch size — 43 h across a
+        # 200-epoch run. N>1 trades checkpoint-selection granularity for wall
+        # clock; patience is then counted in EVALUATIONS, not epochs. The final
+        # epoch is always evaluated so best.pt reflects the end of the schedule.
+        self.eval_every = max(1, int(eval_every))
 
         # Training-quality add-ons. AMP is CUDA-only; it degrades to a no-op on CPU
         # (e.g. smoke runs on a machine without a GPU) so the code path stays single.
@@ -302,6 +310,21 @@ class TrainingPipeline:
                 _ds.set_epoch(epoch, self.epochs)
 
             self._train_one_epoch(epoch)
+
+            is_last = epoch == self.epochs - 1
+            if self.eval_every > 1 and not is_last and (epoch + 1) % self.eval_every:
+                # Skipped-eval epoch: no metric, so no best.pt update and no
+                # patience movement. last.pt is still refreshed so a crash here
+                # leaves a current resume point.
+                self._save_checkpoint("last.pt")
+                logger.info(
+                    "epoch %d/%d done — validation skipped (eval_every=%d), next lr=%g",
+                    epoch + 1,
+                    self.epochs,
+                    self.eval_every,
+                    self.optimizer.param_groups[0]["lr"],
+                )
+                continue
 
             # Evaluate the EMA weights (smoother, published-quality) when EMA is on.
             val_result = self._evaluate(

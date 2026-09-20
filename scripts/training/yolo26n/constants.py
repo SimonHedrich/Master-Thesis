@@ -80,9 +80,11 @@ SEED = 42
 # ─── Scheduler (OneCycleLR, kept identical to yolov5s for comparability) ─────
 # Warmup → peak → cosine annealing, stepped every batch. model_optimizer/
 # model_scheduler are re-exported from yolov5s_model.py (see yolo26n_model.py),
-# so the values actually applied come from yolov5s.constants, not these — these
-# are mirrored here (like LEARNING_RATE/MOMENTUM above) so as_dict() logs the
-# real schedule to MLflow. Keep in sync with yolov5s/constants.py.
+# but they take every hyperparameter as an explicit argument and read no
+# constants module of their own — run_training_pipeline.py passes THESE values
+# (see its model_optimizer/model_scheduler call site). Verified 2026-09-20; an
+# earlier version of this comment claimed yolov5s.constants won, which would
+# have made --lr-scale a silent no-op. Keep in sync with yolov5s/constants.py.
 
 WARMUP_EPOCHS = 3  # early-stop patience gating; also sets ONE_CYCLE_PCT_START
 ONE_CYCLE_MAX_LR = 1e-2          # peak LR (10× LEARNING_RATE; super-convergence)
@@ -108,6 +110,12 @@ HYP_DFL = 1.5  # distribution focal loss gain (numerically near-inert: reg_max=1
 
 SELECTION_METRIC = "mAP50_95"  # one of the keys returned by evaluate(): "mAP50" | "mAP50_95"
 EARLY_STOP = True
+# Validate every Nth epoch. 1 = every epoch (the 640 px runs' behaviour).
+# The val pass is dominated by single-threaded 225-class mAP scoring that costs
+# ~12.5 min regardless of image size or batch size, so N>1 is the only lever on
+# it. With N>1, EARLY_STOP_PATIENCE counts evaluations, not epochs.
+EVAL_EVERY = 1
+
 EARLY_STOP_PATIENCE = 20  # epochs without improvement before stopping
 EARLY_STOP_MIN_DELTA = 0.001  # min metric gain to count as an improvement (filters noise)
 
