@@ -1,0 +1,205 @@
+# Input-Resolution Optimization Study — the final training run
+
+**Date:** 2026-09-20
+**Status:** In progress — see the Progress log at the end of this document.
+**Feeds:** `thesis/manuscript/chapters/4-Results.tex` §`sec:results_resolution_tradeoff` (new),
+§`sec:results_embedded_benchmark` (figure repoint), `5-Discussion_and_Conclusion.tex` §Further Work
+**Related:** `docs/2026-03-10_object-detection-models-for-embedded-systems.md` (the candidate
+universe), `docs/2026-09-18_embedded-benchmark-results.md` (the measured baseline this study
+extends), `docs/plans/2026-09-17_on-device-benchmarking-plan.md` (the harness reused here)
+
+---
+
+## 0. Context
+
+Three days of wall-clock remain before all numbers must be frozen. Four models are already
+trained: YOLO26n (direct fine-tune, and KD — the post-Band-A-fix KD run is still executing on
+`gpu-server`), YOLOv5s, and the fine-tuned MegaDetector+SpeciesNet teacher.
+
+The question this document answers: **can any other model from
+`docs/2026-03-10_object-detection-models-for-embedded-systems.md` be (1) fine-tuned in the
+remaining time and (2) contribute a research aspect the thesis does not already have?**
+
+**Answer: no other architecture clears both bars.** The binding constraint is not engineering
+effort — it is that no 640 px detector can complete the 200-epoch protocol on this dataset in
+72 h. What *does* fit, and supplies the aspect the thesis is currently missing entirely, is a
+**reduced-input-resolution YOLO26n (320 px)**.
+
+### 0.1 The time arithmetic that disqualifies every architecture candidate
+
+Measured epoch times on the full 155,808-image training set, read from the run logs:
+
+| Run | Setting | s/epoch (train) | Wall clock |
+|---|---|---:|---|
+| `yolo26n-bs32-20260910-212812` | 640 px, effective bs 32 | 2,024–4,896 | 193 epochs / **8.9 d** |
+| `yolo26n-kd-20260825-164250` | 640 px, bs 64 (fastest ever observed) | 1,180–1,220 | 182 epochs / **4.45 d** |
+| `yolov5s-20260909-230900` | 640 px, bs 32 | 1,666–1,994 | 200 epochs / **4.96 d** |
+
+200 epochs in 72 h requires **≤ ~1,150 s/epoch including the per-epoch validation pass**. The
+fastest 640 px epoch ever recorded on this hardware is ~1,200 s of *training alone*. Therefore
+no new 640 px model — YOLO11n, YOLOv12n, DAMO-YOLO-T, EfficientDet-Lite0, anything — can finish
+the standard protocol in the window.
+
+This matters because of the acceptance rule set for this run: at the 72 h mark the validation
+curve is inspected and the run is kept only if it has substantially plateaued. A 640 px run
+would sit at roughly epoch 50–120 of 200 with the OneCycle LR still near its maximum and
+nowhere near annealed — i.e. it would be discarded, and the three days would yield nothing.
+
+### 0.2 Candidate-by-candidate verdict
+
+| Candidate | (1) Trainable in 3 d? | (2) New research aspect? | Verdict |
+|---|---|---|---|
+| **YOLO11n / YOLOv12n** | **No** — 640 px ⇒ 5–9 GPU-days. The engineering itself is cheap: a `DetectionModel(cfg="yolo11.yaml")` swap, and `KDv8DetectionLoss` in `scripts/training/yolo26n/kd_loss.py` already exists for single-head detectors, with the NMS eval path already present in `yolov5s/evaluation.py` | Yes — would replicate the KD-vs-FT result on a single-head architecture, testing whether YOLO26n's negative KD result is an artefact of `KD_APPLY_TO="one2one"` diluting the teacher blend across E2ELoss's dual heads. But that needs **two** matched runs (FT + KD) = 10–18 GPU-days | **Reject** — the strongest scientific complement, but two 640 px runs. Record as Further Work |
+| **NanoDet-Plus-m** | **No** — not on PyPI (verified); external repo pinned to pytorch-lightning <2.0 against this project's Python 3.13 / torch 2.11. Port + dataset adapter + eval adapter before a single epoch runs | Yes — the only shortlisted model with a published sub-30 ms ARM figure (19.77 ms via NCNN) | **Reject** — already recorded as "no pipeline in this repo at all" in `docs/synthetic-model-comparison/11_detector-architecture-selection.md` |
+| **PicoDet-S** | **No** — `paddlepaddle` + `paddledet` *do* resolve on Python 3.13 (verified), but it is an entirely separate training framework, config system and export path | Yes — fastest recorded ARM CPU inference (4.8 ms @ 320 px) | **Reject** — framework risk far exceeds the window |
+| **EfficientDet-Lite0** | Marginal — `effdet` resolves and is PyTorch/timm-native and COCO-native, but it is still a new training loop at 640 px-class cost | **Weak** — 25.7 COCO mAP; duplicates the "legacy stable baseline" role YOLOv5s already fills | **Reject** |
+| **RT-DETRv2 / any DETR** | **No** — DETRs need long schedules to converge | No — the source document already rejects transformers for the Hexagon 685 (no LayerNorm/MHA instruction support) | **Reject** |
+| **MobileNetV3-SSD** | Marginal | No — "extremely low relative accuracy", superseded by anchor-free methods | **Reject** |
+| **YOLO26n @ 320 px** | **Yes** — 4× fewer FLOPs per image; projected ~700 s/epoch ⇒ 200 epochs in ~40 h. Zero new architecture code: `IMAGE_SIZE` is a single constant accessed attribute-style (`constants.IMAGE_SIZE`) everywhere, and `scripts/benchmark/constants.py` already carries per-model `image_size` entries (640/480/1280) | **Yes** — §0.3 | **Recommended — this document** |
+
+### 0.3 Why input resolution is the aspect that is actually missing
+
+The thesis is titled around *optimizing* detection models for real-time embedded inference, and
+as of today it contains **no successful optimization result**:
+
+- KD changed latency not at all (401 ms direct-FT vs 419 ms KD `W_infer` on the Pi 400) and did
+  not beat the direct-FT baseline on accuracy.
+- QAT was never carried out (`TODO.md` §5.1) and is itself named "the single largest lever on
+  the headline result".
+- `docs/2026-09-18_embedded-benchmark-results.md`: **nothing meets ≤30 ms** — YOLO26n is ~12×
+  over budget.
+
+Input resolution is the one classical optimization lever that is both affordable in the
+remaining window and measurable end-to-end on hardware that is currently reachable. It converts
+"nothing is close to the target" into a measured accuracy-vs-latency curve with a defensible
+operating point — which is what an embedded-optimization thesis needs in place of a single
+failed point estimate. It is also a properly *controlled* experiment: same architecture, same
+data, same 200-epoch protocol, one variable changed.
+
+The study has two arms:
+
+- **Arm 1 — no retraining.** The existing 640 px checkpoint evaluated and benchmarked at
+  320/416/512/640. Cheap, and it is a complete deliverable on its own.
+- **Arm 2 — resolution-native training.** YOLO26n trained from COCO at 320 px under the
+  standard protocol, showing how much of Arm 1's accuracy loss native training recovers.
+
+Arm 1 is executed first precisely so that a thesis result exists even if Arm 2 is discarded at
+the 72 h gate.
+
+---
+
+## Phase A — this document
+
+Write this plan to `docs/plans/`, add it to the `docs/README.md` index, commit to `main`.
+The Progress log at the end is the single place execution state is recorded: update it at the
+end of every phase, and append any deviation from the plan (a go/no-go branch taken, an abort,
+a changed batch size) as a dated bullet beneath it.
+
+## Phase 0 — Arm 1, the guaranteed deliverable (~3 h, no training)
+
+Produces the accuracy-vs-latency curve from the **existing**
+`scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/best.pt`.
+
+1. Add `--image-size` to `scripts/training/yolo26n/eval_suite/run_evaluation.py` — an argparse
+   flag feeding the existing `image_size` parameter (line 99). It is already threaded through
+   to `predict.py`, and `predict.py` writes `image_size` into its cache manifest, so resolution
+   variants will not collide in the prediction cache.
+2. Evaluate the 640 px checkpoint at inference resolutions **320 / 416 / 512**, with
+   `--limit 8000` per domain to hold each pass to roughly 20 minutes. Re-score **640 at the
+   same `--limit`** so all four points share an identical subsample (the published full-test
+   figures of 0.599 mixed / 0.529 real stay the headline; this subsample is only for the curve).
+3. On the Pi 400: add 320/416/512 entries for `yolo26n-direct` to
+   `scripts/benchmark/constants.py`, re-run `scripts/benchmark/1-export_models.py`, then
+   `scripts/benchmark/pi/run_all.sh`. This runs entirely off the A40, so it does not contend
+   with Phase 2. ONNX Runtime only — multi-threaded TorchScript SIGILLs on YOLO26n on this core
+   (`reports/embedded_benchmark/torchscript_sigill_finding.md`).
+
+## Phase 1 — timing probe and go/no-go (~1 h)
+
+4. Add `--image-size` to `scripts/training/yolo26n/run_training_pipeline.py`, implemented as
+   `constants.IMAGE_SIZE = args.image_size` at the top of `main()`. Verified safe: every read is
+   attribute-style (`yolo26n_model.py:90`, `evaluation.py:89-92`,
+   `run_training_pipeline.py:120/127/142`) and happens inside functions, so the mutation
+   propagates. Log the effective value in the run config dump.
+5. Run `smoke_test_loss_and_decode`, then `run_training_pipeline --smoke --image-size 320`.
+6. Raise `NUM_WORKERS` 8 → 16 for this run. The A40 box has 24 cores and is idle; the historical
+   4× spread in epoch times is co-tenancy, and these runs are partly dataloader-bound. This
+   changes throughput only, not the optimization math.
+7. Time 2 real epochs. **Go/no-go rule, applied without further consultation:**
+   - projected 200-epoch wall clock **≤ 60 h** → proceed at `--batch-size 32`, matching the
+     640 px baseline exactly so that resolution is the only changed variable;
+   - **60–70 h** → switch to `--batch-size 64`. `scripts/training/yolo26n/README.md`'s
+     comparability contract explicitly exempts `BATCH_SIZE` and requires only that it be
+     logged, and the Aug-25 KD run used 64, so there is precedent;
+   - **> 70 h** → abort Arm 2, keep Phase 0 as the deliverable, and report that outcome.
+
+## Phase 2 — the run (~40–60 h)
+
+8. `EPOCH_COUNT=200`, early-stop patience 20, `SEED=42`, all `AUG_*` values and eval thresholds
+   untouched. Run directory `yolo26n-320-<timestamp>`.
+
+   ```bash
+   nohup docker exec training-container env PYTHONPATH=. \
+     uv run -m scripts.training.yolo26n.run_training_pipeline \
+     --image-size 320 --batch-size 32 &
+   ```
+
+9. **Do not touch `gpu-server`.** The post-fix KD run (`yolo26n-kd-bs16-20260916-101612`) is
+   still executing there and is the blocking item for §4.3.1.
+
+## Phase 3 — the 72 h decision gate
+
+10. Inspect the validation `mAP50_95` curve. Keep the run if it has plateaued — the existing
+    runs' best epochs land at 161–194 of 200, so late convergence is the norm here — and
+    discard it if it is still climbing steeply.
+11. If kept: `eval_suite.run_evaluation --run-dir <dir> --image-size 320` on the full test set
+    (1–5 h), then export and benchmark on the Pi exactly as in Phase 0 step 3, producing the
+    resolution-native arm of the curve.
+
+## Phase 4 — write-up
+
+12. New subsection under §4.3 of `thesis/manuscript/chapters/4-Results.tex`
+    (`sec:results_resolution_tradeoff`): the curve, both arms, and the resulting
+    best-achievable operating point against the 30 ms / 500 MB target.
+13. Record in §5 Further Work: the YOLO11n KD replication (single-head vs E2ELoss dual-head
+    `KD_APPLY_TO="one2one"` dilution) and NanoDet-Plus-m / PicoDet-S, citing §0.1's arithmetic
+    as the reason they were not run.
+
+## Incidental fix folded in (~10 min)
+
+14. `scripts/benchmark/5-report.py`'s `MAP_SOURCES` (lines 46–51) points `yolo26n-direct` at the
+    **pre-Band-A-fix** report `yolo26n-20260715-010031` (0.523 / 0.481) instead of
+    `yolo26n-bs32-20260910-212812` (0.599 / 0.529). The published
+    `embedded_latency_vs_map.png` therefore plots stale accuracy against fresh latency and is
+    0.076 mAP too low on its YOLO26n point. Repoint and regenerate — the new resolution curve
+    lands in that same figure.
+
+## Verification
+
+- This document exists, is linked from `docs/README.md`, and its Progress log reflects the last
+  completed phase at every point during execution.
+- `smoke_test_loss_and_decode` and `--smoke --image-size 320` pass before the real run starts.
+- The run's startup config dump logs `IMAGE_SIZE = 320` and `batch_size_effective`.
+- `train_batches` equals **4,869** at batch size 32 (155,808 / 32) — confirms the Band-A merged
+  dataset is loaded, not the real-only one.
+- Phase 0's 640 px `--limit 8000` score lands near the published 0.599 mixed / 0.529 real; a
+  large gap means the subsample or the new flag is wrong.
+- Pi parity via `scripts/benchmark/3-bench_parity.py`: host-vs-device detection match stays in
+  the 98.9–99.5 % band established for the 640 px models.
+
+## Progress log
+
+| Phase | Status | Date | Notes / artefacts |
+|---|---|---|---|
+| A — plan document | ✅ done | 2026-09-20 | this file; indexed in `docs/README.md` |
+| 0 — Arm 1 accuracy (GPU) | ⬜ not started | | mAP at 320/416/512/640, `--limit 8000` |
+| 0 — Arm 1 latency (Pi 400) | ⬜ not started | | `W_infer`/`W_e2e` at 320/416/512 |
+| 1 — probe + go/no-go | ⬜ not started | | measured s/epoch, chosen batch size |
+| 2 — 200-epoch run @ 320 px | ⬜ not started | | run dir, epochs reached |
+| 3 — 72 h gate | ⬜ not started | | keep / discard + reason |
+| 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
+| Incidental — `MAP_SOURCES` fix | ⬜ not started | | regenerated `embedded_latency_vs_map.png` |
+
+### Deviations from the plan
+
+_(none yet)_
