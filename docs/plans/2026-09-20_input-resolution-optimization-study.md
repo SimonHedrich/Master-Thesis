@@ -198,11 +198,39 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
 | 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
 | 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC; **1,012 s/epoch over 5 completed epochs → ETA Sep 23 ~09:00**; full 200 epochs confirmed by the user |
-| 3 — 72 h gate | ⬜ not started | | keep / discard + reason |
+| 3 — 72 h gate | ⏳ planned | | **stop the run Sep 23 ~06:00 at epoch ~181**, take `best.pt`, then full test eval (~1–2 h) |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-20 23:03 — epoch 20, first validation: no LR red flag.** 320 px run
+  `mAP50_95=0.5733` (mAP50 0.6630) against the 640 px baseline's `0.6661` at the same
+  epoch — a **13.9 %** gap, versus Arm 1's **35.4 %** penalty for running 640 px
+  weights at 320 px input. Resolution-native training has already recovered most of
+  the resolution loss by epoch 20, which is precisely Arm 2's claim. The √2 LR
+  scaling (peak 0.02) therefore looks sound; no restart warranted. (Val and test sets
+  differ, so this is direction, not a final figure.)
+- **2026-09-20 23:03 — the full 200 epochs will not fit; plan to stop at ~epoch 181.**
+  Measured over 20 completed epochs plus one validation: **1,052.6 s/epoch train** and
+  **918 s/validation** (22 % costlier than the 751 s assumed — the val pass was
+  estimated from the bs32 run). Full 200 epochs therefore lands **Sep 23 13:36**,
+  36 min past the deadline and with no time for the test eval.
+
+  | stop at | epoch reached | margin for test eval |
+  |---|---:|---:|
+  | Sep 23 06:00 | 181 | 7 h |
+  | Sep 23 08:00 | 186 | 5 h |
+  | Sep 23 10:00 | 191 | 3 h |
+  | all 200 | 200 | −0.6 h |
+
+  **Plan: stop at Sep 23 ~06:00 (epoch ~181) and take `best.pt`.** This costs very
+  little: the 640 px baseline's best was at **epoch 172** and it early-stopped at 193
+  after 20 epochs without improvement, and the KD run's best was at **161**. Epoch 181
+  is deep in the OneCycle cosine tail, past where this architecture converges on this
+  dataset. The OneCycle schedule is still specified over 200 epochs, so the LR at the
+  stop point is near its minimum — the run is annealed, just not formally finished.
+  This must be stated in the write-up alongside the batch-size deviation.
 
 - **2026-09-20 18:35 — timing re-measured from completed epochs: 1,012 s/epoch.** Both
   earlier figures (511 s, then 852 s) came from step-rate windows sampled mid-epoch,
