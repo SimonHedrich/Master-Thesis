@@ -207,6 +207,15 @@ def main() -> None:
     p.add_argument("--output-dir", type=Path, default=None)
     p.add_argument("--device", default="auto", help="'auto' | 'cuda' | 'cpu'")
     p.add_argument("--max-det", type=int, default=constants.EVAL_MAX_DET)
+    p.add_argument(
+        "--image-size",
+        type=int,
+        default=constants.IMAGE_SIZE,
+        help="Letterbox size for inference (default: %(default)d). Use this to score a "
+             "checkpoint at a resolution other than the one it was trained at — "
+             "predict.py records image_size in the prediction cache manifest, so "
+             "resolution variants do not collide in the cache.",
+    )
     p.add_argument("--bootstrap", type=int, default=0, help="bootstrap replicates for headline CI (0=off)")
     p.add_argument("--batch-size", type=int, default=constants.BATCH_SIZE)
     p.add_argument("--num-workers", type=int, default=constants.NUM_WORKERS)
@@ -245,7 +254,7 @@ def main() -> None:
     evaluate_checkpoint(
         checkpoint=checkpoint, real_ann=args.real_ann, synth_ann=synth_ann,
         output_dir=args.output_dir, device=_resolve_device(args.device),
-        max_det=args.max_det, bootstrap_n=args.bootstrap,
+        max_det=args.max_det, bootstrap_n=args.bootstrap, image_size=args.image_size,
         batch_size=args.batch_size, num_workers=args.num_workers,
         limit=args.limit, cache=not args.no_cache, log_mlflow=args.mlflow,
     )

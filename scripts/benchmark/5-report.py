@@ -44,7 +44,13 @@ INK, INK_MUTED, GRID = "#0b0b0b", "#52514e", "#d8d7d2"
 # model can have a valid latency row and no mAP (an unevaluated checkpoint);
 # such models are simply absent from the accuracy-vs-latency plot.
 MAP_SOURCES = {
-    "yolo26n-direct": "scripts/training/yolo26n/model_exports/yolo26n-20260715-010031/eval_best/evaluation_report.json",
+    # Post-Band-A-fix run (mixed 0.599 / real 0.529). The previous entry here
+    # pointed at the pre-fix run yolo26n-20260715-010031 (0.523 / 0.481), which
+    # plotted stale accuracy against fresh latency — 0.076 mAP too low.
+    "yolo26n-direct": "scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/evaluation/evaluation_report.json",
+    # Still the PRE-Band-A-fix KD run — the only completed KD evaluation. Repoint
+    # once the post-fix KD run (yolo26n-kd-bs16-20260916-101612, on gpu-server)
+    # finishes and its evaluation report lands here.
     "yolo26n-kd": "scripts/training/yolo26n/model_exports/yolo26n-kd-20260825-164250/evaluation/evaluation_report.json",
     "yolov5s": "scripts/training/yolov5s/model_exports/yolov5s-20260909-230900/eval_best/evaluation_report.json",
 }

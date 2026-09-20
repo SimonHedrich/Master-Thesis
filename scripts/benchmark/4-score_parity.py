@@ -100,7 +100,11 @@ def host_reference(model: str, device: str, out_path: Path) -> Path:
         conf_thres=MC.EVAL_CONF_THRES,
         iou_thres=MC.EVAL_IOU_THRES,
         max_det=MC.EVAL_MAX_DET,
-        image_size=MC.IMAGE_SIZE,
+        # The spec's resolution, NOT MC.IMAGE_SIZE: resolution variants of the
+        # same checkpoint (the input-resolution study) share a family and would
+        # otherwise have their host reference built at 640 while the device ran
+        # at 320 — a pure measurement artefact reported as a parity failure.
+        image_size=spec.get("image_size", MC.IMAGE_SIZE),
         batch_size=8 if device == "cpu" else 16,
         num_workers=2,
         cache=True,

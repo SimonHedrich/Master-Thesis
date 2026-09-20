@@ -60,6 +60,11 @@ def _run_full_evaluation(run_dir: Path, smoke: bool, device: torch.device) -> No
         output_dir=run_dir / "evaluation",
         device=device,
         max_det=constants.EVAL_MAX_DET,
+        # Explicit, not defaulted: evaluate_checkpoint's `image_size` default is
+        # bound to constants.IMAGE_SIZE at import time, so a --image-size override
+        # (set after import) would not reach it and the model would be scored at
+        # the wrong resolution.
+        image_size=constants.IMAGE_SIZE,
         batch_size=constants.BATCH_SIZE,
         # 0, not constants.NUM_WORKERS: this DataLoader is freshly constructed
         # here, deep into a process that has already been driving CUDA for
@@ -322,16 +327,49 @@ if __name__ == "__main__":
         help="Override constants.BATCH_SIZE for this run — VRAM footprint is "
         "machine-specific, see find_max_batch_size.py. Unset = use constants.BATCH_SIZE.",
     )
+    parser.add_argument(
+        "--image-size",
+        type=int,
+        default=None,
+        help="Override constants.IMAGE_SIZE (letterbox side length, must be a multiple "
+        "of the 32-px stride). Training at a reduced resolution is the input-resolution "
+        "arm of docs/plans/2026-09-20_input-resolution-optimization-study.md. "
+        "Unset = use constants.IMAGE_SIZE.",
+    )
+    parser.add_argument(
+        "--num-workers",
+        type=int,
+        default=None,
+        help="Override constants.NUM_WORKERS. Throughput only — changes no "
+        "optimization math. Unset = use constants.NUM_WORKERS.",
+    )
     args = parser.parse_args()
     smoke = args.smoke
+    default_image_size = constants.IMAGE_SIZE
+    if args.image_size is not None:
+        if args.image_size % 32 != 0:
+            parser.error(
+                f"--image-size must be a multiple of the 32-px stride, got {args.image_size}"
+            )
+        # Mutate the module attribute rather than threading a parameter through:
+        # every read is attribute-style (`constants.IMAGE_SIZE`) and happens inside
+        # a function, so the override propagates to the model factory, the
+        # dataloaders and evaluation(). constants.as_dict() reads live attributes,
+        # so MLflow records the effective value.
+        constants.IMAGE_SIZE = args.image_size
+    if args.num_workers is not None:
+        constants.NUM_WORKERS = args.num_workers
     if args.resume_from is not None and not args.resume_from.is_file():
         parser.error(f"--resume-from checkpoint not found: {args.resume_from}")
 
     load_dotenv(Path(__file__).parent / ".env")
 
     bs_suffix = f"bs{args.batch_size}-" if args.batch_size is not None else ""
+    res_suffix = (
+        f"res{constants.IMAGE_SIZE}-" if constants.IMAGE_SIZE != default_image_size else ""
+    )
     run_name = (
-        f"yolo26n-{'kd-' if args.kd else ''}{'smoke-' if smoke else ''}{bs_suffix}"
+        f"yolo26n-{'kd-' if args.kd else ''}{'smoke-' if smoke else ''}{res_suffix}{bs_suffix}"
         f"{datetime.now():%Y%m%d-%H%M%S}"
     )
     # Each run gets its own timestamped sub-directory; checkpoints, the log, and
@@ -361,6 +399,12 @@ if __name__ == "__main__":
     logger.info("mlflow tracking_uri=%s", tracking_uri or "(unset)")
     logger.info("run dir: %s", run_dir)
     logger.info("log file: %s", log_file)
+    logger.info(
+        "image_size=%d (default %d) num_workers=%d",
+        constants.IMAGE_SIZE,
+        default_image_size,
+        constants.NUM_WORKERS,
+    )
 
     try:
         with mlflow.start_run(run_name=run_name, tags=tags):

@@ -80,6 +80,43 @@ MODELS: dict[str, dict] = {
         "decode": "end2end",
         "label": "YOLO26n KD",
     },
+    # ─── Input-resolution variants (docs/plans/2026-09-20_input-resolution-
+    # optimization-study.md, Arm 1). Same weights as "yolo26n-direct", exported
+    # at a smaller input. Latency depends on architecture and input shape only,
+    # so these are valid latency measurements of the 640-trained checkpoint run
+    # at a reduced resolution; accuracy at each is scored separately on the host.
+    # ONNX only — multi-threaded TorchScript SIGILLs on YOLO26n on the Pi 400's
+    # ARMv8.0 core (reports/embedded_benchmark/torchscript_sigill_finding.md).
+    "yolo26n-direct-res512": {
+        "family": "yolo26n",
+        "checkpoint": REPO_ROOT
+        / "scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/best.pt",
+        "image_size": 512,
+        "num_classes": NUM_CLASSES,
+        "formats": ("onnx",),
+        "decode": "end2end",
+        "label": "YOLO26n direct-FT @ 512",
+    },
+    "yolo26n-direct-res416": {
+        "family": "yolo26n",
+        "checkpoint": REPO_ROOT
+        / "scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/best.pt",
+        "image_size": 416,
+        "num_classes": NUM_CLASSES,
+        "formats": ("onnx",),
+        "decode": "end2end",
+        "label": "YOLO26n direct-FT @ 416",
+    },
+    "yolo26n-direct-res320": {
+        "family": "yolo26n",
+        "checkpoint": REPO_ROOT
+        / "scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/best.pt",
+        "image_size": 320,
+        "num_classes": NUM_CLASSES,
+        "formats": ("onnx",),
+        "decode": "end2end",
+        "label": "YOLO26n direct-FT @ 320",
+    },
     "yolov5s": {
         "family": "yolov5s",
         "checkpoint": REPO_ROOT
@@ -120,7 +157,10 @@ MODELS: dict[str, dict] = {
 # Models whose predictions can be scored against the 225-class subset GT.
 # The two teacher components are timed but not scored: SpeciesNet is a
 # classifier (no boxes) and MegaDetector is class-agnostic (3 classes, not 225).
-PARITY_MODELS = ("yolo26n-direct", "yolo26n-kd", "yolov5s")
+# yolo26n-direct-res320 is included so the reduced-resolution ONNX export is
+# numerically validated once; the 416/512 variants are timed only, since they
+# share an export path with it and parity is the slow part of the Pi run.
+PARITY_MODELS = ("yolo26n-direct", "yolo26n-kd", "yolov5s", "yolo26n-direct-res320")
 
 # ─── Measurement protocol ─────────────────────────────────────────────────────
 #
