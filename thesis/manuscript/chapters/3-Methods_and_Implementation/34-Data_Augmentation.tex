@@ -47,7 +47,7 @@ Horizontal flip ($p=0.5$) & Yes & Standard, label-preserving, doubles effective 
 HSV color jitter (H $0.015$, S $0.7$, V $0.4$) & Yes & Improves robustness to lighting/sensor color variation without altering geometry \\
 Random scale ($\pm 0.5$) and translation ($0.1$) & Yes & Implemented via the tested \texttt{yolov5.utils.augmentations.random\_perspective} routine rather than a hand-rolled equivalent \\
 Rotation, shear, perspective warp & No & Risk of bounding-box distortion outweighs expected benefit for this dataset \\
-Vertical flip & No & Terrestrial mammals are consistently upright; an inverted animal is not a realistic training example \\
+Vertical flip & No & Terrestrial mammals are consistently upright. An inverted animal is not a realistic training example \\
 Blur, CutOut, grayscale & No & Kept out to keep the basic set minimal and easy to reason about \\
 \bottomrule
 \end{tabularx}

@@ -20,16 +20,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Practicability of Synthetic Training Data: Generator Comparison}\label{sec:results_synthetic_data_practicability}
 
-This section reports the controlled comparison designed in \Cref{sec:generator_comparison}: twelve generator$\times$prompt-regime cells, each supplying $1{,}200$ synthetic training images for the same $12$ classes to the same detector under the same schedule, each scored on the same $9{,}742$ real photographs. Two qualifications set from the outset determine how the numbers below should be read. The annotations underlying every cell are automatic rather than human-reviewed (\Cref{sec:generator_comparison_training}), so absolute accuracy is provisional even though the relative ranking is not obviously affected, every cell having been annotated identically. And of the three evaluation axes designed, only downstream utility was executed in full; the qualitative rubric and three of the four automatic proxies were specified and not carried out (\Cref{sec:results_rubric_not_executed}). The results are therefore a single-axis comparison, reported as such.
+This section reports the controlled comparison designed in \Cref{sec:generator_comparison}: twelve generator$\times$prompt-regime cells, each supplying $1{,}200$ synthetic training images for the same $12$ classes to the same detector under the same schedule, each scored on the same $9{,}742$ real photographs. Two qualifications set from the outset determine how the numbers below should be read. The annotations underlying every cell are automatic rather than human-reviewed (\Cref{sec:generator_comparison_training}), so absolute accuracy is provisional even though the relative ranking is not obviously affected, every cell having been annotated identically. And of the three evaluation axes designed, only downstream utility was executed in full. The qualitative rubric and three of the four automatic proxies were specified and not carried out (\Cref{sec:results_rubric_not_executed}). The results are therefore a single-axis comparison, reported as such.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Downstream Utility on Real Photographs}\label{sec:results_downstream_utility}
 
-\Cref{tab:generator-ranking} gives the headline result. Accuracy is mean average precision over the real test set, averaged across training seeds and reported with its standard deviation; the confusion column is the within-group error rate over the three zebra species defined in \Cref{sec:generator_comparison_evaluation}.
+\Cref{tab:generator-ranking} gives the headline result. Accuracy is mean average precision over the real test set, averaged across training seeds and reported with its standard deviation. The confusion column is the within-group error rate over the three zebra species defined in \Cref{sec:generator_comparison_evaluation}.
 
 \begin{table}[H]
 \centering
-\caption{All twelve cells ranked by mean average precision on the real test set. \enquote{Regime} is the prompt regime of \Cref{tab:generator-prompt-regimes}; the incumbent is the generator that produced the production synthetic dataset.}
+\caption{All twelve cells ranked by mean average precision on the real test set. \enquote{Regime} is the prompt regime of \Cref{tab:generator-prompt-regimes}. The incumbent is the generator that produced the production synthetic dataset.}
 \label{tab:generator-ranking}
 \begin{tabular}{@{}rllrlr@{}}
 \toprule
@@ -58,9 +58,9 @@ $12$ & RealVisXL + Lightning & \texttt{maxlen} & $2$ & $0.023 \pm 0.001$ & $0.62
 \label{fig:generator-headline-map}
 \end{figure}
 
-The first observation is a separation between tiers rather than between individual models: the five highest-ranked cells are all proprietary API services, and the best locally-run model ranks only sixth. The separation is not absolute -- one API cell, \texttt{gemini-3.1-flash-lite-image} under the short prompt, falls below the two strongest local cells -- but that cell is deliberately handicapped, and its unabridged-prompt counterpart sits fourth. Under each model's best available prompt, no local model reaches any API model.
+The first observation is a separation between tiers rather than between individual models: the five highest-ranked cells are all proprietary API services, and the best locally-run model ranks only sixth. The separation is not absolute. One API cell, \texttt{gemini-3.1-flash-lite-image} under the short prompt, falls below the two strongest local cells. However, that cell is deliberately handicapped, and its unabridged-prompt counterpart sits fourth. Under each model's best available prompt, no local model reaches any API model.
 
-Within the local tier the two non-distilled Stable Diffusion 3.5 variants lead and are statistically indistinguishable from one another. The one clean within-family test of step distillation available here -- SD 3.5 Large against its Turbo variant, the same base model at four denoising steps instead of forty -- shows the distilled version trailing by roughly a fifth. That is suggestive rather than conclusive: HiDream-I1 is not distilled and ranks eleventh, so step count alone plainly does not determine the outcome.
+Within the local tier the two non-distilled Stable Diffusion 3.5 variants lead and are statistically indistinguishable from one another. The one clean within-family test of step distillation available here is SD 3.5 Large against its Turbo variant, the same base model at four denoising steps instead of forty. This comparison shows the distilled version trailing by roughly a fifth. That is suggestive rather than conclusive: HiDream-I1 is not distilled and ranks eleventh, so step count alone plainly does not determine the outcome.
 
 The second observation concerns absolute magnitude. Every cell in this table scores far below what the same detector achieves on the full dataset (\Cref{sec:results_headline_mixed}), and this is expected rather than alarming: each cell is a $1{,}200$-image fine-tune across $12$ classes, evaluated on a test set an order of magnitude larger and drawn from a different domain. These numbers support comparison between generators, which is what they were constructed for, and do not support any claim about achievable accuracy.
 
@@ -90,14 +90,14 @@ Generator & \texttt{full} & \texttt{compressed} & Relative loss \\
 \label{fig:prompt-length-ablation}
 \end{figure}
 
-Compressing the prompt costs roughly half the downstream accuracy, and does so almost identically for both models despite their differing capability. The effect is larger than most of the model-to-model differences in \Cref{tab:generator-ranking}: it moves the top-ranked cell to fifth place and the fourth to eighth. Within-group confusion moves in step, rising from $0.253$ to $0.457$ and from $0.218$ to $0.405$ respectively, indicating that what the long prompt buys is specifically the diagnostic detail on which species discrimination depends -- which is what one would expect, since the diagnostic features are among the first content the compression cascade discards.
+Compressing the prompt costs roughly half the downstream accuracy, and does so almost identically for both models despite their differing capability. The effect is larger than most of the model-to-model differences in \Cref{tab:generator-ranking}: it moves the top-ranked cell to fifth place and the fourth to eighth. Within-group confusion moves in step, rising from $0.253$ to $0.457$ and from $0.218$ to $0.405$ respectively, indicating that what the long prompt buys is specifically the diagnostic detail on which species discrimination depends. This is what one would expect, since the diagnostic features are among the first content the compression cascade discards.
 
-Two consequences follow. For the interpretation of \Cref{tab:generator-ranking}, the gap between the API and local tiers is substantially, though not wholly, a prompt-capacity effect rather than a pure quality effect; the local tier's disadvantage is real but it is at least in part a disadvantage of its text encoders rather than of its image generation. For practice, the finding inverts the intuitive ordering of concerns: how much detail a generator is given matters more than which generator is chosen, at least across the range of models tested here. The ablation covers two models rather than all of them, and the local tier has no unabridged-prompt cell at all, so this remains a demonstrated effect on two models rather than an established general law.
+Two consequences follow. For the interpretation of \Cref{tab:generator-ranking}, the gap between the API and local tiers is substantially, though not wholly, a prompt-capacity effect rather than a pure quality effect. The local tier's disadvantage is real but it is at least in part a disadvantage of its text encoders rather than of its image generation. For practice, the finding inverts the intuitive ordering of concerns: how much detail a generator is given matters more than which generator is chosen, at least across the range of models tested here. The ablation covers two models rather than all of them, and the local tier has no unabridged-prompt cell at all, so this remains a demonstrated effect on two models rather than an established general law.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cost Does Not Predict Quality}\label{sec:results_cost_vs_quality}
 
-Within the local tier, generation cost and downstream quality are unrelated to the point of inversion. The most expensive cell to produce -- HiDream-I1, at nearly $48$ GPU-hours for $1{,}200$ images -- ranks eleventh of twelve, while the cheapest by two orders of magnitude, at under a third of an hour, ranks twelfth. The best cost-to-quality trade-off in the grid is SD 3.5 Medium, statistically indistinguishable from SD 3.5 Large at less than half its generation time. Model scale, denoising-step count and generation time all fail to predict the outcome; what does appear to predict it is the model family, with the Stable Diffusion 3.5 architecture and training recipe leading regardless of which size is used.
+Within the local tier, generation cost and downstream quality are unrelated to the point of inversion. The most expensive cell to produce is HiDream-I1, at nearly $48$ GPU-hours for $1{,}200$ images. This ranks eleventh of twelve, while the cheapest by two orders of magnitude, at under a third of an hour, ranks twelfth. The best cost-to-quality trade-off in the grid is SD 3.5 Medium, statistically indistinguishable from SD 3.5 Large at less than half its generation time. Model scale, denoising-step count and generation time all fail to predict the outcome. What does appear to predict it is the model family, with the Stable Diffusion 3.5 architecture and training recipe leading regardless of which size is used.
 
 \begin{figure}[H]
 \centering
@@ -113,7 +113,7 @@ No single cost axis spans the whole table, and none is offered: local cells are 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Per-Class Structure: Where the Ranking Comes From}\label{sec:results_per_class_structure}
 
-The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced across the twelve classes, and the imbalance is itself the most important result in this section. Essentially all of the discriminating signal comes from the three data-rich anchor classes and the zebras: American black bear alone ranges from $0.072$ for the weakest cell to $0.326$ for the strongest, a spread of $4.5$ times. The six rare classes behave in the opposite way. Five of them -- aye-aye, kinkajou, ringtail, saiga and the pangolin family -- stay below $0.05$ average precision for \emph{every} cell in the grid, regardless of how well that same cell performs on the anchors; ringtail never exceeds $0.010$. Water deer is the sole exception, and even it peaks at $0.066$.
+The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced across the twelve classes, and the imbalance is itself the most important result in this section. Essentially all of the discriminating signal comes from the three data-rich anchor classes and the zebras: American black bear alone ranges from $0.072$ for the weakest cell to $0.326$ for the strongest, a spread of $4.5$ times. The six rare classes behave in the opposite way. Five of them (aye-aye, kinkajou, ringtail, saiga and the pangolin family) stay below $0.05$ average precision for \emph{every} cell in the grid, regardless of how well that same cell performs on the anchors. Ringtail never exceeds $0.010$. Water deer is the sole exception, and even it peaks at $0.066$.
 
 \begin{figure}[H]
 \centering
@@ -124,33 +124,33 @@ The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced acr
 
 This is a resolution limit of the evaluation axis rather than a finding about the generators. With at most a few dozen to a few hundred real test images per rare class and a detector fine-tuned on $100$ synthetic images of it, the measurement has no power to separate a good generator from a poor one on exactly the classes for which synthetic data was introduced in the first place.
 
-A single case makes the point concretely. FLUX.2-klein renders kinkajous with a heavily ringed tail and a spotted coat, closer to a genet or civet than to the real animal, which has a plain golden-brown unringed tail; the defect is consistent across its images of that class and is specific to that model, since SD 3.5 Large and HiDream-I1 both render the species correctly from the same prompt text. It is, in other words, an unambiguous and visually obvious species error. Its effect on the measured accuracy for that class is nil: FLUX.2-klein scores $0.0064$ and SD 3.5 Large $0.0058$, indistinguishable, both buried in the noise floor. A generator that draws the wrong animal is not penalised by the only axis this study executed. That is the strongest available argument for the qualitative rubric of \Cref{sec:generator_comparison_evaluation}, and the clearest cost of its not having been carried out.
+A single case makes the point concretely. FLUX.2-klein renders kinkajous with a heavily ringed tail and a spotted coat, closer to a genet or civet than to the real animal, which has a plain golden-brown unringed tail. The defect is consistent across its images of that class and is specific to that model, since SD 3.5 Large and HiDream-I1 both render the species correctly from the same prompt text. It is, in other words, an unambiguous and visually obvious species error. Its effect on the measured accuracy for that class is nil: FLUX.2-klein scores $0.0064$ and SD 3.5 Large $0.0058$, indistinguishable, both buried in the noise floor. A generator that draws the wrong animal is not penalised by the only axis this study executed. That is the strongest available argument for the qualitative rubric of \Cref{sec:generator_comparison_evaluation}, and the clearest cost of its not having been carried out.
 
-Within-group confusion over the zebras tracks overall detector quality at both extremes but not through the middle of the ranking. The three lowest confusion rates ($0.218$ to $0.253$) belong to three of the four top-ranked cells, and the two highest ($0.628$ and $0.683$) to the two lowest-ranked; in between the ordering breaks down, and the incumbent is a visible exception, ranking third on accuracy while carrying a confusion rate ($0.339$) worse than that of two local cells. The reading is that species confusion among look-alikes is largely downstream of general detection quality rather than an independent failure mode that some generators exhibit and others avoid -- which also means that a cell's confusion rate adds little information beyond its accuracy, and cannot stand in for the fine-grained qualitative judgement it might appear to substitute for.
+Within-group confusion over the zebras tracks overall detector quality at both extremes but not through the middle of the ranking. The three lowest confusion rates ($0.218$ to $0.253$) belong to three of the four top-ranked cells, and the two highest ($0.628$ and $0.683$) to the two lowest-ranked. In between the ordering breaks down, and the incumbent is a visible exception, ranking third on accuracy while carrying a confusion rate ($0.339$) worse than that of two local cells. The reading is that species confusion among look-alikes is largely downstream of general detection quality rather than an independent failure mode that some generators exhibit and others avoid. This also means that a cell's confusion rate adds little information beyond its accuracy, and cannot stand in for the fine-grained qualitative judgement it might appear to substitute for.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Qualitative Rubric: Designed, Not Executed}\label{sec:results_rubric_not_executed}
 
-The blind multi-rater rubric specified in \Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies -- teacher recognition confidence, per-class distributional distances, and prompt-adherence scoring. Only the automatic annotation yield was computed, and it discriminates weakly: the local cells fall between $93.6\%$ and $98.8\%$ single-detection yield, a range too narrow to separate them.
+The blind multi-rater rubric specified in \Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies: teacher recognition confidence, per-class distributional distances, and prompt-adherence scoring. Only the automatic annotation yield was computed, and it discriminates weakly: the local cells fall between $93.6\%$ and $98.8\%$ single-detection yield, a range too narrow to separate them.
 
-The omission is recorded here rather than left implicit because it bounds the section's conclusions in a specific and predictable way. The rubric was designed as the instrument for precisely the regime where downstream accuracy has no resolution, namely the rare classes; its absence is why \Cref{sec:results_per_class_structure} can identify a visually obvious species error and simultaneously show that no executed measure detects it. The time budget is the reason, and the axis remains fully specified and directly executable on the archived images, which makes it a natural first item of further work (\Cref{sec:further_work}) rather than a gap requiring redesign.
+The omission is recorded here rather than left implicit because it bounds the section's conclusions in a specific and predictable way. The rubric was designed as the instrument for precisely the regime where downstream accuracy has no resolution, namely the rare classes. Its absence is why \Cref{sec:results_per_class_structure} can identify a visually obvious species error and simultaneously show that no executed measure detects it. The time budget is the reason, and the axis remains fully specified and directly executable on the archived images, which makes it a natural first item of further work (\Cref{sec:further_work}) rather than a gap requiring redesign.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Practicability Verdict}\label{sec:results_practicability_verdict}
 
 Three conclusions are supported by the evidence assembled here, and one is not.
 
-First, on the question the sub-study exists to answer: the production choice of generator is not vindicated, but neither is it refuted. The incumbent ranks third of twelve, is beaten by roughly $28\%$ by \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime, and is statistically tied with the cheaper variant from its own vendor. It is a reasonable choice that was not the best available one, and the margin by which it was beaten is smaller than the margin attributable to prompt length. The original basis for that choice -- that its output looked more realistic -- turns out to have been a poor predictor: the models that look best are not reliably the models whose data trains the best detector, which is exactly the objection that prompted this sub-study.
+First, on the question the sub-study exists to answer: the production choice of generator is not vindicated, but neither is it refuted. The incumbent ranks third of twelve, is beaten by roughly $28\%$ by \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime, and is statistically tied with the cheaper variant from its own vendor. It is a reasonable choice that was not the best available one, and the margin by which it was beaten is smaller than the margin attributable to prompt length. The original basis for that choice (that its output looked more realistic) turns out to have been a poor predictor: the models that look best are not reliably the models whose data trains the best detector, which is exactly the objection that prompted this sub-study.
 
 Second, prompt detail matters more than generator identity across the range tested. Third, cheaper tiers are not worse tiers, in either vendor family or in the local grid, so generation cost is not usable as a proxy for training-data quality.
 
-What is not supported is any conclusion about the rare, long-tail classes -- which is to say, about the case that motivated synthetic data in this thesis at all. On those classes every generator is indistinguishable from every other under the only axis executed, and at least one generator is demonstrably drawing the wrong animal without penalty. The honest summary is that the comparison establishes a ranking for data-rich classes and establishes that the current instrument cannot rank generators for data-poor ones.
+What is not supported is any conclusion about the rare, long-tail classes. This is to say, about the case that motivated synthetic data in this thesis at all. On those classes every generator is indistinguishable from every other under the only axis executed, and at least one generator is demonstrably drawing the wrong animal without penalty. The honest summary is that the comparison establishes a ranking for data-rich classes and establishes that the current instrument cannot rank generators for data-poor ones.
 
 \paragraph{Limitations}
-Beyond the deferred evaluation axes, six qualifications apply. The annotations are automatic and un-reviewed throughout. Seed counts are uneven -- three per API cell but only two per local cell, short of the three the protocol itself recommends. The design is not a full factorial: the local tier has no unabridged-prompt cell and the API tier no capacity-matched one, so the prompt-length effect is demonstrated on two models rather than across the grid. Evaluation is real-only, with no mixed condition defined for this sub-study. One planned cell, the quality ceiling from the more expensive tier of the incumbent's vendor, was never generated, so the grid has no upper anchor. And three fairness asymmetries remain, disclosed in \Cref{sec:generator_comparison_prompts}: the unabridged prompt was trimmed for one vendor's character cap on long-article species, negative prompts were unavailable to one local cell, and the two prompt regimes are not seed-matched to each other.
+Beyond the deferred evaluation axes, six qualifications apply. The annotations are automatic and un-reviewed throughout. Seed counts are uneven: three per API cell but only two per local cell, short of the three the protocol itself recommends. The design is not a full factorial: the local tier has no unabridged-prompt cell and the API tier no capacity-matched one, so the prompt-length effect is demonstrated on two models rather than across the grid. Evaluation is real-only, with no mixed condition defined for this sub-study. One planned cell, the quality ceiling from the more expensive tier of the incumbent's vendor, was never generated, so the grid has no upper anchor. And three fairness asymmetries remain, disclosed in \Cref{sec:generator_comparison_prompts}: the unabridged prompt was trimmed for one vendor's character cap on long-article species, negative prompts were unavailable to one local cell, and the two prompt regimes are not seed-matched to each other.
 
 \paragraph{A Note on Seeds}
-One episode during this study is worth reporting because it bears on how the table above should be read. At a single training seed, the incumbent scored $0.064$ and its cheaper variant $0.094$, and this was initially written up as a clear result: the lighter model beating the model it is a reduced version of. Adding a second seed moved the incumbent to $0.090$ and the conclusion to \enquote{indistinguishable}; adding a third moved it to $0.105$ and reversed the direction of the gap outright. The final figure of $0.105 \pm 0.036$ has a spread roughly six times wider than any other API cell's, which after three seeds looks like a genuine property of that cell rather than an artefact of too few runs. The lesson is not merely that more seeds are better but that a single-seed difference of this size in this regime carries no information at all -- and that reporting a standard deviation of zero for a one-seed cell, as a naive aggregation does, actively conceals the problem.
+One episode during this study is worth reporting because it bears on how the table above should be read. At a single training seed, the incumbent scored $0.064$ and its cheaper variant $0.094$, and this was initially written up as a clear result: the lighter model beating the model it is a reduced version of. Adding a second seed moved the incumbent to $0.090$ and the conclusion to \enquote{indistinguishable}. Adding a third moved it to $0.105$ and reversed the direction of the gap outright. The final figure of $0.105 \pm 0.036$ has a spread roughly six times wider than any other API cell's, which after three seeds looks like a genuine property of that cell rather than an artefact of too few runs. The lesson is not merely that more seeds are better but that a single-seed difference of this size in this regime carries no information at all. Moreover, reporting a standard deviation of zero for a one-seed cell, as a naive aggregation does, actively conceals the problem.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Detection Performance Across Training Regimes and Test Domains}\label{sec:results_regime_comparison}
@@ -238,7 +238,7 @@ CPU governor were held fixed across all $76$ measured cells.
 
 \begin{table}[htbp]
   \centering
-  \caption[Runtime benchmark on the Raspberry Pi 400]{Measured runtime of every evaluated model on the \textit{Raspberry Pi 400} proxy: ONNX Runtime, 4 threads, batch size $1$, full precision, \texttt{performance} governor. $W_{\mathrm{infer}}$ is the forward pass alone (the \textit{MLPerf Tiny} measurement scope); $W_{\mathrm{e2e}}$ adds JPEG decode, letterboxing and post-processing. Median of three independent process invocations, interquartile range in parentheses.}
+  \caption[Runtime benchmark on the Raspberry Pi 400]{Measured runtime of every evaluated model on the \textit{Raspberry Pi 400} proxy: ONNX Runtime, 4 threads, batch size $1$, full precision, \texttt{performance} governor. $W_{\mathrm{infer}}$ is the forward pass alone (the \textit{MLPerf Tiny} measurement scope). $W_{\mathrm{e2e}}$ adds JPEG decode, letterboxing and post-processing. Median of three independent process invocations, interquartile range in parentheses.}
   \label{tab:embedded-latency}
   \begin{tabular}{lrrrrrr}
     \toprule
@@ -258,7 +258,7 @@ CPU governor were held fixed across all $76$ measured cells.
 % (QCS605 ~ Pi400 x 0.85-0.90; docs/2026-03-09_hardware-proxy-selection.md). CPU path only.
 
 The project's design targets for the \textit{QCS605} are $\leq 30$\,ms per
-frame at $640\times640$ and a $\leq 500$\,MB memory ceiling; both are internal
+frame at $640\times640$ and a $\leq 500$\,MB memory ceiling. Both are internal
 estimates rather than vendor-certified figures.
 % docs/2026-03-10_object-detection-models-for-embedded-systems.md
 No configuration measured here passes either. The fastest model, \textit{YOLO26n}, needs
@@ -276,9 +276,9 @@ and the remaining gap was always intended to be closed by the quantization pass
 this thesis did not carry out.
 
 The teacher's cost is the more decisive number. \textit{MegaDetector v5a} alone
-takes $31.0$\,s per frame at $1280\times1280$ and peaks at $1{,}570$\,MB, and a
-composed ensemble estimate -- one detector pass plus a mean of $1.7$ classifier
-crops per image -- comes to roughly $35$\,s per frame.
+takes $31.0$\,s per frame at $1280\times1280$ and peaks at $1{,}570$\,MB. A
+composed ensemble estimate (one detector pass plus a mean of $1.7$ classifier
+crops per image) comes to roughly $35$\,s per frame.
 % reports/embedded_benchmark/embedded_benchmark.md
 That is three orders of magnitude above the budget, and it converts
 \Cref{sec:lit_yolo_family}'s reasoned argument that the ensemble cannot ship on
@@ -329,7 +329,7 @@ reading frames at sensor resolution would pay on every frame.
 
 The measurements are not thermally compromised. All $76$ cells were taken under
 the \texttt{performance} governor with a monitor sampling core temperature,
-frequency and the SoC throttle register throughout; none tripped the validity
+frequency and the SoC throttle register throughout. None tripped the validity
 gate, the peak temperature reached was $64.8$\,\textdegree C against an
 $80$\,\textdegree C threshold, and the throttle register read zero for the
 entire campaign. Sustained runs of several hundred iterations drifted by between
@@ -348,12 +348,12 @@ CPU, identical weights and identical code, already disagree on $0.15$--$0.31\,\%
 of detections, because floating-point accumulation order differs between
 kernels and a near-tie in score can reorder which box survives. One of the six
 comparisons falls marginally below the $99\,\%$ criterion set in advance, at
-$98.97\,\%$; it is reported as a miss rather than absorbed by relaxing the
+$98.97\,\%$. It is reported as a miss rather than absorbed by relaxing the
 threshold after the fact, and its mAP delta stays inside tolerance.
 
 The check also caught a defect that had nothing to do with hardware. An earlier
 run reported a $47\,\%$ match with both device runtimes agreeing exactly with
-each other -- a pattern that indicates differing weights, not differing
+each other. This pattern indicates differing weights, not differing
 arithmetic. The direct fine-tuning checkpoint came from a training run still in
 progress, and the file had been rewritten between the export and the generation
 of the host reference. The export stage now freezes a hashed copy of each
@@ -365,9 +365,9 @@ estimate of what the hardware can do. The campaign covers one device, and the
 translation to the \textit{QCS605} rests on a published CPU-performance estimate
 rather than a measurement of the target. Most importantly, the
 \textit{QCS605}'s Hexagon~685 DSP has no analogue on the proxy, so the
-accelerated path -- the one the quantization literature in
+accelerated path (the one the quantization literature in
 \Cref{sec:lit_embedded_inference} reports order-of-magnitude gains for, and the
-one a shipping product would use -- remains entirely unmeasured. Whether the
+one a shipping product would use) remains entirely unmeasured. Whether the
 $30$\,ms budget is reachable on the target is therefore still an open question,
 and \Cref{sec:further_work} treats it as the first item of further work.
 

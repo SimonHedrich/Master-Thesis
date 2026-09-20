@@ -86,24 +86,35 @@ visible. Of every rule in this skill, this is the one most likely to be over-app
 
 ---
 
-## 3. The parenthetical dash
+## 3. Dashes and semicolons
 
 **The source blog post calls the em dash the single loudest generated-text marker there is,**
-and bans it outright.
+and bans it outright. An earlier version of this rule argued the ban does not transfer to a
+compiled PDF, since typeset `--` renders as an en dash rather than the ASCII em dash that marks
+generated Markdown, and permitted it capped at one pair per paragraph.
 
-**This manuscript uses `--` 297 times** as a parenthetical dash, and §7 says nothing against it.
+**Verdict, revised: avoid the parenthetical `--` dash and the semicolon in prose. Split the
+sentence instead.** The author overrode the earlier verdict directly: both marks make a sentence
+harder to read than two sentences would, regardless of typeset rendering, and the fix is always
+available — the dash or semicolon already marks the exact point where the sentence splits.
 
-**Verdict: keep it. The ban does not transfer.**
+> **Weak.** MegaDetector removes images without an animal -- a composite quality score then
+> ranks the boxes that remain.
+>
+> **Better.** MegaDetector removes images without an animal. A composite quality score then
+> ranks the boxes that remain.
 
-Two reasons. In typeset output `--` renders as an en dash, which is ordinary academic
-punctuation in a printed thesis, not the ASCII em dash that marks generated Markdown. And the
-examiner is reading a compiled PDF; the signal the blog post is reacting to does not exist in
-that medium.
+> **Weak.** The filter has four stages; each one runs independently of the others.
+>
+> **Better.** The filter has four stages. Each one runs independently of the others.
 
-**But cap it at one dash pair per paragraph**, because the defect the dash conceals is real: a
-sentence carrying two ideas, one of which has been demoted into an aside instead of given its
-own sentence. When a paragraph reaches for a second dash pair, the problem is structure and the
-fix belongs in `construction.md` §1.2, not in the punctuation.
+**Exception: numeric and version ranges are not parenthetical dashes and are untouched** —
+`12--15`, `$200$--$300$`, `YOLOv2--YOLOv7`. Also untouched: semicolons inside code (TikZ/pgfplots
+statement terminators, `\node[...] {...};`) and inside `.bib` entries.
+
+This is the same defect §1.2 of `construction.md` already names — a sentence carrying two ideas,
+one demoted into an aside instead of given its own sentence — just resolved by punctuation
+before it reaches the structural fix.
 
 ---
 

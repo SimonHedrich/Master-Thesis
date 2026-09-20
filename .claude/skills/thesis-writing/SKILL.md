@@ -54,7 +54,7 @@ These targets are not imported from anywhere. `35-Synthetic_Generator_Comparison
 | Drafting or rewriting any prose | `references/construction.md` |
 | Reporting a number, a comparison, or a conclusion | `references/claims.md` |
 | Using a project term, or introducing a new one | `references/terminology.md` |
-| Tempted to delete a hedge, add a dash, use the passive, or pick a tense | `references/conflicts.md` |
+| Tempted to delete a hedge, add a dash or semicolon, use the passive, or pick a tense | `references/conflicts.md` |
 | Checking LaTeX house style, acronyms, floats, or a submission checklist | `references/mechanics.md` |
 | Wanting to see a rule applied to real text from this thesis | `references/examples.md` |
 
