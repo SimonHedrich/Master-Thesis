@@ -403,7 +403,7 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       the real+synth pass with `FileNotFoundError` on
       `data/blanks/images/blank_211.jpg` — see new gap **4.6** below. Not
       yet retried.
-- [ ] **4.3 [3060] Retrain YOLOv5s** with the new anchor/loss-autoscaling
+- [x] **4.3 [3060] Retrain YOLOv5s** with the new anchor/loss-autoscaling
       implementation (`autoanchor.py` fix from
       `docs/progress_notes/2026-07-16_yolov5s-underperformance-hyp-scaling-fix.md`)
       — dispatched to `gpu-server` (3060) 2026-08-13, fresh run (no
@@ -413,13 +413,10 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       early-stop, best `val mAP50_95=0.5387` at epoch 192, plateaued
       ~0.538 through epoch 200;
       `scripts/training/yolov5s/model_exports/yolov5s-20260813-162031/{best,last}.pt`
-      on `gpu-server`). **Not yet confirmed whether the post-training test
-      eval / full eval suite ran** — no `evaluation/` output dir and no
-      `test mAP` log line found in `/tmp/yolov5s_retrain.log`, and no
-      training process is currently running there. This item is still open
-      pending that check (and, if needed, re-running `--full-eval` against
-      the existing `best.pt`) — not investigated further in this session,
-      out of scope for the §4.4 KD work this session was doing.
+      on `gpu-server`). **2026-09-09: retrained again on the §4.7 Band-A fix
+      and evaluated — mixed mAP 0.496 / real 0.407, Band A 0.000→0.384,
+      commit `377d917`. Fully done, see §4.8's "Done and committed" bullets
+      for the full numbers** — no longer open.
 - [x] **4.4 [3060, or A40 once §3.1 frees it] Train YOLO26n with knowledge
       distillation**, MD+SN ensemble as teacher (Phase 3 of
       `docs/plans/2026-06-30_knowledge-distillation-and-teacher-finetuning-strategy.md`).
@@ -444,16 +441,27 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       FT conclusion. Checkpoint:
       `scripts/training/yolo26n/model_exports/yolo26n-kd-20260825-164250/best.pt`
       (gitignored, only on this A40, not yet rsynced to the NAS per §1.3).
-- [ ] **4.5 [Either, no GPU] (gap) KD ladder Phase 4 — final comparison
+      **2026-09-21: retrained again on the §4.7 Band-A fix and evaluated —
+      mixed mAP 0.560 / real 0.479, Band A real 0.239 (up from 0.143
+      pre-fix/held-out). Still does not beat direct-FT** (0.599/0.529, Band A
+      real 0.300) **at this default hyperparameter point — confirmed across
+      every metric and band, not just the headline. See §4.8's "Done and
+      committed" bullets and `docs/2026-09-07_model-comparison-teacher-and-students.md`
+      §2 finding 2 for the full verdict.** The `(T,α)` grid noted above
+      remains the open question for whether a different point changes this.
+- [x] **4.5 [Either, no GPU] (gap) KD ladder Phase 4 — final comparison
       synthesis**: assemble direct-FT vs. teacher-FT vs. KD results into the
       comparison the strategy doc's experimental ladder is building toward.
-      Pure analysis over the (git-tracked) eval reports from §4.1–4.4 — §4.1
-      and §4.4 have eval reports now; §4.2 (student zero-shot) hasn't been
-      retried since the §4.6 fix, and §4.3 (yolov5s retrain) finished
-      training 2026-08-18 but its own eval status is unconfirmed (see §4.3's
-      updated note) — so this isn't fully unblocked yet, only closer than
-      before. Needs §2.1 fixed first so those evals were affordable to
-      produce (already true).
+      **Done 2026-09-21** via §4.8's retrain campaign —
+      `docs/2026-09-07_model-comparison-teacher-and-students.md` now has all
+      four models' final post-fix numbers and the core-question verdict (KD
+      does not beat direct-FT anywhere). Judgment call on scope: marking this
+      done because the four-model synthesis the strategy doc's ladder calls
+      for is complete and answers the core research question — but §4.2's
+      untrained-student zero-shot baseline is a genuinely separate, still-open
+      gap (it would add a *floor* to anchor the direct-FT/KD gains against,
+      not change the KD-vs-direct-FT verdict itself), so it's tracked
+      independently rather than blocking this item.
 - [x] **4.6 [Either] (gap) `data/blanks/` (negative/no-object training
       images) is incomplete on at least two machines** — discovered
       2026-08-13 when it broke both §4.2 and §4.4. **2026-08-25: resolved on
@@ -536,11 +544,10 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       that closes this gap; the code change alone doesn't produce new
       results. Needs a scoped, checked-in-per-run GPU dispatch (KD alone was
       a ~4.45-day run previously) before §4.5's comparison can be redone.
-- [ ] **4.8 [Either, monitoring only] (gap) Band-A retrain campaign —
-      IN PROGRESS, resume monitoring here.** §4.7's fix landed and all four
-      models are being retrained/re-evaluated on it. **Read this whole item
-      before touching anything** — it's written as a handoff for whichever
-      session picks this up next with no prior context.
+- [x] **4.8 [Either, monitoring only] (gap) Band-A retrain campaign —
+      DONE 2026-09-21.** §4.7's fix landed and all four models have been
+      retrained/re-evaluated on it. Final synthesis (below, and
+      `docs/2026-09-07_model-comparison-teacher-and-students.md`) is written.
 
       **Done and committed** (numbers already reflect the Band-A fix):
       - SpeciesNet teacher (`--freeze-fraction 0.75`): test `f1_macro=0.6220`
@@ -566,69 +573,43 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
         re-running `eval_suite.run_evaluation --run-dir <run_dir>` standalone
         (fresh process, no accumulated worker memory — this is the safe
         recovery pattern, see gotcha below).
+      - **YOLO26n direct-FT**: early-stopped at epoch 193/200 (best val
+        `mAP50_95=0.7629` @ epoch 172). Mixed mAP **0.599** / real **0.529**;
+        **Band A: 0.019 → 0.579 mixed, 0.011 → 0.300 real**. Commit `b80ee93`.
+        Completed cleanly, no recovery needed.
+      - **YOLO26n KD**: mixed mAP **0.560** / real **0.479**; **Band A: 0.191
+        (pre-fix, held-out) → 0.493 mixed, 0.239 real** (post-fix, genuinely
+        trained). Training reached epoch 186/200 (best val `mAP50_95=0.7327`
+        @ epoch 185, climbing steadily but with a shrinking-delta plateau:
+        0.7239@175, 0.7260@177, 0.7277@178, 0.7293@181, 0.7313@183,
+        0.7327@185) when a Tailscale outage on `gpu-server` broke DNS
+        resolution to the MLflow tracking host mid-epoch-187; the resulting
+        unhandled `MlflowException` killed the training process (confirmed
+        dead via `docker top` showing only the container's keep-alive
+        process). `best.pt` (epoch 185) — already the best checkpoint at
+        crash time — was synced to the A40 and evaluated standalone rather
+        than resuming training, on the reasoning that the shrinking
+        improvement deltas indicate an effectively-finished, plateauing run
+        the crash simply preempted by a couple of epochs. Commit (this one).
+        **KD does not beat direct-FT anywhere** — see the full band-by-band
+        table in `docs/2026-09-07_model-comparison-teacher-and-students.md`
+        §2 finding 2 / §3.3 — this is the core research question's answer at
+        the `T=4/α=0.5` default hyperparameter point.
 
-      **Still running as of 2026-09-16, ~11:00 UTC** (check current state
-      with the commands below — don't trust these numbers, they're already
-      stale by the time you read this):
-      - **YOLO26n direct-FT**, on **this A40**, batch 32,
-        `nohup ... > /tmp/yolo26n_direct_bandA.log`, run dir
-        `scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/`.
-        Last known: epoch 104/200, best val `mAP50_95=0.7248` @ epoch 103.
-      - **YOLO26n KD**, originally started on this A40, **moved to
-        `gpu-server` mid-run** (epoch 67) once YOLOv5s finished there and
-        this A40 was showing memory pressure (swap climbing) from running
-        two jobs at once — resumed cleanly via `--resume-from`, zero
-        progress lost. Now: `nohup ... > /tmp/yolo26n_kd_resumed_v2.log` on
-        `gpu-server`, run dir
-        `scripts/training/yolo26n/model_exports/yolo26n-kd-bs16-20260916-101612/`.
-        Last known: resumed at epoch 67 (best val `mAP50_95=0.6245` @ epoch
-        65, carried over from before the move).
-      - The old A40 KD log (`/tmp/yolo26n_kd_bandA.log`) and run dir
-        (`yolo26n-kd-bs16-20260911-162339/`) are dead/superseded — ignore
-        them, don't resume from there.
+      **Known gotcha hit this session (KD eval, not training):** the standalone
+      `eval_suite.run_evaluation` CLI defaults `--output-dir` to `eval_best/`,
+      not `evaluation/` (the convention `run_training_pipeline.py`'s built-in
+      `--full-eval` hook uses) — pass `--output-dir <run_dir>/evaluation`
+      explicitly when running it standalone to match the established commit
+      convention. Also: the standalone eval ran ~4x slower (~4h vs. the
+      documented ~68min reference) than expected — confirmed via `docker top`
+      CPU-time tracking that this was genuine computation, not a hang; the
+      likely cause is CPU contention with an unrelated concurrent training job
+      already running in the same container (COCOeval scoring is CPU-bound,
+      unlike the GPU-bound inference phase) — not a bug, just a
+      resource-contention artifact worth knowing about if timing this again.
 
-      **How to check status** (run from the A40 — this repo checkout; ssh
-      key to `gpu-server` already works passwordlessly):
-      ```
-      # YOLO26n direct-FT (A40, this machine)
-      docker exec training-container bash -lc "tr -d '\r' < /tmp/yolo26n_direct_bandA.log | grep -aE '^[0-9]{4}-.*(new best|early stop|test mAP|evaluation complete|Traceback|CUDA out of memory)' | tail -5"
-
-      # YOLO26n KD (gpu-server)
-      ssh debian@gpu-server.taile550ef.ts.net "docker exec training-container bash -lc \"tr -d '\\r' < /tmp/yolo26n_kd_resumed_v2.log | grep -aE '^[0-9]{4}-.*(new best|early stop|test mAP|evaluation complete|Traceback|CUDA out of memory)' | tail -5\""
-
-      # GPU/memory health on both
-      nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv
-      ssh debian@gpu-server.taile550ef.ts.net "nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv; free -h"
-      ```
-      A `0%` GPU-util reading in a single snapshot is usually nothing —
-      nvidia-smi is instantaneous, not averaged, and both jobs have shown
-      brief legitimate gaps between batches. Only worry if the log file's
-      mtime is stale (`ls -la <logfile>` vs `date`) — that means the process
-      actually died, not just between batches.
-
-      **When each job finishes** (`--full-eval` is set on both, so a normal
-      finish auto-runs the full `eval_suite` report — but per the YOLOv5s
-      incident above, **check for a silent OOM first**: if the log goes
-      stale right after the quick test-eval's batch counter hits 100% but
-      before an `evaluation complete` line appears, that's the same crash —
-      recover with a standalone
-      `uv run python -m scripts.training.yolov5s.eval_suite.run_evaluation --run-dir <run_dir> --device cuda`,
-      no data lost, checkpoints are saved every epoch regardless):
-      1. `rsync -az --exclude='predictions_*.json' <host>:<run_dir>/eval_best-or-evaluation/ <same path locally>`
-         (mirror how YOLOv5s's `eval_best/` and the teacher/ensemble outputs
-         were pulled back — see commits `377d917`/`5f12c0a` for the exact
-         pattern) and rsync the run's own `.log` file too (skip if it's
-         >~5MB of raw tqdm spam with no real content — check `wc -l` first;
-         the YOLOv5s *training* log was fine at 3.5MB/21k lines, but a
-         *standalone eval*'s raw log can hit 12MB of near-useless tqdm
-         carriage-returns — that one was deliberately left uncommitted).
-      2. `git add` the eval report files (`.md`/`.json`/`.csv`, never the
-         gitignored `predictions_*.json`/`*.pt`), commit, push. `git pull`
-         on whichever machine you didn't just push from.
-      3. Once **both** YOLO26n runs are done (direct-FT and KD), this item
-         is complete — proceed to the final synthesis below.
-
-      **Known gotchas hit this session, don't repeat them:**
+      **Known gotchas hit during this campaign, don't repeat them:**
       - **`speciesnet-container` uses plain `python`, never `uv run`.** It
         shares this same host directory (and therefore the same `.venv`) as
         `training-container` via the bind mount — running `uv run` inside
@@ -658,23 +639,11 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
         it would desync the resumed optimizer/scheduler state from
         `OneCycleLR`'s step-count expectations.
 
-      **Final synthesis, once all four models (teacher, YOLOv5s, YOLO26n
-      direct-FT, YOLO26n KD) are retrained and evaluated:**
-      1. `git pull` on whichever machine you're working from.
-      2. Update `docs/2026-09-07_model-comparison-teacher-and-students.md`
-         with all four sets of final numbers, replacing the "provisional /
-         not yet retrained" caveats with the real post-fix results. The
-         teacher/YOLOv5s numbers above are already final; just need the two
-         YOLO26n rows. Pay particular attention to the Band-A story across
-         all four models (0.000→0.384 for YOLOv5s, 0.027→0.447 for the
-         teacher — expect similarly dramatic YOLO26n movement) and to
-         whether KD now actually beats direct-FT anywhere, band-by-band —
-         that's the core research question this whole campaign exists to
-         answer.
-      3. Update this TODO.md: mark §4.8 done, update §4.2-§4.5's own status
-         notes with final numbers, following the existing dated-note
-         convention used throughout this file.
-      4. Commit + push.
+      **Final synthesis: done 2026-09-21.**
+      `docs/2026-09-07_model-comparison-teacher-and-students.md` has all four
+      models' final post-fix numbers (§1/§3.1–3.4) and the core-question
+      verdict (§2 finding 2): **KD does not beat direct-FT anywhere**,
+      including Band A. §4.2–§4.5 below are updated with final status notes.
 
 ## 5. Deployment / embedded pipeline
 
