@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Comparing Synthetic-Image Generators}\label{sec:generator_comparison}
 
-The synthetic imagery described in \Cref{sec:synthetic_data_supplementation} was produced by a single generative model, chosen early in the project on the strength of a visual comparison against a handful of alternatives. That choice is load-bearing: if a cheaper or freely available model would have served equally well, or if the apparent realism of the chosen model's output does not translate into downstream detection accuracy, the conclusions drawn from the synthetic-data experiments change accordingly. This section describes the controlled comparison built to test that choice. It explains what was compared, how the comparison was made fair, and how the generators were judged.
+The synthetic imagery described in \Cref{sec:synthetic_data_supplementation} was produced by a single generative model, chosen early in the project on the strength of a visual comparison against a handful of alternatives. That choice is load-bearing: if a cheaper or freely available model would have served equally well, or if the apparent realism of the chosen model's output does not translate into downstream detection accuracy, the conclusions drawn from the synthetic-data experiments change accordingly. That second possibility is not merely hypothetical. Earlier work by the present author found that generated image context conferred no downstream detection advantage over random noise on a small-object car-detection task \cite{hedrichGeneratingSyntheticDatasets2026}. This section describes the controlled comparison built to test that choice. It explains what was compared, how the comparison was made fair, and how the generators were judged.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Motivation and Scoped Research Question}\label{sec:generator_comparison_motivation}
@@ -99,6 +99,34 @@ Pangolin family & A & Rare & $52$ & $1$--$63$ & Scaled body, exotic texture. Tes
 \bottomrule
 \end{tabularx}
 \end{table}
+
+\Cref{fig:zebra-species} shows a real photograph of each of the three look-alike species, since the distinguishing marks listed in the table's \enquote{Contribution} column are easier to judge by eye than to read.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.31\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/zebra_species/plains_zebra.jpg}
+    \caption{Plains zebra: broad stripes with brown shadow stripes}
+    \label{fig:zebra-species-plains}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.31\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/zebra_species/grevys_zebra.jpg}
+    \caption{Grévy's zebra: narrow dense stripes, white belly}
+    \label{fig:zebra-species-grevys}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.31\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/zebra_species/mountain_zebra.jpg}
+    \caption{Mountain zebra: gridiron rump pattern, dewlap}
+    \label{fig:zebra-species-mountain}
+\end{subfigure}
+\caption{The three look-alike zebra species of \Cref{tab:generator-comparison-classes}, photographed real animals. The markers named in each caption are the diagnostic features a generator must reproduce for the within-group confusion measured in \Cref{sec:results_per_class_structure} to be low.}
+\label{fig:zebra-species}
+\end{figure}
 
 Because this experiment never trains on real images, the real photographs that the production split reserves for training and validation are idle here and were folded into the test set for Band B, C and D classes, substantially increasing statistical power for the anchor classes in particular. Band A classes, whose real images are already entirely allocated to testing (\Cref{sec:band_structure}), are unaffected. One consequence must be acknowledged. The production split assigns training images greedily by quality score and validation images from the middle of the quality distribution, whereas its test images were sampled without that bias. Folding all three together therefore skews the enlarged test set toward higher image quality than a random sample of the class pool. This does not bias the comparison between generators, since every generator is scored on the identical enlarged set, but it does mean this test set is specific to this sub-study and is not the project's general real-image benchmark. The full pool comprises $9{,}742$ real photographs. The class list was frozen to a file before any image was generated, following the same freeze-then-run discipline used for the dataset splits.
 
