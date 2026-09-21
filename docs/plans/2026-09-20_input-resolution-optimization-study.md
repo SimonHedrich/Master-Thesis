@@ -204,6 +204,34 @@ Produces the accuracy-vs-latency curve from the **existing**
 
 ### Deviations from the plan
 
+- **2026-09-21 23:07 — epoch 100: the gap to the 640 px baseline is narrowing.**
+
+  | epoch | 640 px | 320 px | gap |
+  |---:|---:|---:|---:|
+  | 20 | 0.6661 | 0.5733 | −13.9 % |
+  | 40 | 0.6923 | 0.6057 | −12.5 % |
+  | 60 | 0.7045 | 0.6249 | −11.3 % |
+  | 80 | 0.7163 | 0.6377 | −11.0 % |
+  | 100 | 0.7240 | 0.6486 | −10.4 % |
+
+  The 640 px run gained +0.0389 from epoch 100 to its best (0.7629 @ epoch 172). On
+  the same shape the 320 px run lands ≈**0.6875, a ~10 % gap** — meaning
+  resolution-native training recovers **~72 %** of Arm 1's 35.4 % zero-retrain
+  penalty, better than the ~60 % projected at epoch 20. **Headline for the
+  write-up: 3.9× lower latency (423 → 109 ms) for ~10 % of mAP with retraining,
+  versus 35 % without.**
+- **2026-09-21 — a user-run evaluation on `yolo26n-kd-bs16-20260916-101612` slowed
+  training by ~0.7 h, now fully recovered.** Epochs 85–91 ran 1,240–1,462 s against a
+  956–1,060 s baseline while the eval held memory (`kcompactd` pinned at 100 %, 11 GB
+  swap in use, 1 GB free of 47 GB). The eval finished 20:27; epoch 92 was back to
+  1,033 s and epoch 100 to 835 s, the fastest of the run. Lesson if another eval is
+  needed before the run ends: pass `--num-workers 2` (default 8) — 34 training
+  workers plus the eval's own is what tipped a 47 GB box into swap.
+- **2026-09-21 23:10 — projection at epoch 100 (~950 s/epoch):** full 200 epochs
+  finishes **Wed Sep 23 10:26, +2.6 h**; epoch 195 → 08:20 (+4.7 h); epoch 190 →
+  06:31 (+6.5 h). Aim for 200, treat epoch 195 as the decision point if the margin
+  tightens.
+
 - **2026-09-21 16:20 — status at epoch 82/200; timing improved, full run now fits.**
   23.4 h elapsed, zero faults. Epochs are running at **993 s**, not the 1,052.6 s
   projected on 2026-09-20 (less contention / warm page cache over the dataset), so
