@@ -1,6 +1,321 @@
 \chapter{Appendix}\label{appendix}
 
-% TODO: reserved for supplementary material that would clutter the main chapters,
-% e.g. the full 225-class/band assignment table (Sec. \ref{sec:band_structure}),
-% the full look-alike group listing (Sec. \ref{sec:gt_annotation_integrity}),
-% and additional qualitative example images once training results exist.
+This appendix holds the supplementary listings that would interrupt the argument of the main chapters. The first two are complete reference tables that \Cref{chapter:methods_implementation} states only in summary form, namely the per-class training-band assignment behind \Cref{sec:band_structure} and the look-alike groups behind \Cref{sec:lookalike_groups}. The third is a gallery of generated samples supporting the generator comparison of \Cref{sec:generator_comparison}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Per-Class Training-Band Assignment}\label{sec:appendix_band_assignment}
+
+\Cref{sec:band_structure} defines the four training bands and states how many classes each holds, but names only a handful of member species per band by way of illustration. \Cref{tab:appendix-class-band-assignment-abc,tab:appendix-class-band-assignment-d} complete that listing, giving every one of the $225$ classes together with the band it was assigned to. The assignment is reproduced from the per-class evaluation export \texttt{eval\_per\_class.csv}, the artifact the evaluation suite itself scored against, rather than recomputed from the post-curation pool sizes. Recomputation would risk a table that disagrees with the one the trained models were actually built on. The band totals match \Cref{tab:band-structure} exactly, at $50$ classes in Band A, $26$ in Band B, $26$ in Band C and $122$ in Band D.
+
+Two conventions govern how the two tables are read. Class names appear exactly as the dataset's own category list spells them, in lowercase and including the several genus-level and family-level labels that stand in for groups of species too fine to separate. Entries run column-wise, down the first class column, then down the second, then down the third, so that each band occupies a contiguous stretch. The final entry is the \texttt{human} class, which carries no band at all. \Cref{sec:band_structure} excludes it from the band structure because it is a negative and contextual class rather than a wildlife species, and the export records its band as \texttt{negative} accordingly.
+
+\begin{table}[p]
+\centering
+\footnotesize
+\setstretch{1.0}
+\caption{Per-class training-band assignment, Bands A, B and C ($102$ classes).}
+\label{tab:appendix-class-band-assignment-abc}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{}llllll@{}}
+    \toprule
+    Class & Band & Class & Band & Class & Band \\
+    \midrule
+    aardvark & A & pinniped clade & A & grevy's zebra & B \\
+    aardwolf & A & raccoon dog & A & kirk's dik-dik & B \\
+    african civet & A & red brocket & A & lowland tapir & B \\
+    asiatic black bear & A & red river hog & A & patas monkey & B \\
+    asiatic wild ass & A & red-necked wallaby & A & serval & B \\
+    aye-aye & A & ringtail & A & spectacled bear & B \\
+    binturong & A & saiga & A & springbok & B \\
+    black-backed jackal & A & sloth bear & A & tayra & B \\
+    bongo & A & spilogale species & A & bornean orangutan & C \\
+    brown hyaena & A & striped hyaena & A & bushbuck & C \\
+    callicebus genus & A & sun bear & A & cercopithecus species & C \\
+    cephalophus species & A & walrus & A & chital & C \\
+    clouded leopard & A & water deer & A & common eland & C \\
+    domestic pig & A & wild cat & A & dingo & C \\
+    domestic water buffalo & A & wolverine & A & domestic donkey & C \\
+    drill & A & yak & A & domestic goat & C \\
+    eurasian badger & A & african wild dog & B & dromedary camel & C \\
+    fisher & A & american badger & B & giant anteater & C \\
+    fossa & A & american mink & B & giant otter & C \\
+    genet genus & A & asian elephant & B & grant's gazelle & C \\
+    giant armadillo & A & baird's tapir & B & grey wolf & C \\
+    hog badger genus & A & bat-eared fox & B & hartebeest & C \\
+    honey badger & A & black wildebeest & B & kob & C \\
+    kinkajou & A & canada lynx & B & meerkat & C \\
+    leopard cat & A & caracal & B & muntjac genus & C \\
+    leopardus species & A & chimpanzee & B & northern chamois & C \\
+    malay tapir & A & common wombat & B & puma & C \\
+    maned wolf & A & dhole & B & quokka & C \\
+    mangabeys genus & A & eurasian lynx & B & red kangaroo & C \\
+    mouflon & A & eurasian otter & B & red panda & C \\
+    nine-banded armadillo & A & european bison & B & ring-tailed lemur & C \\
+    ocelot & A & gerenuk & B & roan antelope & C \\
+    old world porcupine family & A & giant panda & B & sambar & C \\
+    pangolin family & A & glaucomys species & B & snow leopard & C \\
+    \bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[p]
+\centering
+\footnotesize
+\setstretch{1.0}
+\caption{Per-class training-band assignment, Band D and the negative class ($123$ classes).}
+\label{tab:appendix-class-band-assignment-d}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{}llllll@{}}
+    \toprule
+    Class & Band & Class & Band & Class & Band \\
+    \midrule
+    african buffalo & D & eastern grey kangaroo & D & north american porcupine & D \\
+    african elephant & D & elephant seal & D & north american river otter & D \\
+    agouti genus & D & elk & D & northern raccoon & D \\
+    alpine ibex & D & eulemur species & D & nutria & D \\
+    alpine marmot & D & eurasian red squirrel & D & nyala & D \\
+    american bison & D & european hare & D & opossum family & D \\
+    american black bear & D & european rabbit & D & pikas genus & D \\
+    arizona black-tailed prairie dog & D & european roe deer & D & plains zebra & D \\
+    ateles species & D & gemsbok & D & pronghorn & D \\
+    baboon genus & D & giraffe & D & rattus genus & D \\
+    beaver genus & D & golden jackal & D & red deer & D \\
+    bighorn sheep & D & golden mantled ground squirrel & D & red fox & D \\
+    blackbuck & D & gorilla species & D & red squirrel & D \\
+    blesbok & D & greater kudu & D & reedbuck genus & D \\
+    bobcat & D & grey fox & D & reindeer & D \\
+    brown bear & D & hares and jackrabbits genus & D & rhinoceros family & D \\
+    brown-throated sloth & D & hedgehog family & D & rock hyrax & D \\
+    california ground squirrel & D & hippopotamus & D & sable antelope & D \\
+    callithrix species & D & hoffmann's two-toed sloth & D & saguinus species & D \\
+    capybara & D & howler monkey genus & D & saimiri species & D \\
+    cebus species & D & impala & D & sea otter & D \\
+    cheetah & D & jaguar & D & short-beaked echidna & D \\
+    chipmunk genus & D & japanese macaque & D & sika deer & D \\
+    collared peccary & D & kangaroo family & D & south american coati & D \\
+    colobus species & D & klipspringer & D & spotted hyaena & D \\
+    common duiker & D & koala & D & squirrel family & D \\
+    common fallow deer & D & leaf monkeys genus & D & steenbok & D \\
+    common warthog & D & leopard & D & striped skunk & D \\
+    common wildebeest & D & lion & D & swamp wallaby & D \\
+    cottontail rabbits genus & D & llama genus & D & thomson's gazelle & D \\
+    coyote & D & lycalopex species & D & tiger & D \\
+    cricetidae family & D & macaque species & D & vervet monkey & D \\
+    domestic cat & D & martes species & D & waterbuck & D \\
+    domestic cattle & D & mongoose family & D & weasel species & D \\
+    domestic dog & D & moose & D & western gray squirrel & D \\
+    domestic horse & D & mountain goat & D & white-nosed coati & D \\
+    domestic sheep & D & mountain zebra & D & white-tailed deer & D \\
+    eared seals & D & mule deer & D & wild boar & D \\
+    eastern cottontail & D & muridae family & D & woodchuck & D \\
+    eastern fox squirrel & D & muskrat & D & yellow-bellied marmot & D \\
+    eastern gray squirrel & D & nilgai & D & human & negative \\
+    \bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Look-Alike Group Listing}\label{sec:appendix_lookalike_groups}
+
+\Cref{sec:lookalike_groups} establishes the frozen table that every coarse-granularity figure in this work is computed against, and reports its shape as $174$ groups of which $30$ hold more than one class. \Cref{tab:appendix-lookalike-groups} lists those $30$ groups in full, each with its members and with the origin of the grouping. The remaining $144$ groups are singletons, in which a class stands alone and a coarse judgment is therefore identical to a fine one. Group labels and memberships are reproduced from \texttt{lookalike\_groups\_v2.csv}, the version the evaluation suite loads. The governing criterion is the one stated in \Cref{sec:gt_annotation_integrity}, namely whether confusing two classes in a single still frame counts as a forgivable slip or as a real failure.
+
+The \texttt{override} entries in the last column are where that criterion overrules taxonomy, and three of them carry most of the deviation from a pure genus rollup. The genus \textit{Panthera} was split three ways, isolating lion and tiger as singletons and keeping only the rosette-patterned leopard, jaguar and snow leopard together, since a tiger mistaken for a lion is not a subtle error. The genus \textit{Equus} was split into the three zebras and the three unstriped equids on the same reasoning about stripes. Grant's gazelle, Thomson's gazelle and springbok were merged across three genera into one \texttt{gazelle} group, reversing an earlier decision to keep them apart. Three cross-genus merges predate these and are retained unchanged, covering the two elephants, the lynx and caracal cluster, and the three hyaenas.
+
+\begin{table}[htbp]
+\centering
+\footnotesize
+\setstretch{1.0}
+\caption{The $30$ multi-member look-alike groups of the frozen coarse-granularity table, ordered by member count.}
+\label{tab:appendix-lookalike-groups}
+\begin{tabularx}{\textwidth}{@{}llXl@{}}
+    \toprule
+    Group & Size & Member classes & Origin \\
+    \midrule
+    \texttt{canis} & $6$ & black-backed jackal, coyote, dingo, domestic dog, golden jackal, grey wolf & genus \\
+    \texttt{tragelaphus} & $5$ & bongo, bushbuck, common eland, greater kudu, nyala & genus \\
+    \texttt{lynx\_caracal\_cluster} & $4$ & bobcat, canada lynx, caracal, eurasian lynx & override \\
+    \texttt{sciurus} & $4$ & eastern fox squirrel, eastern gray squirrel, eurasian red squirrel, western gray squirrel & genus \\
+    \texttt{cervus} & $3$ & elk, red deer, sika deer & genus \\
+    \texttt{equine\_unstriped} & $3$ & asiatic wild ass, domestic donkey, domestic horse & override \\
+    \texttt{gazelle} & $3$ & grant's gazelle, springbok, thomson's gazelle & override \\
+    \texttt{hyaena} & $3$ & brown hyaena, spotted hyaena, striped hyaena & override \\
+    \texttt{marmota} & $3$ & alpine marmot, woodchuck, yellow-bellied marmot & genus \\
+    \texttt{ovis} & $3$ & bighorn sheep, domestic sheep, mouflon & genus \\
+    \texttt{panthera\_rosette} & $3$ & jaguar, leopard, snow leopard & override \\
+    \texttt{tapirus} & $3$ & baird's tapir, lowland tapir, malay tapir & genus \\
+    \texttt{ursus} & $3$ & american black bear, asiatic black bear, brown bear & genus \\
+    \texttt{zebra} & $3$ & grevy's zebra, mountain zebra, plains zebra & override \\
+    \texttt{bison} & $2$ & american bison, european bison & genus \\
+    \texttt{bos} & $2$ & domestic cattle, yak & genus \\
+    \texttt{capra} & $2$ & alpine ibex, domestic goat & genus \\
+    \texttt{connochaetes} & $2$ & black wildebeest, common wildebeest & genus \\
+    \texttt{elephant} & $2$ & african elephant, asian elephant & override \\
+    \texttt{felis} & $2$ & domestic cat, wild cat & genus \\
+    \texttt{hippotragus} & $2$ & roan antelope, sable antelope & genus \\
+    \texttt{kobus} & $2$ & kob, waterbuck & genus \\
+    \texttt{leopardus} & $2$ & leopardus species, ocelot & genus \\
+    \texttt{lepus} & $2$ & european hare, hares and jackrabbits genus & genus \\
+    \texttt{macaca} & $2$ & japanese macaque, macaque species & genus \\
+    \texttt{macropus} & $2$ & eastern grey kangaroo, red-necked wallaby & genus \\
+    \texttt{nasua} & $2$ & south american coati, white-nosed coati & genus \\
+    \texttt{odocoileus} & $2$ & mule deer, white-tailed deer & genus \\
+    \texttt{sus} & $2$ & domestic pig, wild boar & genus \\
+    \texttt{sylvilagus} & $2$ & cottontail rabbits genus, eastern cottontail & genus \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Qualitative Generator Samples}\label{sec:appendix_generator_gallery}
+
+\Cref{sec:results_rubric_not_executed} records that the qualitative rubric designed for the generator comparison (\Cref{sec:generator_comparison_evaluation}) was never carried out, and \Cref{sec:results_per_class_structure} shows that downstream accuracy alone cannot detect an obvious species error such as \Cref{fig:kinkajou-generator-samples}. This section extends that single case into a broader sample: one anchor class, one rare class, and one look-alike class, each rendered by every locally-run generator of \Cref{tab:generator-local-roster} at the \texttt{maxlen} prompt regime, alongside a real photograph for reference. It is a visual supplement to the executed accuracy comparison, not a substitute for the rubric itself, and no rating or ranking is derived from it.
+
+\renewcommand{\figurename}{Appendix Samples}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/lion_real.jpg}
+    \caption{Real}
+    \label{fig:appendix-lion-real}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/lion_flux2-klein-9b.jpg}
+    \caption{FLUX.2-klein}
+    \label{fig:appendix-lion-flux2-klein-9b}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/lion_realvisxl-lightning.jpg}
+    \caption{RealVisXL + Lightning}
+    \label{fig:appendix-lion-realvisxl-lightning}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/lion_sd35m.jpg}
+    \caption{SD 3.5 Medium}
+    \label{fig:appendix-lion-sd35m}
+\end{subfigure}\\[1em]
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/lion_sd35-large.jpg}
+    \caption{SD 3.5 Large}
+    \label{fig:appendix-lion-sd35-large}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/lion_sd35-large-turbo.jpg}
+    \caption{SD 3.5 Large Turbo}
+    \label{fig:appendix-lion-sd35-large-turbo}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/lion_hidream-i1.jpg}
+    \caption{HiDream-I1}
+    \label{fig:appendix-lion-hidream-i1}
+\end{subfigure}
+\caption[Generator samples: lion (Band D, anchor)]{Lion (Band D, Anchor): the \enquote{sanity ceiling} class of \Cref{tab:generator-comparison-classes}, one every capable model is expected to render correctly. The real photograph is from Wikimedia Commons, uploaded by L. Beck (CC BY-SA 4.0).}
+\label{fig:appendix-gallery-lion}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/saiga_real.jpg}
+    \caption{Real}
+    \label{fig:appendix-saiga-real}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/saiga_flux2-klein-9b.jpg}
+    \caption{FLUX.2-klein}
+    \label{fig:appendix-saiga-flux2-klein-9b}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/saiga_realvisxl-lightning.jpg}
+    \caption{RealVisXL + Lightning}
+    \label{fig:appendix-saiga-realvisxl-lightning}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/saiga_sd35m.jpg}
+    \caption{SD 3.5 Medium}
+    \label{fig:appendix-saiga-sd35m}
+\end{subfigure}\\[1em]
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/saiga_sd35-large.jpg}
+    \caption{SD 3.5 Large}
+    \label{fig:appendix-saiga-sd35-large}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/saiga_sd35-large-turbo.jpg}
+    \caption{SD 3.5 Large Turbo}
+    \label{fig:appendix-saiga-sd35-large-turbo}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/saiga_hidream-i1.jpg}
+    \caption{HiDream-I1}
+    \label{fig:appendix-saiga-hidream-i1}
+\end{subfigure}
+\caption[Generator samples: saiga (Band A, rare)]{Saiga (Band A, Rare): a test-limited class with only $50$ real test images and a distinctive proboscis (\Cref{tab:generator-comparison-classes}), the kind of class \Cref{sec:results_per_class_structure} shows downstream accuracy cannot discriminate on. The real photograph is by Andrey Giljov, Wikimedia Commons (CC BY-SA 4.0).}
+\label{fig:appendix-gallery-saiga}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/plains_zebra_real.jpg}
+    \caption{Real}
+    \label{fig:appendix-plains-zebra-real}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/plains_zebra_flux2-klein-9b.jpg}
+    \caption{FLUX.2-klein}
+    \label{fig:appendix-plains-zebra-flux2-klein-9b}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/plains_zebra_realvisxl-lightning.jpg}
+    \caption{RealVisXL + Lightning}
+    \label{fig:appendix-plains-zebra-realvisxl-lightning}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/plains_zebra_sd35m.jpg}
+    \caption{SD 3.5 Medium}
+    \label{fig:appendix-plains-zebra-sd35m}
+\end{subfigure}\\[1em]
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/plains_zebra_sd35-large.jpg}
+    \caption{SD 3.5 Large}
+    \label{fig:appendix-plains-zebra-sd35-large}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/plains_zebra_sd35-large-turbo.jpg}
+    \caption{SD 3.5 Large Turbo}
+    \label{fig:appendix-plains-zebra-sd35-large-turbo}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.23\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/generator_comparison/appendix/plains_zebra_hidream-i1.jpg}
+    \caption{HiDream-I1}
+    \label{fig:appendix-plains-zebra-hidream-i1}
+\end{subfigure}
+\caption[Generator samples: plains zebra (Band D, look-alike)]{Plains zebra (Band D, Look-alike): compare the stripe pattern each generator produces against the real photograph and against the other two zebra species of \Cref{fig:zebra-species}. The real photograph is by Anagoria, Wikimedia Commons (CC BY 3.0).}
+\label{fig:appendix-gallery-plains-zebra}
+\end{figure}
+
+\renewcommand{\figurename}{Figure}
