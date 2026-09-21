@@ -224,7 +224,7 @@ as four sentences would be stronger, which is exactly the Chapter 2 pattern in m
 
 ---
 
-## Part 5 — Two habits specific to this manuscript
+## Part 5 — Habits specific to this manuscript
 
 ### 5.1 `rather than` is a tic — 202 uses, 0.67 per 100 words
 
@@ -250,3 +250,32 @@ American `-ize` forms against 63 British `-ise`).
 
 So: *behavior, artifact, judgment, color, labeled, analyze, modeling, neighbor, penalize,
 favorable, -ize, -ization*.
+
+### 5.3 Prefer "this work" over "this thesis"
+
+The manuscript self-referred well over 100 times before this rule was applied, split across
+"this thesis" (82), "the thesis"/"the thesis's" (16), and capitalized sentence-initial "This
+thesis"/"The thesis's" (9), against a single "this work". Both nouns are correct English; the
+density of the repeated one was the problem, the same mechanism as `rather than` in §5.1. "This
+work" (or "the work") is the default self-reference from here on, whatever the determiner or
+capitalization.
+
+Keep "thesis" only for the small set of sentences that are actually about the document as a
+physical, structured artifact, not about the research it reports: `1-Introduction.tex`'s
+opening "This Master's thesis is carried out in partnership with…" (Environment section, an
+institutional fact about the document itself) and the Structure section's "the remainder of
+this thesis is organized into four chapters". Everywhere else, referring to a decision, a
+result, a scope limit, a dataset, a metric, or an argument made "in this thesis" is referring to
+the research, and "this work" (or "the work") is the correct noun for that.
+
+> **Weak.** The target hardware for this thesis has a fixed, tight per-frame latency budget…
+> this thesis's own extrapolation… trained in this thesis… as the thesis's central comparison…
+>
+> **Better.** The target hardware for this work has a fixed, tight per-frame latency budget…
+> this work's own extrapolation… trained in this work… as the work's central comparison…
+
+Two things this is not license to touch. A genuine compound adjective that merely contains the
+substring — "thesis-grade" (`35-Synthetic_Generator_Comparison.tex:307`, "what makes this
+thesis-grade rather than impressionistic") — is not an instance of "this/the thesis" at all.
+Nor is the indefinite article: "For a thesis whose deployment target is an embedded processor…"
+(`4-Results.tex:230`) is a different construction and was left as is.

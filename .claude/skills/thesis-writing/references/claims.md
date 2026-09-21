@@ -84,9 +84,26 @@ sentence, and point the reader at the thesis section that develops it in full wi
 the internal doc still needs recording for traceability, that goes in a `%` comment, never
 both stated as a claim and left inline as a visible path.
 
+**Git history is repo-internal too, and it cannot be dropped into a `%` comment as a fallback.**
+A commit trailer, a commit message, or a branch name is not evidence a reader can check, and
+unlike a script path there is no artifact to point at from a comment either — the fix is to cut
+the claim, not relocate it. This applies whenever a disclosure or methods sentence is tempted to
+lean on "this is recorded in the repository" as its own evidence.
+
+> **Weak.** Every code change produced with the tool is committed to this thesis's repository
+> with a co-authorship trailer naming the model, so the model and date behind each AI-assisted
+> contribution are recorded in the repository's history.
+>
+> **Fix.** Cut it. The reader has no access to this repository, so its git history cannot serve
+> as anyone's evidence. State only what the sentence can support on its own — which tool did
+> what, and that the author reviewed the output — and stop there.
+
 ---
 
 ## 3. Every borrowed claim carries a key that resolves
+
+This section and `scope.md` §3 are two halves of one rule. Here: a citation must attach to a
+stated claim. There: the claim, not the source, is the sentence's grammatical subject.
 
 **A citation attaches to a stated claim; it never stands alone as a pointer.** "For a
 comprehensive account of X, see \cite{key}" tells the reader nothing except that something
@@ -118,6 +135,25 @@ cp research/literature/references.bib thesis/manuscript/bibliography/references_
 
 Do not invent a key and fix it later. An invented key that survives to submission is a
 fabricated citation.
+
+**The bachelor thesis is a prior publication, not a preceding chapter.** This Master's thesis is
+an independent work. Treat `\cite{hedrichGeneratingSyntheticDatasets2026}` exactly like any
+other cited paper by the same author: state what it found, cite it, move on. Never write "as in
+the author's bachelor thesis", "more than the bachelor thesis did", or "continues the bachelor
+thesis" as though the two documents shared a section, a decision, or a required disclosure
+paragraph. Both happening to have, say, an "Environment" section or an AI-tools disclosure is
+shared house style between two otherwise-unrelated documents, not a joint one, and needs no
+cross-reference at all.
+
+> **Weak.** As in the author's bachelor thesis, ChatGPT and DeepL were used to polish wording.
+>
+> **Better.** ChatGPT and DeepL Translator were used to polish wording.
+
+When the bachelor thesis is genuinely the source of a *finding* — a result, a method, a number —
+cite it like the manuscript already does correctly at `2-Literature_Review.tex:193` and
+`35-Synthetic_Generator_Comparison.tex:4` ("Earlier work by the present author found …
+\cite{hedrichGeneratingSyntheticDatasets2026}"). That is a legitimate borrowed claim under the
+rule above. Reaching for it to justify anything else — practice, tooling, boilerplate — is not.
 
 ---
 

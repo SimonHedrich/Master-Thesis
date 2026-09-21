@@ -51,14 +51,18 @@ These targets are not imported from anywhere. `35-Synthetic_Generator_Comparison
 
 | Doing this | Read |
 |---|---|
+| Deciding whether a passage, a name, or a whole section belongs at all | `references/scope.md` |
 | Drafting or rewriting any prose | `references/construction.md` |
 | Reporting a number, a comparison, or a conclusion | `references/claims.md` |
 | Using a project term, or introducing a new one | `references/terminology.md` |
 | Tempted to delete a hedge, add a dash or semicolon, use the passive, or pick a tense | `references/conflicts.md` |
 | Checking LaTeX house style, acronyms, floats, or a submission checklist | `references/mechanics.md` |
+| Choosing plot vs. table vs. inline prose, or laying out a multi-panel image figure | `references/figures.md` |
 | Wanting to see a rule applied to real text from this thesis | `references/examples.md` |
 
-Read the one you need, not all six.
+Read the one you need, not all seven. **`scope.md` is the one to read first when
+editing existing prose**, because the cheapest fix for a bad paragraph is usually
+deleting it.
 
 Two things to know without opening anything: the **mixed-set headline number is always reported
 with its real-only breakout** (`claims.md` §5, from `CLAUDE.md`), and **hedges that calibrate a
@@ -78,10 +82,23 @@ verdict and a reason in `references/conflicts.md`, rather than averaged away.
 `thesis/writing/anti-slop-skill.md` is the blog post that prompted this skill, and
 `thesis/writing/2026-09-17_manuscript-baseline.md` holds every measurement quoted above.
 
+## The length problem
+
+The five rules above fix sentences, and sentences were never the reason the manuscript reached
+57,291 words — roughly three and a half times the bachelor thesis, against a department
+instruction asking whether seventy pages would have done the job. The prose was locally correct
+and globally far too much of it: literature the work never uses reviewed one paper per
+paragraph, abandoned approaches narrated as stories, and fifteen caveats each stated in two to
+six places.
+
+**`references/scope.md` is the rule set for that**, with the standing per-file word budget in
+its §9 (target: 31,400 words). `uv run python -m scripts.thesis.check_manuscript` measures
+every file against that budget and checks that nothing was severed in the cutting.
+
 ## The limit
 
-These rules fix form. A section can satisfy every one of them and still say nothing, because no
-rule knows whether a claim is true or worth making. `references/claims.md` goes as far as a
-rule can — it makes every number traceable to an artifact and every citation resolvable — and
-stops there. Whether the experiment was the right one, and whether a section should exist at
-all, stays with the author. It is only easier to see once the noise around it is gone.
+These rules fix form and scope. A section can satisfy every one of them and still say nothing,
+because no rule knows whether a claim is true. `references/claims.md` goes as far as a rule can
+— it makes every number traceable to an artifact and every citation resolvable — and stops
+there. Whether the experiment was the right one stays with the author. It is only easier to see
+once the noise around it is gone.
