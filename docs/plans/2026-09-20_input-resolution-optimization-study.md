@@ -198,11 +198,32 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
 | 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
 | 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC; **1,012 s/epoch over 5 completed epochs → ETA Sep 23 ~09:00**; full 200 epochs confirmed by the user |
-| 3 — 72 h gate | ⏳ planned | | **stop the run Sep 23 ~06:00 at epoch ~181**, take `best.pt`, then full test eval (~1–2 h) |
+| 3 — 72 h gate | ⏳ planned | | epochs sped to 993 s → full 200 now lands **Sep 23 10:18 (+2.7 h)**; decide at ~epoch 190 whether to run on or stop |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-21 16:20 — status at epoch 82/200; timing improved, full run now fits.**
+  23.4 h elapsed, zero faults. Epochs are running at **993 s**, not the 1,052.6 s
+  projected on 2026-09-20 (less contention / warm page cache over the dataset), so
+  the full 200 epochs now lands **Sep 23 10:18, +2.7 h inside the deadline** rather
+  than 36 min past it. Fallbacks if it slips: epoch 195 → 07:52 (+5.1 h), epoch 190 →
+  05:59 (+7.0 h), epoch 185 → 03:50 (+9.2 h). Decision deferred to ~epoch 190 on the
+  actual clock.
+
+  Validation trajectory, converging with gains halving every 20 epochs:
+
+  | epoch | 20 | 40 | 60 | 80 |
+  |---|---:|---:|---:|---:|
+  | mAP50_95 | 0.5733 | 0.6057 | 0.6249 | 0.6377 |
+  | gain | — | +0.0324 | +0.0192 | +0.0128 |
+
+  Extrapolates to ≈0.655–0.66 at epoch 200, a **~13.7 %** gap to the 640 px
+  baseline's best val of 0.7629 — steady at ~14 % since epoch 20 rather than
+  widening. **This is the Arm 2 result taking shape:** Arm 1 measured a 35.4 % real-mAP
+  penalty for running 640 px weights at a 320 px input; native training is tracking
+  ~14 %, recovering roughly 60 % of it at identical on-device latency.
 
 - **2026-09-20 23:03 — epoch 20, first validation: no LR red flag.** 320 px run
   `mAP50_95=0.5733` (mAP50 0.6630) against the 640 px baseline's `0.6661` at the same
