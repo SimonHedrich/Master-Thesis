@@ -2,18 +2,12 @@
 \cleardoublepage
 \chapter{Results}\label{chapter:results}
 
-This chapter is weighted to match where the experimental work actually went, on the same principle as \Cref{chapter:literature_review}, rather than giving each part of the original plan equal space.
-
-Two results carry it. \Cref{sec:results_synthetic_data_practicability} reports the practicability of synthetic training data through a controlled comparison of twelve generator and prompt-regime cells, which is the largest single experiment in the work. \Cref{sec:results_regime_comparison} reports detection accuracy across the four training bands and the three test domains defined in \Cref{sec:evaluation_framework}, for the fine-tuned teacher model and for both student architectures. Those two sections hold the bulk of the measured evidence, and three findings in them are what the rest of the work argues from. Prompt detail matters more than generator identity. Synthetic imagery substitutes for half of a small real training set but not for all of it. And species classification rather than localization is where every model loses its accuracy.
-
-\Cref{sec:results_kd_and_embedded} is deliberately much smaller. It reports one comparison between distillation and direct fine-tuning at a single hyperparameter point, and one runtime measurement on one proxy device with no optimization applied. Neither is the research program the work's central question calls for, and that section opens by saying so and by naming the time budget as the reason. Its two findings are nonetheless unambiguous within their scope: direct fine-tuning beats distillation on every axis measured, and no full-precision model reaches the project's latency target on target-adjacent hardware.
-
-\Cref{sec:results_general_observations} closes with the observations that cross section boundaries and with the five scope boundaries that bound every number here, including the one evaluation rule this chapter deviated from.
+Two experiments carry this chapter. \Cref{sec:results_synthetic_data_practicability} reports the practicability of synthetic training data through a controlled comparison of twelve generator and prompt-regime cells. \Cref{sec:results_regime_comparison} reports detection accuracy across the four training bands and the three test domains of \Cref{sec:evaluation_framework}. Three findings carry the rest of the work. Prompt detail matters more than generator identity. Synthetic imagery substitutes for half of a small real training set but not for all of it. And species classification rather than localization is where every model loses its accuracy. \Cref{sec:results_kd_and_embedded} reports one distillation comparison and one runtime measurement, and \Cref{sec:results_general_observations} collects what crosses section boundaries.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Practicability of Synthetic Training Data: Generator Comparison}\label{sec:results_synthetic_data_practicability}
 
-This section reports the controlled comparison designed in \Cref{sec:generator_comparison}: twelve generator$\times$prompt-regime cells, each supplying $1{,}200$ synthetic training images for the same $12$ classes to the same detector under the same schedule, each scored on the same $9{,}742$ real photographs. Two qualifications set from the outset determine how the numbers below should be read. The annotations underlying every cell are automatic rather than human-reviewed (\Cref{sec:generator_comparison_training}), so absolute accuracy is provisional even though the relative ranking is not obviously affected, every cell having been annotated identically. And of the three evaluation axes designed, only downstream utility was executed in full. The qualitative rubric and three of the four automatic proxies were specified and not carried out (\Cref{sec:results_rubric_not_executed}). The results are therefore a single-axis comparison, reported as such.
+This section reports the controlled comparison designed in \Cref{sec:generator_comparison}: twelve generator$\times$prompt-regime cells, each supplying $1{,}200$ synthetic training images for the same $12$ classes to the same detector under the same schedule, each scored on the same $9{,}742$ real photographs. Two qualifications determine how the numbers below should be read. Every cell was annotated automatically (\Cref{sec:generator_comparison_training}), so absolute accuracy is provisional even though the identical treatment leaves the ranking unaffected. And of the three evaluation axes designed, only downstream utility was executed (\Cref{sec:results_rubric_not_executed}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Downstream Utility on Real Photographs}\label{sec:results_downstream_utility}
@@ -22,7 +16,7 @@ This section reports the controlled comparison designed in \Cref{sec:generator_c
 
 \begin{table}[H]
 \centering
-\caption[Generator ranking by downstream accuracy]{All twelve cells ranked by mean average precision on the real test set. \enquote{Regime} is the prompt regime of \Cref{tab:generator-prompt-regimes}. The incumbent is the generator that produced the production synthetic dataset.}
+\caption[Generator ranking by downstream accuracy]{All twelve cells ranked by mean average precision on the real test set. \enquote{Regime} is the prompt regime of \Cref{tab:generator-prompt-regimes}, and the incumbent produced the production synthetic dataset.}
 \label{tab:generator-ranking}
 \begin{tabular}{@{}rllrlr@{}}
 \toprule
@@ -44,23 +38,14 @@ $12$ & RealVisXL + Lightning & \texttt{maxlen} & $2$ & $0.023 \pm 0.001$ & $0.62
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{figures/plots/model_comparison_full_headline_map.png}
-\caption[Downstream accuracy of all twelve generator cells]{Mean average precision on the real test set for all twelve cells, with error bars showing the standard deviation across training seeds. Bars are colored by tier: proprietary API services at the unabridged prompt, the same services at the compressed prompt, and locally-run open-weight models.}
-\label{fig:generator-headline-map}
-\end{figure}
+\Cref{tab:generator-ranking} separates tiers rather than individual models, as \Cref{fig:generator-headline-map} plots. The five highest-ranked cells are all proprietary API services and the best locally-run model ranks sixth. The one crossing is \texttt{gemini-3.1-flash-lite-image} under the short prompt, a deliberately handicapped cell whose unabridged counterpart sits fourth. Under each model's best prompt, no local model reaches any API model. Within the local tier the two non-distilled Stable Diffusion 3.5 variants lead and are statistically indistinguishable from one another, while SD 3.5 Large's four-step Turbo variant trails it by roughly a fifth. Step count alone does not decide the outcome, since the non-distilled HiDream-I1 ranks eleventh.
 
-The first observation is a separation between tiers rather than between individual models: the five highest-ranked cells are all proprietary API services, and the best locally-run model ranks only sixth. The separation is not absolute. One API cell, \texttt{gemini-3.1-flash-lite-image} under the short prompt, falls below the two strongest local cells. However, that cell is deliberately handicapped, and its unabridged-prompt counterpart sits fourth. Under each model's best available prompt, no local model reaches any API model.
-
-Within the local tier the two non-distilled Stable Diffusion 3.5 variants lead and are statistically indistinguishable from one another. The one clean within-family test of step distillation available here is SD 3.5 Large against its Turbo variant, the same base model at four denoising steps instead of forty. This comparison shows the distilled version trailing by roughly a fifth. That is suggestive rather than conclusive: HiDream-I1 is not distilled and ranks eleventh, so step count alone plainly does not determine the outcome.
-
-The second observation concerns absolute magnitude. Every cell in this table scores far below what the same detector achieves on the full dataset (\Cref{sec:results_headline_mixed}), and this is expected rather than alarming: each cell is a $1{,}200$-image fine-tune across $12$ classes, evaluated on a test set an order of magnitude larger and drawn from a different domain. These numbers support comparison between generators, which is what they were constructed for, and do not support any claim about achievable accuracy.
+Every cell scores far below what the same detector reaches on the full dataset (\Cref{sec:results_headline_mixed}), as expected of a $1{,}200$-image fine-tune across $12$ classes scored on a far larger test set. These figures rank generators and support no claim about achievable accuracy. They also confound two variables, since the local cells ran a length-capped prompt and the API cells the unabridged one.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Prompt Length Versus Model Identity}\label{sec:results_prompt_length}
 
-\Cref{tab:generator-ranking} confounds two variables for the local tier, since those cells run a length-capped prompt regime while the API cells run the unabridged production prompt. The controlled ablation of \Cref{sec:generator_comparison_prompts} resolves this by varying prompt length alone, within a fixed model, for two models at different capability levels (\Cref{tab:prompt-length-ablation}).
+The controlled ablation of \Cref{sec:generator_comparison_prompts} separates those two variables by varying prompt length alone, within a fixed model, for two models at different capability levels (\Cref{tab:prompt-length-ablation}).
 
 \begin{table}[H]
 \centering
@@ -76,21 +61,14 @@ Generator & \texttt{full} & \texttt{compressed} & Relative loss \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\textwidth]{figures/plots/model_comparison_prompt_ablation_headline_map.png}
-\caption[Prompt-length ablation, plotted]{The prompt-length ablation. Each model appears twice, differing only in the length of the prompt it was conditioned on.}
-\label{fig:prompt-length-ablation}
-\end{figure}
+Compressing the prompt costs roughly half the downstream accuracy, almost identically for both models despite their differing capability (\Cref{fig:prompt-length-ablation}). The effect is larger than most model-to-model differences in \Cref{tab:generator-ranking}, moving the top-ranked cell to fifth place and the fourth to eighth. Within-group confusion moves in step, from $0.253$ to $0.457$ and from $0.218$ to $0.405$, so what the long prompt buys is the diagnostic detail on which species discrimination depends.
 
-Compressing the prompt costs roughly half the downstream accuracy, and does so almost identically for both models despite their differing capability. The effect is larger than most of the model-to-model differences in \Cref{tab:generator-ranking}: it moves the top-ranked cell to fifth place and the fourth to eighth. Within-group confusion moves in step, rising from $0.253$ to $0.457$ and from $0.218$ to $0.405$ respectively, indicating that what the long prompt buys is specifically the diagnostic detail on which species discrimination depends. This is what one would expect, since the diagnostic features are among the first content the compression cascade discards.
-
-Two consequences follow. For the interpretation of \Cref{tab:generator-ranking}, the gap between the API and local tiers is substantially, though not wholly, a prompt-capacity effect rather than a pure quality effect. The local tier's disadvantage is real but it is at least in part a disadvantage of its text encoders rather than of its image generation. For practice, the finding inverts the intuitive ordering of concerns: how much detail a generator is given matters more than which generator is chosen, at least across the range of models tested here. The ablation covers two models rather than all of them, and the local tier has no unabridged-prompt cell at all, so this remains a demonstrated effect on two models rather than an established general law.
+The gap between the API and local tiers is therefore substantially, though not wholly, a prompt-capacity effect, which makes the local tier's disadvantage partly one of its text encoders. The practical ordering of concerns inverts: how much detail a generator is given matters more than which generator is chosen. The ablation covers two models and the local tier has no unabridged-prompt cell, so this is a demonstrated effect rather than a general law. The remaining criterion available before any detector is trained is price.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Cost Does Not Predict Quality}\label{sec:results_cost_vs_quality}
 
-Within the local tier, generation cost and downstream quality are unrelated to the point of inversion. The most expensive cell to produce is HiDream-I1, at nearly $48$ GPU-hours for $1{,}200$ images. This ranks eleventh of twelve, while the cheapest by two orders of magnitude, at under a third of an hour, ranks twelfth. The best cost-to-quality trade-off in the grid is SD 3.5 Medium, statistically indistinguishable from SD 3.5 Large at less than half its generation time. Model scale, denoising-step count and generation time all fail to predict the outcome. What does appear to predict it is the model family, with the Stable Diffusion 3.5 architecture and training recipe leading regardless of which size is used.
+Within the local tier, generation cost and downstream quality are unrelated to the point of inversion. The most expensive cell to produce is HiDream-I1, at nearly $48$ GPU-hours for $1{,}200$ images, and it ranks eleventh of twelve, while the cheapest by two orders of magnitude ranks twelfth. SD 3.5 Medium is the best trade-off in the grid, indistinguishable from SD 3.5 Large at less than half its generation time. Model scale, denoising-step count and generation time all fail to predict the outcome. Model family does predict it, with the Stable Diffusion 3.5 architecture leading at either size.
 
 \begin{figure}[H]
 \centering
@@ -99,25 +77,23 @@ Within the local tier, generation cost and downstream quality are unrelated to t
 \label{fig:generator-cost-vs-map}
 \end{figure}
 
-The same pattern holds across the API tier and is sharper still, because there the cost is monetary and directly comparable. The two \texttt{gpt-image-2} quality tiers differ by a factor of $2.9$ in price ($\$10.11$ against $\$29.36$ for the same $1{,}200$ images) and are statistically tied in outcome: a gap of $0.008$ against a combined standard deviation of roughly $0.018$. Paying almost three times more for the higher quality tier bought nothing measurable. On the other vendor, the incumbent and its cheaper variant are likewise indistinguishable within their spreads. In neither family is the cheaper tier the worse one.
-
-No single cost axis spans the whole table, and none is offered: local cells are paid for in GPU-hours and API cells in currency, and reducing both to one number would require an assumed price of compute that would carry the conclusion.
+\Cref{fig:generator-cost-vs-map} shows no trend across that tier. The API tier is sharper still, because there the cost is monetary. The two \texttt{gpt-image-2} quality tiers differ by a factor of $2.9$ in price ($\$10.11$ against $\$29.36$ for the same $1{,}200$ images) and are statistically tied, a gap of $0.008$ against a combined standard deviation of roughly $0.018$. The incumbent and its cheaper variant are likewise indistinguishable within their spreads. In neither family is the cheaper tier the worse one, and no single cost axis spans the whole table, since reducing GPU-hours and currency to one number would require an assumed price of compute that would carry the conclusion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Per-Class Structure: Where the Ranking Comes From}\label{sec:results_per_class_structure}
 
-The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced across the twelve classes, and the imbalance is itself the most important result in this section. Essentially all of the discriminating signal comes from the three data-rich anchor classes and the zebras: American black bear alone ranges from $0.072$ for the weakest cell to $0.326$ for the strongest, a spread of $4.5$ times. The six rare classes behave in the opposite way. Five of them (aye-aye, kinkajou, ringtail, saiga and the pangolin family) stay below $0.05$ average precision for \emph{every} cell in the grid, regardless of how well that same cell performs on the anchors. Ringtail never exceeds $0.010$. Water deer is the sole exception, and even it peaks at $0.066$.
+The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced across the twelve classes, and that imbalance is this section's most important result. Essentially all of the discriminating signal comes from the three data-rich anchor classes and the zebras, with American black bear alone ranging from $0.072$ for the weakest cell to $0.326$ for the strongest. The six rare classes behave in the opposite way. Five of them, namely aye-aye, kinkajou, ringtail, saiga and the pangolin family, stay below $0.05$ average precision for \emph{every} cell in the grid. Water deer is the sole exception and peaks at $0.066$.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{figures/plots/model_comparison_full_per_class_heatmap.png}
-\caption[Per-class average precision across all cells]{Per-class average precision for every cell. The contrast between the data-rich columns, which carry the ranking, and the rare-class columns, which are uniformly near zero, is the section's central observation.}
+\caption[Per-class average precision across all cells]{Per-class average precision for every cell. The contrast between the data-rich columns, which carry the ranking, and the near-zero rare-class columns is the section's central observation.}
 \label{fig:generator-per-class-heatmap}
 \end{figure}
 
-This is a resolution limit of the evaluation axis rather than a finding about the generators. With at most a few dozen to a few hundred real test images per rare class and a detector fine-tuned on $100$ synthetic images of it, the measurement has no power to separate a good generator from a poor one on exactly the classes for which synthetic data was introduced in the first place.
+\Cref{fig:generator-per-class-heatmap} shows that contrast column by column. It is a resolution limit of the evaluation axis rather than a finding about the generators: with at most a few hundred real test images per rare class and a detector fine-tuned on $100$ synthetic images of it, the measurement cannot separate generators on exactly the classes synthetic data was introduced for.
 
-A single case makes the point concretely. FLUX.2-klein renders kinkajous with a heavily ringed tail and a spotted coat, closer to a genet or civet than to the real animal, which has a plain golden-brown unringed tail. The defect is consistent across its images of that class and is specific to that model, since SD 3.5 Large and HiDream-I1 both render the species correctly from the same prompt text. It is, in other words, an unambiguous and visually obvious species error. \Cref{fig:kinkajou-generator-samples} shows the error directly, alongside a real photograph and the two generators that avoid it. Its effect on the measured accuracy for that class is nil: FLUX.2-klein scores $0.0064$ and SD 3.5 Large $0.0058$, indistinguishable, both buried in the noise floor. A generator that draws the wrong animal is not penalized by the only axis this study executed. That is the strongest available argument for the qualitative rubric of \Cref{sec:generator_comparison_evaluation}, and the clearest cost of its not having been carried out.
+One case makes the point concretely. FLUX.2-klein renders kinkajous with a heavily ringed tail and a spotted coat, closer to a genet or civet than to the real animal, whose tail is plain golden-brown and unringed. The defect is consistent across its images of that class and specific to that model, since SD 3.5 Large and HiDream-I1 render the species correctly from the same prompt (\Cref{fig:kinkajou-generator-samples}). Its effect on measured accuracy is nil, at $0.0064$ against SD 3.5 Large's $0.0058$, so a generator that draws the wrong animal goes unpenalized by the only axis this study executed.
 
 \begin{figure}[H]
 \centering
@@ -149,66 +125,50 @@ A single case makes the point concretely. FLUX.2-klein renders kinkajous with a 
     \caption{HiDream-I1}
     \label{fig:kinkajou-hidream}
 \end{subfigure}
-\caption[Kinkajou renders compared against a real photograph]{Kinkajou samples at \texttt{maxlen}. FLUX.2-klein's ringed tail and spotted coat are consistent across its output for this class and visually distinct from the real animal, while SD 3.5 Large and HiDream-I1 both reproduce the plain, unringed tail. None of this is visible in \Cref{tab:generator-ranking}.}
+\caption[Kinkajou renders compared against a real photograph]{Kinkajou samples at \texttt{maxlen}. FLUX.2-klein's ringed tail and spotted coat are consistent across its output for this class, while SD 3.5 Large and HiDream-I1 both reproduce the plain, unringed tail. None of this is visible in \Cref{tab:generator-ranking}.}
 \label{fig:kinkajou-generator-samples}
 \end{figure}
 \renewcommand{\figurename}{Figure}
 
-Within-group confusion over the zebras tracks overall detector quality at both extremes but not through the middle of the ranking. The three lowest confusion rates ($0.218$ to $0.253$) belong to three of the four top-ranked cells, and the two highest ($0.628$ and $0.683$) to the two lowest-ranked. In between the ordering breaks down, and the incumbent is a visible exception, ranking third on accuracy while carrying a confusion rate ($0.339$) worse than that of two local cells. The reading is that species confusion among look-alikes is largely downstream of general detection quality rather than an independent failure mode that some generators exhibit and others avoid. This also means that a cell's confusion rate adds little information beyond its accuracy, and cannot stand in for the fine-grained qualitative judgment it might appear to substitute for.
+Within-group confusion over the zebras tracks detector quality at the extremes and not through the middle of the ranking. The three lowest rates, from $0.218$ to $0.253$, belong to three of the four top-ranked cells, and the two highest, $0.628$ and $0.683$, to the two lowest-ranked, while the incumbent ranks third on accuracy carrying $0.339$. Species confusion among look-alikes is therefore largely downstream of general detection quality, so a cell's confusion rate cannot substitute for the qualitative judgment it appears to stand in for.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Qualitative Rubric: Designed, Not Executed}\label{sec:results_rubric_not_executed}
 
-The blind multi-rater rubric specified in \Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies: teacher recognition confidence, per-class distributional distances, and prompt-adherence scoring. Only the automatic annotation yield was computed, and it discriminates weakly: the local cells fall between $93.6\%$ and $98.8\%$ single-detection yield, a range too narrow to separate them.
-
-The omission is recorded here rather than left implicit because it bounds the section's conclusions in a specific and predictable way. The rubric was designed as the instrument for precisely the regime where downstream accuracy has no resolution, namely the rare classes. Its absence is why \Cref{sec:results_per_class_structure} can identify a visually obvious species error, shown directly in \Cref{fig:kinkajou-generator-samples}, and simultaneously show that no executed measure detects it. The time budget is the reason, and the axis remains fully specified and directly executable on the archived images, which makes it a natural first item of further work (\Cref{sec:further_work}) rather than a gap requiring redesign.
+The blind multi-rater rubric of \Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies. The one computed, automatic annotation yield, places the local cells between $93.6\%$ and $98.8\%$, too narrow a range to separate them. The rubric was the designed instrument for the regime in which downstream accuracy has no resolution, so its absence is why the kinkajou error is visible to the eye and to no executed measure.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Practicability Verdict}\label{sec:results_practicability_verdict}
 
 Three conclusions are supported by the evidence assembled here, and one is not.
 
-First, on the question the sub-study exists to answer: the production choice of generator is not vindicated, but neither is it refuted. The incumbent ranks third of twelve, is beaten by roughly $28\%$ by \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime, and is statistically tied with the cheaper variant from its own vendor. It is a reasonable choice that was not the best available one, and the margin by which it was beaten is smaller than the margin attributable to prompt length. The original basis for that choice (that its output looked more realistic) turns out to have been a poor predictor: the models that look best are not reliably the models whose data trains the best detector, which is exactly the objection that prompted this sub-study.
+The production choice of generator is not vindicated and not refuted. The incumbent ranks third of twelve, is beaten by roughly $28\%$ by \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime, and is tied with the cheaper variant from its own vendor. That margin is smaller than the one attributable to prompt length, and the original basis for the choice, that the output looked more realistic, was a poor predictor. Second, prompt detail matters more than generator identity across the range tested. Third, cheaper tiers are not worse tiers in either vendor family or in the local grid, so generation cost is not usable as a proxy for training-data quality.
 
-Second, prompt detail matters more than generator identity across the range tested. Third, cheaper tiers are not worse tiers, in either vendor family or in the local grid, so generation cost is not usable as a proxy for training-data quality.
+What is not supported is any conclusion about the rare, long-tail classes, which is the case that motivated synthetic data in this work at all. On those classes every generator is indistinguishable from every other under the only axis executed, and at least one is demonstrably drawing the wrong animal without penalty. The comparison establishes a ranking for data-rich classes and establishes that the current instrument cannot rank generators for data-poor ones.
 
-What is not supported is any conclusion about the rare, long-tail classes. This is to say, about the case that motivated synthetic data in this work at all. On those classes every generator is indistinguishable from every other under the only axis executed, and at least one generator is demonstrably drawing the wrong animal without penalty. The honest summary is that the comparison establishes a ranking for data-rich classes and establishes that the current instrument cannot rank generators for data-poor ones.
-
-\paragraph{Limitations}
-Beyond the deferred evaluation axes, six qualifications apply. The annotations are automatic and un-reviewed throughout. Seed counts are uneven: three per API cell but only two per local cell, short of the three the protocol itself recommends. The design is not a full factorial: the local tier has no unabridged-prompt cell and the API tier no capacity-matched one, so the prompt-length effect is demonstrated on two models rather than across the grid. Evaluation is real-only, with no mixed condition defined for this sub-study. One planned cell, the quality ceiling from the more expensive tier of the incumbent's vendor, was never generated, so the grid has no upper anchor. And three fairness asymmetries remain, disclosed in \Cref{sec:generator_comparison_prompts}: the unabridged prompt was trimmed for one vendor's character cap on long-article species, negative prompts were unavailable to one local cell, and the two prompt regimes are not seed-matched to each other.
-
-\paragraph{A Note on Seeds}
-One episode during this study is worth reporting because it bears on how the table above should be read. At a single training seed, the incumbent scored $0.064$ and its cheaper variant $0.094$, and this was initially written up as a clear result: the lighter model beating the model it is a reduced version of. Adding a second seed moved the incumbent to $0.090$ and the conclusion to \enquote{indistinguishable}. Adding a third moved it to $0.105$ and reversed the direction of the gap outright. The final figure of $0.105 \pm 0.036$ has a spread roughly six times wider than any other API cell's, which after three seeds looks like a genuine property of that cell rather than an artifact of too few runs. The lesson is not merely that more seeds are better but that a single-seed difference of this size in this regime carries no information at all. Moreover, reporting a standard deviation of zero for a one-seed cell, as a naive aggregation does, actively conceals the problem.
+\paragraph{A note on seeds}
+At a single training seed the incumbent scored $0.064$ against its cheaper variant's $0.094$. A second seed moved it to $0.090$ and the conclusion to \enquote{indistinguishable}, and a third moved it to $0.105$ and reversed the gap outright. A single-seed difference of this size carries no information, and the same caution governs the larger comparison that follows, where every model contributes a single run.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Detection Performance Across Training Regimes and Test Domains}\label{sec:results_regime_comparison}
-% Scope note on this section's model coverage. The original stub named YOLOv5s
-% alone. By the end of the training campaign YOLO26n under direct fine-tuning
-% was the chosen student, and full band x granularity grids exist for the
-% teacher ensemble, YOLOv5s and YOLO26n alike, so restricting the section to
-% YOLOv5s would report the weakest model as if it were the result. The section
-% therefore covers every model that carries a band grid and singles out YOLO26n
-% as the primary detector. The distilled student is deferred to
-% sec:results_kd_basic_comparison, where its own comparison lives.
-% docs/2026-09-07_model-comparison-teacher-and-students.md
 
-\Cref{sec:evaluation_framework} fixed one instrument and one reporting structure, and this section applies both to the trained detectors. Every figure below comes from one evaluation-suite run against a fixed test set of $63{,}802$ real and $11{,}250$ synthetic images, carrying $92{,}094$ and $11{,}264$ ground-truth boxes respectively. The mixed test set is the union of those two, scored together as a single set of $75{,}052$ images.
+\Cref{sec:evaluation_framework} fixed one instrument and one reporting structure, and this section applies both to the trained detectors. Every figure below comes from one evaluation-suite run against a fixed test set of $63{,}802$ real and $11{,}250$ synthetic images, carrying $92{,}094$ and $11{,}264$ ground-truth boxes.
 % scripts/training/yolo26n/model_exports/yolo26n-kd-bs16-20260916-101612/eval_run.log
-Four models are reported. These are the \textit{MegaDetector} and \textit{SpeciesNet} ensemble off the shelf, the same ensemble with its classifier fine-tuned (\Cref{sec:teacher_finetuning}), \textit{YOLOv5s}, and \textit{YOLO26n} trained by direct fine-tuning. The distilled \textit{YOLO26n} student is held back for \Cref{sec:results_kd_basic_comparison}, which is the comparison it belongs to.
+The mixed test set is the union of the two, scored together as a single set of $75{,}052$ images. Four models are reported: the \textit{MegaDetector} and \textit{SpeciesNet} ensemble off the shelf, the same ensemble with its classifier fine-tuned (\Cref{sec:teacher_finetuning}), \textit{YOLOv5s}, and \textit{YOLO26n} under direct fine-tuning. The distilled student is held back for \Cref{sec:results_kd_basic_comparison}.
 
-Three qualifications govern every number in this section, and they are stated first so that no table below is read more strongly than it supports. Each model contributes one training run rather than a repeated trial, so no figure here carries a variance estimate. The bootstrap confidence intervals specified in \Cref{sec:metric_selection} were never computed, because the resample count stayed at zero in every run, so no difference between two cells can be called significant.
+Two qualifications govern every number here. Each model contributes one training run, and the bootstrap confidence intervals of \Cref{sec:metric_selection} were never computed, since the resample count stayed at zero, so no difference between two cells is significant.
 % evaluation_report.json: config.bootstrap_n = 0 in all five eval runs
-And the bands hold different species, assigned by data availability rather than at random (\Cref{sec:band_structure}), so any cross-band difference is confounded with how hard the species in each band happen to be.
+And the bands hold different species, assigned by data availability rather than at random (\Cref{sec:band_structure}), so every cross-band difference is confounded with how hard those species happen to be.
 
-One further property bounds the teacher's figures specifically, and it is recorded once here rather than beside each table. The ground-truth boxes of both test domains were produced by \textit{MegaDetector} (\Cref{sec:gt_annotation_integrity}), and the teacher ensemble localizes with that same detector. Its localization is therefore scored partly against its own output. The visible signature is that its mAP averaged over intersection-over-union thresholds from $0.5$ to $0.95$ equals its mAP50 to three decimal places, which no single-stage detector reported here comes close to. Every teacher figure below is an upper bound for that reason, and the measured gap between the teacher and the students is an upper bound with it.
+A third property bounds the teacher's figures specifically, and it is stated once here rather than beside each table. The ground-truth boxes of both test domains were produced by \textit{MegaDetector} (\Cref{sec:gt_annotation_integrity}), and the teacher ensemble localizes with that same detector, so its localization is scored partly against its own output. The signature is that its mAP averaged over intersection-over-union thresholds from $0.5$ to $0.95$ equals its mAP50 to three decimal places, which no single-stage detector here approaches. Every teacher figure below is an upper bound, and the teacher-to-student gap with it.
 
 \subsection{Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout}\label{sec:results_headline_mixed}
 
-\Cref{tab:headline-cross-model} gives the default cell for all four models. That cell is fine granularity over all bands on the mixed test set, with the real-only breakout beside it and the class-agnostic $\mathrm{mAP}_{\text{detect}}$ analog of \Cref{sec:mixed_default} in the last two columns.
+\Cref{tab:headline-cross-model} gives the default cell for all four models, at \texttt{fine} granularity over all bands on the mixed test set, with the real-only breakout beside it and the class-agnostic $\mathrm{mAP}_{\text{detect}}$ analog of \Cref{sec:mixed_default} last.
 
 \begin{table}[H]
 \centering
-\caption[Headline accuracy of all four evaluated models]{The default cell (\texttt{fine} granularity, all bands) for every model, on the mixed test set and on the real-only breakout. $\mathrm{mAP}_{\text{detect}}$ is the class-agnostic analog and the only column comparable to a generic detection benchmark. The two ensemble rows are scored against ground truth their own localizer produced and are upper bounds.}
+\caption[Headline accuracy of all four evaluated models]{The default cell (\texttt{fine} granularity, all bands) for every model, on the mixed test set and the real-only breakout. $\mathrm{mAP}_{\text{detect}}$ is the class-agnostic analog. The two ensemble rows are scored against ground truth their own localizer produced and are upper bounds.}
 \label{tab:headline-cross-model}
 \small
 \begin{tabular}{@{}lrrrrrrr@{}}
@@ -225,47 +185,23 @@ Ensemble, fine-tuned & $\approx 196$ & $\mathbf{0.663}$ & $\mathbf{0.599}$ & $0.
 \end{tabular}
 \end{table}
 
-The fine-tuned ensemble leads on both domains, at $0.663$ mixed and $0.599$ real. Fine-tuning its classifier is what produced that lead, since the same ensemble off the shelf reaches only $0.487$ mixed and $0.445$ real. The gain of $0.176$ mixed and $0.154$ real is the largest single effect in \Cref{tab:headline-cross-model}. It is also the one figure in the table subject to the circularity caveat of \Cref{sec:teacher_finetuning}, since part of the corpus was admitted by agreeing with the pre-fine-tuning classifier, which makes the improvement optimistic by an unknown and probably small amount.
+The fine-tuned ensemble leads on both domains, at $0.663$ mixed and $0.599$ real, against $0.487$ and $0.445$ for the same ensemble off the shelf. That gain of $0.176$ mixed and $0.154$ real is the largest single effect in \Cref{tab:headline-cross-model}, and the one figure subject to the circularity caveat of \Cref{sec:teacher_finetuning}, since part of the fine-tuning corpus was admitted by agreeing with the pre-fine-tuning classifier. It is optimistic by an unknown and probably small amount.
 
-Among the students, \textit{YOLO26n} under direct fine-tuning is the stronger model on every column and the smaller one by a factor of $2.8$ in parameter count. It beats \textit{YOLOv5s} by $0.103$ mixed mAP and by $0.122$ on the real-only breakout. For a thesis whose deployment target is an embedded processor, a model that is simultaneously smaller and more accurate settles the architecture question on its own, and \Cref{sec:results_embedded_benchmark} measures it as the faster of the two as well. \textit{YOLO26n} under direct fine-tuning is therefore treated as this work's primary detector throughout the rest of the chapter.
+Among the students, \textit{YOLO26n} under direct fine-tuning is stronger on every column and smaller by a factor of $2.8$ in parameter count, beating \textit{YOLOv5s} by $0.103$ mixed mAP and $0.122$ on the real-only breakout. A model that is simultaneously smaller and more accurate settles the architecture question on its own, and \Cref{sec:results_embedded_benchmark} measures it as the faster of the two as well. It is this work's primary detector for the rest of the chapter.
 
-\Cref{tab:headline-coco12} fills the full twelve-statistic vector for that primary detector on both domains. \Cref{sec:evaluation_axes} reserves that full vector for the default cell and for the per-band cells alone.
+\Cref{tab:headline-coco12} fills the full twelve-statistic vector for that detector. Its small-object cells are empty, because the minimum box-area rule applied during curation (\Cref{sec:quality_scoring_splits}) leaves no test instance below COCO's small-object threshold. And average recall at $100$ detections reaches $0.845$ mixed and $0.798$ real against a mAP of $0.599$ mixed and $0.529$ real, so the limiting factor is how correct detections rank against false positives rather than a failure to recover the animal.
 
-\begin{table}[H]
-\centering
-\caption[Full COCO vector for the primary detector]{The complete twelve-statistic COCO vector for \textit{YOLO26n} under direct fine-tuning, at \texttt{fine} granularity over all bands. The small-object cells carry no value because no test box qualifies as small under COCO's area definition.}
-\label{tab:headline-coco12}
-\begin{tabular}{@{}lrrlrr@{}}
-\toprule
-Statistic & mixed & real & Statistic & mixed & real \\
-\midrule
-mAP@[.5:.95] & $0.599$ & $0.529$ & AR@$1$ & $0.696$ & $0.626$ \\
-mAP50 & $0.659$ & $0.599$ & AR@$10$ & $0.836$ & $0.788$ \\
-mAP75 & $0.627$ & $0.561$ & AR@$100$ & $0.845$ & $0.798$ \\
-mAP, small & n/a & n/a & AR, small & n/a & n/a \\
-mAP, medium & $0.379$ & $0.378$ & AR, medium & $0.671$ & $0.673$ \\
-mAP, large & $0.641$ & $0.573$ & AR, large & $0.872$ & $0.825$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+The real-only breakout falls below the mixed headline for every model, by between $0.042$ and $0.089$ mAP, and the model ordering is nearly but not entirely preserved. On the mixed test set \textit{YOLOv5s} at $0.496$ edges the off-the-shelf ensemble at $0.487$, and on the real test set that pair reverses to $0.407$ against $0.445$. Every other pairwise ordering holds on both domains, so the headline domain moves exactly one adjacent pair. Two sensitivity checks leave the primary detector's headline where it stands: dropping the $9$ classes holding fewer than $30$ real test images moves the mixed figure to $0.594$, and weighting classes by test-image count gives $0.597$.
 
-Two properties of \Cref{tab:headline-coco12} are worth naming. The empty small-object cells follow from the minimum box-area rule applied during curation (\Cref{sec:quality_scoring_splits}), which leaves the test set with no instance below COCO's small-object threshold at all. And average recall at $100$ detections reaches $0.845$ on the mixed test set against a mAP of $0.599$, so the limiting factor is how correct detections rank against false positives rather than a failure to recover the animal. \Cref{sec:results_granularity_gaps} decomposes where that loss goes.
-
-The real-only breakout falls below the mixed headline for every model, by between $0.042$ and $0.089$ mAP. The ordering of the four models is nearly, but not entirely, preserved across the two domains. On the mixed test set \textit{YOLOv5s} at $0.496$ edges the off-the-shelf ensemble at $0.487$, and on the real test set that pair reverses to $0.407$ against $0.445$. Every other pairwise ordering holds on both domains. The choice of headline domain therefore moves exactly one adjacent pair in this table, which is worth knowing before \Cref{sec:results_domain_shift} asks whether the mixed default was the right default.
-
-Two sensitivity checks leave the primary detector's headline essentially where it stands. Dropping the $9$ classes holding fewer than $30$ real test images moves the mixed figure from $0.599$ to $0.594$. Weighting classes by test-image count instead of averaging them equally gives $0.597$. The headline is therefore not an artifact of a handful of thin classes, which is the specific risk \Cref{sec:metric_selection} flagged.
-
-One comparison \Cref{tab:headline-cross-model} cannot make is the one that would anchor every other row in it. A zero-shot baseline exists for the teacher and not for the student, because the student's evaluation from raw COCO weights was never completed. The improvement attributable to fine-tuning \textit{YOLO26n} on this domain is therefore not measured anywhere in this work, only its absolute level. \Cref{sec:results_general_observations} records that gap again rather than leaving it implicit here.
-
-On comparability outside this work, one figure qualifies and the rest do not. The real-only $\mathrm{mAP}_{\text{detect}}$ of $0.782$ for the primary detector is the only number here on the same footing as a published generic-detector result, for the reasons \Cref{sec:mixed_default} gives. The $225$-class fine-grained figures are not comparable in absolute terms to a published $80$-class COCO mAP, and a lower value is expected rather than evidence of a weaker detector.
+One comparison \Cref{tab:headline-cross-model} cannot make is the one that would anchor every other row in it. A zero-shot baseline exists for the teacher and not for the student, because the student's evaluation from raw COCO weights failed on a missing data directory and was never retried. What fine-tuning \textit{YOLO26n} on this domain bought is therefore unmeasured, and every student figure in this work is an absolute level rather than a gain over the floor it started from. Where that level is lost is a question the granularity ladder answers.
 
 \subsection{Granularity Gap Decomposition}\label{sec:results_granularity_gaps}
 
-\Cref{tab:granularity-gaps} reports the nested ladder of \Cref{eq:granularity-ladder} for all four models on the mixed test set, together with the two gaps that are the quantities of interest.
+\Cref{tab:granularity-gaps} reports the nested ladder of \Cref{eq:granularity-ladder} for all four models on the mixed test set, with the two gaps that are the quantities of interest.
 
 \begin{table}[H]
 \centering
-\caption[Granularity gap decomposition on the mixed test set]{The granularity ladder and its two gaps, on the mixed test set over all bands. $\Delta_{\text{coarse}}$ is the cost of naming a look-alike group and $\Delta_{\text{fine}}$ the further cost of naming the exact species within it. In every model $\Delta_{\text{coarse}}$ dominates, which is not the signature \Cref{sec:evaluation_axes} anticipated.}
+\caption[Granularity gap decomposition on the mixed test set]{The granularity ladder and its two gaps, on the mixed test set over all bands. $\Delta_{\text{coarse}}$ is the cost of naming a look-alike group and $\Delta_{\text{fine}}$ the further cost of naming the species within it.}
 \label{tab:granularity-gaps}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -279,51 +215,22 @@ Ensemble, fine-tuned & $0.969$ & $0.682$ & $0.663$ & $0.287$ & $0.018$ \\
 \end{tabular}
 \end{table}
 
-The expected pattern does not appear. \Cref{sec:evaluation_axes} names a large $\Delta_{\text{fine}}$ beside a small $\Delta_{\text{coarse}}$ as the look-alike signature and the most defensible failure mode for this dataset. Every model in \Cref{tab:granularity-gaps} shows the opposite arrangement, with $\Delta_{\text{coarse}}$ between $16$ and $22$ times $\Delta_{\text{fine}}$. Merging the look-alikes recovers at most $0.027$ mAP for any model, while naming a group at all costs between $0.199$ and $0.438$. Classification is the bottleneck, confirming what the recall figures of \Cref{tab:headline-coco12} already suggested, but the confusions it consists of largely cross the look-alike groups instead of staying inside them.
+The expected pattern does not appear. \Cref{sec:evaluation_axes} names a large $\Delta_{\text{fine}}$ beside a small $\Delta_{\text{coarse}}$ as the look-alike signature and the most defensible failure mode for this dataset. Every model in \Cref{tab:granularity-gaps} shows the opposite, with $\Delta_{\text{coarse}}$ between $16$ and $22$ times $\Delta_{\text{fine}}$. Merging the look-alikes recovers at most $0.027$ mAP, while naming a group at all costs between $0.199$ and $0.438$. Classification is the bottleneck, confirming what the recall figures of \Cref{tab:headline-coco12} suggested, but the confusions largely cross the look-alike groups instead of staying inside them.
 
-One structural property of the grouping table bounds how large $\Delta_{\text{fine}}$ could ever have been. The frozen table of \Cref{sec:lookalike_groups} holds $174$ groups, of which only $30$ carry more than one member, and those $30$ groups cover $81$ of the $225$ classes.  % reports/lookalike_groups_v2.csv
-The remaining $144$ classes sit alone, so no confusion involving them can be forgiven by the merge, and $\Delta_{\text{fine}}$ measures confusion within roughly a third of the class universe. A small $\Delta_{\text{fine}}$ is therefore partly a property of a deliberately conservative grouping and not only a property of the models. \Cref{sec:results_lookalike_confusion} measures the within-group confusion directly and finds it common, which is the resolution of the apparent tension: look-alike confusion is frequent but concentrated in too few classes to move the aggregate figure.
+The grouping itself bounds how large $\Delta_{\text{fine}}$ could ever have been. The frozen table of \Cref{sec:lookalike_groups} holds $174$ groups, of which only $30$ carry more than one member, covering $81$ of the $225$ classes.  % reports/lookalike_groups_v2.csv
+The remaining $144$ sit alone, so $\Delta_{\text{fine}}$ measures confusion within roughly a third of the class universe, and a small value is partly a property of a deliberately conservative grouping.
 
-What \Cref{tab:granularity-gaps} cannot do is say what $\Delta_{\text{coarse}}$ consists of. The error-type decomposition named in \Cref{sec:metric_selection} as the corroborating instrument was not run, because the available implementation was left as a future add-on rather than integrated into the evaluation suite.
+What \Cref{tab:granularity-gaps} cannot say is what $\Delta_{\text{coarse}}$ consists of. The error-type decomposition named in \Cref{sec:metric_selection} as the corroborating instrument was left as a future add-on.
 % docs/progress_notes/2026-06-11_evaluation-suite-implementation.md
-Cross-group misclassification, duplicate detections and background false positives therefore all land in $\Delta_{\text{coarse}}$ without being separated. The figure is an upper bound on cross-group species confusion and not a measurement of it, and that distinction is the reason the decomposition is reported here as a diagnostic rather than as a finding about taxonomy.
+Cross-group misclassification, duplicate detections and background false positives therefore land in $\Delta_{\text{coarse}}$ together, which makes it an upper bound on cross-group species confusion and a diagnostic rather than a finding about taxonomy. Whether the training regime moves it is the next question.
 
 \subsection{Band $\times$ Granularity: Does Training Regime Change Accuracy?}\label{sec:results_band_granularity}
 
-This is the comparison the band structure of \Cref{sec:band_structure} was built to support. Bands A, B and C share an equal $200$-image training budget and differ only in composition, at entirely synthetic, half real and half synthetic, and entirely real respectively. Band D is the data-rich reference. \Cref{tab:band-grid-mixed} reports the grid on the default mixed test set and \Cref{tab:band-grid-real} on the real-only breakout, which \Cref{sec:mixed_default} designates the tie-breaker here because Band A and Band B are partly scored on their own training domain under the mixed condition.
+This is the comparison the band structure of \Cref{sec:band_structure} was built to support. Bands A, B and C share an equal $200$-image training budget and differ only in composition, at entirely synthetic, half real and half synthetic, and entirely real, with Band D the data-rich reference. \Cref{tab:band-grid-real} reports the grid on the real-only breakout, which \Cref{sec:mixed_default} designates the tie-breaker here, and \Cref{tab:band-grid-mixed} the same grid on the mixed test set.
 
 \begin{table}[H]
 \centering
-\caption[Band by granularity grid on the mixed test set]{Band $\times$ granularity grid on the mixed test set. Band A trains on synthetic images only, Band B on half real and half synthetic, Band C on real images only at the same $200$-image budget, and Band D on the full real pool. Band A and Band B are partly scored on their own training domain here, which \Cref{tab:band-grid-real} removes.}
-\label{tab:band-grid-mixed}
-\small
-\begin{tabular}{@{}llrrrr@{}}
-\toprule
- & & \multicolumn{2}{c}{\texttt{fine}} & \multicolumn{2}{c}{\texttt{coarse}} \\
-\cmidrule(l){3-4}\cmidrule(l){5-6}
-Model & Band & mAP & mAP50 & mAP & mAP50 \\
-\midrule
-Ensemble, fine-tuned & A & $0.447$ & $0.447$ & $0.485$ & $0.485$ \\
- & B & $0.702$ & $0.702$ & $0.751$ & $0.751$ \\
- & C & $0.629$ & $0.629$ & $0.644$ & $0.644$ \\
- & D & $0.798$ & $0.798$ & $0.816$ & $0.816$ \\
-\midrule
-\textit{YOLOv5s} & A & $0.384$ & $0.402$ & $0.405$ & $0.428$ \\
- & B & $0.461$ & $0.527$ & $0.520$ & $0.602$ \\
- & C & $0.477$ & $0.552$ & $0.498$ & $0.582$ \\
- & D & $0.646$ & $0.751$ & $0.657$ & $0.769$ \\
-\midrule
-\textit{YOLO26n} direct-FT & A & $0.579$ & $0.602$ & $0.576$ & $0.601$ \\
- & B & $0.685$ & $0.763$ & $0.701$ & $0.787$ \\
- & C & $0.614$ & $0.687$ & $0.597$ & $0.675$ \\
- & D & $0.726$ & $0.806$ & $0.734$ & $0.819$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption[Band by granularity grid on the real test set]{Band $\times$ granularity grid on the real-only breakout, which removes the home-field advantage that Bands A and B enjoy under the mixed condition. The Band B against Band C comparison in this table is the synthetic-versus-real training question at matched sample size.}
+\caption[Band by granularity grid on the real test set]{Band $\times$ granularity grid on the real-only breakout. Band A and Band B are partly scored on their own training domain under the mixed condition of \Cref{tab:band-grid-mixed}, and this table removes that home-field advantage. Band B against Band C here is the synthetic-versus-real training question at matched sample size.}
 \label{tab:band-grid-real}
 \small
 \begin{tabular}{@{}llrrrr@{}}
@@ -350,18 +257,18 @@ Ensemble, fine-tuned & A & $0.182$ & $0.182$ & $0.236$ & $0.236$ \\
 \end{tabular}
 \end{table}
 
-The central result is the Band B against Band C contrast on the real test set, and it is consistent in two of the three models. For the primary detector, half-synthetic training reaches $0.588$ against $0.591$ for all-real training at the same budget, a difference of $0.003$. For the fine-tuned ensemble the same pair reads $0.638$ against $0.639$. \textit{YOLOv5s} is the exception, at $0.341$ against $0.386$, which favors real data by $0.045$. At the coarse granularity the contrast turns slightly the other way, with Band B above Band C by $0.019$ for the primary detector and by $0.034$ for the ensemble. Replacing half of a small real training set with synthetic imagery therefore costs nothing measurable in two of the three models and $0.045$ mAP in the third. That is the strongest positive result this work holds about synthetic training data, and it rests on three single runs rather than on a repeated trial.
+The central result is the Band B against Band C contrast on the real test set, and it is consistent in two of the three models. For the primary detector, half-synthetic training reaches $0.588$ against $0.591$ for all-real training at the same budget, and for the fine-tuned ensemble the same pair reads $0.638$ against $0.639$. \textit{YOLOv5s} is the exception at $0.341$ against $0.386$, favoring real photographs by $0.045$. At \texttt{coarse} granularity the contrast turns the other way, with Band B above Band C by $0.019$ for the primary detector and $0.034$ for the ensemble. Replacing half of a small real training set with synthetic imagery therefore costs nothing measurable in two of the three models and $0.045$ mAP in the third. That is the strongest positive result this work holds about synthetic training data, and it rests on three single runs.
 
-Band A is where that conclusion stops. Training a class entirely on synthetic imagery leaves the primary detector at $0.300$ on the real test set, roughly half the $0.591$ that the same budget of real images achieves, and \textit{YOLOv5s} at $0.058$. The direction is unambiguous across all three models even without confidence intervals, because the gap is an order of magnitude larger than the Band B against Band C difference it sits beside. Synthetic imagery substitutes for half a training set and does not substitute for all of it. Whether the failure is one of image realism or of the diversity of poses and backgrounds a generator produces is not separable from these numbers.
+Band A is where that conclusion stops. Training a class entirely on synthetic imagery leaves the primary detector at $0.300$ on the real test set, roughly half the $0.591$ the same budget of real photographs achieves, and \textit{YOLOv5s} at $0.058$. The direction is unambiguous across all three models even without confidence intervals, because the gap is an order of magnitude larger than the Band B against Band C difference beside it. Synthetic imagery substitutes for half a training set and not for all of it. Whether the failure is one of image realism or of pose and background diversity is not separable from these numbers.
 
-The mixed grid tells a visibly gentler story, and the difference between the two tables is itself the argument for reporting both. Band A rises from $0.300$ to $0.579$ for the primary detector once its own training domain is folded into the test set, which closes most of the distance to Band C. Band D moves in the opposite direction, from $0.742$ real to $0.726$ mixed, since the fixed $50$ synthetic images are a small and slightly harder addition for a class with hundreds of real test images. The mixed condition therefore flatters exactly the bands \Cref{sec:mixed_default} predicted it would flatter, by the mechanism it predicted.
+The mixed grid tells a gentler story, which is itself an argument for reporting both. Band A rises from $0.300$ to $0.579$ for the primary detector once its own training domain is folded into the test set, while Band D moves the other way, from $0.742$ real to $0.726$ mixed.
 
-Two smaller observations round the grid out. The coarse column falls below the fine column in several cells, most visibly Band C for the primary detector on the mixed test set at $0.597$ against $0.614$, which is the duplicate-merge penalty \Cref{sec:evaluation_axes} anticipated and describes as the conservative direction. And fine-tuning the teacher's classifier costs Band A accuracy on real photographs rather than adding it, moving from $0.324$ off the shelf to $0.182$ fine-tuned.  % model_exports/pretrained/eval/eval_band_grid.csv
-Adapting the classifier to $225$ wildlife classes trades away generic recognition capability on the classes whose supervision is entirely synthetic, which is a cost the aggregate figure of \Cref{tab:headline-cross-model} hides completely.
+Two smaller observations round the grid out. The \texttt{coarse} column falls below the \texttt{fine} column in several cells, most visibly Band C for the primary detector at $0.597$ against $0.614$ on the mixed test set, which is the duplicate-merge penalty \Cref{sec:evaluation_axes} calls the conservative direction. And fine-tuning the teacher's classifier costs Band A accuracy on real photographs rather than adding it, moving from $0.324$ off the shelf to $0.182$ fine-tuned.  % model_exports/pretrained/eval/eval_band_grid.csv
+Adapting it to $225$ wildlife classes trades away generic recognition capability on the classes whose supervision is entirely synthetic, a cost the aggregate of \Cref{tab:headline-cross-model} hides. The size of the mixed-against-real discrepancy in this grid is what the standing watchdog was defined to test.
 
 \subsection{Domain-Shift Delta: Real vs.\ Synthetic Test Performance}\label{sec:results_domain_shift}
 
-The paired per-class difference $\Delta_{\text{domain}}(\text{class}) = \mathrm{mAP}_{\text{real}} - \mathrm{mAP}_{\text{synthetic}}$ is the standing watchdog that \Cref{sec:mixed_default} attaches to the mixed default. \Cref{tab:domain-shift-delta} reports its distribution per band, as a median with the interquartile range, since a mean over $50$ thin Band A classes is easily moved by a few of them.
+The paired per-class difference $\Delta_{\text{domain}}(\text{class}) = \mathrm{mAP}_{\text{real}} - \mathrm{mAP}_{\text{synthetic}}$ is the standing watchdog \Cref{sec:mixed_default} attaches to the mixed default. \Cref{tab:domain-shift-delta} reports its distribution per band as a median with the interquartile range, since a mean over $50$ thin Band A classes is easily moved by a few of them.
 
 \begin{table}[H]
 \centering
@@ -395,23 +302,23 @@ Ensemble, fine-tuned & A & $50$ & $-0.760$ & $[-0.851, -0.576]$ & $0$ \\
 \end{tabular}
 \end{table}
 
-The delta is negative almost everywhere. For the primary detector it is negative for $208$ of the $224$ banded classes, and for all $76$ classes in Band A and Band B without exception. The synthetic test set is the easier of the two domains by a median of $0.21$ mAP even for the data-rich Band D classes, rising to $0.72$ for Band A. Across the three fine-tuned models the band ordering is identical, with the gap widening monotonically from Band D toward Band A.
+The delta is negative almost everywhere. For the primary detector it is negative for $208$ of the $224$ banded classes, and for all $76$ of Band A and Band B. The synthetic test set is the easier domain by a median of $0.21$ mAP even for the data-rich Band D classes, rising to $0.72$ for Band A, and the band ordering is identical across the three fine-tuned models.
 
-Part of that gap is not domain shift at all, and separating the two parts is not possible from these artifacts. The synthetic test set holds $11{,}264$ boxes over $11{,}250$ images against $92{,}094$ boxes over $63{,}802$ real images, so a synthetic test image contains one animal by construction while a real one averages $1.44$. A single centered animal on a clean background is intrinsically easier to detect and name than a crowded field photograph, independently of how the model was trained. The off-the-shelf ensemble bounds this contribution usefully, since it never saw a synthetic image in training and still scores higher on the synthetic domain in every band, by a median of between $0.196$ and $0.287$. Roughly $0.2$ mAP of the gap is therefore attributable to the two test sets differing in difficulty rather than to training composition, on the assumption that the difficulty offset carries over to the trained models. Only the band-dependent remainder above that offset is safely readable as an effect of how a class was trained.
+Part of that gap is not domain shift at all, and the two parts are not separable from these artifacts. The synthetic test set holds $11{,}264$ boxes over $11{,}250$ images against $92{,}094$ boxes over $63{,}802$ real images, so a synthetic test image contains one animal by construction while a real one averages $1.44$, and a single centered animal on a clean background is intrinsically easier to detect and name. The off-the-shelf ensemble bounds that contribution, since it never saw a synthetic image in training and still scores higher on the synthetic domain in every band, by a median of between $0.196$ and $0.287$. Roughly $0.2$ mAP of the gap is therefore a difficulty difference rather than an effect of training composition, and only the band-dependent remainder above it reads as an effect of how a class was trained.
 
 \paragraph{Watchdog verdict}
-The trigger fired. \Cref{sec:mixed_default} states that a systematic discrepancy between the mixed and real results is the signal to revise the default evaluation axes, and the discrepancy in \Cref{tab:domain-shift-delta} is both large and systematic rather than marginal or mixed in sign. The synthetic component inflates the mixed headline relative to real-world performance for every model and every band, and it inflates it most for exactly the classes the mixed default was introduced to stabilize. The designed revision, which is to restore the real test set as the default and retain the mixed figure as secondary, was not carried out, because it would require rewriting every reported figure in this chapter within a time budget that did not allow it. That is a deviation from the stated protocol and is recorded as one.
+The trigger fired. \Cref{sec:mixed_default} states that a systematic discrepancy between the mixed and real results is the signal to revise the default evaluation axes, and the discrepancy in \Cref{tab:domain-shift-delta} is large and one-directional rather than marginal or mixed in sign. The synthetic component inflates the mixed headline for every model and every band, most for exactly the classes the mixed default was introduced to stabilize. The designed revision, which is to restore the real test set as the default and retain the mixed figure as secondary, was not carried out, because it would require rewriting every reported figure in this chapter within a time budget that did not allow it. That is a deviation from the stated protocol and is recorded as one.
 
-Two things limit the damage, and neither repairs the deviation. Every headline figure in this chapter appears with its real-only breakout beside it, so no cross-model claim here rests on the mixed figure alone. And switching the default would change the cross-model ranking of \Cref{tab:headline-cross-model} in one place only, where \textit{YOLOv5s} and the off-the-shelf ensemble exchange positions. The primary detector, the model choice, and the Band B against Band C conclusion of \Cref{sec:results_band_granularity} are all unaffected by which domain carries the headline. The honest summary is that the mixed default survived as a ranking instrument and failed as a description of real-world accuracy, and that \Cref{sec:further_work} inherits the revision.
+Two things limit the damage without repairing it. Every headline figure in this chapter appears with its real-only breakout beside it, so no cross-model claim rests on the mixed figure alone. And switching the default would move the ranking of \Cref{tab:headline-cross-model} in one place only, where \textit{YOLOv5s} and the off-the-shelf ensemble exchange positions. The mixed default survived as a ranking instrument and failed as a description of real-world accuracy, and \Cref{sec:further_work} inherits the revision.
 
 \subsection{Look-Alike Within-Group Confusion}\label{sec:results_lookalike_confusion}
 
-The within-group confusion rate asks a narrower question than the granularity ladder. Of the detections that are correctly localized and land in the right look-alike group, what fraction name the wrong species inside it. \Cref{tab:lookalike-group-confusion} reports that rate for every multi-member group of the frozen table, for the primary detector and for the fine-tuned ensemble alongside it.
+The within-group confusion rate asks a narrower question than the granularity ladder: of the detections correctly localized and placed in the right look-alike group, what fraction name the wrong species inside it. \Cref{tab:lookalike-group-confusion} reports that rate for every multi-member group, and \Cref{tab:lookalike-group-confusion-excerpt} excerpts its two ends.
 
 \begin{table}[H]
 \centering
-\caption[Within-group confusion rate per look-alike group]{Within-group species confusion for all $30$ multi-member look-alike groups, on the mixed test set, ordered by the primary detector's rate. \enquote{Matched} counts detections that were correctly localized and placed in the right group. The two rightmost columns are the same rate for \textit{YOLOv5s} and the fine-tuned ensemble.}
-\label{tab:lookalike-group-confusion}
+\caption[Within-group confusion, hardest and easiest groups]{The eight hardest and four easiest of the $30$ multi-member look-alike groups by the primary detector's confusion rate, on the mixed test set. \enquote{Matched} counts detections correctly localized and placed in the right group. \Cref{tab:lookalike-group-confusion} holds all $30$.}
+\label{tab:lookalike-group-confusion-excerpt}
 \small
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -425,73 +332,28 @@ Group & Classes & Matched & Confused & Rate & \textit{YOLOv5s} / Ensemble \\
 \texttt{tragelaphus} & $5$ & $2{,}050$ & $444$ & $0.217$ & $0.145$ / $0.095$ \\
 \texttt{bison} & $2$ & $947$ & $181$ & $0.191$ & $0.202$ / $0.174$ \\
 \texttt{ursus} & $3$ & $988$ & $182$ & $0.184$ & $0.177$ / $0.165$ \\
-\texttt{felis} & $2$ & $553$ & $99$ & $0.179$ & $0.165$ / $0.172$ \\
-\texttt{lynx\_caracal\_cluster} & $4$ & $613$ & $98$ & $0.160$ & $0.162$ / $0.113$ \\
-\texttt{tapirus} & $3$ & $416$ & $58$ & $0.139$ & $0.147$ / $0.039$ \\
-\texttt{sylvilagus} & $2$ & $874$ & $112$ & $0.128$ & $0.140$ / $0.086$ \\
-\texttt{sciurus} & $4$ & $1{,}775$ & $213$ & $0.120$ & $0.145$ / $0.061$ \\
-\texttt{sus} & $2$ & $578$ & $65$ & $0.112$ & $0.069$ / $0.099$ \\
-\texttt{macaca} & $2$ & $704$ & $76$ & $0.108$ & $0.122$ / $0.178$ \\
-\texttt{odocoileus} & $2$ & $997$ & $106$ & $0.106$ & $0.118$ / $0.043$ \\
-\texttt{nasua} & $2$ & $562$ & $59$ & $0.105$ & $0.085$ / $0.057$ \\
-\texttt{bos} & $2$ & $832$ & $83$ & $0.100$ & $0.111$ / $0.136$ \\
-\texttt{lepus} & $2$ & $968$ & $94$ & $0.097$ & $0.109$ / $0.063$ \\
-\texttt{zebra} & $3$ & $1{,}687$ & $161$ & $0.095$ & $0.087$ / $0.071$ \\
-\texttt{connochaetes} & $2$ & $862$ & $71$ & $0.082$ & $0.072$ / $0.027$ \\
-\texttt{cervus} & $3$ & $1{,}458$ & $113$ & $0.078$ & $0.073$ / $0.068$ \\
-\texttt{macropus} & $2$ & $687$ & $52$ & $0.076$ & $0.064$ / $0.027$ \\
-\texttt{hyaena} & $3$ & $370$ & $26$ & $0.070$ & $0.118$ / $0.181$ \\
-\texttt{marmota} & $3$ & $1{,}176$ & $67$ & $0.057$ & $0.047$ / $0.023$ \\
-\texttt{leopardus} & $2$ & $107$ & $4$ & $0.037$ & $0.021$ / $0.113$ \\
+\midrule
 \texttt{hippotragus} & $2$ & $345$ & $11$ & $0.032$ & $0.043$ / $0.043$ \\
 \texttt{ovis} & $3$ & $1{,}678$ & $53$ & $0.032$ & $0.028$ / $0.017$ \\
 \texttt{capra} & $2$ & $376$ & $4$ & $0.011$ & $0.025$ / $0.020$ \\
 \texttt{kobus} & $2$ & $313$ & $2$ & $0.006$ & $0.000$ / $0.012$ \\
 \midrule
-All groups & $81$ & $31{,}672$ & $6{,}126$ & $0.193$ & $0.190$ / $0.129$ \\
+All $30$ groups & $81$ & $31{,}672$ & $6{,}126$ & $0.193$ & $0.190$ / $0.129$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Confusion inside the look-alike groups is common and very unevenly distributed. The primary detector confuses $19.3\%$ of its correctly grouped detections, and the fine-tuned ensemble $12.9\%$, so the larger model is better at the fine-grained decision as well as at the aggregate one. The range across groups spans two orders of magnitude, from $0.006$ for \texttt{kobus} to $0.508$ for \texttt{elephant}. The five groups above $0.24$ carry $60.3\%$ of all within-group confusions, while the nine groups below $0.08$ carry $5.4\%$ between them. A large share of the frozen table is therefore absorbing error the models were not making.
+Confusion inside the look-alike groups is common and very unevenly distributed. The primary detector confuses $19.3\%$ of its correctly grouped detections and the fine-tuned ensemble $12.9\%$, so the larger model is better at the fine-grained decision too. The range spans two orders of magnitude, from $0.006$ for \texttt{kobus} to $0.508$ for \texttt{elephant}. The five groups above $0.24$ carry $60.3\%$ of all within-group confusions and the nine below $0.08$ carry $5.4\%$ between them, so a large share of the frozen table is absorbing error the models were not making. This resolves the apparent tension with the small $\Delta_{\text{fine}}$ of \Cref{tab:granularity-gaps}: look-alike confusion is frequent but concentrated in too few classes to move the aggregate.
 
-The zebras, which motivated the look-alike treatment in the first place, turn out to be one of the easier groups. The primary detector confuses $9.5\%$ of correctly grouped zebra detections, against $50.8\%$ for the two elephants and $39.6\%$ for the three gazelles. All three changes the grouping review of \Cref{sec:lookalike_groups} made to the taxonomic backbone are supported by this table, in different directions. The cross-genus \texttt{gazelle} merge captures a genuinely hard decision at $0.396$. The \texttt{panthera\_rosette} split isolates a hard one at $0.244$ that a whole-genus grouping would have diluted with the unmistakable lion and tiger. And splitting the equids separated a group at $0.095$ from one at $0.272$, two rates far enough apart that a single \emph{Equus} group would have described neither. The \texttt{lynx\_caracal\_cluster} override sits mid-table at $0.160$, so merging across genera there was a modest rather than a decisive correction.
+The zebras, which motivated the look-alike treatment in the first place, are one of the easier groups at $9.5\%$, against $50.8\%$ for the two elephants and $39.6\%$ for the three gazelles. \Cref{tab:lookalike-group-confusion} supports all three changes the grouping review of \Cref{sec:lookalike_groups} made to the taxonomic backbone: the cross-genus \texttt{gazelle} merge captures a hard decision at $0.396$, the \texttt{panthera\_rosette} split isolates one at $0.244$ that a whole-genus grouping would have diluted with the unmistakable lion and tiger, and splitting the equids separated a group at $0.095$ from one at $0.272$.
 
-\Cref{tab:lookalike-top-pairs} lists the largest confusion pairs for the primary detector, with the count in the opposite direction beside each one.
-
-\begin{table}[H]
-\centering
-\caption[Largest within-group confusion pairs]{The ten largest within-group confusion pairs for \textit{YOLO26n} under direct fine-tuning, on the mixed test set, with the count in the reverse direction. These ten pairs carry $61.8\%$ of all $6{,}126$ within-group confusions.}
-\label{tab:lookalike-top-pairs}
-\begin{tabular}{@{}llrr@{}}
-\toprule
-Ground-truth class & Predicted class & Count & Reverse \\
-\midrule
-asian elephant & african elephant & $1{,}545$ & $9$ \\
-domestic donkey & domestic horse & $493$ & $0$ \\
-springbok & thomson's gazelle & $468$ & $1$ \\
-common eland & greater kudu & $349$ & $0$ \\
-snow leopard & leopard & $181$ & $7$ \\
-grey wolf & domestic dog & $175$ & $7$ \\
-dingo & domestic dog & $159$ & $3$ \\
-grant's gazelle & thomson's gazelle & $155$ & $2$ \\
-european bison & american bison & $151$ & $30$ \\
-grevy's zebra & plains zebra & $112$ & $1$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Two things stand out in \Cref{tab:lookalike-top-pairs}. The confusion is concentrated, with ten of the $135$ observed pairs carrying $61.8\%$ of all within-group errors and the elephant pair alone carrying $25.2\%$. And it is almost entirely one-directional. Asian elephants are called african elephants $1{,}545$ times and the reverse happens $9$ times, and nine of the ten pairs show a reverse count below $5\%$ of the forward one. The model is not confusing two classes symmetrically. It is collapsing one class onto another. Test-set size does not explain the direction, since asian elephant carries $1{,}393$ real test images against african elephant's $500$.  % evaluation_report.json tier3_per_class
-A training-composition imbalance is the natural candidate explanation and is not verified here.
-
-One check the grouping review asked for cannot be answered from these artifacts. The frozen table was to be validated by confirming that leopard and jaguar confuse heavily while lion and tiger do not, and the second half of that test needs cross-group confusions, which the evaluation suite emits only within groups. The rosette half is confirmed, with snow leopard, leopard and jaguar confusing each other $216$ times. The lion and tiger half remains unchecked. A block-diagonal confusion matrix over the groups was specified for this subsection and is not presented, since the pair counts above carry the same information at this level of concentration and no matrix artifact was generated.
+Two things stand out in the pair-level counts of \Cref{tab:lookalike-top-pairs}. The confusion is concentrated, with ten of the $135$ observed pairs carrying $61.8\%$ of all within-group errors and the elephant pair alone carrying $25.2\%$. And it is almost entirely one-directional. Asian elephants are called african elephants $1{,}545$ times against $9$ in reverse, and nine of the ten pairs show a reverse count below $5\%$ of the forward one. The model is not confusing two classes symmetrically. It is collapsing one onto another. Test-set size does not explain the direction, since asian elephant carries $1{,}393$ real test images against african elephant's $500$.  % evaluation_report.json tier3_per_class
+A training-composition imbalance is the natural candidate and is not verified here. One check the grouping review asked for cannot be answered from these artifacts: confirming that lion and tiger do not confuse needs cross-group counts, which the suite emits only within groups. The rosette half is confirmed at $216$ mutual confusions among snow leopard, leopard and jaguar. Everything to this point concerns the student trained by direct fine-tuning, which leaves its training recipe and its deployment cost untested.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Knowledge Distillation and Embedded Feasibility}\label{sec:results_kd_and_embedded}
 
-This section is much smaller than the question it addresses, and saying so first is more useful than discovering it halfway through. \Cref{sec:lit_knowledge_distillation,sec:lit_embedded_inference} survey a design space of distillation objectives, teacher and student pairings, temperature and weighting schedules, and quantization strategies for embedded targets. What was carried out against that space is one comparison between two training runs at one hyperparameter point, and one runtime measurement on one proxy device without any optimization applied. Neither is a sweep, and neither is the research program the work's central question calls for.
-
-The reason is the time budget and nothing more principled than that. Roughly four fifths of the available time went into dataset construction, synthetic-image generation and the generator comparison of \Cref{sec:results_synthetic_data_practicability}, and the distillation and deployment work ran on what was left. The consequence is recorded here as a scope decision rather than presented as the original plan, since the original plan was a temperature and weighting grid, a multi-animal subset cut, and a quantization-aware training pass. None of those ran. What follows is reported as indicative evidence at a single design point, and \Cref{sec:further_work} inherits the rest.
+\Cref{sec:lit_knowledge_distillation,sec:lit_embedded_inference} survey a design space of distillation objectives, teacher and student pairings, weighting schedules and quantization strategies. What was carried out against it is one comparison between two training runs at one hyperparameter point, and one runtime measurement on one proxy device with no optimization applied. Both findings are reported as indicative evidence at a single design point, and \Cref{sec:further_work} inherits the rest.
 
 \subsection{Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison}\label{sec:results_kd_basic_comparison}
 
@@ -499,11 +361,11 @@ Setup A and Setup B of \Cref{sec:augmentation_setups} are the two runs compared 
 % Methods tab:augmentation-setups still names YOLOv5s as the student architecture
 % for Setups A-C; sec:training_procedure supersedes that with YOLO26n, which is
 % the architecture both runs actually used.
-Setup A blends the frozen teacher's cached class distribution into the classification target through \Cref{eq:kd-blend}, at the default temperature $T = 4$ and weight $\alpha = 0.5$. Setup B takes the assigner's own targets untouched. The augmentation pipeline is the basic set of \Cref{sec:basic_augmentation} in both, shared through the same code path rather than reimplemented, so the intended single varied factor is the training signal. \Cref{tab:kd-vs-direct} reports both.
+Setup A blends the frozen teacher's cached class distribution into the classification target through \Cref{eq:kd-blend}, at the default $T = 4$ and $\alpha = 0.5$, and Setup B takes the assigner's own targets untouched. Both use the basic augmentation set of \Cref{sec:basic_augmentation} through the same code path, so the intended single varied factor is the training signal.
 
 \begin{table}[H]
 \centering
-\caption[Distillation against direct fine-tuning for the student]{Setup A (distillation from the fine-tuned teacher) against Setup B (direct fine-tuning), both \textit{YOLO26n} at $2.71\,\mathrm{M}$ parameters. Every row is a single run, without confidence intervals. Direct fine-tuning is ahead on all $17$ reported cells.}
+\caption[Distillation against direct fine-tuning for the student]{Setup A (distillation from the fine-tuned teacher) against Setup B (direct fine-tuning), both \textit{YOLO26n} at $2.71\,\mathrm{M}$ parameters. Every row is a single run, without confidence intervals.}
 \label{tab:kd-vs-direct}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
@@ -528,45 +390,25 @@ Validation mAP@[.5:.95] at best epoch & $0.733$ & $0.763$ & $+0.030$ \\
 \end{tabular}
 \end{table}
 
-Direct fine-tuning is the stronger recipe in every row of \Cref{tab:kd-vs-direct}, the confusion rate included, where the lower value is the better one. On the mixed test set it reaches $0.599$ against the distilled student's $0.560$, and on the real-only breakout $0.529$ against $0.479$. The result is a clean negative for the distillation hypothesis at this design point rather than an ambiguous one, and it holds on the case the hypothesis was expected to help most. Band A, whose training signal is entirely synthetic and thin, is where distillation loses by the widest margin of all, at $0.086$ mixed and $0.061$ real.
+Direct fine-tuning is the stronger recipe in every row of \Cref{tab:kd-vs-direct}, the confusion rate included, where the lower value is better. On the mixed test set it reaches $0.599$ against the distilled student's $0.560$, and on the real-only breakout $0.529$ against $0.479$. The negative is clean rather than ambiguous, and it holds on the case the hypothesis was expected to help most: Band A, whose training signal is entirely synthetic and thin, is where distillation loses by the widest margin, at $0.086$ mixed and $0.061$ real. Neither run carries a confidence interval, so the gap cannot be called significant. Setup B nonetheless leads in all $17$ cells, across two test domains, three granularity levels, four bands and the validation metric the runs were selected on. A single seed can invert a difference of this magnitude, as \Cref{sec:results_practicability_verdict} shows it doing, so the direction is treated as real and the magnitude as unquantified.
 
-Neither run carries a confidence interval, so the size of the gap cannot be called significant. What can be said is that Setup B is ahead in all $17$ cells, across two test domains, three granularity levels, four bands and the validation metric the runs were selected on. A single seed can invert a difference of this magnitude, as \Cref{sec:results_practicability_verdict} shows it doing in the generator comparison, but a direction that holds across seventeen partly independent views of one pair of runs is unlikely to be pure seed noise. The direction is treated as real and the magnitude as unquantified.
-
-Three asymmetries between the two runs must be disclosed, because the first of them breaks the single-factor design \Cref{sec:augmentation_setups} specifies. The distilled run trained at an effective batch size of $16$ against $32$ for the direct run, both auto-reduced from a nominal $64$ by the memory probe of \Cref{sec:training_procedure}. The extra cached teacher vector per image is the plausible cause of the difference and was not separately confirmed.  % run logs: batch_size_effective=16 vs 32
-Batch size is therefore a second varied factor and its contribution to the gap is unmeasured. Second, the distilled run ended at epoch $186$ of $200$ when an unhandled tracking-client exception followed a network outage on the training host, and its epoch-$185$ checkpoint is used as final. Its validation metric was still rising, from $0.724$ at epoch $175$ to $0.733$ at epoch $185$, so a resumed run would likely have gained a little more.  % docs/2026-09-07_model-comparison-teacher-and-students.md §3.3
+Three asymmetries must be disclosed, because the first breaks the single-factor design \Cref{sec:augmentation_setups} specifies. The distilled run trained at an effective batch size of $16$ against $32$ for the direct run, both auto-reduced from a nominal $64$ by the memory probe of \Cref{sec:training_procedure}, the extra cached teacher vector per image being the plausible and unconfirmed cause.  % run logs: batch_size_effective=16 vs 32
+Batch size is therefore a second varied factor whose contribution to the gap is unmeasured. Second, the distilled run ended at epoch $186$ of $200$ after an unhandled tracking-client exception, and its epoch-$185$ checkpoint is used as final with the validation metric still rising, from $0.724$ at epoch $175$ to $0.733$ at epoch $185$.  % docs/2026-09-07_model-comparison-teacher-and-students.md 3.3
 Third, the direct run stopped on its own patience criterion at epoch $193$ with its best checkpoint at epoch $172$, so it was the more nearly converged of the two.
 
-Four limits bound what this comparison establishes, and all four are scope boundaries rather than defects. It tests one $(T, \alpha)$ point, the default $T = 4$ and $\alpha = 0.5$, and not the grid \Cref{sec:kd_loss} was written around, so it rules out a benefit at that point and not distillation in general. It tests one teacher, the fine-tuned \textit{MegaDetector} and \textit{SpeciesNet} ensemble, at a parameter ratio of roughly $72$ to $1$, which \Cref{sec:kd_loss} already identifies as far outside the range the literature treats as safe and as a documented setting for negative transfer. It tests response-based distillation only, feature-based alignment having been excluded on architectural grounds before any run started. And the multi-animal subset cut, which is the concrete test of the supervision advantage distillation was expected to have, was never evaluated, so the one mechanism that might favor Setup A here remains unexamined.
+Four limits bound what the comparison establishes, and all four are scope boundaries rather than defects. It tests one $(T, \alpha)$ point and not the grid \Cref{sec:kd_loss} was written around, so it rules out a benefit at that point and not distillation in general. It tests one teacher, the fine-tuned ensemble, at a parameter ratio of roughly $72$ to $1$, which \Cref{sec:kd_loss} identifies as far outside the range the literature treats as safe and a documented setting for negative transfer. It tests response-based distillation only, feature-based alignment having been excluded on architectural grounds before any run started. And the multi-animal subset cut, the concrete test of the supervision advantage distillation was expected to have, was never evaluated, so the one mechanism that might favor Setup A remains unexamined. Whichever recipe wins on accuracy, the student still has to run inside a per-frame budget.
 
 \subsection{Runtime Benchmark on the Embedded Proxy}\label{sec:results_embedded_benchmark}
 
-Every model evaluated in this work was exported and timed on a
-\textit{Raspberry Pi 400}, the proxy whose relationship to the \textit{QCS605}
-is set out in \Cref{sec:lit_embedded_inference}. No measurement was taken on
-\textit{AX Visio} hardware, which was not available. The check is a feasibility
-result for full-precision models on a target-adjacent CPU, not an optimization
-result: no quantization, pruning or compression of any kind was applied.
+Every model was exported and timed on a \textit{Raspberry Pi 400} rather than on the \textit{QCS605}, because the target's Hexagon 685 DSP is tied to a 2018-era vendor stack whose inconsistently documented operator support makes routine model iteration a driver-debugging exercise. The board's four Cortex-A72 cores are estimated to run $10$ to $15\%$ slower than the target's Kryo 300 cores, so the proxy supplies a conservative floor rather than a ceiling to discount.  % docs/2026-03-09_hardware-proxy-selection.md
+Two limits bound that inference: the board has no analogue to the Hexagon 685 DSP, and its Cortex-A72 predates the ARMv8.2 extensions, providing neither the $8$-bit dot-product instruction nor the half-precision arithmetic the Kryo 300 cores do.  % reports/embedded_benchmark/device_profile.json
+No measurement was taken on \textit{AX Visio} hardware, which was not available. The result is a feasibility check for full-precision models on a target-adjacent CPU, with no quantization, pruning or compression applied.
 
-The export path runs from each training checkpoint to \textit{TorchScript} and to \textit{ONNX}
-at opset~$17$ with static batch-1 shapes. Because both detector pipelines
-bypass \textit{Ultralytics}' high-level interface and store bare parameter
-dictionaries, the exporter rebuilds each architecture through this project's own
-model factories before tracing. Every exported graph was then checked against
-its \textit{PyTorch} reference on the host before it reached the device, and all
-five reproduce it to within floating-point accumulation noise.
-% reports/embedded_benchmark/pi_results/, scripts/benchmark/1b-convert_and_verify.py
-
-\Cref{tab:embedded-latency} reports the result. The timed window follows the
-\textit{MLPerf Tiny} convention discussed in \Cref{sec:lit_embedded_inference}:
-$W_{\mathrm{infer}}$ covers the forward call alone, on an input tensor already
-resident in memory, and excludes model loading and warm-up. $W_{\mathrm{e2e}}$
-adds JPEG decode, letterboxing and post-processing, and is the figure that
-answers a per-frame budget question. Batch size, core affinity, thread count and
-CPU governor were held fixed across all $76$ measured cells.
+Each checkpoint was exported to \textit{TorchScript} and to \textit{ONNX} at static batch-1 shapes, and every graph reproduced its \textit{PyTorch} reference on the host to within floating-point accumulation noise (\Cref{sec:appendix_embedded_export}). The timed window follows the \textit{MLPerf Tiny} convention of \Cref{sec:lit_embedded_inference}: $W_{\mathrm{infer}}$ covers the forward call alone on a resident input tensor, and $W_{\mathrm{e2e}}$ adds JPEG decode, letterboxing and post-processing, which is what a per-frame budget question needs. Batch size, core affinity, thread count and CPU governor were fixed across all $76$ cells.
 
 \begin{table}[htbp]
   \centering
-  \caption[Runtime benchmark on the Raspberry Pi 400]{Measured runtime of every evaluated model on the \textit{Raspberry Pi 400} proxy: \textit{ONNX Runtime}, 4 threads, batch size $1$, full precision, \texttt{performance} governor. $W_{\mathrm{infer}}$ is the forward pass alone (the \textit{MLPerf Tiny} measurement scope). $W_{\mathrm{e2e}}$ adds JPEG decode, letterboxing and post-processing. Median of three independent process invocations, interquartile range in parentheses.}
+  \caption[Runtime benchmark on the Raspberry Pi 400]{Measured runtime on the \textit{Raspberry Pi 400} proxy: \textit{ONNX Runtime}, 4 threads, batch size $1$, full precision, \texttt{performance} governor. $W_{\mathrm{infer}}$ is the forward pass alone and $W_{\mathrm{e2e}}$ adds decode, letterboxing and post-processing. Median of three process invocations, interquartile range in parentheses.}
   \label{tab:embedded-latency}
   \begin{tabular}{lrrrrrr}
     \toprule
@@ -584,40 +426,17 @@ CPU governor were held fixed across all $76$ measured cells.
 
 % Pass band: a Pi 400 measurement at or below 33 ms implies <= 30 ms on the QCS605 CPU
 % (QCS605 ~ Pi400 x 0.85-0.90; docs/2026-03-09_hardware-proxy-selection.md). CPU path only.
-
-The project's design targets for the \textit{QCS605} are $\leq 30$\,ms per
-frame at $640\times640$ and a $\leq 500$\,MB memory ceiling. Both are internal
-estimates rather than vendor-certified figures.
+The project's design targets for the \textit{QCS605} are $\leq 30$\,ms per frame at $640\times640$ and a $\leq 500$\,MB memory ceiling, both internal estimates.
 % docs/2026-03-10_object-detection-models-for-embedded-systems.md
-No configuration measured here passes either. The fastest model, \textit{YOLO26n}, needs
-$423$\,ms per frame, which the proxy relationship translates to roughly
-$360$--$381$\,ms on the \textit{QCS605} CPU: about twelve times the budget.
+No configuration in \Cref{tab:embedded-latency} passes the latency target. The fastest model, \textit{YOLO26n} under direct fine-tuning, needs $423$\,ms per frame, which the proxy relationship translates to roughly $360$--$381$\,ms on the \textit{QCS605} CPU, about twelve times the budget.
 % reports/embedded_benchmark/latency_summary.csv
-\textit{YOLOv5s}, the architecture closest to the detector already deployed in
-the production binocular, needs $949$\,ms. The memory target is met by all three
-detectors but not by either teacher component. This outcome was expected rather
-than surprising: a vendor-published figure puts \textit{YOLO26n} at $67.7$\,ms on the faster
-\textit{Raspberry Pi 5}, already above the budget before this device's slower
-cores are accounted for,
+\textit{YOLOv5s}, the architecture closest to the detector already deployed in the production binocular, needs $949$\,ms. The memory target is met by all three detectors and by neither teacher component. The shortfall was expected, since a vendor-published figure puts \textit{YOLO26n} at $67.7$\,ms on the faster \textit{Raspberry Pi 5},
 % docs/progress_notes/2026-03-18_speciesnet-pipeline-and-experiment-design.md
-and the remaining gap was always intended to be closed by the quantization pass
-this work did not carry out.
+and the gap was always to be closed by the quantization pass this work did not carry out.
 
-The teacher's cost is the more decisive number. \textit{MegaDetector v5a} alone
-takes $31.0$\,s per frame at $1280\times1280$ and peaks at $1{,}570$\,MB. A
-composed ensemble estimate (one detector pass plus a mean of $1.7$ classifier
-crops per image) comes to roughly $35$\,s per frame.
+The teacher's cost is the more decisive number. \textit{MegaDetector v5a} alone takes $31.0$\,s per frame at $1280\times1280$ and peaks at $1{,}570$\,MB, and a composed ensemble estimate, one detector pass plus a mean of $1.7$ classifier crops per image, comes to roughly $35$\,s per frame.
 % reports/embedded_benchmark/embedded_benchmark.md
-That is three orders of magnitude above the budget, and it converts
-\Cref{sec:lit_yolo_family}'s reasoned argument that the ensemble cannot ship on
-this hardware into a measured one.
-
-\Cref{fig:embedded-latency-vs-map} places accuracy against measured latency for
-every system that has both. The ranking is unambiguous in both dimensions at
-once: the ensemble buys its $0.663$ mixed-set mAP at roughly $83$ times the
-latency of \textit{YOLO26n}, and \textit{YOLOv5s} is both slower and less
-accurate than \textit{YOLO26n}, which reinforces the architecture choice argued
-in \Cref{sec:model_selection} on grounds independent of accuracy.
+That is three orders of magnitude above the budget, and it converts \Cref{sec:lit_yolo_family}'s reasoned argument that the ensemble cannot ship on this hardware into a measured one.
 
 \begin{figure}[htbp]
   \centering
@@ -626,105 +445,25 @@ in \Cref{sec:model_selection} on grounds independent of accuracy.
   against measured end-to-end latency on the \textit{Raspberry Pi 400}, ONNX
   Runtime at $4$ threads. Each model contributes two readings, the mixed-set
   headline and its real-only breakout, joined by a vertical rule. The shaded
-  band is the device-side pass band implied by the
-  $\leq 30$\,ms \textit{QCS605} budget. The ensemble point is a derived
-  estimate: one detector pass plus a mean of $1.7$ classifier crops per image.}
+  band is the pass band implied by the $\leq 30$\,ms \textit{QCS605} budget,
+  and the ensemble point is a derived estimate.}
   \label{fig:embedded-latency-vs-map}
 \end{figure}
 
-Two observations concern the runtime rather than the models. ONNX Runtime was
-faster than TorchScript for every model that ran under both, by factors of
-$1.16$ to $1.75$. It was also the only runtime that executed every
-configuration without aborting: multi-threaded TorchScript terminates with an
-illegal-instruction fault on \textit{YOLO26n} on this ARMv8.0 core. Disabling
-its oneDNN backend was tried as a remedy and extended that failure to every
-model rather than removing it.
-% reports/embedded_benchmark/torchscript_sigill_finding.md
-Runtime selection on this class of hardware is therefore a correctness question
-before it is a performance one. Second, no NCNN or GPU figure could be produced:
-the device's Vulkan stack is functional, but the only available
-ONNX-to-NCNN converter fails on both detectors, so the \textit{VideoCore VI} was
-never reachable.
-% reports/embedded_benchmark/ncnn_conversion_finding.md
-
-Pre-processing is a small but non-trivial share of the per-frame cost, and it
-scales with capture resolution rather than with model size. Decoding and
-letterboxing a median test image costs $21$--$35$\,ms, while the same operation
-on a native $4192\times3120$ \textit{AX Visio} still costs $256$--$275$\,ms. That
-figure is comparable to a full \textit{YOLO26n} forward pass, and it is a cost
-that a deployment reading frames at sensor resolution would pay on every frame.
+\Cref{fig:embedded-latency-vs-map} places accuracy against measured latency, and the ranking is unambiguous in both dimensions at once. The ensemble buys its $0.663$ mixed-set mAP, with $0.599$ on the real-only breakout, at roughly $83$ times the latency of \textit{YOLO26n}, and \textit{YOLOv5s} is both slower and less accurate. Pre-processing scales with capture resolution rather than model size: decoding and letterboxing a median test image costs $21$--$35$\,ms, and the same operation on a native $4192\times3120$ \textit{AX Visio} still costs $256$--$275$\,ms.
 % reports/embedded_benchmark/latency_summary.csv
+The export path, the runtime selection, the thermal campaign and the host-device parity checks behind \Cref{tab:embedded-latency} are reported in \Cref{sec:appendix_embedded_export,sec:appendix_thermal_validity,sec:appendix_host_device_parity}.
 
-The measurements are not thermally compromised. All $76$ cells were taken under
-the \texttt{performance} governor with a monitor sampling core temperature,
-frequency and the SoC throttle register throughout. None tripped the validity
-gate, the peak temperature reached was $64.8$\,\textdegree C against an
-$80$\,\textdegree C threshold, and the throttle register read zero for the
-entire campaign. Sustained runs of several hundred iterations drifted by between
-$+0.28\,\%$ and $+2.33\,\%$, which bounds the thermal effect on this passively
-cooled device at a level well below the differences the table reports.
-% reports/embedded_benchmark/thermal_summary.csv
-
-Exporting the detectors and running them on a different instruction set does
-not change what they compute. Over a fixed $600$-image subset, the device
-reproduces between $98.97\,\%$ and $99.47\,\%$ of the host's detections at an
-intersection-over-union of $0.99$ or better, and the subset mAP differs by at
-most $0.0020$.
-% reports/embedded_benchmark/parity_summary.json
-That residual is best read against a same-machine control: host GPU and host
-CPU, identical weights and identical code, already disagree on $0.15$--$0.31\,\%$
-of detections, because floating-point accumulation order differs between
-kernels and a near-tie in score can reorder which box survives. One of the six
-comparisons falls marginally below the $99\,\%$ criterion set in advance, at
-$98.97\,\%$. It is reported as a miss rather than absorbed by relaxing the
-threshold after the fact, and its mAP delta stays inside tolerance.
-
-The check also caught a defect that had nothing to do with hardware. An earlier
-run reported a $47\,\%$ match with both device runtimes agreeing exactly with
-each other. This pattern indicates differing weights, not differing
-arithmetic. The direct fine-tuning checkpoint came from a training run still in
-progress, and the file had been rewritten between the export and the generation
-of the host reference. The export stage now freezes a hashed copy of each
-source checkpoint, and the reference is built from that copy.
-
-Three limits apply to everything above. The models are full-precision and
-unoptimized, so the figures are an upper bound on latency rather than an
-estimate of what the hardware can do. The campaign covers one device, and the
-translation to the \textit{QCS605} rests on a published CPU-performance estimate
-rather than a measurement of the target. Most importantly, the
-\textit{QCS605}'s Hexagon~685 DSP has no analogue on the proxy, so the
-accelerated path (the one the quantization literature in
-\Cref{sec:lit_embedded_inference} reports order-of-magnitude gains for, and the
-one a shipping product would use) remains entirely unmeasured. Whether the
-$30$\,ms budget is reachable on the target is therefore still an open question,
-and \Cref{sec:further_work} treats it as the first item of further work.
+Three limits apply to everything above. The models are full-precision and unoptimized, so the figures bound latency from above rather than estimating what the hardware can do. The campaign covers one device, and the translation to the \textit{QCS605} rests on a published CPU-performance estimate rather than a measurement of the target. Most importantly, the Hexagon~685 DSP has no analogue on the proxy, so the accelerated path the quantization literature of \Cref{sec:lit_embedded_inference} reports order-of-magnitude gains for remains unmeasured. Whether the $30$\,ms budget is reachable on the target is therefore still open, and \Cref{sec:further_work} treats it as the first item of further work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Cross-Cutting Observations}\label{sec:results_general_observations}
 
-Three findings cut across the sections above and belong to none of them individually. This section states those, then fixes the scope boundaries that bound every number in the chapter, so that \Cref{chapter:discussion_conclusion} argues from a clear ledger rather than re-deriving one.
+Two observations cut across the sections above and belong to none of them individually.
 
 \paragraph{Training cost, reported but not comparable}
-The four final runs occupied a single \textit{NVIDIA A40} for between roughly $21$ hours and $8.8$ days. The teacher's classifier fine-tune early-stopped at epoch $22$ after about $21$ hours. \textit{YOLOv5s} ran the full $200$ epochs in about $5.0$ days at batch size $32$. \textit{YOLO26n} under direct fine-tuning ran $193$ epochs in about $8.8$ days at batch size $32$, and the distilled run $186$ epochs in about $4.5$ days at batch size $16$.  % run directory logs, first and last epoch timestamps
-Those wall-clock figures are not a throughput comparison and must not be read as one. Every one of the four runs overlapped in time with at least one other on the same host, so each was contending for the same device, and the per-run cost is confounded with what else was executing. The one cost figure that is clean is the validation pass, at roughly $12.5$ minutes per evaluation against roughly $50$ minutes for a training epoch (\Cref{sec:training_procedure}), which is why the evaluation interval became a tunable rather than a constant.
+The four final runs occupied a single \textit{NVIDIA A40} for between roughly $21$ hours and $8.8$ days: the teacher's classifier fine-tune early-stopped at epoch $22$ after about $21$ hours, \textit{YOLOv5s} ran $200$ epochs in about $5.0$ days, \textit{YOLO26n} under direct fine-tuning $193$ epochs in about $8.8$ days, and the distilled run $186$ epochs in about $4.5$ days.  % run directory logs, first and last epoch timestamps
+These wall-clock figures are not a throughput comparison, because all four runs overlapped on the same host and each was contending for the same device.
 
 \paragraph{The two synthetic-data results agree}
-\Cref{sec:results_practicability_verdict} concludes that the generator comparison establishes a ranking for data-rich classes and establishes that its instrument cannot rank generators for data-poor ones. \Cref{sec:results_band_granularity} reaches a compatible conclusion from a different direction. Synthetic imagery substitutes for half of a small real training set at little or no measurable cost, and it does not substitute for all of it. Band A loses roughly half the accuracy that the same budget of real images achieves on the real test set. Both results place the useful range of synthetic data in the middle of the availability spectrum and neither supports its use at the extreme of the long tail, which is the case that motivated generating it. The two sub-studies were designed independently and measure different things, so their agreement is corroboration rather than a shared assumption.
-
-\Cref{sec:results_domain_shift} adds the mechanism that connects them. A model trained on synthetic images for a class scores far better on synthetic test images of that class than on real ones, by a median of $0.72$ mAP for Band A. The generator comparison could not see this because it evaluated on real photographs only. The band comparison could not see it in the mixed grid because Band A is partly scored on its own training domain there. Only the paired per-class delta exposes it, which is the argument for having kept that watchdog at all, even though the verdict it returned was that the default it guards should be revised.
-
-\paragraph{The distillation and deployment results are indicative}
-\Cref{sec:results_kd_and_embedded} rests on one comparison at one design point and one runtime measurement on one device, and both should be read as indicative rather than settled. The distillation result rules out a benefit at $T = 4$ and $\alpha = 0.5$ with this teacher and this student, and does not rule out a benefit elsewhere in the space \Cref{sec:lit_knowledge_distillation} surveys. The runtime result establishes that no full-precision model measured here reaches the project's latency target on a target-adjacent processor, and says nothing about the accelerated path a shipping product would use. \Cref{sec:further_work} treats both as first items rather than as closed questions.
-
-\paragraph{Scope boundaries}
-Five things this chapter does not report are stated here so that their absence is a boundary and not an omission discovered later. One further limit is a deviation rather than a boundary and is recorded where it arises, in the watchdog verdict of \Cref{sec:results_domain_shift}.
-
-The \textbf{student zero-shot baseline} was never produced. An evaluation of \textit{YOLO26n} from raw COCO weights failed on a missing data directory and was not retried after that directory was fixed, so the chapter has no floor against which to measure what fine-tuning on this domain bought. Every student figure is an absolute level and not a gain.
-
-The \textbf{distillation hyperparameter grid} was never swept. Only the default $(T, \alpha)$ point ran, so \Cref{tab:kd-vs-direct} is one cell of the grid \Cref{sec:kd_loss} describes rather than a summary of it.
-
-The \textbf{multi-animal subset} was never evaluated separately. That cut is the concrete test of the supervision advantage distillation was expected to hold over hard-label training, and it is also the setting the per-image teacher cache of \Cref{sec:kd_loss} approximates most crudely. Its absence means the one mechanism that could have favored distillation was not probed.
-
-\textbf{Quantization-aware training} was deferred as a scope decision rather than attempted and abandoned. It is also the single largest remaining lever on the embedded target, since the accelerated path on the \textit{QCS605} is a quantized one and the full-precision figures of \Cref{tab:embedded-latency} miss the latency budget by roughly twelve times. Calling this chapter's deployment verdict final would require that pass.
-
-The \textbf{blind human rating rubric} for the generator comparison was never run, as \Cref{sec:results_rubric_not_executed} records in full. It remains fully specified and directly executable on the archived images, and it is the axis that would resolve exactly the rare-class question the executed axis has no power over.
+\Cref{sec:results_practicability_verdict} concludes that the generator comparison ranks generators for data-rich classes and cannot rank them for data-poor ones. \Cref{sec:results_band_granularity} reaches a compatible conclusion from a different direction, since synthetic imagery substitutes for half of a small real training set at little or no measurable cost while Band A loses roughly half the accuracy the same budget of real photographs achieves. Both place the useful range of synthetic data in the middle of the availability spectrum, and neither supports its use at the extreme of the long tail that motivated generating it. The two sub-studies were designed independently, so their agreement is corroboration rather than a shared assumption. \Cref{sec:results_domain_shift} supplies the mechanism, since a model trained on synthetic images for a class scores better on synthetic test images of it than on real ones by a median of $0.72$ mAP for Band A. Only the paired per-class delta exposes that, which is the argument for having kept the watchdog even though its verdict was that the default it guards should be revised.

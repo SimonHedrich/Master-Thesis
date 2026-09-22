@@ -51,7 +51,8 @@ plus the license acronyms.
   `eq:quality-score` (`32-Data_Quality_and_Curation.tex:147`).
 - Never refer to a float by position — "the table above" (`4-Results.tex:153`). Floats move.
 - Multi-panel comparisons use `subcaption`; `\figurename` is renamed per figure group so the
-  List of Figures reads as distinct categories.
+  List of Figures reads as distinct categories. See `figures.md` for the layout pattern and for
+  whether a comparison should be a figure, a table, or a sentence in the first place.
 
 ## 4. Citations
 
