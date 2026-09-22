@@ -61,7 +61,7 @@ Each generated image is specified along six largely independent axes, chosen to 
 Two axes were specified and never implemented: roughly $15$ to $20\%$ juvenile subjects, and even sex representation for dimorphic species. Neither is conditioned anywhere in the pipeline, so whatever variation the dataset shows along them is incidental. Juvenile animals and the less-ornamented sex are exactly what a detector is most likely to miss, which makes this a substantive coverage gap.
 
 \paragraph{Prompt Construction}
-Prompts follow a fixed template of five blocks: subject, species description, scene specification, photography style, and critical requirements. The raw text of a species' Wikipedia Description, Behaviour and Habitat sections is inserted verbatim, since summarizing it risks discarding visually relevant detail such as fur pattern.
+Prompts follow a fixed template of five blocks: subject, species description, scene specification, photography style, and critical requirements. The raw text of a species' Wikipedia Description, Behavior and Habitat sections is inserted verbatim, since summarizing it risks discarding visually relevant detail such as fur pattern.
 
 Three constraints carry consequences elsewhere. The animal must be fully visible, with no part cut off at the frame edge, because a subject cropped at the boundary cannot plausibly be scaled down by the scale augmentation of \Cref{sec:data_augmentation}. Exactly one individual of the target species may appear, which keeps automatic single-box annotation valid. Text, watermarks, borders and anachronistic objects are prohibited, since a detector would otherwise treat them as evidence.
 
