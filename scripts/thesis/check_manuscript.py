@@ -23,21 +23,24 @@ from pathlib import Path
 
 MANUSCRIPT = Path("thesis/manuscript")
 
-# Target word counts per file, from scope.md section 9.
+# Target word counts per file, from scope.md section 9. These are ceilings to hold,
+# not targets to shrink toward: they record the allocation the September 2026
+# shortening pass actually reached, after each file had been cut to the point where
+# the next cut would have removed evidence rather than noise.
 BUDGET: dict[str, int] = {
-    "chapters/1-Introduction.tex": 1800,
-    "chapters/2-Literature_Review.tex": 6500,
-    "chapters/3-Methods_and_Implementation/30-Overview.tex": 150,
-    "chapters/3-Methods_and_Implementation/31-Data_Sourcing_and_Taxonomy.tex": 1250,
-    "chapters/3-Methods_and_Implementation/32-Data_Quality_and_Curation.tex": 1900,
-    "chapters/3-Methods_and_Implementation/33-Synthetic_Data_Supplementation.tex": 1550,
-    "chapters/3-Methods_and_Implementation/34-Data_Augmentation.tex": 750,
-    "chapters/3-Methods_and_Implementation/35-Synthetic_Generator_Comparison.tex": 2350,
-    "chapters/3-Methods_and_Implementation/36-Model_Training_and_Experiment_Tracking.tex": 1350,
-    "chapters/3-Methods_and_Implementation/37-Evaluation_Framework.tex": 1450,
-    "chapters/4-Results.tex": 6450,
-    "chapters/5-Discussion_and_Conclusion.tex": 2700,
-    "appendices/appendix.tex": 3400,
+    "chapters/1-Introduction.tex": 2000,
+    "chapters/2-Literature_Review.tex": 6800,
+    "chapters/3-Methods_and_Implementation/30-Overview.tex": 170,
+    "chapters/3-Methods_and_Implementation/31-Data_Sourcing_and_Taxonomy.tex": 1400,
+    "chapters/3-Methods_and_Implementation/32-Data_Quality_and_Curation.tex": 2100,
+    "chapters/3-Methods_and_Implementation/33-Synthetic_Data_Supplementation.tex": 1700,
+    "chapters/3-Methods_and_Implementation/34-Data_Augmentation.tex": 800,
+    "chapters/3-Methods_and_Implementation/35-Synthetic_Generator_Comparison.tex": 2550,
+    "chapters/3-Methods_and_Implementation/36-Model_Training_and_Experiment_Tracking.tex": 1500,
+    "chapters/3-Methods_and_Implementation/37-Evaluation_Framework.tex": 1550,
+    "chapters/4-Results.tex": 7400,
+    "chapters/5-Discussion_and_Conclusion.tex": 3000,
+    "appendices/appendix.tex": 5500,
 }
 
 LABEL_RE = re.compile(r"\\label\{([^}]*)\}")

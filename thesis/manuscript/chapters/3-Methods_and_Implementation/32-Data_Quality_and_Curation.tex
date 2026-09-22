@@ -129,7 +129,7 @@ $S_{\text{conf}}$ & MegaDetector box confidence, $0.30$ when unavailable \\
 
 The three splits are then drawn under deliberately different rules. The test set is drawn first and stratified so that its source mixture mirrors the class's actual pool, since it estimates behavior on the operating distribution. Training images are then taken greedily by quality score from what remains. Validation is sampled from the $30$th to $70$th percentile of $Q$ under a fixed seed, because training has skimmed the top and a random validation set would be easier than the data the model will face.
 
-For the largest classes (Band D, \Cref{sec:band_structure}) a soft source-diversity cap limits any single source to at most $60\%$ of a class's training images, so that one source's photographic style does not become the feature the model learns. The background and human images sit outside this logic, split in fixed proportions.
+For the largest classes (Band D, \Cref{sec:band_structure}) a soft source-diversity cap limits any single source to at most $60\%$ of a class's training images, so that one source's photographic style does not become the feature the model learns. The background and human images sit outside this logic, split in fixed proportions. What these rules produce, class by class, is the dataset the rest of the work trains on.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Resulting Dataset}\label{sec:final_dataset_composition}

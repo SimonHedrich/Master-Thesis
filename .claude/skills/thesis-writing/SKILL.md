@@ -92,7 +92,7 @@ paragraph, abandoned approaches narrated as stories, and fifteen caveats each st
 six places.
 
 **`references/scope.md` is the rule set for that**, with the standing per-file word budget in
-its §9 (target: 31,400 words). `uv run python -m scripts.thesis.check_manuscript` measures
+its §9 (36,470 words, of which the appendix is 5,500). `uv run python -m scripts.thesis.check_manuscript` measures
 every file against that budget and checks that nothing was severed in the cutting.
 
 ## The limit

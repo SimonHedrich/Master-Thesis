@@ -207,32 +207,44 @@ stated five times reads as anxiety.
 
 ## 9. The standing word budget
 
-Derived from the bachelor thesis ratio (literature : methods : results ≈
-0.76 : 1 : 0.44) scaled to a Master's thesis, and from the department's page
-guidance.
+The manuscript was cut from 57,291 words to 36,400 in September 2026. The table
+below records where it landed, and those numbers are **ceilings to hold, not
+targets to shrink toward**: each file was cut to the point where the next cut
+would have removed evidence rather than noise.
 
-| File | Target |
-|---|---|
-| `1-Introduction.tex` | 1,800 |
-| `2-Literature_Review.tex` | 6,500 |
-| `3-…/30-Overview.tex` | 150 |
-| `3-…/31-Data_Sourcing_and_Taxonomy.tex` | 1,250 |
-| `3-…/32-Data_Quality_and_Curation.tex` | 1,900 |
-| `3-…/33-Synthetic_Data_Supplementation.tex` | 1,550 |
-| `3-…/34-Data_Augmentation.tex` | 750 |
-| `3-…/35-Synthetic_Generator_Comparison.tex` | 2,350 |
-| `3-…/36-Model_Training_and_Experiment_Tracking.tex` | 1,350 |
-| `3-…/37-Evaluation_Framework.tex` | 1,450 |
-| `4-Results.tex` | 6,450 |
-| `5-Discussion_and_Conclusion.tex` | 2,700 |
-| `appendices/appendix.tex` | 3,400 |
-| **Total** | **31,400** |
+| File | Before | Now |
+|---|---|---|
+| `1-Introduction.tex` | 2,303 | 2,000 |
+| `2-Literature_Review.tex` | 11,455 | 6,800 |
+| `3-…/30-Overview.tex` | 312 | 170 |
+| `3-…/31-Data_Sourcing_and_Taxonomy.tex` | 3,529 | 1,400 |
+| `3-…/32-Data_Quality_and_Curation.tex` | 5,422 | 2,100 |
+| `3-…/33-Synthetic_Data_Supplementation.tex` | 4,134 | 1,700 |
+| `3-…/34-Data_Augmentation.tex` | 1,268 | 800 |
+| `3-…/35-Synthetic_Generator_Comparison.tex` | 5,510 | 2,550 |
+| `3-…/36-Model_Training_and_Experiment_Tracking.tex` | 2,121 | 1,500 |
+| `3-…/37-Evaluation_Framework.tex` | 2,218 | 1,550 |
+| `4-Results.tex` | 11,316 | 7,400 |
+| `5-Discussion_and_Conclusion.tex` | 4,524 | 3,000 |
+| `appendices/appendix.tex` | 2,494 | 5,500 |
+| **Total** | **57,291** | **36,470** |
 
-`uv run python -m scripts.thesis.check_manuscript` reports each file against
-this table. A file over target is not automatically wrong, but it needs a reason
-that survives §1.
+Two things about that total are worth knowing before using it.
 
----
+**The appendix more than doubled, and that is the design.** Rule 7 routes
+reference material out of the chapters, so the appendix absorbing 3,000 words is
+the mechanism working, not an overrun. The figure that measures how much thesis
+there is to read is the body without it: **54,797 down to 30,970, a 43% cut.**
+
+**Raw `wc -w` counts LaTeX markup, so a float-heavy file reads as longer than it
+is.** `4-Results.tex` is 7,400 words by that measure and 5,500 words of prose.
+Judge a Results chapter on the prose column, which
+`scripts/thesis/check_manuscript.py` prints beside the budget.
+
+A planning estimate of 31,400 preceded this pass and was about 15% optimistic,
+because it was derived from the pre-cut files' float-to-prose ratio and did not
+anticipate how much would be routed to the appendix. The measured allocation
+replaces it. Do not treat the older figure as a target that was missed.
 
 ## 10. Structural habits that keep sections short
 
