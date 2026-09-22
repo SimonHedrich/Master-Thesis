@@ -1,6 +1,6 @@
 \chapter{Appendix}\label{appendix}
 
-This appendix holds the supplementary listings that would interrupt the argument of the main chapters. The first two are complete reference tables that \Cref{chapter:methods_implementation} states only in summary form, namely the per-class training-band assignment behind \Cref{sec:band_structure} and the look-alike groups behind \Cref{sec:lookalike_groups}. The third is a gallery of generated samples supporting the generator comparison of \Cref{sec:generator_comparison}.
+This appendix holds the reference material that the main chapters state only by its effect. \Cref{sec:appendix_band_assignment,sec:appendix_lookalike_groups} complete two listings that \Cref{chapter:methods_implementation} gives in summary, namely the per-class training-band assignment behind \Cref{sec:band_structure} and the look-alike groups behind \Cref{sec:lookalike_groups}. \Cref{sec:appendix_generator_gallery} is a gallery of generated samples supporting the generator comparison. \Cref{sec:appendix_data_details,sec:appendix_synthetic_details,sec:appendix_training_details} carry the filter specifications, controlled vocabularies and run-tracking detail behind \Cref{chapter:methods_implementation}. \Cref{sec:appendix_results_supplement} holds the full versions of tables that \Cref{chapter:results} reports in excerpt, together with the validity checks on the runtime benchmark.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Per-Class Training-Band Assignment}\label{sec:appendix_band_assignment}
@@ -319,3 +319,308 @@ The \texttt{override} entries in the last column are where that criterion overru
 \end{figure}
 
 \renewcommand{\figurename}{Figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data Sourcing and Curation Details}\label{sec:appendix_data_details}
+
+These are the filter specifications and controlled vocabularies that \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation} state only by their effect.
+
+\subsection{COCO Filter for the Human Class}\label{sec:appendix_human_filter}
+
+The \texttt{human} class was drawn from COCO 2017 under a filter written for it, since the class serves as a contextual negative in an outdoor observation scenario rather than as a portrait subject (\Cref{sec:sourcing_execution}). An image was excluded if it carried a vehicle or animal supercategory annotation, if it was flagged \texttt{iscrowd=1}, or if it contained more than three person annotations. A retained bounding box was required to occupy between $5\%$ and $60\%$ of the frame area, to sit at least $2\%$ of the frame away from the image edge, and to have a height-to-width ratio of at least $0.5$, which biases the class toward standing figures over incidental ones. Post-download quality checks additionally required a shorter side of at least $256\,\mathrm{px}$, a Laplacian blur variance of at least $100$, and a mean saturation of at least $15$, the last of these rejecting grayscale and infrared frames.  % scripts/download_coco_humans.py
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Wikimedia Category Exclusion Vocabulary}\label{sec:appendix_wikimedia_vocabulary}
+
+The Wikimedia Commons crawl of \Cref{sec:sourcing_execution} selects categories through an explicit account of what a wildlife photograph is \emph{not}. A category is excluded if its subject is artwork or illustration, an anatomical specimen or isolated body part, a range map, philatelic material, tracks and spoor, taxidermy or a trophy, a food product, or a fossil. Categories in which the animal is incidental to the subject are excluded on the same grounds, for example \enquote{things named after lions} or \enquote{people with cheetahs}. Exclusions cascade to subcategories, on the reasoning that a Commons subcategory inherits its parent's framing, so every subdivision of an art category is still art. Partial-animal imagery such as heads, paws and trophy shots is therefore attacked at three independent points: in this vocabulary, in the caption-based rescue stage, and in the caption evaluation criteria of \Cref{sec:staged_filtering_pipeline}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Caption Generation and Evaluation Settings}\label{sec:appendix_caption_settings}
+
+Captions for the quality evaluation of \Cref{sec:staged_filtering_pipeline} were generated with \textit{Florence-2-base} at batch size $6$, a $768\times768$ input resolution and greedy decoding. The rescue stage of the same section uses \textit{Florence-2-large} in detailed-captioning mode.
+
+The instruction given to the language model that judges the resulting captions is as notable for what it forbids as for what it asks. It names, explicitly, several properties that are \emph{not} grounds for rejection: humans present in the frame, domesticated animals, blurred or dark backgrounds, and descriptions of the animal's color or condition. Each corresponds to a plausible failure in which a model asked to judge image quality from a caption would confidently discard valid training data, and the first would additionally have contradicted the deliberate inclusion of a human class.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Synthetic Generation Details}\label{sec:appendix_synthetic_details}
+
+The vocabularies and budgets behind the synthetic pipeline of \Cref{sec:synthetic_data_supplementation} and the generator comparison of \Cref{sec:generator_comparison}.
+
+\subsection{Synthetic Generation Axis Vocabularies}\label{sec:appendix_generation_axes}
+
+The six axes of variation described in \Cref{sec:synthetic_generation_pipeline} draw on three controlled vocabularies. \Cref{tab:appendix-environment-codes} lists the ten environment codes, \Cref{tab:appendix-lighting-codes} the five lighting codes, and \Cref{tab:appendix-guilds} the eight ecological guilds that bias the environment and behavior axes toward species-plausible combinations. Codes marked as guild-restricted are only scheduled for species assigned to the guild named.
+
+\begin{table}[H]
+\centering
+\caption{Environment and habitat codes used in the synthetic shot schedule.}
+\label{tab:appendix-environment-codes}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Code & Description \\
+\midrule
+\texttt{primary\_open} & Main habitat, unobstructed, good light \\
+\texttt{primary\_vegetation} & Main habitat, partly obscured by plants \\
+\texttt{forest\_interior} & Dense canopy, dappled light \\
+\texttt{riparian} & Riverbank, stream edge, muddy margins \\
+\texttt{in\_water} & Swimming or wading (semi-aquatic and aquatic guilds only) \\
+\texttt{rocky} & Boulder field, cliff, scree \\
+\texttt{canopy} & High in trees, on branches (arboreal guild only) \\
+\texttt{snow} & Snow-covered ground or ice (cold-climate guild only) \\
+\texttt{arid} & Dry scrub, sand, sparse vegetation \\
+\texttt{burrow} & Den entrance, excavation site (fossorial guild only) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Lighting codes used in the synthetic shot schedule.}
+\label{tab:appendix-lighting-codes}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Code & Description \\
+\midrule
+\texttt{golden\_hour} & Warm directional light, long shadows \\
+\texttt{overcast} & Soft diffuse light, no hard shadows \\
+\texttt{midday} & Harsh overhead sunlight \\
+\texttt{dappled} & Intermittent light through canopy or foliage \\
+\texttt{backlit} & Sun behind the animal, rim lighting, partial silhouette \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption[Ecological guilds biasing the environment and behavior axes]{The eight ecological guilds. Each species carries one or more, and the guild biases which environments and behaviors the shot schedule emphasizes.}
+\label{tab:appendix-guilds}
+\begin{tabularx}{\textwidth}{@{}lXX@{}}
+\toprule
+Guild & Environment emphasis & Behavior emphasis \\
+\midrule
+Arboreal & \texttt{canopy}, \texttt{forest\_interior} & Climbing, hanging, moving through branches \\
+Semi-aquatic & \texttt{in\_water}, \texttt{riparian} & Swimming, wading, grooming on a riverbank \\
+Fully aquatic & \texttt{in\_water}, rocky shore, ice & Swimming, hauled out, diving \\
+Fossorial & \texttt{burrow}, \texttt{arid}, \texttt{primary\_open} & Digging, emerging from a burrow \\
+Cold-climate & \texttt{snow}, \texttt{rocky} & Walking on snow, foraging in snow \\
+Arid or savanna & \texttt{arid}, \texttt{primary\_open} & Stalking through grass, resting in shade \\
+Large grazing & \texttt{primary\_open}, \texttt{primary\_vegetation} & Grazing, standing in a herd, alert in grass \\
+Primate & \texttt{canopy}, \texttt{forest\_interior} & Social grooming, branch-walking, foraging \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Prompt Regime Token Budgets}\label{sec:appendix_prompt_token_budgets}
+
+The prompt regimes of \Cref{sec:generator_comparison_prompts} were verified against the target encoders' own tokenisers rather than estimated from word counts. Across all $1{,}200$ \texttt{compressed} prompts the longest reached $57$ tokens against the $75$-token budget. Across all $2{,}400$ \texttt{maxlen} prompts the longest reached $245$ tokens in the $256$-token tier and $495$ in the $512$-token tier. Both \texttt{maxlen} tiers sit deliberately under their nominal ceilings, to absorb the difference between the two related tokenisers that share the larger tier.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Three Look-Alike Zebra Species}\label{sec:appendix_zebra_species}
+
+The look-alike group of \Cref{tab:generator-comparison-classes} turns on stripe geometry, which is easier to judge by eye than to read.
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.31\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/zebra_species/plains_zebra.jpg}
+    \caption{Plains zebra: broad stripes with brown shadow stripes}
+    \label{fig:zebra-species-plains}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.31\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/zebra_species/grevys_zebra.jpg}
+    \caption{Grévy's zebra: narrow dense stripes, white belly}
+    \label{fig:zebra-species-grevys}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.31\textwidth}
+    \centering
+    \includegraphics[width=1\textwidth]{figures/images/zebra_species/mountain_zebra.jpg}
+    \caption{Mountain zebra: gridiron rump pattern, dewlap}
+    \label{fig:zebra-species-mountain}
+\end{subfigure}
+\caption[The three look-alike zebra species]{The three look-alike zebra species of \Cref{tab:generator-comparison-classes}, photographed real animals. The markers named in each caption are the diagnostic features a generator must reproduce for the within-group confusion measured in \Cref{sec:results_per_class_structure} to be low. Photographs from Wikimedia Commons, left to right: Windmemories (CC BY-SA 4.0), Bernard DUPONT (CC BY-SA 2.0) and Bernard DUPONT (CC BY-SA 2.0).}
+\label{fig:zebra-species}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Training and Experiment Tracking}\label{sec:appendix_training_details}
+
+How runs were recorded, supplementing \Cref{sec:model_training_experiment_tracking}.
+
+\subsection{Experiment Tracking and Run Artifacts}\label{sec:appendix_experiment_tracking}
+
+Runs are tracked on a self-hosted \textit{MLflow} \cite{mlflowPythonAPI2024} server. Each run logs its whole constant module in a single call, not a hand-picked subset, together with the commit hash, the device, the realized split sizes and the effective batch size. A finished run's configuration is therefore recoverable from the tracking record instead of from whatever the working tree happened to contain on the day it started, which matters in a repository where several training and generation efforts overlapped in time. Loss components and learning rate are recorded per step and per epoch, validation mAP per evaluation, and the augmentation configuration of \Cref{sec:augmentation_reproducibility} arrives inside the same parameter set. Checkpoints, the run log and the per-class results attach as run artifacts, and tags separate the distilled runs from the direct ones.
+
+Every run also writes a directory on disk that mirrors that record, so a run stays interpretable when detached from the tracking server. The directory name is timestamped and encodes the distinguishing flags, and it holds the checkpoints, the run log and the evaluation report together. Per-class results are written as plain artifact files. The most recent checkpoint is refreshed every epoch rather than only on an improvement, so an interruption between improvements cannot discard several days of training. All tracking calls are wrapped so that a failure to log cannot abort a multi-day run, at the cost that a run can in principle finish with incomplete tracking.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Supplementary Results and Benchmark Validity}\label{sec:appendix_results_supplement}
+
+The full versions of tables \Cref{chapter:results} reports in excerpt, and the checks establishing that the runtime measurements mean what they are read to mean.
+
+\subsection{Within-Group Confusion by Look-Alike Group}\label{sec:appendix_lookalike_confusion}
+
+\Cref{sec:results_lookalike_confusion} reports the eight hardest and four easiest groups inline. \Cref{tab:lookalike-group-confusion} gives all $30$ multi-member groups of the frozen table, and \Cref{tab:lookalike-top-pairs} the ten largest confusion pairs behind them.
+
+\begin{table}[H]
+\centering
+\caption[Within-group confusion rate per look-alike group]{Within-group species confusion for all $30$ multi-member look-alike groups, on the mixed test set, ordered by the primary detector's rate. \enquote{Matched} counts detections that were correctly localized and placed in the right group. The two rightmost columns are the same rate for \textit{YOLOv5s} and the fine-tuned ensemble.}
+\label{tab:lookalike-group-confusion}
+\small
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Group & Classes & Matched & Confused & Rate & \textit{YOLOv5s} / Ensemble \\
+\midrule
+\texttt{elephant} & $2$ & $3{,}057$ & $1{,}554$ & $0.508$ & $0.508$ / $0.366$ \\
+\texttt{gazelle} & $3$ & $1{,}627$ & $645$ & $0.396$ & $0.368$ / $0.163$ \\
+\texttt{canis} & $6$ & $1{,}936$ & $666$ & $0.344$ & $0.392$ / $0.259$ \\
+\texttt{equine\_unstriped} & $3$ & $2{,}250$ & $611$ & $0.272$ & $0.255$ / $0.170$ \\
+\texttt{panthera\_rosette} & $3$ & $886$ & $216$ & $0.244$ & $0.306$ / $0.094$ \\
+\texttt{tragelaphus} & $5$ & $2{,}050$ & $444$ & $0.217$ & $0.145$ / $0.095$ \\
+\texttt{bison} & $2$ & $947$ & $181$ & $0.191$ & $0.202$ / $0.174$ \\
+\texttt{ursus} & $3$ & $988$ & $182$ & $0.184$ & $0.177$ / $0.165$ \\
+\texttt{felis} & $2$ & $553$ & $99$ & $0.179$ & $0.165$ / $0.172$ \\
+\texttt{lynx\_caracal\_cluster} & $4$ & $613$ & $98$ & $0.160$ & $0.162$ / $0.113$ \\
+\texttt{tapirus} & $3$ & $416$ & $58$ & $0.139$ & $0.147$ / $0.039$ \\
+\texttt{sylvilagus} & $2$ & $874$ & $112$ & $0.128$ & $0.140$ / $0.086$ \\
+\texttt{sciurus} & $4$ & $1{,}775$ & $213$ & $0.120$ & $0.145$ / $0.061$ \\
+\texttt{sus} & $2$ & $578$ & $65$ & $0.112$ & $0.069$ / $0.099$ \\
+\texttt{macaca} & $2$ & $704$ & $76$ & $0.108$ & $0.122$ / $0.178$ \\
+\texttt{odocoileus} & $2$ & $997$ & $106$ & $0.106$ & $0.118$ / $0.043$ \\
+\texttt{nasua} & $2$ & $562$ & $59$ & $0.105$ & $0.085$ / $0.057$ \\
+\texttt{bos} & $2$ & $832$ & $83$ & $0.100$ & $0.111$ / $0.136$ \\
+\texttt{lepus} & $2$ & $968$ & $94$ & $0.097$ & $0.109$ / $0.063$ \\
+\texttt{zebra} & $3$ & $1{,}687$ & $161$ & $0.095$ & $0.087$ / $0.071$ \\
+\texttt{connochaetes} & $2$ & $862$ & $71$ & $0.082$ & $0.072$ / $0.027$ \\
+\texttt{cervus} & $3$ & $1{,}458$ & $113$ & $0.078$ & $0.073$ / $0.068$ \\
+\texttt{macropus} & $2$ & $687$ & $52$ & $0.076$ & $0.064$ / $0.027$ \\
+\texttt{hyaena} & $3$ & $370$ & $26$ & $0.070$ & $0.118$ / $0.181$ \\
+\texttt{marmota} & $3$ & $1{,}176$ & $67$ & $0.057$ & $0.047$ / $0.023$ \\
+\texttt{leopardus} & $2$ & $107$ & $4$ & $0.037$ & $0.021$ / $0.113$ \\
+\texttt{hippotragus} & $2$ & $345$ & $11$ & $0.032$ & $0.043$ / $0.043$ \\
+\texttt{ovis} & $3$ & $1{,}678$ & $53$ & $0.032$ & $0.028$ / $0.017$ \\
+\texttt{capra} & $2$ & $376$ & $4$ & $0.011$ & $0.025$ / $0.020$ \\
+\texttt{kobus} & $2$ & $313$ & $2$ & $0.006$ & $0.000$ / $0.012$ \\
+\midrule
+All groups & $81$ & $31{,}672$ & $6{,}126$ & $0.193$ & $0.190$ / $0.129$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption[Largest within-group confusion pairs]{The ten largest within-group confusion pairs for \textit{YOLO26n} under direct fine-tuning, on the mixed test set, with the count in the reverse direction. These ten pairs carry $61.8\%$ of all $6{,}126$ within-group confusions.}
+\label{tab:lookalike-top-pairs}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Ground-truth class & Predicted class & Count & Reverse \\
+\midrule
+asian elephant & african elephant & $1{,}545$ & $9$ \\
+domestic donkey & domestic horse & $493$ & $0$ \\
+springbok & thomson's gazelle & $468$ & $1$ \\
+common eland & greater kudu & $349$ & $0$ \\
+snow leopard & leopard & $181$ & $7$ \\
+grey wolf & domestic dog & $175$ & $7$ \\
+dingo & domestic dog & $159$ & $3$ \\
+grant's gazelle & thomson's gazelle & $155$ & $2$ \\
+european bison & american bison & $151$ & $30$ \\
+grevy's zebra & plains zebra & $112$ & $1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Supplementary Result Grids}\label{sec:appendix_band_and_domain_grids}
+
+\Cref{tab:band-grid-mixed} is the band $\times$ granularity grid on the mixed test set, the companion to the real-only breakout of \Cref{tab:band-grid-real}. \Cref{tab:headline-coco12} is the full twelve-statistic COCO vector for the primary detector.
+
+\begin{table}[H]
+\centering
+\caption[Band by granularity grid on the mixed test set]{Band $\times$ granularity grid on the mixed test set. Band A trains on synthetic images only, Band B on half real and half synthetic, Band C on real images only at the same $200$-image budget, and Band D on the full real pool.}
+\label{tab:band-grid-mixed}
+\small
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+ & & \multicolumn{2}{c}{\texttt{fine}} & \multicolumn{2}{c}{\texttt{coarse}} \\
+\cmidrule(l){3-4}\cmidrule(l){5-6}
+Model & Band & mAP & mAP50 & mAP & mAP50 \\
+\midrule
+Ensemble, fine-tuned & A & $0.447$ & $0.447$ & $0.485$ & $0.485$ \\
+ & B & $0.702$ & $0.702$ & $0.751$ & $0.751$ \\
+ & C & $0.629$ & $0.629$ & $0.644$ & $0.644$ \\
+ & D & $0.798$ & $0.798$ & $0.816$ & $0.816$ \\
+\midrule
+\textit{YOLOv5s} & A & $0.384$ & $0.402$ & $0.405$ & $0.428$ \\
+ & B & $0.461$ & $0.527$ & $0.520$ & $0.602$ \\
+ & C & $0.477$ & $0.552$ & $0.498$ & $0.582$ \\
+ & D & $0.646$ & $0.751$ & $0.657$ & $0.769$ \\
+\midrule
+\textit{YOLO26n} direct-FT & A & $0.579$ & $0.602$ & $0.576$ & $0.601$ \\
+ & B & $0.685$ & $0.763$ & $0.701$ & $0.787$ \\
+ & C & $0.614$ & $0.687$ & $0.597$ & $0.675$ \\
+ & D & $0.726$ & $0.806$ & $0.734$ & $0.819$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption[Full COCO vector for the primary detector]{The complete twelve-statistic COCO vector for \textit{YOLO26n} under direct fine-tuning, at \texttt{fine} granularity over all bands. The small-object cells carry no value because no test box qualifies as small under COCO's area definition.}
+\label{tab:headline-coco12}
+\begin{tabular}{@{}lrrlrr@{}}
+\toprule
+Statistic & mixed & real & Statistic & mixed & real \\
+\midrule
+mAP@[.5:.95] & $0.599$ & $0.529$ & AR@$1$ & $0.696$ & $0.626$ \\
+mAP50 & $0.659$ & $0.599$ & AR@$10$ & $0.836$ & $0.788$ \\
+mAP75 & $0.627$ & $0.561$ & AR@$100$ & $0.845$ & $0.798$ \\
+mAP, small & n/a & n/a & AR, small & n/a & n/a \\
+mAP, medium & $0.379$ & $0.378$ & AR, medium & $0.671$ & $0.673$ \\
+mAP, large & $0.641$ & $0.573$ & AR, large & $0.872$ & $0.825$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Generator Comparison Plots}\label{sec:appendix_generator_plots}
+
+\Cref{fig:generator-headline-map} plots the headline ranking of \Cref{tab:generator-ranking}, and \Cref{fig:prompt-length-ablation} plots the prompt-length ablation of \Cref{tab:prompt-length-ablation}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{figures/plots/model_comparison_full_headline_map.png}
+\caption[Downstream accuracy of all twelve generator cells]{Mean average precision on the real test set for all twelve cells, with error bars showing the standard deviation across training seeds. Bars are colored by tier: proprietary API services at the unabridged prompt, the same services at the compressed prompt, and locally-run open-weight models.}
+\label{fig:generator-headline-map}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/plots/model_comparison_prompt_ablation_headline_map.png}
+\caption[Prompt-length ablation, plotted]{The prompt-length ablation. Each model appears twice, differing only in the length of the prompt it was conditioned on.}
+\label{fig:prompt-length-ablation}
+\end{figure}
+
+\subsection{Export Path and Runtime Selection on the Proxy Device}\label{sec:appendix_embedded_export}
+
+The export path runs from each training checkpoint to \textit{TorchScript} and to \textit{ONNX} at opset~$17$ with static batch-1 shapes. Because both detector pipelines bypass \textit{Ultralytics}' high-level interface and store bare parameter dictionaries, the exporter rebuilds each architecture through this project's own model factories before tracing. Every exported graph was then checked against its \textit{PyTorch} reference on the host before it reached the device, and all five reproduce it to within floating-point accumulation noise. The export stage freezes a hashed copy of each source checkpoint and builds the host reference from that copy, so a checkpoint rewritten by a still-running training job cannot reach the comparison.
+% reports/embedded_benchmark/pi_results/, scripts/benchmark/1b-convert_and_verify.py
+
+Two observations concern the runtime rather than the models. \textit{ONNX Runtime} was faster than \textit{TorchScript} for every model that ran under both, by factors of $1.16$ to $1.75$, and it was the only runtime that executed every configuration without aborting. Multi-threaded \textit{TorchScript} terminates with an illegal-instruction fault on \textit{YOLO26n} on this ARMv8.0 core, and disabling its oneDNN backend extended that failure to every model rather than removing it.
+% reports/embedded_benchmark/torchscript_sigill_finding.md
+Runtime selection on this class of hardware is therefore a correctness question before it is a performance one. Second, no NCNN or GPU figure could be produced: the device's Vulkan stack is functional, but the only available ONNX-to-NCNN converter fails on both detectors, so the \textit{VideoCore VI} was never reachable.
+% reports/embedded_benchmark/ncnn_conversion_finding.md
+
+\subsection{Thermal Validity of the Runtime Campaign}\label{sec:appendix_thermal_validity}
+
+The measurements behind \Cref{tab:embedded-latency} are not thermally compromised. All $76$ cells were taken under the \texttt{performance} governor with a monitor sampling core temperature, frequency and the SoC throttle register throughout. None tripped the validity gate, the peak temperature reached was $64.8$\,\textdegree C against an $80$\,\textdegree C threshold, and the throttle register read zero for the entire campaign. Sustained runs of several hundred iterations drifted by between $+0.28\,\%$ and $+2.33\,\%$, which bounds the thermal effect on this passively cooled device well below the differences the table reports.
+% reports/embedded_benchmark/thermal_summary.csv
+
+\subsection{Host-Device Numerical Parity}\label{sec:appendix_host_device_parity}
+
+Exporting the detectors and running them on a different instruction set does not change what they compute. Over a fixed $600$-image subset, the device reproduces between $98.97\,\%$ and $99.47\,\%$ of the host's detections at an intersection-over-union of $0.99$ or better, and the subset mAP differs by at most $0.0020$.
+% reports/embedded_benchmark/parity_summary.json
+That residual is best read against a same-machine control: host GPU and host CPU, with identical weights and identical code, already disagree on $0.15$--$0.31\,\%$ of detections, because floating-point accumulation order differs between kernels and a near-tie in score can reorder which box survives. One of the six comparisons falls marginally below the $99\,\%$ criterion set in advance, at $98.97\,\%$. It is reported as a miss rather than absorbed by relaxing the threshold after the fact, and its mAP delta stays inside tolerance.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
