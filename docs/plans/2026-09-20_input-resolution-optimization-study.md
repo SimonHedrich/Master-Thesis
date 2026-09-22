@@ -198,11 +198,35 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
 | 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
 | 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC; **1,012 s/epoch over 5 completed epochs → ETA Sep 23 ~09:00**; full 200 epochs confirmed by the user |
-| 3 — 72 h gate | ⏳ planned | | epochs sped to 993 s → full 200 now lands **Sep 23 10:18 (+2.7 h)**; decide at ~epoch 190 whether to run on or stop |
+| 3 — 72 h gate | ⏳ planned | | rate fell to 1,141 s/epoch → 200 no longer fits; **stopping at epoch 185 (Wed ~08:36, +4.4 h)**, then full test eval |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-22 17:11 — epoch 150; rate fell to 1,141 s/epoch, so the run stops at
+  epoch 185, not 200.** No external cause this time: only the training job is on the
+  box, but the 16 dataloader workers now sit at 87–100 % CPU each (load 14.2) with the
+  page cache squeezed from 34 GB to 29 GB — the run has become data-bound rather than
+  latency-bound. Combined with 25 validations in the every-2 tail (6.4 h of scoring
+  alone), 200 epochs would land Wed 15:24, **2.4 h past the deadline**.
+
+  | stop at | finishes | margin | projected mAP50_95 |
+  |---:|---|---:|---:|
+  | 180 | Wed 06:30 | +6.5 h | ~0.6745 |
+  | **185** | **Wed 08:36** | **+4.4 h** | **~0.6757** |
+  | 190 | Wed 10:57 | +2.0 h | ~0.6768 |
+  | 195 | Wed 13:03 | −0.1 h | ~0.6779 |
+  | 200 | Wed 15:24 | −2.4 h | ~0.6790 |
+
+  **Decision: stop after epoch 185's validation**, so `best.pt` includes it. Costs
+  0.0033 mAP (0.5 %) against epoch 200 — inside noise — and leaves the 4.4 h the full
+  test eval needs. Validation was already flat: +0.0016/+0.0015/+0.0025/+0.0015 over
+  epochs 130→150, i.e. ~+0.0003/epoch and decaying. The 640 px baseline gained nothing
+  after epoch 172 and early-stopped at 193, so epoch 185 is past convergence for this
+  setup. **Write-up must state the run ended at epoch 185 of a 200-epoch OneCycle
+  schedule** (LR near its minimum, annealed but not formally complete), alongside the
+  batch-size deviation.
 
 - **2026-09-21 23:07 — epoch 100: the gap to the 640 px baseline is narrowing.**
 
