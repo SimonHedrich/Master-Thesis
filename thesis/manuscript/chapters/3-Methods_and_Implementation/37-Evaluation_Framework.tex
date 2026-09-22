@@ -1,19 +1,49 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Evaluation Framework}\label{sec:evaluation_framework}
-% TODO: summarize docs/plans/2026-06-10_model-evaluation-strategy.md -- the four
-% evaluation axes (granularity/domain/band/metric), the mixed real+synthetic
-% default cell with the real-only breakout as primary-comparison anchor, the
-% look-alike group definition (drawing on the 1,733 candidate pairs mined in
-% Section \ref{sec:gt_annotation_integrity}), and the COCO-style metric vector.
 
-\subsection{Evaluation Axes}
-% TODO
+Every model trained in \Cref{sec:model_training_experiment_tracking} is scored on one fixed instrument, and this section defines it. Two properties of this dataset make a single mean-average-precision figure insufficient on its own. Several classes are barely separable in a still frame, so a species-level slip and a wholly unrelated call are errors of very different severity that one number cannot distinguish. And the dataset ships two test domains rather than one, a real held-out set that is uneven across classes and a class-balanced synthetic set, which an aggregate figure silently blends. The literature surveyed in \Cref{sec:lit_evaluation_metrics} supplies the baseline instrument and the diagnostic vocabulary. What it does not supply, as \Cref{sec:lit_real_synthetic_evaluation} states, is a precedent for the headline condition adopted here, which is therefore argued for directly in \Cref{sec:mixed_default}.
 
-\subsection{The Mixed Real+Synthetic Default}
-% TODO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Evaluation Axes}\label{sec:evaluation_axes}
 
-\subsection{Look-Alike Groups and Coarse Evaluation}
-% TODO
+Four axes describe every number this work reports about detection accuracy. \textbf{Granularity} is the class resolution at which a detection is judged correct, at three levels. \texttt{detect} ignores the class entirely and asks only whether an animal was localized. \texttt{coarse} merges visually confusable classes into the groups of \Cref{sec:lookalike_groups}. \texttt{fine} is the full $225$-way judgment. \textbf{Test domain} is which held-out images the metric is computed over, either the mixed, real or synthetic test set of \Cref{sec:mixed_default}. \textbf{Training band} is the per-class property of how a class's training data was composed, Band A through Band D as defined in \Cref{sec:band_structure}. \textbf{Metric vector} is the COCO statistics themselves \cite{linMicrosoftCOCOCommon2015}.
 
-\subsection{Metric Selection}
-% TODO
+Crossing all four naively produces $3 \times 3 \times 5 \times 12 = 540$ numbers, which is unreportable and mostly uninformative. The four axes do not play the same role. Band and test domain are the independent variables, since this work asks whether synthetic training data works and whether it transfers to real photographs, so crossing those two is the experiment. Granularity is an error decomposition rather than a fourth experiment, and the metric vector is a fixed instrument. That yields the organizing rule for \Cref{chapter:results}. One default cell carries the headline, every diagnostic varies exactly one axis away from it and reports mAP@[.5:.95] and mAP50, and the full twelve-statistic vector is filled only in the default cell and once per band. No figure crosses average recall or the object-size splits with band or granularity, since none would answer a question posed here.
+
+Treating granularity as a decomposition is what makes the ladder informative. The three levels are nested upper bounds, since a detection judged correct at the fine level is necessarily correct at the coarse and detection levels:
+\begin{equation}
+    \mathrm{mAP}_{\text{detect}} \;\geq\; \mathrm{mAP}_{\text{coarse}} \;\geq\; \mathrm{mAP}_{\text{fine}} .
+    \label{eq:granularity-ladder}
+\end{equation}
+The quantities of interest are the two gaps in \Cref{eq:granularity-ladder}. $\Delta_{\text{coarse}}$ is the drop from detection to coarse classification, the cost of naming a group. $\Delta_{\text{fine}}$ is the drop from coarse to fine, the cost of naming the exact species within that group. A large $\Delta_{\text{fine}}$ beside a small $\Delta_{\text{coarse}}$ is the signature of the look-alike problem, and is the expected failure mode for this dataset. A large $\Delta_{\text{coarse}}$ instead means cross-group confusion, which is a genuine failure. A low $\mathrm{mAP}_{\text{detect}}$ means the detector cannot localize at all. One scorer produces all three levels by remapping class identifiers, and merged duplicates are charged as false positives, so a coarse figure is penalized rather than inflated.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Mixed Real+Synthetic Default}\label{sec:mixed_default}
+
+Three test domains are distinguished throughout this work, and the reporting rules below depend on telling them apart. The \textbf{real test set} is the held-out real photographs, uneven across classes by construction. The \textbf{synthetic test set} is the balanced $225 \times 50$ held-out set of \Cref{sec:synthetic_test_set}. The \textbf{mixed test set} is the union of the two, scored together as a single set, not averaged after the fact. The default cell carrying the headline is fine granularity on the mixed test set over all bands, reported with the full twelve-statistic vector.
+
+Three reasons support that default. The fixed $50$ synthetic images per class give every class a consistent, controlled probe. That matters most for the Band A classes, which hold as few as five to thirty real test images and whose real-only accuracy is otherwise dominated by a handful of hard frames. For a Band D class with up to $500$ real test images, the same $50$ images are a small, constant addition. And the mixed set always contains the real evidence, so no model in this work is ever judged on synthetic images alone.
+
+Because the synthetic contribution is fixed while the real contribution varies by two orders of magnitude, the synthetic share of a class's score is inversely related to how much real data that class has. It is dominant for a thin Band A class and marginal for Band D. The real and synthetic test-image counts are therefore reported per class alongside the headline, and a synthetically trained class is partly scored on its own training domain under the mixed condition, a caveat \Cref{sec:results_band_granularity} states in full.
+
+Two reporting rules follow, and both hold without exception. First, the real-only breakout is reported alongside the mixed headline every time. It is the primary-evaluation figure and the only number in this work comparable to a published real-image benchmark, and reporting it beside the headline is what prevents the synthetic component from quietly inflating a result. Second, the paired per-class difference between real and synthetic accuracy is monitored as a standing watchdog. Should that difference show the synthetic component systematically inflating or deflating the mixed figure, the default axes are to be revised. The likely revision is to make the real test set the default again and retain the mixed figure as secondary. \Cref{sec:results_domain_shift} states whether that trigger fired.
+
+No comparison outside this work should read a $225$-class fine-grained wildlife mAP as equivalent to a published $80$-class COCO figure. The class count is larger and many of the classes are near-duplicates, so a lower fine-grained figure is expected and is not evidence of a weaker detector. The closest honest analog to a generic benchmark is the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which measures localization independently of the taxonomy. All figures use COCO-standard settings, averaging over IoU thresholds from $0.5$ to $0.95$ with at most $100$ detections per image.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Look-Alike Groups and Coarse Evaluation}\label{sec:lookalike_groups}
+
+Coarse granularity needs a fixed table mapping each of the $225$ classes to a group. Grouping classes by the confusions a trained model makes is rejected outright, because a grouping derived from the model under evaluation is circular, and hand-listing the notorious look-alikes is subjective. A rollup to genus is reproducible and fixed before any model runs, so that taxonomic rollup is the backbone, corrected by a small documented override list. The construction follows the a-priori grouping principle of \textcite{hoiemDiagnosingErrorObject2012}, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity.
+
+The criterion is a judgment about what counts as a failure, not a technical rule. Two classes are merged when confusing them in a single still frame is a forgivable error, which belongs in $\Delta_{\text{fine}}$, and kept apart when confusing them is a real failure, which must surface in $\Delta_{\text{coarse}}$. Leopard and jaguar are therefore merged, since separating them from one still image is a specialist task. Lion and tiger are held in separate single-member groups despite sharing a genus. Where a case is uncertain the default is not to merge, since an unjustified merge silently forgives a real error. The resulting table holds $174$ groups, $30$ of them with more than one member, and $8$ overrides.  % reports/lookalike_groups_v2.csv
+It is frozen before the first evaluation runs, because a later change would invalidate every coarse figure already computed without raising a visible error. \Cref{sec:results_lookalike_confusion} checks it against the confusions the model actually makes, descriptively and never as an input.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Metric Selection}\label{sec:metric_selection}
+
+The COCO twelve-statistic vector surveyed in \Cref{sec:lit_detection_metrics} is retained unchanged as the baseline instrument, because it is the bridge that keeps this work's numbers legible against published work. All scoring runs through one implementation, validated against the training loop's own evaluator, so a figure quoted from a training log and one quoted from an evaluation report are the same measurement.
+
+Four qualifications accompany every number. Macro averaging over classes stays primary, as the COCO standard and the class-imbalance-robust choice, with a count-weighted average reported as a sensitivity check, since the two can diverge on a test set this uneven. Bootstrap confidence intervals, resampling images with replacement, cover the headline figure and the band and domain differences, because the Band A and Band B test sets are small enough that a difference between two models may not be a difference at all. The $9$ classes holding fewer than $30$ real test images are flagged in every per-class table, and the headline is reported both with and without them.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/evaluation/evaluation_report.json
+And a single fixed seed governs every sampled evaluation, so re-running the suite against a new checkpoint yields a comparable figure.
+
+Two instruments complement the metric vector without extending it. The error-type decomposition anchored in \Cref{sec:lit_error_decomposition} partitions the detector's mistakes into classification, localization, duplicate, background and missed ground truth, and corroborates that a coarse-to-fine gap really is look-alike confusion rather than a hidden localization problem. The within-group confusion rate asks, of the detections that are correctly localized and in the right group, what fraction name the wrong species. Both feed the reporting structure that \Cref{sec:results_regime_comparison} follows: a headline table per model, three diagnostic tables, and the per-class and full-vector material emitted as appendix artifacts.

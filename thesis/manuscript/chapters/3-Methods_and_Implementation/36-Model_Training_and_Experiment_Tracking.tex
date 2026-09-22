@@ -1,17 +1,73 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model Training and Experiment Tracking}\label{sec:model_training_experiment_tracking}
-% TODO: training loop, optimizer/scheduler choices, knowledge-distillation loss
-% formulation (teacher-student), quantization-aware training pass, and the
-% MLflow experiment-tracking setup referenced from Section \ref{sec:augmentation_reproducibility}.
 
-\subsection{Training Procedure}
-% TODO
+\Cref{sec:data_augmentation} fixed what a training run is shown. This section fixes everything else: which models are trained, the optimization protocol they share, the procedure that produced the frozen teacher, and the loss through which that teacher reaches the student. The distilled and the directly fine-tuned run must differ in the training signal and in nothing else.
 
-\subsection{Knowledge Distillation Loss}
-% TODO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Model Selection}\label{sec:model_selection}
 
-\subsection{Quantization-Aware Training}
-% TODO
+Two detector architectures are trained, and practical constraints rather than a comparative architecture search decide both. \textit{YOLOv5s} \cite{ultralyticsComprehensiveGuideUltralytics}, at $7.63\,\mathrm{M}$ parameters and $17.7$ GFLOPs at $640$ px, is the production-baseline reference, because it is approximately the size of the detector already deployed in the \textit{AX Visio} pipeline. It is commercially usable only up to commit \texttt{5cdad89} (\Cref{sec:lit_yolo_family}), which fixed the revision trained here. It is deliberately not the distillation student, since distilling into a model the size of what already ships studies no capacity reduction. \textit{YOLO26n} \cite{UltralyticsYOLO262025}, at $2.71\,\mathrm{M}$ parameters and $6.8$ GFLOPs, is the student. It is trained twice, once directly and once under distillation, and those two runs are the work's central comparison. The teacher is the \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019} and \textit{SpeciesNet} \cite{gadotCropNotCrop2024a} pipeline of \Cref{sec:lit_md_speciesnet}, which is wildlife-specific and, at roughly $196\,\mathrm{M}$ parameters, far too large to deploy. Nano-scale detectors outside the YOLO family were surveyed and set aside on time grounds, so neither student won a benchmarked comparison, a limitation carried in \Cref{sec:limitations}.
 
-\subsection{Experiment Tracking with MLflow}
-% TODO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Training Procedure}\label{sec:training_procedure}
+
+Both detectors run the same optimization protocol, summarized in \Cref{tab:training-protocol}, and share the dataloader and augmentation code path without modification, which makes the byte-identical claim of \Cref{sec:augmentation_reproducibility} literal. The training and validation splits merge the synthetic imagery of \Cref{sec:band_structure} into the real imagery. The test split stays real, so the synthetic test set of \Cref{sec:synthetic_test_set} enters evaluation only where \Cref{sec:evaluation_framework} says it does.
+
+\begin{table}[H]
+\centering
+\caption{Optimization protocol shared by both detector architectures.}
+\label{tab:training-protocol}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Setting & Value \\
+\midrule
+Classes and input size & $225$ classes, $640 \times 640$ letterboxed \\
+Optimizer & SGD, momentum $0.937$, Nesterov, weight decay $5 \times 10^{-4}$ applied to convolution weights only \\
+Base learning rate & $1 \times 10^{-3}$, one tenth of a from-scratch rate, since every run starts from COCO-pretrained weights \\
+Schedule & One-cycle, stepped per batch: $3$ warmup epochs to a peak of $1 \times 10^{-2}$, then cosine annealing to $1 \times 10^{-5}$ \\
+Epoch ceiling & $200$, a safety bound, not a target \\
+Early stopping & Patience of $20$ evaluations without a gain of $0.001$, gated until after warmup \\
+Selection metric & mAP@[.5:.95] on the validation split \\
+Weight averaging & Exponential moving average, checkpointed in place of the raw weights \\
+Numerical precision & Automatic mixed precision on CUDA \\
+Seed & $42$, fixed across all generators and dataloader workers \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Two settings are exempted, and each exemption is a correctness requirement. Batch size is a property of an architecture's memory footprint, so it is determined per model by probing until allocation fails. The loss gains are the more consequential exemption. \textit{YOLO26n} is anchor-free and suppression-free, assigns targets through a task-aligned assigner, and carries no objectness term, so the anchor-based objectness, anchor-threshold and focal-loss gains tuned for \textit{YOLOv5s} have no counterpart in it. Transplanting them onto a structurally different loss would mis-scale the comparison, so each architecture keeps its own reference defaults.
+
+One metric decides both which checkpoint is retained and when the run stops, which removes the temptation to select on one quantity and report another. Its binding cost is the validation pass, single-threaded over $225$ classes at roughly $12.5$ minutes regardless of image size or batch size against roughly $50$ minutes for a training epoch, so the evaluation interval is a tunable and patience counts evaluations, not epochs.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/
+The runs reported in \Cref{chapter:results} validated every epoch and ran for between $182$ and $200$ epochs over four to nine days on a single \textit{NVIDIA A40}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Teacher Fine-Tuning}\label{sec:teacher_finetuning}
+
+The teacher is fine-tuned on this work's dataset and then frozen, which is the standard two-stage arrangement and here also a resource requirement, since an ensemble of roughly $196\,\mathrm{M}$ parameters cannot run inside a student training step. It is instead evaluated once, offline, and its predictions cached.
+
+Only the classifier is fine-tuned. \textit{MegaDetector} is class-agnostic and already accurate on camera-style imagery, so there is limited headroom in adapting a localizer that does not name species. The classifier trains on the same annotation files the detectors do, so teacher and student see identical image, box and class triples and not merely identical splits. Its native taxonomy carries $2{,}498$ leaf labels, and a grouped cross-entropy sums the leaf probabilities belonging to each of the project's $225$ classes before taking the loss. For the $178$ species-level classes this reduces to ordinary cross-entropy, and it only does real work for the genus-level and family-level classes that several leaves map into.
+
+Three deviations follow from the teacher being a classifier rather than a detector. It trains at $480$ px, its own native input resolution. It uses AdamW at $1 \times 10^{-4}$ rather than SGD, the ordinary convention for adapting a pretrained classification backbone. And macro F1 rather than mAP selects the checkpoint. One caveat attaches to any accuracy improvement reported for this fine-tune. Part of the corpus was admitted by agreeing with the pre-fine-tuning classifier (\Cref{sec:speciesnet_matching}), so the fine-tuned classifier is partly measured against its own earlier self and the improvement is optimistic by an unknown, probably small amount.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Knowledge Distillation Loss}\label{sec:kd_loss}
+
+Feature-based distillation, which aligns intermediate activations, is excluded at the outset. It presupposes spatially corresponding feature maps, which a two-stage teacher seeing $480$ px crops and a single-stage student with a dense multi-scale pyramid over the whole frame do not have. Response-based distillation \cite{hintonDistillingKnowledgeNeural2015} is used instead, because it consumes only the teacher's final class distribution and so is indifferent to the architectural mismatch \cite{gouKnowledgeDistillationSurvey2021}.
+
+The teacher's output is projected onto the $225$-class space and cached once per training image, so the frozen teacher never executes inside the training loop. The cache holds one distribution per image, from the highest-confidence detection, so multi-animal images contribute a single teacher vector. Secondary detections were not used as extra pseudo-annotations, so distillation's supervision advantage in multi-animal scenes remains untested here.
+
+Distillation acts on the student's classification branch alone. The task-aligned assigner produces a soft target score vector $\mathbf{y}_i$ at each anchor $i$, and at the foreground anchors $\mathcal{F}$ that vector is blended toward the teacher distribution before the binary cross-entropy term is taken:
+\begin{equation}
+    \tilde{\mathbf{y}}_i = (1 - \alpha)\,\mathbf{y}_i + \alpha\,\tau_T(\mathbf{p}), \qquad i \in \mathcal{F},
+    \label{eq:kd-blend}
+\end{equation}
+where $\mathbf{p}$ is the image's cached teacher distribution and $\tau_T$ applies temperature $T$. Background anchors, and images with no cached teacher entry, keep the assigner's own targets. The defaults are $T = 4$ and $\alpha = 0.5$, and the blend is applied to the one-to-one head the architecture uses at inference, not to its auxiliary head.
+
+Two approximations in \Cref{eq:kd-blend} are worth stating, because both weaken the teacher signal relative to the textbook formulation. The cache stores probabilities rather than logits, so temperature cannot be applied before the softmax. It is applied instead as a renormalization on the simplex, $\tau_T(\mathbf{p})_c \propto p_c^{1/T}$, which is exact only at $T = 1$ and otherwise approximates the intended softening. And because the teacher distribution is per-image while the blend is per-anchor, one vector is broadcast across all of an image's foreground anchors, which is correct for a single-animal image and a simplification for any other. Box regression receives no distillation signal at all, since the teacher's suppressed output and the student's anchor-free head share no box-distribution representation to align.
+
+The capacity gap between the two models bounds what this design can be expected to achieve. At roughly $70$ to $170$ times in parameter count, it sits far outside the ratios the distillation literature treats as empirically safe, and negative transfer under such a gap is a documented failure mode and not a remote possibility \cite{mirzadehImprovedKnowledgeDistillation2020}. A distilled student that fails to beat its directly fine-tuned counterpart is nonetheless treated in \Cref{sec:results_kd_basic_comparison} as a result to report rather than a defect to debug away.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Experiment Tracking}\label{sec:experiment_tracking}
+
+Every run logs its complete configuration to a self-hosted tracking server, together with the commit hash, the device and the realized split sizes, so a finished run is reconstructable from the record and not from the working tree. \Cref{sec:appendix_experiment_tracking} gives the setup and the on-disk run layout. Reproducibility rests on a single seed, fixed at $42$, which seeds the Python, NumPy and Torch generators, selects deterministic convolution algorithms, reaches each dataloader worker, and is reused for the evaluation subsampling and the bootstrap resampling of \Cref{sec:evaluation_framework}. What it does not fix is arithmetic. Two runs at different batch sizes or on different devices are not bit-identical, so the seed buys a comparable sample and not a reproducible float, which is the level every comparison in \Cref{chapter:results} relies on.
