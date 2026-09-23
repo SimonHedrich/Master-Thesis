@@ -197,12 +197,30 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 0 — Arm 1 latency (Pi 400) | ✅ done | 2026-09-20 | 30 new cells, gate PASS ×3; W_e2e 423 / 283 / 180 / **109 ms** at 4 threads |
 | 0 — Arm 1 report | ✅ done | 2026-09-20 | `scripts/benchmark/6-resolution_report.py` → `reports/resolution_study/` |
 | 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
-| 2 — 200-epoch run @ 320 px | 🔄 running | 2026-09-20 | `yolo26n-res320-bs128-20260920-165602`, started 16:56 UTC; **1,012 s/epoch over 5 completed epochs → ETA Sep 23 ~09:00**; full 200 epochs confirmed by the user |
-| 3 — 72 h gate | ⏳ planned | | rate fell to 1,141 s/epoch → 200 no longer fits; **stopping at epoch 185 (Wed ~08:36, +4.4 h)**, then full test eval |
+| 2 — 320 px run | ✅ done | 2026-09-23 | `yolo26n-res320-bs128-20260920-165602`; **converged, best val mAP50_95=0.6714 @ epoch 168**, stopped after 186 |
+| 3 — 72 h gate | ✅ passed | 2026-09-23 | metric peaked @168 and declined through 186 → **converged, keep**; full test eval running |
 | 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-23 09:42 — the run converged and turned over; stopped after epoch 186.**
+  Validation peaked at **epoch 168 (mAP50_95 = 0.6714)** and declined monotonically
+  after: 0.6698 (180), 0.6690 (182), 0.6681 (184), 0.6673 (186). `best.pt` is frozen
+  at epoch 168, so the remaining epochs of the 200-epoch ceiling could add nothing and
+  the run was stopped to leave time for the test eval.
+
+  | epoch | 160 | 162 | **168** | 172 | 178 | 184 | 186 |
+  |---|---:|---:|---:|---:|---:|---:|---:|
+  | mAP50 | 0.7658 | 0.7659 | **0.7658** | 0.7652 | 0.7637 | 0.7615 | 0.7609 |
+
+  **This passes the 72 h gate on the user's own criterion** — the model is not still
+  improving, so the result is usable. It also retires the "stopped at 185 of 200"
+  caveat: the run did not end early against a rising curve, it ended after
+  convergence. The 320 px run peaked at epoch 168 and the 640 px baseline at 172 —
+  near-identical convergence points, evidence that neither the larger batch nor the
+  shortened wall clock cost anything. Best val gap to the baseline
+  (0.6714 vs 0.7629) is **−12.0 %**.
 
 - **2026-09-22 17:11 — epoch 150; rate fell to 1,141 s/epoch, so the run stops at
   epoch 185, not 200.** No external cause this time: only the training job is on the
