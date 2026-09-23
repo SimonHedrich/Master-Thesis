@@ -16,7 +16,6 @@ must not be quoted alongside full-test figures.
 | no-retraining | 512 | 4.33 | 269.4 | 283.1 | 241–255 | 260 | 0.5799 | 0.5044 | -0.0439 (-8.0 %) |
 | no-retraining | 416 | 2.85 | 172.1 | 179.8 | 153–162 | 241 | 0.5379 | 0.4529 | -0.0954 (-17.4 %) |
 | no-retraining | 320 | 1.68 | 102.5 | 109.0 | 93–98 | 226 | 0.4609 | 0.3541 | -0.1942 (-35.4 %) |
+| resolution-native | 320 | 1.68 | 102.5 | 109.0 | 93–98 | 226 | 0.5175 | 0.4375 | -0.1109 (-20.2 %) |
 
 Design targets: **≤30 ms** on the QCS605 (Pi 400 pass band ≤33–35 ms) and **≤500 MB**. Every row meets the memory budget; none meets the latency budget.
-
-**Arm 2 (resolution-native training) is not in this table yet.** Until it lands, every row is the 640-px-trained checkpoint simply run at a smaller input, which is an upper bound on the accuracy cost of reducing resolution, not the cost after retraining.

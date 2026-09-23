@@ -110,7 +110,16 @@ def build_rows(sweep_run: Path, native_run: Path | None) -> list[dict]:
         rows.append(row)
 
     if native_run is not None:
-        p = native_run / "evaluation" / "evaluation_report.json"
+        # Prefer the subsample scoring: Arm 1's points are on the fixed 8k
+        # proportional subsample, and mixing a full-test Arm 2 point into the same
+        # figure would compare two different denominators. The run's own
+        # evaluation/ (full test) stays the headline figure quoted elsewhere.
+        p = native_run / "resolution_sweep_subsample" / "evaluation_report.json"
+        if not p.exists():
+            p = native_run / "evaluation" / "evaluation_report.json"
+            if p.exists():
+                print(f"    ! {native_run.name}: no subsample scoring, falling back to "
+                      f"the FULL-TEST report — not comparable to Arm 1's subsample points")
         if not p.exists():
             print(f"    ! --native-run given but {p} does not exist yet — Arm 2 omitted")
         else:

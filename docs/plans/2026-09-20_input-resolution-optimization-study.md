@@ -199,10 +199,38 @@ Produces the accuracy-vs-latency curve from the **existing**
 | 1 — probe + go/no-go | ✅ done | 2026-09-20 | bs32 measured 124 h → **fail**; re-specced to bs128 + lr×2 + eval-every-2 → **49 h, go** |
 | 2 — 320 px run | ✅ done | 2026-09-23 | `yolo26n-res320-bs128-20260920-165602`; **converged, best val mAP50_95=0.6714 @ epoch 168**, stopped after 186 |
 | 3 — 72 h gate | ✅ passed | 2026-09-23 | metric peaked @168 and declined through 186 → **converged, keep**; full test eval running |
-| 4 — write-up | ⬜ not started | | §4.3 subsection, figure |
+| 4 — write-up | ⬜ not started | | §4.3 subsection — numbers + figure now complete |
 | Incidental — `MAP_SOURCES` fix | ✅ done | 2026-09-20 | repointed to 0.599/0.529; `embedded_latency_vs_map.png` regenerated |
 
 ### Deviations from the plan
+
+- **2026-09-23 11:15 — STUDY COMPLETE. Both arms, same fixed 8k subsample:**
+
+  | | real mAP | vs 640 px | W_e2e | RSS |
+  |---|---:|---:|---:|---:|
+  | 640 px weights @ 640 | 0.5483 | — | 423.5 ms | 284 MB |
+  | 640 px weights @ 320 (no retraining) | 0.3541 | −35.4 % | 109.0 ms | 226 MB |
+  | **320 px-trained @ 320** | **0.4375** | **−20.2 %** | **109.0 ms** | **226 MB** |
+
+  **Resolution-native training recovers 43 % of the penalty at identical latency.**
+
+  Headline figures on the **full** test set (directly comparable to the other models'
+  published numbers): 320 px-trained scores **mixed 0.5084 / real 0.4197**, against the
+  640 px baseline's 0.5989 / 0.5292 — **−15.1 % mixed, −20.7 % real for a 3.9×
+  latency reduction**.
+- **2026-09-23 — correction: the val-based projection was optimistic.** At epochs
+  20–100 the validation gap to the 640 px baseline ran 13.9 % → 10.4 %, and the
+  2026-09-21 entry extrapolated "~10 % final gap, ~72 % of the penalty recovered".
+  The test set gives **−20.2 %** (subsample real) and **43 %** recovered. Validation
+  here is the *mixed* set and its class mix differs from test, so it is systematically
+  the easier measure. **The thesis must quote the test figures**; the validation
+  trajectory is evidence of convergence only, not a predictor of the test gap.
+- **2026-09-23 — Arm 2 scored twice, deliberately.** `evaluation/` holds the full-test
+  scoring (the headline, comparable to every other model in the campaign);
+  `resolution_sweep_subsample/` holds the fixed-8k scoring used for the curve, because
+  Arm 1's four points are on that subsample and mixing denominators in one figure
+  would be meaningless. `6-resolution_report.py` now prefers the subsample report and
+  warns loudly if it falls back to the full-test one.
 
 - **2026-09-23 09:42 — the run converged and turned over; stopped after epoch 186.**
   Validation peaked at **epoch 168 (mAP50_95 = 0.6714)** and declined monotonically
