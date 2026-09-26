@@ -279,3 +279,40 @@ substring — "thesis-grade" (`35-Synthetic_Generator_Comparison.tex:307`, "what
 thesis-grade rather than impressionistic") — is not an instance of "this/the thesis" at all.
 Nor is the indefinite article: "For a thesis whose deployment target is an embedded processor…"
 (`4-Results.tex:230`) is a different construction and was left as is.
+
+---
+
+## Part 6 — Rhetoric is budgeted
+
+Added 2026-09-26, from reader evidence: the supervisor flagged fourteen passages as
+recognizably machine-written ("AI slop") while starring one punchy sentence — the one
+carrying the central finding — as important. The full analysis is in
+`thesis/docs/2026-09-25_manuscript-prose-review.md` Part II. The patterns he flagged
+are what Parts 1–2 of this file produce when applied with machine uniformity: every
+paragraph opening on a counted abstraction, every section closing on a punch, every
+contrast sharpened into an antithesis. The individual sentences pass every rule here;
+the uniform cadence is the tell.
+
+**The rule: the stress-position and short-sentence rules exist to make facts land,
+not to decorate them.** A sentence that performs — an antithesis of abstract
+adjectives ("a hard ceiling, not a soft guideline"), a metaphor (commercial
+vocabulary above all: *bought*, *buys*, *costs nothing*, *discount*), an aphoristic
+fragment, a counted abstraction acting ("Four gaps bound it together") — must pass
+the **deletion test**: if removing it loses no fact or finding, remove it.
+
+- Spend at most one emphatic sentence per section, and only on a finding.
+- Sentences about the document's own discourse (answers, consequences, items,
+  limits, gaps, verdicts) take a domain subject instead wherever one exists — the
+  model, the run, the class, the number (**the subject test**).
+- Headings name one topic: no "and"-pairing of two items, no verbless participle
+  fragment ("Confidence intervals, computed retroactively"), no antithesis
+  ("Designed, Not Executed").
+- Colloquial idiom ("home-field advantage", "tells a gentler story", "No." as a
+  paragraph opener) does not survive this register.
+- Announcing a genuine enumeration is fine ("Three deviations follow from the
+  teacher being a classifier"); abstractions performing actions is not ("Two things
+  limit the damage without repairing it").
+
+What this rule does **not** do: it does not cut epistemic hedges (see
+`conflicts.md` §2), scope conditions, or the plain roadmap and handoff sentences.
+The fix for uniform punch is variance, not a new uniformity of flatness.

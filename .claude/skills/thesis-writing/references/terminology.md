@@ -140,13 +140,18 @@ point*. `configuration` ×9 currently straddles both schemes and is the one to s
 | concept | approved | not approved |
 |---|---|---|
 | Qualcomm QCS605, the deployment target | **the target hardware**, **QCS605** | *target device*, *target platform* |
-| Raspberry Pi 5 (8 GB), the development stand-in | **the proxy hardware**, **Raspberry Pi 5** | *stand-in*, bare *proxy* |
+| Raspberry Pi 400, the benchmark stand-in | **the proxy device**, **Raspberry Pi 400** | *stand-in*, bare *proxy*, *embedded proxy*, *proxy hardware* |
 | the product context | **AX Visio** (`\textit` on first mention) | — |
 
-`proxy hardware` appears **zero times**, although `CLAUDE.md` uses it; `Raspberry Pi 5` is
-described once as a "stand-in" and is otherwise unlabeled. Five of the seven bare uses of
-*proxy* in the manuscript mean something else entirely (*recognizability proxy*, *automatic
-proxies*), which is exactly why the bare form is not approved for the hardware.
+Updated 2026-09-26: the manuscript benchmarks on a **Raspberry Pi 400**, not the
+Raspberry Pi 5 that `CLAUDE.md` names as the planned proxy, and the settled term is
+**the proxy device** (chosen in the 2026-09-26 fix pass, which collapsed five surface
+forms — *target-adjacent proxy device*, *proxy device*, *embedded proxy*, *proxy
+hardware*, bare *proxy*). The phrase "target-adjacent proxy device" survives only
+inside research question 4, whose wording is restated verbatim in Chapter 5. Several
+bare uses of *proxy* in the manuscript mean something else entirely (*recognizability
+proxy*, *automatic proxies*), which is exactly why the bare form is not approved for
+the hardware.
 
 ### 2.6 Class vocabulary
 
