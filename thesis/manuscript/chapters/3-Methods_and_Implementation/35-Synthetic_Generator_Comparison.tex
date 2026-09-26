@@ -185,7 +185,7 @@ Realistic wildlife photograph of a lion (panthera leo). Species characteristics:
 \end{quote}
 \textbf{\texttt{full}} ($4{,}642$ words): task framing, verbatim species description, behavior and habitat, a six-axis scene specification, style, eight requirements.
 \end{minipage}
-\caption[The same class under the three prompt regimes]{The same class under the three regimes. The content is matched and only the verbosity changes, so the contrast measures how much text a model can use.}
+\caption[The same class under the three prompt regimes]{The same class under the three prompt regimes. The content is matched and only the verbosity changes, so the contrast measures how much text a model can use.}
 \label{fig:prompt-regime-example}
 \end{figure}
 
@@ -220,7 +220,7 @@ HiDream-I1 & $143.92$ & $47.97\,\mathrm{h}$ \\
 \end{tabular}
 \end{table}
 
-The six local cells consumed approximately $93$ GPU-hours, so generating the full $12{,}600$-image production set locally would have taken weeks of GPU time. That is much of why an API service was the practical production choice whatever the output quality. The billed figures also carry a lesson: the cheapest tier cost roughly $2.8$ times its naive estimate, because prompt text bills as input tokens separately from generation.
+The six local cells consumed approximately $93$ GPU-hours, so generating the full $12{,}600$-image production set locally would have taken weeks of GPU time. That is much of why an API service was the practical production choice whatever the output quality. The billed figures also exceeded their naive estimates: the cheapest tier cost roughly $2.8$ times the per-image list price, because prompt text bills as input tokens separately from generation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Annotation, Detector and Training Protocol}\label{sec:generator_comparison_training}
@@ -254,13 +254,13 @@ C: Downstream utility & Detection accuracy on real photographs & Yes, all $12$ c
 \end{table}
 
 \paragraph{Axis A: Structured Qualitative Rubric}
-Six criteria were pre-registered: anatomical correctness, diagnostic-feature fidelity, species identity, habitat plausibility, photorealism, artifact rate. The protocol around them is what would make the axis thesis-grade rather than impressionistic: hidden model identity, randomised order, multiple raters and a frozen rubric. It is also the only instrument that could separate generators on the rare classes, where \Cref{sec:results_per_class_structure} shows accuracy at a noise floor. It was never executed.
+Six criteria were pre-registered: anatomical correctness, diagnostic-feature fidelity, species identity, habitat plausibility, photorealism, artifact rate. The protocol around them is what would make the axis thesis-grade rather than impressionistic: hidden model identity, randomized order, multiple raters and a frozen rubric. It is also the only instrument that could separate generators on the rare classes, where \Cref{sec:results_per_class_structure} shows accuracy at a noise floor. It was never executed.
 
 \paragraph{Axis B: Automatic Proxies}
 Four measures were specified, all scaling to every image: teacher-recognition confidence from the project's own classifier \cite{gadotCropNotCrop2024a}, per-class Fréchet and kernel distances against real images of the class \cite{heuselGANsTrainedTwo2018,binkowskiDemystifyingMMDGANs2021}, a CLIP-based image-prompt alignment score \cite{hesselCLIPScoreReferencefreeEvaluation2021}, and the annotation yield. Only the yield was computed, which is why the results chapter leads with downstream accuracy rather than a converged judgment.
 
 \paragraph{Axis C: Downstream Utility}
-The fixed detector trains on each cell's synthetic images and is evaluated on real photographs only (\Cref{sec:evaluation_framework}). The headline measure is mean average precision over the real test set. Per-class average precision separates the data-rich anchors from the rare classes. The within-group confusion rate over the three zebra species, the fraction of correctly localised detections landing in the right look-alike group but the wrong species, is the sharpest available test of whether synthetic data teaches species-level discrimination. Only the zebras have more than one member of a frozen look-alike group (\Cref{sec:gt_annotation_integrity}) here, so the bear group's rate is structurally zero and excluded.
+The fixed detector trains on each cell's synthetic images and is evaluated on real photographs only (\Cref{sec:evaluation_framework}). The headline measure is mean average precision over the real test set. Per-class average precision separates the data-rich anchors from the rare classes. The within-group confusion rate over the three zebra species, the fraction of correctly localized detections landing in the right look-alike group but the wrong species, is the sharpest available test of whether synthetic data teaches species-level discrimination. Only the zebras have more than one member of a frozen look-alike group (\Cref{sec:lookalike_groups}) here, so the bear group's rate is structurally zero and excluded.
 
 \paragraph{Decision Rule}
 The criterion was fixed in advance. A generator counts as usable if it lands within a stated margin of the incumbent on the axes that matter, downstream accuracy on real photographs and diagnostic fidelity, \emph{and} is practical on cost and throughput. Raw photorealism alone is not sufficient, since it is the impression that motivated the original choice. The production choice is justified only if the incumbent sits at or near the top. Because differences on a dataset this small may fall within run-to-run noise, results are reported as a mean with its spread across seeds, and two cells whose intervals overlap are indistinguishable rather than ranked.

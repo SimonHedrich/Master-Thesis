@@ -24,7 +24,7 @@ D & $\geq 400$ & $\min(\text{pool} - \text{test},\,1{,}500)$ & $\min(\lfloor 0.2
 \end{tabular}
 \end{table}
 
-The equal $200$-image training budget shared by Bands A, B and C is the point of the structure. It makes three regimes comparable at matched sample size: synthetic only, half real and half synthetic, and real only. The bands nonetheless hold \emph{different species}, assigned by availability rather than randomization, so any systematic difference in species difficulty is confounded with the training regime. This is a cross-band comparison, not a within-class experiment.
+The structure exists to make three training-data compositions comparable at matched sample size: Bands A, B and C share an equal $200$-image training budget and differ only in composition, at synthetic only, half real and half synthetic, and real only. The bands nonetheless hold \emph{different species}, assigned by availability rather than randomization, so any systematic difference in species difficulty is confounded with the band. This is a cross-band comparison, not a within-class experiment.
 
 Surplus real images beyond a training budget move to the test set rather than being discarded, which is why Band D test sizes vary and why the corpus carries a large unallocated surplus (\Cref{sec:final_dataset_composition}).
 
@@ -63,7 +63,7 @@ Two axes were specified and never implemented: roughly $15$ to $20\%$ juvenile s
 \paragraph{Prompt Construction}
 Prompts follow a fixed template of five blocks: subject, species description, scene specification, photography style, and critical requirements. The raw text of a species' Wikipedia Description, Behavior and Habitat sections is inserted verbatim, since summarizing it risks discarding visually relevant detail such as fur pattern.
 
-Three constraints carry consequences elsewhere. The animal must be fully visible, with no part cut off at the frame edge, because a subject cropped at the boundary cannot plausibly be scaled down by the scale augmentation of \Cref{sec:data_augmentation}. Exactly one individual of the target species may appear, which keeps automatic single-box annotation valid. Text, watermarks, borders and anachronistic objects are prohibited, since a detector would otherwise treat them as evidence.
+Three prompt constraints have consequences elsewhere. The animal must be fully visible, with no part cut off at the frame edge, because a subject cropped at the boundary cannot plausibly be scaled down by the scale augmentation of \Cref{sec:data_augmentation}. Exactly one individual of the target species may appear, which keeps automatic single-box annotation valid. Text, watermarks, borders and anachronistic objects are prohibited, since a detector would otherwise treat them as evidence.
 
 \paragraph{Generation Schedule and Curated Validation Set}
 Band A classes receive $200$ images each, $160$ training and $40$ validation. The validation images are not drawn from the same generation distribution. They use fixed \enquote{prototypical} shot parameters (eye-level angle, medium distance, canonical poses, minimal occlusion) chosen to resemble typical field photography, so that early stopping is not tuned for synthetic-image performance specifically. Band B classes receive $100$ images each under the same criteria.
@@ -73,7 +73,7 @@ Images were generated in a documentary wildlife-photography style, observed thro
 Blurred backgrounds would have supplied a subject-background separation cue absent at inference. The $380$ images generated before the correction were kept and flagged as a non-target style, and the remaining $12{,}220$ follow the corrected one.
 
 \paragraph{Format and Quality Control}
-Images were requested at the generator's smallest size in a $4{:}3$ aspect ratio and are written at $592 \times 448$ pixels. Both choices are economic: synthetic images are letterboxed down to the detector's input resolution anyway, so a larger tier buys detail the pipeline discards, and $4{:}3$ wastes the least area in that letterboxing. Every image then passes through \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019}, and any without a qualifying detection is flagged for regeneration.
+Images were requested at the generator's smallest size in a $4{:}3$ aspect ratio and are written at $592 \times 448$ pixels. Both choices are economic: synthetic images are letterboxed down to the detector's input resolution anyway, so a larger size adds detail the pipeline discards, and $4{:}3$ wastes the least area in that letterboxing. Every image then passes through \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019}, and any without a qualifying detection is flagged for regeneration.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Prompt Diversity Refinement}\label{sec:prompt_diversity}
