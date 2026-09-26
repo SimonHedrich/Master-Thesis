@@ -161,3 +161,19 @@ the work that "I" would do elsewhere.
 thesis" for genuine document-level claims: what it argues, adopts, establishes, or declines to
 conclude. When three paragraphs in a row open with "this thesis", two of them had a better
 subject available.
+
+---
+
+## 7. Punch density vs. the reader — resolved by the reader
+
+Not a conflict between the three source systems, but between this skill's own output
+and its arbiter. The stress-position rule (§1.2 of `construction.md`), applied by an
+LLM with machine uniformity, produced a manuscript whose every paragraph opened on a
+counted abstraction and closed on an aphorism — and on 2026-09-26 the supervisor
+flagged fourteen such passages as recognizably machine-written while starring one
+(the punch sentence carrying the central finding) as important.
+
+**Verdict: the reader wins.** The stress-position rule survives, capped by
+`construction.md` Part 6: rhetorical emphasis is a budget, spent only on findings,
+and every performing sentence must pass the deletion test. The hedging protection of
+§2 above is unaffected — this verdict cuts decoration, never calibration.
