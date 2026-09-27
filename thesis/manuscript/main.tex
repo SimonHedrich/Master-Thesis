@@ -70,11 +70,11 @@
 \begin{document}
 % use roman numbering for preamble
     \pagenumbering{Roman}
-    % NOTE: unlike the bachelor thesis, no pre-rendered title-page PDF exists yet
-    % (that thesis spliced one in via \includepdf), so the LaTeX-native title page
-    % is compiled directly. Replace with \includepdf[pages={1}]{preamble/<file>.pdf}
-    % once a final designed title page is available.
-    \input{preamble/title_page}
+    % The cover page is prescribed by the university and downloaded from the
+    % intranet once the registration is accepted, so it is spliced in as a
+    % finished PDF rather than typeset here. It is page I of the Roman
+    % front matter. Swap the file below when a newer version is issued.
+    \includepdf[pages={1}]{preamble/Thesis_Master-SS 2026-Simon Hedrich.pdf}
     \input{preamble/eidesstattliche_erklaerung}
     \input{preamble/abstract}
     \newpage
