@@ -4,15 +4,16 @@ This directory is the home for everything related to producing the final Master'
 
 ## Current status
 
-The LaTeX manuscript lives in `manuscript/` and is assembled by `manuscript/main.tex`. Chapter 2 (Literature Review) and the data-related sections of Chapter 3 (Methods and Implementation) are drafted; Chapters 1 and 5, the training/evaluation sections of Chapter 3 (`36-*`, `37-*`), and Results §4.2–§4.4 are still stubs marked with `% TODO`.
+The LaTeX manuscript lives in `manuscript/` and is assembled by `manuscript/main.tex`. Chapter 2 (Literature Review) and all of Chapter 3 (Methods and Implementation) are drafted; Chapters 1 and 5, and Results §4.2–§4.3.1, are still stubs marked with `% TODO`.
 
-No LaTeX toolchain is installed in this repo's container (`pdflatex`/`latexmk`/`biber` are absent) and there is no `make` target for the thesis — the document is compiled externally (e.g. Overleaf). Structural checks (citation keys resolving against the two `.bib` files, `\label`/`\Cref` consistency, environment balance, figure paths) are therefore done by inspection rather than by compilation.
+No LaTeX toolchain is installed in this repo's container (`pdflatex`/`latexmk`/`biber` are absent) and there is no `make` target for the thesis — the document is compiled on Overleaf, which `manuscript/` is synced to two-way by `scripts/thesis/sync_overleaf.py` (`make overleaf` picks the direction; `make overleaf-push|overleaf-pull|overleaf-status` force one — on the `thesis/overleaf-sync` branch; see `scripts/thesis/README.md`). Structural checks (citation keys resolving against the two `.bib` files, `\label`/`\Cref` consistency, environment balance, figure paths) are therefore done by inspection rather than by compilation.
 
 ## Layout
 
 ```
+docs/                             — how the document gets made (toolchain, publishing)
 manuscript/
-  main.tex                        — top-level document
+  main.tex                      — top-level document
   preamble/                       — title page, declaration, abstracts, acronyms
   chapters/
     1-Introduction.tex            — stub
@@ -24,29 +25,61 @@ manuscript/
       33-Synthetic_Data_Supplementation.tex
       34-Data_Augmentation.tex
       35-Synthetic_Generator_Comparison.tex
-      36-Model_Training_and_Experiment_Tracking.tex   — stub
-      37-Evaluation_Framework.tex                     — stub
-    4-Results.tex                 — §4.1 drafted; §4.2–§4.4 stubs
+      36-Model_Training_and_Experiment_Tracking.tex
+      37-Evaluation_Framework.tex
+    4-Results.tex                 — §4.1 and §4.3.2 drafted; §4.2–§4.3.1 stubs
     5-Discussion_and_Conclusion.tex — stub
   bibliography/
-    references.bib                — project-specific entries (datasets, tools, model releases)
-    references_zotero.bib         — copy of `research/literature/references.bib` (Better BibTeX keys)
+    references.bib                — the single bibliography (Better BibTeX keys), exported from Zotero
   figures/plots/                  — charts copied from `reports/`
   appendices/
 ```
 
-Both `.bib` files are registered with `\addbibresource`. When the Zotero library changes, refresh the copy with:
+`references.bib` is the manuscript's only bibliography and the only file registered with
+`\addbibresource` (`main.tex`). It is a Zotero export: to refresh it, export the library from
+Zotero (Better BibTeX) directly over `thesis/manuscript/bibliography/references.bib`. Every key
+cited in `chapters/` resolves there — sources with no paper (dataset portals, model cards, docs
+pages) are Zotero items too, so nothing is maintained by hand and an export never loses entries.
+
+After each export, re-check that no citation has gone dangling:
 
 ```
-cp research/literature/references.bib thesis/manuscript/bibliography/references_zotero.bib
+comm -23 \
+  <(grep -rhoE '\\(cite|parencite|textcite|autocite|footcite)\*?(\[[^]]*\])*\{[^}]*\}' \
+      thesis/manuscript/{chapters,preamble,appendices} thesis/manuscript/main.tex \
+    | sed -E 's/.*\{([^}]*)\}/\1/' | tr ',' '\n' | tr -d ' ' | sort -u) \
+  <(grep -oE '^@[a-zA-Z]+\{[^,]+,' thesis/manuscript/bibliography/references.bib \
+    | sed -E 's/^@[a-zA-Z]+\{(.*),$/\1/' | sort)
 ```
+
+Empty output means every cited key resolves.
 
 ## Files
 
 | File | Description |
 |------|-------------|
 | `manuscript/` | The LaTeX project (see layout above). |
-| `bachelor-thesis-analysis.md` | Detailed analysis of the bachelor thesis's document structure, LaTeX setup, chapter-by-chapter content patterns, and academic writing style — with explicit notes on what to carry over as-is vs. what needs to change for the Master's thesis. The writing conventions in §7 are the style contract the manuscript follows. |
+| `docs/` | Documentation on producing the document itself — toolchain and publishing pipeline, as opposed to the research notes in the repo-root `docs/`. See `docs/README.md`. |
+| `bachelor-thesis-analysis.md` | Detailed analysis of the bachelor thesis's document structure, LaTeX setup, chapter-by-chapter content patterns, and academic writing style — with explicit notes on what to carry over as-is vs. what needs to change for the Master's thesis. The conventions in §7 and the rough edges in §8 are half of the style contract (see below). |
+| `writing/2026-09-17_manuscript-baseline.md` | Measurement of the drafted chapters taken before the writing skill existed: sentence and paragraph length per file, the longest sentences quoted, terminology drift counts, and the mechanical defects found. Exists so a later revision pass has a number to move — only the delta is meaningful. |
+| `writing/anti-slop-skill.md` | Saved blog post (Sascha Becker, "A 1986 Aircraft Manual Fixed My Anti-Slop Skill") that prompted the writing skill. Reference reading, not a repo-authored contract. `anti-slop-skill.html` is the source page. |
+
+## The style contract
+
+Writing conventions for the manuscript live in two places, and they cover different things:
+
+- **`bachelor-thesis-analysis.md` §7–§8** — *conventions and mechanics.* Numbers in math mode,
+  `\textit{}` on first mention, `\enquote{}` never raw quotes, `\Cref` not `\ref`, the
+  impersonal register, heavy cross-linking, and the rough edges to avoid repeating. Unchanged
+  and still binding.
+- **`.claude/skills/thesis-writing/`** — *construction, terminology, and claims.* How a sentence
+  and a paragraph are built, one name per concept, and the traceability rules for numbers,
+  citations and comparative claims. It restates §7 as a checklist in `references/mechanics.md`
+  rather than replacing it, and writes down where its borrowed style guides conflict with §7
+  (active voice vs. the impersonal register, hedge-cutting vs. scientific calibration, the em
+  dash) with a verdict for each.
+
+The skill loads automatically when writing or reviewing `.tex` prose under `manuscript/`.
 
 ## Source material
 

@@ -27,3 +27,6 @@ reports/embedded_benchmark/host_reference/
 *.torchscript
 *.ncnn.param
 *.ncnn.bin
+
+# Old bachelor thesis source kept for reference only (91 MB); resources/Thesis_Bachelor is ignored for the same reason
+thesis/docs/old_bachelor_thesis/

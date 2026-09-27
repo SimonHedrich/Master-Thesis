@@ -107,6 +107,52 @@ speciesnet-finetune:
 uv-lock:
 	uv lock
 
+# ─── Thesis: Overleaf ─────────────────────────────────────────────────────────
+
+# Two-way sync between thesis/manuscript/ and the Overleaf project that compiles
+# it. Runs on this host (not in the container) and must run on the
+# `thesis/overleaf-sync` branch — the Overleaf git bridge has no branch support,
+# so exactly one branch may own the manuscript. Requires OVERLEAF_TOKEN in .env
+# and a clone at ~/overleaf/master-thesis (override with OVERLEAF_CLONE).
+# See scripts/thesis/README.md and thesis/docs/2026-09-19_overleaf-sync.md.
+#
+#   make overleaf                                      <- the usual one
+#   make overleaf-status
+#   make overleaf-pull
+#   make overleaf-push OVERLEAF_MSG="rewrote 3.3 intro"
+#   make overleaf-force-push                           <- local wins, no questions
+#   make overleaf OVERLEAF_ARGS=--allow-any-branch
+OVERLEAF_MSG  ?=
+OVERLEAF_ARGS ?=
+_OVERLEAF := uv run python -m scripts.thesis.sync_overleaf
+
+# Sync, whichever way it needs to go: pulls if Overleaf moved, pushes if the
+# manuscript did, does nothing if neither. Stops and explains if BOTH moved,
+# rather than guessing which version wins.
+overleaf:
+	$(_OVERLEAF) sync $(if $(OVERLEAF_MSG),-m "$(OVERLEAF_MSG)") $(OVERLEAF_ARGS)
+
+# Report what each side has. Read-only.
+overleaf-status:
+	$(_OVERLEAF) status $(OVERLEAF_ARGS)
+
+# Bring Overleaf edits into thesis/manuscript/. Refuses if that tree is dirty;
+# leaves what it pulled uncommitted for `git diff` review.
+overleaf-pull:
+	$(_OVERLEAF) pull $(OVERLEAF_ARGS)
+
+# Send thesis/manuscript/ to Overleaf. Refuses if Overleaf is ahead.
+overleaf-push:
+	$(_OVERLEAF) push $(if $(OVERLEAF_MSG),-m "$(OVERLEAF_MSG)") $(OVERLEAF_ARGS)
+
+# Same, but the local manuscript always wins: overwrites whatever is on Overleaf,
+# including edits made there that were never pulled, and discards leftover changes
+# in the clone. Overleaf keeps its history — the overwrite lands as a new commit on
+# top, nothing is rewritten — so `make overleaf-pull` on an older repo state can
+# still recover what was replaced. Use it when Overleaf-side edits are known junk.
+overleaf-force-push:
+	$(_OVERLEAF) push --force $(if $(OVERLEAF_MSG),-m "$(OVERLEAF_MSG)") $(OVERLEAF_ARGS)
+
 # ─── Sync ─────────────────────────────────────────────────────────────────────
 
 # Remote server configuration
