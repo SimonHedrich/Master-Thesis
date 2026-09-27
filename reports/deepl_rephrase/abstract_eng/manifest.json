@@ -1,0 +1,50 @@
+{
+ "source": "thesis/manuscript/preamble/abstract_eng.tex",
+ "source_sha": "cafbe2e03b1d7f2965e45a02ab2c5c98eaec12c4b03a80f69e350b3048f1bea2",
+ "target_lang": "en-US",
+ "created": "2026-09-27T21:02:37+00:00",
+ "paragraphs": [
+  {
+   "id": "P001",
+   "line": 1,
+   "section": "",
+   "indent": "",
+   "original": "In wildlife monitoring, recognizing an animal's species automatically is difficult when the recognition must run on a battery-powered device carried into the field. Such a device cannot host the large models that perform best on this task, and photographs are plentiful for a few familiar animals and scarce for most others. The model in use is an object detector, which locates the animal in the frame and assigns it a species. The difficulty lies in that classification rather than in the localization, because many species differ only in fine markings. This thesis examines how a compact detector should be trained under those two constraints, and what the available data allows.",
+   "sent": "In wildlife monitoring, recognizing an animal's species automatically is difficult when the recognition must run on a battery-powered device carried into the field. Such a device cannot host the large models that perform best on this task, and photographs are plentiful for a few familiar animals and scarce for most others. The model in use is an object detector, which locates the animal in the frame and assigns it a species. The difficulty lies in that classification rather than in the localization, because many species differ only in fine markings. This thesis examines how a compact detector should be trained under those two constraints, and what the available data allows.",
+   "received": "In wildlife monitoring, automatically recognizing an animal's species is difficult when the recognition process must run on a battery-powered device that is carried into the field. Such a device cannot support the large models that perform best for this task. Additionally, photographs are plentiful for a few familiar animals but scarce for most others. The model in use is an object detector that locates the animal in the frame and assigns a species to it. The difficulty lies in classification rather than localization because many species differ only in fine markings. This thesis examines how to train a compact detector under these constraints and with the available data.",
+   "restored": "In wildlife monitoring, automatically recognizing an animal's species is difficult when the recognition process must run on a battery-powered device that is carried into the field. Such a device cannot support the large models that perform best for this task. Additionally, photographs are plentiful for a few familiar animals but scarce for most others. The model in use is an object detector that locates the animal in the frame and assigns a species to it. The difficulty lies in classification rather than localization because many species differ only in fine markings. This thesis examines how to train a compact detector under these constraints and with the available data.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 682
+  },
+  {
+   "id": "P002",
+   "line": 3,
+   "section": "",
+   "indent": "",
+   "original": "A training dataset is assembled from openly licensed photographs and curated automatically. Species that remain poorly represented are supplemented with generated images, and several image generators are compared beforehand to find which produces the most useful training material. The compact detector is then trained twice, once by distilling a much larger fine-tuned model into it and once directly on the same data, and the speed of both is measured on hardware comparable to the intended device.",
+   "sent": "A training dataset is assembled from openly licensed photographs and curated automatically. Species that remain poorly represented are supplemented with generated images, and several image generators are compared beforehand to find which produces the most useful training material. The compact detector is then trained twice, once by distilling a much larger fine-tuned model into it and once directly on the same data, and the speed of both is measured on hardware comparable to the intended device.",
+   "received": "A training dataset is assembled from openly licensed photographs and automatically curated. Species that are poorly represented are supplemented with generated images. Several image generators are compared beforehand to determine which produces the most useful training material. Then, the compact detector is trained twice: first, by distilling a much larger fine-tuned model into it; and second, directly on the same data. The speed of both processes is measured on hardware comparable to the intended device.",
+   "restored": "A training dataset is assembled from openly licensed photographs and automatically curated. Species that are poorly represented are supplemented with generated images. Several image generators are compared beforehand to determine which produces the most useful training material. Then, the compact detector is trained twice: first, by distilling a much larger fine-tuned model into it; and second, directly on the same data. The speed of both processes is measured on hardware comparable to the intended device.",
+   "flags": [
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 500
+  },
+  {
+   "id": "P003",
+   "line": 5,
+   "section": "",
+   "indent": "",
+   "original": "The comparison finds no advantage for distillation over direct training, least of all for the species whose training data is thinnest. Neither the apparent realism of the generated images nor their price predicts how useful they prove. How much descriptive detail the generator is given matters more than which generator is chosen. Replacing part of a small set of real photographs with generated images proves harmless, while replacing all of them does not. Accuracy measured on generated test images overstates accuracy on real ones, a discrepancy this work reports rather than corrects. The resulting detector misses the intended device's speed budget by an order of magnitude, since no compression step was applied yet, and closing that gap is left to future work.",
+   "sent": "The comparison finds no advantage for distillation over direct training, least of all for the species whose training data is thinnest. Neither the apparent realism of the generated images nor their price predicts how useful they prove. How much descriptive detail the generator is given matters more than which generator is chosen. Replacing part of a small set of real photographs with generated images proves harmless, while replacing all of them does not. Accuracy measured on generated test images overstates accuracy on real ones, a discrepancy this work reports rather than corrects. The resulting detector misses the intended device's speed budget by an order of magnitude, since no compression step was applied yet, and closing that gap is left to future work.",
+   "received": "The comparison reveals no advantage of distillation over direct training, especially for species with limited training data. The usefulness of the generated images is not predicted by their apparent realism or price. The amount of descriptive detail given to the generator matters more than which generator is chosen. Replacing some of a small set of real photographs with generated images is harmless, but replacing all of them is not. Accuracy measured on generated test images overestimates accuracy on real ones. This work reports this discrepancy rather than correcting it. The resulting detector misses the intended device's speed budget by an order of magnitude since no compression step was applied, and closing that gap is left to future work.",
+   "restored": "The comparison reveals no advantage of distillation over direct training, especially for species with limited training data. The usefulness of the generated images is not predicted by their apparent realism or price. The amount of descriptive detail given to the generator matters more than which generator is chosen. Replacing some of a small set of real photographs with generated images is harmless, but replacing all of them is not. Accuracy measured on generated test images overestimates accuracy on real ones. This work reports this discrepancy rather than correcting it. The resulting detector misses the intended device's speed budget by an order of magnitude since no compression step was applied, and closing that gap is left to future work.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 768
+  }
+ ],
+ "applied_at": "2026-09-27T21:10:12+00:00"
+}

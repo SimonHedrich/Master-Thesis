@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 32-Data_Quality_and_Curation.tex: 12 paragraphs -->
+
+#### P013  32-Data_Quality_and_Curation.tex:87  flags: -
+## section: Correcting SpeciesNet Coverage Gaps
+--- original
+Applying the match-level filter uniformly cost several classes the overwhelming majority of their images, among them \textit{Saguinus} tamarins ($1{,}065 \rightarrow 5$) and pikas ($1{,}484 \rightarrow 31$). Inspecting those cases showed not mislabeling at the source but a coverage gap in \textit{SpeciesNet}, which does not reliably recognize those taxa.
+--- rephrased
+The match-level filter uniformly removed the majority of images from several classes, including \textit{Saguinus} tamarins ($1{,}065 \rightarrow 5$) and pikas ($1{,}484 \rightarrow 31$). Examining these cases revealed no mislabeling at the source, but rather a coverage gap in \textit{SpeciesNet}, which does not reliably recognize these taxa.
+--- final
+Applying the match-level filter uniformly cost several classes the overwhelming majority of their images, among them \textit{Saguinus} tamarins ($1{,}065 \rightarrow 5$) and pikas ($1{,}484 \rightarrow 31$). Examining these cases revealed no mislabeling at the source, but rather a coverage gap in \textit{SpeciesNet}, which does not reliably recognize these taxa.
+--- verdict
+merged: kept original s1 ("overwhelming majority" is a magnitude claim the numbers bear out, DeepL's plain "majority" understates it), took DeepL's s2 (same meaning). risk: high
+
+
+#### P014  32-Data_Quality_and_Curation.tex:89  flags: -
+## section: Correcting SpeciesNet Coverage Gaps
+--- original
+A fallback rule therefore applies where the evidence points that way. If a class's dominant failure is a missing or class-level match and fewer than $20\%$ of its images pass, or an order-level match with fewer than $15\%$ passing, the class bypasses the SpeciesNet filter and falls back to the pre-classification quality-pass flag. This recovered approximately $14{,}500$ images across $17$ classes. Two classes whose dominant failure was instead a confident family mismatch were held under the stricter filter, since that signals label contamination rather than a coverage gap.
+--- rephrased
+A fallback rule applies when the evidence indicates as much. If a class's dominant failure is a missing class-level match and fewer than $20\%$ of its images pass, or an order-level match where fewer than $15\%$ pass, then the class bypasses the SpeciesNet filter and falls back to the pre-classification quality pass flag. This recovered approximately $14{,}500$ images across $17$ classes. However, two classes with a dominant failure of a confident family mismatch were held under the stricter filter since this indicates label contamination rather than a coverage gap.
+--- final
+A fallback rule applies when the evidence indicates as much. If a class's dominant failure is a missing or class-level match and fewer than $20\%$ of its images pass, or an order-level match with fewer than $15\%$ passing, the class bypasses the SpeciesNet filter and falls back to the pre-classification quality-pass flag. This recovered approximately $14{,}500$ images across $17$ classes. However, two classes with a dominant failure of a confident family mismatch were held under the stricter filter since this indicates label contamination rather than a coverage gap.
+--- verdict
+merged: restored original's "missing or class-level match" disjunction (DeepL collapsed it to "missing class-level match", merging two distinct failure types into one), kept DeepL elsewhere. risk: high
+
+
+#### P015  32-Data_Quality_and_Curation.tex:95  flags: -
+## section: The Multi-Box Annotation Bug
+--- original
+A later audit found that every one of $63{,}796$ images in the test annotation file carried exactly one ground-truth bounding box, although MegaDetector had detected multiple animals in a substantial fraction of them. % annotations_test.json
+--- rephrased
+A later audit revealed that each of the $63{,}796$ images in the test annotation file contained precisely one ground-truth bounding box, despite the fact that MegaDetector had identified multiple animals in a significant proportion of them. % annotations_test.json
+--- final
+A later audit revealed that each of the $63{,}796$ images in the test annotation file contained precisely one ground-truth bounding box, despite the fact that MegaDetector had identified multiple animals in a significant proportion of them. % annotations_test.json
+--- verdict
+rephrased: same meaning and magnitude preserved, no hedge lost. risk: high
+
+
+#### P016  32-Data_Quality_and_Curation.tex:96  flags: -
+## section: The Multi-Box Annotation Bug
+--- original
+The fix forwards the full detection list through the pipeline and emits one annotation per detection at or above confidence $0.5$, for every image.
+--- rephrased
+The fix sends the complete list of detections through the pipeline and produces one annotation for each detection with a confidence level of at least $0.5$ for each image.
+--- final
+The fix sends the complete list of detections through the pipeline and produces one annotation for each detection with a confidence level of at least $0.5$ for each image.
+--- verdict
+rephrased: same meaning, threshold hedge ("at least $0.5$") preserved. risk: high
+
+
+#### P017  32-Data_Quality_and_Curation.tex:99  flags: -
+## section: Cross-Species Contamination in Multi-Box Images
+--- original
+Fixing the multi-box bug exposed a subtler defect: every box on an image had been given the image's primary label, so a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (\Cref{sec:speciesnet_matching}) were reused to flag secondary boxes automatically, subject to a taxonomic tolerance. Agreement at species, genus or family level counts as acceptable variation. Divergence at order level or above, or no match at all, is flagged instead, provided the secondary box carries a SpeciesNet confidence of at least $0.3$. Without that tolerance the queue would have been unmanageable, since $32{,}401$ of $57{,}205$ multi-detection images carry a differing species index on a secondary box.
+--- rephrased
+Fixing the multi-box bug revealed a more subtle defect: each box in an image was assigned the image's primary label. Consequently, a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (\Cref{sec:speciesnet_matching}) were reused to automatically flag secondary boxes, subject to taxonomic tolerance. Agreement at the species, genus, or family level is considered acceptable variation. Divergence at the order level or above, or no match at all, is flagged instead, provided that the secondary box has a SpeciesNet confidence level of at least $0.3$. Without this tolerance, the queue would be unmanageable since $32{,}401$ out of $57{,}205$ multi-detection images have a different species index in a secondary box.
+--- final
+Fixing the multi-box bug revealed a more subtle defect: each box in an image was assigned the image's primary label, so a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (\Cref{sec:speciesnet_matching}) were reused to automatically flag secondary boxes, subject to a taxonomic tolerance. Agreement at the species, genus, or family level is considered acceptable variation. Divergence at the order level or above, or no match at all, is flagged instead, provided that the secondary box has a SpeciesNet confidence level of at least $0.3$. Without that tolerance, the queue would have been unmanageable, since $32{,}401$ of $57{,}205$ multi-detection images carry a differing species index on a secondary box.
+--- verdict
+merged: kept original's closing clause ("would have been unmanageable... carry a differing species index") for precision, took DeepL for the rest. risk: high
+
+
+#### P018  32-Data_Quality_and_Curation.tex:101  flags: -
+## section: Cross-Species Contamination in Multi-Box Images
+--- original
+The filter flagged $11{,}354$ images, of which $7{,}271$ were resolved: $6{,}477$ as keep, $794$ as edit, and none as discard. No images were removed, and $1{,}344$ mislabeled annotations were deleted across the three splits. The review also yielded $1{,}733$ candidate confusion pairs, which informed the frozen look-alike grouping used for coarse-grained evaluation (\Cref{sec:lookalike_groups}).
+--- rephrased
+The filter flagged $11{,}354$ images, of which $7{,}271$ were resolved. $6{,}477$ were labeled as "keep," $794$ as "edit," and none as "discard." No images were removed, and $1{,}344$ mislabeled annotations were deleted across the three splits. The review also yielded $1{,}733$ candidate confusion pairs, which informed the frozen look-alike grouping used for the coarse-grained evaluation (\Cref{sec:lookalike_groups}).
+--- final
+The filter flagged $11{,}354$ images, of which $7{,}271$ were resolved: $6{,}477$ as keep, $794$ as edit, and none as discard. No images were removed, and $1{,}344$ mislabeled annotations were deleted across the three splits. The review also yielded $1{,}733$ candidate confusion pairs, which informed the frozen look-alike grouping used for coarse-grained evaluation (\Cref{sec:lookalike_groups}).
+--- verdict
+original: DeepL added quotation marks around "keep"/"edit"/"discard" and split the colon-introduced list into a new sentence, neither present in the source. risk: high
+
+
+#### P019  32-Data_Quality_and_Curation.tex:106  flags: -
+## section: Quality Scoring and Split Assembly
+--- original
+Images surviving all stages carry a composite quality score $Q \in [0,1]$ guiding validation sampling and tie-breaking in split assembly:
+--- rephrased
+Images that survive all stages carry a composite quality score ($Q \in [0,1]$), which guides the validation, sampling, and tie-breaking processes in split assembly.
+--- final
+Images surviving all stages carry a composite quality score $Q \in [0,1]$ guiding validation sampling and tie-breaking in split assembly:
+--- verdict
+original: kept the trailing colon (introduces what follows) and the two-item reading ("validation sampling" and "tie-breaking"); DeepL recast this as three parallel processes and closed the sentence. risk: high
+
+
+#### P020  32-Data_Quality_and_Curation.tex:128  flags: -
+## section: Quality Scoring and Split Assembly
+--- original
+\Cref{tab:quality-score-components} defines the four components. Two hard exclusions override the score: a box covering less than $1\%$ of the frame, or one extending beyond the image boundary, forces $Q = 0$. An image with no detection at all is dropped rather than kept as a hard example, since it carries no ground-truth box and could only produce false positives.
+--- rephrased
+\Cref{tab:quality-score-components} defines the four components. Two hard exclusions override the score. A box that covers less than $1\%$ of the frame or extends beyond the image boundary forces $Q = 0$. An image with no detection is discarded rather than retained as a hard example since it lacks a ground-truth box and could only generate false positives.
+--- final
+\Cref{tab:quality-score-components} defines the four components. Two hard exclusions override the score. A box that covers less than $1\%$ of the frame or extends beyond the image boundary forces $Q = 0$. An image with no detection is discarded rather than retained as a hard example since it lacks a ground-truth box and could only generate false positives.
+--- verdict
+rephrased: meaning preserved, both exclusion conditions and the "no detection" rule intact. risk: high
+
+
+#### P021  32-Data_Quality_and_Curation.tex:130  flags: -
+## section: Quality Scoring and Split Assembly
+--- original
+The three splits are then drawn under deliberately different rules. The test set is drawn first and stratified so that its source mixture mirrors the class's actual pool, since it estimates behavior on the operating distribution. Training images are then taken greedily by quality score from what remains. Validation is sampled from the $30$th to $70$th percentile of $Q$ under a fixed seed, because training has skimmed the top and a random validation set would be easier than the data the model will face.
+--- rephrased
+The three splits are drawn under different, deliberate rules. First, the test set is drawn and stratified so that its source mixture mirrors the actual pool of the class, since it estimates behavior on the operating distribution. Training images are then taken by quality score from what remains. Validation samples are drawn from the $30$th to $70$th percentile of $Q$ under a fixed seed because the training set has skimmed the top, and a random validation set would resemble the data that the model will encounter more closely.
+--- final
+The three splits are drawn under different, deliberate rules. First, the test set is drawn and stratified so that its source mixture mirrors the actual pool of the class, since it estimates behavior on the operating distribution. Training images are then taken greedily by quality score from what remains. Validation is sampled from the $30$th to $70$th percentile of $Q$ under a fixed seed, because training has skimmed the top and a random validation set would be easier than the data the model will face.
+--- verdict
+merged: restored "greedily" (dropped by DeepL) and reverted the final clause, which DeepL inverted into its opposite claim ("would resemble the data...more closely" instead of "would be easier than the data the model will face"); kept DeepL's s1 and s2. risk: high
+
+
+#### P022  32-Data_Quality_and_Curation.tex:132  flags: -
+## section: Quality Scoring and Split Assembly
+--- original
+For the largest classes (Band D, \Cref{sec:band_structure}) a soft source-diversity cap limits any single source to at most $60\%$ of a class's training images, so that one source's photographic style does not become the feature the model learns. The background and human images sit outside this logic, split in fixed proportions. What these rules produce, class by class, is the dataset the rest of the work trains on.
+--- rephrased
+For the largest classes (B and D, \Cref{sec:band_structure}), a soft source diversity cap limits any single source to a maximum of $60\%$ of a class's training images. This ensures that the model does not learn one source's photographic style as the defining feature. Background and human images are outside this logic and are split in fixed proportions. These rules produce the dataset that the rest of the work trains on, class by class.
+--- final
+For the largest classes (Band D, \Cref{sec:band_structure}) a soft source-diversity cap limits any single source to a maximum of $60\%$ of a class's training images. This ensures that the model does not learn one source's photographic style as the defining feature. Background and human images are outside this logic and are split in fixed proportions. These rules produce the dataset that the rest of the work trains on, class by class.
+--- verdict
+merged: restored "Band D" (DeepL corrupted it to "B and D") and the "source-diversity" hyphenation; kept DeepL's sentence splits otherwise. risk: high
+
+
+#### P023  32-Data_Quality_and_Curation.tex:137  flags: token-lost: 1 LaTeX span(s) came back more than once: '\\Cref{tab:final-real-composition}'
+## section: The Resulting Dataset
+--- original
+\Cref{tab:final-real-composition} gives the authoritative composition of the curated real-image dataset after the ground-truth corrections of \Cref{sec:gt_annotation_integrity}. Figures reported earlier in this section for intermediate stages are superseded by it.
+--- rephrased
+\Cref{tab:final-real-composition} gives the authoritative composition of the curated real-image dataset after the ground-truth corrections of \Cref{sec:gt_annotation_integrity}. Figures reported earlier in this section for intermediate stages are superseded by it.
+--- final
+\Cref{tab:final-real-composition} gives the authoritative composition of the curated real-image dataset after the ground-truth corrections of \Cref{sec:gt_annotation_integrity}. Figures reported earlier in this section for intermediate stages are superseded by it.
+--- verdict
+original: token-lost, DeepL's rephrase was discarded by the tooling for duplicating the \Cref span, kept original. risk: high
+
+
+#### P024  32-Data_Quality_and_Curation.tex:158  flags: -
+## section: The Resulting Dataset
+--- original
+In the exported annotation files this is $145{,}728$ training images with $187{,}705$ boxes, $12{,}543$ validation images with $19{,}732$ boxes, and $63{,}802$ test images with $92{,}094$ boxes, for $222{,}073$ real images and $299{,}531$ annotations across $225$ categories. The real images carry no hand-drawn ground truth. Every box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.
+--- rephrased
+The exported annotation files contain $145{,}728$ training images with $187{,}705$ boxes, $12{,}543$ validation images with $19{,}732$ boxes, and $63{,}802$ test images with $92{,}094$ boxes. This amounts to $222{,}073$ real images and $299{,}531$ annotations across $225$ categories. The real images have no hand-drawn ground truth. Each box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.
+--- final
+The exported annotation files contain $145{,}728$ training images with $187{,}705$ boxes, $12{,}543$ validation images with $19{,}732$ boxes, and $63{,}802$ test images with $92{,}094$ boxes. This amounts to $222{,}073$ real images and $299{,}531$ annotations across $225$ categories. The real images have no hand-drawn ground truth. Each box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.
+--- verdict
+rephrased: all figures and meaning preserved, "rather than" already present in the original. risk: high
+
+

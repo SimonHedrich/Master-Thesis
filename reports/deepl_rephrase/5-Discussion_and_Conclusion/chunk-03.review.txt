@@ -1,0 +1,259 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 5-Discussion_and_Conclusion.tex: 11 paragraphs -->
+
+#### P029  5-Discussion_and_Conclusion.tex:83  flags: semicolon
+## section: Further Work
+--- original
+\item \textbf{Retroactive confidence intervals.} Bootstrap resampling over the stored per-image predictions would give every comparison the significance test it lacks, without retraining anything. The suite already accepts a resample count and the artifacts are archived, so the cost is compute rather than redesign. The comparisons that need it most are Band B against Band C and the two tied generator tiers.
+--- rephrased
+\item \textbf{Retroactive confidence intervals.} Using bootstrap resampling on the stored per-image predictions would provide a significance test for every comparison without retraining anything. The suite already accepts a resample count, and the artifacts are archived; therefore, the cost is computational rather than redesign. The comparisons that need it most are Band B against Band C, as well as the two tied generator tiers.
+--- final
+
+--- verdict
+original: rephrased joined two clauses with a semicolon and "therefore" (semicolon flag), a house-style violation the original avoids without loss. risk: low
+
+
+#### P030  5-Discussion_and_Conclusion.tex:84  flags: -
+## section: Further Work
+--- original
+\item \textbf{Re-scoring the archived predictions.} Evaluating \textit{YOLO26n} from raw COCO weights is one run and the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on the images holding more than one animal is the concrete test of distillation's expected supervision advantage, and both prediction sets are archived, so it needs no retraining.
+--- rephrased
+\item \textbf{Re-scoring the archived predictions.} Evaluating \textit{YOLO26n} from raw COCO weights requires only one run and is the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on images with more than one animal tests the expected advantage of distillation's supervision, and both prediction sets are archived, so no retraining is necessary.
+--- final
+\item \textbf{Re-scoring the archived predictions.} Evaluating \textit{YOLO26n} from raw COCO weights requires only one run and is the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on images with more than one animal tests the expected advantage of distillation's supervision, and both prediction sets are archived, so no retraining is necessary.
+--- verdict
+rephrased: DeepL's wording preserves the claim, scope, and mechanism unchanged, no term or hedge lost. risk: high
+
+
+#### P031  5-Discussion_and_Conclusion.tex:85  flags: -
+## section: Further Work
+--- original
+\item \textbf{A wider distillation design space.} Question $1$'s answer is scoped to one cell, so the direct follow-on is the sweep over temperature $T$ and blend weight $\alpha$ that \Cref{sec:kd_loss} was written around. Two further axes matter more: closing the parameter ratio of roughly $70$ to $1$ with an intermediate-capacity teacher assistant, which is the remedy \Cref{sec:lit_knowledge_distillation} reports for this configuration, and attention-aware detection distillation. Any repeat should hold the effective batch size equal across the two setups, which the comparison reported here did not.
+--- rephrased
+\item \textbf{A wider distillation design space.} The answer to Question $1$ is limited to one cell. The next step is to perform a sweep over temperature $T$ and blend weight $\alpha$, which \Cref{sec:kd_loss} was written around. Two further axes matter more: closing the parameter ratio to roughly $70$:$1$ with an intermediate-capacity teacher assistant (the remedy reported by \Cref{sec:lit_knowledge_distillation} for this configuration) and attention-aware detection distillation. Any repeat should maintain an equal effective batch size across the two setups, which the comparison reported here did not do.
+--- final
+
+--- verdict
+original: kept the "$70$ to $1$" ratio wording used elsewhere in this chapter over DeepL's "$70$:$1$", and the original's tighter Cref placement. risk: low
+
+
+#### P032  5-Discussion_and_Conclusion.tex:86  flags: format-lost: \textbf{The blind rating rubric.}
+## section: Further Work
+--- original
+\item \textbf{The blind rating rubric.} The rubric of \Cref{sec:generator_comparison_evaluation} remains fully specified and directly executable on the archived images, and it needs raters rather than compute. It is the axis that would resolve the rare-class question the executed axis has no power over.
+--- rephrased
+\item The Blind Rating Rubric The \Cref{sec:generator_comparison_evaluation} rubric is fully specified and can be executed directly on the archived images. It requires raters rather than computation. It is the axis that resolves the rare-class question over which the executed axis has no power.
+--- final
+
+--- verdict
+original: rephrased dropped the \textbf{} heading entirely (format-lost) and flattened "would resolve" into a flat "resolves", losing the hedge on an axis that has not been executed. risk: low
+
+
+#### P033  5-Discussion_and_Conclusion.tex:87  flags: -
+## section: Further Work
+--- original
+\item \textbf{The watchdog revision.} Restoring the real test set as the reported default is outstanding, and nothing blocks it but the rewriting effort, since every table already holds both domains. Redesigning the mixed condition is the larger version of that task, because the synthetic test set holds one centered animal per image and is easier for that reason alone.
+--- rephrased
+\item \textbf{The watchdog revision.} Restoring the real test set as the reported default is outstanding and can be done without any obstacles, since every table already holds both domains. Redesigning the mixed condition is a larger version of that task because the synthetic test set contains one animal in the center of each image, making it easier.
+--- final
+
+--- verdict
+original: rephrased dropped the "nothing blocks it but the rewriting effort" exception, claiming no obstacles at all, and dropped "for that reason alone", both scope changes. risk: low
+
+
+#### P034  5-Discussion_and_Conclusion.tex:90  flags: -
+## section: Further Work
+--- original
+The first item decides whether the system is deployable at all. The rest decide how well it would perform once it is.
+--- rephrased
+The first item determines whether the system can be deployed at all. The rest determine how well it will perform.
+--- final
+
+--- verdict
+original: rephrased dropped the "once it is [deployable]" conditional link between the two sentences, and "will" for "would" loses that conditioning. risk: low
+
+
+#### P035  5-Discussion_and_Conclusion.tex:95  flags: -
+## section: Conclusion
+--- original
+This work set out to build, train and evaluate a nano-scale detector for wildlife species recognition on embedded hardware, over a class universe of $225$ mammal species of which $50$ retain fewer than $150$ usable real photographs each. The substantive contribution sits in two sub-studies, while the distillation and deployment questions were each answered at a single design point.
+--- rephrased
+This work aimed to develop, train, and evaluate a nanoscale detector for recognizing wildlife species on embedded hardware. The detector was tested on a universe of $225$ mammal species, $50$ of which had fewer than $150$ usable photographs. Two sub-studies made the most significant contributions, while the distillation and deployment questions were each answered at a single design point.
+--- final
+
+--- verdict
+original: rephrased dropped "real" before "photographs" (the real-vs-synthetic distinction), de-hyphenated "nano-scale", and reworded "the substantive contribution sits in two sub-studies" into a weaker superlative claim. risk: low
+
+
+#### P036  5-Discussion_and_Conclusion.tex:97  flags: format-lost: $12$
+## section: Conclusion
+--- original
+The first is a controlled comparison of twelve generator and prompt-regime cells, each supplying $1{,}200$ synthetic training images of the same $12$ classes to the same detector under the same schedule. Neither criterion available before a detector is trained predicts what it achieves. The generator chosen for the production dataset on apparent realism ranks third of twelve, and per-image price is unrelated to outcome in both vendor families and the local grid. Prompt detail outranks generator identity, since compressing the prompt roughly halves downstream accuracy while the spread across generators under their best prompt is smaller. For the long-tail classes that motivated generating images at all, the comparison establishes that its own instrument has no resolution.
+--- rephrased
+The first criterion is a controlled comparison of twelve generator and prompt-regime cells. Each cell supplies $1{,}200$ synthetic training images of the same twelve classes to the same detector under the same schedule. No available criterion before training a detector predicts its outcome. The generator selected for the production dataset based on apparent realism ranks third out of twelve. Additionally, per-image price is unrelated to the outcome in both vendor families and the local grid. Prompt detail outranks generator identity since compressing the prompt roughly halves the accuracy of the downstream process, whereas the spread across generators under their best prompt is smaller. For the long-tail classes that motivated the generation of images in the first place, the comparison shows that the instrument itself has no resolution.
+--- final
+The first is a controlled comparison of twelve generator and prompt-regime cells. Each cell supplies $1{,}200$ synthetic training images of the same $12$ classes to the same detector under the same schedule. Neither criterion available before a detector is trained predicts what it achieves. The generator selected for the production dataset based on apparent realism ranks third out of twelve, and per-image price is unrelated to the outcome in both vendor families and the local grid. Prompt detail outranks generator identity since compressing the prompt roughly halves the accuracy of the downstream process, whereas the spread across generators under their best prompt is smaller. For the long-tail classes that motivated the generation of images in the first place, the comparison shows that the instrument itself has no resolution.
+--- verdict
+merged: dropped rephrased's inserted "criterion" (not in the original, and confusable with the criterion discussed two sentences later), restored $12$ as math (format-lost), kept original's "Neither" pairing with the two criteria that follow, kept the rest of DeepL's wording. risk: high
+
+
+#### P037  5-Discussion_and_Conclusion.tex:99  flags: wrap-reordered: 0.045, wrap-reordered: YOLOv5s, wrap-reordered: 0.300, wrap-reordered: 0.591
+## section: Conclusion
+--- original
+The second is the band comparison at a matched $200$-image training budget. Replacing half of a small real training set with synthetic imagery produces no measurable loss for the primary detector or the fine-tuned teacher, at $0.588$ against $0.591$ mAP on the real test set, and a loss of $0.045$ for \textit{YOLOv5s}. Replacing all of it roughly halves accuracy, at $0.300$ against $0.591$. Both rest on single runs and on bands that hold different species, so they are directional rather than exact. The paired per-class domain-shift delta then fired the watchdog attached to the mixed default, and the designed revision did not follow within the available time, which is the one protocol deviation this work discloses.
+--- rephrased
+Second is the band comparison with a matched training budget of $200$ images. Replacing half of a small real training set with synthetic images results in no measurable loss for the primary detector or the fine-tuned teacher. The mAP is $0.588$ and $0.591$ on the real test set, respectively, and the loss for \textit{YOLOv5s} is $0.045$. However, replacing all of the real training set with synthetic imagery roughly halves the accuracy to $0.300$ against $0.591$. Both rest on single runs and bands containing different species, making them directional rather than exact. The paired per-class domain shift delta then triggered the watchdog attached to the mixed default. The designed revision did not occur within the available time, which is the only protocol deviation disclosed by this work.
+--- final
+The second is the band comparison at a matched $200$-image training budget. Replacing half of a small real training set with synthetic images results in no measurable loss for the primary detector or the fine-tuned teacher, at $0.588$ against $0.591$ mAP on the real test set, and a loss of $0.045$ for \textit{YOLOv5s}. Replacing all of the real training set with synthetic imagery roughly halves the accuracy to $0.300$ against $0.591$. Both rest on single runs and bands containing different species, making them directional rather than exact. The paired per-class domain-shift delta then triggered the watchdog attached to the mixed default. The designed revision did not occur within the available time, which is the one protocol deviation this work discloses.
+--- verdict
+merged: kept the original's single number sentence rather than DeepL's "respectively", which implies the $0.588$/$0.591$ pair are two separate models' scores, a claim the original does not make. Restored the "domain-shift" hyphen and "this work discloses" for active voice, kept DeepL's sentence splits and other wording. risk: high
+
+
+#### P038  5-Discussion_and_Conclusion.tex:101  flags: -
+## section: Conclusion
+--- original
+On the central question, distillation from the fine-tuned teacher lost to direct fine-tuning in all $17$ reported cells, at $0.599$ against $0.560$ mAP on the mixed test set and $0.529$ against $0.479$ on the real one. That is a negative result at one $(T, \alpha)$ point, with one pairing at a parameter ratio of roughly $70$ to $1$, and three disclosed asymmetries keep it from being a clean single-factor comparison. It is nonetheless useful to anyone weighing the same architecture-scale gap, because the simpler recipe won on every axis measured, by the widest margin on the thin-data band where the teacher's soft targets were expected to help most.
+--- rephrased
+Regarding the central question, distillation from the fine-tuned teacher performed worse than direct fine-tuning in all $17$ reported cells. The results were $0.599$ versus $0.560$ mAP on the mixed test set and $0.529$ versus $0.479$ on the real one. This is a negative result at a single $(T, \alpha)$ point with one pairing at a parameter ratio of approximately $70$:$1$. Three asymmetries prevent a clean, single-factor comparison. Nevertheless, it is useful for those considering the same architecture-scale gap because the simpler recipe won on every measured axis, with the widest margin on the thin-data band where the teacher's soft targets were expected to help the most.
+--- final
+Regarding the central question, distillation from the fine-tuned teacher performed worse than direct fine-tuning in all $17$ reported cells. The results were $0.599$ versus $0.560$ mAP on the mixed test set and $0.529$ versus $0.479$ on the real one. This is a negative result at a single $(T, \alpha)$ point with one pairing at a parameter ratio of roughly $70$ to $1$. Three disclosed asymmetries prevent a clean single-factor comparison. Nevertheless, it is useful for those considering the same architecture-scale gap because the simpler recipe won on every measured axis, with the widest margin on the thin-data band where the teacher's soft targets were expected to help the most.
+--- verdict
+merged: restored "disclosed" before "asymmetries" (dropped by DeepL) and the "$70$ to $1$" ratio wording used elsewhere in this chapter, kept DeepL's sentence splits and other wording. risk: high
+
+
+#### P039  5-Discussion_and_Conclusion.tex:103  flags: token-lost: 1 LaTeX span(s) did not come back: '\\,'
+## section: Conclusion
+--- original
+\textit{YOLO26n} under direct fine-tuning is at once the smallest, the most accurate and the fastest detector measured here, at $2.71\,\mathrm{M}$ parameters, $0.599$ mAP on the mixed test set with $0.529$ on the real test set, and $423$\,ms per frame on the proxy device. That last figure is roughly twelve times the target hardware's per-frame budget, and no full-precision model measured here comes closer. No accuracy target was set for this work, and nothing in these measurements identifies accuracy as the obstacle to deployment. What measurably stands between this detector and a shippable model is a compression pass, and the accelerated path such a pass would target has not been measured at all.
+--- rephrased
+\textit{YOLO26n} under direct fine-tuning is at once the smallest, the most accurate and the fastest detector measured here, at $2.71\,\mathrm{M}$ parameters, $0.599$ mAP on the mixed test set with $0.529$ on the real test set, and $423$\,ms per frame on the proxy device. That last figure is roughly twelve times the target hardware's per-frame budget, and no full-precision model measured here comes closer. No accuracy target was set for this work, and nothing in these measurements identifies accuracy as the obstacle to deployment. What measurably stands between this detector and a shippable model is a compression pass, and the accelerated path such a pass would target has not been measured at all.
+--- final
+
+--- verdict
+original: token-lost, DeepL dropped the '\,' spacing token so the tooling discarded the rephrase and the original stands unchanged. risk: low
+
+

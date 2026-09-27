@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 2-Literature_Review.tex: 12 paragraphs -->
+
+#### P025  2-Literature_Review.tex:71  flags: -
+## section: Generative Models for Image Synthesis
+--- original
+Deep generative image modeling was dominated for a decade by adversarial training, in which a generator and a discriminator are optimized against each other in a minimax game \cite{goodfellowGenerativeAdversarialNetworks2014}. The objective is notoriously unstable to optimize, and it admits a degenerate mode in which the generator collapses many inputs onto a single output.
+--- rephrased
+For a decade, deep generative image modeling was dominated by adversarial training, in which a generator and a discriminator are optimized against each other in a minimax game \cite{goodfellowGenerativeAdversarialNetworks2014}. This objective is notoriously difficult to optimize and admits a degenerate mode in which the generator collapses many inputs onto a single output.
+--- final
+For a decade, deep generative image modeling was dominated by adversarial training, in which a generator and a discriminator are optimized against each other in a minimax game \cite{goodfellowGenerativeAdversarialNetworks2014}. The objective is notoriously unstable to optimize, and it admits a degenerate mode in which the generator collapses many inputs onto a single output.
+--- verdict
+merged, kept original s2: unstable to optimize is a specific claim, not merely difficult. risk: high
+
+
+#### P026  2-Literature_Review.tex:73  flags: -
+## section: Generative Models for Image Synthesis
+--- original
+Diffusion models approach synthesis from a different direction. Instead of learning a single feed-forward noise-to-image mapping, they learn to reverse a fixed Markov chain that gradually corrupts an image into noise, trained by predicting the noise added at each step of the forward corruption \cite{hoDenoisingDiffusionProbabilistic2020}. Sample quality surpassed adversarial training without inheriting its instability, at the price of many sequential network evaluations per sample.
+--- rephrased
+Diffusion models approach synthesis differently. Rather than learning a single feed-forward mapping from noise to image, they learn to reverse a fixed Markov chain that gradually corrupts an image into noise \cite{hoDenoisingDiffusionProbabilistic2020}. They are trained by predicting the noise added at each step of the forward corruption process. The resulting samples surpass those from adversarial training in quality without inheriting its instability, albeit at the cost of many sequential network evaluations per sample.
+--- final
+Diffusion models approach synthesis differently. Instead of learning a single feed-forward noise-to-image mapping, they learn to reverse a fixed Markov chain that gradually corrupts an image into noise, trained by predicting the noise added at each step of the forward corruption \cite{hoDenoisingDiffusionProbabilistic2020}. The resulting samples surpass those from adversarial training in quality without inheriting its instability, albeit at the cost of many sequential network evaluations per sample.
+--- verdict
+merged, kept original s2 so the citation stays attached to the training-procedure claim it supports. risk: high
+
+
+#### P027  2-Literature_Review.tex:75  flags: cite-lowconf: \cite{rombachHighResolutionImageSynthesis2022} (0.36)
+## section: Generative Models for Image Synthesis
+--- original
+Two developments turned this into the text-to-image generation used in this work. \textit{Latent diffusion}, the basis of \textit{Stable Diffusion}, runs the diffusion process in the compressed latent space of a separately pretrained perceptual-compression autoencoder, and introduces cross-attention layers into the denoising network so that arbitrary conditioning modalities, text among them, can be attached \cite{rombachHighResolutionImageSynthesis2022}. This cuts training and inference cost by roughly an order of magnitude against pixel-space diffusion while retaining competitive synthesis quality, and it is what makes locally-hosted image generation practical on a single accelerator at all.
+--- rephrased
+Two developments led to the text-to-image generation used in this work. \textit{Latent diffusion}, the basis of \textit{Stable Diffusion}, runs the diffusion process in the compressed latent space of a pretrained perceptual compression autoencoder \cite{rombachHighResolutionImageSynthesis2022}. It also introduces cross-attention layers into the denoising network, allowing for the attachment of arbitrary conditioning modalities, including text. This reduces training and inference costs by about tenfold compared to pixel-space diffusion, while maintaining competitive synthesis quality. This makes locally hosted image generation practical on a single accelerator.
+--- final
+Two developments turned this into the text-to-image generation used in this work. \textit{Latent diffusion}, the basis of \textit{Stable Diffusion}, runs the diffusion process in the compressed latent space of a separately pretrained perceptual-compression autoencoder, and introduces cross-attention layers into the denoising network so that arbitrary conditioning modalities, text among them, can be attached \cite{rombachHighResolutionImageSynthesis2022}. This cuts training and inference cost by roughly an order of magnitude against pixel-space diffusion while retaining competitive synthesis quality, and it is what makes locally-hosted image generation practical on a single accelerator at all.
+--- verdict
+original, cite-lowconf split would detach the citation from the cross-attention claim and drops separately. risk: high
+
+
+#### P028  2-Literature_Review.tex:77  flags: wrap-case: Classifier-free guidance -> classifier-free guidance
+## section: Generative Models for Image Synthesis
+--- original
+\textit{Classifier-free guidance} governs the trade-off between sample fidelity and sample diversity \cite{hoClassifierFreeDiffusionGuidance2022}. A single network is trained jointly as a conditional and an unconditional diffusion model, by randomly dropping the conditioning signal during training, and at sampling time the two score estimates are linearly extrapolated. Raising the guidance scale pushes samples toward the conditioning text and away from the unconditional prior, sharpening prompt adherence at the expense of variety. Essentially every text-conditioned diffusion model now exposes this as a sampling parameter, and it is one of the generation settings this work has to fix (\Cref{sec:synthetic_generation_pipeline}).
+--- rephrased
+The trade-off between sample fidelity and diversity is governed by \textit{Classifier-free guidance} \cite{hoClassifierFreeDiffusionGuidance2022}. A single network is jointly trained as both a conditional and an unconditional diffusion model by randomly dropping the conditioning signal during training. At sampling time, the two score estimates are linearly extrapolated. Increasing the guidance scale pushes samples toward the conditioning text and away from the unconditional prior, thereby sharpening prompt adherence at the expense of variety. Nearly every text-conditioned diffusion model now offers this as a sampling parameter, and it is one of the generation settings that this work must address (\Cref{sec:synthetic_generation_pipeline}).
+--- final
+\textit{Classifier-free guidance} governs the trade-off between sample fidelity and sample diversity \cite{hoClassifierFreeDiffusionGuidance2022}. A single network is jointly trained as both a conditional and an unconditional diffusion model by randomly dropping the conditioning signal during training. At sampling time, the two score estimates are linearly extrapolated. Increasing the guidance scale pushes samples toward the conditioning text and away from the unconditional prior, thereby sharpening prompt adherence at the expense of variety. Nearly every text-conditioned diffusion model now offers this as a sampling parameter, and it is one of the generation settings this work has to fix (\Cref{sec:synthetic_generation_pipeline}).
+--- verdict
+merged, kept original s1 for the wrap-case term and restored has to fix over the broader must address. risk: high
+
+
+#### P029  2-Literature_Review.tex:79  flags: cite-moved: \cite{radfordLearningTransferableVisual2021}
+## section: Generative Models for Image Synthesis
+--- original
+A second axis, orthogonal to the architectural one, is how much natural-language information a model can condition on at all. An open diffusion checkpoint inherits its text-conditioning limit from whichever text encoder it uses. Checkpoints conditioned on \textit{CLIP}, a contrastively trained image and text encoder \cite{radfordLearningTransferableVisual2021}, are capped at $77$ tokens by its transformer text branch, an architectural limit rather than a recommendation. Later checkpoints pair a CLIP-family encoder with \textit{T5}, an encoder-decoder transformer pretrained at a maximum sequence length of $512$ tokens \cite{raffelExploringLimitsTransfer2023}. That raises usable prompt length by roughly an order of magnitude and measurably improves adherence on complex, highly detailed prompts, while affecting general aesthetic quality only slightly \cite{esserScalingRectifiedFlow2024}.
+--- rephrased
+A second axis, perpendicular to the architectural one, is the amount of natural language information on which a model can be conditioned. An open diffusion checkpoint inherits its text-conditioning limit from the text encoder it uses. Checkpoints that are conditioned on \textit{CLIP} (a contrastively trained image and text encoder) are capped at $77$ tokens by its transformer text branch \cite{radfordLearningTransferableVisual2021}. This is an architectural limit rather than a recommendation. Later checkpoints pair a CLIP-family encoder with \textit{T5}, an encoder-decoder transformer pretrained at a maximum sequence length of $512$ tokens \cite{raffelExploringLimitsTransfer2023}. This increases the usable prompt length by about an order of magnitude and measurably improves performance on complex, highly detailed prompts while only slightly affecting general aesthetic quality \cite{esserScalingRectifiedFlow2024}.
+--- final
+A second axis, orthogonal to the architectural one, is the amount of natural language information on which a model can be conditioned. An open diffusion checkpoint inherits its text-conditioning limit from the text encoder it uses. Checkpoints conditioned on \textit{CLIP}, a contrastively trained image and text encoder, are capped at $77$ tokens by its transformer text branch \cite{radfordLearningTransferableVisual2021}. This is an architectural limit rather than a recommendation. Later checkpoints pair a CLIP-family encoder with \textit{T5}, an encoder-decoder transformer pretrained at a maximum sequence length of $512$ tokens \cite{raffelExploringLimitsTransfer2023}. This increases the usable prompt length by roughly an order of magnitude and measurably improves adherence on complex, highly detailed prompts while only slightly affecting general aesthetic quality \cite{esserScalingRectifiedFlow2024}.
+--- verdict
+merged, restored orthogonal, roughly, and adherence, accepted the citation moved onto the token-cap sentence. risk: high
+
+
+#### P030  2-Literature_Review.tex:81  flags: cite-moved: \cite{openaiDALLECreatingImages2021}
+## section: Generative Models for Image Synthesis
+--- original
+Large proprietary providers moved in the opposite direction from these openly released, self-hostable checkpoints. Hosted text-to-image and image-editing services, such as \textit{Gemini} image generation and the \textit{GPT-image} family whose lineage traces to \textit{DALL-E} \cite{openaiDALLECreatingImages2021}, publish neither their architectures nor their text-encoder budgets, and in practice accept prompts far longer than any locally-hosted checkpoint can consume.
+--- rephrased
+Large, proprietary providers moved in the opposite direction from these openly released, self-hostable checkpoints. Hosted text-to-image and image-editing services, such as \textit{Gemini} image generation and the \textit{GPT-image} family, which traces its lineage to \textit{DALL-E}, do not publish their architectures or text-encoder budgets \cite{openaiDALLECreatingImages2021}. In practice, they accept prompts that are far longer than any locally hosted checkpoint can process.
+--- final
+Large proprietary providers moved in the opposite direction from these openly released, self-hostable checkpoints. Hosted text-to-image and image-editing services, such as \textit{Gemini} image generation and the \textit{GPT-image} family whose lineage traces to \textit{DALL-E} \cite{openaiDALLECreatingImages2021}, publish neither their architectures nor their text-encoder budgets, and in practice accept prompts far longer than any locally-hosted checkpoint can consume.
+--- verdict
+original, cite-moved reattached the DALL-E citation to the unrelated non-publishing claim. risk: high
+
+
+#### P031  2-Literature_Review.tex:83  flags: -
+## section: Generative Models for Image Synthesis
+--- original
+The gap between a hosted model's effectively unbounded prompt and an open checkpoint's fixed token ceiling is not a peripheral detail for this work. A prompt written for one cannot be reused verbatim for the other without changing what information survives, which is why prompt length is treated as a separately controlled experimental factor in the generator comparison of \Cref{sec:generator_comparison} rather than as a fixed quantity.
+--- rephrased
+For this work, the difference between a hosted model's effectively unbounded prompt and an open checkpoint's fixed token ceiling is not a peripheral detail. A prompt written for one cannot be reused verbatim for the other without altering the surviving information. This is why prompt length is treated as a separately controlled experimental factor in \Cref{sec:generator_comparison}'s generator comparison rather than as a fixed quantity.
+--- final
+For this work, the difference between a hosted model's effectively unbounded prompt and an open checkpoint's fixed token ceiling is not a peripheral detail. A prompt written for one cannot be reused verbatim for the other without altering the surviving information. This is why prompt length is treated as a separately controlled experimental factor in the generator comparison of \Cref{sec:generator_comparison} rather than as a fixed quantity.
+--- verdict
+merged, kept the original Cref phrasing over DeepL's awkward possessive wrap. risk: medium
+
+
+#### P032  2-Literature_Review.tex:88  flags: -
+## section: Synthetic Data for Object Detection and the Sim-to-Real Gap
+--- original
+Models trained purely on synthetic imagery can transfer to real-world perception tasks, provided the synthetic data is constructed with transfer in mind. This was established in robotics and computer vision long before diffusion-based image generation existed.
+--- rephrased
+Models trained purely on synthetic imagery can be applied to real-world perception tasks if the synthetic data is designed with transferability in mind. This concept was established in robotics and computer vision long before the existence of diffusion-based image generation.
+--- final
+Models trained purely on synthetic imagery can transfer to real-world perception tasks, provided the synthetic data is constructed with transfer in mind. This concept was established in robotics and computer vision long before the existence of diffusion-based image generation.
+--- verdict
+merged, kept original s1 since transfer is the operative term DeepL replaced with applied. risk: medium
+
+
+#### P033  2-Literature_Review.tex:90  flags: -
+## section: Synthetic Data for Object Detection and the Sim-to-Real Gap
+--- original
+\textit{Domain randomization} showed it in the starkest form. An object-localization network trained exclusively on low-fidelity renders, with randomized and deliberately non-photorealistic textures, lighting, camera pose, and distractor objects, reached centimeter-level real-world localization accuracy with no real-image pretraining at all \cite{tobinDomainRandomizationTransferring2017}. The hypothesis behind it is that with sufficient variability in the simulated distribution, the real world appears to the model as one more random variation rather than as a distinct domain, which runs directly counter to the intuition that closing the sim-to-real gap requires photorealism. Extended to full 2D detection, a domain-randomized detector trained on non-photorealistic renders over random real-photo backgrounds matched or beat one trained on a much higher-fidelity synthetic dataset purpose-built to resemble the real \textit{KITTI} test distribution. Fine-tuning it afterward on a modest amount of real data improved results beyond training on real data alone \cite{tremblayTrainingDeepNetworks2018}.
+--- rephrased
+\textit{Domain randomization} revealed this in the starkest form. An object-localization network that was trained exclusively on low-fidelity renders with randomized, non-photorealistic textures, lighting, camera poses, and distractor objects reached centimeter-level, real-world localization accuracy without any pretraining on real images \cite{tobinDomainRandomizationTransferring2017}. The hypothesis is that, with sufficient variability in the simulated distribution, the real world appears to the model as just another random variation rather than a distinct domain. This runs counter to the intuition that closing the simulation-to-reality gap requires photorealism. When extended to full 2D detection, a domain-randomized detector that was trained using non-photorealistic renders over random real-photo backgrounds matched or surpassed the performance of a detector that was trained using a much higher-fidelity synthetic dataset that was designed to resemble the real \textit{KITTI} test distribution. Fine-tuning afterward on a modest amount of real data improved the results beyond those achieved by training on real data alone \cite{tremblayTrainingDeepNetworks2018}.
+--- final
+\textit{Domain randomization} revealed this in the starkest form. An object-localization network that was trained exclusively on low-fidelity renders with randomized, non-photorealistic textures, lighting, camera poses, and distractor objects reached centimeter-level, real-world localization accuracy without any pretraining on real images \cite{tobinDomainRandomizationTransferring2017}. The hypothesis is that, with sufficient variability in the simulated distribution, the real world appears to the model as just another random variation rather than a distinct domain. This runs counter to the intuition that closing the sim-to-real gap requires photorealism. When extended to full 2D detection, a domain-randomized detector that was trained using non-photorealistic renders over random real-photo backgrounds matched or surpassed the performance of a detector that was trained using a much higher-fidelity synthetic dataset that was designed to resemble the real \textit{KITTI} test distribution. Fine-tuning afterward on a modest amount of real data improved the results beyond those achieved by training on real data alone \cite{tremblayTrainingDeepNetworks2018}.
+--- verdict
+merged, restored the term sim-to-real gap where DeepL wrote simulation-to-reality. risk: high
+
+
+#### P034  2-Literature_Review.tex:92  flags: rather-than
+## section: Synthetic Data for Object Detection and the Sim-to-Real Gap
+--- original
+Generative models pose a harder version of the same problem, because the synthetic distribution is now defined implicitly by a learned generator instead of by an explicit, controllable rendering pipeline. Diffusion output layered on top of a strong pretrained feature extractor measurably improves zero-shot classification, but the same synthetic data used to train a classifier from scratch underperforms real data by a wide margin, requiring roughly five times as many synthetic images to match what real images of the same classes achieve \cite{heSyntheticDataGenerative2023}. A strong pretrained representation can partially absorb the gap between generated and real imagery. Raw supervised training cannot.
+--- rephrased
+Generative models pose a more difficult version of the same problem because the synthetic distribution is now implicitly defined by a learned generator rather than an explicit, controllable rendering pipeline. While diffusion output layered on top of a strong pretrained feature extractor measurably improves zero-shot classification, the same synthetic data used to train a classifier from scratch underperforms real data by a wide margin \cite{heSyntheticDataGenerative2023}. It requires roughly five times as many synthetic images to match the performance of real images of the same classes. A strong pretrained representation can partially bridge the gap between generated and real imagery. Raw supervised training cannot.
+--- final
+Generative models pose a harder version of the same problem, because the synthetic distribution is now defined implicitly by a learned generator instead of by an explicit, controllable rendering pipeline. Diffusion output layered on top of a strong pretrained feature extractor measurably improves zero-shot classification, but the same synthetic data used to train a classifier from scratch underperforms real data by a wide margin, requiring roughly five times as many synthetic images to match what real images of the same classes achieve \cite{heSyntheticDataGenerative2023}. A strong pretrained representation can partially absorb the gap between generated and real imagery. Raw supervised training cannot.
+--- verdict
+original, rather-than flag plus the five-times figure would lose its citation if split off. risk: high
+
+
+#### P035  2-Literature_Review.tex:94  flags: cite-lowconf: \cite{aziziSyntheticDataDiffusion2023} (0.46)
+## section: Synthetic Data for Object Detection and the Sim-to-Real Gap
+--- original
+The gap narrows substantially when the generator itself is fine-tuned on the target domain rather than merely prompted. A diffusion model fine-tuned on the target label space produces images good enough to train a classifier that scores competitively on the real validation set, though still short of real-data training \cite{aziziSyntheticDataDiffusion2023}. Naively prompting an off-the-shelf model with short class-name prompts, by contrast, produces a very poor classifier, and contemporaneous work found that unmodified open-checkpoint output added nothing at all when mixed into real training data \cite{aziziSyntheticDataDiffusion2023}. Raw visual fidelity of the generator is therefore not the operative variable. Alignment between the generator's learned distribution and the target label space and appearance distribution is.
+--- rephrased
+The gap narrows substantially when the generator is fine-tuned on the target domain instead of just prompted. A diffusion model fine-tuned on the target label space can produce images good enough to train a classifier that can compete with real-data training on the real validation set \cite{aziziSyntheticDataDiffusion2023}. In contrast, naively prompting an off-the-shelf model with short class-name prompts produces a very poor classifier \cite{aziziSyntheticDataDiffusion2023}. Other work has found that unmodified open-checkpoint output does not improve performance when mixed into real training data. Therefore, raw visual fidelity of the generator is not the operative variable. Rather, alignment between the generator's learned distribution and the target label space and appearance distribution is the operative variable.
+--- final
+The gap narrows substantially when the generator itself is fine-tuned on the target domain rather than merely prompted. A diffusion model fine-tuned on the target label space produces images good enough to train a classifier that scores competitively on the real validation set, though still short of real-data training \cite{aziziSyntheticDataDiffusion2023}. Naively prompting an off-the-shelf model with short class-name prompts, by contrast, produces a very poor classifier, and contemporaneous work found that unmodified open-checkpoint output added nothing at all when mixed into real training data \cite{aziziSyntheticDataDiffusion2023}. Raw visual fidelity of the generator is therefore not the operative variable. Alignment between the generator's learned distribution and the target label space and appearance distribution is.
+--- verdict
+original, DeepL dropped the though still short of real-data training hedge and contemporaneous, cite-lowconf split risked losing the second finding's citation. risk: high
+
+
+#### P036  2-Literature_Review.tex:96  flags: cite-lowconf: \cite{hedrichGeneratingSyntheticDatasets2026} (0.49), semicolon
+## section: Synthetic Data for Object Detection and the Sim-to-Real Gap
+--- original
+Constraining generation to stay close to a real reference image is a third position on the same axis. Editing real images semantically, rather than generating them from scratch, and using per-class embeddings learned from as few as one labeled example, outperforms both geometric augmentation and unconstrained diffusion augmentation in fine-grained few-shot settings \cite{trabuccoEffectiveDataAugmentation2025}. Keeping the object's own pixels real and synthesizing only the context around it sharpens the caveat. In earlier work by the present author, a detector trained on real car cutouts pasted onto generated backgrounds improved substantially over the unaugmented baseline, but a control filling the same canvas with per-pixel random noise instead of generated context did at least as well at every substitution ratio tested \cite{hedrichGeneratingSyntheticDatasets2026}. The gain followed from the shifted relative-object-size distribution, not from the realism of the surrounding pixels. That study covered one class, one detector, and one evaluation dataset, so it supports only the narrow conclusion that generator realism cannot be assumed to be the operative variable in downstream detector accuracy.
+--- rephrased
+A third position on the same axis is constraining generation to stay close to a real reference image. Semantically editing real images, rather than generating them from scratch, and using per-class embeddings learned from as few as one labeled example outperforms geometric and unconstrained diffusion augmentations in fine-grained, few-shot settings \cite{trabuccoEffectiveDataAugmentation2025}. Keeping the object's pixels real while synthesizing the surrounding context sharpens the caveat. In earlier work by the present author, a detector trained on real car cutouts pasted onto generated backgrounds substantially improved upon the unaugmented baseline \cite{hedrichGeneratingSyntheticDatasets2026}. However, a control that filled the same canvas with per-pixel random noise instead of generated context performed similarly at every substitution ratio tested. This improvement came from the altered relative object size distribution, not the realism of the surrounding pixels. That study covered one class, one detector, and one evaluation dataset; therefore, it supports only the narrow conclusion that generator realism cannot be assumed to be the operative variable in downstream detector accuracy.
+--- final
+Constraining generation to stay close to a real reference image is a third position on the same axis. Editing real images semantically, rather than generating them from scratch, and using per-class embeddings learned from as few as one labeled example, outperforms both geometric augmentation and unconstrained diffusion augmentation in fine-grained few-shot settings \cite{trabuccoEffectiveDataAugmentation2025}. Keeping the object's own pixels real and synthesizing only the context around it sharpens the caveat. In earlier work by the present author, a detector trained on real car cutouts pasted onto generated backgrounds improved substantially over the unaugmented baseline, but a control filling the same canvas with per-pixel random noise instead of generated context did at least as well at every substitution ratio tested \cite{hedrichGeneratingSyntheticDatasets2026}. The gain followed from the shifted relative-object-size distribution, not from the realism of the surrounding pixels. That study covered one class, one detector, and one evaluation dataset, so it supports only the narrow conclusion that generator realism cannot be assumed to be the operative variable in downstream detector accuracy.
+--- verdict
+original, restored the did at least as well hedge and kept the citation on the control finding, avoids the introduced semicolon. risk: high
+
+

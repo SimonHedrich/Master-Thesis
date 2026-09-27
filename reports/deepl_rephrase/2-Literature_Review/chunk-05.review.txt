@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 2-Literature_Review.tex: 12 paragraphs -->
+
+#### P049  2-Literature_Review.tex:128  flags: rather-than
+## section: Synthetic Data for Long-Tail and Rare-Class Problems
+--- original
+Cost-sensitive re-weighting works on the loss instead of the data. Weighting each class's loss by the inverse of its effective number of samples, a quantity derived from the diminishing marginal information that additional, likely-overlapping samples of a well-represented class contribute, improves long-tailed accuracy across image benchmarks \cite{cuiClassBalancedLossBased2019}. Enforcing a proportionally larger decision-boundary margin for rarer classes, deferred to a later training stage to avoid the optimization difficulties that re-weighting from the start is known to cause, achieves the same from the margin side \cite{caoLearningImbalancedDatasets2019}. Both change how existing images are counted during training, not whether enough of them exist to represent a class's visual diversity.
+--- rephrased
+Cost-sensitive reweighting operates on the loss rather than the data. Weighting each class's loss by the inverse of its effective number of samples improves long-tailed accuracy across image benchmarks \cite{cuiClassBalancedLossBased2019}. This quantity is derived from the diminishing marginal information that additional, likely overlapping samples of a well-represented class contribute. Deferring the enforcement of a proportionally larger decision-boundary margin for rarer classes to a later training stage, which avoids the optimization difficulties that re-weighting from the start is known to cause, achieves the same result \cite{caoLearningImbalancedDatasets2019}. Both methods change how existing images are counted during training but do not affect whether there are enough images to represent a class's visual diversity.
+--- final
+Cost-sensitive re-weighting works on the loss instead of the data. Weighting each class's loss by the inverse of its effective number of samples improves long-tailed accuracy across image benchmarks \cite{cuiClassBalancedLossBased2019}. This quantity is derived from the diminishing marginal information that additional, likely-overlapping samples of a well-represented class contribute. Deferring the enforcement of a proportionally larger decision-boundary margin for rarer classes to a later training stage, which avoids the optimization difficulties that re-weighting from the start is known to cause, achieves the same result \cite{caoLearningImbalancedDatasets2019}. Both methods change how existing images are counted during training but do not affect whether there are enough images to represent a class's visual diversity.
+--- verdict
+merged: kept original s1 (rephrasing added a "rather than" tic, "instead of" restored), kept DeepL's split of s2 into two sentences (no attribution change), kept DeepL's s4-s5. risk: high
+
+
+#### P050  2-Literature_Review.tex:130  flags: cite-lowconf: \cite{kangDecouplingRepresentationClassifier2020} (0.33)
+## section: Synthetic Data for Long-Tail and Rare-Class Problems
+--- original
+Re-balancing may not even be the right target. The best feature representations are learned under plain instance-balanced sampling, with no re-balancing during representation learning at all, and long-tailed performance is recovered afterward by re-adjusting the classifier alone \cite{kangDecouplingRepresentationClassifier2020}. That reframes the practical failure of long-tailed recognition as a biased decision boundary rather than a poorly learned representation. It presupposes, however, that a class's representation was learnable from its available images to begin with, and offers no remedy for a class whose real-image pool is too small for any sampling scheme to recover from.
+--- rephrased
+Re-balancing may not be the right target. The best feature representations are learned through plain instance-balanced sampling \cite{kangDecouplingRepresentationClassifier2020}. No rebalancing occurs during representation learning. Long-tailed performance is recovered afterward by adjusting the classifier alone. This reframes the practical failure of long-tailed recognition as a biased decision boundary rather than a poorly learned representation. However, this presupposes that a class's representation could be learned from its available images to begin with. It offers no remedy for a class whose real-image pool is too small for any sampling scheme to recover.
+--- final
+
+--- verdict
+original: cite-lowconf, the rephrasing moved \cite{kangDecouplingRepresentationClassifier2020} to cover only the first clause of a compound claim (sampling AND classifier re-adjustment) that the citation supports as a whole, and dropped "recover from" to "recover". risk: high
+
+
+#### P051  2-Literature_Review.tex:132  flags: cite-lowconf: \cite{zhangDeepLongTailedLearning2023} (0.37)
+## section: Synthetic Data for Long-Tail and Rare-Class Problems
+--- original
+The same limit bounds the augmentation methods surveyed alongside them. Transfer-based and non-transfer variants alike operate in feature space on top of samples the dataset already contains, and none synthesizes new raw images from an external generative prior. The survey is explicit that how best to augment for long-tailed learning remains an open question, and warns separately that class-agnostic augmentation helps head classes as much as tail classes and therefore delivers no relative benefit where it is needed most \cite{zhangDeepLongTailedLearning2023}.
+--- rephrased
+The same limit applies to the augmentation methods examined alongside them. Both transfer-based and non-transfer variants operate in feature space using samples that the dataset already contains. None synthesizes new raw images from an external generative prior. The survey explicitly states that the best way to augment for long-tailed learning is still unknown. It also warns that class-agnostic augmentation benefits head classes as much as tail classes, so it provides no additional benefit where it is needed most \cite{zhangDeepLongTailedLearning2023}.
+--- final
+The same limit applies to the augmentation methods examined alongside them. Both transfer-based and non-transfer variants operate in feature space using samples that the dataset already contains, and none synthesizes new raw images from an external generative prior. The survey is explicit that how best to augment for long-tailed learning remains an open question, and warns separately that class-agnostic augmentation helps head classes as much as tail classes and therefore delivers no relative benefit where it is needed most \cite{zhangDeepLongTailedLearning2023}.
+--- verdict
+merged: kept DeepL's s1-s2, restored the original's single last sentence so \cite{zhangDeepLongTailedLearning2023} still covers both the "open question" claim and the "no relative benefit" claim it was split away from. risk: high
+
+
+#### P052  2-Literature_Review.tex:134  flags: -
+## section: Synthetic Data for Long-Tail and Rare-Class Problems
+--- original
+This contrast, rather than any single method, motivates the band structure adopted in this work (\Cref{sec:band_structure}). Re-sampling, cost-sensitive re-weighting, and feature-space augmentation all redistribute information a class's existing image pool already contains, so their ceiling is set by how much visual diversity that pool holds. Image-level generative synthesis is a categorically different intervention, because it manufactures new appearance content, such as camera angle, habitat, lighting, and pose, that a data-poor class's real images cannot supply. Synthetic supplementation is therefore reserved for the classes whose real pool is judged too thin to carry that diversity, and deliberately withheld from better-supplied ones so that they can serve as a real-data control at matched training-set size.
+--- rephrased
+Rather than any single method, it is this contrast that motivates the band structure adopted in this work (\Cref{sec:band_structure}). Resampling, cost-sensitive reweighting, and feature-space augmentation redistribute the information that an existing image pool of a class already contains, so their effectiveness is limited by the visual diversity of that pool. Image-level generative synthesis is a different intervention because it creates new content, such as camera angle, habitat, lighting, and pose, that real images of a data-poor class cannot provide. Synthetic supplementation is therefore reserved for classes with a real image pool deemed too limited to provide that diversity. It is deliberately withheld from classes with a more extensive real image pool so they can serve as a real-data control at a matched training set size.
+--- final
+Rather than any single method, it is this contrast that motivates the band structure adopted in this work (\Cref{sec:band_structure}). Resampling, cost-sensitive reweighting, and feature-space augmentation redistribute the information that an existing image pool of a class already contains, so their effectiveness is limited by the visual diversity of that pool. Image-level generative synthesis is a categorically different intervention because it manufactures new appearance content, such as camera angle, habitat, lighting, and pose, that real images of a data-poor class cannot provide. Synthetic supplementation is therefore reserved for classes with a real image pool deemed too limited to provide that diversity. It is deliberately withheld from classes with a more extensive real image pool so they can serve as a real-data control at a matched training set size.
+--- verdict
+merged: kept DeepL's wording, restored "categorically different" and "manufactures new appearance content" where the rephrasing weakened the definitional claim that motivates the band structure. risk: high
+
+
+#### P053  2-Literature_Review.tex:139  flags: -
+## section: Knowledge Distillation and Embedded Inference Feasibility
+--- original
+Getting a detector trained this way onto the target device raises two further questions: whether a large model's knowledge can be transferred into a small one, and what governs whether the small one meets a latency budget once deployed.
+--- rephrased
+Training a detector this way raises two questions: Can a large model's knowledge be transferred to a small model? And what governs whether the small model meets a latency budget once deployed?
+--- final
+
+--- verdict
+original: rephrasing dropped "onto the target device", the scope condition that motivates both questions in this embedded-inference section. risk: medium
+
+
+#### P054  2-Literature_Review.tex:144  flags: -
+## section: Knowledge Distillation Fundamentals
+--- original
+Compressing a model by training a compact one to reproduce a large one's predictions, rather than the original hard labels, predates deep learning's current generation \cite{buciluaModelCompression2006}. Its now-standard form raises the temperature $T$ of the teacher's softmax before the student's training targets are computed \cite{hintonDistillingKnowledgeNeural2015}.
+--- rephrased
+The process of compressing a model by training a compact model to reproduce the predictions of a larger model rather than its original hard labels predates the current generation of deep learning \cite{buciluaModelCompression2006}. The now-standard form of this technique involves raising the temperature $T$ of the teacher's softmax before computing the student's training targets \cite{hintonDistillingKnowledgeNeural2015}.
+--- final
+The process of compressing a model by training a compact model to reproduce the predictions of a larger model rather than its original hard labels predates the current generation of deep learning \cite{buciluaModelCompression2006}. The now-standard form of this technique involves raising the temperature $T$ of the teacher's softmax before computing the student's training targets \cite{hintonDistillingKnowledgeNeural2015}.
+--- verdict
+rephrased: meaning, both citations, and the $T$ token are unchanged. risk: high
+
+
+#### P055  2-Literature_Review.tex:146  flags: -
+## section: Knowledge Distillation Fundamentals
+--- original
+Softening the teacher's output exposes the relative probabilities it assigns to \emph{incorrect} classes, which encode a similarity structure over the label space that a one-hot ground-truth label cannot. An image of a wolf may carry a small probability of being a dog, but that mistake is far more probable than mistaking it for a car. For a 225-class taxonomy of visually confusable mammals, that similarity structure is exactly the information a hard label discards. The student is trained on a weighted combination of two cross-entropy terms: one against the teacher's softened targets, computed at the same high temperature, and one against the ground-truth labels at a temperature of one. The soft-target term's gradient is rescaled by $T^2$, so the two terms remain comparable as $T$ is varied.
+--- rephrased
+Softening the teacher's output reveals the relative probabilities assigned to \emph{incorrect} classes. These probabilities encode a similarity structure over the label space that a one-hot ground-truth label cannot. For example, an image of a wolf may carry a small probability of being a dog, but mistaking it for a car is far less probable. For a taxonomy of 225 visually confusable mammals, that similarity structure is the exact information that a hard label discards. The student is trained on a weighted combination of two cross-entropy terms: one against the teacher's softened targets computed at a high temperature and one against the ground-truth labels at a temperature of one. The soft-target term's gradient is rescaled by $T^2$ so that the two terms remain comparable as $T$ varies.
+--- final
+Softening the teacher's output reveals the relative probabilities assigned to \emph{incorrect} classes. These probabilities encode a similarity structure over the label space that a one-hot ground-truth label cannot. For example, an image of a wolf may carry a small probability of being a dog, but mistaking it for a car is far less probable. For a taxonomy of 225 visually confusable mammals, that similarity structure is the exact information that a hard label discards. The student is trained on a weighted combination of two cross-entropy terms: one against the teacher's softened targets, computed at the same high temperature, and one against the ground-truth labels at a temperature of one. The soft-target term's gradient is rescaled by $T^2$ so that the two terms remain comparable as $T$ varies.
+--- verdict
+merged: kept DeepL's wording (the "far less probable" inversion is logically equivalent to the original), restored "computed at the same high temperature" where the rephrasing dropped "same", losing the tie back to the teacher's $T$. risk: high
+
+
+#### P056  2-Literature_Review.tex:148  flags: wrap-case: Feature-based -> feature-based, cite-lowconf: \cite{romeroFitNetsHintsThin2015} (0.42), rather-than
+## section: Knowledge Distillation Fundamentals
+--- original
+Distillation strategies are organized by which part of the teacher supplies the supervision \cite{gouKnowledgeDistillationSurvey2021}. \emph{Response-based} knowledge matches only the teacher's final-layer outputs. \emph{Feature-based} knowledge additionally supervises the student's intermediate representations, in its original form by mapping a chosen intermediate student layer onto a teacher hint layer through a learned regressor, which permits students that are deeper and thinner than the teacher rather than merely smaller \cite{romeroFitNetsHintsThin2015}. \emph{Relation-based} knowledge matches structural relations between samples or feature-map pairs instead of individual predictions.
+--- rephrased
+Distillation strategies are organized according to which part of the teacher provides supervision \cite{gouKnowledgeDistillationSurvey2021}. \emph{Response-based} knowledge only matches the teacher's final-layer outputs. In contrast, \emph{Feature-based} knowledge supervises the student's intermediate representations in their original form. This is achieved by mapping a chosen intermediate student layer onto a teacher hint layer through a learned regressor \cite{romeroFitNetsHintsThin2015}. This approach allows students to be deeper and thinner than the teacher, rather than merely smaller. \emph{Relation-based} knowledge matches the structural relations between samples or feature map pairs rather than individual predictions.
+--- final
+Distillation strategies are organized according to which part of the teacher provides supervision \cite{gouKnowledgeDistillationSurvey2021}. \emph{Response-based} knowledge matches only the teacher's final-layer outputs. \emph{Feature-based} knowledge additionally supervises the student's intermediate representations, in its original form by mapping a chosen intermediate student layer onto a teacher hint layer through a learned regressor, which permits students that are deeper and thinner than the teacher rather than merely smaller \cite{romeroFitNetsHintsThin2015}. \emph{Relation-based} knowledge matches structural relations between samples or feature-map pairs instead of individual predictions.
+--- verdict
+merged: kept DeepL's s1, restored original s2-s4: cite-lowconf on \cite{romeroFitNetsHintsThin2015} traced to the rephrasing splitting off the "permits deeper and thinner students" claim into an uncited sentence, wrap-case would have needed "Feature-based" lowered mid-sentence, and "instead of" restored for the added rather-than tic. risk: high
+
+
+#### P057  2-Literature_Review.tex:150  flags: -
+## section: Knowledge Distillation Fundamentals
+--- original
+Transplanting the classification recipe onto a detector is not straightforward. A detector's output combines dense per-location classification and regression predictions under extreme foreground-background imbalance, and distilling teacher and student features uniformly across that imbalance is empirically counterproductive. Distilling foreground and background regions together with equal weighting performs \emph{worse} than distilling either region on its own, because the mismatch between teacher and student attention is concentrated disproportionately in the foreground \cite{yangFocalGlobalKnowledge2022}. Focal and Global Distillation (FGD) instead splits the feature map into foreground and background using the ground-truth boxes. Teacher-derived spatial and channel attention masks then focus the student's limited capacity on the teacher's most salient pixels and channels, and a global relational term built from pixel-pair correlations recovers the cross-region context a hard split discards \cite{yangFocalGlobalKnowledge2022}.
+--- rephrased
+It is not straightforward to transplant the classification recipe onto a detector. A detector's output involves dense per-location classification and regression predictions in the presence of extreme foreground-background imbalance. Distilling teacher and student features uniformly across this imbalance is empirically counterproductive. Distilling the foreground and background regions with equal weighting yields \emph{worse} results than distilling either region separately because the mismatch between the teacher's and student's attention is concentrated disproportionately in the foreground \cite{yangFocalGlobalKnowledge2022}. Focal and Global Distillation (FGD) splits the feature map into foreground and background regions using ground-truth boxes instead. The teacher-derived spatial and channel attention masks then focus the student's limited capacity on the teacher's most salient pixels and channels \cite{yangFocalGlobalKnowledge2022}. A global relational term, built from pixel-pair correlations, recovers the cross-region context that a hard split discards.
+--- final
+It is not straightforward to transplant the classification recipe onto a detector. A detector's output involves dense per-location classification and regression predictions in the presence of extreme foreground-background imbalance. Distilling teacher and student features uniformly across this imbalance is empirically counterproductive. Distilling the foreground and background regions with equal weighting yields \emph{worse} results than distilling either region separately because the mismatch between the teacher's and student's attention is concentrated disproportionately in the foreground \cite{yangFocalGlobalKnowledge2022}. Focal and Global Distillation (FGD) splits the feature map into foreground and background regions using ground-truth boxes instead. Teacher-derived spatial and channel attention masks then focus the student's limited capacity on the teacher's most salient pixels and channels, and a global relational term built from pixel-pair correlations recovers the cross-region context a hard split discards \cite{yangFocalGlobalKnowledge2022}.
+--- verdict
+merged: kept DeepL's s1-s4, restored the original's single closing sentence so the second \cite{yangFocalGlobalKnowledge2022} still covers the global relational term claim, which the rephrasing split off into an uncited sentence. risk: high
+
+
+#### P058  2-Literature_Review.tex:152  flags: -
+## section: Knowledge Distillation Fundamentals
+--- original
+The general point matters for interpreting this work's own distillation comparison (\Cref{sec:results_kd_and_embedded}). Plain, spatially unaware logit or feature matching is adequate for image classification, but a detection head needs this kind of foreground/background- and attention-aware treatment before it performs comparably. A naive transplant of the classification recipe should not be expected to match a detection-specific scheme, and a result from one is evidence about that transplant rather than about distillation in general.
+--- rephrased
+The general point is important for interpreting the distillation comparison of this work (\Cref{sec:results_kd_and_embedded}). While plain, spatially unaware logit or feature matching is adequate for image classification, a detection head requires this kind of foreground/background- and attention-aware treatment to perform comparably. One should not expect a naive transplant of the classification recipe to match a detection-specific scheme. A result from one is evidence about that transplant rather than about distillation in general.
+--- final
+The general point is important for interpreting the distillation comparison of this work (\Cref{sec:results_kd_and_embedded}). While plain, spatially unaware logit or feature matching is adequate for image classification, a detection head requires this kind of foreground/background- and attention-aware treatment to perform comparably. One should not expect a naive transplant of the classification recipe to match a detection-specific scheme. A result from one is evidence about that transplant rather than about distillation in general.
+--- verdict
+rephrased: meaning and the \Cref target are unchanged, sentence split does not lose content. risk: medium
+
+
+#### P059  2-Literature_Review.tex:154  flags: -
+## section: Knowledge Distillation Fundamentals
+--- original
+A smaller student is only useful if it also runs fast enough on the target device, which is a question about numerical precision, export format, and measurement protocol rather than about training.
+--- rephrased
+Whether a smaller student is useful depends on whether it runs fast enough on the target device. This depends on numerical precision, export format, and measurement protocol rather than training.
+--- final
+Whether a smaller student is useful depends on whether it runs fast enough on the target device. This depends on numerical precision, export format, and measurement protocol rather than training.
+--- verdict
+rephrased: meaning unchanged, no citation or number involved. risk: medium
+
+
+#### P060  2-Literature_Review.tex:159  flags: wrap-ambiguous: MLPerf Tiny, cite-lowconf: \cite{reddiMLPerfInferenceBenchmark2020} (0.27), cite-moved: \cite{reddiMLPerfInferenceBenchmark2020}, cite-lowconf: \cite{banburyMLPerfTinyBenchmark2021} (0.27), cite-merged: \cite{reddiMLPerfInferenceBenchmark2020,banburyMLPerfTinyBenchmark2021}
+## section: Embedded Inference Feasibility
+--- original
+How on-device inference is measured is itself an active concern. An architecture-neutral methodology for comparing inference latency and throughput across heterogeneous hardware and software stacks \cite{reddiMLPerfInferenceBenchmark2020} has been adapted to microcontroller- and DSP-class devices as \textit{MLPerf Tiny}, which reports accuracy, latency, and energy together and standardizes on a common reference inference stack, so that cross-device comparisons are not confounded by inconsistent runtime choices \cite{banburyMLPerfTinyBenchmark2021}. Its measurement protocol deliberately scopes the timed window to model inference alone, explicitly excluding any pre- or post-processing performed around it. This work's own runtime check (\Cref{sec:results_embedded_benchmark}) observes the same methodological control, and additionally excludes one-time effects such as initial model loading and cache and frequency-scaling warm-up.
+--- rephrased
+The way on-device inference is measured is an active concern itself. \textit{MLPerf Tiny} is an architecture-neutral methodology that has been adapted for microcontroller- and DSP-class devices \cite{reddiMLPerfInferenceBenchmark2020,banburyMLPerfTinyBenchmark2021}. It compares inference latency and throughput across heterogeneous hardware and software stacks. MLPerf Tiny reports accuracy, latency, and energy together. It also standardizes on a common reference inference stack. This ensures that cross-device comparisons are not confounded by inconsistent runtime choices. The measurement protocol deliberately limits the timed window to model inference alone, explicitly excluding any pre- or post-processing performed around it. The runtime check in this work (\Cref{sec:results_embedded_benchmark}) employs the same methodological control and excludes one-time effects, such as initial model loading and cache and frequency scaling warm-up.
+--- final
+How on-device inference is measured is itself an active concern. An architecture-neutral methodology for comparing inference latency and throughput across heterogeneous hardware and software stacks \cite{reddiMLPerfInferenceBenchmark2020} has been adapted to microcontroller- and DSP-class devices as \textit{MLPerf Tiny}, which reports accuracy, latency, and energy together and standardizes on a common reference inference stack, so that cross-device comparisons are not confounded by inconsistent runtime choices \cite{banburyMLPerfTinyBenchmark2021}. The measurement protocol deliberately limits the timed window to model inference alone, explicitly excluding any pre- or post-processing performed around it. The runtime check in this work (\Cref{sec:results_embedded_benchmark}) employs the same methodological control and additionally excludes one-time effects, such as initial model loading and cache and frequency-scaling warm-up.
+--- verdict
+merged: restored the original's separate sentences and citations for \cite{reddiMLPerfInferenceBenchmark2020} (the general MLPerf methodology) and \cite{banburyMLPerfTinyBenchmark2021} (the MLPerf Tiny adaptation and its specific features), which the rephrasing merged into one cite at the sentence head, leaving the accuracy/latency/energy and reference-stack claims uncited. Kept DeepL's wording for the measurement-protocol and runtime-check sentences, which raised no citation issue. risk: high
+
+

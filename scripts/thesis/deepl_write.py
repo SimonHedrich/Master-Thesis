@@ -208,16 +208,21 @@ class Usage:
         return self.character_count / self.character_limit if self.character_limit else 0.0
 
 
-def resolve_api_key(explicit: str | None = None) -> str:
-    """Return the API key from `explicit`, then the environment, then `.env`."""
+def resolve_api_key(explicit: str | None = None, *, env_var: str = "DEEPL_API_KEY") -> str:
+    """Return the API key from `explicit`, then the environment, then `.env`.
+
+    `env_var` names the variable to read; the manuscript rephrase pipeline uses
+    it to fall back to a second key (``DEEPL_API_KEY_2``) once the first one's
+    monthly quota is spent.
+    """
     if explicit:
         return explicit.strip()
     load_dotenv(REPO_ROOT / ".env")
-    key = (os.environ.get("DEEPL_API_KEY") or "").strip()
+    key = (os.environ.get(env_var) or "").strip()
     if not key:
         raise DeepLError(
-            "DEEPL_API_KEY is not set. Put it in .env at the repository root "
-            "(DEEPL_API_KEY=...), or pass --api-key. Keys: "
+            f"{env_var} is not set. Put it in .env at the repository root "
+            f"({env_var}=...), or pass --api-key. Keys: "
             "https://www.deepl.com/your-account/keys"
         )
     return key

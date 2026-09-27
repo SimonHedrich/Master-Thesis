@@ -1,8 +1,9 @@
 # `scripts/thesis` — manuscript tooling
 
-Three scripts: an Overleaf sync bridge, a structural checker that stands in for
-the LaTeX compile this container cannot run, and a DeepL Write client for
-language passes over prose.
+Four scripts: an Overleaf sync bridge, a structural checker that stands in for
+the LaTeX compile this container cannot run, a DeepL Write client for language
+passes over prose, and a paragraph-level rephrase pipeline on top of it whose
+output is reviewed by subagents before anything reaches the manuscript.
 
 ## Overleaf sync
 
@@ -374,3 +375,153 @@ survive DeepL rephrasing its own output. One thing they deliberately do not
 assert: that `correct` fixes *grammar*. It leaves some non-standard grammar ("we
 was going home") untouched, so testing that would be testing DeepL's editorial
 judgment rather than this client.
+
+
+## `rephrase_manuscript.py` — paragraph-level rephrase pass, reviewed before it lands
+
+`deepl_write --latex` is the conservative mode: it sends only sentences that
+contain no markup at all, and in this manuscript that holds back most of the
+text. This pipeline sends **whole paragraphs** as plain prose and puts the LaTeX
+back afterwards, with a reviewer between the service and the manuscript.
+
+```
+uv run python -m scripts.thesis.rephrase_manuscript prepare --dry-run <tex…>      # count, no request
+uv run python -m scripts.thesis.rephrase_manuscript prepare <tex…>                # fetch + review files
+uv run python -m scripts.thesis.rephrase_manuscript prepare -t de thesis/manuscript/preamble/abstract_ger.tex
+uv run python -m scripts.thesis.rephrase_manuscript apply reports/deepl_rephrase/<stem>            # diff only
+uv run python -m scripts.thesis.rephrase_manuscript apply --in-place reports/deepl_rephrase/<stem> # write
+uv run python -m scripts.thesis.rephrase_manuscript status
+```
+
+Run from the repo root. No container needed. `--out-dir` (before the
+subcommand) moves the bundle root; the default is `reports/deepl_rephrase/`,
+which is committed: it is the audit trail of what the service and the
+reviewers did to the manuscript.
+
+### What is sent
+
+One request per paragraph (one prose line of the `.tex`, which is how this
+manuscript is written). Before sending, `latex_prose.flatten` gives every
+LaTeX span one of three treatments:
+
+| span | sent as | back as |
+|---|---|---|
+| `\cite{…}` (any form) | removed | re-attached at the end of the sentence its claim moved to |
+| `\textit{X}`, `\textbf`, `\texttt`, `\emph`, `\textsc` | `X` | re-wrapped where `X` reappears |
+| `\enquote{X}` | `"X"` | re-wrapped |
+| `$225$`, `$28\%$`, `$1{,}200$`, `$193\,\mathrm{M}$`, `$512 \times 512$` | `225`, `28%`, `1,200`, `193 M`, `512 × 512` | re-wrapped |
+| `\%`, `\&`, `\_`, `\#` | the literal | re-wrapped |
+| `\Cref`, `\hyperref`, `\gls`, `\url`, `\footnote`, non-numeric math, spacing, any other command | `ZQX<n>ZQX` noun token | unmasked, fail-closed |
+| a leading `\item`, a trailing `% comment` | not sent | put back verbatim |
+
+Math glued to a word (`v$4.0.2$a`, `$30$th`) stays a token, because its plain
+form could not be found again.
+
+**One paragraph per physical line is assumed.** `30-Overview.tex` is hard-wrapped,
+so each line there is a sentence fragment; DeepL turns fragments into standalone
+sentences and the reviewers rightly kept the originals. Re-flow such a file to
+one paragraph per line before running it through this pipeline. Headings, labels, comments, and the bodies of
+tables, figures, tikz pictures and display math are never prose and never
+sent. A prose line that also occurs verbatim in another manuscript file is
+held back (`verbatim-echo`): that is the four research questions, which
+`mechanics.md` §6 requires identical in Chapters 1 and 5.
+
+Citations move to the end of their sentence by design (`scope.md` §3: the
+citation is a tag on the claim, never a word in the sentence). Sentences are
+aligned old-to-new by content-word overlap, monotonically, so a rephrasing
+that merges or splits sentences still places each citation on the sentence
+its claim landed in. Two `\cite{}` calls landing on one sentence merge into
+`\cite{a,b}`. Every one of these decisions is flagged for the reviewer
+(`cite-moved`, `cite-merged`, `cite-merged-sentences`, `cite-lowconf`).
+
+Re-wrapping searches for each plain string in order, choosing among repeats
+by the words around it in the sent text. A string the service reworded
+("28 percent", "193 million") is flagged `format-lost` and the paragraph is
+handed to the reviewer with the plain text in place; a dropped token is
+`token-lost` and the rephrasing is discarded outright. Automatic house-style
+checks on the restored text add `dash`, `semicolon`, `british`,
+`bare-number`, `long-sentence`, `this-thesis`, `rather-than` and
+`cite-subject`.
+
+### The review
+
+`prepare` writes `reports/deepl_rephrase/<stem>/chunk-NN.review.txt`, twelve
+paragraphs per file, each headed by the reviewer instructions
+(`rephrase_review_header.md`). Every entry shows the original, the restored
+rephrasing, the section title, the flags, and two empty blocks:
+
+```
+#### P007  1-Introduction.tex:16  flags: cite-moved: \cite{…}, long-sentence: 58 words
+## section: Motivation
+--- original
+…
+--- rephrased
+…
+--- final
+
+--- verdict
+
+```
+
+The review is done by Claude Code subagents, one per chunk file, in parallel,
+with the prompt "read this file, follow its header, fill every empty
+`--- final` and `--- verdict` block in place". Sonnet is the default: the
+judgments are semantic (a reversed claim, a dropped hedge, a citation now on
+the wrong sentence), and DeepL produced all three on the Introduction. The
+header is the only context a reviewer gets. It tells them to keep the
+rephrasing where it reads better and says the same thing, to take single
+sentences back from the original where meaning, a hedge, a number or a term
+of art changed, and it condenses the citation-placement and house-style rules
+from `.claude/skills/thesis-writing/`. An empty final keeps the original.
+Reviewers edit the files on disk paragraph by paragraph, so a reviewer that
+dies mid-chunk loses nothing; re-run it on the same file and it skips filled
+entries.
+
+### `apply` fails closed
+
+Per paragraph, a final is written only if its LaTeX span inventory equals the
+original's (every non-citation span as a multiset, every citation key as a
+multiset, so `\cite{a} … \cite{b}` and `\cite{a,b}` are equal), it contains no
+prose dash or semicolon the original did not have, no `\citeauthor` or
+`\textcite`, no citation used as a sentence subject, balanced braces, and the
+same `\item` prefix. Anything else keeps the original line and is named in the
+summary with its reason. The whole file is refused if the `.tex` changed since
+`prepare` ran (the manifest carries its hash); `prepare --resume` regenerates
+the bundle from the log at no cost. House-style checks on the final are
+warnings, printed but applied.
+
+Run `check_manuscript` and read `git diff` after every `apply --in-place`.
+
+### Quota, the log, and a second key
+
+Write bills the characters of the *sent* text, which is the flattened prose:
+a full pass over both abstracts and all chapters is **165k characters**
+(`prepare --dry-run` over the file list), against the 1,000,000-character
+monthly quota. Measured cost of the first live run: 14,064 characters for the
+two abstracts and the Introduction (24 paragraphs).
+
+- `prepare` calls `/v2/usage` first and refuses a run the remainder cannot
+  cover (exit 3); `--force-quota` fetches what fits.
+- Every response is appended to `reports/deepl_rephrase/api_log.jsonl` and
+  fsynced **before** it is used: `{sha, file, line, target_lang, sent,
+  received, trace_id, chars, timestamp}`. That file is the source of truth;
+  the manifests and review files are derived from it and `prepare --resume`
+  rebuilds them without a request.
+- A 456 mid-run stops with exit 2 and says how many paragraphs are unfetched.
+  Put a second key in `.env` as `DEEPL_API_KEY_2` and re-run with `--resume`:
+  when the first key cannot cover the remainder, the second one is used, host
+  derived from its `:fx` suffix as usual.
+- `status` reports per bundle what is fetched, reviewed and applied.
+- `--limit N` sends only the first N paragraphs, for a smoke test.
+
+### Tests
+
+`uv run pytest scripts/thesis/tests/test_rephrase_manuscript.py` (offline, a
+stub plays DeepL): flatten/restore identity round-trip on every manuscript
+file, citation re-attachment across reworded, merged and split sentences,
+`format-lost` and `token-lost`, `\item` and comment handling, echo hold-back,
+one request per paragraph, the log line on disk before use and `--resume`
+sending nothing, pre-flight and mid-run quota handling, the second key, the
+review file round trip, and every `apply` rejection rule. `-m live` adds one
+test that sends three real Introduction paragraphs.
+

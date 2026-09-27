@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 4-Results.tex: 12 paragraphs -->
+
+#### P061  4-Results.tex:396  flags: -
+## section: Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison
+--- original
+Third, the direct run stopped on its own patience criterion at epoch $193$ with its best checkpoint at epoch $172$, so it was the more nearly converged of the two.
+--- rephrased
+Third, the direct run stopped at epoch $193$ due to its own patience criterion, and its best checkpoint was at epoch $172$. Therefore, it was the one that had converged more.
+--- final
+Third, the direct run stopped on its own patience criterion at epoch $193$ with its best checkpoint at epoch $172$, so it was the more nearly converged of the two.
+--- verdict
+original: "more nearly converged of the two" (closer to convergence) is not the same claim as "had converged more" (ambiguous degree). risk: high
+
+
+#### P062  4-Results.tex:398  flags: semicolon
+## section: Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison
+--- original
+Four limits bound what the comparison establishes, and all four are scope boundaries rather than defects. It tests one $(T, \alpha)$ point and not the grid \Cref{sec:kd_loss} was written around, so it rules out a benefit at that point and not distillation in general. It tests one teacher, the fine-tuned ensemble, at a parameter ratio of roughly $70$ to $1$, which \Cref{sec:kd_loss} identifies as far outside the range the literature treats as safe and a documented setting for negative transfer. It tests response-based distillation only, feature-based alignment having been excluded on architectural grounds before any run started. And the multi-animal subset cut, the concrete test of the supervision advantage distillation was expected to have, was never evaluated, so the one mechanism that might favor Setup A remains unexamined. Whichever recipe wins on accuracy, the student still has to run inside a per-frame budget.
+--- rephrased
+Four limits determine what the comparison establishes, and all four are scope boundaries rather than defects. The test is performed on one $(T, \alpha)$ point, not the \Cref{sec:kd_loss} grid, so a benefit is ruled out at that point, not distillation in general. It tests one teacher, the fine-tuned ensemble, at a parameter ratio of about $70$ to $1$. \Cref{sec:kd_loss} identifies this ratio as being far outside the range that the literature considers safe. It is also a documented setting for negative transfer. Response-based distillation is tested only; feature-based alignment is excluded on architectural grounds before any run begins. The multi-animal subset cut, which was expected to demonstrate the supervision advantage of distillation, was never evaluated. Thus, the one mechanism that might favor Setup A remains unexamined. Regardless of which recipe wins on accuracy, the student still has to operate within a per-frame budget.
+--- final
+Four limits bound what the comparison establishes, and all four are scope boundaries rather than defects. The test is performed on one $(T, \alpha)$ point, not the \Cref{sec:kd_loss} grid, so a benefit is ruled out at that point, not distillation in general. It tests one teacher, the fine-tuned ensemble, at a parameter ratio of about $70$ to $1$. \Cref{sec:kd_loss} identifies this ratio as being far outside the range that the literature considers safe. It is also a documented setting for negative transfer. It tests response-based distillation only, feature-based alignment having been excluded on architectural grounds before any run started. The multi-animal subset cut, which was expected to demonstrate the supervision advantage of distillation, was never evaluated. Thus, the one mechanism that might favor Setup A remains unexamined. Regardless of which recipe wins on accuracy, the student still has to operate within a per-frame budget.
+--- verdict
+merged: kept original s1 ("bound"/"boundaries" echo) and s4 (rewritten with a semicolon, reverted to original's comma construction and tense), kept rephrased s2/s3/s5/s6. risk: high
+
+
+#### P063  4-Results.tex:402  flags: -
+## section: Runtime Benchmark on the Proxy Device
+--- original
+Every model was exported and timed on a \textit{Raspberry Pi 400} rather than on the \textit{QCS605}, because the target's Hexagon 685 DSP is tied to a 2018-era vendor stack whose inconsistently documented operator support makes routine model iteration a driver-debugging exercise. The board's four Cortex-A72 cores are estimated to run $10$ to $15\%$ slower than the target's Kryo 300 cores, so the proxy supplies a conservative floor rather than a ceiling to discount.  % docs/2026-03-09_hardware-proxy-selection.md
+--- rephrased
+Each model was exported and timed on a \textit{Raspberry Pi 400} instead of the \textit{QCS605} because the target's Hexagon 685 DSP is tied to an outdated vendor stack from 2018. The stack's inconsistent documentation makes routine model iteration a driver-debugging exercise. The board's four Cortex-A72 cores are estimated to run $10$-$15\%$ slower than the target's Kryo 300 cores. Therefore, the proxy provides a conservative lower bound rather than an upper bound.  % docs/2026-03-09_hardware-proxy-selection.md
+--- final
+Every model was exported and timed on a \textit{Raspberry Pi 400} rather than on the \textit{QCS605}, because the target's Hexagon 685 DSP is tied to a 2018-era vendor stack whose inconsistently documented operator support makes routine model iteration a driver-debugging exercise. The board's four Cortex-A72 cores are estimated to run $10$ to $15\%$ slower than the target's Kryo 300 cores, so the proxy supplies a conservative floor rather than a ceiling to discount.  % docs/2026-03-09_hardware-proxy-selection.md
+--- verdict
+original: rephrase dropped "operator support" specificity (generic "documentation") and reformatted the $10$/$15\%$ pair as a dash-joined range instead of the original's separate spans. risk: high
+
+
+#### P064  4-Results.tex:403  flags: -
+## section: Runtime Benchmark on the Proxy Device
+--- original
+Two limits bound that inference: the board has no analogue to the Hexagon 685 DSP, and its Cortex-A72 predates the ARMv8.2 extensions, providing neither the $8$-bit dot-product instruction nor the half-precision arithmetic the Kryo 300 cores do.  % reports/embedded_benchmark/device_profile.json
+--- rephrased
+There are two limits to that inference. First, the board has no analogue to the Hexagon 685 DSP. Second, its Cortex-A72 predates the ARMv8.2 extensions, so it provides neither the $8$-bit dot-product instruction nor the half-precision arithmetic that the Kryo 300 cores do.  % reports/embedded_benchmark/device_profile.json
+--- final
+There are two limits to that inference. First, the board has no analogue to the Hexagon 685 DSP. Second, its Cortex-A72 predates the ARMv8.2 extensions, so it provides neither the $8$-bit dot-product instruction nor the half-precision arithmetic that the Kryo 300 cores do.  % reports/embedded_benchmark/device_profile.json
+--- verdict
+rephrased: same claim, clearer "First... Second..." structure, no terms or numbers changed. risk: high
+
+
+#### P065  4-Results.tex:404  flags: -
+## section: Runtime Benchmark on the Proxy Device
+--- original
+No measurement was taken on \textit{AX Visio} hardware, which was not available. The result is a feasibility check for full-precision models on a target-adjacent CPU, with no quantization, pruning or compression applied.
+--- rephrased
+No measurements were taken on the \textit{AX Visio} hardware, as it was unavailable. The result is a feasibility check for full-precision models on a CPU adjacent to the target, with no quantization, pruning, or compression applied.
+--- final
+No measurements were taken on the \textit{AX Visio} hardware, as it was unavailable. The result is a feasibility check for full-precision models on a CPU adjacent to the target, with no quantization, pruning, or compression applied.
+--- verdict
+rephrased: same claim, "target-adjacent" and "adjacent to the target" equivalent, no scope or terms lost. risk: low
+
+
+#### P066  4-Results.tex:406  flags: semicolon
+## section: Runtime Benchmark on the Proxy Device
+--- original
+Each checkpoint was exported to \textit{TorchScript} and to \textit{ONNX} at static batch-1 shapes, and every graph reproduced its \textit{PyTorch} reference on the host to within floating-point accumulation noise (\Cref{sec:appendix_embedded_export}). The timed window follows the \textit{MLPerf Tiny} convention of \Cref{sec:lit_embedded_inference}: $W_{\mathrm{infer}}$ covers the forward call alone on a resident input tensor, and $W_{\mathrm{e2e}}$ adds JPEG decode, letterboxing and post-processing, which is what a per-frame budget question needs. Batch size, core affinity, thread count and CPU governor were fixed across all $76$ cells.
+--- rephrased
+Each checkpoint was exported to \textit{TorchScript} and \textit{ONNX} with static batch-1 shapes. Every graph reproduced its \textit{PyTorch} reference on the host with an accuracy of floating-point accumulation noise (\Cref{sec:appendix_embedded_export}). Following the \textit{MLPerf Tiny} convention, the timed window is divided into three stages: \Cref{sec:lit_embedded_inference} covers the forward call alone on a resident input tensor; $W_{\mathrm{infer}}$ adds JPEG decoding, letterboxing, and post-processing; and $W_{\mathrm{e2e}}$ adds a per-frame budget question. Batch size, core affinity, thread count, and CPU governor were fixed across all $76$ cells.
+--- final
+Each checkpoint was exported to \textit{TorchScript} and to \textit{ONNX} at static batch-1 shapes, and every graph reproduced its \textit{PyTorch} reference on the host to within floating-point accumulation noise (\Cref{sec:appendix_embedded_export}). The timed window follows the \textit{MLPerf Tiny} convention of \Cref{sec:lit_embedded_inference}: $W_{\mathrm{infer}}$ covers the forward call alone on a resident input tensor, and $W_{\mathrm{e2e}}$ adds JPEG decode, letterboxing and post-processing, which is what a per-frame budget question needs. Batch size, core affinity, thread count and CPU governor were fixed across all $76$ cells.
+--- verdict
+original: rephrase swapped the $W_{\mathrm{infer}}$/$W_{\mathrm{e2e}}$ definitions, wrongly treated \Cref{sec:lit_embedded_inference} as a timing stage, invented a nonexistent third stage, and added two semicolons. risk: high
+
+
+#### P067  4-Results.tex:428  flags: format-lost: $640\times640$, bare-number
+## section: Runtime Benchmark on the Proxy Device
+--- original
+The project's design targets for the \textit{QCS605} are $\leq 30$\,ms per frame at $640\times640$ and a $\leq 500$\,MB memory ceiling, both internal estimates.
+--- rephrased
+The design targets for the \textit{QCS605} project are an internal estimate of $\leq 30$\,ms per frame at 640 x 640 and a $\leq 500$\,MB memory ceiling.
+--- final
+The project's design targets for the \textit{QCS605} are $\leq 30$\,ms per frame at $640\times640$ and a $\leq 500$\,MB memory ceiling, both internal estimates.
+--- verdict
+original: rephrase lost the $640\times640$ math span (format-lost), narrowed "both internal estimates" to a single estimate, and misrenamed the QCS605 hardware as "the QCS605 project". risk: high
+
+
+#### P068  4-Results.tex:430  flags: token-lost: 2 LaTeX span(s) did not come back: '\\,', '\\,'
+## section: Runtime Benchmark on the Proxy Device
+--- original
+No configuration in \Cref{tab:embedded-latency} passes the latency target. The fastest model, \textit{YOLO26n} under direct fine-tuning, needs $423$\,ms per frame, which the proxy relationship translates to roughly $360$--$381$\,ms on the \textit{QCS605} CPU, about twelve times the budget.
+--- rephrased
+No configuration in \Cref{tab:embedded-latency} passes the latency target. The fastest model, \textit{YOLO26n} under direct fine-tuning, needs $423$\,ms per frame, which the proxy relationship translates to roughly $360$--$381$\,ms on the \textit{QCS605} CPU, about twelve times the budget.
+--- final
+No configuration in \Cref{tab:embedded-latency} passes the latency target. The fastest model, \textit{YOLO26n} under direct fine-tuning, needs $423$\,ms per frame, which the proxy relationship translates to roughly $360$--$381$\,ms on the \textit{QCS605} CPU, about twelve times the budget.
+--- verdict
+original: token-lost, tooling already discarded the rephrase and shows the original. risk: high
+
+
+#### P069  4-Results.tex:432  flags: token-lost: 1 LaTeX span(s) did not come back: '\\,'
+## section: Runtime Benchmark on the Proxy Device
+--- original
+\textit{YOLOv5s}, the architecture closest to the detector already deployed in the production binocular, needs $949$\,ms. The memory target is met by all three detectors and by neither teacher component. The shortfall was expected, since a vendor-published figure puts \textit{YOLO26n} at $67.7$\,ms on the faster \textit{Raspberry Pi 5},
+--- rephrased
+\textit{YOLOv5s}, the architecture closest to the detector already deployed in the production binocular, needs $949$\,ms. The memory target is met by all three detectors and by neither teacher component. The shortfall was expected, since a vendor-published figure puts \textit{YOLO26n} at $67.7$\,ms on the faster \textit{Raspberry Pi 5},
+--- final
+\textit{YOLOv5s}, the architecture closest to the detector already deployed in the production binocular, needs $949$\,ms. The memory target is met by all three detectors and by neither teacher component. The shortfall was expected, since a vendor-published figure puts \textit{YOLO26n} at $67.7$\,ms on the faster \textit{Raspberry Pi 5},
+--- verdict
+original: token-lost, tooling already discarded the rephrase and shows the original. risk: high
+
+
+#### P070  4-Results.tex:434  flags: -
+## section: Runtime Benchmark on the Proxy Device
+--- original
+and the gap was always to be closed by the quantization pass this work did not carry out.
+--- rephrased
+The quantization pass was always supposed to close the gap, but this work did not carry it out.
+--- final
+and the gap was always to be closed by the quantization pass this work did not carry out.
+--- verdict
+original: this is a lowercase continuation of the preceding entry's comma-ended sentence, the rephrase's capitalized new sentence would break that continuity. risk: medium
+
+
+#### P071  4-Results.tex:436  flags: token-lost: 3 LaTeX span(s) did not come back: '\\,', '\\,', '\\,'
+## section: Runtime Benchmark on the Proxy Device
+--- original
+The teacher's latency is the more decisive measurement. \textit{MegaDetector v5a} alone takes $31.0$\,s per frame at $1280\times1280$ and peaks at $1{,}570$\,MB, and a composed ensemble estimate, one detector pass plus a mean of $1.7$ classifier crops per image, comes to roughly $35$\,s per frame.
+--- rephrased
+The teacher's latency is the more decisive measurement. \textit{MegaDetector v5a} alone takes $31.0$\,s per frame at $1280\times1280$ and peaks at $1{,}570$\,MB, and a composed ensemble estimate, one detector pass plus a mean of $1.7$ classifier crops per image, comes to roughly $35$\,s per frame.
+--- final
+The teacher's latency is the more decisive measurement. \textit{MegaDetector v5a} alone takes $31.0$\,s per frame at $1280\times1280$ and peaks at $1{,}570$\,MB, and a composed ensemble estimate, one detector pass plus a mean of $1.7$ classifier crops per image, comes to roughly $35$\,s per frame.
+--- verdict
+original: token-lost, tooling already discarded the rephrase and shows the original. risk: high
+
+
+#### P072  4-Results.tex:438  flags: -
+## section: Runtime Benchmark on the Proxy Device
+--- original
+That is three orders of magnitude above the budget, and it confirms by measurement what \Cref{sec:lit_yolo_family} argued: the ensemble cannot ship on this hardware.
+--- rephrased
+This is three orders of magnitude above the budget. It confirms, through measurement, what \Cref{sec:lit_yolo_family} argued: the ensemble cannot be shipped on this hardware.
+--- final
+This is three orders of magnitude above the budget. It confirms, through measurement, what \Cref{sec:lit_yolo_family} argued: the ensemble cannot be shipped on this hardware.
+--- verdict
+rephrased: same claim, split into two sentences, no terms or numbers changed. risk: high
+
+

@@ -1,12 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Synthetic Data Supplementation}\label{sec:synthetic_data_supplementation}
 
-Real-image availability stays skewed across the $225$-class taxonomy even after the curation of \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation}. A distillation-versus-fine-tuning comparison is only meaningful if every class carries a comparable training signal, so classes with a small real pool were supplemented with generated imagery. This section covers the band structure, the generation pipeline, the annotation of its output, and the balanced synthetic test set.
+Even after the curation of \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation}, real-image availability remains skewed across the $225$-class taxonomy. A meaningful comparison of distillation versus fine-tuning requires that every class carry a comparable training signal. Therefore, classes with a small real pool were supplemented with generated imagery. This section covers the band structure, generation pipeline, annotation of output, and balanced synthetic test set.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Band Structure: Matching Supplementation Strategy to Data Availability}\label{sec:band_structure}
 
-Classes were grouped into four bands by real-image pool size after curation, each with its own mix of real and synthetic training imagery and its own reservation of real images for testing. \Cref{tab:band-structure} defines them, with boundaries at $150$, $250$ and $400$ pool images taken from the measured post-curation distribution.
+After curation, classes were grouped into four bands by real-image pool size, each with its own mix of real and synthetic training imagery, as well as its own set of real images reserved for testing. \Cref{tab:band-structure} defines these bands, with boundaries at $150$, $250$, and $400$ images in the pool, taken from the measured post-curation distribution.
 
 \begin{table}[H]
 \centering
@@ -24,19 +24,19 @@ D & $\geq 400$ & $\min(\text{pool} - \text{test},\,1{,}500)$ & $\min(\lfloor 0.2
 \end{tabular}
 \end{table}
 
-The structure exists to make three training-data compositions comparable at matched sample size: Bands A, B and C share an equal $200$-image training budget and differ only in composition, at synthetic only, half real and half synthetic, and real only. The bands nonetheless hold \emph{different species}, assigned by availability rather than randomization, so any systematic difference in species difficulty is confounded with the band. This is a cross-band comparison, not a within-class experiment.
+The structure makes three training-data compositions comparable at a matched sample size. Bands A, B, and C have an equal training budget of $200$ images and differ only in composition: synthetic only, half real and half synthetic, and real only. However, the bands contain \emph{different species} that are assigned based on availability rather than randomization. Therefore, any systematic difference in species difficulty is confounded with the band. This is a cross-band comparison, not a within-class experiment.
 
-Surplus real images beyond a training budget move to the test set rather than being discarded, which is why Band D test sizes vary and why the corpus carries a large unallocated surplus (\Cref{sec:final_dataset_composition}).
+Rather than being discarded, surplus real images beyond the training budget move to the test set. This is why Band D test sizes vary and why the corpus carries a large unallocated surplus (\Cref{sec:final_dataset_composition}).
 
-Band A holds the $50$ most data-poor classes. It trains entirely on synthetic imagery and reserves its real images, averaging approximately $67$ per class, in full for testing. Roughly $17$ of them carry fewer than $30$ real test images and are test-limited by definition, not by any model deficiency. Band B reaches the shared budget by adding $100$ synthetic images to $100$ real ones, and Band C reaches it from real imagery alone as the real-data control. Two classes, \texttt{human} and \texttt{unmatched}, hold no real images and enter no band.
+Band A contains the $50$ classes with the least amount of data. It trains entirely on synthetic imagery and reserves its real images, averaging approximately $67$ per class, in full for testing. Roughly $17$ of these classes have fewer than $30$ real test images and are test-limited by definition, not due to any model deficiency. Band B reaches the shared budget by combining $100$ synthetic images with $100$ real images. Band C reaches the budget using only real imagery as the real-data control. Two classes, \texttt{human} and \texttt{unmatched}, have no real images and are not included in any band.
 
 \paragraph{An Implementation Gap in the Band A Design}
-Band A's training signal is allocated entirely to synthetic imagery, and for the first generation of trained models that allocation did not hold. All three pipelines read only the real-image annotation files, which hold no Band A images, so the exactly-zero Band A accuracy of those models measures zero-shot behavior. The loaders were corrected to merge both sources, giving $155{,}808$ training and $15{,}063$ validation images, and the affected models were retrained. \Cref{chapter:results} reports post-correction figures throughout.
+The training signal for Band A is allocated entirely to synthetic imagery. For the first generation of trained models, however, this was not the case. Since all three pipelines read only the real-image annotation files, which contain no Band A images, the exactly-zero Band A accuracy of those models reflects zero-shot behavior. The loaders were corrected to merge both sources, providing $155{,}808$ training images and $15{,}063$ validation images. The affected models were then retrained. \Cref{chapter:results} reports post-correction figures throughout.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Synthetic Image Generation Pipeline}\label{sec:synthetic_generation_pipeline}
 
-Synthetic images were produced with \textit{Gemini}'s \texttt{gemini-3.1-flash-image-preview} model \cite{GeminiAPI}. Prompt-length capacity drove that choice. The construction below inserts substantial verbatim reference text into every request, and the candidates differ by orders of magnitude in what they can read (\Cref{tab:prompt-capacity}). Beyond that the model was chosen by inspecting sample outputs, an insufficient basis for a decision of this weight, which \Cref{sec:generator_comparison} revisits.
+Synthetic images were produced using the \textit{Gemini} \texttt{gemini-3.1-flash-image-preview} model \cite{GeminiAPI}. The choice was driven by prompt-length capacity. The construction below inserts a substantial amount of verbatim reference text into every request. The candidates differ by orders of magnitude in terms of their reading capacity (\Cref{tab:prompt-capacity}). Beyond that the model was chosen by inspecting sample outputs, an insufficient basis for a decision of this weight, which \Cref{sec:generator_comparison} revisits.
 
 \begin{table}[H]
 \centering
@@ -61,16 +61,16 @@ Each generated image is specified along six largely independent axes, chosen to 
 Two axes were specified and never implemented: roughly $15$ to $20\%$ juvenile subjects, and even sex representation for dimorphic species. Neither is conditioned anywhere in the pipeline, so whatever variation the dataset shows along them is incidental. Juvenile animals and the less-ornamented sex are exactly what a detector is most likely to miss, which makes this a substantive coverage gap.
 
 \paragraph{Prompt Construction}
-Prompts follow a fixed template of five blocks: subject, species description, scene specification, photography style, and critical requirements. The raw text of a species' Wikipedia Description, Behavior and Habitat sections is inserted verbatim, since summarizing it risks discarding visually relevant detail such as fur pattern.
+The prompts follow a fixed template of five blocks: subject, species description, scene specification, photography style, and critical requirements. The raw text from the Wikipedia Description, Behavior, and Habitat sections of a species' page is inserted verbatim since summarizing it risks omitting visually relevant details, such as fur patterns.
 
-Three prompt constraints have consequences elsewhere. The animal must be fully visible, with no part cut off at the frame edge, because a subject cropped at the boundary cannot plausibly be scaled down by the scale augmentation of \Cref{sec:data_augmentation}. Exactly one individual of the target species may appear, which keeps automatic single-box annotation valid. Text, watermarks, borders and anachronistic objects are prohibited, since a detector would otherwise treat them as evidence.
+Three prompt constraints have consequences elsewhere. First, the animal must be fully visible, with no part cut off at the frame edge. This is because a subject cropped at the boundary cannot plausibly be scaled down by the scale augmentation of \Cref{sec:data_augmentation}. Exactly one individual of the target species may appear, which keeps automatic single-box annotation valid. Text, watermarks, borders, and anachronistic objects are prohibited since a detector would otherwise treat them as evidence.
 
 \paragraph{Generation Schedule and Curated Validation Set}
-Band A classes receive $200$ images each, $160$ training and $40$ validation. The validation images are not drawn from the same generation distribution. They use fixed \enquote{prototypical} shot parameters (eye-level angle, medium distance, canonical poses, minimal occlusion) chosen to resemble typical field photography, so that early stopping is not tuned for synthetic-image performance specifically. Band B classes receive $100$ images each under the same criteria.
+Band A classes receive $200$ images each: $160$ for training and $40$ for validation. The validation images are not drawn from the same generation distribution. They use fixed \enquote{prototypical} shot parameters (eye-level angle, medium distance, canonical poses, minimal occlusion) chosen to resemble typical field photography so that early stopping is not specifically tuned for synthetic-image performance. Band B classes receive $100$ images each under the same criteria.
 
 \paragraph{Photography Style}
-Images were generated in a documentary wildlife-photography style, observed through optical binoculars, in full-scene sharp focus. That anchor replaced an earlier shallow-depth-of-field style once the ten genuine \textit{AX Visio} captures available showed that the binocular's optics produce no background blur at any distance.  % resources/AX_Visio_images/
-Blurred backgrounds would have supplied a subject-background separation cue absent at inference. The $380$ images generated before the correction were kept and flagged as a non-target style, and the remaining $12{,}220$ follow the corrected one.
+The images were generated in the style of documentary wildlife photography, observed through optical binoculars in sharp focus across the entire scene. The anchor replaced an earlier shallow-depth-of-field style once the ten available genuine \textit{AX Visio} captures showed that the binocular's optics produce no background blur at any distance.  % resources/AX_Visio_images/
+Blurred backgrounds would have provided a cue for separating the subject from the background, which was absent at inference. The $380$ images generated before the correction were kept and flagged as a non-target style. The remaining $12{,}220$ images follow the corrected style.
 
 \paragraph{Format and Quality Control}
 Images were requested at the generator's smallest size in a $4{:}3$ aspect ratio and are written at $592 \times 448$ pixels. Both choices are economic: synthetic images are letterboxed down to the detector's input resolution anyway, so a larger size adds detail the pipeline discards, and $4{:}3$ wastes the least area in that letterboxing. Every image then passes through \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019}, and any without a qualifying detection is flagged for regeneration.
@@ -78,7 +78,7 @@ Images were requested at the generator's smallest size in a $4{:}3$ aspect ratio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Prompt Diversity Refinement}\label{sec:prompt_diversity}
 
-A bank of plausible ecological scenarios is pre-generated per species with a lower-cost language model, varying behavior, substrate, viewpoint, lighting and season jointly rather than independently. Review of the first $50$ images per class showed that bank converging on the modal description of an animal, so five constraints were added to the scenario-generation step:
+A bank of plausible ecological scenarios is pre-generated for each species using a low-cost language model that varies behavior, substrate, viewpoint, lighting, and season jointly rather than independently. A review of the first $50$ images per class showed that the bank was converging on the modal description of an animal. Therefore, five constraints were added to the scenario-generation step:
 
 \begin{enumerate}
     \item at least one resting or sleeping behavior,
@@ -88,19 +88,19 @@ A bank of plausible ecological scenarios is pre-generated per species with a low
     \item guild minimums, such as climbing for arboreal species and digging for fossorial ones.
 \end{enumerate}
 
-Affected classes were regenerated by clearing their cached scenario profiles. Diverse images are of no use to a detector until they carry boxes, which the generator does not supply.
+The affected classes were regenerated by clearing their cached scenario profiles. Images of diverse subjects are of no use to a detector until they contain boxes, which the generator does not provide.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bounding-Box Annotation of Synthetic Images}\label{sec:synthetic_annotation}
 
-Synthetic images need the same bounding-box ground truth as real ones, and the routing rule follows from the prompts' single-animal constraint. An image on which the detector finds exactly one animal is what the prompt intended and needs only cheap confirmation. One with none, or with two or more, needs a box drawn by hand. Across the batch, $2$ images ($0.0\%$) carried no significant detection, $12{,}445$ ($98.8\%$) exactly one, and $153$ ($1.2\%$) two or more. $403$ were labeled by hand.
+Synthetic images require the same bounding-box ground truth as real images. The routing rule stems from the prompts' single-animal constraint. An image on which the detector finds exactly one animal is what the prompt intended and requires only basic confirmation. An image with no animals or with more than one animal requires a hand-drawn box. Of the images in the batch, $2$ ($0.0\%$) had no significant detection, $12{,}445$ ($98.8\%$) had exactly one, and $153$ ($1.2\%$) had two or more. $403$ were labeled by hand.
 
-One property qualifies how far that ground truth can be trusted. The confirmation step is a negative-confirmation interface: the reviewer clicks only to \emph{reject} the detector's reading, and every image left unclicked is committed as confirmed. It measures the rejection rate, not an independent judgment per image, so $98.8\%$ is an upper bound on verification.
+One property qualifies how far that ground truth can be trusted. The confirmation step is a negative-confirmation interface. The reviewer only clicks to \emph{reject} the detector's reading. Every image that is not clicked is considered confirmed. It measures the rejection rate, not an independent judgment per image, so $98.8\%$ is an upper bound on verification.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Balanced Synthetic Test Set}\label{sec:synthetic_test_set}
 
-The real test set varies from $6$ images for the most data-poor Band A classes to $500$ for the largest Band D classes, so it cannot support cross-band comparison without confounding it with test-set size. \Cref{tab:synthetic-test-motivation} states the problems and the standardized $225 \times 50$ synthetic test set built against them.
+The real test set ranges from $6$ images for the most data-poor Band A classes to $500$ images for the largest Band D classes. Therefore, it cannot support cross-band comparisons without confounding them with test set size. \Cref{tab:synthetic-test-motivation} outlines the issues and presents the standardized $225 \times 50$ synthetic test set developed to address them.
 
 \begin{table}[H]
 \centering
@@ -117,11 +117,11 @@ Failure analysis impossible on uncontrolled images & Fixed angle, behavior and l
 \end{tabularx}
 \end{table}
 
-The synthetic test images follow the prototypical shot design of the Band A validation set, ten per class in each of five behaviors: standing-alert, walking, foraging, resting, and looking at the camera. The verified set holds $11{,}250$ images and $11{,}264$ boxes over all $225$ categories, with identifiers matching the real test set so the two merge directly. Behavioral composition is balanced by construction at $2{,}250$ images per behavior, which is what makes condition-level comparison meaningful. The set is a secondary, diagnostic instrument, used only under the evaluation policy of \Cref{sec:mixed_default}.
+The synthetic test images adhere to the prototypical shot design of the Band A validation set. There are ten images per class, spanning five behaviors: standing-alert, walking, foraging, resting, and looking at the camera. The verified set contains $11{,}250$ images and $11{,}264$ boxes across all $225$ categories. The identifiers match those of the real test set, allowing the two to merge directly. Behavioral composition is balanced at $2{,}250$ images per behavior, making condition-level comparison meaningful. The set is a secondary, diagnostic instrument, used only under the evaluation policy of \Cref{sec:mixed_default}.
 
-One design asymmetry should be noted. The training behavior descriptions are phrased terrestrially, so an arboreal or aquatic species is asked to walk with a natural gait, whereas the test descriptions allow climbing, swimming or wading. Those species are described differently in training than in testing, a small self-inflicted domain shift affecting exactly the guilds whose imagery is scarcest.
+One design asymmetry should be noted. The training behavior descriptions are phrased in terms of terrestrial movement, so an arboreal or aquatic species is instructed to walk with a natural gait. In contrast, the test descriptions allow for climbing, swimming, or wading. These species are described differently during training than during testing. This small, self-inflicted domain shift affects exactly the guilds with the scarcest imagery.
 
-\Cref{tab:synthetic-composition} summarizes what the pipeline produced.
+\Cref{tab:synthetic-composition} summarizes the output of the pipeline.
 
 \begin{table}[H]
 \centering

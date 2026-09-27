@@ -1,0 +1,561 @@
+{
+ "source": "thesis/manuscript/chapters/5-Discussion_and_Conclusion.tex",
+ "source_sha": "f06547a6630978e284304004fa480883b787b5f77f573b431fa1d6fc92178786",
+ "target_lang": "en-US",
+ "created": "2026-09-27T21:34:44+00:00",
+ "paragraphs": [
+  {
+   "id": "P001",
+   "line": 5,
+   "section": "Discussion and Conclusion",
+   "indent": "",
+   "original": "This chapter answers the four research questions of \\Cref{sec:objective} from the evidence of \\Cref{chapter:results}, states the limitations that bound each answer (\\Cref{sec:limitations}), derives the further work they motivate (\\Cref{sec:further_work}), and closes with what the work establishes (\\Cref{sec:conclusion}).",
+   "sent": "This chapter answers the four research questions of ZQX0ZQX from the evidence of ZQX1ZQX, states the limitations that bound each answer (ZQX2ZQX), derives the further work they motivate (ZQX3ZQX), and closes with what the work establishes (ZQX4ZQX).",
+   "received": "This chapter addresses the four research questions of ZQX0ZQX using the evidence from ZQX1ZQX. It states the limitations that bound each answer (ZQX2ZQX), derives the further work that is needed (ZQX3ZQX), and concludes with the results of the work (ZQX4ZQX).",
+   "restored": "This chapter addresses the four research questions of \\Cref{sec:objective} using the evidence from \\Cref{chapter:results}. It states the limitations that bound each answer (\\Cref{sec:limitations}), derives the further work that is needed (\\Cref{sec:further_work}), and concludes with the results of the work (\\Cref{sec:conclusion}).",
+   "flags": [],
+   "status": "fetched",
+   "chars": 249
+  },
+  {
+   "id": "P002",
+   "line": 10,
+   "section": "Discussion",
+   "indent": "",
+   "original": "The research questions are restated verbatim and answered one at a time.",
+   "sent": "The research questions are restated verbatim and answered one at a time.",
+   "received": "The research questions are restated verbatim and addressed individually.",
+   "restored": "The research questions are restated verbatim and addressed individually.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 72
+  },
+  {
+   "id": "P003",
+   "line": 13,
+   "section": "Discussion",
+   "indent": "    ",
+   "original": "\\item Does knowledge distillation from a fine-tuned teacher model into a nano-scale student model yield higher detection accuracy than fine-tuning the same student directly on the wildlife dataset, given the domain shift from COCO-style classes to $225$ mammal species?",
+   "sent": "",
+   "received": null,
+   "restored": null,
+   "flags": [
+    "verbatim-echo"
+   ],
+   "status": "held-back",
+   "chars": 0
+  },
+  {
+   "id": "P004",
+   "line": 14,
+   "section": "Discussion",
+   "indent": "    ",
+   "original": "\\item Which synthetic-image generator produces the most useful training data for this domain, and do the two criteria available before any detector is trained, apparent visual realism and per-image price, predict that ranking?",
+   "sent": "",
+   "received": null,
+   "restored": null,
+   "flags": [
+    "verbatim-echo"
+   ],
+   "status": "held-back",
+   "chars": 0
+  },
+  {
+   "id": "P005",
+   "line": 15,
+   "section": "Discussion",
+   "indent": "    ",
+   "original": "\\item How does the composition of a class's training data, from synthetic images alone through a large pool of real photographs, affect detection accuracy, and does accuracy measured on the mixed test set hold up on the real test set alone?",
+   "sent": "",
+   "received": null,
+   "restored": null,
+   "flags": [
+    "verbatim-echo"
+   ],
+   "status": "held-back",
+   "chars": 0
+  },
+  {
+   "id": "P006",
+   "line": 16,
+   "section": "Discussion",
+   "indent": "    ",
+   "original": "\\item Does a nano-scale detector meet the per-frame latency budget of the target hardware without quantization or any other compression step, measured on a target-adjacent proxy device?",
+   "sent": "",
+   "received": null,
+   "restored": null,
+   "flags": [
+    "verbatim-echo"
+   ],
+   "status": "held-back",
+   "chars": 0
+  },
+  {
+   "id": "P007",
+   "line": 20,
+   "section": "Question $1$: Distillation Against Direct Fine-Tuning",
+   "indent": "",
+   "original": "No, at the one design point tested. Direct fine-tuning is ahead in all $17$ cells of \\Cref{tab:kd-vs-direct}, reaching $0.599$ mAP on the mixed test set against the distilled student's $0.560$, and $0.529$ against $0.479$ on the real-only breakout. The margin is widest on Band A, whose supervision is entirely synthetic and thin, so the negative answer holds on the hypothesis's own best case rather than only on aggregate.",
+   "sent": "No, at the one design point tested. Direct fine-tuning is ahead in all 17 cells of ZQX0ZQX, reaching 0.599 mAP on the mixed test set against the distilled student's 0.560, and 0.529 against 0.479 on the real-only breakout. The margin is widest on Band A, whose supervision is entirely synthetic and thin, so the negative answer holds on the hypothesis's own best case rather than only on aggregate.",
+   "received": "No, at the one design point tested. Direct fine-tuning outperforms the distilled student in all 17 cells of ZQX0ZQX, achieving a mAP of 0.599 on the mixed test set compared to the distilled student's 0.560. On the real-only breakout, direct fine-tuning achieves a mAP of 0.529 compared to the distilled student's 0.479. The margin is widest on Band A, whose supervision is entirely synthetic and minimal, so the negative answer applies to the hypothesis's best-case scenario rather than to the aggregate.",
+   "restored": "No, at the one design point tested. Direct fine-tuning outperforms the distilled student in all $17$ cells of \\Cref{tab:kd-vs-direct}, achieving a mAP of $0.599$ on the mixed test set compared to the distilled student's $0.560$. On the real-only breakout, direct fine-tuning achieves a mAP of $0.529$ compared to the distilled student's $0.479$. The margin is widest on Band A, whose supervision is entirely synthetic and minimal, so the negative answer applies to the hypothesis's best-case scenario rather than to the aggregate.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 398
+  },
+  {
+   "id": "P008",
+   "line": 22,
+   "section": "Question $1$: Distillation Against Direct Fine-Tuning",
+   "indent": "",
+   "original": "Three properties limit how far that answer generalizes. The distilled run trained at an effective batch size of $16$ against $32$ and ended early with its validation metric still rising, so batch size is a second varied factor and the magnitude of the gap is unquantified (\\Cref{sec:results_kd_basic_comparison}). One $(T, \\alpha)$ point ran rather than the grid of \\Cref{sec:kd_loss}, at a parameter ratio of roughly $70$ to $1$, which \\Cref{sec:kd_loss} identifies as far outside the range treated as safe and as a documented setting for negative transfer. And the domain shift the question names as its premise, though present by construction, is unmeasured, because the student's zero-shot baseline was never produced (\\Cref{sec:results_headline_mixed}). The comparison rules out a benefit from response-based distillation at $T = 4$ and $\\alpha = 0.5$ with this pairing, and not knowledge distillation for this domain.",
+   "sent": "Three properties limit how far that answer generalizes. The distilled run trained at an effective batch size of 16 against 32 and ended early with its validation metric still rising, so batch size is a second varied factor and the magnitude of the gap is unquantified (ZQX0ZQX). One ZQX1ZQX point ran rather than the grid of ZQX2ZQX, at a parameter ratio of roughly 70 to 1, which ZQX3ZQX identifies as far outside the range treated as safe and as a documented setting for negative transfer. And the domain shift the question names as its premise, though present by construction, is unmeasured, because the student's zero-shot baseline was never produced (ZQX4ZQX). The comparison rules out a benefit from response-based distillation at ZQX5ZQX and ZQX6ZQX with this pairing, and not knowledge distillation for this domain.",
+   "received": "Three properties limit how far the answer can be generalized. First, the distilled run was trained at an effective batch size of 16 against 32 and ended early while the validation metric was still rising. Second, the batch size varied, and the magnitude of the gap is unquantified (ZQX0ZQX). One ZQX1ZQX point was used instead of the ZQX2ZQX grid, with a parameter ratio of about 70 to 1. ZQX3ZQX identifies this ratio as being far outside the range considered safe, as well as a documented setting for negative transfer. The domain shift, which the question identifies as its premise, is unmeasured because the student's zero-shot baseline was never produced (ZQX4ZQX). The comparison rules out the possibility of a benefit from response-based distillation at ZQX5ZQX and ZQX6ZQX with this pairing and rules out the possibility of knowledge distillation for this domain.",
+   "restored": "Three properties limit how far the answer can be generalized. First, the distilled run was trained at an effective batch size of $16$ against $32$ and ended early while the validation metric was still rising. Second, the batch size varied, and the magnitude of the gap is unquantified (\\Cref{sec:results_kd_basic_comparison}). One $(T, \\alpha)$ point was used instead of the \\Cref{sec:kd_loss} grid, with a parameter ratio of about $70$ to $1$. \\Cref{sec:kd_loss} identifies this ratio as being far outside the range considered safe, as well as a documented setting for negative transfer. The domain shift, which the question identifies as its premise, is unmeasured because the student's zero-shot baseline was never produced (\\Cref{sec:results_headline_mixed}). The comparison rules out the possibility of a benefit from response-based distillation at $T = 4$ and $\\alpha = 0.5$ with this pairing and rules out the possibility of knowledge distillation for this domain.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 823
+  },
+  {
+   "id": "P009",
+   "line": 25,
+   "section": "Question $2$: Generator Choice",
+   "indent": "",
+   "original": "\\texttt{gpt-image-2} at its cheapest quality tier, under the unabridged \\texttt{full} prompt regime, produced the most useful training data of the twelve cells compared, at $0.134 \\pm 0.014$ mAP on the real test set (\\Cref{tab:generator-ranking}). Neither criterion the question names predicts that ranking. Apparent visual realism selected the incumbent, which ranks third of twelve, is beaten by roughly $28\\%$ under an identical prompt regime and is tied with its own vendor's cheaper variant. Per-image price predicts nothing, since the two \\texttt{gpt-image-2} tiers differ by a factor of $2.9$ in price and are separated by $0.008$ mAP against a combined standard deviation of roughly $0.018$, and in neither vendor family nor in the local grid is the cheaper cell the worse one (\\Cref{sec:results_cost_vs_quality}).",
+   "sent": "gpt-image-2 at its cheapest quality tier, under the unabridged full prompt regime, produced the most useful training data of the twelve cells compared, at 0.134 ± 0.014 mAP on the real test set (ZQX0ZQX). Neither criterion the question names predicts that ranking. Apparent visual realism selected the incumbent, which ranks third of twelve, is beaten by roughly 28% under an identical prompt regime and is tied with its own vendor's cheaper variant. Per-image price predicts nothing, since the two gpt-image-2 tiers differ by a factor of 2.9 in price and are separated by 0.008 mAP against a combined standard deviation of roughly 0.018, and in neither vendor family nor in the local grid is the cheaper cell the worse one (ZQX1ZQX).",
+   "received": "At its cheapest quality tier and under the unabridged, full prompt regime, GPT-Image-2 produced the most useful training data of the twelve cells compared, with a mean average precision (mAP) of 0.134 ± 0.014 on the real test set (ZQX0ZQX). Neither of the two criteria named in the question predicts that ranking. Apparent visual realism selected the incumbent, which ranks third out of twelve. It is beaten by roughly 28% under an identical prompt regime and tied with its own vendor's cheaper variant. Price per image predicts nothing since the two GPT-Image-2 tiers differ in price by a factor of 2.9 and are separated by 0.008 mAP, with a combined standard deviation of approximately 0.018. In neither vendor family nor the local grid is the cheaper cell worse (ZQX1ZQX).",
+   "restored": "At its cheapest quality tier and under the unabridged, \\texttt{full} prompt regime, \\texttt{gpt-image-2} produced the most useful training data of the twelve cells compared, with a mean average precision (mAP) of $0.134 \\pm 0.014$ on the real test set (\\Cref{tab:generator-ranking}). Neither of the two criteria named in the question predicts that ranking. Apparent visual realism selected the incumbent, which ranks third out of twelve. It is beaten by roughly $28\\%$ under an identical prompt regime and tied with its own vendor's cheaper variant. Price per image predicts nothing since the two \\texttt{gpt-image-2} tiers differ in price by a factor of $2.9$ and are separated by $0.008$ mAP, with a combined standard deviation of approximately $0.018$. In neither vendor family nor the local grid is the cheaper cell worse (\\Cref{sec:results_cost_vs_quality}).",
+   "flags": [
+    "wrap-case: gpt-image-2 -> GPT-Image-2",
+    "wrap-ambiguous: gpt-image-2",
+    "wrap-reordered: full",
+    "wrap-case: gpt-image-2 -> GPT-Image-2"
+   ],
+   "status": "fetched",
+   "chars": 734
+  },
+  {
+   "id": "P010",
+   "line": 27,
+   "section": "Question $2$: Generator Choice",
+   "indent": "",
+   "original": "A third criterion the question did not anticipate outranks both. Compressing the prompt roughly halves downstream accuracy, at $-45\\%$ and $-48\\%$ for the two models of \\Cref{tab:prompt-length-ablation}, larger than most model-to-model differences in the ranking, so how much diagnostic detail a generator is given matters more than which generator is chosen. That holds for data-rich classes and under the single evaluation axis executed. On the rare classes it answers nothing, since five of the six stay below $0.05$ average precision for every cell and one generator draws kinkajous with a ringed tail at no measured penalty (\\Cref{sec:results_per_class_structure}). The comparison ranks generators for well-photographed classes and establishes that its own instrument cannot rank them for the long-tail classes that motivated generating images in the first place.",
+   "sent": "A third criterion the question did not anticipate outranks both. Compressing the prompt roughly halves downstream accuracy, at -45% and -48% for the two models of ZQX0ZQX, larger than most model-to-model differences in the ranking, so how much diagnostic detail a generator is given matters more than which generator is chosen. That holds for data-rich classes and under the single evaluation axis executed. On the rare classes it answers nothing, since five of the six stay below 0.05 average precision for every cell and one generator draws kinkajous with a ringed tail at no measured penalty (ZQX1ZQX). The comparison ranks generators for well-photographed classes and establishes that its own instrument cannot rank them for the long-tail classes that motivated generating images in the first place.",
+   "received": "A third criterion that the question did not anticipate outranks both. Compressing the prompt reduces downstream accuracy by about half, with a difference of -45% and -48% between the two ZQX0ZQX models. This difference is larger than most model-to-model differences in the ranking. Therefore, how much diagnostic detail a generator is given matters more than which generator is chosen. This holds for data-rich classes and the single evaluation axis. For rare classes, it provides no answers, as five of the six stay below 0.05 average precision for every cell, and one generator depicts kinkajous with ringed tails at no penalty. This comparison ranks generators for well-photographed classes and shows that the instrument itself cannot rank them for the long-tail classes that motivated generating images in the first place.",
+   "restored": "A third criterion the question did not anticipate outranks both. Compressing the prompt roughly halves downstream accuracy, at $-45\\%$ and $-48\\%$ for the two models of \\Cref{tab:prompt-length-ablation}, larger than most model-to-model differences in the ranking, so how much diagnostic detail a generator is given matters more than which generator is chosen. That holds for data-rich classes and under the single evaluation axis executed. On the rare classes it answers nothing, since five of the six stay below $0.05$ average precision for every cell and one generator draws kinkajous with a ringed tail at no measured penalty (\\Cref{sec:results_per_class_structure}). The comparison ranks generators for well-photographed classes and establishes that its own instrument cannot rank them for the long-tail classes that motivated generating images in the first place.",
+   "flags": [
+    "token-lost: 1 LaTeX span(s) did not come back: '\\\\Cref{sec:results_per_class_structure}'"
+   ],
+   "status": "fetched",
+   "chars": 803
+  },
+  {
+   "id": "P011",
+   "line": 30,
+   "section": "Question $3$: Training-Data Composition",
+   "indent": "",
+   "original": "Composition matters non-linearly. Replacing half of a small real training set with synthetic imagery changes accuracy by no more than $0.003$ mAP in two of the three models, at $0.588$ against $0.591$ on the real test set for \\textit{YOLO26n} and $0.638$ against $0.639$ for the fine-tuned teacher (\\Cref{tab:band-grid-real}). \\textit{YOLOv5s} is the exception, at $0.341$ against $0.386$. Replacing all of it leaves the primary detector at $0.300$, roughly half the $0.591$ the same budget of real photographs achieves. That gap is an order of magnitude larger than the Band B against Band C difference beside it, so its direction survives the absence of confidence intervals where the smaller difference does not. Each figure comes from a single run, and the bands hold different species assigned by data availability rather than at random.",
+   "sent": "Composition matters non-linearly. Replacing half of a small real training set with synthetic imagery changes accuracy by no more than 0.003 mAP in two of the three models, at 0.588 against 0.591 on the real test set for YOLO26n and 0.638 against 0.639 for the fine-tuned teacher (ZQX0ZQX). YOLOv5s is the exception, at 0.341 against 0.386. Replacing all of it leaves the primary detector at 0.300, roughly half the 0.591 the same budget of real photographs achieves. That gap is an order of magnitude larger than the Band B against Band C difference beside it, so its direction survives the absence of confidence intervals where the smaller difference does not. Each figure comes from a single run, and the bands hold different species assigned by data availability rather than at random.",
+   "received": "Composition matters nonlinearly. Replacing half of a small real training set with synthetic images reduces accuracy by no more than 0.003 mAP in two of the three models. For YOLO26n, it drops from 0.591 to 0.588 on the real test set, and for the fine-tuned teacher (ZQX0ZQX), it drops from 0.639 to 0.638. However, YOLOv5s is the exception at 0.341 versus 0.386. Using only synthetic images leaves the primary detector at 0.300, which is roughly half of the 0.591 that the same number of real photographs achieves. This difference is an order of magnitude larger than the difference between Bands B and C, so it survives the absence of confidence intervals, unlike the smaller difference. Each figure comes from a single run, and the bands contain different species that are assigned based on data availability rather than randomly.",
+   "restored": "Composition matters nonlinearly. Replacing half of a small real training set with synthetic images reduces accuracy by no more than $0.003$ mAP in two of the three models. For \\textit{YOLO26n}, it drops from $0.591$ to $0.588$ on the real test set, and for the fine-tuned teacher (\\Cref{tab:band-grid-real}), it drops from $0.639$ to $0.638$. However, \\textit{YOLOv5s} is the exception at $0.341$ versus $0.386$. Using only synthetic images leaves the primary detector at $0.300$, which is roughly half of the $0.591$ that the same number of real photographs achieves. This difference is an order of magnitude larger than the difference between Bands B and C, so it survives the absence of confidence intervals, unlike the smaller difference. Each figure comes from a single run, and the bands contain different species that are assigned based on data availability rather than randomly.",
+   "flags": [
+    "wrap-reordered: YOLO26n",
+    "wrap-reordered: 0.638",
+    "wrap-reordered: 0.639",
+    "wrap-reordered: YOLOv5s",
+    "wrap-reordered: 0.341",
+    "wrap-reordered: 0.386",
+    "wrap-reordered: 0.300",
+    "wrap-reordered: 0.591"
+   ],
+   "status": "fetched",
+   "chars": 788
+  },
+  {
+   "id": "P012",
+   "line": 32,
+   "section": "Question $3$: Training-Data Composition",
+   "indent": "",
+   "original": "Accuracy measured on the mixed test set does not hold up on the real test set alone. The real-only breakout falls below the mixed headline for all four models, by between $0.042$ and $0.089$ mAP (\\Cref{tab:headline-cross-model}). The paired per-class delta shows why. $\\Delta_{\\text{domain}}$ is negative for $208$ of the $224$ banded classes and for all $76$ of Band A and Band B, and the synthetic test set is easier by a median of $0.21$ mAP on Band D and $0.72$ on Band A (\\Cref{tab:domain-shift-delta}). Roughly $0.2$ mAP of that is not domain shift, since a synthetic test image holds one centered animal by construction while a real one averages $1.44$ boxes.",
+   "sent": "Accuracy measured on the mixed test set does not hold up on the real test set alone. The real-only breakout falls below the mixed headline for all four models, by between 0.042 and 0.089 mAP (ZQX0ZQX). The paired per-class delta shows why. ZQX1ZQX is negative for 208 of the 224 banded classes and for all 76 of Band A and Band B, and the synthetic test set is easier by a median of 0.21 mAP on Band D and 0.72 on Band A (ZQX2ZQX). Roughly 0.2 mAP of that is not domain shift, since a synthetic test image holds one centered animal by construction while a real one averages 1.44 boxes.",
+   "received": "Accuracy measured on the mixed test set does not translate to the real test set. For all four models, the real-only breakout falls below the mixed headline by between 0.042 and 0.089 mAP (ZQX0ZQX). The paired per-class delta shows why. ZQX1ZQX is negative for 208 of the 224 banded classes, as well as for all 76 of Bands A and B. The synthetic test set is easier by a median of 0.21 mAP for Band D and 0.72 for Band A (ZQX2ZQX). About 0.2 mAP of that difference is not due to domain shift since a synthetic test image contains one animal in the center by design, whereas a real image contains an average of 1.44 animals.",
+   "restored": "Accuracy measured on the mixed test set does not translate to the real test set. For all four models, the real-only breakout falls below the mixed headline by between $0.042$ and $0.089$ mAP (\\Cref{tab:headline-cross-model}). The paired per-class delta shows why. $\\Delta_{\\text{domain}}$ is negative for $208$ of the $224$ banded classes, as well as for all $76$ of Bands A and B. The synthetic test set is easier by a median of $0.21$ mAP for Band D and $0.72$ for Band A (\\Cref{tab:domain-shift-delta}). About $0.2$ mAP of that difference is not due to domain shift since a synthetic test image contains one animal in the center by design, whereas a real image contains an average of $1.44$ animals.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 585
+  },
+  {
+   "id": "P013",
+   "line": 34,
+   "section": "Question $3$: Training-Data Composition",
+   "indent": "",
+   "original": "The watchdog \\Cref{sec:mixed_default} attached to the mixed default therefore fired, and \\Cref{sec:results_domain_shift} records the verdict. The designed revision, restoring the real test set as the reported default, was not carried out within the available time, which is a deviation from the stated protocol rather than an unexplored axis. Every headline figure in \\Cref{chapter:results} appears with its real-only breakout beside it, which limits the damage without repairing it.",
+   "sent": "The watchdog ZQX0ZQX attached to the mixed default therefore fired, and ZQX1ZQX records the verdict. The designed revision, restoring the real test set as the reported default, was not carried out within the available time, which is a deviation from the stated protocol rather than an unexplored axis. Every headline figure in ZQX2ZQX appears with its real-only breakout beside it, which limits the damage without repairing it.",
+   "received": "The ZQX0ZQX watchdog, which is attached to the mixed default, therefore fired, and the ZQX1ZQX records the verdict. The designed revision, which would have restored the real test set as the reported default, was not carried out within the available time. This deviation from the stated protocol is not an unexplored axis. Every headline figure in ZQX2ZQX appears with its real breakout beside it, limiting the damage but not repairing it.",
+   "restored": "The \\Cref{sec:mixed_default} watchdog, which is attached to the mixed default, therefore fired, and the \\Cref{sec:results_domain_shift} records the verdict. The designed revision, which would have restored the real test set as the reported default, was not carried out within the available time. This deviation from the stated protocol is not an unexplored axis. Every headline figure in \\Cref{chapter:results} appears with its real breakout beside it, limiting the damage but not repairing it.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 427
+  },
+  {
+   "id": "P014",
+   "line": 37,
+   "section": "Question $4$: The Per-Frame Latency Budget Without Compression",
+   "indent": "",
+   "original": "No configuration measured in \\Cref{sec:results_embedded_benchmark} meets the project's $\\leq 30$\\,ms per-frame design target, and the shortfall is not marginal. The fastest model is \\textit{YOLO26n} under direct fine-tuning, at $423$\\,ms end-to-end on the \\textit{Raspberry Pi 400} proxy, roughly $360$--$381$\\,ms on the \\textit{QCS605} CPU and about twelve times the budget, while \\textit{YOLOv5s} needs $949$\\,ms. The memory axis is met, with all three detectors below the $\\leq 500$\\,MB ceiling and neither teacher component under it. The teacher's latency settles a separate question, since \\textit{MegaDetector v5a} alone takes $31.0$\\,s per frame and the ensemble estimate reaches roughly $35$\\,s, confirming by measurement what \\Cref{sec:lit_yolo_family} argued: the ensemble cannot ship on this hardware.",
+   "sent": "No configuration measured in ZQX0ZQX meets the project's ZQX1ZQXZQX2ZQXms per-frame design target, and the shortfall is not marginal. The fastest model is YOLO26n under direct fine-tuning, at 423ZQX3ZQXms end-to-end on the Raspberry Pi 400 proxy, roughly 360--381ZQX4ZQXms on the QCS605 CPU and about twelve times the budget, while YOLOv5s needs 949ZQX5ZQXms. The memory axis is met, with all three detectors below the ZQX6ZQXZQX7ZQXMB ceiling and neither teacher component under it. The teacher's latency settles a separate question, since MegaDetector v5a alone takes 31.0ZQX8ZQXs per frame and the ensemble estimate reaches roughly 35ZQX9ZQXs, confirming by measurement what ZQX10ZQX argued: the ensemble cannot ship on this hardware.",
+   "received": "No configuration measured in ZQX0ZQX meets the project's ZQX1ZQXZQX2ZQXms per-frame design target, and the discrepancy is significant. The fastest model is YOLOv2 under direct fine-tuning at 423 ms end-to-end on the Raspberry Pi 400 proxy, which is roughly 360–381 ms on the QCS605 CPU. This is about twelve times the budget. YOLOv5s needs 949 ms. All three detectors meet the memory requirement, with all three below the ZQX6ZQXZQX7ZQXMB ceiling and neither teacher component exceeding it. However, the teacher's latency raises a separate issue, as MegaDetector v5a alone takes 31.0 ms per frame, and the ensemble estimate reaches approximately 35 ms. This confirms, through measurement, what ZQX10ZQX argued: the ensemble cannot be shipped on this hardware.",
+   "restored": "No configuration measured in \\Cref{sec:results_embedded_benchmark} meets the project's $\\leq 30$\\,ms per-frame design target, and the shortfall is not marginal. The fastest model is \\textit{YOLO26n} under direct fine-tuning, at $423$\\,ms end-to-end on the \\textit{Raspberry Pi 400} proxy, roughly $360$--$381$\\,ms on the \\textit{QCS605} CPU and about twelve times the budget, while \\textit{YOLOv5s} needs $949$\\,ms. The memory axis is met, with all three detectors below the $\\leq 500$\\,MB ceiling and neither teacher component under it. The teacher's latency settles a separate question, since \\textit{MegaDetector v5a} alone takes $31.0$\\,s per frame and the ensemble estimate reaches roughly $35$\\,s, confirming by measurement what \\Cref{sec:lit_yolo_family} argued: the ensemble cannot ship on this hardware.",
+   "flags": [
+    "token-lost: 5 LaTeX span(s) did not come back: '\\\\,', '\\\\,', '\\\\,', '\\\\,', '\\\\,'"
+   ],
+   "status": "fetched",
+   "chars": 737
+  },
+  {
+   "id": "P015",
+   "line": 39,
+   "section": "Question $4$: The Per-Frame Latency Budget Without Compression",
+   "indent": "",
+   "original": "This answer is not a verdict on the hardware. The question asks about a detector without quantization or any other compression step, and that omission is a scope decision rather than an attempt that failed, so the figures bound latency from above. The Hexagon 685 DSP has no analogue on the proxy, and the accelerated path a shipping product would use, for which \\Cref{sec:lit_embedded_inference} reports order-of-magnitude gains from $8$-bit quantization, remains unmeasured. Whether $30$\\,ms is reachable on the target is therefore still open.",
+   "sent": "This answer is not a verdict on the hardware. The question asks about a detector without quantization or any other compression step, and that omission is a scope decision rather than an attempt that failed, so the figures bound latency from above. The Hexagon 685 DSP has no analogue on the proxy, and the accelerated path a shipping product would use, for which ZQX0ZQX reports order-of-magnitude gains from 8-bit quantization, remains unmeasured. Whether 30ZQX1ZQXms is reachable on the target is therefore still open.",
+   "received": "This answer does not pass judgment on the hardware. The question is about a detector without quantization or any other compression step. That omission is a scope decision, not an unsuccessful attempt, so the figures bound latency from above. The Hexagon 685 DSP has no analog on the proxy, and the accelerated path that a shipping product would use remains unmeasured. ZQX0ZQX reports order-of-magnitude gains from 8-bit quantization for this path. Whether 30 ZQX1 ZQX ms is reachable on the target remains open.",
+   "restored": "This answer is not a verdict on the hardware. The question asks about a detector without quantization or any other compression step, and that omission is a scope decision rather than an attempt that failed, so the figures bound latency from above. The Hexagon 685 DSP has no analogue on the proxy, and the accelerated path a shipping product would use, for which \\Cref{sec:lit_embedded_inference} reports order-of-magnitude gains from $8$-bit quantization, remains unmeasured. Whether $30$\\,ms is reachable on the target is therefore still open.",
+   "flags": [
+    "token-lost: 1 LaTeX span(s) did not come back: '\\\\,'"
+   ],
+   "status": "fetched",
+   "chars": 520
+  },
+  {
+   "id": "P016",
+   "line": 42,
+   "section": "Summary",
+   "indent": "",
+   "original": "The two questions that received the bulk of the experimental effort returned usable findings, one negative about the criteria a practitioner reaches for first when choosing a generator and one positive about a bounded use of synthetic imagery. The two answered at a single design point returned clean negatives inside that scope. No accuracy target was set for this work, and none of the answers identifies accuracy as the blocking axis. The one measured obstacle to deployment is a compression problem.",
+   "sent": "The two questions that received the bulk of the experimental effort returned usable findings, one negative about the criteria a practitioner reaches for first when choosing a generator and one positive about a bounded use of synthetic imagery. The two answered at a single design point returned clean negatives inside that scope. No accuracy target was set for this work, and none of the answers identifies accuracy as the blocking axis. The one measured obstacle to deployment is a compression problem.",
+   "received": "The two questions that received the most experimental attention yielded usable results: one negative finding regarding the criteria that practitioners consider first when choosing a generator, and one positive finding regarding the limited use of synthetic imagery. The two questions answered at a single design point yielded clear negative results within that scope. No accuracy target was set for this work, and none of the answers identified accuracy as the limiting factor. The only obstacle to deployment is a compression problem.",
+   "restored": "The two questions that received the most experimental attention yielded usable results: one negative finding regarding the criteria that practitioners consider first when choosing a generator, and one positive finding regarding the limited use of synthetic imagery. The two questions answered at a single design point yielded clear negative results within that scope. No accuracy target was set for this work, and none of the answers identified accuracy as the limiting factor. The only obstacle to deployment is a compression problem.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 503
+  },
+  {
+   "id": "P017",
+   "line": 47,
+   "section": "Limitations",
+   "indent": "",
+   "original": "Every answer above is bounded by the limitations below, each stated with its consequence.",
+   "sent": "Every answer above is bounded by the limitations below, each stated with its consequence.",
+   "received": "Each of the answers above is limited by the constraints below, each of which is stated with its consequence.",
+   "restored": "Each of the answers above is limited by the constraints below, each of which is stated with its consequence.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 89
+  },
+  {
+   "id": "P018",
+   "line": 50,
+   "section": "No confidence intervals anywhere",
+   "indent": "",
+   "original": "The bootstrap resampling specified in \\Cref{sec:metric_selection} was never run, and every model contributes a single training run, so no difference reported in \\Cref{chapter:results} is statistically significant. A direction holding across $17$ partly independent views of one pair of runs, or a gap the size of the one separating Band A from Band C, is unlikely to be seed noise. A difference of $0.003$ between Band B and Band C carries no information about which composition is better, and the seed episode of \\Cref{sec:results_practicability_verdict} shows a gap in that range reversing outright once two further seeds were added.",
+   "sent": "The bootstrap resampling specified in ZQX0ZQX was never run, and every model contributes a single training run, so no difference reported in ZQX1ZQX is statistically significant. A direction holding across 17 partly independent views of one pair of runs, or a gap the size of the one separating Band A from Band C, is unlikely to be seed noise. A difference of 0.003 between Band B and Band C carries no information about which composition is better, and the seed episode of ZQX2ZQX shows a gap in that range reversing outright once two further seeds were added.",
+   "received": "The bootstrap resampling specified in ZQX0ZQX was never run, and each model contributes only one training run. Therefore, no difference reported in ZQX1ZQX is statistically significant. A consistent trend across 17 partly independent views of one pair of runs, or a gap the size of that between Bands A and C, is unlikely to be due to random variation. A 0.003 difference between Bands B and C provides no information about which composition is better. The seed episode of ZQX2ZQX shows a gap in that range that reverses once two additional seeds are added.",
+   "restored": "The bootstrap resampling specified in \\Cref{sec:metric_selection} was never run, and each model contributes only one training run. Therefore, no difference reported in \\Cref{chapter:results} is statistically significant. A consistent trend across $17$ partly independent views of one pair of runs, or a gap the size of that between Bands A and C, is unlikely to be due to random variation. A $0.003$ difference between Bands B and C provides no information about which composition is better. The seed episode of \\Cref{sec:results_practicability_verdict} shows a gap in that range that reverses once two additional seeds are added.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 562
+  },
+  {
+   "id": "P019",
+   "line": 53,
+   "section": "The watchdog revision was not carried out",
+   "indent": "",
+   "original": "This limitation, alone in this section, deviates from a stated protocol rather than leaving an axis unexplored. \\Cref{sec:mixed_default} committed in advance to revising the default evaluation axes if a systematic discrepancy appeared. It appeared, it is large and one-directional, and the revision did not follow. Every mixed-set figure in this work should be read as a ranking instrument and not as an estimate of accuracy on real photographs, with the real-only breakout beside it carrying that second reading.",
+   "sent": "This limitation, alone in this section, deviates from a stated protocol rather than leaving an axis unexplored. ZQX0ZQX committed in advance to revising the default evaluation axes if a systematic discrepancy appeared. It appeared, it is large and one-directional, and the revision did not follow. Every mixed-set figure in this work should be read as a ranking instrument and not as an estimate of accuracy on real photographs, with the real-only breakout beside it carrying that second reading.",
+   "received": "This limitation deviates from the stated protocol rather than leaving an axis unexplored. ZQX0ZQX committed to revising the default evaluation axes in advance if a systematic discrepancy appeared. A discrepancy did appear, and it is large and one-directional; however, the revision did not follow. Every mixed-set figure in this work should be read as a ranking instrument, not an estimate of the accuracy of real photographs. The real-only breakout beside it carries that second reading.",
+   "restored": "This limitation deviates from the stated protocol rather than leaving an axis unexplored. \\Cref{sec:mixed_default} committed to revising the default evaluation axes in advance if a systematic discrepancy appeared. A discrepancy did appear, and it is large and one-directional; however, the revision did not follow. Every mixed-set figure in this work should be read as a ranking instrument, not an estimate of the accuracy of real photographs. The real-only breakout beside it carries that second reading.",
+   "flags": [
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 496
+  },
+  {
+   "id": "P020",
+   "line": 56,
+   "section": "Question $1$ rests on one cell of a large space",
+   "indent": "",
+   "original": "The answer is bounded by four gaps. An evaluation of \\textit{YOLO26n} from raw COCO weights failed on a missing data directory and was not retried, so every student figure is an absolute level rather than a gain over an untuned start. Only the default $(T, \\alpha)$ point ran, so \\Cref{tab:kd-vs-direct} is one cell of the grid \\Cref{sec:kd_loss} describes. One pairing was tested, and feature-based alignment was excluded on architectural grounds. And the multi-animal subset was never evaluated, although an image holding several animals is where a teacher's class distribution carries the most information hard targets do not, so the one mechanism that could have favored distillation was never probed. Reading Question $1$'s answer as a result about knowledge distillation for this domain would overstate it by the size of the space \\Cref{sec:lit_knowledge_distillation} surveys.",
+   "sent": "The answer is bounded by four gaps. An evaluation of YOLO26n from raw COCO weights failed on a missing data directory and was not retried, so every student figure is an absolute level rather than a gain over an untuned start. Only the default ZQX0ZQX point ran, so ZQX1ZQX is one cell of the grid ZQX2ZQX describes. One pairing was tested, and feature-based alignment was excluded on architectural grounds. And the multi-animal subset was never evaluated, although an image holding several animals is where a teacher's class distribution carries the most information hard targets do not, so the one mechanism that could have favored distillation was never probed. Reading Question 1's answer as a result about knowledge distillation for this domain would overstate it by the size of the space ZQX3ZQX surveys.",
+   "received": "The answer is bounded by four gaps. An evaluation of YOLO26n from raw COCO weights failed due to a missing data directory and was not retried. Therefore, every student figure represents an absolute level rather than a gain over an untuned start. Only the default ZQX0ZQX point was run, so ZQX1ZQX is one cell in the ZQX2ZQX grid. One pairing was tested, and feature-based alignment was excluded on architectural grounds. The multi-animal subset was never evaluated. An image containing several animals is where a teacher's class distribution carries the most information. Hard targets do not carry much information, so the one mechanism that could have favored distillation was never investigated. Interpreting the answer to Question 1 as a result regarding knowledge distillation in this domain would be an overstatement by the size of the space that ZQX3ZQX surveys.",
+   "restored": "The answer is bounded by four gaps. An evaluation of \\textit{YOLO26n} from raw COCO weights failed due to a missing data directory and was not retried. Therefore, every student figure represents an absolute level rather than a gain over an untuned start. Only the default $(T, \\alpha)$ point was run, so \\Cref{tab:kd-vs-direct} is one cell in the \\Cref{sec:kd_loss} grid. One pairing was tested, and feature-based alignment was excluded on architectural grounds. The multi-animal subset was never evaluated. An image containing several animals is where a teacher's class distribution carries the most information. Hard targets do not carry much information, so the one mechanism that could have favored distillation was never investigated. Interpreting the answer to Question $1$ as a result regarding knowledge distillation in this domain would be an overstatement by the size of the space that \\Cref{sec:lit_knowledge_distillation} surveys.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 809
+  },
+  {
+   "id": "P021",
+   "line": 59,
+   "section": "No quantization-aware training",
+   "indent": "",
+   "original": "No quantization, pruning or compression pass was applied, and \\Cref{sec:results_kd_and_embedded} records that as a scope decision rather than an attempted step. The full-precision figures of \\Cref{tab:embedded-latency} bound latency from above, particularly since the accelerated path on the \\textit{QCS605} is a quantized one. Question $4$'s answer is a feasibility statement about unoptimized models, and calling it a deployment verdict would require that pass.",
+   "sent": "No quantization, pruning or compression pass was applied, and ZQX0ZQX records that as a scope decision rather than an attempted step. The full-precision figures of ZQX1ZQX bound latency from above, particularly since the accelerated path on the QCS605 is a quantized one. Question 4's answer is a feasibility statement about unoptimized models, and calling it a deployment verdict would require that pass.",
+   "received": "No quantization, pruning, or compression passes were applied, and ZQX0ZQX recorded this as a scope decision rather than an attempted step. The full-precision figures of ZQX1ZQX bound the latency from above, especially since the accelerated path on the QCS605 is quantized. The answer to Question 4 is a feasibility statement about unoptimized models. Calling it a deployment verdict would require that pass.",
+   "restored": "No quantization, pruning, or compression passes were applied, and \\Cref{sec:results_kd_and_embedded} recorded this as a scope decision rather than an attempted step. The full-precision figures of \\Cref{tab:embedded-latency} bound the latency from above, especially since the accelerated path on the \\textit{QCS605} is quantized. The answer to Question $4$ is a feasibility statement about unoptimized models. Calling it a deployment verdict would require that pass.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 405
+  },
+  {
+   "id": "P022",
+   "line": 62,
+   "section": "Every teacher figure is an upper bound",
+   "indent": "",
+   "original": "The teacher ensemble localizes with the same detector that produced the ground-truth boxes of both test domains, so every teacher figure in \\Cref{chapter:results} is an upper bound and the teacher-to-student gap with it (\\Cref{sec:results_regime_comparison}). Its fine-tuning gain of $0.176$ mixed and $0.154$ real carries a second caveat, since part of that corpus was admitted by agreeing with the pre-fine-tuning classifier (\\Cref{sec:teacher_finetuning}).",
+   "sent": "The teacher ensemble localizes with the same detector that produced the ground-truth boxes of both test domains, so every teacher figure in ZQX0ZQX is an upper bound and the teacher-to-student gap with it (ZQX1ZQX). Its fine-tuning gain of 0.176 mixed and 0.154 real carries a second caveat, since part of that corpus was admitted by agreeing with the pre-fine-tuning classifier (ZQX2ZQX).",
+   "received": "The teacher ensemble uses the same detector that produced the ground-truth boxes in both test domains. Thus, every teacher figure in ZQX0ZQX is an upper bound, as is the teacher-to-student gap (ZQX1ZQX). The fine-tuning gains of 0.176 for mixed data and 0.154 for real data have a second caveat since part of the data set was classified correctly by the pre-fine-tuning classifier (ZQX2ZQX).",
+   "restored": "The teacher ensemble uses the same detector that produced the ground-truth boxes in both test domains. Thus, every teacher figure in \\Cref{chapter:results} is an upper bound, as is the teacher-to-student gap (\\Cref{sec:results_regime_comparison}). The fine-tuning gains of $0.176$ for mixed data and $0.154$ for real data have a second caveat since part of the data set was classified correctly by the pre-fine-tuning classifier (\\Cref{sec:teacher_finetuning}).",
+   "flags": [],
+   "status": "fetched",
+   "chars": 389
+  },
+  {
+   "id": "P023",
+   "line": 65,
+   "section": "The generator comparison supports ordinal claims only",
+   "indent": "",
+   "original": "Six limits apply beyond the deferred evaluation axes (\\Cref{sec:results_practicability_verdict}). The annotations are automatic and un-reviewed. Seed counts are uneven, at three per API cell against two per local cell. The design is not a full factorial, evaluation is real-only, and three fairness asymmetries remain in the prompt handling. One planned cell was never generated, so the grid has no upper anchor. \\Cref{tab:generator-ranking} therefore supports the ordinal claims of Question $2$ and neither an absolute accuracy figure nor a full crossing of generator against prompt length.",
+   "sent": "Six limits apply beyond the deferred evaluation axes (ZQX0ZQX). The annotations are automatic and un-reviewed. Seed counts are uneven, at three per API cell against two per local cell. The design is not a full factorial, evaluation is real-only, and three fairness asymmetries remain in the prompt handling. One planned cell was never generated, so the grid has no upper anchor. ZQX1ZQX therefore supports the ordinal claims of Question 2 and neither an absolute accuracy figure nor a full crossing of generator against prompt length.",
+   "received": "There are six limits beyond the deferred evaluation axes (ZQX0ZQX). The annotations are automatic and unreviewed. There are three seed counts per API cell, as opposed to two per local cell. The design is not full factorial, the evaluation is real only, and there are three remaining fairness asymmetries in the prompt handling. One planned cell was never generated, so the grid has no upper anchor. Therefore, ZQX1ZQX supports the ordinal claims of Question 2, but not an absolute accuracy figure or a full crossing of generator against prompt length.",
+   "restored": "There are six limits beyond the deferred evaluation axes (\\Cref{sec:results_practicability_verdict}). The annotations are automatic and unreviewed. There are three seed counts per API cell, as opposed to two per local cell. The design is not full factorial, the evaluation is real only, and there are three remaining fairness asymmetries in the prompt handling. One planned cell was never generated, so the grid has no upper anchor. Therefore, \\Cref{tab:generator-ranking} supports the ordinal claims of Question $2$, but not an absolute accuracy figure or a full crossing of generator against prompt length.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 534
+  },
+  {
+   "id": "P024",
+   "line": 68,
+   "section": "The blind rating rubric was never run",
+   "indent": "",
+   "original": "The multi-rater rubric of \\Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies, and the one computed discriminates too weakly to separate the local cells. The rubric was the designed instrument for the setting in which downstream accuracy has no resolution, which is the rare classes, so its absence is why a visually obvious species error appears in \\Cref{fig:kinkajou-generator-samples} and is detected by no executed measure.",
+   "sent": "The multi-rater rubric of ZQX0ZQX was not carried out, nor were three of the four automatic proxies, and the one computed discriminates too weakly to separate the local cells. The rubric was the designed instrument for the setting in which downstream accuracy has no resolution, which is the rare classes, so its absence is why a visually obvious species error appears in ZQX1ZQX and is detected by no executed measure.",
+   "received": "The ZQX0ZQX multi-rater rubric was not carried out, nor were three of the four automatic proxies. The one that was computed discriminates too weakly to separate the local cells. The rubric was designed for settings in which downstream accuracy has no resolution, such as rare classes. Thus, its absence resulted in a visually obvious species error appearing in ZQX1ZQX, which was not detected by any executed measure.",
+   "restored": "The \\Cref{sec:generator_comparison_evaluation} multi-rater rubric was not carried out, nor were three of the four automatic proxies. The one that was computed discriminates too weakly to separate the local cells. The rubric was designed for settings in which downstream accuracy has no resolution, such as rare classes. Thus, its absence resulted in a visually obvious species error appearing in \\Cref{fig:kinkajou-generator-samples}, which was not detected by any executed measure.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 419
+  },
+  {
+   "id": "P025",
+   "line": 71,
+   "section": "Error types are not separated",
+   "indent": "",
+   "original": "The error-type decomposition named in \\Cref{sec:metric_selection} was left as a future add-on, so cross-group misclassification, duplicate detections and background false positives all land in $\\Delta_{\\text{coarse}}$ together (\\Cref{sec:results_granularity_gaps}), which makes it an upper bound and not a measurement. The finding that classification rather than localization limits accuracy survives this, because the recall figures of \\Cref{tab:headline-coco12} support it independently. No claim about which classification error dominates does.",
+   "sent": "The error-type decomposition named in ZQX0ZQX was left as a future add-on, so cross-group misclassification, duplicate detections and background false positives all land in ZQX1ZQX together (ZQX2ZQX), which makes it an upper bound and not a measurement. The finding that classification rather than localization limits accuracy survives this, because the recall figures of ZQX3ZQX support it independently. No claim about which classification error dominates does.",
+   "received": "The error-type decomposition in ZQX0ZQX was intended as an add-on for the future. Thus, cross-group misclassification, duplicate detections, and background false positives are all included in ZQX1ZQX (ZQX2ZQX), making it an upper bound rather than a measurement. The finding that classification rather than localization limits accuracy remains true because the recall figures of ZQX3ZQX independently support it. No claim about which classification error dominates does.",
+   "restored": "The error-type decomposition in \\Cref{sec:metric_selection} was intended as an add-on for the future. Thus, cross-group misclassification, duplicate detections, and background false positives are all included in $\\Delta_{\\text{coarse}}$ (\\Cref{sec:results_granularity_gaps}), making it an upper bound rather than a measurement. The finding that classification rather than localization limits accuracy remains true because the recall figures of \\Cref{tab:headline-coco12} independently support it. No claim about which classification error dominates does.",
+   "flags": [
+    "rather-than"
+   ],
+   "status": "fetched",
+   "chars": 463
+  },
+  {
+   "id": "P026",
+   "line": 74,
+   "section": "Training cost is not comparable",
+   "indent": "",
+   "original": "The wall-clock cost reported in \\Cref{sec:results_general_observations} is not a throughput comparison, since every run overlapped with at least one other.",
+   "sent": "The wall-clock cost reported in ZQX0ZQX is not a throughput comparison, since every run overlapped with at least one other.",
+   "received": "The reported wall-clock cost in ZQX0ZQX is not a throughput comparison because every run overlapped with at least one other.",
+   "restored": "The reported wall-clock cost in \\Cref{sec:results_general_observations} is not a throughput comparison because every run overlapped with at least one other.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 123
+  },
+  {
+   "id": "P027",
+   "line": 79,
+   "section": "Further Work",
+   "indent": "",
+   "original": "Six follow-ons come out of those limits, ordered by cost-to-value ratio.",
+   "sent": "Six follow-ons come out of those limits, ordered by cost-to-value ratio.",
+   "received": "Six follow-ons emerge from these limits, ordered by cost-to-value ratio.",
+   "restored": "Six follow-ons emerge from these limits, ordered by cost-to-value ratio.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 72
+  },
+  {
+   "id": "P028",
+   "line": 82,
+   "section": "Further Work",
+   "indent": "    ",
+   "original": "\\item \\textbf{Quantization.} The largest remaining lever is a compression pass, since the accelerated path on the \\textit{QCS605} is a quantized one and the figures of \\Cref{tab:embedded-latency} miss the budget by roughly twelve times. Post-training quantization is the cheaper first step and quantization-aware training narrows the residual gap, both mapping onto the vendor toolchain named in \\Cref{sec:lit_embedded_inference}. The measurement that settles Question $4$ has to be taken on the Hexagon 685 DSP itself. Reducing the input resolution is an independent second lever, and it needs a resolution-native training arm beside it.",
+   "sent": "Quantization. The largest remaining lever is a compression pass, since the accelerated path on the QCS605 is a quantized one and the figures of ZQX0ZQX miss the budget by roughly twelve times. Post-training quantization is the cheaper first step and quantization-aware training narrows the residual gap, both mapping onto the vendor toolchain named in ZQX1ZQX. The measurement that settles Question 4 has to be taken on the Hexagon 685 DSP itself. Reducing the input resolution is an independent second lever, and it needs a resolution-native training arm beside it.",
+   "received": "Quantization. The largest remaining lever is a compression pass since the accelerated path on the QCS605 is quantized and the ZQX0ZQX figures miss the budget by about twelvefold. Post-training quantization is the cheaper initial step, and quantization-aware training closes the remaining gap. Both of these processes map onto the vendor toolchain named in ZQX1ZQX. The measurement that answers Question 4 must be taken on the Hexagon 685 DSP itself. Reducing the input resolution is an additional lever that requires a resolution-native training arm.",
+   "restored": "\\item \\textbf{Quantization.} The largest remaining lever is a compression pass since the accelerated path on the \\textit{QCS605} is quantized and the \\Cref{tab:embedded-latency} figures miss the budget by about twelvefold. Post-training quantization is the cheaper initial step, and quantization-aware training closes the remaining gap. Both of these processes map onto the vendor toolchain named in \\Cref{sec:lit_embedded_inference}. The measurement that answers Question $4$ must be taken on the Hexagon 685 DSP itself. Reducing the input resolution is an additional lever that requires a resolution-native training arm.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 566
+  },
+  {
+   "id": "P029",
+   "line": 83,
+   "section": "Further Work",
+   "indent": "    ",
+   "original": "\\item \\textbf{Retroactive confidence intervals.} Bootstrap resampling over the stored per-image predictions would give every comparison the significance test it lacks, without retraining anything. The suite already accepts a resample count and the artifacts are archived, so the cost is compute rather than redesign. The comparisons that need it most are Band B against Band C and the two tied generator tiers.",
+   "sent": "Retroactive confidence intervals. Bootstrap resampling over the stored per-image predictions would give every comparison the significance test it lacks, without retraining anything. The suite already accepts a resample count and the artifacts are archived, so the cost is compute rather than redesign. The comparisons that need it most are Band B against Band C and the two tied generator tiers.",
+   "received": "Retroactive confidence intervals. Using bootstrap resampling on the stored per-image predictions would provide a significance test for every comparison without retraining anything. The suite already accepts a resample count, and the artifacts are archived; therefore, the cost is computational rather than redesign. The comparisons that need it most are Band B against Band C, as well as the two tied generator tiers.",
+   "restored": "\\item \\textbf{Retroactive confidence intervals.} Using bootstrap resampling on the stored per-image predictions would provide a significance test for every comparison without retraining anything. The suite already accepts a resample count, and the artifacts are archived; therefore, the cost is computational rather than redesign. The comparisons that need it most are Band B against Band C, as well as the two tied generator tiers.",
+   "flags": [
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 395
+  },
+  {
+   "id": "P030",
+   "line": 84,
+   "section": "Further Work",
+   "indent": "    ",
+   "original": "\\item \\textbf{Re-scoring the archived predictions.} Evaluating \\textit{YOLO26n} from raw COCO weights is one run and the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on the images holding more than one animal is the concrete test of distillation's expected supervision advantage, and both prediction sets are archived, so it needs no retraining.",
+   "sent": "Re-scoring the archived predictions. Evaluating YOLO26n from raw COCO weights is one run and the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on the images holding more than one animal is the concrete test of distillation's expected supervision advantage, and both prediction sets are archived, so it needs no retraining.",
+   "received": "Re-scoring the archived predictions. Evaluating YOLO26n from raw COCO weights requires only one run and is the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on images with more than one animal tests the expected advantage of distillation's supervision, and both prediction sets are archived, so no retraining is necessary.",
+   "restored": "\\item \\textbf{Re-scoring the archived predictions.} Evaluating \\textit{YOLO26n} from raw COCO weights requires only one run and is the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on images with more than one animal tests the expected advantage of distillation's supervision, and both prediction sets are archived, so no retraining is necessary.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 411
+  },
+  {
+   "id": "P031",
+   "line": 85,
+   "section": "Further Work",
+   "indent": "    ",
+   "original": "\\item \\textbf{A wider distillation design space.} Question $1$'s answer is scoped to one cell, so the direct follow-on is the sweep over temperature $T$ and blend weight $\\alpha$ that \\Cref{sec:kd_loss} was written around. Two further axes matter more: closing the parameter ratio of roughly $70$ to $1$ with an intermediate-capacity teacher assistant, which is the remedy \\Cref{sec:lit_knowledge_distillation} reports for this configuration, and attention-aware detection distillation. Any repeat should hold the effective batch size equal across the two setups, which the comparison reported here did not.",
+   "sent": "A wider distillation design space. Question 1's answer is scoped to one cell, so the direct follow-on is the sweep over temperature ZQX0ZQX and blend weight ZQX1ZQX that ZQX2ZQX was written around. Two further axes matter more: closing the parameter ratio of roughly 70 to 1 with an intermediate-capacity teacher assistant, which is the remedy ZQX3ZQX reports for this configuration, and attention-aware detection distillation. Any repeat should hold the effective batch size equal across the two setups, which the comparison reported here did not.",
+   "received": "A wider distillation design space. The answer to Question 1 is limited to one cell. The next step is to perform a sweep over temperature ZQX0ZQX and blend weight ZQX1ZQX, which ZQX2ZQX was written around. Two further axes matter more: closing the parameter ratio to roughly 70:1 with an intermediate-capacity teacher assistant (the remedy reported by ZQX3ZQX for this configuration) and attention-aware detection distillation. Any repeat should maintain an equal effective batch size across the two setups, which the comparison reported here did not do.",
+   "restored": "\\item \\textbf{A wider distillation design space.} The answer to Question $1$ is limited to one cell. The next step is to perform a sweep over temperature $T$ and blend weight $\\alpha$, which \\Cref{sec:kd_loss} was written around. Two further axes matter more: closing the parameter ratio to roughly $70$:$1$ with an intermediate-capacity teacher assistant (the remedy reported by \\Cref{sec:lit_knowledge_distillation} for this configuration) and attention-aware detection distillation. Any repeat should maintain an equal effective batch size across the two setups, which the comparison reported here did not do.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 548
+  },
+  {
+   "id": "P032",
+   "line": 86,
+   "section": "Further Work",
+   "indent": "    ",
+   "original": "\\item \\textbf{The blind rating rubric.} The rubric of \\Cref{sec:generator_comparison_evaluation} remains fully specified and directly executable on the archived images, and it needs raters rather than compute. It is the axis that would resolve the rare-class question the executed axis has no power over.",
+   "sent": "The blind rating rubric. The rubric of ZQX0ZQX remains fully specified and directly executable on the archived images, and it needs raters rather than compute. It is the axis that would resolve the rare-class question the executed axis has no power over.",
+   "received": "The Blind Rating Rubric The ZQX0ZQX rubric is fully specified and can be executed directly on the archived images. It requires raters rather than computation. It is the axis that resolves the rare-class question over which the executed axis has no power.",
+   "restored": "\\item The Blind Rating Rubric The \\Cref{sec:generator_comparison_evaluation} rubric is fully specified and can be executed directly on the archived images. It requires raters rather than computation. It is the axis that resolves the rare-class question over which the executed axis has no power.",
+   "flags": [
+    "format-lost: \\textbf{The blind rating rubric.}"
+   ],
+   "status": "fetched",
+   "chars": 254
+  },
+  {
+   "id": "P033",
+   "line": 87,
+   "section": "Further Work",
+   "indent": "    ",
+   "original": "\\item \\textbf{The watchdog revision.} Restoring the real test set as the reported default is outstanding, and nothing blocks it but the rewriting effort, since every table already holds both domains. Redesigning the mixed condition is the larger version of that task, because the synthetic test set holds one centered animal per image and is easier for that reason alone.",
+   "sent": "The watchdog revision. Restoring the real test set as the reported default is outstanding, and nothing blocks it but the rewriting effort, since every table already holds both domains. Redesigning the mixed condition is the larger version of that task, because the synthetic test set holds one centered animal per image and is easier for that reason alone.",
+   "received": "The watchdog revision. Restoring the real test set as the reported default is outstanding and can be done without any obstacles, since every table already holds both domains. Redesigning the mixed condition is a larger version of that task because the synthetic test set contains one animal in the center of each image, making it easier.",
+   "restored": "\\item \\textbf{The watchdog revision.} Restoring the real test set as the reported default is outstanding and can be done without any obstacles, since every table already holds both domains. Redesigning the mixed condition is a larger version of that task because the synthetic test set contains one animal in the center of each image, making it easier.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 356
+  },
+  {
+   "id": "P034",
+   "line": 90,
+   "section": "Further Work",
+   "indent": "",
+   "original": "The first item decides whether the system is deployable at all. The rest decide how well it would perform once it is.",
+   "sent": "The first item decides whether the system is deployable at all. The rest decide how well it would perform once it is.",
+   "received": "The first item determines whether the system can be deployed at all. The rest determine how well it will perform.",
+   "restored": "The first item determines whether the system can be deployed at all. The rest determine how well it will perform.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 117
+  },
+  {
+   "id": "P035",
+   "line": 95,
+   "section": "Conclusion",
+   "indent": "",
+   "original": "This work set out to build, train and evaluate a nano-scale detector for wildlife species recognition on embedded hardware, over a class universe of $225$ mammal species of which $50$ retain fewer than $150$ usable real photographs each. The substantive contribution sits in two sub-studies, while the distillation and deployment questions were each answered at a single design point.",
+   "sent": "This work set out to build, train and evaluate a nano-scale detector for wildlife species recognition on embedded hardware, over a class universe of 225 mammal species of which 50 retain fewer than 150 usable real photographs each. The substantive contribution sits in two sub-studies, while the distillation and deployment questions were each answered at a single design point.",
+   "received": "This work aimed to develop, train, and evaluate a nanoscale detector for recognizing wildlife species on embedded hardware. The detector was tested on a universe of 225 mammal species, 50 of which had fewer than 150 usable photographs. Two sub-studies made the most significant contributions, while the distillation and deployment questions were each answered at a single design point.",
+   "restored": "This work aimed to develop, train, and evaluate a nanoscale detector for recognizing wildlife species on embedded hardware. The detector was tested on a universe of $225$ mammal species, $50$ of which had fewer than $150$ usable photographs. Two sub-studies made the most significant contributions, while the distillation and deployment questions were each answered at a single design point.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 378
+  },
+  {
+   "id": "P036",
+   "line": 97,
+   "section": "Conclusion",
+   "indent": "",
+   "original": "The first is a controlled comparison of twelve generator and prompt-regime cells, each supplying $1{,}200$ synthetic training images of the same $12$ classes to the same detector under the same schedule. Neither criterion available before a detector is trained predicts what it achieves. The generator chosen for the production dataset on apparent realism ranks third of twelve, and per-image price is unrelated to outcome in both vendor families and the local grid. Prompt detail outranks generator identity, since compressing the prompt roughly halves downstream accuracy while the spread across generators under their best prompt is smaller. For the long-tail classes that motivated generating images at all, the comparison establishes that its own instrument has no resolution.",
+   "sent": "The first is a controlled comparison of twelve generator and prompt-regime cells, each supplying 1,200 synthetic training images of the same 12 classes to the same detector under the same schedule. Neither criterion available before a detector is trained predicts what it achieves. The generator chosen for the production dataset on apparent realism ranks third of twelve, and per-image price is unrelated to outcome in both vendor families and the local grid. Prompt detail outranks generator identity, since compressing the prompt roughly halves downstream accuracy while the spread across generators under their best prompt is smaller. For the long-tail classes that motivated generating images at all, the comparison establishes that its own instrument has no resolution.",
+   "received": "The first criterion is a controlled comparison of twelve generator and prompt-regime cells. Each cell supplies 1,200 synthetic training images of the same twelve classes to the same detector under the same schedule. No available criterion before training a detector predicts its outcome. The generator selected for the production dataset based on apparent realism ranks third out of twelve. Additionally, per-image price is unrelated to the outcome in both vendor families and the local grid. Prompt detail outranks generator identity since compressing the prompt roughly halves the accuracy of the downstream process, whereas the spread across generators under their best prompt is smaller. For the long-tail classes that motivated the generation of images in the first place, the comparison shows that the instrument itself has no resolution.",
+   "restored": "The first criterion is a controlled comparison of twelve generator and prompt-regime cells. Each cell supplies $1{,}200$ synthetic training images of the same twelve classes to the same detector under the same schedule. No available criterion before training a detector predicts its outcome. The generator selected for the production dataset based on apparent realism ranks third out of twelve. Additionally, per-image price is unrelated to the outcome in both vendor families and the local grid. Prompt detail outranks generator identity since compressing the prompt roughly halves the accuracy of the downstream process, whereas the spread across generators under their best prompt is smaller. For the long-tail classes that motivated the generation of images in the first place, the comparison shows that the instrument itself has no resolution.",
+   "flags": [
+    "format-lost: $12$"
+   ],
+   "status": "fetched",
+   "chars": 775
+  },
+  {
+   "id": "P037",
+   "line": 99,
+   "section": "Conclusion",
+   "indent": "",
+   "original": "The second is the band comparison at a matched $200$-image training budget. Replacing half of a small real training set with synthetic imagery produces no measurable loss for the primary detector or the fine-tuned teacher, at $0.588$ against $0.591$ mAP on the real test set, and a loss of $0.045$ for \\textit{YOLOv5s}. Replacing all of it roughly halves accuracy, at $0.300$ against $0.591$. Both rest on single runs and on bands that hold different species, so they are directional rather than exact. The paired per-class domain-shift delta then fired the watchdog attached to the mixed default, and the designed revision did not follow within the available time, which is the one protocol deviation this work discloses.",
+   "sent": "The second is the band comparison at a matched 200-image training budget. Replacing half of a small real training set with synthetic imagery produces no measurable loss for the primary detector or the fine-tuned teacher, at 0.588 against 0.591 mAP on the real test set, and a loss of 0.045 for YOLOv5s. Replacing all of it roughly halves accuracy, at 0.300 against 0.591. Both rest on single runs and on bands that hold different species, so they are directional rather than exact. The paired per-class domain-shift delta then fired the watchdog attached to the mixed default, and the designed revision did not follow within the available time, which is the one protocol deviation this work discloses.",
+   "received": "Second is the band comparison with a matched training budget of 200 images. Replacing half of a small real training set with synthetic images results in no measurable loss for the primary detector or the fine-tuned teacher. The mAP is 0.588 and 0.591 on the real test set, respectively, and the loss for YOLOv5s is 0.045. However, replacing all of the real training set with synthetic imagery roughly halves the accuracy to 0.300 against 0.591. Both rest on single runs and bands containing different species, making them directional rather than exact. The paired per-class domain shift delta then triggered the watchdog attached to the mixed default. The designed revision did not occur within the available time, which is the only protocol deviation disclosed by this work.",
+   "restored": "Second is the band comparison with a matched training budget of $200$ images. Replacing half of a small real training set with synthetic images results in no measurable loss for the primary detector or the fine-tuned teacher. The mAP is $0.588$ and $0.591$ on the real test set, respectively, and the loss for \\textit{YOLOv5s} is $0.045$. However, replacing all of the real training set with synthetic imagery roughly halves the accuracy to $0.300$ against $0.591$. Both rest on single runs and bands containing different species, making them directional rather than exact. The paired per-class domain shift delta then triggered the watchdog attached to the mixed default. The designed revision did not occur within the available time, which is the only protocol deviation disclosed by this work.",
+   "flags": [
+    "wrap-reordered: 0.045",
+    "wrap-reordered: YOLOv5s",
+    "wrap-reordered: 0.300",
+    "wrap-reordered: 0.591"
+   ],
+   "status": "fetched",
+   "chars": 701
+  },
+  {
+   "id": "P038",
+   "line": 101,
+   "section": "Conclusion",
+   "indent": "",
+   "original": "On the central question, distillation from the fine-tuned teacher lost to direct fine-tuning in all $17$ reported cells, at $0.599$ against $0.560$ mAP on the mixed test set and $0.529$ against $0.479$ on the real one. That is a negative result at one $(T, \\alpha)$ point, with one pairing at a parameter ratio of roughly $70$ to $1$, and three disclosed asymmetries keep it from being a clean single-factor comparison. It is nonetheless useful to anyone weighing the same architecture-scale gap, because the simpler recipe won on every axis measured, by the widest margin on the thin-data band where the teacher's soft targets were expected to help most.",
+   "sent": "On the central question, distillation from the fine-tuned teacher lost to direct fine-tuning in all 17 reported cells, at 0.599 against 0.560 mAP on the mixed test set and 0.529 against 0.479 on the real one. That is a negative result at one ZQX0ZQX point, with one pairing at a parameter ratio of roughly 70 to 1, and three disclosed asymmetries keep it from being a clean single-factor comparison. It is nonetheless useful to anyone weighing the same architecture-scale gap, because the simpler recipe won on every axis measured, by the widest margin on the thin-data band where the teacher's soft targets were expected to help most.",
+   "received": "Regarding the central question, distillation from the fine-tuned teacher performed worse than direct fine-tuning in all 17 reported cells. The results were 0.599 versus 0.560 mAP on the mixed test set and 0.529 versus 0.479 on the real one. This is a negative result at a single ZQX0ZQX point with one pairing at a parameter ratio of approximately 70:1. Three asymmetries prevent a clean, single-factor comparison. Nevertheless, it is useful for those considering the same architecture-scale gap because the simpler recipe won on every measured axis, with the widest margin on the thin-data band where the teacher's soft targets were expected to help the most.",
+   "restored": "Regarding the central question, distillation from the fine-tuned teacher performed worse than direct fine-tuning in all $17$ reported cells. The results were $0.599$ versus $0.560$ mAP on the mixed test set and $0.529$ versus $0.479$ on the real one. This is a negative result at a single $(T, \\alpha)$ point with one pairing at a parameter ratio of approximately $70$:$1$. Three asymmetries prevent a clean, single-factor comparison. Nevertheless, it is useful for those considering the same architecture-scale gap because the simpler recipe won on every measured axis, with the widest margin on the thin-data band where the teacher's soft targets were expected to help the most.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 635
+  },
+  {
+   "id": "P039",
+   "line": 103,
+   "section": "Conclusion",
+   "indent": "",
+   "original": "\\textit{YOLO26n} under direct fine-tuning is at once the smallest, the most accurate and the fastest detector measured here, at $2.71\\,\\mathrm{M}$ parameters, $0.599$ mAP on the mixed test set with $0.529$ on the real test set, and $423$\\,ms per frame on the proxy device. That last figure is roughly twelve times the target hardware's per-frame budget, and no full-precision model measured here comes closer. No accuracy target was set for this work, and nothing in these measurements identifies accuracy as the obstacle to deployment. What measurably stands between this detector and a shippable model is a compression pass, and the accelerated path such a pass would target has not been measured at all.",
+   "sent": "YOLO26n under direct fine-tuning is at once the smallest, the most accurate and the fastest detector measured here, at 2.71 M parameters, 0.599 mAP on the mixed test set with 0.529 on the real test set, and 423ZQX0ZQXms per frame on the proxy device. That last figure is roughly twelve times the target hardware's per-frame budget, and no full-precision model measured here comes closer. No accuracy target was set for this work, and nothing in these measurements identifies accuracy as the obstacle to deployment. What measurably stands between this detector and a shippable model is a compression pass, and the accelerated path such a pass would target has not been measured at all.",
+   "received": "Under direct fine-tuning, YOLO26n is the smallest, most accurate, and fastest detector measured here. It has 2.71 million parameters, achieves a mean average precision (mAP) of 0.599 on the mixed test set and 0.529 on the real test set, and processes 423 ZQX0 ZQX ms per frame on the proxy device. This last figure is approximately twelve times the target hardware's per-frame budget, and no other full-precision model comes closer. No accuracy target was set for this work, and nothing in these measurements suggests that accuracy is an obstacle to deployment. The only thing standing between this detector and a shippable model is a compression pass. The accelerated path that such a pass would target has not been measured.",
+   "restored": "\\textit{YOLO26n} under direct fine-tuning is at once the smallest, the most accurate and the fastest detector measured here, at $2.71\\,\\mathrm{M}$ parameters, $0.599$ mAP on the mixed test set with $0.529$ on the real test set, and $423$\\,ms per frame on the proxy device. That last figure is roughly twelve times the target hardware's per-frame budget, and no full-precision model measured here comes closer. No accuracy target was set for this work, and nothing in these measurements identifies accuracy as the obstacle to deployment. What measurably stands between this detector and a shippable model is a compression pass, and the accelerated path such a pass would target has not been measured at all.",
+   "flags": [
+    "token-lost: 1 LaTeX span(s) did not come back: '\\\\,'"
+   ],
+   "status": "fetched",
+   "chars": 684
+  }
+ ],
+ "applied_at": "2026-09-27T21:51:57+00:00"
+}

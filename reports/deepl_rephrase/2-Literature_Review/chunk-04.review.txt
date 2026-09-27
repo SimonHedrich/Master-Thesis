@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 2-Literature_Review.tex: 12 paragraphs -->
+
+#### P037  2-Literature_Review.tex:98  flags: cite-lowconf: \cite{shumailovAIModelsCollapse2024} (0.34)
+## section: Synthetic Data for Object Detection and the Sim-to-Real Gap
+--- original
+Three failure modes recur across this body of work. The first is a persistent texture and lighting domain shift between generated pixels and real sensor imagery, present even after substantial fine-tuning effort \cite{aziziSyntheticDataDiffusion2023}. The second is a label- and context-alignment gap, in which a generator's default visual associations for a class or scene diverge from the target task's actual distribution unless explicitly corrected \cite{heSyntheticDataGenerative2023,aziziSyntheticDataDiffusion2023}. The third compounds across successive generations rather than within one: \textit{model collapse}, the degeneration of a generative model's learned distribution when it is recursively retrained on data sampled from itself, which first loses the distributional tails and eventually converges on a low-variance, degenerate output \cite{shumailovAIModelsCollapse2024}.
+--- rephrased
+Three failure modes recur throughout this body of work. The first is a persistent texture and lighting shift between generated pixels and real sensor imagery, which remains present even after substantial fine-tuning efforts \cite{aziziSyntheticDataDiffusion2023}. The second mode is a label- and context-alignment gap. In this mode, a generator's default visual associations for a class or scene diverge from the actual distribution of the target task unless corrected explicitly \cite{heSyntheticDataGenerative2023,aziziSyntheticDataDiffusion2023}. The third mode compounds across successive generations rather than within one. It is \textit{model collapse}, which occurs when a generative model's learned distribution degenerates as it is recursively retrained on data sampled from itself \cite{shumailovAIModelsCollapse2024}. First, the distributional tails are lost, and eventually, the model converges on a low-variance, degenerate output.
+--- final
+Three failure modes recur across this body of work. The first is a persistent texture and lighting domain shift between generated pixels and real sensor imagery, present even after substantial fine-tuning effort \cite{aziziSyntheticDataDiffusion2023}. The second is a label- and context-alignment gap, in which a generator's default visual associations for a class or scene diverge from the target task's actual distribution unless explicitly corrected \cite{heSyntheticDataGenerative2023,aziziSyntheticDataDiffusion2023}. The third compounds across successive generations rather than within one: \textit{model collapse}, the degeneration of a generative model's learned distribution when it is recursively retrained on data sampled from itself, which first loses the distributional tails and eventually converges on a low-variance, degenerate output \cite{shumailovAIModelsCollapse2024}.
+--- verdict
+original: rephrasing dropped "domain" from "domain shift" and moved the shumailov cite to a mid-paragraph position ahead of the tails-loss/convergence clause it also supports, risk: high
+
+
+#### P038  2-Literature_Review.tex:100  flags: -
+## section: Synthetic Data for Object Detection and the Sim-to-Real Gap
+--- original
+Together these are why a detector in this work is never judged on synthetic images alone (\Cref{sec:evaluation_framework}). A headline metric computed on synthetic imagery alone could look artificially strong precisely because the domain shift and alignment gaps in question are the one thing it cannot probe. Treating synthetic imagery as a supplement whose reliability is actively verified first requires knowing what can be measured about generated imagery at all.
+--- rephrased
+These are the reasons why a detector in this work is never judged on synthetic images alone (\Cref{sec:evaluation_framework}). A headline metric computed on synthetic imagery alone could appear artificially strong because it cannot probe the domain shift and alignment gaps in question. To treat synthetic imagery as a supplement whose reliability is verified, one must first know what can be measured about generated imagery.
+--- final
+These are the reasons why a detector in this work is never judged on synthetic images alone (\Cref{sec:evaluation_framework}). A headline metric computed on synthetic imagery alone could appear artificially strong because it cannot probe the domain shift and alignment gaps in question. To treat synthetic imagery as a supplement whose reliability is verified, one must first know what can be measured about generated imagery.
+--- verdict
+rephrased: wording only, no claim, hedge, number, or citation changed, risk: low
+
+
+#### P039  2-Literature_Review.tex:105  flags: -
+## section: Evaluating Synthetic Image Quality
+--- original
+Generated imagery has historically been assessed numerically through statistics computed in a pretrained image classifier's feature space, rather than by pixel-level comparison against a reference.
+--- rephrased
+Historically, generated imagery has been assessed numerically through statistics computed in a pretrained image classifier's feature space rather than by comparing it pixel by pixel against a reference.
+--- final
+Historically, generated imagery has been assessed numerically through statistics computed in a pretrained image classifier's feature space rather than by comparing it pixel by pixel against a reference.
+--- verdict
+rephrased: same claim, no citation or hedge involved, risk: low
+
+
+#### P040  2-Literature_Review.tex:107  flags: wrap-case: Inception Score -> inception score, cite-lowconf: \cite{salimansImprovedTechniquesTraining2016} (0.30)
+## section: Evaluating Synthetic Image Quality
+--- original
+The \textit{Inception Score} (IS) is the earliest form of this idea \cite{salimansImprovedTechniquesTraining2016}. Generated images are propagated through an ImageNet-pretrained classifier, and the score rewards a low-entropy per-image label distribution, meaning each image is confidently assigned to one class, while requiring the label distribution across the whole sample to be high-entropy, meaning the sample is diverse. IS never compares a generated sample against any statistic of the real data distribution, and directly optimizing it produces adversarial-example-like artifacts instead of genuine quality gains \cite{salimansImprovedTechniquesTraining2016}.
+--- rephrased
+The \textit{Inception Score} (IS) is the earliest form of this concept \cite{salimansImprovedTechniquesTraining2016}. Generated images are propagated through an ImageNet-pretrained classifier. The IS rewards a low-entropy, per-image label distribution, meaning each image is confidently assigned to one class. However, it requires a high-entropy label distribution across the entire sample, meaning the sample is diverse. The IS does not compare generated samples to any statistic of the real data distribution. Directly optimizing the IS produces artifacts similar to adversarial examples instead of genuine quality improvements \cite{salimansImprovedTechniquesTraining2016}.
+--- final
+The \textit{Inception Score} (IS) is the earliest form of this concept \cite{salimansImprovedTechniquesTraining2016}. Generated images are propagated through an ImageNet-pretrained classifier. The IS rewards a low-entropy, per-image label distribution, meaning each image is confidently assigned to one class. However, it requires a high-entropy label distribution across the entire sample, meaning the sample is diverse. The IS does not compare generated samples to any statistic of the real data distribution. Directly optimizing the IS produces artifacts similar to adversarial examples instead of genuine quality improvements \cite{salimansImprovedTechniquesTraining2016}.
+--- verdict
+rephrased: definition and mechanism preserved, both citation placements unchanged from the original, risk: high
+
+
+#### P041  2-Literature_Review.tex:109  flags: token-lost: 1 LaTeX span(s) did not come back: '$\\mathrm{FID} = \\|\\mu_r - \\mu_g\\|^2 + \\mathrm{Tr}(C_r + C_g - 2(C_r C_g)^{1/2})$'
+## section: Evaluating Synthetic Image Quality
+--- original
+\textit{Fréchet Inception Distance} (FID) closes exactly that gap \cite{heuselGANsTrainedTwo2018}. Real and generated images pass through the same pretrained activations, each set is modeled as a multivariate Gaussian, and FID is the Fréchet distance between the two Gaussians, $\mathrm{FID} = \|\mu_r - \mu_g\|^2 + \mathrm{Tr}(C_r + C_g - 2(C_r C_g)^{1/2})$. It increases monotonically under independently controlled image disturbances such as noise, blur, implanted occlusion, and cross-dataset contamination, a consistency property IS does not reliably exhibit \cite{heuselGANsTrainedTwo2018}.
+--- rephrased
+\textit{Fréchet Inception Distance} (FID) closes exactly that gap \cite{heuselGANsTrainedTwo2018}. Real and generated images pass through the same pretrained activations, each set is modeled as a multivariate Gaussian, and FID is the Fréchet distance between the two Gaussians, $\mathrm{FID} = \|\mu_r - \mu_g\|^2 + \mathrm{Tr}(C_r + C_g - 2(C_r C_g)^{1/2})$. It increases monotonically under independently controlled image disturbances such as noise, blur, implanted occlusion, and cross-dataset contamination, a consistency property IS does not reliably exhibit \cite{heuselGANsTrainedTwo2018}.
+--- final
+\textit{Fréchet Inception Distance} (FID) closes exactly that gap \cite{heuselGANsTrainedTwo2018}. Real and generated images pass through the same pretrained activations, each set is modeled as a multivariate Gaussian, and FID is the Fréchet distance between the two Gaussians, $\mathrm{FID} = \|\mu_r - \mu_g\|^2 + \mathrm{Tr}(C_r + C_g - 2(C_r C_g)^{1/2})$. It increases monotonically under independently controlled image disturbances such as noise, blur, implanted occlusion, and cross-dataset contamination, a consistency property IS does not reliably exhibit \cite{heuselGANsTrainedTwo2018}.
+--- verdict
+original: DeepL's rewrite dropped the FID formula, tooling discarded it and restored the original text unchanged, risk: high
+
+
+#### P042  2-Literature_Review.tex:111  flags: semicolon
+## section: Evaluating Synthetic Image Quality
+--- original
+\textit{Kernel Inception Distance} (KID) fixes FID's principal statistical weakness \cite{binkowskiDemystifyingMMDGANs2021}. FID's Gaussian-moment estimator is biased, no unbiased estimator of FID exists, and the estimator needs a large sample before it converges. That bias is not guaranteed to be consistent across different pairs of distributions, so two FID values computed at the same sample size can rank two generators in the wrong order. KID instead computes an unbiased squared maximum mean discrepancy between the same representations under a polynomial kernel, converging to its asymptotic value even at small sample sizes while keeping FID's sensitivity to the same disturbances. Both are computed for every candidate generator in this work (\Cref{sec:generator_comparison}).
+--- rephrased
+The \textit{Kernel Inception Distance} (KID) addresses the main statistical weakness of the FID \cite{binkowskiDemystifyingMMDGANs2021}. The FID's Gaussian-moment estimator is biased, an unbiased estimator of FID does not exist, and the estimator requires a large sample size to converge. This bias may not be consistent across different pairs of distributions; therefore, two FID values computed at the same sample size may incorrectly rank two generators. KID computes an unbiased squared maximum mean discrepancy between representations under a polynomial kernel. It converges to its asymptotic value even at small sample sizes, while maintaining FID's sensitivity to disturbances. Both are computed for every candidate generator in this work (\Cref{sec:generator_comparison}).
+--- final
+\textit{Kernel Inception Distance} (KID) fixes FID's principal statistical weakness \cite{binkowskiDemystifyingMMDGANs2021}. FID's Gaussian-moment estimator is biased, no unbiased estimator of FID exists, and the estimator needs a large sample before it converges. That bias is not guaranteed to be consistent across different pairs of distributions, so two FID values computed at the same sample size can rank two generators in the wrong order. KID instead computes an unbiased squared maximum mean discrepancy between the same representations under a polynomial kernel, converging to its asymptotic value even at small sample sizes while keeping FID's sensitivity to the same disturbances. Both are computed for every candidate generator in this work (\Cref{sec:generator_comparison}).
+--- verdict
+original: rephrasing introduced a semicolon and dropped "the same representations" / "the same disturbances", the back-reference to FID's activations and tested disturbances, risk: high
+
+
+#### P043  2-Literature_Review.tex:113  flags: -
+## section: Evaluating Synthetic Image Quality
+--- original
+Feature-space metrics do not reliably track human perceptual judgment. Under a structured, blind, multi-rater protocol grounded in psychophysics, human deception rates showed no significant correlation with FID on face generation and only weak, model-dependent correlation on conditional generation \cite{zhouHYPEBenchmarkHuman2019}. The same protocol found that the strongest generator of its generation deceived only marginally more raters than the chance baseline that defines indistinguishability. The claim this work takes from that result is the divergence itself: automatic and human evaluation axes must be triangulated, not substituted for one another.
+--- rephrased
+Feature-space metrics do not reliably track human perceptual judgments. Under a structured, blind, multi-rater protocol based in psychophysics, human deception rates showed no significant correlation with face generation FID and only a weak, model-dependent correlation with conditional generation \cite{zhouHYPEBenchmarkHuman2019}. Using the same protocol, the strongest generator deceived only marginally more raters than the baseline of indistinguishability. This work claims that the divergence itself is important: automatic and human evaluation axes must be triangulated, not substituted for one another.
+--- final
+Feature-space metrics do not reliably track human perceptual judgments. Under a structured, blind, multi-rater protocol based in psychophysics, human deception rates showed no significant correlation with face generation FID and only a weak, model-dependent correlation with conditional generation \cite{zhouHYPEBenchmarkHuman2019}. Using the same protocol, the strongest generator of its generation deceived only marginally more raters than the chance baseline that defines indistinguishability. The claim this work takes from that result is the divergence itself: automatic and human evaluation axes must be triangulated, not substituted for one another.
+--- verdict
+merged: restored "of its generation" and "the chance baseline that defines indistinguishability", dropped by the rephrasing, and kept the original closing sentence rather than DeepL's added "is important" gloss, risk: high
+
+
+#### P044  2-Literature_Review.tex:115  flags: cite-lowconf: \cite{hesselCLIPScoreReferencefreeEvaluation2021} (0.47), cite-lowconf: \cite{hesselCLIPScoreReferencefreeEvaluation2021} (0.48)
+## section: Evaluating Synthetic Image Quality
+--- original
+Realism is also not the only thing that can fail. An image can be photorealistic and still not depict what its prompt asked for, a failure mode that IS, FID, and KID cannot detect at all, since none of them examines the conditioning text. \textit{CLIPScore} measures it directly and without reference captions, by passing image and prompt through CLIP's respective encoders and rescaling their cosine similarity \cite{hesselCLIPScoreReferencefreeEvaluation2021}. Despite requiring no ground truth, it correlates better with human judgments of caption quality than the $n$-gram-overlap metrics it was benchmarked against, which shows that a general-purpose vision-language embedding transfers to quality assessment without task-specific supervision \cite{hesselCLIPScoreReferencefreeEvaluation2021}.
+--- rephrased
+Realism is not the only thing that can fail. An image can be photorealistic yet fail to depict what the prompt requested. This failure mode is undetectable by IS, FID, and KID since none of them examine the conditioning text. \textit{CLIPScore} measures this directly, without reference captions. It passes the image and prompt through CLIP's respective encoders and rescales their cosine similarity \cite{hesselCLIPScoreReferencefreeEvaluation2021}. Despite not requiring ground truth, CLIPScore correlates better with human judgments of caption quality than the $n$-gram overlap metrics it was benchmarked against \cite{hesselCLIPScoreReferencefreeEvaluation2021}. This shows that general-purpose vision-language embeddings can be used for quality assessment without task-specific supervision.
+--- final
+Realism is also not the only thing that can fail. An image can be photorealistic and still not depict what its prompt asked for, a failure mode that IS, FID, and KID cannot detect at all, since none of them examines the conditioning text. \textit{CLIPScore} measures it directly and without reference captions, by passing image and prompt through CLIP's respective encoders and rescaling their cosine similarity \cite{hesselCLIPScoreReferencefreeEvaluation2021}. Despite requiring no ground truth, it correlates better with human judgments of caption quality than the $n$-gram-overlap metrics it was benchmarked against, which shows that a general-purpose vision-language embedding transfers to quality assessment without task-specific supervision \cite{hesselCLIPScoreReferencefreeEvaluation2021}.
+--- verdict
+original: rephrasing split the final sentence and dropped the second citation from the "this shows" interpretive clause it also supports, both citation placements flagged low-confidence, risk: high
+
+
+#### P045  2-Literature_Review.tex:117  flags: cite-lowconf: \cite{ravuriClassificationAccuracyScore2019} (0.47)
+## section: Evaluating Synthetic Image Quality
+--- original
+None of these axes measures what ultimately matters when the object is a downstream detector: whether a model trained on the generated imagery performs well on real data. \textit{Classification Accuracy Score} (CAS) operationalizes that train-on-synthetic, test-on-real idea directly \cite{ravuriClassificationAccuracyScore2019}. A classifier is trained exclusively on class-conditional samples from the generative model, then evaluated on the real held-out test set, and its real-test accuracy is the score. Applied to a generator whose IS and FID at the time approached those of real data, CAS exposed a large top-1 accuracy gap against real-data training, and models with markedly worse FID and IS outperformed it. It also isolated individual classes on which the downstream classifier scored zero on the real validation set, a failure a single global FID number hides entirely \cite{ravuriClassificationAccuracyScore2019}.
+--- rephrased
+None of these axes measures what ultimately matters for a downstream detector: whether a model trained on generated imagery performs well on real data. The \textit{Classification Accuracy Score} (CAS) directly operationalizes the idea of training on synthetic data and testing on real data \cite{ravuriClassificationAccuracyScore2019}. A classifier is trained exclusively on class-conditional samples from the generative model and then evaluated on a real, held-out test set. Its real-test accuracy is the score. When applied to a generator whose IS and FID approached those of real data at the time, CAS revealed a significant top-1 accuracy discrepancy compared to real-data training. Models with notably poorer FID and IS outperformed it. CAS also isolated individual classes on which the downstream classifier scored zero on the real validation set \cite{ravuriClassificationAccuracyScore2019}. This failure is hidden entirely by a single global FID number.
+--- final
+None of these axes measures what ultimately matters for a downstream detector: whether a model trained on generated imagery performs well on real data. The \textit{Classification Accuracy Score} (CAS) directly operationalizes the idea of training on synthetic data and testing on real data \cite{ravuriClassificationAccuracyScore2019}. A classifier is trained exclusively on class-conditional samples from the generative model and then evaluated on a real, held-out test set. Its real-test accuracy is the score. When applied to a generator whose IS and FID approached those of real data at the time, CAS revealed a significant top-1 accuracy discrepancy compared to real-data training, and models with notably poorer FID and IS outperformed it. CAS also isolated individual classes on which the downstream classifier scored zero on the real validation set, a failure a single global FID number hides entirely \cite{ravuriClassificationAccuracyScore2019}.
+--- verdict
+merged: kept DeepL's wording throughout but re-joined the two sentences the citation covers in the original, since the split left the "hidden by a single global FID number" claim uncited, risk: high
+
+
+#### P046  2-Literature_Review.tex:119  flags: token-lost: 1 LaTeX span(s) did not come back: '\\Cref{sec:results_synthetic_data_practicability}'
+## section: Evaluating Synthetic Image Quality
+--- original
+Three evaluation axes therefore exist and demonstrably disagree: structured blind human rating, automatic distributional and embedding-based proxies, and downstream task utility. This work evaluates its candidate generators along all three and treats none as decisive (\Cref{sec:results_synthetic_data_practicability}), because a generator strong on one need not be strong on another. What that leaves open is which classes synthetic imagery should be spent on in the first place.
+--- rephrased
+Three evaluation axes therefore exist and demonstrably disagree: structured blind human rating, automatic distributional and embedding-based proxies, and downstream task utility. This work evaluates its candidate generators along all three and treats none as decisive (\Cref{sec:results_synthetic_data_practicability}), because a generator strong on one need not be strong on another. What that leaves open is which classes synthetic imagery should be spent on in the first place.
+--- final
+Three evaluation axes therefore exist and demonstrably disagree: structured blind human rating, automatic distributional and embedding-based proxies, and downstream task utility. This work evaluates its candidate generators along all three and treats none as decisive (\Cref{sec:results_synthetic_data_practicability}), because a generator strong on one need not be strong on another. What that leaves open is which classes synthetic imagery should be spent on in the first place.
+--- verdict
+original: DeepL returned this paragraph unchanged, risk: low
+
+
+#### P047  2-Literature_Review.tex:124  flags: cite-lowconf: \cite{zhangDeepLongTailedLearning2023} (0.40)
+## section: Synthetic Data for Long-Tail and Rare-Class Problems
+--- original
+Real-world visual recognition datasets rarely present a uniform class distribution. Remedies divide into class re-balancing, covering re-sampling and cost-sensitive re-weighting, and information augmentation, covering transfer learning and data augmentation \cite{zhangDeepLongTailedLearning2023}. Both families predate the current generation of generative image models, and both were built to make better use of a class's existing samples rather than to manufacture new ones.
+--- rephrased
+Real-world visual recognition datasets rarely have a uniform class distribution. There are two types of remedies: class rebalancing, which covers resampling and cost-sensitive reweighting, and information augmentation, which covers transfer learning and data augmentation \cite{zhangDeepLongTailedLearning2023}. Both types predate the current generation of generative image models and were designed to optimize the use of existing samples rather than generate new ones.
+--- final
+Real-world visual recognition datasets rarely have a uniform class distribution. There are two types of remedies: class rebalancing, which covers resampling and cost-sensitive reweighting, and information augmentation, which covers transfer learning and data augmentation \cite{zhangDeepLongTailedLearning2023}. Both types predate the current generation of generative image models and were designed to optimize the use of existing samples rather than generate new ones.
+--- verdict
+rephrased: classification and citation placement unchanged, risk: medium
+
+
+#### P048  2-Literature_Review.tex:126  flags: -
+## section: Synthetic Data for Long-Tail and Rare-Class Problems
+--- original
+Re-sampling attacks the imbalance at the data level. Duplicating minority-class examples verbatim overfits to a narrow decision region, so the foundational method of this family instead synthesizes new minority-class points by interpolating between a sample and its nearest same-class neighbors in feature space \cite{chawlaSMOTESyntheticMinority2002}. Interpolation can only recombine visual information the dataset already holds, the same pose, background, and lighting variation present in the neighbors it interpolates between. It cannot supply a camera angle, habitat, or lighting condition that no real photograph of the class exhibits.
+--- rephrased
+Re-sampling addresses the imbalance at the data level. Duplicating minority-class examples verbatim leads to overfitting in a narrow decision region. Therefore, the foundational method of this family synthesizes new minority-class points by interpolating between a sample and its nearest same-class neighbors in feature space \cite{chawlaSMOTESyntheticMinority2002}. However, interpolation can only recombine the visual information that the dataset already contains: the same pose, background, and lighting variations present in the neighbors between which it interpolates. However, it cannot supply a camera angle, habitat, or lighting condition that no real photograph of the class exhibits.
+--- final
+Re-sampling addresses the imbalance at the data level. Duplicating minority-class examples verbatim leads to overfitting in a narrow decision region. Therefore, the foundational method of this family synthesizes new minority-class points by interpolating between a sample and its nearest same-class neighbors in feature space \cite{chawlaSMOTESyntheticMinority2002}. Interpolation can only recombine the visual information that the dataset already contains: the same pose, background, and lighting variations present in the neighbors between which it interpolates. However, it cannot supply a camera angle, habitat, or lighting condition that no real photograph of the class exhibits.
+--- verdict
+merged: kept DeepL's wording but removed the duplicate "However" opening two consecutive sentences, risk: high
+
+

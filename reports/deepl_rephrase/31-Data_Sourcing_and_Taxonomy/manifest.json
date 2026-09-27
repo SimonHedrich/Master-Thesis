@@ -1,0 +1,250 @@
+{
+ "source": "thesis/manuscript/chapters/3-Methods_and_Implementation/31-Data_Sourcing_and_Taxonomy.tex",
+ "source_sha": "2b7d424b313ac915a7f6d2a1d181fe2230322d1e3591e40a529c56ed36719474",
+ "target_lang": "en-US",
+ "created": "2026-09-27T21:34:44+00:00",
+ "paragraphs": [
+  {
+   "id": "P001",
+   "line": 4,
+   "section": "Dataset Sourcing and Class Taxonomy",
+   "indent": "",
+   "original": "The set of species the detector is expected to recognize had to be fixed before any imagery could be gathered, since it determines what counts as a usable image and how large a corpus is obtainable. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and reports what the sourcing effort produced.",
+   "sent": "The set of species the detector is expected to recognize had to be fixed before any imagery could be gathered, since it determines what counts as a usable image and how large a corpus is obtainable. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and reports what the sourcing effort produced.",
+   "received": "Before any imagery could be gathered, the set of species that the detector was expected to recognize had to be determined, since this set determines what counts as a usable image and how large a corpus can be obtained. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and summarizes the results of the sourcing effort.",
+   "restored": "Before any imagery could be gathered, the set of species that the detector was expected to recognize had to be determined, since this set determines what counts as a usable image and how large a corpus can be obtained. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and summarizes the results of the sourcing effort.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 364
+  },
+  {
+   "id": "P002",
+   "line": 9,
+   "section": "Target Class Definition",
+   "indent": "",
+   "original": "The class universe originates in the taxonomy of \\textit{SpeciesNet} \\cite{gadotCropNotCrop2024a}, a published species classifier. Of its $3{,}537$ labels, roughly $1{,}415$ are mammal taxa. Because the AX Visio binocular targets non-bird mammals, the taxonomy was restricted to that subset and then filtered by the product owner to $483$ candidate labels.  % resources/refineLabels.py",
+   "sent": "The class universe originates in the taxonomy of SpeciesNet, a published species classifier. Of its 3,537 labels, roughly 1,415 are mammal taxa. Because the AX Visio binocular targets non-bird mammals, the taxonomy was restricted to that subset and then filtered by the product owner to 483 candidate labels.",
+   "received": "The Class Universe originates from the SpeciesNet taxonomy, a published species classifier. Of its 3,537 labels, approximately 1,415 are mammal taxa. Since the AX Visio binoculars target non-bird mammals, the taxonomy was restricted to that subset. Then, the product owner filtered it down to 483 candidate labels.",
+   "restored": "The Class Universe originates from the \\textit{SpeciesNet} taxonomy, a published species classifier \\cite{gadotCropNotCrop2024a}. Of its $3{,}537$ labels, approximately $1{,}415$ are mammal taxa. Since the AX Visio binoculars target non-bird mammals, the taxonomy was restricted to that subset. Then, the product owner filtered it down to $483$ candidate labels.  % resources/refineLabels.py",
+   "flags": [
+    "cite-moved: \\cite{gadotCropNotCrop2024a}"
+   ],
+   "status": "fetched",
+   "chars": 308
+  },
+  {
+   "id": "P003",
+   "line": 10,
+   "section": "Target Class Definition",
+   "indent": "",
+   "original": "The criterion applied there is observability rather than taxonomy: what survives is the set of diurnal land mammals a user is plausibly able to photograph, with visually inseparable congeners merged instead of dropped.",
+   "sent": "The criterion applied there is observability rather than taxonomy: what survives is the set of diurnal land mammals a user is plausibly able to photograph, with visually inseparable congeners merged instead of dropped.",
+   "received": "The applied criterion is observability rather than taxonomy. What survives is the set of diurnal land mammals that a user can plausibly photograph. Visually inseparable congeners are merged instead of being dropped.",
+   "restored": "The applied criterion is observability rather than taxonomy. What survives is the set of diurnal land mammals that a user can plausibly photograph. Visually inseparable congeners are merged instead of being dropped.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 218
+  },
+  {
+   "id": "P004",
+   "line": 12,
+   "section": "Target Class Definition",
+   "indent": "",
+   "original": "Whether a species could be supported with imagery at all was decided separately, from per-taxon image counts surveyed on \\textit{GBIF} \\cite{GBIF}, with at least $300$ images required for inclusion.  % data/gbif/metadata/GBIF_image_counts_v1.csv",
+   "sent": "Whether a species could be supported with imagery at all was decided separately, from per-taxon image counts surveyed on GBIF, with at least 300 images required for inclusion.",
+   "received": "The decision of whether a species could be supported by imagery was made separately based on the number of images surveyed on GBIF for each taxon. At least 300 images were required for inclusion.",
+   "restored": "The decision of whether a species could be supported by imagery was made separately based on the number of images surveyed on \\textit{GBIF} for each taxon \\cite{GBIF}. At least $300$ images were required for inclusion.  % data/gbif/metadata/GBIF_image_counts_v1.csv",
+   "flags": [
+    "cite-lowconf: \\cite{GBIF} (0.38)",
+    "cite-moved: \\cite{GBIF}"
+   ],
+   "status": "fetched",
+   "chars": 175
+  },
+  {
+   "id": "P005",
+   "line": 13,
+   "section": "Target Class Definition",
+   "indent": "",
+   "original": "The survey caps at approximately $300$ observations per taxon, and $125$ of $479$ surveyed taxa sit exactly at that ceiling, so a count at the cap means only \\enquote{at least $300$}, whereas a low count is evidence of genuine scarcity. That asymmetry makes the measure usable as a rarity proxy in \\Cref{sec:generator_comparison_classes}.",
+   "sent": "The survey caps at approximately 300 observations per taxon, and 125 of 479 surveyed taxa sit exactly at that ceiling, so a count at the cap means only ZQX0ZQX, whereas a low count is evidence of genuine scarcity. That asymmetry makes the measure usable as a rarity proxy in ZQX1ZQX.",
+   "received": "The survey caps at approximately 300 observations per taxon. Of the 479 taxa surveyed, 125 sit exactly at that ceiling. Thus, a count at the cap means only ZQX0ZQX. In contrast, a low count is evidence of genuine scarcity. This asymmetry makes the measure usable as a proxy for rarity in ZQX1ZQX.",
+   "restored": "The survey caps at approximately $300$ observations per taxon. Of the $479$ taxa surveyed, $125$ sit exactly at that ceiling. Thus, a count at the cap means only \\enquote{at least $300$}. In contrast, a low count is evidence of genuine scarcity. This asymmetry makes the measure usable as a proxy for rarity in \\Cref{sec:generator_comparison_classes}.",
+   "flags": [
+    "wrap-reordered: 479"
+   ],
+   "status": "fetched",
+   "chars": 283
+  },
+  {
+   "id": "P006",
+   "line": 15,
+   "section": "Target Class Definition",
+   "indent": "",
+   "original": "A list of $483$ classes exceeds what the target hardware can carry. A nano-scale detector in the $1$--$3\\,\\mathrm{M}$-parameter range spreads its discriminative capacity too thinly once the label space grows beyond roughly $200$--$300$ fine-grained classes, which fixed an approximate ceiling of $200$--$250$ classes. Birds, bats and marine mammals other than pinnipeds were then excluded outright, and domestic animals deliberately kept.",
+   "sent": "A list of 483 classes exceeds what the target hardware can carry. A nano-scale detector in the 1--3 M-parameter range spreads its discriminative capacity too thinly once the label space grows beyond roughly 200--300 fine-grained classes, which fixed an approximate ceiling of 200--250 classes. Birds, bats and marine mammals other than pinnipeds were then excluded outright, and domestic animals deliberately kept.",
+   "received": "A list of 483 classes exceeds the capacity of the target hardware. A nanoscale detector in the 1-3 M parameter range loses its discriminative capacity once the label space grows beyond 200-300 fine-grained classes. This establishes an approximate upper limit of 200-250 classes. Birds, bats, and marine mammals other than pinnipeds were excluded outright, while domestic animals were kept.",
+   "restored": "A list of $483$ classes exceeds the capacity of the target hardware. A nanoscale detector in the $1$-$3\\,\\mathrm{M}$ parameter range loses its discriminative capacity once the label space grows beyond $200$-$300$ fine-grained classes. This establishes an approximate upper limit of $200$-$250$ classes. Birds, bats, and marine mammals other than pinnipeds were excluded outright, while domestic animals were kept.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 414
+  },
+  {
+   "id": "P007",
+   "line": 17,
+   "section": "Target Class Definition",
+   "indent": "",
+   "original": "The final list holds $225$ classes across three taxonomic ranks: $164$ at species level, $41$ at genus level where the species of a genus are not reliably separable in a daylight image, and $20$ at family level or above. \\Cref{tab:class-taxonomy-orders} breaks them down by taxonomic order. Whether each of those classes could actually be filled with usable imagery is a question about the available sources.",
+   "sent": "The final list holds 225 classes across three taxonomic ranks: 164 at species level, 41 at genus level where the species of a genus are not reliably separable in a daylight image, and 20 at family level or above. ZQX0ZQX breaks them down by taxonomic order. Whether each of those classes could actually be filled with usable imagery is a question about the available sources.",
+   "received": "The final list includes 225 classes across three taxonomic ranks: 164 at the species level, 41 at the genus level (where the species of a genus cannot be reliably separated in a daylight image), and 20 at the family level or above. ZQX0ZQX breaks them down by taxonomic order. Whether each of those classes can be filled with usable imagery depends on the available sources.",
+   "restored": "The final list includes $225$ classes across three taxonomic ranks: $164$ at the species level, $41$ at the genus level (where the species of a genus cannot be reliably separated in a daylight image), and $20$ at the family level or above. \\Cref{tab:class-taxonomy-orders} breaks them down by taxonomic order. Whether each of those classes can be filled with usable imagery depends on the available sources.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 375
+  },
+  {
+   "id": "P008",
+   "line": 43,
+   "section": "Candidate Data Sources and Licensing Assessment",
+   "indent": "",
+   "original": "With the class list fixed, candidate image sources were surveyed on two criteria: commercial usability of the license, and suitability of the imagery for close-to-mid-range daylight observation. Because the trained weights are intended for a commercial product, any dataset carrying a NonCommercial, NoDerivatives or ShareAlike clause was excluded (\\Cref{tab:candidate-sources}).",
+   "sent": "With the class list fixed, candidate image sources were surveyed on two criteria: commercial usability of the license, and suitability of the imagery for close-to-mid-range daylight observation. Because the trained weights are intended for a commercial product, any dataset carrying a NonCommercial, NoDerivatives or ShareAlike clause was excluded (ZQX0ZQX).",
+   "received": "With the class list finalized, candidate image sources were evaluated based on two criteria: the commercial usability of the license and the suitability of the imagery for close-to-mid-range daylight observation. Since the trained weights are intended for a commercial product, any dataset with a NonCommercial, NoDerivatives, or ShareAlike clause was excluded (ZQX0ZQX).",
+   "restored": "With the class list finalized, candidate image sources were evaluated based on two criteria: the commercial usability of the license and the suitability of the imagery for close-to-mid-range daylight observation. Since the trained weights are intended for a commercial product, any dataset with a NonCommercial, NoDerivatives, or ShareAlike clause was excluded (\\Cref{tab:candidate-sources}).",
+   "flags": [],
+   "status": "fetched",
+   "chars": 358
+  },
+  {
+   "id": "P009",
+   "line": 64,
+   "section": "Candidate Data Sources and Licensing Assessment",
+   "indent": "",
+   "original": "Source selection also fixed how far each source's own species labels can be trusted, an axis the curation pipeline depends on. \\textit{iNaturalist}, \\textit{GBIF} and Wikipedia-derived material are label-trusted, since their labels carry an identifiable contributor and community verification. Open Images and the stock-image source are unverified, their labels being colloquial or of unknown provenance. An unverified source contributes to a class's usable pool only where an independent classifier corroborates the label, whereas a trusted source contributes on passing the quality gates alone (\\Cref{sec:data_quality_and_curation}).",
+   "sent": "Source selection also fixed how far each source's own species labels can be trusted, an axis the curation pipeline depends on. iNaturalist, GBIF and Wikipedia-derived material are label-trusted, since their labels carry an identifiable contributor and community verification. Open Images and the stock-image source are unverified, their labels being colloquial or of unknown provenance. An unverified source contributes to a class's usable pool only where an independent classifier corroborates the label, whereas a trusted source contributes on passing the quality gates alone (ZQX0ZQX).",
+   "received": "The source selection also determines how reliable each source's species labels are, which is an important factor for the curation pipeline. iNaturalist, GBIF, and Wikipedia-derived material are considered reliable because their labels have identifiable contributors and community verification. Open Images and the stock-image source are unverified because their labels are colloquial or of unknown origin. An unverified source only contributes to a class's usable pool where an independent classifier corroborates the label. In contrast, a trusted source contributes simply by passing the quality gates (ZQX0ZQX).",
+   "restored": "The source selection also determines how reliable each source's species labels are, which is an important factor for the curation pipeline. \\textit{iNaturalist}, \\textit{GBIF}, and Wikipedia-derived material are considered reliable because their labels have identifiable contributors and community verification. Open Images and the stock-image source are unverified because their labels are colloquial or of unknown origin. An unverified source only contributes to a class's usable pool where an independent classifier corroborates the label. In contrast, a trusted source contributes simply by passing the quality gates (\\Cref{sec:data_quality_and_curation}).",
+   "flags": [],
+   "status": "fetched",
+   "chars": 588
+  },
+  {
+   "id": "P010",
+   "line": 69,
+   "section": "Sourcing Execution and the LILA BC Rejection",
+   "indent": "",
+   "original": "The initial corpus was assembled from \\textit{GBIF} \\cite{GBIF} observation records, classified with \\textit{SpeciesNet} v$4.0.2$a \\cite{gadotCropNotCrop2024a}, yielding $66{,}881$ usable images. This corpus was highly uneven across classes: $31$ of the $225$ classes had zero images, and a further $55$ classes had fewer than $10$. Closing that gap required sourcing additional imagery.",
+   "sent": "The initial corpus was assembled from GBIF observation records, classified with SpeciesNet vZQX0ZQXa, yielding 66,881 usable images. This corpus was highly uneven across classes: 31 of the 225 classes had zero images, and a further 55 classes had fewer than 10. Closing that gap required sourcing additional imagery.",
+   "received": "The initial corpus was assembled from GBIF observation records and classified using SpeciesNet vZQX0ZQXa, yielding 66,881 usable images. However, this corpus was highly uneven across classes. Thirty-one of the 225 classes had zero images, and a further 55 classes had fewer than ten. Closing that gap required sourcing additional imagery.",
+   "restored": "The initial corpus was assembled from \\textit{GBIF} observation records and classified using \\textit{SpeciesNet} v$4.0.2$a, yielding $66{,}881$ usable images \\cite{GBIF,gadotCropNotCrop2024a}. However, this corpus was highly uneven across classes. Thirty-one of the $225$ classes had zero images, and a further $55$ classes had fewer than ten. Closing that gap required sourcing additional imagery.",
+   "flags": [
+    "format-lost: $31$",
+    "format-lost: $10$",
+    "cite-moved: \\cite{GBIF}",
+    "cite-moved: \\cite{gadotCropNotCrop2024a}",
+    "cite-merged: \\cite{GBIF,gadotCropNotCrop2024a}"
+   ],
+   "status": "fetched",
+   "chars": 316
+  },
+  {
+   "id": "P011",
+   "line": 71,
+   "section": "Sourcing Execution and the LILA BC Rejection",
+   "indent": "",
+   "original": "Three large camera-trap archives under a commercially compatible license were scanned against the $225$-class taxonomy and rejected \\cite{LILABCLabeled}. Their species coverage overlapped the classes that were already well supplied and missed the scarce ones, and their imagery is fixed-viewpoint, long-range and frequently infrared, whereas the \\textit{AX Visio} is used for close-to-mid-range daylight observation. No images from them entered the corpus.",
+   "sent": "Three large camera-trap archives under a commercially compatible license were scanned against the 225-class taxonomy and rejected. Their species coverage overlapped the classes that were already well supplied and missed the scarce ones, and their imagery is fixed-viewpoint, long-range and frequently infrared, whereas the AX Visio is used for close-to-mid-range daylight observation. No images from them entered the corpus.",
+   "received": "Three large camera-trap archives under commercially compatible licenses were scanned against the 225-class taxonomy and rejected. Their species coverage overlapped with well-supplied classes and missed scarce ones. Additionally, their imagery is fixed-viewpoint, long-range, and frequently infrared. The AX Visio, however, is used for close-to-mid-range, daylight observation. No images from these archives were included in the corpus.",
+   "restored": "Three large camera-trap archives under commercially compatible licenses were scanned against the $225$-class taxonomy and rejected \\cite{LILABCLabeled}. Their species coverage overlapped with well-supplied classes and missed scarce ones. Additionally, their imagery is fixed-viewpoint, long-range, and frequently infrared. The \\textit{AX Visio}, however, is used for close-to-mid-range, daylight observation. No images from these archives were included in the corpus.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 424
+  },
+  {
+   "id": "P012",
+   "line": 74,
+   "section": "Gap-Filling Sources Actually Used",
+   "indent": "",
+   "original": "A metadata-level match against \\textit{iNaturalist} Open Data records exposed through \\textit{GBIF} reached $221$ of the $225$ classes and $6{,}816{,}962$ photographs, of which only $831{,}050$ ($12\\%$) carried a commercially safe CC0 or CC-BY license. The CC-BY-NC remainder was excluded under the policy of \\Cref{sec:candidate_sources_licensing}. Coverage stayed uneven: white-tailed deer retained $61{,}865$ safe images, while nine classes had none and needed separate sourcing.",
+   "sent": "A metadata-level match against iNaturalist Open Data records exposed through GBIF reached 221 of the 225 classes and 6,816,962 photographs, of which only 831,050 (12%) carried a commercially safe CC0 or CC-BY license. The CC-BY-NC remainder was excluded under the policy of ZQX0ZQX. Coverage stayed uneven: white-tailed deer retained 61,865 safe images, while nine classes had none and needed separate sourcing.",
+   "received": "A metadata-level comparison of iNaturalist Open Data records shared via GBIF revealed 221 of the 225 categories and 6,816,962 images. Of these, only 831,050 (12%) had a safe commercial license, either CC0 or CC-BY. The remainder with a CC-BY-NC license was excluded under the ZQX0ZQX policy. Coverage remained uneven: White-tailed deer had 61,865 safe images, while nine classes had none and required separate sourcing.",
+   "restored": "A metadata-level comparison of \\textit{iNaturalist} Open Data records shared via \\textit{GBIF} revealed $221$ of the $225$ categories and $6{,}816{,}962$ images. Of these, only $831{,}050$ ($12\\%$) had a safe commercial license, either CC0 or CC-BY. The remainder with a CC-BY-NC license was excluded under the \\Cref{sec:candidate_sources_licensing} policy. Coverage remained uneven: White-tailed deer had $61{,}865$ safe images, while nine classes had none and required separate sourcing.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 411
+  },
+  {
+   "id": "P013",
+   "line": 76,
+   "section": "Gap-Filling Sources Actually Used",
+   "indent": "",
+   "original": "Human imagery, needed as a contextual negative rather than as a wildlife species, was withheld from the iNaturalist and GBIF exports for privacy reasons, and Open Images' person category proved to be dominated by portrait photography. \\textit{COCO} 2017 \\cite{linMicrosoftCOCOCommon2015} supplied the \\texttt{human} class instead, under a filter written for it that constrains subject size, distance from the frame edge, upright aspect and image sharpness (\\Cref{sec:appendix_human_filter}).  % scripts/download_coco_humans.py",
+   "sent": "Human imagery, needed as a contextual negative rather than as a wildlife species, was withheld from the iNaturalist and GBIF exports for privacy reasons, and Open Images' person category proved to be dominated by portrait photography. COCO 2017 supplied the human class instead, under a filter written for it that constrains subject size, distance from the frame edge, upright aspect and image sharpness (ZQX0ZQX).",
+   "received": "Human imagery was withheld from the iNaturalist and GBIF exports for privacy reasons. It was needed as a contextual negative rather than as a wildlife species. Open Images' person category was dominated by portrait photography. Instead, COCO 2017 supplied the human class under a filter written for it that constrains subject size, distance from the frame edge, upright aspect, and image sharpness (ZQX0ZQX).",
+   "restored": "Human imagery was withheld from the iNaturalist and GBIF exports for privacy reasons. It was needed as a contextual negative rather than as a wildlife species. Open Images' person category was dominated by portrait photography. Instead, \\textit{COCO} 2017 supplied the \\texttt{human} class under a filter written for it that constrains subject size, distance from the frame edge, upright aspect, and image sharpness (\\Cref{sec:appendix_human_filter}) \\cite{linMicrosoftCOCOCommon2015}.  % scripts/download_coco_humans.py",
+   "flags": [
+    "cite-moved: \\cite{linMicrosoftCOCOCommon2015}"
+   ],
+   "status": "fetched",
+   "chars": 414
+  },
+  {
+   "id": "P014",
+   "line": 78,
+   "section": "Gap-Filling Sources Actually Used",
+   "indent": "",
+   "original": "The species still under-represented after those two steps were filled from a Wikimedia Commons category crawl, built as a human-in-the-loop instrument rather than as a downloader. It produces a reviewable category tree per label, an automatic filter drops categories whose subject is not a live wild animal (\\Cref{sec:appendix_wikimedia_vocabulary}), and only categories surviving review are fetched.",
+   "sent": "The species still under-represented after those two steps were filled from a Wikimedia Commons category crawl, built as a human-in-the-loop instrument rather than as a downloader. It produces a reviewable category tree per label, an automatic filter drops categories whose subject is not a live wild animal (ZQX0ZQX), and only categories surviving review are fetched.",
+   "received": "After those two steps, the species that were still underrepresented were filled from a Wikimedia Commons category crawl. This crawl was built as a human-in-the-loop instrument rather than as a downloader. It produces a reviewable category tree per label. An automatic filter drops categories whose subject is not a live wild animal (ZQX0ZQX). Only categories that survive review are fetched.",
+   "restored": "After those two steps, the species that were still underrepresented were filled from a Wikimedia Commons category crawl. This crawl was built as a human-in-the-loop instrument rather than as a downloader. It produces a reviewable category tree per label. An automatic filter drops categories whose subject is not a live wild animal (\\Cref{sec:appendix_wikimedia_vocabulary}). Only categories that survive review are fetched.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 367
+  },
+  {
+   "id": "P015",
+   "line": 81,
+   "section": "A Divergence Between the Stated and Implemented License Policy",
+   "indent": "",
+   "original": "An audit found that the implemented license allow-list admits ShareAlike variants, and NoDerivatives on the COCO downloads, contrary to the policy stated above. Of the $11{,}066$ Wikimedia images in the final splits, $6{,}222$ carry a ShareAlike license. Every model reported in \\Cref{chapter:results} was therefore trained and evaluated on a corpus containing imagery the policy excludes, and the finding is carried forward as a named limitation (\\Cref{sec:limitations}).",
+   "sent": "An audit found that the implemented license allow-list admits ShareAlike variants, and NoDerivatives on the COCO downloads, contrary to the policy stated above. Of the 11,066 Wikimedia images in the final splits, 6,222 carry a ShareAlike license. Every model reported in ZQX0ZQX was therefore trained and evaluated on a corpus containing imagery the policy excludes, and the finding is carried forward as a named limitation (ZQX1ZQX).",
+   "received": "An audit revealed that the implemented license allow-list includes ShareAlike and NoDerivatives variants for the COCO downloads, which contradicts the aforementioned policy. Of the 11,066 Wikimedia images in the final splits, 6,222 carry a ShareAlike license. Therefore, every model reported in ZQX0ZQX was trained and evaluated on a corpus containing imagery excluded by the policy, and this finding is recorded as a named limitation (ZQX1ZQX).",
+   "restored": "An audit revealed that the implemented license allow-list includes ShareAlike and NoDerivatives variants for the COCO downloads, which contradicts the aforementioned policy. Of the $11{,}066$ Wikimedia images in the final splits, $6{,}222$ carry a ShareAlike license. Therefore, every model reported in \\Cref{chapter:results} was trained and evaluated on a corpus containing imagery excluded by the policy, and this finding is recorded as a named limitation (\\Cref{sec:limitations}).",
+   "flags": [],
+   "status": "fetched",
+   "chars": 434
+  },
+  {
+   "id": "P016",
+   "line": 86,
+   "section": "Resulting Corpus Composition",
+   "indent": "",
+   "original": "The raw corpus covers $216$ of the $225$ target classes with at least one image. \\Cref{tab:source-funnel} gives its per-source composition after the quality filtering of \\Cref{sec:data_quality_and_curation}. Of the $465{,}242$ images that pass, $457{,}468$ are attributable to one of the $225$ classes.",
+   "sent": "The raw corpus covers 216 of the 225 target classes with at least one image. ZQX0ZQX gives its per-source composition after the quality filtering of ZQX1ZQX. Of the 465,242 images that pass, 457,468 are attributable to one of the 225 classes.",
+   "received": "The raw corpus contains at least one image for 216 of the 225 target classes. After the quality filtering of ZQX1ZQX, ZQX0ZQX provides its per-source composition. Of the 465,242 images that pass the filter, 457,468 are attributable to one of the 225 classes.",
+   "restored": "The raw corpus contains at least one image for $216$ of the $225$ target classes. After the quality filtering of \\Cref{sec:data_quality_and_curation}, \\Cref{tab:source-funnel} provides its per-source composition. Of the $465{,}242$ images that pass the filter, $457{,}468$ are attributable to one of the $225$ classes.",
+   "flags": [
+    "token-reordered: \\Cref{sec:data_quality_and_curation}",
+    "token-reordered: \\Cref{tab:source-funnel}"
+   ],
+   "status": "fetched",
+   "chars": 242
+  },
+  {
+   "id": "P017",
+   "line": 107,
+   "section": "Resulting Corpus Composition",
+   "indent": "",
+   "original": "Coverage remained heavily uneven despite the volume. $83$ classes held at least $1{,}500$ images, while $29$ held fewer than $100$ and a further $58$ fewer than $500$. Two inputs are not wildlife imagery at all: the COCO-derived human class, and $174$ background photographs retained as true negatives, so that the detector sees frames whose correct answer is to predict nothing. Wikipedia species articles were scraped as well, as the textual corpus from which synthetic-image prompts are built (\\Cref{sec:synthetic_generation_pipeline}). This pool still mixes sources of very different reliability, which is what \\Cref{sec:data_quality_and_curation} addresses.",
+   "sent": "Coverage remained heavily uneven despite the volume. 83 classes held at least 1,500 images, while 29 held fewer than 100 and a further 58 fewer than 500. Two inputs are not wildlife imagery at all: the COCO-derived human class, and 174 background photographs retained as true negatives, so that the detector sees frames whose correct answer is to predict nothing. Wikipedia species articles were scraped as well, as the textual corpus from which synthetic-image prompts are built (ZQX0ZQX). This pool still mixes sources of very different reliability, which is what ZQX1ZQX addresses.",
+   "received": "Despite the volume, coverage remained uneven. Eighty-three classes had at least 1,500 images, while 29 had fewer than 100, and 58 had fewer than 500. Two inputs are not wildlife imagery: the COCO-derived human class and 174 background photographs that were kept as true negatives so the detector would see frames for which the correct answer is to predict nothing. Wikipedia species articles were also scraped as the textual corpus from which synthetic image prompts are built (ZQX0ZQX). This pool still mixes sources of very different reliability, which ZQX1ZQX addresses.",
+   "restored": "Despite the volume, coverage remained uneven. Eighty-three classes had at least $1{,}500$ images, while $29$ had fewer than $100$, and $58$ had fewer than $500$. Two inputs are not wildlife imagery: the COCO-derived human class and $174$ background photographs that were kept as true negatives so the detector would see frames for which the correct answer is to predict nothing. Wikipedia species articles were also scraped as the textual corpus from which synthetic image prompts are built (\\Cref{sec:synthetic_generation_pipeline}). This pool still mixes sources of very different reliability, which \\Cref{sec:data_quality_and_curation} addresses.",
+   "flags": [
+    "format-lost: $83$"
+   ],
+   "status": "fetched",
+   "chars": 584
+  }
+ ],
+ "applied_at": "2026-09-27T21:51:55+00:00"
+}

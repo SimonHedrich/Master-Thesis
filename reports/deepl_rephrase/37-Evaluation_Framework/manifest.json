@@ -1,0 +1,244 @@
+{
+ "source": "thesis/manuscript/chapters/3-Methods_and_Implementation/37-Evaluation_Framework.tex",
+ "source_sha": "d2c46ea721e01847aca2d723b0027a628e58ba6810ba461f4f2298d7ff8f846a",
+ "target_lang": "en-US",
+ "created": "2026-09-27T21:34:44+00:00",
+ "paragraphs": [
+  {
+   "id": "P001",
+   "line": 4,
+   "section": "Evaluation Framework",
+   "indent": "",
+   "original": "Every model trained in \\Cref{sec:model_training_experiment_tracking} is scored on one fixed instrument, and this section defines it. Two properties of this dataset make a single mean-average-precision figure insufficient on its own. Several classes are barely separable in a still frame, so a species-level slip and a wholly unrelated call are errors of very different severity that one number cannot distinguish. And the dataset ships two test domains rather than one, a real held-out set that is uneven across classes and a class-balanced synthetic set, which an aggregate figure silently blends. The literature surveyed in \\Cref{sec:lit_evaluation_metrics} supplies the baseline instrument and the diagnostic vocabulary. What it does not supply, as \\Cref{sec:lit_real_synthetic_evaluation} states, is a precedent for the headline condition adopted here, which is therefore argued for directly in \\Cref{sec:mixed_default}.",
+   "sent": "Every model trained in ZQX0ZQX is scored on one fixed instrument, and this section defines it. Two properties of this dataset make a single mean-average-precision figure insufficient on its own. Several classes are barely separable in a still frame, so a species-level slip and a wholly unrelated call are errors of very different severity that one number cannot distinguish. And the dataset ships two test domains rather than one, a real held-out set that is uneven across classes and a class-balanced synthetic set, which an aggregate figure silently blends. The literature surveyed in ZQX1ZQX supplies the baseline instrument and the diagnostic vocabulary. What it does not supply, as ZQX2ZQX states, is a precedent for the headline condition adopted here, which is therefore argued for directly in ZQX3ZQX.",
+   "received": "Each model trained in ZQX0ZQX is scored using one fixed instrument, which is defined in this section. However, two properties of this dataset make a single mean average precision figure insufficient on its own. First, several classes are barely separable in a still frame. Thus, a species-level misclassification and an entirely unrelated call are errors of very different severity that cannot be distinguished by a single number. Additionally, the dataset provides two test domains rather than one: a real, held-out set that is uneven across classes and a class-balanced, synthetic set. An aggregate figure silently blends these two domains. The literature surveyed in ZQX1ZQX provides the baseline instrument and diagnostic vocabulary. However, as ZQX2ZQX states, it does not provide a precedent for the headline condition adopted here. Therefore, it is argued for directly in ZQX3ZQX.",
+   "restored": "Each model trained in \\Cref{sec:model_training_experiment_tracking} is scored using one fixed instrument, which is defined in this section. However, two properties of this dataset make a single mean average precision figure insufficient on its own. First, several classes are barely separable in a still frame. Thus, a species-level misclassification and an entirely unrelated call are errors of very different severity that cannot be distinguished by a single number. Additionally, the dataset provides two test domains rather than one: a real, held-out set that is uneven across classes and a class-balanced, synthetic set. An aggregate figure silently blends these two domains. The literature surveyed in \\Cref{sec:lit_evaluation_metrics} provides the baseline instrument and diagnostic vocabulary. However, as \\Cref{sec:lit_real_synthetic_evaluation} states, it does not provide a precedent for the headline condition adopted here. Therefore, it is argued for directly in \\Cref{sec:mixed_default}.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 810
+  },
+  {
+   "id": "P002",
+   "line": 9,
+   "section": "Evaluation Axes",
+   "indent": "",
+   "original": "Four axes describe every number this work reports about detection accuracy. \\textbf{Granularity} is the class resolution at which a detection is judged correct, at three levels. \\texttt{detect} ignores the class entirely and asks only whether an animal was localized. \\texttt{coarse} merges visually confusable classes into the groups of \\Cref{sec:lookalike_groups}. \\texttt{fine} is the full $225$-way judgment. \\textbf{Test domain} is which held-out images the metric is computed over, either the mixed, real or synthetic test set of \\Cref{sec:mixed_default}. \\textbf{Training band} is the per-class property of how a class's training data was composed, Band A through Band D as defined in \\Cref{sec:band_structure}. \\textbf{Metric vector} is the COCO statistics themselves \\cite{linMicrosoftCOCOCommon2015}.",
+   "sent": "Four axes describe every number this work reports about detection accuracy. Granularity is the class resolution at which a detection is judged correct, at three levels. detect ignores the class entirely and asks only whether an animal was localized. coarse merges visually confusable classes into the groups of ZQX0ZQX. fine is the full 225-way judgment. Test domain is which held-out images the metric is computed over, either the mixed, real or synthetic test set of ZQX1ZQX. Training band is the per-class property of how a class's training data was composed, Band A through Band D as defined in ZQX2ZQX. Metric vector is the COCO statistics themselves.",
+   "received": "Four axes describe every number reported by this work about detection accuracy. Granularity is the class resolution at which a detection is judged correct. There are three levels: detect, which ignores the class entirely and asks only whether an animal was localized; coarse, which merges visually confusable classes into groups of ZQX0ZQX; and fine, which is the full 225-way judgment. The test domain is the set of held-out images over which the metric is computed, either the mixed, real, or synthetic test set of ZQX1ZQX. The training band is the per-class property describing how a class's training data was composed. There are four training bands, Band A through Band D, as defined in ZQX2ZQX. The metric vector is the COCO statistics themselves.",
+   "restored": "Four axes describe every number reported by this work about detection accuracy. \\textbf{Granularity} is the class resolution at which a detection is judged correct. There are three levels: \\texttt{detect}, which ignores the class entirely and asks only whether an animal was localized; \\texttt{coarse}, which merges visually confusable classes into groups of \\Cref{sec:lookalike_groups}; and \\texttt{fine}, which is the full $225$-way judgment. The \\textbf{Test domain} is the set of held-out images over which the metric is computed, either the mixed, real, or synthetic test set of \\Cref{sec:mixed_default}. The \\textbf{Training band} is the per-class property describing how a class's training data was composed. There are four training bands, Band A through Band D, as defined in \\Cref{sec:band_structure}. The \\textbf{Metric vector} is the COCO statistics themselves \\cite{linMicrosoftCOCOCommon2015}.",
+   "flags": [
+    "wrap-case: Test domain -> test domain",
+    "wrap-case: Training band -> training band",
+    "wrap-case: Metric vector -> metric vector",
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 656
+  },
+  {
+   "id": "P003",
+   "line": 11,
+   "section": "Evaluation Axes",
+   "indent": "",
+   "original": "Crossing all four naively produces $3 \\times 3 \\times 5 \\times 12 = 540$ numbers, which is unreportable and mostly uninformative. The four axes do not play the same role. Band and test domain are the independent variables, since this work asks whether synthetic training data works and whether it transfers to real photographs, so crossing those two is the experiment. Granularity is an error decomposition rather than a fourth experiment, and the metric vector is a fixed instrument. That yields the organizing rule for \\Cref{chapter:results}. One default cell carries the headline, every diagnostic varies exactly one axis away from it and reports mAP@[.5:.95] and mAP50, and the full twelve-statistic vector is filled only in the default cell and once per band. No figure crosses average recall or the object-size splits with band or granularity, since none would answer a question posed here.",
+   "sent": "Crossing all four naively produces ZQX0ZQX numbers, which is unreportable and mostly uninformative. The four axes do not play the same role. Band and test domain are the independent variables, since this work asks whether synthetic training data works and whether it transfers to real photographs, so crossing those two is the experiment. Granularity is an error decomposition rather than a fourth experiment, and the metric vector is a fixed instrument. That yields the organizing rule for ZQX1ZQX. One default cell carries the headline, every diagnostic varies exactly one axis away from it and reports mAP@[.5:.95] and mAP50, and the full twelve-statistic vector is filled only in the default cell and once per band. No figure crosses average recall or the object-size splits with band or granularity, since none would answer a question posed here.",
+   "received": "Naively crossing all four produces ZQX0ZQX numbers, which are unreportable and uninformative. The four axes do not play the same role. The band and test domain are the independent variables because this study examines the effectiveness of synthetic training data and its transferability to real photographs. Thus, crossing these two variables constitutes the experiment. Granularity is an error decomposition, not a fourth experiment, and the metric vector is a fixed instrument. This yields the organizing rule for ZQX1ZQX. One default cell carries the headline; every diagnostic varies by one axis from it and reports mAP@[.5:.95] and mAP50. The full twelve-statistic vector is only filled in the default cell and once per band. No figure crosses the average recall or object-size splits with the band or granularity since none would answer the posed question.",
+   "restored": "Naively crossing all four produces $3 \\times 3 \\times 5 \\times 12 = 540$ numbers, which are unreportable and uninformative. The four axes do not play the same role. The band and test domain are the independent variables because this study examines the effectiveness of synthetic training data and its transferability to real photographs. Thus, crossing these two variables constitutes the experiment. Granularity is an error decomposition, not a fourth experiment, and the metric vector is a fixed instrument. This yields the organizing rule for \\Cref{chapter:results}. One default cell carries the headline; every diagnostic varies by one axis from it and reports mAP@[.5:.95] and mAP50. The full twelve-statistic vector is only filled in the default cell and once per band. No figure crosses the average recall or object-size splits with the band or granularity since none would answer the posed question.",
+   "flags": [
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 851
+  },
+  {
+   "id": "P004",
+   "line": 13,
+   "section": "Evaluation Axes",
+   "indent": "",
+   "original": "Treating granularity as a decomposition is what makes the ladder informative. The three levels are nested upper bounds, since a detection judged correct at the fine level is necessarily correct at the coarse and detection levels:",
+   "sent": "Treating granularity as a decomposition is what makes the ladder informative. The three levels are nested upper bounds, since a detection judged correct at the fine level is necessarily correct at the coarse and detection levels:",
+   "received": "Treating granularity as a decomposition is what makes the ladder informative. The three levels are nested upper bounds because a detection that is judged to be correct at the fine level is also correct at the coarse and detection levels.",
+   "restored": "Treating granularity as a decomposition is what makes the ladder informative. The three levels are nested upper bounds because a detection that is judged to be correct at the fine level is also correct at the coarse and detection levels.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 229
+  },
+  {
+   "id": "P005",
+   "line": 18,
+   "section": "Evaluation Axes",
+   "indent": "",
+   "original": "The quantities of interest are the two gaps in \\Cref{eq:granularity-ladder}. $\\Delta_{\\text{coarse}}$ is the drop from detection to coarse classification, the cost of naming a group. $\\Delta_{\\text{fine}}$ is the drop from coarse to fine, the cost of naming the exact species within that group. A large $\\Delta_{\\text{fine}}$ beside a small $\\Delta_{\\text{coarse}}$ is the signature of the look-alike problem, and is the expected failure mode for this dataset. A large $\\Delta_{\\text{coarse}}$ instead means cross-group confusion, which is a genuine failure. A low $\\mathrm{mAP}_{\\text{detect}}$ means the detector cannot localize at all. One scorer produces all three levels by remapping class identifiers, and merged duplicates are charged as false positives, so a coarse figure is penalized rather than inflated.",
+   "sent": "The quantities of interest are the two gaps in ZQX0ZQX. ZQX1ZQX is the drop from detection to coarse classification, the cost of naming a group. ZQX2ZQX is the drop from coarse to fine, the cost of naming the exact species within that group. A large ZQX3ZQX beside a small ZQX4ZQX is the signature of the look-alike problem, and is the expected failure mode for this dataset. A large ZQX5ZQX instead means cross-group confusion, which is a genuine failure. A low ZQX6ZQX means the detector cannot localize at all. One scorer produces all three levels by remapping class identifiers, and merged duplicates are charged as false positives, so a coarse figure is penalized rather than inflated.",
+   "received": "The quantities of interest are the two gaps in ZQX0ZQX. ZQX1ZQX represents the cost of naming a group, or the drop from detection to coarse classification. ZQX2ZQX is the drop from coarse to fine classification, or the cost of naming the exact species within that group. The look-alike problem is indicated by a large ZQX3ZQX alongside a small ZQX4ZQX, which is the expected failure mode for this dataset. A large ZQX5ZQX, on the other hand, means cross-group confusion, which is a genuine failure. A low ZQX6ZQX value indicates that the detector cannot localize at all. One scorer produces all three levels by remapping class identifiers. Merged duplicates are charged as false positives, so the coarse figure is penalized rather than inflated.",
+   "restored": "The quantities of interest are the two gaps in \\Cref{eq:granularity-ladder}. $\\Delta_{\\text{coarse}}$ represents the cost of naming a group, or the drop from detection to coarse classification. $\\Delta_{\\text{fine}}$ is the drop from coarse to fine classification, or the cost of naming the exact species within that group. The look-alike problem is indicated by a large $\\Delta_{\\text{fine}}$ alongside a small $\\Delta_{\\text{coarse}}$, which is the expected failure mode for this dataset. A large $\\Delta_{\\text{coarse}}$, on the other hand, means cross-group confusion, which is a genuine failure. A low $\\mathrm{mAP}_{\\text{detect}}$ value indicates that the detector cannot localize at all. One scorer produces all three levels by remapping class identifiers. Merged duplicates are charged as false positives, so the coarse figure is penalized rather than inflated.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 690
+  },
+  {
+   "id": "P006",
+   "line": 23,
+   "section": "The Mixed Real+Synthetic Default",
+   "indent": "",
+   "original": "Three test domains are distinguished throughout this work, and the reporting rules below depend on telling them apart. The \\textbf{real test set} is the held-out real photographs, uneven across classes by construction. The \\textbf{synthetic test set} is the balanced $225 \\times 50$ held-out set of \\Cref{sec:synthetic_test_set}. The \\textbf{mixed test set} is the union of the two, scored together as a single set, not averaged after the fact. The default cell carrying the headline is fine granularity on the mixed test set over all bands, reported with the full twelve-statistic vector.",
+   "sent": "Three test domains are distinguished throughout this work, and the reporting rules below depend on telling them apart. The real test set is the held-out real photographs, uneven across classes by construction. The synthetic test set is the balanced 225 × 50 held-out set of ZQX0ZQX. The mixed test set is the union of the two, scored together as a single set, not averaged after the fact. The default cell carrying the headline is fine granularity on the mixed test set over all bands, reported with the full twelve-statistic vector.",
+   "received": "Throughout this work, three test domains are distinguished, and the reporting rules below depend on distinguishing them. The real test set comprises held-out real photographs that are uneven across classes by design. The synthetic test set is the balanced, held-out ZQX0ZQX set of 225 × 50. The mixed test set is the union of the two sets, which are scored together as a single set and are not averaged after the fact. The default cell carrying the headline provides fine-grained results on the mixed test set across all bands and is reported with the full twelve-statistic vector.",
+   "restored": "Throughout this work, three test domains are distinguished, and the reporting rules below depend on distinguishing them. The \\textbf{real test set} comprises held-out real photographs that are uneven across classes by design. The \\textbf{synthetic test set} is the balanced, held-out \\Cref{sec:synthetic_test_set} set of $225 \\times 50$. The \\textbf{mixed test set} is the union of the two sets, which are scored together as a single set and are not averaged after the fact. The default cell carrying the headline provides fine-grained results on the mixed test set across all bands and is reported with the full twelve-statistic vector.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 533
+  },
+  {
+   "id": "P007",
+   "line": 25,
+   "section": "The Mixed Real+Synthetic Default",
+   "indent": "",
+   "original": "Three reasons support that default. The fixed $50$ synthetic images per class give every class a consistent, controlled probe. That matters most for the Band A classes, which hold as few as five to thirty real test images and whose real-only accuracy is otherwise dominated by a handful of hard frames. For a Band D class with up to $500$ real test images, the same $50$ images are a small, constant addition. And the mixed set always contains the real evidence, so no model in this work is ever judged on synthetic images alone.",
+   "sent": "Three reasons support that default. The fixed 50 synthetic images per class give every class a consistent, controlled probe. That matters most for the Band A classes, which hold as few as five to thirty real test images and whose real-only accuracy is otherwise dominated by a handful of hard frames. For a Band D class with up to 500 real test images, the same 50 images are a small, constant addition. And the mixed set always contains the real evidence, so no model in this work is ever judged on synthetic images alone.",
+   "received": "There are three reasons that support the default. First, the fixed 50 synthetic images per class provide a consistent and controlled probe for each class. This is most important for Band A classes, which have as few as five to thirty real test images, and whose accuracy is otherwise dominated by a few difficult frames. For a Band D class with up to 500 real test images, the same 50 images provide a small, consistent addition. Additionally, the mixed set always contains real evidence, ensuring that no model in this study is ever evaluated based solely on synthetic images.",
+   "restored": "There are three reasons that support the default. First, the fixed $50$ synthetic images per class provide a consistent and controlled probe for each class. This is most important for Band A classes, which have as few as five to thirty real test images, and whose accuracy is otherwise dominated by a few difficult frames. For a Band D class with up to $500$ real test images, the same $50$ images provide a small, consistent addition. Additionally, the mixed set always contains real evidence, ensuring that no model in this study is ever evaluated based solely on synthetic images.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 523
+  },
+  {
+   "id": "P008",
+   "line": 27,
+   "section": "The Mixed Real+Synthetic Default",
+   "indent": "",
+   "original": "Because the synthetic contribution is fixed while the real contribution varies by two orders of magnitude, the synthetic share of a class's score is inversely related to how much real data that class has. It is dominant for a thin Band A class and marginal for Band D. The real and synthetic test-image counts are therefore reported per class alongside the headline, and a synthetically trained class is partly scored on its own training domain under the mixed condition, a caveat \\Cref{sec:results_band_granularity} states in full.",
+   "sent": "Because the synthetic contribution is fixed while the real contribution varies by two orders of magnitude, the synthetic share of a class's score is inversely related to how much real data that class has. It is dominant for a thin Band A class and marginal for Band D. The real and synthetic test-image counts are therefore reported per class alongside the headline, and a synthetically trained class is partly scored on its own training domain under the mixed condition, a caveat ZQX0ZQX states in full.",
+   "received": "Since the synthetic contribution is fixed and the real contribution varies by two orders of magnitude, the synthetic share of a class's score is inversely related to the amount of real data that class has. It is dominant for a Band A class and marginal for a Band D class.\nThe real and synthetic test-image counts are reported per class alongside the headline. A synthetically trained class is partly scored on its own training domain under the mixed condition. This is a caveat that ZQX0ZQX states in full.",
+   "restored": "Since the synthetic contribution is fixed and the real contribution varies by two orders of magnitude, the synthetic share of a class's score is inversely related to the amount of real data that class has. It is dominant for a Band A class and marginal for a Band D class.\nThe real and synthetic test-image counts are reported per class alongside the headline. A synthetically trained class is partly scored on its own training domain under the mixed condition. This is a caveat that \\Cref{sec:results_band_granularity} states in full.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 504
+  },
+  {
+   "id": "P009",
+   "line": 29,
+   "section": "The Mixed Real+Synthetic Default",
+   "indent": "",
+   "original": "Two reporting rules follow, and both hold without exception. First, the real-only breakout is reported alongside the mixed headline every time. It is the primary-evaluation figure and the only number in this work comparable to a published real-image benchmark, and reporting it beside the headline is what prevents the synthetic component from quietly inflating a result. Second, the paired per-class difference between real and synthetic accuracy is monitored as a standing watchdog. Should that difference show the synthetic component systematically inflating or deflating the mixed figure, the default axes are to be revised. The likely revision is to make the real test set the default again and retain the mixed figure as secondary. \\Cref{sec:results_domain_shift} states whether that trigger fired.",
+   "sent": "Two reporting rules follow, and both hold without exception. First, the real-only breakout is reported alongside the mixed headline every time. It is the primary-evaluation figure and the only number in this work comparable to a published real-image benchmark, and reporting it beside the headline is what prevents the synthetic component from quietly inflating a result. Second, the paired per-class difference between real and synthetic accuracy is monitored as a standing watchdog. Should that difference show the synthetic component systematically inflating or deflating the mixed figure, the default axes are to be revised. The likely revision is to make the real test set the default again and retain the mixed figure as secondary. ZQX0ZQX states whether that trigger fired.",
+   "received": "There are two reporting rules, both of which hold without exception. First, the real-only breakout is reported alongside the mixed headline every time. This figure is used for primary evaluation and is the only number in this work that can be compared to a published real-image benchmark. Reporting it alongside the headline prevents the synthetic component from inflating a result unnoticed. Second, the difference in accuracy between real and synthetic is monitored as a standing watchdog. If that difference shows that the synthetic component is systematically inflating or deflating the mixed figure, the default axes should be revised. The likely revision would be to set the real test as the default again and keep the mixed figure as secondary. ZQX0ZQX indicates whether that trigger was activated.",
+   "restored": "There are two reporting rules, both of which hold without exception. First, the real-only breakout is reported alongside the mixed headline every time. This figure is used for primary evaluation and is the only number in this work that can be compared to a published real-image benchmark. Reporting it alongside the headline prevents the synthetic component from inflating a result unnoticed. Second, the difference in accuracy between real and synthetic is monitored as a standing watchdog. If that difference shows that the synthetic component is systematically inflating or deflating the mixed figure, the default axes should be revised. The likely revision would be to set the real test as the default again and keep the mixed figure as secondary. \\Cref{sec:results_domain_shift} indicates whether that trigger was activated.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 780
+  },
+  {
+   "id": "P010",
+   "line": 31,
+   "section": "The Mixed Real+Synthetic Default",
+   "indent": "",
+   "original": "No comparison outside this work should read a $225$-class fine-grained wildlife mAP as equivalent to a published $80$-class COCO figure. The class count is larger and many of the classes are near-duplicates, so a lower fine-grained figure is expected and is not evidence of a weaker detector. The closest honest analog to a generic benchmark is the class-agnostic $\\mathrm{mAP}_{\\text{detect}}$, which measures localization independently of the taxonomy. All figures use COCO-standard settings, averaging over IoU thresholds from $0.5$ to $0.95$ with at most $100$ detections per image.",
+   "sent": "No comparison outside this work should read a 225-class fine-grained wildlife mAP as equivalent to a published 80-class COCO figure. The class count is larger and many of the classes are near-duplicates, so a lower fine-grained figure is expected and is not evidence of a weaker detector. The closest honest analog to a generic benchmark is the class-agnostic ZQX0ZQX, which measures localization independently of the taxonomy. All figures use COCO-standard settings, averaging over IoU thresholds from 0.5 to 0.95 with at most 100 detections per image.",
+   "received": "Outside of this work, no comparison should equate a 225-class fine-grained wildlife mAP to a published 80-class COCO figure. The class count is larger, and many classes are nearly identical, so a lower fine-grained figure is expected. This is not evidence of a weaker detector. The closest analog to a generic benchmark is the class-agnostic ZQX0ZQX, which measures localization independently of the taxonomy. All figures use COCO-standard settings and average over IoU thresholds ranging from 0.5 to 0.95, with a maximum of 100 detections per image.",
+   "restored": "Outside of this work, no comparison should equate a $225$-class fine-grained wildlife mAP to a published $80$-class COCO figure. The class count is larger, and many classes are nearly identical, so a lower fine-grained figure is expected. This is not evidence of a weaker detector. The closest analog to a generic benchmark is the class-agnostic $\\mathrm{mAP}_{\\text{detect}}$, which measures localization independently of the taxonomy. All figures use COCO-standard settings and average over IoU thresholds ranging from $0.5$ to $0.95$, with a maximum of $100$ detections per image.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 553
+  },
+  {
+   "id": "P011",
+   "line": 36,
+   "section": "Look-Alike Groups and Coarse Evaluation",
+   "indent": "",
+   "original": "Coarse granularity needs a fixed table mapping each of the $225$ classes to a group. Grouping classes by the confusions a trained model makes is rejected outright, because a grouping derived from the model under evaluation is circular, and hand-listing the notorious look-alikes is subjective. A rollup to genus is reproducible and fixed before any model runs, so that taxonomic rollup is the backbone, corrected by a small documented override list. The construction follows the a-priori grouping principle of \\textcite{hoiemDiagnosingErrorObject2012}, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity.",
+   "sent": "Coarse granularity needs a fixed table mapping each of the 225 classes to a group. Grouping classes by the confusions a trained model makes is rejected outright, because a grouping derived from the model under evaluation is circular, and hand-listing the notorious look-alikes is subjective. A rollup to genus is reproducible and fixed before any model runs, so that taxonomic rollup is the backbone, corrected by a small documented override list. The construction follows the a-priori grouping principle of, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity.",
+   "received": "Coarse granularity requires a fixed table that maps each of the 225 classes to a group. Grouping classes based on the mistakes a trained model makes is rejected outright because it is circular to derive a grouping from the model under evaluation. Hand-listing notorious look-alikes is also subjective. The taxonomic rollup to genus is reproducible and fixed before any model runs. It is the backbone corrected by a small, documented override list. This construction follows the a priori grouping principle, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity.",
+   "restored": "Coarse granularity requires a fixed table that maps each of the $225$ classes to a group. Grouping classes based on the mistakes a trained model makes is rejected outright because it is circular to derive a grouping from the model under evaluation. Hand-listing notorious look-alikes is also subjective. The taxonomic rollup to genus is reproducible and fixed before any model runs. It is the backbone corrected by a small, documented override list. This construction follows the a priori grouping principle, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity \\textcite{hoiemDiagnosingErrorObject2012}.",
+   "flags": [
+    "cite-moved: \\textcite{hoiemDiagnosingErrorObject2012}",
+    "cite-subject"
+   ],
+   "status": "fetched",
+   "chars": 608
+  },
+  {
+   "id": "P012",
+   "line": 38,
+   "section": "Look-Alike Groups and Coarse Evaluation",
+   "indent": "",
+   "original": "The criterion is a judgment about what counts as a failure, not a technical rule. Two classes are merged when confusing them in a single still frame is a forgivable error, which belongs in $\\Delta_{\\text{fine}}$, and kept apart when confusing them is a real failure, which must surface in $\\Delta_{\\text{coarse}}$. Leopard and jaguar are therefore merged, since separating them from one still image is a specialist task. Lion and tiger are held in separate single-member groups despite sharing a genus. Where a case is uncertain the default is not to merge, since an unjustified merge silently forgives a real error. The resulting table holds $174$ groups, $30$ of them with more than one member, and $8$ overrides.  % reports/lookalike_groups_v2.csv",
+   "sent": "The criterion is a judgment about what counts as a failure, not a technical rule. Two classes are merged when confusing them in a single still frame is a forgivable error, which belongs in ZQX0ZQX, and kept apart when confusing them is a real failure, which must surface in ZQX1ZQX. Leopard and jaguar are therefore merged, since separating them from one still image is a specialist task. Lion and tiger are held in separate single-member groups despite sharing a genus. Where a case is uncertain the default is not to merge, since an unjustified merge silently forgives a real error. The resulting table holds 174 groups, 30 of them with more than one member, and 8 overrides.",
+   "received": "The criterion is a judgment about what constitutes a failure, not a technical rule. Two classes are merged when confusing them in a single still frame is a forgivable error and belongs in ZQX0ZQX. They are kept apart when confusing them is a real failure and must surface in ZQX1ZQX. Leopards and jaguars are therefore grouped together since distinguishing them in a single image requires expertise. However, lion and tiger are held in separate, single-member groups, even though they share a genus. In cases of uncertainty, the default is to not merge, since an unjustified merge silently forgives a real error. The resulting table contains 174 groups, 30 of which have more than one member, and eight overrides.",
+   "restored": "The criterion is a judgment about what constitutes a failure, not a technical rule. Two classes are merged when confusing them in a single still frame is a forgivable error and belongs in $\\Delta_{\\text{fine}}$. They are kept apart when confusing them is a real failure and must surface in $\\Delta_{\\text{coarse}}$. Leopards and jaguars are therefore grouped together since distinguishing them in a single image requires expertise. However, lion and tiger are held in separate, single-member groups, even though they share a genus. In cases of uncertainty, the default is to not merge, since an unjustified merge silently forgives a real error. The resulting table contains $174$ groups, $30$ of which have more than one member, and eight overrides.  % reports/lookalike_groups_v2.csv",
+   "flags": [
+    "format-lost: $8$"
+   ],
+   "status": "fetched",
+   "chars": 677
+  },
+  {
+   "id": "P013",
+   "line": 39,
+   "section": "Look-Alike Groups and Coarse Evaluation",
+   "indent": "",
+   "original": "It is frozen before the first evaluation runs, because a later change would invalidate every coarse figure already computed without raising a visible error. \\Cref{sec:results_lookalike_confusion} checks it against the confusions the model actually makes, descriptively and never as an input.",
+   "sent": "It is frozen before the first evaluation runs, because a later change would invalidate every coarse figure already computed without raising a visible error. ZQX0ZQX checks it against the confusions the model actually makes, descriptively and never as an input.",
+   "received": "It is frozen before the first evaluation runs because a later change would invalidate all the preliminary figures that have already been computed without triggering an obvious error. ZQX0ZQX checks it against the actual confusions the model makes descriptively, not as an input.",
+   "restored": "It is frozen before the first evaluation runs because a later change would invalidate all the preliminary figures that have already been computed without triggering an obvious error. \\Cref{sec:results_lookalike_confusion} checks it against the actual confusions the model makes descriptively, not as an input.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 260
+  },
+  {
+   "id": "P014",
+   "line": 44,
+   "section": "Metric Selection",
+   "indent": "",
+   "original": "The COCO twelve-statistic vector surveyed in \\Cref{sec:lit_detection_metrics} is retained unchanged as the baseline instrument, because it is the bridge that keeps this work's numbers legible against published work. All scoring runs through one implementation, validated against the training loop's own evaluator, so a figure quoted from a training log and one quoted from an evaluation report are the same measurement.",
+   "sent": "The COCO twelve-statistic vector surveyed in ZQX0ZQX is retained unchanged as the baseline instrument, because it is the bridge that keeps this work's numbers legible against published work. All scoring runs through one implementation, validated against the training loop's own evaluator, so a figure quoted from a training log and one quoted from an evaluation report are the same measurement.",
+   "received": "The COCO twelve-statistic vector, as surveyed in ZQX0ZQX, is retained as the baseline instrument because it maintains the legibility of this work's numbers against those of published works. All scoring runs through one implementation and is validated against the training loop's evaluator. Therefore, a figure quoted from a training log is the same measurement as one quoted from an evaluation report.",
+   "restored": "The COCO twelve-statistic vector, as surveyed in \\Cref{sec:lit_detection_metrics}, is retained as the baseline instrument because it maintains the legibility of this work's numbers against those of published works. All scoring runs through one implementation and is validated against the training loop's evaluator. Therefore, a figure quoted from a training log is the same measurement as one quoted from an evaluation report.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 394
+  },
+  {
+   "id": "P015",
+   "line": 46,
+   "section": "Metric Selection",
+   "indent": "",
+   "original": "Four qualifications accompany every number. Macro averaging over classes stays primary, as the COCO standard and the class-imbalance-robust choice, with a count-weighted average reported as a sensitivity check, since the two can diverge on a test set this uneven. Bootstrap confidence intervals, resampling images with replacement, cover the headline figure and the band and domain differences, because the Band A and Band B test sets are small enough that a difference between two models may not be a difference at all. The $9$ classes holding fewer than $30$ real test images are flagged in every per-class table, and the headline is reported both with and without them.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/evaluation/evaluation_report.json",
+   "sent": "Four qualifications accompany every number. Macro averaging over classes stays primary, as the COCO standard and the class-imbalance-robust choice, with a count-weighted average reported as a sensitivity check, since the two can diverge on a test set this uneven. Bootstrap confidence intervals, resampling images with replacement, cover the headline figure and the band and domain differences, because the Band A and Band B test sets are small enough that a difference between two models may not be a difference at all. The 9 classes holding fewer than 30 real test images are flagged in every per-class table, and the headline is reported both with and without them.",
+   "received": "Four qualifications accompany every number. Macro averaging over classes remains the primary method, as defined by the COCO standard and the class-imbalance-robust approach. A count-weighted average is reported as a sensitivity check since these two methods can diverge on such an uneven test set. Bootstrap confidence intervals cover the headline figure, band, and domain differences because the Band A and Band B test sets are small enough that a difference between two models may not actually exist. The nine classes with fewer than 30 real test images are flagged in every per-class table, and the headline figure is reported with and without them.",
+   "restored": "Four qualifications accompany every number. Macro averaging over classes remains the primary method, as defined by the COCO standard and the class-imbalance-robust approach. A count-weighted average is reported as a sensitivity check since these two methods can diverge on such an uneven test set. Bootstrap confidence intervals cover the headline figure, band, and domain differences because the Band A and Band B test sets are small enough that a difference between two models may not actually exist. The nine classes with fewer than $30$ real test images are flagged in every per-class table, and the headline figure is reported with and without them.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/evaluation/evaluation_report.json",
+   "flags": [
+    "format-lost: $9$"
+   ],
+   "status": "fetched",
+   "chars": 668
+  },
+  {
+   "id": "P016",
+   "line": 47,
+   "section": "Metric Selection",
+   "indent": "",
+   "original": "And a single fixed seed governs every sampled evaluation, so re-running the suite against a new checkpoint yields a comparable figure.",
+   "sent": "And a single fixed seed governs every sampled evaluation, so re-running the suite against a new checkpoint yields a comparable figure.",
+   "received": "A single fixed seed governs every sampled evaluation, so rerunning the suite against a new checkpoint yields a comparable result.",
+   "restored": "A single fixed seed governs every sampled evaluation, so rerunning the suite against a new checkpoint yields a comparable result.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 134
+  },
+  {
+   "id": "P017",
+   "line": 49,
+   "section": "Metric Selection",
+   "indent": "",
+   "original": "Two instruments complement the metric vector without extending it. The error-type decomposition anchored in \\Cref{sec:lit_error_decomposition} partitions the detector's mistakes into classification, localization, duplicate, background and missed ground truth, and corroborates that a coarse-to-fine gap really is look-alike confusion rather than a hidden localization problem. The within-group confusion rate asks, of the detections that are correctly localized and in the right group, what fraction name the wrong species. Both feed the reporting structure that \\Cref{sec:results_regime_comparison} follows: a headline table per model, three diagnostic tables, and the per-class and full-vector material emitted as appendix artifacts.",
+   "sent": "Two instruments complement the metric vector without extending it. The error-type decomposition anchored in ZQX0ZQX partitions the detector's mistakes into classification, localization, duplicate, background and missed ground truth, and corroborates that a coarse-to-fine gap really is look-alike confusion rather than a hidden localization problem. The within-group confusion rate asks, of the detections that are correctly localized and in the right group, what fraction name the wrong species. Both feed the reporting structure that ZQX1ZQX follows: a headline table per model, three diagnostic tables, and the per-class and full-vector material emitted as appendix artifacts.",
+   "received": "Two instruments complement the metric vector without extending it. The ZQX0ZQX error-type decomposition partitions the detector's mistakes into five categories: classification, localization, duplicate, background, and missed ground truth. This corroborates the idea that a coarse-to-fine gap is actually look-alike confusion rather than a hidden localization problem. The within-group confusion rate asks what fraction of correctly localized detections in the right group name the wrong species. Both feed the reporting structure that ZQX1ZQX follows, which includes a headline table per model, three diagnostic tables, and per-class and full-vector material in the appendix.",
+   "restored": "Two instruments complement the metric vector without extending it. The \\Cref{sec:lit_error_decomposition} error-type decomposition partitions the detector's mistakes into five categories: classification, localization, duplicate, background, and missed ground truth. This corroborates the idea that a coarse-to-fine gap is actually look-alike confusion rather than a hidden localization problem. The within-group confusion rate asks what fraction of correctly localized detections in the right group name the wrong species. Both feed the reporting structure that \\Cref{sec:results_regime_comparison} follows, which includes a headline table per model, three diagnostic tables, and per-class and full-vector material in the appendix.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 679
+  }
+ ],
+ "applied_at": "2026-09-27T21:51:56+00:00"
+}

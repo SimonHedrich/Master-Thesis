@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 5-Discussion_and_Conclusion.tex: 12 paragraphs -->
+
+#### P017  5-Discussion_and_Conclusion.tex:47  flags: -
+## section: Limitations
+--- original
+Every answer above is bounded by the limitations below, each stated with its consequence.
+--- rephrased
+Each of the answers above is limited by the constraints below, each of which is stated with its consequence.
+--- final
+Each of the answers above is limited by the constraints below, each of which is stated with its consequence.
+--- verdict
+rephrased: says the same thing, reads fine. risk: low
+
+
+#### P018  5-Discussion_and_Conclusion.tex:50  flags: -
+## section: No confidence intervals anywhere
+--- original
+The bootstrap resampling specified in \Cref{sec:metric_selection} was never run, and every model contributes a single training run, so no difference reported in \Cref{chapter:results} is statistically significant. A direction holding across $17$ partly independent views of one pair of runs, or a gap the size of the one separating Band A from Band C, is unlikely to be seed noise. A difference of $0.003$ between Band B and Band C carries no information about which composition is better, and the seed episode of \Cref{sec:results_practicability_verdict} shows a gap in that range reversing outright once two further seeds were added.
+--- rephrased
+The bootstrap resampling specified in \Cref{sec:metric_selection} was never run, and each model contributes only one training run. Therefore, no difference reported in \Cref{chapter:results} is statistically significant. A consistent trend across $17$ partly independent views of one pair of runs, or a gap the size of that between Bands A and C, is unlikely to be due to random variation. A $0.003$ difference between Bands B and C provides no information about which composition is better. The seed episode of \Cref{sec:results_practicability_verdict} shows a gap in that range that reverses once two additional seeds are added.
+--- final
+The bootstrap resampling specified in \Cref{sec:metric_selection} was never run, and each model contributes only one training run. Therefore, no difference reported in \Cref{chapter:results} is statistically significant. A consistent trend across $17$ partly independent views of one pair of runs, or a gap the size of that between Bands A and C, is unlikely to be due to random variation. A difference of $0.003$ between Band B and Band C carries no information about which composition is better, and the seed episode of \Cref{sec:results_practicability_verdict} shows a gap in that range reversing outright once two further seeds were added.
+--- verdict
+merged: took rephrased s1-s2, kept original s3 because rephrased dropped "outright" (a claim-strength qualifier on the reversal). risk: high
+
+
+#### P019  5-Discussion_and_Conclusion.tex:53  flags: semicolon
+## section: The watchdog revision was not carried out
+--- original
+This limitation, alone in this section, deviates from a stated protocol rather than leaving an axis unexplored. \Cref{sec:mixed_default} committed in advance to revising the default evaluation axes if a systematic discrepancy appeared. It appeared, it is large and one-directional, and the revision did not follow. Every mixed-set figure in this work should be read as a ranking instrument and not as an estimate of accuracy on real photographs, with the real-only breakout beside it carrying that second reading.
+--- rephrased
+This limitation deviates from the stated protocol rather than leaving an axis unexplored. \Cref{sec:mixed_default} committed to revising the default evaluation axes in advance if a systematic discrepancy appeared. A discrepancy did appear, and it is large and one-directional; however, the revision did not follow. Every mixed-set figure in this work should be read as a ranking instrument, not an estimate of the accuracy of real photographs. The real-only breakout beside it carries that second reading.
+--- final
+This limitation, alone in this section, deviates from a stated protocol rather than leaving an axis unexplored. \Cref{sec:mixed_default} committed to revising the default evaluation axes in advance if a systematic discrepancy appeared. It appeared, it is large and one-directional, and the revision did not follow. Every mixed-set figure in this work should be read as a ranking instrument, not an estimate of the accuracy of real photographs. The real-only breakout beside it carries that second reading.
+--- verdict
+merged: kept original s1 because rephrased dropped "alone in this section", kept original s3 to avoid the semicolon flagged in the rephrasing, took rephrased s2 and s4. risk: high
+
+
+#### P020  5-Discussion_and_Conclusion.tex:56  flags: -
+## section: Question $1$ rests on one cell of a large space
+--- original
+The answer is bounded by four gaps. An evaluation of \textit{YOLO26n} from raw COCO weights failed on a missing data directory and was not retried, so every student figure is an absolute level rather than a gain over an untuned start. Only the default $(T, \alpha)$ point ran, so \Cref{tab:kd-vs-direct} is one cell of the grid \Cref{sec:kd_loss} describes. One pairing was tested, and feature-based alignment was excluded on architectural grounds. And the multi-animal subset was never evaluated, although an image holding several animals is where a teacher's class distribution carries the most information hard targets do not, so the one mechanism that could have favored distillation was never probed. Reading Question $1$'s answer as a result about knowledge distillation for this domain would overstate it by the size of the space \Cref{sec:lit_knowledge_distillation} surveys.
+--- rephrased
+The answer is bounded by four gaps. An evaluation of \textit{YOLO26n} from raw COCO weights failed due to a missing data directory and was not retried. Therefore, every student figure represents an absolute level rather than a gain over an untuned start. Only the default $(T, \alpha)$ point was run, so \Cref{tab:kd-vs-direct} is one cell in the \Cref{sec:kd_loss} grid. One pairing was tested, and feature-based alignment was excluded on architectural grounds. The multi-animal subset was never evaluated. An image containing several animals is where a teacher's class distribution carries the most information. Hard targets do not carry much information, so the one mechanism that could have favored distillation was never investigated. Interpreting the answer to Question $1$ as a result regarding knowledge distillation in this domain would be an overstatement by the size of the space that \Cref{sec:lit_knowledge_distillation} surveys.
+--- final
+The answer is bounded by four gaps. An evaluation of \textit{YOLO26n} from raw COCO weights failed due to a missing data directory and was not retried. Therefore, every student figure represents an absolute level rather than a gain over an untuned start. Only the default $(T, \alpha)$ point was run, so \Cref{tab:kd-vs-direct} is one cell in the \Cref{sec:kd_loss} grid. One pairing was tested, and feature-based alignment was excluded on architectural grounds. And the multi-animal subset was never evaluated, although an image holding several animals is where a teacher's class distribution carries the most information hard targets do not, so the one mechanism that could have favored distillation was never probed. Interpreting the answer to Question $1$ as a result regarding knowledge distillation in this domain would be an overstatement by the size of the space that \Cref{sec:lit_knowledge_distillation} surveys.
+--- verdict
+merged: kept the original multi-animal sentence because rephrasing it into "hard targets do not carry much information" turned a relative comparison into a separate, overly general claim. risk: high
+
+
+#### P021  5-Discussion_and_Conclusion.tex:59  flags: -
+## section: No quantization-aware training
+--- original
+No quantization, pruning or compression pass was applied, and \Cref{sec:results_kd_and_embedded} records that as a scope decision rather than an attempted step. The full-precision figures of \Cref{tab:embedded-latency} bound latency from above, particularly since the accelerated path on the \textit{QCS605} is a quantized one. Question $4$'s answer is a feasibility statement about unoptimized models, and calling it a deployment verdict would require that pass.
+--- rephrased
+No quantization, pruning, or compression passes were applied, and \Cref{sec:results_kd_and_embedded} recorded this as a scope decision rather than an attempted step. The full-precision figures of \Cref{tab:embedded-latency} bound the latency from above, especially since the accelerated path on the \textit{QCS605} is quantized. The answer to Question $4$ is a feasibility statement about unoptimized models. Calling it a deployment verdict would require that pass.
+--- final
+No quantization, pruning, or compression passes were applied, and \Cref{sec:results_kd_and_embedded} recorded this as a scope decision rather than an attempted step. The full-precision figures of \Cref{tab:embedded-latency} bound the latency from above, especially since the accelerated path on the \textit{QCS605} is quantized. The answer to Question $4$ is a feasibility statement about unoptimized models. Calling it a deployment verdict would require that pass.
+--- verdict
+rephrased: says the same thing throughout, no hedge or figure altered. risk: high
+
+
+#### P022  5-Discussion_and_Conclusion.tex:62  flags: -
+## section: Every teacher figure is an upper bound
+--- original
+The teacher ensemble localizes with the same detector that produced the ground-truth boxes of both test domains, so every teacher figure in \Cref{chapter:results} is an upper bound and the teacher-to-student gap with it (\Cref{sec:results_regime_comparison}). Its fine-tuning gain of $0.176$ mixed and $0.154$ real carries a second caveat, since part of that corpus was admitted by agreeing with the pre-fine-tuning classifier (\Cref{sec:teacher_finetuning}).
+--- rephrased
+The teacher ensemble uses the same detector that produced the ground-truth boxes in both test domains. Thus, every teacher figure in \Cref{chapter:results} is an upper bound, as is the teacher-to-student gap (\Cref{sec:results_regime_comparison}). The fine-tuning gains of $0.176$ for mixed data and $0.154$ for real data have a second caveat since part of the data set was classified correctly by the pre-fine-tuning classifier (\Cref{sec:teacher_finetuning}).
+--- final
+
+--- verdict
+original: rephrased weakened "localizes with the same detector" to the generic "uses the same detector", and turned "admitted by agreeing with the pre-fine-tuning classifier" (a corpus-selection caveat) into "classified correctly by the pre-fine-tuning classifier" (an accuracy claim), a direction change. risk: high
+
+
+#### P023  5-Discussion_and_Conclusion.tex:65  flags: -
+## section: The generator comparison supports ordinal claims only
+--- original
+Six limits apply beyond the deferred evaluation axes (\Cref{sec:results_practicability_verdict}). The annotations are automatic and un-reviewed. Seed counts are uneven, at three per API cell against two per local cell. The design is not a full factorial, evaluation is real-only, and three fairness asymmetries remain in the prompt handling. One planned cell was never generated, so the grid has no upper anchor. \Cref{tab:generator-ranking} therefore supports the ordinal claims of Question $2$ and neither an absolute accuracy figure nor a full crossing of generator against prompt length.
+--- rephrased
+There are six limits beyond the deferred evaluation axes (\Cref{sec:results_practicability_verdict}). The annotations are automatic and unreviewed. There are three seed counts per API cell, as opposed to two per local cell. The design is not full factorial, the evaluation is real only, and there are three remaining fairness asymmetries in the prompt handling. One planned cell was never generated, so the grid has no upper anchor. Therefore, \Cref{tab:generator-ranking} supports the ordinal claims of Question $2$, but not an absolute accuracy figure or a full crossing of generator against prompt length.
+--- final
+Six limits apply beyond the deferred evaluation axes (\Cref{sec:results_practicability_verdict}). The annotations are automatic and unreviewed. Seed counts are uneven, at three per API cell against two per local cell. The design is not a full factorial, evaluation is real-only, and three fairness asymmetries remain in the prompt handling. One planned cell was never generated, so the grid has no upper anchor. Therefore, \Cref{tab:generator-ranking} supports the ordinal claims of Question $2$, but not an absolute accuracy figure or a full crossing of generator against prompt length.
+--- verdict
+merged: restored the term of art "real-only" (rephrased wrote "real only"), otherwise mixed sentence choices for clarity. risk: high
+
+
+#### P024  5-Discussion_and_Conclusion.tex:68  flags: -
+## section: The blind rating rubric was never run
+--- original
+The multi-rater rubric of \Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies, and the one computed discriminates too weakly to separate the local cells. The rubric was the designed instrument for the setting in which downstream accuracy has no resolution, which is the rare classes, so its absence is why a visually obvious species error appears in \Cref{fig:kinkajou-generator-samples} and is detected by no executed measure.
+--- rephrased
+The \Cref{sec:generator_comparison_evaluation} multi-rater rubric was not carried out, nor were three of the four automatic proxies. The one that was computed discriminates too weakly to separate the local cells. The rubric was designed for settings in which downstream accuracy has no resolution, such as rare classes. Thus, its absence resulted in a visually obvious species error appearing in \Cref{fig:kinkajou-generator-samples}, which was not detected by any executed measure.
+--- final
+The \Cref{sec:generator_comparison_evaluation} multi-rater rubric was not carried out, nor were three of the four automatic proxies. The one that was computed discriminates too weakly to separate the local cells. The rubric was the designed instrument for the setting in which downstream accuracy has no resolution, which is the rare classes, so its absence is why a visually obvious species error appears in \Cref{fig:kinkajou-generator-samples} and is detected by no executed measure.
+--- verdict
+merged: kept the original final sentence because rephrasing turned "the setting ... which is the rare classes" (a specific identification) into "settings ... such as rare classes" (a mere example). risk: high
+
+
+#### P025  5-Discussion_and_Conclusion.tex:71  flags: rather-than
+## section: Error types are not separated
+--- original
+The error-type decomposition named in \Cref{sec:metric_selection} was left as a future add-on, so cross-group misclassification, duplicate detections and background false positives all land in $\Delta_{\text{coarse}}$ together (\Cref{sec:results_granularity_gaps}), which makes it an upper bound and not a measurement. The finding that classification rather than localization limits accuracy survives this, because the recall figures of \Cref{tab:headline-coco12} support it independently. No claim about which classification error dominates does.
+--- rephrased
+The error-type decomposition in \Cref{sec:metric_selection} was intended as an add-on for the future. Thus, cross-group misclassification, duplicate detections, and background false positives are all included in $\Delta_{\text{coarse}}$ (\Cref{sec:results_granularity_gaps}), making it an upper bound rather than a measurement. The finding that classification rather than localization limits accuracy remains true because the recall figures of \Cref{tab:headline-coco12} independently support it. No claim about which classification error dominates does.
+--- final
+The error-type decomposition named in \Cref{sec:metric_selection} was left as a future add-on, so cross-group misclassification, duplicate detections and background false positives all land in $\Delta_{\text{coarse}}$ together (\Cref{sec:results_granularity_gaps}), which makes it an upper bound and not a measurement. The finding that classification rather than localization limits accuracy remains true because the recall figures of \Cref{tab:headline-coco12} independently support it. No claim about which classification error dominates does.
+--- verdict
+merged: kept original s1 because rephrasing introduced a new "rather than" tic ("an upper bound rather than a measurement") in place of "and not a measurement". risk: high
+
+
+#### P026  5-Discussion_and_Conclusion.tex:74  flags: -
+## section: Training cost is not comparable
+--- original
+The wall-clock cost reported in \Cref{sec:results_general_observations} is not a throughput comparison, since every run overlapped with at least one other.
+--- rephrased
+The reported wall-clock cost in \Cref{sec:results_general_observations} is not a throughput comparison because every run overlapped with at least one other.
+--- final
+The reported wall-clock cost in \Cref{sec:results_general_observations} is not a throughput comparison because every run overlapped with at least one other.
+--- verdict
+rephrased: says the same thing, "since" to "because" is a harmless synonym swap. risk: medium
+
+
+#### P027  5-Discussion_and_Conclusion.tex:79  flags: -
+## section: Further Work
+--- original
+Six follow-ons come out of those limits, ordered by cost-to-value ratio.
+--- rephrased
+Six follow-ons emerge from these limits, ordered by cost-to-value ratio.
+--- final
+Six follow-ons emerge from these limits, ordered by cost-to-value ratio.
+--- verdict
+rephrased: says the same thing, structural transition sentence. risk: low
+
+
+#### P028  5-Discussion_and_Conclusion.tex:82  flags: -
+## section: Further Work
+--- original
+\item \textbf{Quantization.} The largest remaining lever is a compression pass, since the accelerated path on the \textit{QCS605} is a quantized one and the figures of \Cref{tab:embedded-latency} miss the budget by roughly twelve times. Post-training quantization is the cheaper first step and quantization-aware training narrows the residual gap, both mapping onto the vendor toolchain named in \Cref{sec:lit_embedded_inference}. The measurement that settles Question $4$ has to be taken on the Hexagon 685 DSP itself. Reducing the input resolution is an independent second lever, and it needs a resolution-native training arm beside it.
+--- rephrased
+\item \textbf{Quantization.} The largest remaining lever is a compression pass since the accelerated path on the \textit{QCS605} is quantized and the \Cref{tab:embedded-latency} figures miss the budget by about twelvefold. Post-training quantization is the cheaper initial step, and quantization-aware training closes the remaining gap. Both of these processes map onto the vendor toolchain named in \Cref{sec:lit_embedded_inference}. The measurement that answers Question $4$ must be taken on the Hexagon 685 DSP itself. Reducing the input resolution is an additional lever that requires a resolution-native training arm.
+--- final
+\item \textbf{Quantization.} The largest remaining lever is a compression pass, since the accelerated path on the \textit{QCS605} is a quantized one and the figures of \Cref{tab:embedded-latency} miss the budget by roughly twelve times. Post-training quantization is the cheaper first step and quantization-aware training narrows the residual gap, both mapping onto the vendor toolchain named in \Cref{sec:lit_embedded_inference}. The measurement that answers Question $4$ must be taken on the Hexagon 685 DSP itself. Reducing the input resolution is an independent second lever, and it needs a resolution-native training arm beside it.
+--- verdict
+merged: kept original hedge "roughly" over "about", kept "narrows" over "closes" (closes overstates how much QAT fixes), kept the ordinal "second lever" that rephrasing dropped, took rephrased s3 (settles to answers, harmless). risk: high
+
+

@@ -1,0 +1,222 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 4-Results.tex: 8 paragraphs -->
+
+#### P073  4-Results.tex:452  flags: token-lost: 2 LaTeX span(s) did not come back: '\\,', '\\,'
+## section: Runtime Benchmark on the Proxy Device
+--- original
+\Cref{fig:embedded-latency-vs-map} places accuracy against measured latency, and the ranking is unambiguous in both dimensions at once. The ensemble reaches its $0.663$ mixed-set mAP, with $0.599$ on the real-only breakout, at roughly $83$ times the latency of \textit{YOLO26n}, and \textit{YOLOv5s} is both slower and less accurate. Pre-processing scales with capture resolution rather than model size: decoding and letterboxing a median test image costs $21$--$35$\,ms, and the same operation on a native $4192\times3120$ \textit{AX Visio} still costs $256$--$275$\,ms.
+--- rephrased
+\Cref{fig:embedded-latency-vs-map} places accuracy against measured latency, and the ranking is unambiguous in both dimensions at once. The ensemble reaches its $0.663$ mixed-set mAP, with $0.599$ on the real-only breakout, at roughly $83$ times the latency of \textit{YOLO26n}, and \textit{YOLOv5s} is both slower and less accurate. Pre-processing scales with capture resolution rather than model size: decoding and letterboxing a median test image costs $21$--$35$\,ms, and the same operation on a native $4192\times3120$ \textit{AX Visio} still costs $256$--$275$\,ms.
+--- final
+\Cref{fig:embedded-latency-vs-map} places accuracy against measured latency, and the ranking is unambiguous in both dimensions at once. The ensemble reaches its $0.663$ mixed-set mAP, with $0.599$ on the real-only breakout, at roughly $83$ times the latency of \textit{YOLO26n}, and \textit{YOLOv5s} is both slower and less accurate. Pre-processing scales with capture resolution rather than model size: decoding and letterboxing a median test image costs $21$--$35$\,ms, and the same operation on a native $4192\times3120$ \textit{AX Visio} still costs $256$--$275$\,ms.
+--- verdict
+original: token-lost, DeepL dropped the '\,' unit-spacing tokens, kept original verbatim, risk: high
+
+
+#### P074  4-Results.tex:454  flags: -
+## section: Runtime Benchmark on the Proxy Device
+--- original
+The export path, the runtime selection, the thermal campaign and the host-device parity checks behind \Cref{tab:embedded-latency} are reported in \Cref{sec:appendix_embedded_export,sec:appendix_thermal_validity,sec:appendix_host_device_parity}.
+--- rephrased
+The export path, runtime selection, thermal campaign, and host-device parity checks for \Cref{tab:embedded-latency} are reported in \Cref{sec:appendix_embedded_export,sec:appendix_thermal_validity,sec:appendix_host_device_parity}.
+--- final
+The export path, runtime selection, thermal campaign, and host-device parity checks for \Cref{tab:embedded-latency} are reported in \Cref{sec:appendix_embedded_export,sec:appendix_thermal_validity,sec:appendix_host_device_parity}.
+--- verdict
+rephrased: tightened wording, same claim and references, risk: low
+
+
+#### P075  4-Results.tex:456  flags: token-lost: 2 LaTeX span(s) did not come back: '\\,', '\\Cref{sec:further_work}'
+## section: Runtime Benchmark on the Proxy Device
+--- original
+Three limits apply to everything above. The models are full-precision and unoptimized, so the figures bound latency from above rather than estimating what the hardware can do. The campaign covers one device, and the translation to the \textit{QCS605} rests on a published CPU-performance estimate rather than a measurement of the target. Most importantly, the Hexagon~685 DSP has no analogue on the proxy, so the accelerated path the quantization literature of \Cref{sec:lit_embedded_inference} reports order-of-magnitude gains for remains unmeasured. Whether the $30$\,ms budget is reachable on the target is therefore still open, and \Cref{sec:further_work} treats it as the first item of further work.
+--- rephrased
+Three limits apply to everything above. The models are full-precision and unoptimized, so the figures bound latency from above rather than estimating what the hardware can do. The campaign covers one device, and the translation to the \textit{QCS605} rests on a published CPU-performance estimate rather than a measurement of the target. Most importantly, the Hexagon~685 DSP has no analogue on the proxy, so the accelerated path the quantization literature of \Cref{sec:lit_embedded_inference} reports order-of-magnitude gains for remains unmeasured. Whether the $30$\,ms budget is reachable on the target is therefore still open, and \Cref{sec:further_work} treats it as the first item of further work.
+--- final
+Three limits apply to everything above. The models are full-precision and unoptimized, so the figures bound latency from above rather than estimating what the hardware can do. The campaign covers one device, and the translation to the \textit{QCS605} rests on a published CPU-performance estimate rather than a measurement of the target. Most importantly, the Hexagon~685 DSP has no analogue on the proxy, so the accelerated path the quantization literature of \Cref{sec:lit_embedded_inference} reports order-of-magnitude gains for remains unmeasured. Whether the $30$\,ms budget is reachable on the target is therefore still open, and \Cref{sec:further_work} treats it as the first item of further work.
+--- verdict
+original: token-lost, DeepL dropped '\,' and '\Cref{sec:further_work}', kept original verbatim, risk: high
+
+
+#### P076  4-Results.tex:461  flags: -
+## section: Cross-Cutting Observations
+--- original
+Two observations span the sections above and belong to none of them.
+--- rephrased
+There are two observations that span the sections above and do not belong to either of them.
+--- final
+Two observations span the sections above and belong to none of them.
+--- verdict
+original: DeepL's "either of them" wrongly narrows the referent to two, kept the tighter original, risk: low
+
+
+#### P077  4-Results.tex:464  flags: wrap-ambiguous: 21, format-lost: $5.0$
+## section: Training cost
+--- original
+The four final runs occupied a single \textit{NVIDIA A40} for between roughly $21$ hours and $8.8$ days: the teacher's classifier fine-tune early-stopped at epoch $22$ after about $21$ hours, \textit{YOLOv5s} ran $200$ epochs in about $5.0$ days, \textit{YOLO26n} under direct fine-tuning $193$ epochs in about $8.8$ days, and the distilled run $186$ epochs in about $4.5$ days.  % run directory logs, first and last epoch timestamps
+--- rephrased
+The final four runs used a single \textit{NVIDIA A40} for between $21$ hours and $8.8$ days. The teacher's classifier fine-tuned and stopped early at epoch $22$ after about $21$ hours. \textit{YOLOv5s} ran $200$ epochs in about five days. \textit{YOLO26n} ran $193$ epochs under direct fine-tuning in about $8.8$ days. The distilled run finished $186$ epochs in approximately $4.5$ days.  % run directory logs, first and last epoch timestamps
+--- final
+The four final runs used a single \textit{NVIDIA A40} for between roughly $21$ hours and $8.8$ days. The teacher's classifier fine-tune early-stopped at epoch $22$ after about $21$ hours. \textit{YOLOv5s} ran $200$ epochs in about $5.0$ days. \textit{YOLO26n} ran $193$ epochs under direct fine-tuning in about $8.8$ days. The distilled run finished $186$ epochs in about $4.5$ days.  % run directory logs, first and last epoch timestamps
+--- verdict
+merged: kept DeepL's sentence split, restored the dropped hedge "roughly" and the $5.0$ math formatting DeepL had spelled out as "five", risk: high
+
+
+#### P078  4-Results.tex:465  flags: -
+## section: Training cost
+--- original
+These wall-clock figures are not a throughput comparison, because all four runs overlapped on the same host and each was contending for the same device.
+--- rephrased
+These figures for wall clocks are not a throughput comparison because all four runs overlapped on the same host, and each one competed for the same device.
+--- final
+These wall-clock figures are not a throughput comparison, because all four runs overlapped on the same host and each was contending for the same device.
+--- verdict
+original: DeepL's "figures for wall clocks" breaks the "wall-clock" term of art, kept original, risk: low
+
+
+#### P079  4-Results.tex:468  flags: long-sentence: 60 words
+## section: The two synthetic-data results agree
+--- original
+\Cref{sec:results_practicability_verdict} concludes that the generator comparison ranks generators for data-rich classes and cannot rank them for data-poor ones. \Cref{sec:results_band_granularity} reaches a compatible conclusion from a different direction, since synthetic imagery substitutes for half of a small real training set at little or no measurable cost while Band A loses roughly half the accuracy the same budget of real photographs achieves. Both place the useful range of synthetic data in the middle of the availability spectrum, and neither supports its use at the extreme of the long tail that motivated generating it. The two sub-studies were designed independently, so their agreement is corroboration rather than a shared assumption.
+--- rephrased
+\Cref{sec:results_practicability_verdict} concludes that the generator comparison can rank generators for data-rich classes but not for data-poor ones. \Cref{sec:results_band_granularity} comes to a similar conclusion from a different perspective: synthetic imagery can substitute for half of a small real training set at little to no measurable cost, whereas Band A loses roughly half of the accuracy that the same budget of real photographs achieves. Both studies place the useful range of synthetic data in the middle of the availability spectrum and neither study supports using synthetic data at the extreme end of the long tail that motivated generating it. Since the two sub-studies were designed independently, their agreement is corroboration rather than a shared assumption.
+--- final
+\Cref{sec:results_practicability_verdict} concludes that the generator comparison can rank generators for data-rich classes but not for data-poor ones. \Cref{sec:results_band_granularity} comes to a similar conclusion from a different perspective: synthetic imagery can substitute for half of a small real training set at little to no measurable cost, whereas Band A loses roughly half of the accuracy that the same budget of real photographs achieves. Both studies place the useful range of synthetic data in the middle of the availability spectrum and neither study supports using synthetic data at the extreme end of the long tail that motivated generating it. Since the two sub-studies were designed independently, their agreement is corroboration rather than a shared assumption.
+--- verdict
+rephrased: reads better, claims and scope conditions preserved, risk: high
+
+
+#### P080  4-Results.tex:470  flags: long-sentence: 66 words
+## section: The two synthetic-data results agree
+--- original
+\Cref{sec:results_domain_shift} supplies the mechanism, since a model trained on synthetic images for a class scores better on synthetic test images of it than on real ones by a median of $0.72$ mAP for Band A. Only the paired per-class delta exposes that, which is the argument for having kept the watchdog even though its verdict was that the default it guards should be revised.
+--- rephrased
+\Cref{sec:results_domain_shift} supplies the mechanism since a model trained on synthetic images of a class performs better on synthetic test images of that class than on real ones, with a median increase in mean average precision (mAP) of $0.72$ for Bands A and B. This is only revealed by the paired per-class delta, which is why the watchdog was kept even though it recommended revising the default it guards.
+--- final
+\Cref{sec:results_domain_shift} supplies the mechanism, since a model trained on synthetic images of a class performs better on synthetic test images of that class than on real ones by a median of $0.72$ mAP for Band A. This is only revealed by the paired per-class delta, which is why the watchdog was kept even though it recommended revising the default it guards.
+--- verdict
+merged: reverted DeepL's scope error "Bands A and B" back to the original's "Band A", kept DeepL's phrasing elsewhere, risk: high
+

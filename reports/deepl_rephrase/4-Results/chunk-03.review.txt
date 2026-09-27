@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 4-Results.tex: 12 paragraphs -->
+
+#### P025  4-Results.tex:163  flags: semicolon
+## section: Detection Performance Across Training Bands and Test Domains
+--- original
+A third property bounds the teacher's figures specifically, and it is stated once here rather than beside each table. The ground-truth boxes of both test domains were produced by \textit{MegaDetector} (\Cref{sec:gt_annotation_integrity}), and the teacher ensemble localizes with that same detector, so its localization is scored partly against its own output. The signature is that its mAP averaged over intersection-over-union thresholds from $0.5$ to $0.95$ equals its mAP50 to three decimal places, which no single-stage detector here approaches. Every teacher figure below is an upper bound, and the teacher-to-student gap with it.
+--- rephrased
+A third property specifically bounds the teacher's figures, and it is stated once here rather than beside each table. The ground-truth boxes of both test domains were produced by \textit{MegaDetector} (\Cref{sec:gt_annotation_integrity}), and the teacher ensemble localizes with the same detector; therefore, its localization is partly scored against its own output. Its mAP, averaged over intersection-over-union thresholds from $0.5$ to $0.95$, equals its mAP50 to three decimal places. No single-stage detector here approaches this level of accuracy. Each teacher figure below is an upper bound and shows the teacher-to-student gap.
+--- final
+A third property specifically bounds the teacher's figures, and it is stated once here rather than beside each table. The ground-truth boxes of both test domains were produced by \textit{MegaDetector} (\Cref{sec:gt_annotation_integrity}), and the teacher ensemble localizes with the same detector, so its localization is scored partly against its own output. The signature is that its mAP averaged over intersection-over-union thresholds from $0.5$ to $0.95$ equals its mAP50 to three decimal places, which no single-stage detector here approaches. Every teacher figure below is an upper bound, and the teacher-to-student gap with it.
+--- verdict
+merged: fixed the semicolon by restoring original's "so" clause, kept original s3 ("signature" framing, not "accuracy") and s4 (the gap is also a bound, not just "shown"). risk: high
+
+
+#### P026  4-Results.tex:167  flags: -
+## section: Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout
+--- original
+\Cref{tab:headline-cross-model} gives the default cell for all four models, at \texttt{fine} granularity over all bands on the mixed test set, with the real-only breakout beside it and the class-agnostic $\mathrm{mAP}_{\text{detect}}$ analog of \Cref{sec:mixed_default} last.
+--- rephrased
+\Cref{tab:headline-cross-model} provides the default cell for all four models with \texttt{fine} granularity across all bands on the mixed test set. The real-only breakout is shown beside it, followed by the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which is the analog of \Cref{sec:mixed_default}.
+--- final
+\Cref{tab:headline-cross-model} provides the default cell for all four models with \texttt{fine} granularity across all bands on the mixed test set. The real-only breakout is shown beside it, followed by the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which is the analog of \Cref{sec:mixed_default}.
+--- verdict
+rephrased: clause split for clarity, no meaning change. risk: low
+
+
+#### P027  4-Results.tex:188  flags: -
+## section: Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout
+--- original
+The fine-tuned ensemble leads on both domains, at $0.663$ mixed and $0.599$ real, against $0.487$ and $0.445$ for the same ensemble off the shelf. That gain of $0.176$ mixed and $0.154$ real is the largest single effect in \Cref{tab:headline-cross-model}, and the one figure subject to the circularity caveat of \Cref{sec:teacher_finetuning}, since part of the fine-tuning corpus was admitted by agreeing with the pre-fine-tuning classifier. It is optimistic by an unknown and probably small amount.
+--- rephrased
+The fine-tuned ensemble outperforms the off-the-shelf ensemble in both domains, achieving scores of $0.663$ and $0.599$ for mixed and real, respectively, compared to $0.487$ and $0.445$. The gain of $0.176$ for the mixed domain and $0.154$ for the real domain is the largest single effect in \Cref{tab:headline-cross-model} and is subject to the circularity caveat in \Cref{sec:teacher_finetuning} since part of the fine-tuning corpus agreed with the pre-fine-tuning classifier. It is optimistic by an unknown and probably small amount.
+--- final
+The fine-tuned ensemble outperforms the off-the-shelf ensemble in both domains, achieving scores of $0.663$ and $0.599$ for mixed and real, respectively, compared to $0.487$ and $0.445$. The gain of $0.176$ for the mixed domain and $0.154$ for the real domain is the largest single effect in \Cref{tab:headline-cross-model} and is subject to the circularity caveat in \Cref{sec:teacher_finetuning}, since part of the fine-tuning corpus was admitted by agreeing with the pre-fine-tuning classifier. It is optimistic by an unknown and probably small amount.
+--- verdict
+merged: kept original's "admitted by agreeing" since the point is a selection mechanism, not mere agreement. risk: high
+
+
+#### P028  4-Results.tex:190  flags: -
+## section: Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout
+--- original
+Among the students, \textit{YOLO26n} under direct fine-tuning is stronger on every column and smaller by a factor of $2.8$ in parameter count, beating \textit{YOLOv5s} by $0.103$ mixed mAP and $0.122$ on the real-only breakout. A model that is simultaneously smaller and more accurate settles the architecture question on its own, and \Cref{sec:results_embedded_benchmark} measures it as the faster of the two as well. It is this work's primary detector for the rest of the chapter.
+--- rephrased
+Among the students, \textit{YOLO26n} is stronger in every category when fine-tuned directly and is smaller by a factor of $2.8$ in terms of parameter count. It beats \textit{YOLOv5s} by $0.103$ in mixed mAP and by $0.122$ in real-only breakout. A model that is simultaneously smaller and more accurate settles the architecture question on its own. \Cref{sec:results_embedded_benchmark} also measures it as the faster of the two. This work's primary detector is used for the rest of the chapter.
+--- final
+Among the students, \textit{YOLO26n} is stronger in every category when fine-tuned directly and is smaller by a factor of $2.8$ in terms of parameter count. It beats \textit{YOLOv5s} by $0.103$ in mixed mAP and by $0.122$ in real-only breakout. A model that is simultaneously smaller and more accurate settles the architecture question on its own. \Cref{sec:results_embedded_benchmark} also measures it as the faster of the two. This work's primary detector is used for the rest of the chapter.
+--- verdict
+rephrased: faithful restructure into shorter sentences, no meaning loss. risk: high
+
+
+#### P029  4-Results.tex:192  flags: -
+## section: Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout
+--- original
+\Cref{tab:headline-coco12} fills the full twelve-statistic vector for that detector. Its small-object cells are empty, because the minimum box-area rule applied during curation (\Cref{sec:quality_scoring_splits}) leaves no test instance below COCO's small-object threshold. And average recall at $100$ detections reaches $0.845$ mixed and $0.798$ real against a mAP of $0.599$ mixed and $0.529$ real, so the limiting factor is how correct detections rank against false positives rather than a failure to recover the animal.
+--- rephrased
+\Cref{tab:headline-coco12} fills the full twelve-statistic vector for that detector. Its small-object cells are empty because the minimum box-area rule applied during curation (\Cref{sec:quality_scoring_splits}) leaves no test instance below COCO's small-object threshold. Average recall at $100$ detections is $0.845$ for mixed objects and $0.798$ for real objects, with an mAP of $0.599$ for mixed objects and $0.529$ for real objects. Therefore, the limiting factor is how correctly detected objects are ranked against false positives rather than an inability to detect the animal.
+--- final
+\Cref{tab:headline-coco12} fills the full twelve-statistic vector for that detector. Its small-object cells are empty because the minimum box-area rule applied during curation (\Cref{sec:quality_scoring_splits}) leaves no test instance below COCO's small-object threshold. And average recall at $100$ detections reaches $0.845$ mixed and $0.798$ real against a mAP of $0.599$ mixed and $0.529$ real, so the limiting factor is how correct detections rank against false positives rather than a failure to recover the animal.
+--- verdict
+merged: kept original's last sentence, rephrased's "mixed objects"/"real objects" wrongly recasts the test domain as a property of the objects. risk: high
+
+
+#### P030  4-Results.tex:194  flags: format-lost: $9$
+## section: Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout
+--- original
+The real-only breakout falls below the mixed headline for every model, by between $0.042$ and $0.089$ mAP, and the model ordering is nearly but not entirely preserved. On the mixed test set \textit{YOLOv5s} at $0.496$ edges the off-the-shelf ensemble at $0.487$, and on the real test set that pair reverses to $0.407$ against $0.445$. Every other pairwise ordering holds on both domains, so the headline domain moves exactly one adjacent pair. Two sensitivity checks leave the primary detector's headline where it stands: dropping the $9$ classes holding fewer than $30$ real test images moves the mixed figure to $0.594$, and weighting classes by test-image count gives $0.597$.
+--- rephrased
+The real-only breakout falls below the mixed headline for every model by between $0.042$ and $0.089$ mAP. The model ordering is nearly, but not entirely, preserved. On the mixed test set, \textit{YOLOv5s} edges the off-the-shelf ensemble with scores of $0.496$ and $0.487$, respectively. On the real test set, however, the scores reverse to $0.407$ and $0.445$, respectively. All other pairings remain consistent across both domains, indicating that the headline domain shifts by one adjacent pair. Two sensitivity checks confirm the primary detector's position: removing the nine classes with fewer than $30$ real test images yields a mixed figure of $0.594$, and weighting classes by test image count results in a figure of $0.597$.
+--- final
+The real-only breakout falls below the mixed headline for every model by between $0.042$ and $0.089$ mAP. The model ordering is nearly, but not entirely, preserved. On the mixed test set, \textit{YOLOv5s} edges the off-the-shelf ensemble with scores of $0.496$ and $0.487$, respectively. On the real test set, however, the scores reverse to $0.407$ and $0.445$, respectively. All other pairings remain consistent across both domains, indicating that the headline domain shifts by one adjacent pair. Two sensitivity checks confirm the primary detector's position: removing the $9$ classes with fewer than $30$ real test images yields a mixed figure of $0.594$, and weighting classes by test image count results in a figure of $0.597$.
+--- verdict
+merged: rephrased text with $9$ restored in place of spelled-out "nine" per format-lost flag. risk: high
+
+
+#### P031  4-Results.tex:196  flags: -
+## section: Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout
+--- original
+One comparison \Cref{tab:headline-cross-model} cannot make is the one that would anchor every other row in it. A zero-shot baseline exists for the teacher and not for the student, because the student's evaluation from raw COCO weights failed on a missing data directory and was never retried. What fine-tuning \textit{YOLO26n} on this domain bought is therefore unmeasured, and every student figure in this work is an absolute level rather than a gain over the floor it started from. Where that level is lost is a question the granularity ladder answers.
+--- rephrased
+\Cref{tab:headline-cross-model} cannot make one comparison: the one that would anchor every other row. There is a zero-shot baseline for the teacher, but not for the student because the student's evaluation using raw COCO weights failed due to a missing data directory and was never retried. Therefore, the gain that fine-tuning \textit{YOLO26n} on this domain produced is unmeasured, and every student figure in this work represents an absolute level rather than a gain over the initial level. The granularity ladder answers the question of where that level is lost.
+--- final
+\Cref{tab:headline-cross-model} cannot make one comparison: the one that would anchor every other row. There is a zero-shot baseline for the teacher, but not for the student because the student's evaluation using raw COCO weights failed due to a missing data directory and was never retried. Therefore, the gain that fine-tuning \textit{YOLO26n} on this domain produced is unmeasured, and every student figure in this work represents an absolute level rather than a gain over the initial level. The granularity ladder answers the question of where that level is lost.
+--- verdict
+rephrased: faithful restructure, no meaning loss. risk: high
+
+
+#### P032  4-Results.tex:200  flags: -
+## section: Granularity Gap Decomposition
+--- original
+\Cref{tab:granularity-gaps} reports the nested ladder of \Cref{eq:granularity-ladder} for all four models on the mixed test set, with the two gaps that are the quantities of interest.
+--- rephrased
+For all four models on the mixed test set, \Cref{tab:granularity-gaps} reports the nested ladder of \Cref{eq:granularity-ladder}, with the two gaps that are the quantities of interest.
+--- final
+For all four models on the mixed test set, \Cref{tab:granularity-gaps} reports the nested ladder of \Cref{eq:granularity-ladder}, with the two gaps that are the quantities of interest.
+--- verdict
+rephrased: clause reorder only, no meaning change. risk: low
+
+
+#### P033  4-Results.tex:218  flags: -
+## section: Granularity Gap Decomposition
+--- original
+The expected pattern does not appear. \Cref{sec:evaluation_axes} names a large $\Delta_{\text{fine}}$ beside a small $\Delta_{\text{coarse}}$ as the look-alike signature and the most defensible failure mode for this dataset. Every model in \Cref{tab:granularity-gaps} shows the opposite, with $\Delta_{\text{coarse}}$ between $16$ and $22$ times $\Delta_{\text{fine}}$. Merging the look-alikes changes mAP by at most $0.027$, while the drop from \texttt{detect} to \texttt{coarse} is between $0.199$ and $0.438$. Classification is the bottleneck, confirming what the recall figures of \Cref{tab:headline-coco12} suggested, but the confusions largely cross the look-alike groups instead of staying inside them.
+--- rephrased
+The expected pattern does not appear. \Cref{sec:evaluation_axes} identifies a large $\Delta_{\text{fine}}$ alongside a small $\Delta_{\text{coarse}}$ as the look-alike signature and the most defensible failure mode for this dataset. However, every model in \Cref{tab:granularity-gaps} shows the opposite, with $\Delta_{\text{coarse}}$ being between $16$ and $22$ times larger than $\Delta_{\text{fine}}$. Merging the look-alikes changes mAP by no more than $0.027$, whereas the drop from \texttt{detect} to \texttt{coarse} ranges from $0.199$ to $0.438$. Classification is the bottleneck, which confirms what the recall figures of \Cref{tab:headline-coco12} suggested. However, the confusions largely cross the look-alike groups instead of staying inside them.
+--- final
+The expected pattern does not appear. \Cref{sec:evaluation_axes} identifies a large $\Delta_{\text{fine}}$ alongside a small $\Delta_{\text{coarse}}$ as the look-alike signature and the most defensible failure mode for this dataset. However, every model in \Cref{tab:granularity-gaps} shows the opposite, with $\Delta_{\text{coarse}}$ between $16$ and $22$ times $\Delta_{\text{fine}}$. Merging the look-alikes changes mAP by no more than $0.027$, whereas the drop from \texttt{detect} to \texttt{coarse} ranges from $0.199$ to $0.438$. Classification is the bottleneck, which confirms what the recall figures of \Cref{tab:headline-coco12} suggested. However, the confusions largely cross the look-alike groups instead of staying inside them.
+--- verdict
+merged: kept original's "times $\Delta_{\text{fine}}$" ratio phrasing, since rephrased's "times larger than" is ambiguous about the exact ratio. risk: high
+
+
+#### P034  4-Results.tex:220  flags: -
+## section: Granularity Gap Decomposition
+--- original
+The grouping itself bounds how large $\Delta_{\text{fine}}$ could ever have been. The frozen table of \Cref{sec:lookalike_groups} holds $174$ groups, of which only $30$ carry more than one member, covering $81$ of the $225$ classes.  % reports/lookalike_groups_v2.csv
+--- rephrased
+The grouping itself limits how large $\Delta_{\text{fine}}$ could ever be. The frozen table of \Cref{sec:lookalike_groups} contains $174$ groups, only $30$ of which have more than one member. These groups cover $81$ of the $225$ classes.  % reports/lookalike_groups_v2.csv
+--- final
+The grouping itself bounds how large $\Delta_{\text{fine}}$ could ever have been. The frozen table of \Cref{sec:lookalike_groups} holds $174$ groups, of which only $30$ carry more than one member, covering $81$ of the $225$ classes.  % reports/lookalike_groups_v2.csv
+--- verdict
+original: rephrased's "These groups cover 81 of 225" is ambiguous about whether it means the 30 multi-member groups or all 174. risk: high
+
+
+#### P035  4-Results.tex:221  flags: -
+## section: Granularity Gap Decomposition
+--- original
+The remaining $144$ sit alone, so $\Delta_{\text{fine}}$ measures confusion within roughly a third of the class universe, and a small value is partly a property of a deliberately conservative grouping.
+--- rephrased
+The remaining $144$ sit alone. Thus, $\Delta_{\text{fine}}$ measures confusion within only about one-third of the total class. A small value is partly due to the deliberately conservative grouping.
+--- final
+The remaining $144$ sit alone. Thus, $\Delta_{\text{fine}}$ measures confusion within roughly a third of the class universe. A small value is partly due to the deliberately conservative grouping.
+--- verdict
+merged: kept rephrased's sentence split but restored original's "class universe" since rephrased's "total class" is a grammatical error. risk: high
+
+
+#### P036  4-Results.tex:223  flags: -
+## section: Granularity Gap Decomposition
+--- original
+What \Cref{tab:granularity-gaps} cannot say is what $\Delta_{\text{coarse}}$ consists of. The error-type decomposition named in \Cref{sec:metric_selection} as the corroborating instrument was left as a future add-on.
+--- rephrased
+\Cref{tab:granularity-gaps} cannot say what $\Delta_{\text{coarse}}$ consists of. The error-type decomposition, which was named the corroborating instrument in \Cref{sec:metric_selection}, was left as a future add-on.
+--- final
+\Cref{tab:granularity-gaps} cannot say what $\Delta_{\text{coarse}}$ consists of. The error-type decomposition, which was named the corroborating instrument in \Cref{sec:metric_selection}, was left as a future add-on.
+--- verdict
+rephrased: faithful restatement, no meaning change. risk: low
+
+

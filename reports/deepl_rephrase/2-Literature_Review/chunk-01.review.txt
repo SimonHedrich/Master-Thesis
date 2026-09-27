@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 2-Literature_Review.tex: 12 paragraphs -->
+
+#### P001  2-Literature_Review.tex:5  flags: -
+## section: Literature Review
+--- original
+This chapter surveys the literature underlying the work's technical decisions.
+--- rephrased
+This chapter provides an overview of the literature that informed the technical decisions made in this work.
+--- final
+This chapter provides an overview of the literature that informed the technical decisions made in this work.
+--- verdict
+rephrased: same meaning, no terms or hedges affected. risk: low
+
+
+#### P002  2-Literature_Review.tex:7  flags: long-sentence: 83 words
+## section: Literature Review
+--- original
+\Cref{sec:lit_object_detection} covers object detection, with a focus on the lightweight end of the YOLO family and on the detector-plus-classifier ensemble that is the established alternative for wildlife imagery. \Cref{sec:lit_synthetic_data} covers generative image models, the sim-to-real gap, synthetic-image quality evaluation, and the role of synthetic data in long-tail recognition. \Cref{sec:lit_kd_and_embedded} covers knowledge distillation and the quantization and benchmarking practice that governs whether a trained detector fits an embedded latency budget. \Cref{sec:lit_evaluation_metrics} closes with the evaluation literature this work's own metrics and test-set design draw on.
+--- rephrased
+\Cref{sec:lit_object_detection} focuses on object detection, particularly the lightweight models in the YOLO family and the detector-plus-classifier ensemble, which is the established alternative for wildlife imagery. \Cref{sec:lit_synthetic_data} covers generative image models, the sim-to-real gap, synthetic image quality evaluation, and the role of synthetic data in long-tail recognition. \Cref{sec:lit_kd_and_embedded} covers knowledge distillation, as well as the quantization and benchmarking practices that determine whether a trained detector fits an embedded latency budget. \Cref{sec:lit_evaluation_metrics} concludes with an evaluation of the literature on which this work's metrics and test-set design are based.
+--- final
+\Cref{sec:lit_object_detection} focuses on object detection, particularly the lightweight models in the YOLO family and the detector-plus-classifier ensemble, which is the established alternative for wildlife imagery. \Cref{sec:lit_synthetic_data} covers generative image models, the sim-to-real gap, synthetic image quality evaluation, and the role of synthetic data in long-tail recognition. \Cref{sec:lit_kd_and_embedded} covers knowledge distillation, as well as the quantization and benchmarking practices that determine whether a trained detector fits an embedded latency budget. \Cref{sec:lit_evaluation_metrics} closes with the evaluation literature this work's own metrics and test-set design draw on.
+--- verdict
+merged: kept original s4, DeepL's "an evaluation of the literature" changed "evaluation literature" (literature about evaluation) into an evaluative review of the literature, a different claim. risk: medium
+
+
+#### P003  2-Literature_Review.tex:12  flags: -
+## section: Object Detection for Wildlife Monitoring
+--- original
+Modern object detection descends from two lineages that emerged within a few years of each other: two-stage region-proposal detectors and single-stage detectors. The two-stage, region-proposal lineage first proposes candidate regions and then classifies and refines them, reaching its mature form once the proposal step itself became a learned, end-to-end-trainable network \cite{girshickRichFeatureHierarchies2014a,renFasterRCNNRealTime2017}. A top-down, multi-scale feature hierarchy was later added to it, so that objects of widely differing apparent size are detected by the feature level suited to them \cite{linFeaturePyramidNetworks2017}. That is the normal case in wildlife imagery, where one species occupies a few pixels or most of the frame depending on its distance.
+--- rephrased
+Modern object detection has two lineages that emerged within a few years of each other: two-stage region-proposal detectors and single-stage detectors. The two-stage region-proposal lineage first proposes candidate regions, which are then classified and refined, reaching its mature form once the proposal step became an end-to-end trainable network \cite{girshickRichFeatureHierarchies2014a,renFasterRCNNRealTime2017}. Later, a top-down, multi-scale feature hierarchy was added so that objects of widely differing apparent sizes could be detected by the feature level suited to them \cite{linFeaturePyramidNetworks2017}. This is common in wildlife imagery, where an animal may occupy a few pixels or most of the frame depending on its distance.
+--- final
+Modern object detection descends from two lineages that emerged within a few years of each other: two-stage region-proposal detectors and single-stage detectors. The two-stage, region-proposal lineage first proposes candidate regions and then classifies and refines them, reaching its mature form once the proposal step itself became a learned, end-to-end-trainable network \cite{girshickRichFeatureHierarchies2014a,renFasterRCNNRealTime2017}. Later, a top-down, multi-scale feature hierarchy was added so that objects of widely differing apparent sizes could be detected by the feature level suited to them \cite{linFeaturePyramidNetworks2017}. This is common in wildlife imagery, where an animal may occupy a few pixels or most of the frame depending on its distance.
+--- verdict
+merged: kept original s1 ("descends from" lineages, not merely "has") and s2 (restored "learned", dropped by DeepL), kept rephrased s3/s4. risk: medium
+
+
+#### P004  2-Literature_Review.tex:14  flags: format-lost: \enquote{you only look once}, cite-moved: \cite{redmonYouOnlyLook2016a}, cite-merged: \cite{redmonYouOnlyLook2016a,liuSSDSingleShot2016a}
+## section: Object Detection for Wildlife Monitoring
+--- original
+The single-stage lineage discarded the separate proposal step. \textit{YOLO}, for \enquote{you only look once}, reframed detection as a single regression over the whole image \cite{redmonYouOnlyLook2016a}, and multi-scale default boxes narrowed the resulting accuracy gap while retaining one forward pass \cite{liuSSDSingleShot2016a}. Explicitly correcting the foreground-background class imbalance inherent to dense single-stage prediction closed most of what remained \cite{linFocalLossDense2017}.
+--- rephrased
+The single-stage lineage eliminated the separate proposal step. \textit{YOLO} (You Only Look Once) reframed detection as a single regression over the entire image. Multi-scale default boxes narrowed the resulting accuracy gap while retaining one forward pass \cite{redmonYouOnlyLook2016a,liuSSDSingleShot2016a}. Correcting the inherent foreground-background class imbalance of dense single-stage prediction closed most of what remained \cite{linFocalLossDense2017}.
+--- final
+The single-stage lineage eliminated the separate proposal step. \textit{YOLO}, for \enquote{you only look once}, reframed detection as a single regression over the whole image \cite{redmonYouOnlyLook2016a}, and multi-scale default boxes narrowed the resulting accuracy gap while retaining one forward pass \cite{liuSSDSingleShot2016a}. Correcting the inherent foreground-background class imbalance of dense single-stage prediction closed most of what remained \cite{linFocalLossDense2017}.
+--- verdict
+merged: restored \enquote{you only look once} (DeepL turned it into a plain parenthetical) and kept original s2's split citations, since DeepL's \cite{redmon,liu} merge hung the YOLO citation on the SSD multi-scale-boxes claim. risk: high
+
+
+#### P005  2-Literature_Review.tex:16  flags: -
+## section: Object Detection for Wildlife Monitoring
+--- original
+Two-stage detectors keep a modest accuracy advantage, at the cost of two sequential network evaluations per image. Single-stage detectors trade that accuracy for a fixed, single-pass cost that does not grow with the number of candidate objects in a scene. The target hardware for this work has a fixed, tight per-frame latency budget, so only the single-stage lineage is considered further.
+--- rephrased
+Two-stage detectors maintain a slight accuracy advantage at the expense of requiring two network evaluations per image. In contrast, single-stage detectors sacrifice some accuracy for a fixed, single-pass cost that does not increase with the number of candidate objects in a scene. Since the target hardware has a fixed, tight per-frame latency budget, only the single-stage lineage is considered further.
+--- final
+Two-stage detectors keep a modest accuracy advantage, at the cost of two sequential network evaluations per image. In contrast, single-stage detectors sacrifice some accuracy for a fixed, single-pass cost that does not increase with the number of candidate objects in a scene. Since the target hardware has a fixed, tight per-frame latency budget, only the single-stage lineage is considered further.
+--- verdict
+merged: kept original s1 for "sequential" (dropped by DeepL, part of the two-stage-versus-single-stage mechanism), kept rephrased s2/s3. risk: medium
+
+
+#### P006  2-Literature_Review.tex:21  flags: -
+## section: Challenges in Wildlife Species Recognition
+--- original
+Beyond the general architectural trajectory above, wildlife species recognition poses three recurring challenges that motivate specific choices made elsewhere in this work.
+--- rephrased
+In addition to the general architectural trajectory mentioned above, recognizing wildlife species poses three recurring challenges that influence the specific choices made elsewhere in this work.
+--- final
+In addition to the general architectural trajectory mentioned above, recognizing wildlife species poses three recurring challenges that influence the specific choices made elsewhere in this work.
+--- verdict
+rephrased: transitional sentence, no meaning change. risk: low
+
+
+#### P007  2-Literature_Review.tex:23  flags: cite-lowconf: \cite{weiFineGrainedImageAnalysis2022} (0.32)
+## section: Challenges in Wildlife Species Recognition
+--- original
+First, a detector answers two questions for every animal, where it is and what it is, and general benchmarks make both hard. In a binocular frame the animal is usually the one salient object, so the first question is comparatively easy, and the second, \textbf{species classification}, is where the difficulty concentrates (\Cref{sec:results_granularity_gaps}). Distinguishing wildlife species is fundamentally a fine-grained visual classification problem. Unlike COCO-style categories (car, dog, person), many pairs of species differ only in subtle, localized visual cues rather than in gross shape or context \cite{weiFineGrainedImageAnalysis2022}. In this work's target taxonomy that shows up as groups of near-identical species: the plains-zebra/Grévy's-zebra, Eurasian-lynx/bobcat, and small-gazelle groupings, later formalized as confusion clusters in the evaluation methodology (\Cref{sec:evaluation_framework}), are instances of exactly the intra-order visual homogeneity that fine-grained recognition research identifies as its core difficulty \cite{weiFineGrainedImageAnalysis2022}.
+--- rephrased
+First, a detector must answer two questions for every animal: where it is and what it is. General benchmarks make both questions difficult. In a binocular frame, the animal is usually the salient object, so answering the first question is comparatively easy. The second question, \textbf{species classification}, is where the difficulty lies (\Cref{sec:results_granularity_gaps}). Distinguishing wildlife species is fundamentally a fine-grained visual classification problem. Unlike COCO-style categories (e.g., car, dog, person), many species pairs differ only in subtle, localized visual cues rather than gross shape or context \cite{weiFineGrainedImageAnalysis2022}. In the target taxonomy of this work, this shows up as groups of nearly identical species. The plains zebra/Grevy's zebra, Eurasian lynx/bobcat, and small gazelle groupings are instances of the intra-order visual homogeneity that fine-grained recognition research identifies as its core difficulty \cite{weiFineGrainedImageAnalysis2022}. These groupings were later formalized as confusion clusters in the evaluation methodology (\Cref{sec:evaluation_framework}).
+--- final
+First, a detector must answer two questions for every animal: where it is and what it is. General benchmarks make both questions difficult. In a binocular frame, the animal is usually the salient object, so answering the first question is comparatively easy. The second question, \textbf{species classification}, is where the difficulty lies (\Cref{sec:results_granularity_gaps}). Distinguishing wildlife species is fundamentally a fine-grained visual classification problem. Unlike COCO-style categories (car, dog, person), many pairs of species differ only in subtle, localized visual cues rather than in gross shape or context \cite{weiFineGrainedImageAnalysis2022}. In the target taxonomy of this work, this shows up as groups of near-identical species. The plains-zebra/Grévy's-zebra, Eurasian-lynx/bobcat, and small-gazelle groupings are instances of the intra-order visual homogeneity that fine-grained recognition research identifies as its core difficulty \cite{weiFineGrainedImageAnalysis2022}. These groupings were later formalized as confusion clusters in the evaluation methodology (\Cref{sec:evaluation_framework}).
+--- verdict
+merged: kept rephrased splits for readability but restored the proper name "Grévy's" (DeepL dropped the accent) and the hyphenated species-pair terms, and kept original's exact "(car, dog, person)" and cue-claim sentence verbatim given the low-confidence citation flag. risk: high
+
+
+#### P008  2-Literature_Review.tex:25  flags: -
+## section: Challenges in Wildlife Species Recognition
+--- original
+Second, ecological image collections are long-tailed by nature: a handful of common, easily-photographed species dominate any naturally-collected corpus, while most species are represented by comparatively few images \cite{cuiClassBalancedLossBased2019,zhangDeepLongTailedLearning2023}. This work's own sourcing effort encountered the same imbalance species by species (\Cref{sec:corpus_composition}).
+--- rephrased
+Second, ecological image collections are long-tailed by nature. A handful of common and easily photographed species dominate any naturally collected corpus, while most species are represented by comparatively few images \cite{cuiClassBalancedLossBased2019,zhangDeepLongTailedLearning2023}. The sourcing effort for this work encountered the same imbalance, species by species (\Cref{sec:corpus_composition}).
+--- final
+Second, ecological image collections are long-tailed by nature. A handful of common and easily photographed species dominate any naturally collected corpus, while most species are represented by comparatively few images \cite{cuiClassBalancedLossBased2019,zhangDeepLongTailedLearning2023}. The sourcing effort for this work encountered the same imbalance, species by species (\Cref{sec:corpus_composition}).
+--- verdict
+rephrased: same meaning, citation placement unchanged. risk: low
+
+
+#### P009  2-Literature_Review.tex:27  flags: -
+## section: Challenges in Wildlife Species Recognition
+--- original
+Third, and specific to the wildlife domain, models trained on one visual domain generalize poorly to another. Camera-trap classifiers and detectors that perform well at their training locations degrade sharply at new, unseen camera locations \cite{beeryRecognitionTerraIncognita2018}. Background, lighting, and camera geometry are confounded with location rather than with the animal itself, and this confound is what drives the degradation.
+--- rephrased
+Third, and specific to the wildlife domain, models trained in one visual domain tend to perform poorly in another. Camera-trap classifiers and detectors that perform well at their training locations perform poorly at new camera locations \cite{beeryRecognitionTerraIncognita2018}. Background, lighting, and camera geometry are confounded with location rather than with the animal itself, and it is this confounding factor that drives the degradation.
+--- final
+
+--- verdict
+original: DeepL's "tend to perform poorly" loses the precise ML term "generalize", and "perform poorly at new camera locations" drops "sharply" and "unseen", scope/intensity qualifiers on the domain-shift claim. risk: high
+
+
+#### P010  2-Literature_Review.tex:29  flags: cite-moved: \cite{williIdentifyingAnimalSpecies2019}, cite-merged: \cite{williIdentifyingAnimalSpecies2019,tabakMachineLearningClassify2019}
+## section: Challenges in Wildlife Species Recognition
+--- original
+Larger deployed camera-trap classifiers reinforce the same pattern. Cross-project transfer between ecologically similar studies still costs measurable accuracy \cite{williIdentifyingAnimalSpecies2019}, and cross-continental transfer can cost considerably more: one large-scale camera-trap classifier's species-level accuracy fell from $98\%$ in-region to $82\%$ on an out-of-sample Canadian ungulate dataset \cite{tabakMachineLearningClassify2019}. That drop occurred despite the same underlying kind of network having demonstrated near-human accuracy on its own training distribution \cite{norouzzadehAutomaticallyIdentifyingCounting2018}.
+--- rephrased
+Deploying larger camera-trap classifiers reinforces the same pattern. Transferring between ecologically similar studies incurs a measurable loss of accuracy, and transferring between continents can incur an even greater loss: the accuracy of a large-scale camera-trap classifier's species-level classification fell from $98\%$ in-region to $82\%$ on an out-of-sample Canadian ungulate dataset \cite{williIdentifyingAnimalSpecies2019,tabakMachineLearningClassify2019}. This occurred despite the fact that the same type of network had demonstrated near-human accuracy on its own training distribution \cite{norouzzadehAutomaticallyIdentifyingCounting2018}.
+--- final
+
+--- verdict
+original: DeepL's \cite{willi,tabak} merge hangs the general cross-project transfer citation (willi) on the specific $98\%$-to-$82\%$ statistic, which only tabak supports. risk: high
+
+
+#### P011  2-Literature_Review.tex:31  flags: -
+## section: Challenges in Wildlife Species Recognition
+--- original
+This is precisely the domain gap that motivated rejecting the camera-trap archives of \textit{LILA BC}, a public repository of ecology datasets, as a training-data source for this work (\Cref{sec:sourcing_execution}). Camera traps are static, fixed-position, frequently infrared-triggered sensors, whereas the target deployment is a handheld, daylight, close-to-mid-range binocular observation scenario. The two distributions differ in exactly the location-, lighting-, and viewpoint-confounded ways this line of work documents.
+--- rephrased
+This is precisely the domain gap that led to the rejection of the camera-trap archives of \textit{LILA BC}, a public repository of ecological data sets, as a source of training data for this work (\Cref{sec:sourcing_execution}). Camera traps are static, fixed-position sensors that are frequently infrared-triggered, whereas the target deployment is a handheld, daylight, close-to-mid-range binocular observation scenario. These two scenarios differ in the exact ways that this line of work documents: location, lighting, and viewpoint.
+--- final
+This is precisely the domain gap that led to the rejection of the camera-trap archives of \textit{LILA BC}, a public repository of ecological data sets, as a source of training data for this work (\Cref{sec:sourcing_execution}). Camera traps are static, fixed-position sensors that are frequently infrared-triggered, whereas the target deployment is a handheld, daylight, close-to-mid-range binocular observation scenario. The two distributions differ in exactly the location-, lighting-, and viewpoint-confounded ways this line of work documents.
+--- verdict
+merged: kept rephrased s1/s2, restored original s3's "distributions" (the technical term for the domain-shift claim, DeepL's "scenarios" is vaguer) and "confounded", which ties back to the confounding-variable point made two paragraphs earlier. risk: medium
+
+
+#### P012  2-Literature_Review.tex:33  flags: -
+## section: Challenges in Wildlife Species Recognition
+--- original
+More broadly, the wildlife-monitoring machine-learning community has converged on the view that such domain shift, rather than raw model capacity, is now a primary obstacle to deploying automated recognition at scale \cite{tuiaPerspectivesMachineLearning2022}. Capacity nonetheless sets the outer bound on how many species one deployable detector can separate, which is what the single-stage family below has to supply.
+--- rephrased
+More broadly, the wildlife monitoring machine learning community has agreed that domain shift, rather than model capacity, is now the main obstacle to deploying automated recognition on a large scale \cite{tuiaPerspectivesMachineLearning2022}. Nevertheless, capacity sets the upper limit on how many species a single deployable detector can distinguish, as demonstrated by the single-stage family below.
+--- final
+
+--- verdict
+original: DeepL hardens "a primary obstacle" into "the main obstacle" (a stronger, different claim), drops the "raw" qualifier on model capacity, and turns the single-stage family's obligation to "supply" enough capacity into it merely "demonstrating" a limit. risk: high
+
+

@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 33-Synthetic_Data_Supplementation.tex: 12 paragraphs -->
+
+#### P001  33-Synthetic_Data_Supplementation.tex:4  flags: -
+## section: Synthetic Data Supplementation
+--- original
+Real-image availability stays skewed across the $225$-class taxonomy even after the curation of \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation}. A distillation-versus-fine-tuning comparison is only meaningful if every class carries a comparable training signal, so classes with a small real pool were supplemented with generated imagery. This section covers the band structure, the generation pipeline, the annotation of its output, and the balanced synthetic test set.
+--- rephrased
+Even after the curation of \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation}, real-image availability remains skewed across the $225$-class taxonomy. A meaningful comparison of distillation versus fine-tuning requires that every class carry a comparable training signal. Therefore, classes with a small real pool were supplemented with generated imagery. This section covers the band structure, generation pipeline, annotation of output, and balanced synthetic test set.
+--- final
+Even after the curation of \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation}, real-image availability remains skewed across the $225$-class taxonomy. A meaningful comparison of distillation versus fine-tuning requires that every class carry a comparable training signal. Therefore, classes with a small real pool were supplemented with generated imagery. This section covers the band structure, generation pipeline, annotation of output, and balanced synthetic test set.
+--- verdict
+rephrased: DeepL's wording reads better and preserves the claim unchanged. risk: low
+
+
+#### P002  33-Synthetic_Data_Supplementation.tex:9  flags: -
+## section: Band Structure: Matching Supplementation Strategy to Data Availability
+--- original
+Classes were grouped into four bands by real-image pool size after curation, each with its own mix of real and synthetic training imagery and its own reservation of real images for testing. \Cref{tab:band-structure} defines them, with boundaries at $150$, $250$ and $400$ pool images taken from the measured post-curation distribution.
+--- rephrased
+After curation, classes were grouped into four bands by real-image pool size, each with its own mix of real and synthetic training imagery, as well as its own set of real images reserved for testing. \Cref{tab:band-structure} defines these bands, with boundaries at $150$, $250$, and $400$ images in the pool, taken from the measured post-curation distribution.
+--- final
+After curation, classes were grouped into four bands by real-image pool size, each with its own mix of real and synthetic training imagery, as well as its own set of real images reserved for testing. \Cref{tab:band-structure} defines these bands, with boundaries at $150$, $250$, and $400$ images in the pool, taken from the measured post-curation distribution.
+--- verdict
+rephrased: reworded only, boundary numbers and \Cref preserved. risk: high
+
+
+#### P003  33-Synthetic_Data_Supplementation.tex:27  flags: -
+## section: Band Structure: Matching Supplementation Strategy to Data Availability
+--- original
+The structure exists to make three training-data compositions comparable at matched sample size: Bands A, B and C share an equal $200$-image training budget and differ only in composition, at synthetic only, half real and half synthetic, and real only. The bands nonetheless hold \emph{different species}, assigned by availability rather than randomization, so any systematic difference in species difficulty is confounded with the band. This is a cross-band comparison, not a within-class experiment.
+--- rephrased
+The structure makes three training-data compositions comparable at a matched sample size. Bands A, B, and C have an equal training budget of $200$ images and differ only in composition: synthetic only, half real and half synthetic, and real only. However, the bands contain \emph{different species} that are assigned based on availability rather than randomization. Therefore, any systematic difference in species difficulty is confounded with the band. This is a cross-band comparison, not a within-class experiment.
+--- final
+The structure makes three training-data compositions comparable at a matched sample size. Bands A, B, and C have an equal training budget of $200$ images and differ only in composition: synthetic only, half real and half synthetic, and real only. However, the bands contain \emph{different species} that are assigned based on availability rather than randomization. Therefore, any systematic difference in species difficulty is confounded with the band. This is a cross-band comparison, not a within-class experiment.
+--- verdict
+rephrased: clearer sentence split, \emph and $200$ preserved, claim unchanged. risk: high
+
+
+#### P004  33-Synthetic_Data_Supplementation.tex:29  flags: -
+## section: Band Structure: Matching Supplementation Strategy to Data Availability
+--- original
+Surplus real images beyond a training budget move to the test set rather than being discarded, which is why Band D test sizes vary and why the corpus carries a large unallocated surplus (\Cref{sec:final_dataset_composition}).
+--- rephrased
+Rather than being discarded, surplus real images beyond the training budget move to the test set. This is why Band D test sizes vary and why the corpus carries a large unallocated surplus (\Cref{sec:final_dataset_composition}).
+--- final
+Rather than being discarded, surplus real images beyond the training budget move to the test set. This is why Band D test sizes vary and why the corpus carries a large unallocated surplus (\Cref{sec:final_dataset_composition}).
+--- verdict
+rephrased: reordered clause only, claim and \Cref unchanged. risk: medium
+
+
+#### P005  33-Synthetic_Data_Supplementation.tex:31  flags: -
+## section: Band Structure: Matching Supplementation Strategy to Data Availability
+--- original
+Band A holds the $50$ most data-poor classes. It trains entirely on synthetic imagery and reserves its real images, averaging approximately $67$ per class, in full for testing. Roughly $17$ of them carry fewer than $30$ real test images and are test-limited by definition, not by any model deficiency. Band B reaches the shared budget by adding $100$ synthetic images to $100$ real ones, and Band C reaches it from real imagery alone as the real-data control. Two classes, \texttt{human} and \texttt{unmatched}, hold no real images and enter no band.
+--- rephrased
+Band A contains the $50$ classes with the least amount of data. It trains entirely on synthetic imagery and reserves its real images—averaging approximately $67$ per class—in full for testing. Roughly $17$ of these classes have fewer than $30$ real test images and are test-limited by definition, not due to any model deficiency. Band B reaches the shared budget by combining $100$ synthetic images with $100$ real images. Band C reaches the budget using only real imagery as the real-data control. Two classes, \texttt{human} and \texttt{unmatched}, have no real images and are not included in any band.
+--- final
+Band A contains the $50$ classes with the least amount of data. It trains entirely on synthetic imagery and reserves its real images, averaging approximately $67$ per class, in full for testing. Roughly $17$ of these classes have fewer than $30$ real test images and are test-limited by definition, not due to any model deficiency. Band B reaches the shared budget by combining $100$ synthetic images with $100$ real images. Band C reaches the budget using only real imagery as the real-data control. Two classes, \texttt{human} and \texttt{unmatched}, have no real images and are not included in any band.
+--- verdict
+merged: rephrased kept, but its em dashes around "averaging approximately $67$ per class" replaced with the original's commas (parenthetical-dash rule). risk: high
+
+
+#### P006  33-Synthetic_Data_Supplementation.tex:34  flags: -
+## section: An Implementation Gap in the Band A Design
+--- original
+Band A's training signal is allocated entirely to synthetic imagery, and for the first generation of trained models that allocation did not hold. All three pipelines read only the real-image annotation files, which hold no Band A images, so the exactly-zero Band A accuracy of those models measures zero-shot behavior. The loaders were corrected to merge both sources, giving $155{,}808$ training and $15{,}063$ validation images, and the affected models were retrained. \Cref{chapter:results} reports post-correction figures throughout.
+--- rephrased
+The training signal for Band A is allocated entirely to synthetic imagery. For the first generation of trained models, however, this was not the case. Since all three pipelines read only the real-image annotation files, which contain no Band A images, the zero Band A accuracy of those models reflects zero-shot behavior. The loaders were corrected to merge both sources, providing $155{,}808$ training images and $15{,}063$ validation images. The affected models were then retrained. \Cref{chapter:results} reports post-correction figures.
+--- final
+The training signal for Band A is allocated entirely to synthetic imagery. For the first generation of trained models, however, this was not the case. Since all three pipelines read only the real-image annotation files, which contain no Band A images, the exactly-zero Band A accuracy of those models reflects zero-shot behavior. The loaders were corrected to merge both sources, providing $155{,}808$ training images and $15{,}063$ validation images. The affected models were then retrained. \Cref{chapter:results} reports post-correction figures throughout.
+--- verdict
+merged: rephrased kept, restored "exactly-zero" (precision of the measured accuracy) and "throughout" (scope of \Cref{chapter:results}), both dropped by DeepL. risk: high
+
+
+#### P007  33-Synthetic_Data_Supplementation.tex:39  flags: -
+## section: Synthetic Image Generation Pipeline
+--- original
+Synthetic images were produced with \textit{Gemini}'s \texttt{gemini-3.1-flash-image-preview} model \cite{GeminiAPI}. Prompt-length capacity drove that choice. The construction below inserts substantial verbatim reference text into every request, and the candidates differ by orders of magnitude in what they can read (\Cref{tab:prompt-capacity}). Beyond that the model was chosen by inspecting sample outputs, an insufficient basis for a decision of this weight, which \Cref{sec:generator_comparison} revisits.
+--- rephrased
+Synthetic images were produced using the \textit{Gemini} \texttt{gemini-3.1-flash-image-preview} model \cite{GeminiAPI}. The choice was driven by prompt-length capacity. The construction below inserts a substantial amount of verbatim reference text into every request. The candidates differ by orders of magnitude in terms of their reading capacity (\Cref{tab:prompt-capacity}). The model was also chosen by inspecting sample outputs, which is an insufficient basis for such an important decision, as \Cref{sec:generator_comparison} points out.
+--- final
+Synthetic images were produced using the \textit{Gemini} \texttt{gemini-3.1-flash-image-preview} model \cite{GeminiAPI}. The choice was driven by prompt-length capacity. The construction below inserts a substantial amount of verbatim reference text into every request. The candidates differ by orders of magnitude in terms of their reading capacity (\Cref{tab:prompt-capacity}). Beyond that the model was chosen by inspecting sample outputs, an insufficient basis for a decision of this weight, which \Cref{sec:generator_comparison} revisits.
+--- verdict
+merged: rephrased kept for s1-4, restored original final clause since "which \Cref{sec:generator_comparison} revisits" (the section returns to reconsider the choice) was changed to "as \Cref{sec:generator_comparison} points out" (merely notes it), a direction change. risk: high
+
+
+#### P008  33-Synthetic_Data_Supplementation.tex:59  flags: format-lost: $600\,\mathrm{mm}$, bare-number
+## section: Six Axes of Variation
+--- original
+Each generated image is specified along six largely independent axes, chosen to avoid the canonical-pose imagery a single fixed template would produce: camera angle, subject distance against a simulated $400$ to $600\,\mathrm{mm}$ telephoto lens, pose and behavior, environment, lighting, and occlusion. An eight-guild ecological system biases environment and behavior toward species-plausible combinations. \Cref{sec:appendix_generation_axes} lists the controlled vocabularies.
+--- rephrased
+Each generated image is specified along six largely independent axes to avoid the imagery of a single fixed template. These axes are camera angle, subject distance against a simulated $400$-600mm telephoto lens, pose and behavior, environment, lighting, and occlusion. An eight-guild ecological system biases the environment and behavior toward species-plausible combinations. \Cref{sec:appendix_generation_axes} lists the controlled vocabularies.
+--- final
+
+--- verdict
+original: DeepL dropped "canonical-pose" (the reason the axes were chosen) and flattened $600\,\mathrm{mm}$ into unmarked "600mm" merged with a bare hyphen range, so the original is kept whole. risk: high
+
+
+#### P009  33-Synthetic_Data_Supplementation.tex:61  flags: -
+## section: Six Axes of Variation
+--- original
+Two axes were specified and never implemented: roughly $15$ to $20\%$ juvenile subjects, and even sex representation for dimorphic species. Neither is conditioned anywhere in the pipeline, so whatever variation the dataset shows along them is incidental. Juvenile animals and the less-ornamented sex are exactly what a detector is most likely to miss, which makes this a substantive coverage gap.
+--- rephrased
+Two specifications were made but never implemented: a range of $15$ to $20\%$ of subjects in the juvenile stage and an even sex ratio for dimorphic species. Since neither is conditioned anywhere in the pipeline, whatever variation the dataset shows along these axes is incidental. Juvenile animals and less-ornamented sexes are precisely what a detector is most likely to miss, creating a substantive coverage gap.
+--- final
+
+--- verdict
+original: DeepL dropped the "roughly" hedge on the $15$-$20\%$ figure and swapped "axes" for "specifications", drifting from the section's established term. risk: high
+
+
+#### P010  33-Synthetic_Data_Supplementation.tex:64  flags: -
+## section: Prompt Construction
+--- original
+Prompts follow a fixed template of five blocks: subject, species description, scene specification, photography style, and critical requirements. The raw text of a species' Wikipedia Description, Behavior and Habitat sections is inserted verbatim, since summarizing it risks discarding visually relevant detail such as fur pattern.
+--- rephrased
+The prompts follow a fixed template of five blocks: subject, species description, scene specification, photography style, and critical requirements. The raw text from the Wikipedia "Description," "Behavior," and "Habitat" sections of a species' page is inserted verbatim since summarizing it risks omitting visually relevant details, such as fur patterns.
+--- final
+The prompts follow a fixed template of five blocks: subject, species description, scene specification, photography style, and critical requirements. The raw text from the Wikipedia Description, Behavior, and Habitat sections of a species' page is inserted verbatim since summarizing it risks omitting visually relevant details, such as fur patterns.
+--- verdict
+merged: rephrased kept, but the straight quotation marks it added around Description, Behavior, and Habitat (not in the original, not a LaTeX span) were dropped. risk: medium
+
+
+#### P011  33-Synthetic_Data_Supplementation.tex:66  flags: -
+## section: Prompt Construction
+--- original
+Three prompt constraints have consequences elsewhere. The animal must be fully visible, with no part cut off at the frame edge, because a subject cropped at the boundary cannot plausibly be scaled down by the scale augmentation of \Cref{sec:data_augmentation}. Exactly one individual of the target species may appear, which keeps automatic single-box annotation valid. Text, watermarks, borders and anachronistic objects are prohibited, since a detector would otherwise treat them as evidence.
+--- rephrased
+Three prompt constraints have consequences elsewhere. First, the animal must be fully visible, with no part cut off at the frame edge. This is because a cropped subject cannot be scaled down by \Cref{sec:data_augmentation}'s scale augmentation. Only one individual of the target species may appear to keep automatic single-box annotation valid. Text, watermarks, borders, and anachronistic objects are prohibited since a detector would treat them as evidence.
+--- final
+Three prompt constraints have consequences elsewhere. First, the animal must be fully visible, with no part cut off at the frame edge. This is because a subject cropped at the boundary cannot plausibly be scaled down by the scale augmentation of \Cref{sec:data_augmentation}. Exactly one individual of the target species may appear, which keeps automatic single-box annotation valid. Text, watermarks, borders, and anachronistic objects are prohibited since a detector would otherwise treat them as evidence.
+--- verdict
+merged: rephrased sentence split kept, but restored the "plausibly" hedge and "otherwise" (the counterfactual reason for the prohibition) that DeepL dropped, "Exactly" over "Only", and the original's \Cref{sec:data_augmentation} phrasing to avoid an apostrophe-s appended to the macro. risk: high
+
+
+#### P012  33-Synthetic_Data_Supplementation.tex:69  flags: -
+## section: Generation Schedule and Curated Validation Set
+--- original
+Band A classes receive $200$ images each, $160$ training and $40$ validation. The validation images are not drawn from the same generation distribution. They use fixed \enquote{prototypical} shot parameters (eye-level angle, medium distance, canonical poses, minimal occlusion) chosen to resemble typical field photography, so that early stopping is not tuned for synthetic-image performance specifically. Band B classes receive $100$ images each under the same criteria.
+--- rephrased
+Band A classes receive $200$ images each: $160$ for training and $40$ for validation. The validation images are not drawn from the same generation distribution. These images use fixed \enquote{prototypical} shot parameters, such as an eye-level angle, medium distance, canonical poses, and minimal occlusion. These parameters are chosen to resemble typical field photography so that early stopping is not specifically tuned for synthetic-image performance. Band B classes receive $100$ images under the same criteria.
+--- final
+Band A classes receive $200$ images each: $160$ for training and $40$ for validation. The validation images are not drawn from the same generation distribution. They use fixed \enquote{prototypical} shot parameters (eye-level angle, medium distance, canonical poses, minimal occlusion) chosen to resemble typical field photography so that early stopping is not specifically tuned for synthetic-image performance. Band B classes receive $100$ images each under the same criteria.
+--- verdict
+merged: rephrased kept, but restored the parenthetical list, which the original states as the exhaustive definition of "prototypical," in place of DeepL's "such as" framing that implies a non-exhaustive example list, and restored "each" for Band B. risk: high
+
+

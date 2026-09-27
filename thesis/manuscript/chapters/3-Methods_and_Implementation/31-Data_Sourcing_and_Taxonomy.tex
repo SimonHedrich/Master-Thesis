@@ -1,20 +1,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Dataset Sourcing and Class Taxonomy}\label{sec:data_sourcing_and_taxonomy}
 
-The set of species the detector is expected to recognize had to be fixed before any imagery could be gathered, since it determines what counts as a usable image and how large a corpus is obtainable. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and reports what the sourcing effort produced.
+Before any imagery could be gathered, the set of species that the detector was expected to recognize had to be determined, since this set determines what counts as a usable image and how large a corpus can be obtained. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and summarizes the results of the sourcing effort.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Target Class Definition}\label{sec:target_class_definition}
 
-The class universe originates in the taxonomy of \textit{SpeciesNet} \cite{gadotCropNotCrop2024a}, a published species classifier. Of its $3{,}537$ labels, roughly $1{,}415$ are mammal taxa. Because the AX Visio binocular targets non-bird mammals, the taxonomy was restricted to that subset and then filtered by the product owner to $483$ candidate labels.  % resources/refineLabels.py
-The criterion applied there is observability rather than taxonomy: what survives is the set of diurnal land mammals a user is plausibly able to photograph, with visually inseparable congeners merged instead of dropped.
+The class universe originates from the taxonomy of \textit{SpeciesNet}, a published species classifier \cite{gadotCropNotCrop2024a}. Of its $3{,}537$ labels, approximately $1{,}415$ are mammal taxa. Since the AX Visio binocular targets non-bird mammals, the taxonomy was restricted to that subset. Then, the product owner filtered it down to $483$ candidate labels.  % resources/refineLabels.py
+The applied criterion is observability rather than taxonomy. What survives is the set of diurnal land mammals that a user can plausibly photograph. Visually inseparable congeners are merged instead of being dropped.
 
-Whether a species could be supported with imagery at all was decided separately, from per-taxon image counts surveyed on \textit{GBIF} \cite{GBIF}, with at least $300$ images required for inclusion.  % data/gbif/metadata/GBIF_image_counts_v1.csv
-The survey caps at approximately $300$ observations per taxon, and $125$ of $479$ surveyed taxa sit exactly at that ceiling, so a count at the cap means only \enquote{at least $300$}, whereas a low count is evidence of genuine scarcity. That asymmetry makes the measure usable as a rarity proxy in \Cref{sec:generator_comparison_classes}.
+The decision of whether a species could be supported by imagery was made separately based on the number of images surveyed on \textit{GBIF} for each taxon \cite{GBIF}. At least $300$ images were required for inclusion.  % data/gbif/metadata/GBIF_image_counts_v1.csv
+The survey caps at approximately $300$ observations per taxon. Of the $479$ taxa surveyed, $125$ sit exactly at that ceiling. Thus, a count at the cap means only \enquote{at least $300$}. In contrast, a low count is evidence of genuine scarcity. This asymmetry makes the measure usable as a proxy for rarity in \Cref{sec:generator_comparison_classes}.
 
-A list of $483$ classes exceeds what the target hardware can carry. A nano-scale detector in the $1$--$3\,\mathrm{M}$-parameter range spreads its discriminative capacity too thinly once the label space grows beyond roughly $200$--$300$ fine-grained classes, which fixed an approximate ceiling of $200$--$250$ classes. Birds, bats and marine mammals other than pinnipeds were then excluded outright, and domestic animals deliberately kept.
+A list of $483$ classes exceeds the capacity of the target hardware. A nano-scale detector in the $1$--$3\,\mathrm{M}$-parameter range spreads its discriminative capacity too thinly once the label space grows beyond roughly $200$--$300$ fine-grained classes, which fixed an approximate ceiling of $200$--$250$ classes. Birds, bats, and marine mammals other than pinnipeds were excluded outright, while domestic animals were deliberately kept.
 
-The final list holds $225$ classes across three taxonomic ranks: $164$ at species level, $41$ at genus level where the species of a genus are not reliably separable in a daylight image, and $20$ at family level or above. \Cref{tab:class-taxonomy-orders} breaks them down by taxonomic order. Whether each of those classes could actually be filled with usable imagery is a question about the available sources.
+The final list includes $225$ classes across three taxonomic ranks: $164$ at the species level, $41$ at the genus level (where the species of a genus cannot be reliably separated in a daylight image), and $20$ at the family level or above. \Cref{tab:class-taxonomy-orders} breaks them down by taxonomic order. Whether each of those classes can be filled with usable imagery depends on the available sources.
 
 \begin{table}[H]
 \centering
@@ -40,7 +40,7 @@ Total & $225$ & $100\%$ \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Candidate Data Sources and Licensing Assessment}\label{sec:candidate_sources_licensing}
 
-With the class list fixed, candidate image sources were surveyed on two criteria: commercial usability of the license, and suitability of the imagery for close-to-mid-range daylight observation. Because the trained weights are intended for a commercial product, any dataset carrying a NonCommercial, NoDerivatives or ShareAlike clause was excluded (\Cref{tab:candidate-sources}).
+With the class list finalized, candidate image sources were evaluated based on two criteria: the commercial usability of the license and the suitability of the imagery for close-to-mid-range daylight observation. Since the trained weights are intended for a commercial product, any dataset with a NonCommercial, NoDerivatives, or ShareAlike clause was excluded (\Cref{tab:candidate-sources}).
 
 \begin{table}[H]
 \centering
@@ -61,29 +61,29 @@ TreeOfLife-200M / \textit{BioCLIP} \cite{stevensBioCLIPVisionFoundation2024} & R
 \end{tabularx}
 \end{table}
 
-Source selection also fixed how far each source's own species labels can be trusted, an axis the curation pipeline depends on. \textit{iNaturalist}, \textit{GBIF} and Wikipedia-derived material are label-trusted, since their labels carry an identifiable contributor and community verification. Open Images and the stock-image source are unverified, their labels being colloquial or of unknown provenance. An unverified source contributes to a class's usable pool only where an independent classifier corroborates the label, whereas a trusted source contributes on passing the quality gates alone (\Cref{sec:data_quality_and_curation}).
+Source selection also fixed how far each source's own species labels can be trusted, an axis the curation pipeline depends on. \textit{iNaturalist}, \textit{GBIF} and Wikipedia-derived material are label-trusted, since their labels carry an identifiable contributor and community verification. Open Images and the stock-image source are unverified because their labels are colloquial or of unknown origin. An unverified source only contributes to a class's usable pool where an independent classifier corroborates the label. In contrast, a trusted source contributes simply by passing the quality gates (\Cref{sec:data_quality_and_curation}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sourcing Execution and the LILA BC Rejection}\label{sec:sourcing_execution}
 
-The initial corpus was assembled from \textit{GBIF} \cite{GBIF} observation records, classified with \textit{SpeciesNet} v$4.0.2$a \cite{gadotCropNotCrop2024a}, yielding $66{,}881$ usable images. This corpus was highly uneven across classes: $31$ of the $225$ classes had zero images, and a further $55$ classes had fewer than $10$. Closing that gap required sourcing additional imagery.
+The initial corpus was assembled from \textit{GBIF} \cite{GBIF} observation records and classified using \textit{SpeciesNet} v$4.0.2$a \cite{gadotCropNotCrop2024a}, yielding $66{,}881$ usable images. This corpus was highly uneven across classes: $31$ of the $225$ classes had zero images, and a further $55$ classes had fewer than $10$. Closing that gap required sourcing additional imagery.
 
-Three large camera-trap archives under a commercially compatible license were scanned against the $225$-class taxonomy and rejected \cite{LILABCLabeled}. Their species coverage overlapped the classes that were already well supplied and missed the scarce ones, and their imagery is fixed-viewpoint, long-range and frequently infrared, whereas the \textit{AX Visio} is used for close-to-mid-range daylight observation. No images from them entered the corpus.
+Three large camera-trap archives under commercially compatible licenses were scanned against the $225$-class taxonomy and rejected \cite{LILABCLabeled}. Their species coverage overlapped with well-supplied classes and missed scarce ones. Additionally, their imagery is fixed-viewpoint, long-range, and frequently infrared. The \textit{AX Visio}, however, is used for close-to-mid-range daylight observation. No images from these archives were included in the corpus.
 
 \paragraph{Gap-Filling Sources Actually Used}
-A metadata-level match against \textit{iNaturalist} Open Data records exposed through \textit{GBIF} reached $221$ of the $225$ classes and $6{,}816{,}962$ photographs, of which only $831{,}050$ ($12\%$) carried a commercially safe CC0 or CC-BY license. The CC-BY-NC remainder was excluded under the policy of \Cref{sec:candidate_sources_licensing}. Coverage stayed uneven: white-tailed deer retained $61{,}865$ safe images, while nine classes had none and needed separate sourcing.
+A metadata-level match against \textit{iNaturalist} Open Data records exposed through \textit{GBIF} reached $221$ of the $225$ classes and $6{,}816{,}962$ photographs. Of these, only $831{,}050$ ($12\%$) carried a commercially safe CC0 or CC-BY license. The CC-BY-NC remainder was excluded under the policy of \Cref{sec:candidate_sources_licensing}. Coverage stayed uneven: white-tailed deer retained $61{,}865$ safe images, while nine classes had none and needed separate sourcing.
 
-Human imagery, needed as a contextual negative rather than as a wildlife species, was withheld from the iNaturalist and GBIF exports for privacy reasons, and Open Images' person category proved to be dominated by portrait photography. \textit{COCO} 2017 \cite{linMicrosoftCOCOCommon2015} supplied the \texttt{human} class instead, under a filter written for it that constrains subject size, distance from the frame edge, upright aspect and image sharpness (\Cref{sec:appendix_human_filter}).  % scripts/download_coco_humans.py
+Human imagery was withheld from the iNaturalist and GBIF exports for privacy reasons. It was needed as a contextual negative rather than as a wildlife species. Open Images' person category was dominated by portrait photography. Instead, \textit{COCO} 2017 \cite{linMicrosoftCOCOCommon2015} supplied the \texttt{human} class under a filter written for it that constrains subject size, distance from the frame edge, upright aspect, and image sharpness (\Cref{sec:appendix_human_filter}).  % scripts/download_coco_humans.py
 
-The species still under-represented after those two steps were filled from a Wikimedia Commons category crawl, built as a human-in-the-loop instrument rather than as a downloader. It produces a reviewable category tree per label, an automatic filter drops categories whose subject is not a live wild animal (\Cref{sec:appendix_wikimedia_vocabulary}), and only categories surviving review are fetched.
+After those two steps, the species that were still underrepresented were filled from a Wikimedia Commons category crawl. This crawl was built as a human-in-the-loop instrument rather than as a downloader. It produces a reviewable category tree per label. An automatic filter drops categories whose subject is not a live wild animal (\Cref{sec:appendix_wikimedia_vocabulary}). Only categories that survive review are fetched.
 
 \paragraph{A Divergence Between the Stated and Implemented License Policy}
-An audit found that the implemented license allow-list admits ShareAlike variants, and NoDerivatives on the COCO downloads, contrary to the policy stated above. Of the $11{,}066$ Wikimedia images in the final splits, $6{,}222$ carry a ShareAlike license. Every model reported in \Cref{chapter:results} was therefore trained and evaluated on a corpus containing imagery the policy excludes, and the finding is carried forward as a named limitation (\Cref{sec:limitations}).
+An audit found that the implemented license allow-list admits ShareAlike variants, and NoDerivatives on the COCO downloads, contrary to the policy stated above. Of the $11{,}066$ Wikimedia images in the final splits, $6{,}222$ carry a ShareAlike license. Therefore, every model reported in \Cref{chapter:results} was trained and evaluated on a corpus containing imagery excluded by the policy, and this finding is recorded as a named limitation (\Cref{sec:limitations}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Resulting Corpus Composition}\label{sec:corpus_composition}
 
-The raw corpus covers $216$ of the $225$ target classes with at least one image. \Cref{tab:source-funnel} gives its per-source composition after the quality filtering of \Cref{sec:data_quality_and_curation}. Of the $465{,}242$ images that pass, $457{,}468$ are attributable to one of the $225$ classes.
+The raw corpus contains at least one image for $216$ of the $225$ target classes. After the quality filtering of \Cref{sec:data_quality_and_curation}, \Cref{tab:source-funnel} provides its per-source composition. Of the $465{,}242$ images that pass the filter, $457{,}468$ are attributable to one of the $225$ classes.
 
 \begin{table}[H]
 \centering
@@ -104,4 +104,4 @@ Total & $465{,}242$ & $115{,}575$ & $580{,}817$ & $80.1\%$ \\
 \end{tabular}
 \end{table}
 
-Coverage remained heavily uneven despite the volume. $83$ classes held at least $1{,}500$ images, while $29$ held fewer than $100$ and a further $58$ fewer than $500$. Two inputs are not wildlife imagery at all: the COCO-derived human class, and $174$ background photographs retained as true negatives, so that the detector sees frames whose correct answer is to predict nothing. Wikipedia species articles were scraped as well, as the textual corpus from which synthetic-image prompts are built (\Cref{sec:synthetic_generation_pipeline}). This pool still mixes sources of very different reliability, which is what \Cref{sec:data_quality_and_curation} addresses.
+Coverage remained heavily uneven despite the volume. $83$ classes held at least $1{,}500$ images, while $29$ held fewer than $100$ and a further $58$ fewer than $500$. Two inputs are not wildlife imagery at all: the COCO-derived human class, and $174$ background photographs retained as true negatives, so that the detector sees frames whose correct answer is to predict nothing. Wikipedia species articles were scraped as well, as the textual corpus from which synthetic-image prompts are built (\Cref{sec:synthetic_generation_pipeline}). This pool still mixes sources of very different reliability, which \Cref{sec:data_quality_and_curation} addresses.

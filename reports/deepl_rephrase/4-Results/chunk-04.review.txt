@@ -1,0 +1,274 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 4-Results.tex: 12 paragraphs -->
+
+#### P037  4-Results.tex:225  flags: -
+## section: Granularity Gap Decomposition
+--- original
+Cross-group misclassification, duplicate detections and background false positives therefore land in $\Delta_{\text{coarse}}$ together, which makes it an upper bound on cross-group species confusion and a diagnostic rather than a finding about taxonomy. Whether the training band moves it is the next question.
+--- rephrased
+Cross-group misclassifications, duplicate detections, and background false positives all end up in $\Delta_{\text{coarse}}$, making it an upper bound on cross-group species confusion. This makes it a diagnostic rather than a finding about taxonomy. The next question is whether the training band moves it.
+--- final
+Cross-group misclassifications, duplicate detections, and background false positives all end up in $\Delta_{\text{coarse}}$, making it an upper bound on cross-group species confusion. This makes it a diagnostic rather than a finding about taxonomy. The next question is whether the training band moves it.
+--- verdict
+rephrased: preserves meaning, splits one long sentence into three for readability. risk: medium
+
+
+#### P038  4-Results.tex:229  flags: -
+## section: Band $\times$ Granularity: Does Training-Data Composition Change Accuracy?
+--- original
+This is the comparison the band structure of \Cref{sec:band_structure} was built to support. Bands A, B and C share an equal $200$-image training budget and differ only in composition, at entirely synthetic, half real and half synthetic, and entirely real, with Band D the data-rich reference. \Cref{tab:band-grid-real} reports the grid on the real-only breakout, which \Cref{sec:mixed_default} designates the tie-breaker here, and \Cref{tab:band-grid-mixed} the same grid on the mixed test set.
+--- rephrased
+This is the type of comparison that the \Cref{sec:band_structure} band structure was built to support. Bands A, B, and C have an equal training budget of $200$ images and differ only in composition: entirely synthetic, half real and half synthetic, and entirely real. Band D is the data-rich reference. \Cref{tab:band-grid-real} reports the grid on the real-only breakout. \Cref{sec:mixed_default} designates the tie-breaker, and \Cref{tab:band-grid-mixed} uses the same grid on the mixed test set.
+--- final
+This is the comparison the band structure of \Cref{sec:band_structure} was built to support. Bands A, B, and C have an equal training budget of $200$ images and differ only in composition: entirely synthetic, half real and half synthetic, and entirely real. Band D is the data-rich reference. \Cref{tab:band-grid-real} reports the grid on the real-only breakout, which \Cref{sec:mixed_default} designates the tie-breaker here, and \Cref{tab:band-grid-mixed} the same grid on the mixed test set.
+--- verdict
+merged: kept original s1 and s3 (rephrase's split of s3 dropped the referent of "the tie-breaker"), used rephrase's split of s2. risk: medium
+
+
+#### P039  4-Results.tex:260  flags: -
+## section: Band $\times$ Granularity: Does Training-Data Composition Change Accuracy?
+--- original
+The central result is the Band B against Band C contrast on the real test set, and it is consistent in two of the three models. For the primary detector, half-synthetic training reaches $0.588$ against $0.591$ for all-real training at the same budget, and for the fine-tuned ensemble the same pair reads $0.638$ against $0.639$. \textit{YOLOv5s} is the exception at $0.341$ against $0.386$, favoring real photographs by $0.045$. At \texttt{coarse} granularity the contrast turns the other way, with Band B above Band C by $0.019$ for the primary detector and $0.034$ for the ensemble. Replacing half of a small real training set with synthetic imagery therefore changes accuracy by no more than $0.003$ mAP in two of the three models and by $0.045$ in the third. That is the strongest positive result this work holds about synthetic training data, and it rests on three single runs.
+--- rephrased
+The central result is the contrast between Band B and Band C on the real test set, and this result is consistent in two of the three models. For the primary detector, half-synthetic training achieves a score of $0.588$, compared to an all-real training score of $0.591$ with the same budget. For the fine-tuned ensemble, the respective scores are $0.638$ and $0.639$. \textit{YOLOv5s} is the exception, with a score of $0.341$ versus $0.386$ and a preference for real photographs by $0.045$. At \texttt{coarse} granularity, however, the contrast reverses, with Band B surpassing Band C by $0.019$ for the primary detector and by $0.034$ for the ensemble. Replacing half of a small real training set with synthetic images changes accuracy by no more than $0.003$ mAP in two models and by $0.045$ in the third. This is the strongest positive result that this work has regarding synthetic training data, and it is based on three runs.
+--- final
+The central result is the contrast between Band B and Band C on the real test set, and this result is consistent in two of the three models. For the primary detector, half-synthetic training achieves a score of $0.588$, compared to an all-real training score of $0.591$ with the same budget. For the fine-tuned ensemble, the respective scores are $0.638$ and $0.639$. \textit{YOLOv5s} is the exception, with a score of $0.341$ versus $0.386$ and a preference for real photographs by $0.045$. At \texttt{coarse} granularity, however, the contrast reverses, with Band B surpassing Band C by $0.019$ for the primary detector and by $0.034$ for the ensemble. Replacing half of a small real training set with synthetic images changes accuracy by no more than $0.003$ mAP in two of the three models and by $0.045$ in the third. This is the strongest positive result that this work has regarding synthetic training data, and it is based on three single runs.
+--- verdict
+merged: restored "single" runs, a dropped reliability hedge (no repeated trials). risk: high
+
+
+#### P040  4-Results.tex:262  flags: -
+## section: Band $\times$ Granularity: Does Training-Data Composition Change Accuracy?
+--- original
+That conclusion does not extend to Band A. Training a class entirely on synthetic imagery leaves the primary detector at $0.300$ on the real test set, roughly half the $0.591$ the same budget of real photographs achieves, and \textit{YOLOv5s} at $0.058$. The direction is unambiguous across all three models even without confidence intervals, because the gap is an order of magnitude larger than the Band B against Band C difference beside it. Synthetic imagery substitutes for half a training set and not for all of it. Whether the failure is one of image realism or of pose and background diversity is not separable from these numbers.
+--- rephrased
+This conclusion does not apply to Band A, however.
+Training a class entirely on synthetic imagery results in a primary detector of $0.300$ on the real test set. This is roughly half of the $0.591$ that the same budget of real photographs achieves. \textit{YOLOv5s} achieves a score of $0.058$. This trend is clear across all three models, even without confidence intervals, because the difference between Band A and Band B is an order of magnitude larger than the difference between Band B and Band C. Synthetic imagery substitutes for only half of a training set. These numbers do not reveal whether the failure is due to image realism or pose and background diversity.
+--- final
+That conclusion does not extend to Band A. Training a class entirely on synthetic imagery leaves the primary detector at $0.300$ on the real test set, roughly half the $0.591$ the same budget of real photographs achieves, and \textit{YOLOv5s} at $0.058$. The direction is unambiguous across all three models even without confidence intervals, because the gap is an order of magnitude larger than the Band B against Band C difference beside it. Synthetic imagery substitutes for half a training set and not for all of it. Whether the failure is one of image realism or of pose and background diversity is not separable from these numbers.
+--- verdict
+original: rephrase dropped the negation "and not for all of it", reassigned the gap to a specific Band A against Band B comparison not stated in the original, and garbled "leaves the primary detector at $0.300$" into "results in a primary detector of $0.300$". risk: high
+
+
+#### P041  4-Results.tex:264  flags: -
+## section: Band $\times$ Granularity: Does Training-Data Composition Change Accuracy?
+--- original
+The same grid on the mixed test set shows smaller gaps, which is itself an argument for reporting both. Band A rises from $0.300$ to $0.579$ for the primary detector once its own training domain is folded into the test set, while Band D moves the other way, from $0.742$ real to $0.726$ mixed.
+--- rephrased
+The same grid on the mixed test set shows smaller gaps, which argues for reporting both. Band A increases from $0.300$ to $0.579$ for the primary detector when its training domain is included in the test set. Meanwhile, Band D decreases from $0.742$ real to $0.726$ mixed.
+--- final
+The same grid on the mixed test set shows smaller gaps, which argues for reporting both. Band A increases from $0.300$ to $0.579$ for the primary detector when its training domain is included in the test set. Meanwhile, Band D decreases from $0.742$ real to $0.726$ mixed.
+--- verdict
+rephrased: preserves all numbers and meaning, clearer split. risk: high
+
+
+#### P042  4-Results.tex:266  flags: -
+## section: Band $\times$ Granularity: Does Training-Data Composition Change Accuracy?
+--- original
+Two smaller observations remain. The \texttt{coarse} column falls below the \texttt{fine} column in several cells, most visibly Band C for the primary detector at $0.597$ against $0.614$ on the mixed test set, which is the duplicate-merge penalty \Cref{sec:evaluation_axes} calls the conservative direction. And fine-tuning the teacher's classifier lowers Band A accuracy on real photographs rather than raising it, from $0.324$ off the shelf to $0.182$ fine-tuned.  % model_exports/pretrained/eval/eval_band_grid.csv
+--- rephrased
+Two smaller observations remain. First, the \texttt{coarse} column falls below the \texttt{fine} column in several cells. This is most visible in Band C for the primary detector, where it is $0.597$ against $0.614$ on the mixed test set. This is the duplicate-merge penalty that \Cref{sec:evaluation_axes} calls the conservative direction. Additionally, fine-tuning the teacher's classifier decreases Band A's accuracy with real photographs, lowering it from $0.324$ off the shelf to $0.182$ with fine-tuning.  % model_exports/pretrained/eval/eval_band_grid.csv
+--- final
+Two smaller observations remain. First, the \texttt{coarse} column falls below the \texttt{fine} column in several cells. This is most visible in Band C for the primary detector, where it is $0.597$ against $0.614$ on the mixed test set. This is the duplicate-merge penalty that \Cref{sec:evaluation_axes} calls the conservative direction. Additionally, fine-tuning the teacher's classifier lowers Band A's accuracy on real photographs rather than raising it, from $0.324$ off the shelf to $0.182$ fine-tuned.  % model_exports/pretrained/eval/eval_band_grid.csv
+--- verdict
+merged: restored "rather than raising it", the dropped contrast with the expected direction of fine-tuning's effect. risk: high
+
+
+#### P043  4-Results.tex:267  flags: -
+## section: Band $\times$ Granularity: Does Training-Data Composition Change Accuracy?
+--- original
+Adapting it to $225$ wildlife classes loses generic recognition capability on the classes whose supervision is entirely synthetic, a loss the aggregate of \Cref{tab:headline-cross-model} hides. The size of the mixed-against-real discrepancy in this grid is what the standing watchdog was defined to test.
+--- rephrased
+Adapting it to $225$ wildlife classes results in a loss of generic recognition capability for classes with entirely synthetic supervision, a loss that \Cref{tab:headline-cross-model} aggregates. The size of the discrepancy between the real and mixed classes in this grid is what the watchdog was designed to test.
+--- final
+Adapting it to $225$ wildlife classes loses generic recognition capability on the classes whose supervision is entirely synthetic, a loss the aggregate of \Cref{tab:headline-cross-model} hides. The size of the mixed-against-real discrepancy in this grid is what the standing watchdog was defined to test.
+--- verdict
+original: rephrase reversed "hides" into "aggregates" and garbled "the mixed-against-real discrepancy in this grid" into "the discrepancy between the real and mixed classes", which is inaccurate (the discrepancy is between test-set results, not between classes). risk: high
+
+
+#### P044  4-Results.tex:271  flags: -
+## section: Domain-Shift Delta: Real vs.\ Synthetic Test Performance
+--- original
+The paired per-class difference $\Delta_{\text{domain}}(\text{class}) = \mathrm{mAP}_{\text{real}} - \mathrm{mAP}_{\text{synthetic}}$ is the standing watchdog \Cref{sec:mixed_default} attaches to the mixed default. \Cref{tab:domain-shift-delta} reports its distribution per band as a median with the interquartile range, since a mean over $50$ thin Band A classes is easily moved by a few of them.
+--- rephrased
+The paired per-class difference, $\Delta_{\text{domain}}(\text{class}) = \mathrm{mAP}_{\text{real}} - \mathrm{mAP}_{\text{synthetic}}$, is the watchdog that \Cref{sec:mixed_default} attaches to the mixed default. \Cref{tab:domain-shift-delta} reports its distribution per band as a median with an interquartile range because a mean over $50$ thin Band A classes can be easily altered by a few of them.
+--- final
+The paired per-class difference, $\Delta_{\text{domain}}(\text{class}) = \mathrm{mAP}_{\text{real}} - \mathrm{mAP}_{\text{synthetic}}$, is the standing watchdog that \Cref{sec:mixed_default} attaches to the mixed default. \Cref{tab:domain-shift-delta} reports its distribution per band as a median with an interquartile range because a mean over $50$ thin Band A classes can be easily altered by a few of them.
+--- verdict
+merged: restored "standing" watchdog, the term used consistently elsewhere for this mechanism. risk: high
+
+
+#### P045  4-Results.tex:305  flags: -
+## section: Domain-Shift Delta: Real vs.\ Synthetic Test Performance
+--- original
+The delta is negative almost everywhere. For the primary detector it is negative for $208$ of the $224$ banded classes, and for all $76$ of Band A and Band B. The synthetic test set is the easier domain by a median of $0.21$ mAP even for the data-rich Band D classes, rising to $0.72$ for Band A, and the band ordering is identical across the three fine-tuned models.
+--- rephrased
+The delta is negative almost everywhere. For the primary detector, it is negative for $208$ out of $224$ banded classes and for all $76$ Band A and Band B classes.
+The synthetic test set is easier by a median of $0.21$ mAP, even for data-rich Band D classes. This difference rises to $0.72$ for Band A.
+The band ordering is identical across the three fine-tuned models.
+--- final
+The delta is negative almost everywhere. For the primary detector, it is negative for $208$ out of $224$ banded classes and for all $76$ Band A and Band B classes. The synthetic test set is easier by a median of $0.21$ mAP, even for data-rich Band D classes. This difference rises to $0.72$ for Band A. The band ordering is identical across the three fine-tuned models.
+--- verdict
+rephrased: preserves all numbers and meaning, splits into shorter sentences for clarity. risk: high
+
+
+#### P046  4-Results.tex:307  flags: -
+## section: Domain-Shift Delta: Real vs.\ Synthetic Test Performance
+--- original
+Part of that gap is not domain shift at all, and the two parts are not separable from these artifacts. The synthetic test set holds $11{,}264$ boxes over $11{,}250$ images against $92{,}094$ boxes over $63{,}802$ real images, so a synthetic test image contains one animal by construction while a real one averages $1.44$, and a single centered animal on a clean background is intrinsically easier to detect and name. The off-the-shelf ensemble bounds that contribution, since it never saw a synthetic image in training and still scores higher on the synthetic domain in every band, by a median of between $0.196$ and $0.287$. Roughly $0.2$ mAP of the gap is therefore a difficulty difference rather than an effect of training composition, and only the band-dependent remainder above it reads as an effect of how a class was trained.
+--- rephrased
+Some of the gap is not domain shift at all, and the two parts cannot be separated from these artifacts. The synthetic test set contains $11{,}264$ boxes across $11{,}250$ images, compared to $92{,}094$ boxes across $63{,}802$ real images. Therefore, a synthetic test image contains one animal by design, whereas a real image contains an average of $1.44$ animals. Additionally, a single centered animal against a clean background is inherently easier to detect and identify. The off-the-shelf ensemble bounds that contribution since it was never exposed to synthetic images during training yet still achieves higher scores in the synthetic domain in every band by a median of between $0.196$ and $0.287$. Therefore, roughly $0.2$ mAP of the gap is a difference in difficulty rather than an effect of training composition. Only the remainder above that, which varies by band, is an effect of how a class was trained.
+--- final
+Some of the gap is not domain shift at all, and the two parts cannot be separated from these artifacts. The synthetic test set contains $11{,}264$ boxes across $11{,}250$ images, compared to $92{,}094$ boxes across $63{,}802$ real images. Therefore, a synthetic test image contains one animal by design, whereas a real image contains an average of $1.44$ animals. Additionally, a single centered animal against a clean background is inherently easier to detect and name. The off-the-shelf ensemble bounds that contribution since it was never exposed to synthetic images during training yet still achieves higher scores in the synthetic domain in every band by a median of between $0.196$ and $0.287$. Therefore, roughly $0.2$ mAP of the gap is a difference in difficulty rather than an effect of training composition. Only the remainder above that, which varies by band, reads as an effect of how a class was trained.
+--- verdict
+merged: restored "name" (detect-and-classify framing used elsewhere) and "reads as" (a hedge on the causal attribution, weakened to a bare "is" in the rephrase). risk: high
+
+
+#### P047  4-Results.tex:310  flags: semicolon
+## section: Watchdog verdict
+--- original
+The trigger fired. \Cref{sec:mixed_default} states that a systematic discrepancy between the mixed and real results is the signal to revise the default evaluation axes, and the discrepancy in \Cref{tab:domain-shift-delta} is large and one-directional rather than marginal or mixed in sign. The synthetic component inflates the mixed headline for every model and every band, most for exactly the classes the mixed default was introduced to stabilize. The designed revision, which is to restore the real test set as the default and retain the mixed figure as secondary, was not carried out, because it would require rewriting every reported figure in this chapter within a time budget that did not allow it. That is a deviation from the stated protocol and is recorded as one.
+--- rephrased
+The trigger fired. According to \Cref{sec:mixed_default}, a systematic discrepancy between the mixed and real results signals the need to revise the default evaluation axes. The discrepancy in \Cref{tab:domain-shift-delta} is large and one-directional rather than marginal or mixed in sign. The synthetic component inflates the mixed headline for every model and band; this is most apparent in the classes for which the mixed default was introduced to stabilize. The designed revision, which would restore the real test set as the default while retaining the mixed figure as secondary, was not carried out because doing so would require rewriting every reported figure in this chapter, which was not possible within the allotted time. This deviation from the stated protocol is recorded as such.
+--- final
+The trigger fired. According to \Cref{sec:mixed_default}, a systematic discrepancy between the mixed and real results signals the need to revise the default evaluation axes. The discrepancy in \Cref{tab:domain-shift-delta} is large and one-directional rather than marginal or mixed in sign. The synthetic component inflates the mixed headline for every model and every band. This is most apparent in the classes for which the mixed default was introduced to stabilize. The designed revision, which would restore the real test set as the default while retaining the mixed figure as secondary, was not carried out because doing so would require rewriting every reported figure in this chapter, which was not possible within the allotted time. This deviation from the stated protocol is recorded as such.
+--- verdict
+merged: fixed the flagged semicolon by splitting into two sentences, restored "every model and every band". risk: high
+
+
+#### P048  4-Results.tex:312  flags: -
+## section: Watchdog verdict
+--- original
+Two reporting rules limit the damage without repairing it. Every headline figure in this chapter appears with its real-only breakout beside it, so no cross-model claim rests on the mixed figure alone. And switching the default would move the ranking of \Cref{tab:headline-cross-model} in one place only, where \textit{YOLOv5s} and the off-the-shelf ensemble exchange positions. The mixed default survived as a ranking instrument and failed as a description of real-world accuracy, and the revision is carried as further work (\Cref{sec:further_work}).
+--- rephrased
+Two reporting rules mitigate the damage, but do not repair it. Each headline figure in this chapter is accompanied by its respective breakout, ensuring that no cross-model claim relies solely on the combined figure. Switching the default would only change the ranking of \Cref{tab:headline-cross-model}, where \textit{YOLOv5s} and the off-the-shelf ensemble would exchange positions. The mixed default survived as a ranking instrument but failed as a description of real-world accuracy. The revision is carried out in further work (\Cref{sec:further_work}).
+--- final
+Two reporting rules mitigate the damage, but do not repair it. Each headline figure in this chapter appears with its real-only breakout beside it, so no cross-model claim rests on the mixed figure alone. Switching the default would only change the ranking of \Cref{tab:headline-cross-model}, where \textit{YOLOv5s} and the off-the-shelf ensemble would exchange positions. The mixed default survived as a ranking instrument but failed as a description of real-world accuracy. The revision is carried as further work (\Cref{sec:further_work}).
+--- verdict
+merged: restored "real-only breakout" and "mixed figure" (mandatory terms of art dropped in the rephrase), and restored "carried as further work" since the rephrase's "carried out in further work" implies the revision was completed, contradicting the preceding paragraph's "was not carried out". risk: high
+
+

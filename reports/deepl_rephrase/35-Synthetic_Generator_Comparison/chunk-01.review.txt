@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 35-Synthetic_Generator_Comparison.tex: 12 paragraphs -->
+
+#### P001  35-Synthetic_Generator_Comparison.tex:4  flags: cite-lowconf: \cite{hedrichGeneratingSyntheticDatasets2026} (0.44)
+## section: Comparing Synthetic-Image Generators
+--- original
+The synthetic imagery of \Cref{sec:synthetic_data_supplementation} came from a single generative model, chosen early on a visual comparison against a few alternatives. That choice is load-bearing. If a cheaper or free model would have served as well, or if apparent realism does not translate into detection accuracy, the conclusions of the synthetic-data experiments change. The second possibility is not hypothetical. Earlier work by the present author found that generated image context conferred no downstream advantage over random noise on a small-object car-detection task \cite{hedrichGeneratingSyntheticDatasets2026}. This section describes the controlled comparison built to test it: what was compared, how it was made fair, and how the generators were judged.
+--- rephrased
+The synthetic imagery of \Cref{sec:synthetic_data_supplementation} originated from a single generative model that was selected through a visual comparison with a few alternatives early on. This choice is critical. If a cheaper or free model would have served just as well, or if apparent realism does not translate into detection accuracy, then the conclusions of the synthetic-data experiments would change. The second possibility is not hypothetical. Previous research by the author of this paper found that generated image context did not provide a significant advantage over random noise in a small-object car detection task \cite{hedrichGeneratingSyntheticDatasets2026}. This section describes the controlled comparison built to test this finding: what was compared, how it was made fair, and how the generators were judged.
+--- final
+The synthetic imagery of \Cref{sec:synthetic_data_supplementation} originated from a single generative model that was selected through a visual comparison with a few alternatives early on. This choice is critical. If a cheaper or free model would have served just as well, or if apparent realism does not translate into detection accuracy, then the conclusions of the synthetic-data experiments would change. The second possibility is not hypothetical. Earlier work by the present author found that generated image context conferred no downstream advantage over random noise on a small-object car-detection task \cite{hedrichGeneratingSyntheticDatasets2026}. This section describes the controlled comparison built to test this finding: what was compared, how it was made fair, and how the generators were judged.
+--- verdict
+merged: kept original citation sentence (rephrase weakened "no advantage" to "not significant advantage" and used "author of this paper" for the self-reference), restored the car-detection hyphen, rest rephrased. risk: high
+
+
+#### P002  35-Synthetic_Generator_Comparison.tex:9  flags: wrap-case: "Useful" -> "useful"
+## section: Motivation and Scoped Research Question
+--- original
+The work's question about synthetic data is whether current image-generation models can produce training data useful for wildlife detection, particularly for long-tail species. \enquote{Useful} has meaning only against alternatives, and a single-model study cannot separate a property of synthetic data from a property of one vendor's model. The scoped, secondary question is therefore:
+--- rephrased
+The question this study addresses regarding synthetic data is whether current image-generation models can produce training data that is useful for detecting wildlife, especially long-tail species. The term \enquote{Useful} is meaningful only in relation to other options, and a study using a single model cannot distinguish a property of synthetic data from a property of a specific vendor's model. The scoped, secondary question is therefore:
+--- final
+The work's question about synthetic data is whether current image-generation models can produce training data useful for wildlife detection, particularly for long-tail species. The term \enquote{Useful} is meaningful only in relation to other options, and a study using a single model cannot distinguish a property of synthetic data from a property of a specific vendor's model. The scoped, secondary question is therefore:
+--- verdict
+merged: kept original s1 self-reference ("the work" rather than DeepL's "this study"), rest rephrased. risk: medium
+
+
+#### P003  35-Synthetic_Generator_Comparison.tex:12  flags: -
+## section: Motivation and Scoped Research Question
+--- original
+On a purposively chosen subset of classes, how do synthetic images from different generators (proprietary API services and locally-run open-weight models) compare, both under a structured qualitative rubric and under downstream detection accuracy measured on real photographs, and does the resulting ranking justify the production choice?
+--- rephrased
+For a subset of classes chosen for this purpose, how do synthetic images from different generators (proprietary API services and locally run open-weight models) compare? This comparison should be made using both a structured qualitative rubric and downstream detection accuracy measured on real photographs. Does the resulting ranking justify the production choice?
+--- final
+
+--- verdict
+original: rephrasing turned the single research-question sentence into a declarative middle sentence and dropped the locally-run hyphen. risk: medium
+
+
+#### P004  35-Synthetic_Generator_Comparison.tex:15  flags: -
+## section: Motivation and Scoped Research Question
+--- original
+The production run had already consumed most of the synthetic-image budget, so regenerating the full dataset per candidate was never an option. The comparison runs on a reduced class set at a modest per-class image count.
+--- rephrased
+Most of the synthetic-image budget had already been consumed by the production run, so regenerating the full dataset per candidate was never an option. Instead, the comparison runs on a reduced class set with a modest number of images per class.
+--- final
+Most of the synthetic-image budget had already been consumed by the production run, so regenerating the full dataset per candidate was never an option. Instead, the comparison runs on a reduced class set with a modest number of images per class.
+--- verdict
+rephrased: same meaning, cleaner voice. risk: low
+
+
+#### P005  35-Synthetic_Generator_Comparison.tex:20  flags: -
+## section: Experimental Design and Fixed Controls
+--- original
+The design is a single-factor experiment with one deliberate secondary factor. The class set, images per class, annotation procedure, detector and hyperparameters, augmentation policy and real test set are fixed, so any difference in outcome belongs to the generator.
+--- rephrased
+The design is a single-factor experiment with one secondary factor that was deliberately introduced. The class set, number of images per class, annotation procedure, detector, hyperparameters, augmentation policy, and real test set are fixed. Therefore, any difference in outcome belongs to the generator.
+--- final
+The design is a single-factor experiment with one secondary factor that was deliberately introduced. The class set, number of images per class, annotation procedure, detector, hyperparameters, augmentation policy, and real test set are fixed. Therefore, any difference in outcome belongs to the generator.
+--- verdict
+rephrased: serial-comma list is clearer, same fixed factors, no meaning change. risk: medium
+
+
+#### P006  35-Synthetic_Generator_Comparison.tex:44  flags: -
+## section: Experimental Design and Fixed Controls
+--- original
+\Cref{tab:generator-comparison-factors} lists the two varying factors. The prompt regime is a factor rather than an implementation detail because the candidates differ by orders of magnitude in how much text they can read, so a fixed prompt is not fixed conditioning.
+--- rephrased
+\Cref{tab:generator-comparison-factors} lists the two varying factors. The prompt regime is a factor rather than an implementation detail because candidates differ by orders of magnitude in how much text they can read. Therefore, a fixed prompt does not provide fixed conditioning.
+--- final
+\Cref{tab:generator-comparison-factors} lists the two varying factors. The prompt regime is a factor rather than an implementation detail because candidates differ by orders of magnitude in how much text they can read. Therefore, a fixed prompt does not provide fixed conditioning.
+--- verdict
+rephrased: sentence split only, same claim about the prompt regime. risk: medium
+
+
+#### P007  35-Synthetic_Generator_Comparison.tex:60  flags: bare-number
+## section: Experimental Design and Fixed Controls
+--- original
+Each cell comprises $12$ classes $\times\ 100$ images $= 1{,}200$ synthetic training images, a count fixed in advance and applied uniformly. Conditioning is zero-shot throughout, since reference images for some models only would confound prior knowledge with few-shot assistance.
+--- rephrased
+Each cell comprises $12$ $\times\ 100$ class images and 12 $= 1{,}200$ synthetic training images. This count is fixed in advance and applied uniformly. Conditioning is zero-shot throughout since using reference images for some models would confuse prior knowledge with few-shot assistance.
+--- final
+
+--- verdict
+original: rephrased math ($12$ $\times\ 100$ class images and 12 $= 1{,}200$) is garbled, and it dropped "only" and weakened "confound" to "confuse". risk: high
+
+
+#### P008  35-Synthetic_Generator_Comparison.tex:65  flags: semicolon
+## section: Class-Subset Selection
+--- original
+The subset must expose three phenomena: long-tail species under-represented in the generators' pretraining data, classes with enough real test images to separate a difference from noise, and near-identical species that test fine-grained markers. The rarest species also have the fewest real test images, so the subset covers all three as a set rather than in every class.
+--- rephrased
+The subset must demonstrate three phenomena: long-tail species that are underrepresented in the generators' pretraining data; classes with sufficient real test images to distinguish differences from noise; and nearly identical species that test fine-grained markers. Since the rarest species have the fewest real test images, the subset covers all three phenomena as a whole rather than in every class.
+--- final
+
+--- verdict
+original: rephrase introduced semicolons into the list, a house-style violation. risk: medium
+
+
+#### P009  35-Synthetic_Generator_Comparison.tex:67  flags: -
+## section: Class-Subset Selection
+--- original
+\Cref{tab:generator-comparison-classes} lists the resulting $12$ classes. The rarity proxy is the per-species GBIF count, which caps near $300$ and is evidence of scarcity only at its low end (\Cref{sec:target_class_definition}).
+--- rephrased
+\Cref{tab:generator-comparison-classes} lists the $12$ resulting classes. The rarity proxy is the GBIF count per species, which caps at around $300$. This count is only evidence of scarcity at its low end (\Cref{sec:target_class_definition}).
+--- final
+\Cref{tab:generator-comparison-classes} lists the $12$ resulting classes. The rarity proxy is the GBIF count per species, which caps at around $300$. This count is only evidence of scarcity at its low end (\Cref{sec:target_class_definition}).
+--- verdict
+rephrased: numbers and the "only" hedge preserved, cleaner split. risk: high
+
+
+#### P010  35-Synthetic_Generator_Comparison.tex:95  flags: -
+## section: Class-Subset Selection
+--- original
+The look-alikes differ only in stripe geometry, shown on real photographs in \Cref{fig:zebra-species}, and the last three rare classes are test-limited.
+--- rephrased
+The look-alikes differ only in their stripe geometry, as shown in the real photographs of the \Cref{fig:zebra-species}. The last three rare classes are limited by testing.
+--- final
+
+--- verdict
+original: rephrase replaced "test-limited" with the vaguer "limited by testing" and mis-wrapped the Cref ("photographs of the Figure"). risk: medium
+
+
+#### P011  35-Synthetic_Generator_Comparison.tex:97  flags: -
+## section: Class-Subset Selection
+--- original
+Because this experiment never trains on real images, the photographs the production split reserves for training and validation are idle here and were folded into the test set, giving $9{,}742$ real images and much more power on the anchors. One consequence follows. The production split assigns training images greedily by quality score, so the enlarged set skews toward higher quality than a random sample. This does not bias the comparison, since every generator is scored on the identical set, but the set is specific to this sub-study and is not the project's general benchmark.
+--- rephrased
+Since this experiment does not use real images for training, the photographs that were set aside for training and validation are not used here. They were added to the test set, which now has $9{,}742$ real images. This gives the anchors much more power. One consequence follows. The production split allocates training images based on quality score, so the expanded set leans toward higher quality than a random sample. However, this does not bias the comparison since every generator is scored on the same set. Still, the set is specific to this sub-study and is not the project's general benchmark.
+--- final
+Since this experiment does not use real images for training, the photographs that were set aside for training and validation are not used here. They were added to the test set, which now has $9{,}742$ real images. This gives the anchors much more power. One consequence follows. The production split allocates training images greedily by quality score, so the expanded set leans toward higher quality than a random sample. However, this does not bias the comparison since every generator is scored on the same set. Still, the set is specific to this sub-study and is not the project's general benchmark.
+--- verdict
+merged: kept "greedily" (dropped by the rephrase, describes the allocation algorithm), rest rephrased. risk: high
+
+
+#### P012  35-Synthetic_Generator_Comparison.tex:102  flags: -
+## section: Generator Roster
+--- original
+Candidates came from two tiers: proprietary services billed per image, and open-weight models run locally at the cost of GPU time. \Cref{tab:generator-api-roster} lists the API tier and \Cref{tab:generator-local-roster} the local tier.
+--- rephrased
+The candidates came from two tiers: proprietary services, which are billed per image, and open-weight models, which are run locally at the cost of GPU time. \Cref{tab:generator-api-roster} lists the API tier, while \Cref{tab:generator-local-roster} lists the local tier.
+--- final
+The candidates came from two tiers: proprietary services, which are billed per image, and open-weight models, which are run locally at the cost of GPU time. \Cref{tab:generator-api-roster} lists the API tier, while \Cref{tab:generator-local-roster} lists the local tier.
+--- verdict
+rephrased: added relative clauses only, same claim. risk: low
+
+
