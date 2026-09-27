@@ -93,3 +93,9 @@ torchvision = [
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
+# Tests that hit a real third-party API (quota, credentials, network) are opt-in:
+# `-m live` selects them, the default run skips them.
+addopts = "-m 'not live'"
+markers = [
+    "live: requires live API credentials and consumes third-party quota",
+]
