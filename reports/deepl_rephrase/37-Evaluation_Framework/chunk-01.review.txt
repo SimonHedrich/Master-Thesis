@@ -1,0 +1,272 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 37-Evaluation_Framework.tex: 12 paragraphs -->
+
+#### P001  37-Evaluation_Framework.tex:4  flags: -
+## section: Evaluation Framework
+--- original
+Every model trained in \Cref{sec:model_training_experiment_tracking} is scored on one fixed instrument, and this section defines it. Two properties of this dataset make a single mean-average-precision figure insufficient on its own. Several classes are barely separable in a still frame, so a species-level slip and a wholly unrelated call are errors of very different severity that one number cannot distinguish. And the dataset ships two test domains rather than one, a real held-out set that is uneven across classes and a class-balanced synthetic set, which an aggregate figure silently blends. The literature surveyed in \Cref{sec:lit_evaluation_metrics} supplies the baseline instrument and the diagnostic vocabulary. What it does not supply, as \Cref{sec:lit_real_synthetic_evaluation} states, is a precedent for the headline condition adopted here, which is therefore argued for directly in \Cref{sec:mixed_default}.
+--- rephrased
+Each model trained in \Cref{sec:model_training_experiment_tracking} is scored using one fixed instrument, which is defined in this section. However, two properties of this dataset make a single mean average precision figure insufficient on its own. First, several classes are barely separable in a still frame. Thus, a species-level misclassification and an entirely unrelated call are errors of very different severity that cannot be distinguished by a single number. Additionally, the dataset provides two test domains rather than one: a real, held-out set that is uneven across classes and a class-balanced, synthetic set. An aggregate figure silently blends these two domains. The literature surveyed in \Cref{sec:lit_evaluation_metrics} provides the baseline instrument and diagnostic vocabulary. However, as \Cref{sec:lit_real_synthetic_evaluation} states, it does not provide a precedent for the headline condition adopted here. Therefore, it is argued for directly in \Cref{sec:mixed_default}.
+--- final
+Each model trained in \Cref{sec:model_training_experiment_tracking} is scored using one fixed instrument, which is defined in this section. However, two properties of this dataset make a single mean average precision figure insufficient on its own. First, several classes are barely separable in a still frame. Thus, a species-level misclassification and an entirely unrelated call are errors of very different severity that cannot be distinguished by a single number. Additionally, the dataset provides two test domains rather than one: a real, held-out set that is uneven across classes and a class-balanced, synthetic set. An aggregate figure silently blends these two domains. The literature surveyed in \Cref{sec:lit_evaluation_metrics} provides the baseline instrument and diagnostic vocabulary. However, as \Cref{sec:lit_real_synthetic_evaluation} states, it does not provide a precedent for the headline condition adopted here. Therefore, it is argued for directly in \Cref{sec:mixed_default}.
+--- verdict
+rephrased: restructured into shorter sentences, meaning and all hedges/scope conditions preserved. risk: medium
+
+
+#### P002  37-Evaluation_Framework.tex:9  flags: wrap-case: Test domain -> test domain, wrap-case: Training band -> training band, wrap-case: Metric vector -> metric vector, semicolon
+## section: Evaluation Axes
+--- original
+Four axes describe every number this work reports about detection accuracy. \textbf{Granularity} is the class resolution at which a detection is judged correct, at three levels. \texttt{detect} ignores the class entirely and asks only whether an animal was localized. \texttt{coarse} merges visually confusable classes into the groups of \Cref{sec:lookalike_groups}. \texttt{fine} is the full $225$-way judgment. \textbf{Test domain} is which held-out images the metric is computed over, either the mixed, real or synthetic test set of \Cref{sec:mixed_default}. \textbf{Training band} is the per-class property of how a class's training data was composed, Band A through Band D as defined in \Cref{sec:band_structure}. \textbf{Metric vector} is the COCO statistics themselves \cite{linMicrosoftCOCOCommon2015}.
+--- rephrased
+Four axes describe every number reported by this work about detection accuracy. \textbf{Granularity} is the class resolution at which a detection is judged correct. There are three levels: \texttt{detect}, which ignores the class entirely and asks only whether an animal was localized; \texttt{coarse}, which merges visually confusable classes into groups of \Cref{sec:lookalike_groups}; and \texttt{fine}, which is the full $225$-way judgment. The \textbf{Test domain} is the set of held-out images over which the metric is computed, either the mixed, real, or synthetic test set of \Cref{sec:mixed_default}. The \textbf{Training band} is the per-class property describing how a class's training data was composed. There are four training bands, Band A through Band D, as defined in \Cref{sec:band_structure}. The \textbf{Metric vector} is the COCO statistics themselves \cite{linMicrosoftCOCOCommon2015}.
+--- final
+Four axes describe every number this work reports about detection accuracy. \textbf{Granularity} is the class resolution at which a detection is judged correct, at three levels. \texttt{detect} ignores the class entirely and asks only whether an animal was localized. \texttt{coarse} merges visually confusable classes into the groups of \Cref{sec:lookalike_groups}. \texttt{fine} is the full $225$-way judgment. \textbf{Test domain} is which held-out images the metric is computed over, either the mixed, real or synthetic test set of \Cref{sec:mixed_default}. \textbf{Training band} is the per-class property of how a class's training data was composed, Band A through Band D as defined in \Cref{sec:band_structure}. \textbf{Metric vector} is the COCO statistics themselves \cite{linMicrosoftCOCOCommon2015}.
+--- verdict
+original: kept original, DeepL's granularity list used semicolons (dash/semicolon rule) and the training-band sentence invented an unstated count ("four training bands"). risk: high
+
+
+#### P003  37-Evaluation_Framework.tex:11  flags: semicolon
+## section: Evaluation Axes
+--- original
+Crossing all four naively produces $3 \times 3 \times 5 \times 12 = 540$ numbers, which is unreportable and mostly uninformative. The four axes do not play the same role. Band and test domain are the independent variables, since this work asks whether synthetic training data works and whether it transfers to real photographs, so crossing those two is the experiment. Granularity is an error decomposition rather than a fourth experiment, and the metric vector is a fixed instrument. That yields the organizing rule for \Cref{chapter:results}. One default cell carries the headline, every diagnostic varies exactly one axis away from it and reports mAP@[.5:.95] and mAP50, and the full twelve-statistic vector is filled only in the default cell and once per band. No figure crosses average recall or the object-size splits with band or granularity, since none would answer a question posed here.
+--- rephrased
+Naively crossing all four produces $3 \times 3 \times 5 \times 12 = 540$ numbers, which are unreportable and uninformative. The four axes do not play the same role. The band and test domain are the independent variables because this study examines the effectiveness of synthetic training data and its transferability to real photographs. Thus, crossing these two variables constitutes the experiment. Granularity is an error decomposition, not a fourth experiment, and the metric vector is a fixed instrument. This yields the organizing rule for \Cref{chapter:results}. One default cell carries the headline; every diagnostic varies by one axis from it and reports mAP@[.5:.95] and mAP50. The full twelve-statistic vector is only filled in the default cell and once per band. No figure crosses the average recall or object-size splits with the band or granularity since none would answer the posed question.
+--- final
+Crossing all four naively produces $3 \times 3 \times 5 \times 12 = 540$ numbers, which is unreportable and mostly uninformative. The four axes do not play the same role. Band and test domain are the independent variables, since this work asks whether synthetic training data works and whether it transfers to real photographs, so crossing those two is the experiment. Granularity is an error decomposition rather than a fourth experiment, and the metric vector is a fixed instrument. That yields the organizing rule for \Cref{chapter:results}. One default cell carries the headline, every diagnostic varies exactly one axis away from it and reports mAP@[.5:.95] and mAP50, and the full twelve-statistic vector is filled only in the default cell and once per band. No figure crosses average recall or the object-size splits with band or granularity, since none would answer a question posed here.
+--- verdict
+original: kept original, DeepL dropped the "mostly" hedge on "uninformative", used a semicolon, and swapped the self-reference "this work" for "this study". risk: high
+
+
+#### P004  37-Evaluation_Framework.tex:13  flags: -
+## section: Evaluation Axes
+--- original
+Treating granularity as a decomposition is what makes the ladder informative. The three levels are nested upper bounds, since a detection judged correct at the fine level is necessarily correct at the coarse and detection levels:
+--- rephrased
+Treating granularity as a decomposition is what makes the ladder informative. The three levels are nested upper bounds because a detection that is judged to be correct at the fine level is also correct at the coarse and detection levels.
+--- final
+Treating granularity as a decomposition is what makes the ladder informative. The three levels are nested upper bounds, since a detection judged correct at the fine level is necessarily correct at the coarse and detection levels:
+--- verdict
+original: kept original, DeepL dropped "necessarily" (the logical-entailment claim, not mere correlation) and replaced the trailing colon (which introduces the following equation) with a period. risk: high
+
+
+#### P005  37-Evaluation_Framework.tex:18  flags: -
+## section: Evaluation Axes
+--- original
+The quantities of interest are the two gaps in \Cref{eq:granularity-ladder}. $\Delta_{\text{coarse}}$ is the drop from detection to coarse classification, the cost of naming a group. $\Delta_{\text{fine}}$ is the drop from coarse to fine, the cost of naming the exact species within that group. A large $\Delta_{\text{fine}}$ beside a small $\Delta_{\text{coarse}}$ is the signature of the look-alike problem, and is the expected failure mode for this dataset. A large $\Delta_{\text{coarse}}$ instead means cross-group confusion, which is a genuine failure. A low $\mathrm{mAP}_{\text{detect}}$ means the detector cannot localize at all. One scorer produces all three levels by remapping class identifiers, and merged duplicates are charged as false positives, so a coarse figure is penalized rather than inflated.
+--- rephrased
+The quantities of interest are the two gaps in \Cref{eq:granularity-ladder}. $\Delta_{\text{coarse}}$ represents the cost of naming a group, or the drop from detection to coarse classification. $\Delta_{\text{fine}}$ is the drop from coarse to fine classification, or the cost of naming the exact species within that group. The look-alike problem is indicated by a large $\Delta_{\text{fine}}$ alongside a small $\Delta_{\text{coarse}}$, which is the expected failure mode for this dataset. A large $\Delta_{\text{coarse}}$, on the other hand, means cross-group confusion, which is a genuine failure. A low $\mathrm{mAP}_{\text{detect}}$ value indicates that the detector cannot localize at all. One scorer produces all three levels by remapping class identifiers. Merged duplicates are charged as false positives, so the coarse figure is penalized rather than inflated.
+--- final
+The quantities of interest are the two gaps in \Cref{eq:granularity-ladder}. $\Delta_{\text{coarse}}$ represents the cost of naming a group, or the drop from detection to coarse classification. $\Delta_{\text{fine}}$ is the drop from coarse to fine classification, or the cost of naming the exact species within that group. The look-alike problem is indicated by a large $\Delta_{\text{fine}}$ alongside a small $\Delta_{\text{coarse}}$, which is the expected failure mode for this dataset. A large $\Delta_{\text{coarse}}$, on the other hand, means cross-group confusion, which is a genuine failure. A low $\mathrm{mAP}_{\text{detect}}$ value indicates that the detector cannot localize at all. One scorer produces all three levels by remapping class identifiers. Merged duplicates are charged as false positives, so the coarse figure is penalized rather than inflated.
+--- verdict
+rephrased: reordering and sentence splits preserve meaning, all math tokens and the look-alike term intact. risk: high
+
+
+#### P006  37-Evaluation_Framework.tex:23  flags: -
+## section: The Mixed Real+Synthetic Default
+--- original
+Three test domains are distinguished throughout this work, and the reporting rules below depend on telling them apart. The \textbf{real test set} is the held-out real photographs, uneven across classes by construction. The \textbf{synthetic test set} is the balanced $225 \times 50$ held-out set of \Cref{sec:synthetic_test_set}. The \textbf{mixed test set} is the union of the two, scored together as a single set, not averaged after the fact. The default cell carrying the headline is fine granularity on the mixed test set over all bands, reported with the full twelve-statistic vector.
+--- rephrased
+Throughout this work, three test domains are distinguished, and the reporting rules below depend on distinguishing them. The \textbf{real test set} comprises held-out real photographs that are uneven across classes by design. The \textbf{synthetic test set} is the balanced, held-out \Cref{sec:synthetic_test_set} set of $225 \times 50$. The \textbf{mixed test set} is the union of the two sets, which are scored together as a single set and are not averaged after the fact. The default cell carrying the headline provides fine-grained results on the mixed test set across all bands and is reported with the full twelve-statistic vector.
+--- final
+Three test domains are distinguished throughout this work, and the reporting rules below depend on telling them apart. The \textbf{real test set} is the held-out real photographs, uneven across classes by construction. The \textbf{synthetic test set} is the balanced $225 \times 50$ held-out set of \Cref{sec:synthetic_test_set}. The \textbf{mixed test set} is the union of the two, scored together as a single set, not averaged after the fact. The default cell carrying the headline is fine granularity on the mixed test set over all bands, reported with the full twelve-statistic vector.
+--- verdict
+original: kept original, DeepL garbled the \Cref placement in the synthetic-test-set sentence, changed "by construction" to "by design", and replaced the defined granularity value "fine" with "fine-grained results". risk: high
+
+
+#### P007  37-Evaluation_Framework.tex:25  flags: -
+## section: The Mixed Real+Synthetic Default
+--- original
+Three reasons support that default. The fixed $50$ synthetic images per class give every class a consistent, controlled probe. That matters most for the Band A classes, which hold as few as five to thirty real test images and whose real-only accuracy is otherwise dominated by a handful of hard frames. For a Band D class with up to $500$ real test images, the same $50$ images are a small, constant addition. And the mixed set always contains the real evidence, so no model in this work is ever judged on synthetic images alone.
+--- rephrased
+There are three reasons that support the default. First, the fixed $50$ synthetic images per class provide a consistent and controlled probe for each class. This is most important for Band A classes, which have as few as five to thirty real test images, and whose accuracy is otherwise dominated by a few difficult frames. For a Band D class with up to $500$ real test images, the same $50$ images provide a small, consistent addition. Additionally, the mixed set always contains real evidence, ensuring that no model in this study is ever evaluated based solely on synthetic images.
+--- final
+There are three reasons that support the default. First, the fixed $50$ synthetic images per class provide a consistent and controlled probe for each class. This matters most for Band A classes, which have as few as five to thirty real test images and whose real-only accuracy is otherwise dominated by a handful of hard frames. For a Band D class with up to $500$ real test images, the same $50$ images provide a small, constant addition. And the mixed set always contains the real evidence, so no model in this work is ever judged on synthetic images alone.
+--- verdict
+merged: kept DeepL's sentence rewording but restored the dropped "real-only" qualifier on accuracy and the self-reference "this work". risk: high
+
+
+#### P008  37-Evaluation_Framework.tex:27  flags: -
+## section: The Mixed Real+Synthetic Default
+--- original
+Because the synthetic contribution is fixed while the real contribution varies by two orders of magnitude, the synthetic share of a class's score is inversely related to how much real data that class has. It is dominant for a thin Band A class and marginal for Band D. The real and synthetic test-image counts are therefore reported per class alongside the headline, and a synthetically trained class is partly scored on its own training domain under the mixed condition, a caveat \Cref{sec:results_band_granularity} states in full.
+--- rephrased
+Since the synthetic contribution is fixed and the real contribution varies by two orders of magnitude, the synthetic share of a class's score is inversely related to the amount of real data that class has. It is dominant for a Band A class and marginal for a Band D class.
+The real and synthetic test-image counts are reported per class alongside the headline. A synthetically trained class is partly scored on its own training domain under the mixed condition. This is a caveat that \Cref{sec:results_band_granularity} states in full.
+--- final
+Because the synthetic contribution is fixed while the real contribution varies by two orders of magnitude, the synthetic share of a class's score is inversely related to how much real data that class has. It is dominant for a thin Band A class and marginal for Band D. The real and synthetic test-image counts are therefore reported per class alongside the headline. A synthetically trained class is partly scored on its own training domain under the mixed condition, a caveat \Cref{sec:results_band_granularity} states in full.
+--- verdict
+merged: kept DeepL's sentence split but restored "thin" (dropped Band A descriptor) and "therefore" (dropped causal link), and closed the stray line break in the rephrased text. risk: high
+
+
+#### P009  37-Evaluation_Framework.tex:29  flags: -
+## section: The Mixed Real+Synthetic Default
+--- original
+Two reporting rules follow, and both hold without exception. First, the real-only breakout is reported alongside the mixed headline every time. It is the primary-evaluation figure and the only number in this work comparable to a published real-image benchmark, and reporting it beside the headline is what prevents the synthetic component from quietly inflating a result. Second, the paired per-class difference between real and synthetic accuracy is monitored as a standing watchdog. Should that difference show the synthetic component systematically inflating or deflating the mixed figure, the default axes are to be revised. The likely revision is to make the real test set the default again and retain the mixed figure as secondary. \Cref{sec:results_domain_shift} states whether that trigger fired.
+--- rephrased
+There are two reporting rules, both of which hold without exception. First, the real-only breakout is reported alongside the mixed headline every time. This figure is used for primary evaluation and is the only number in this work that can be compared to a published real-image benchmark. Reporting it alongside the headline prevents the synthetic component from inflating a result unnoticed. Second, the difference in accuracy between real and synthetic is monitored as a standing watchdog. If that difference shows that the synthetic component is systematically inflating or deflating the mixed figure, the default axes should be revised. The likely revision would be to set the real test as the default again and keep the mixed figure as secondary. \Cref{sec:results_domain_shift} indicates whether that trigger was activated.
+--- final
+Two reporting rules follow, and both hold without exception. First, the real-only breakout is reported alongside the mixed headline every time. It is the primary-evaluation figure and the only number in this work comparable to a published real-image benchmark, and reporting it beside the headline is what prevents the synthetic component from quietly inflating a result. Second, the paired per-class difference between real and synthetic accuracy is monitored as a standing watchdog. Should that difference show the synthetic component systematically inflating or deflating the mixed figure, the default axes are to be revised. The likely revision is to make the real test set the default again and retain the mixed figure as secondary. \Cref{sec:results_domain_shift} states whether that trigger fired.
+--- verdict
+original: kept original, DeepL dropped the defined term "primary-evaluation figure", the methodological qualifier "paired per-class", and shortened "real test set" to "real test". risk: high
+
+
+#### P010  37-Evaluation_Framework.tex:31  flags: -
+## section: The Mixed Real+Synthetic Default
+--- original
+No comparison outside this work should read a $225$-class fine-grained wildlife mAP as equivalent to a published $80$-class COCO figure. The class count is larger and many of the classes are near-duplicates, so a lower fine-grained figure is expected and is not evidence of a weaker detector. The closest honest analog to a generic benchmark is the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which measures localization independently of the taxonomy. All figures use COCO-standard settings, averaging over IoU thresholds from $0.5$ to $0.95$ with at most $100$ detections per image.
+--- rephrased
+Outside of this work, no comparison should equate a $225$-class fine-grained wildlife mAP to a published $80$-class COCO figure. The class count is larger, and many classes are nearly identical, so a lower fine-grained figure is expected. This is not evidence of a weaker detector. The closest analog to a generic benchmark is the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which measures localization independently of the taxonomy. All figures use COCO-standard settings and average over IoU thresholds ranging from $0.5$ to $0.95$, with a maximum of $100$ detections per image.
+--- final
+No comparison outside this work should read a $225$-class fine-grained wildlife mAP as equivalent to a published $80$-class COCO figure. The class count is larger, and many of the classes are near-duplicates, so a lower fine-grained figure is expected. This is not evidence of a weaker detector. The closest honest analog to a generic benchmark is the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which measures localization independently of the taxonomy. All figures use COCO-standard settings and average over IoU thresholds ranging from $0.5$ to $0.95$, with a maximum of $100$ detections per image.
+--- verdict
+merged: kept DeepL's sentence split and rewording, restored "near-duplicates" (DeepL's "nearly identical" overstates the similarity) and the "honest" qualifier on the analog. risk: high
+
+
+#### P011  37-Evaluation_Framework.tex:36  flags: cite-moved: \textcite{hoiemDiagnosingErrorObject2012}, cite-subject
+## section: Look-Alike Groups and Coarse Evaluation
+--- original
+Coarse granularity needs a fixed table mapping each of the $225$ classes to a group. Grouping classes by the confusions a trained model makes is rejected outright, because a grouping derived from the model under evaluation is circular, and hand-listing the notorious look-alikes is subjective. A rollup to genus is reproducible and fixed before any model runs, so that taxonomic rollup is the backbone, corrected by a small documented override list. The construction follows the a-priori grouping principle of \textcite{hoiemDiagnosingErrorObject2012}, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity.
+--- rephrased
+Coarse granularity requires a fixed table that maps each of the $225$ classes to a group. Grouping classes based on the mistakes a trained model makes is rejected outright because it is circular to derive a grouping from the model under evaluation. Hand-listing notorious look-alikes is also subjective. The taxonomic rollup to genus is reproducible and fixed before any model runs. It is the backbone corrected by a small, documented override list. This construction follows the a priori grouping principle, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity \textcite{hoiemDiagnosingErrorObject2012}.
+--- final
+Coarse granularity requires a fixed table that maps each of the $225$ classes to a group. Grouping classes by the confusions a trained model makes is rejected outright because a grouping derived from the model under evaluation is circular. Hand-listing notorious look-alikes is also subjective. The taxonomic rollup to genus is reproducible and fixed before any model runs. It is the backbone, corrected by a small, documented override list. This construction follows the a-priori grouping principle \cite{hoiemDiagnosingErrorObject2012}, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity.
+--- verdict
+merged: kept DeepL's sentence splits but replaced \textcite (forbidden regardless of position) with \cite hung at the end of the sentence stating the claim, fixing cite-subject. risk: high
+
+
+#### P012  37-Evaluation_Framework.tex:38  flags: format-lost: $8$
+## section: Look-Alike Groups and Coarse Evaluation
+--- original
+The criterion is a judgment about what counts as a failure, not a technical rule. Two classes are merged when confusing them in a single still frame is a forgivable error, which belongs in $\Delta_{\text{fine}}$, and kept apart when confusing them is a real failure, which must surface in $\Delta_{\text{coarse}}$. Leopard and jaguar are therefore merged, since separating them from one still image is a specialist task. Lion and tiger are held in separate single-member groups despite sharing a genus. Where a case is uncertain the default is not to merge, since an unjustified merge silently forgives a real error. The resulting table holds $174$ groups, $30$ of them with more than one member, and $8$ overrides.  % reports/lookalike_groups_v2.csv
+--- rephrased
+The criterion is a judgment about what constitutes a failure, not a technical rule. Two classes are merged when confusing them in a single still frame is a forgivable error and belongs in $\Delta_{\text{fine}}$. They are kept apart when confusing them is a real failure and must surface in $\Delta_{\text{coarse}}$. Leopards and jaguars are therefore grouped together since distinguishing them in a single image requires expertise. However, lion and tiger are held in separate, single-member groups, even though they share a genus. In cases of uncertainty, the default is to not merge, since an unjustified merge silently forgives a real error. The resulting table contains $174$ groups, $30$ of which have more than one member, and eight overrides.  % reports/lookalike_groups_v2.csv
+--- final
+The criterion is a judgment about what counts as a failure, not a technical rule. Two classes are merged when confusing them in a single still frame is a forgivable error and belongs in $\Delta_{\text{fine}}$. They are kept apart when confusing them is a real failure and must surface in $\Delta_{\text{coarse}}$. Leopard and jaguar are therefore merged, since distinguishing them in a single image requires expertise. Lion and tiger are held in separate, single-member groups despite sharing a genus. In cases of uncertainty, the default is not to merge, since an unjustified merge silently forgives a real error. The resulting table holds $174$ groups, $30$ of them with more than one member, and $8$ overrides.  % reports/lookalike_groups_v2.csv
+--- verdict
+merged: kept DeepL's sentence splits but restored the math-mode $8$ (format-lost flag) and singular "Leopard and jaguar are ... merged" to match the "Lion and tiger" pattern and the "merged" terminology used elsewhere. risk: high
+
+

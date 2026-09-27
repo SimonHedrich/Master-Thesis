@@ -1,0 +1,175 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 36-Model_Training_and_Experiment_Tracking.tex: 4 paragraphs -->
+
+#### P013  36-Model_Training_and_Experiment_Tracking.tex:64  flags: -
+## section: Knowledge Distillation Loss
+--- original
+where $\mathbf{p}$ is the image's cached teacher distribution and $\tau_T$ applies temperature $T$. Background anchors, and images with no cached teacher entry, keep the assigner's own targets. The defaults are $T = 4$ and $\alpha = 0.5$, and the blend is applied to the one-to-one head the architecture uses at inference, not to its auxiliary head.
+--- rephrased
+Where $\mathbf{p}$ is the cached teacher distribution of the image and $\tau_T$ applies the temperature to $T$. Background anchors and images without a cached teacher entry keep the assigner's own targets. The defaults are $T = 4$ and $\alpha = 0.5$. The blend is applied to the one-to-one head that the architecture uses for inference, not its auxiliary head.
+--- final
+where $\mathbf{p}$ is the image's cached teacher distribution and $\tau_T$ applies temperature $T$. Background anchors and images without a cached teacher entry keep the assigner's own targets. The defaults are $T = 4$ and $\alpha = 0.5$. The blend is applied to the one-to-one head that the architecture uses for inference, not its auxiliary head.
+--- verdict
+merged: kept original s1 (rephrase reversed "applies temperature $T$" to "applies the temperature to $T$", a meaning flip, and dropped the lowercase equation-continuation "where"); kept rephrased s2-s3. risk: high
+
+
+#### P014  36-Model_Training_and_Experiment_Tracking.tex:66  flags: -
+## section: Knowledge Distillation Loss
+--- original
+Two approximations in \Cref{eq:kd-blend} are worth stating, because both weaken the teacher signal relative to the textbook formulation. The cache stores probabilities rather than logits, so temperature cannot be applied before the softmax. It is applied instead as a renormalization on the simplex, $\tau_T(\mathbf{p})_c \propto p_c^{1/T}$, which is exact only at $T = 1$ and otherwise approximates the intended softening. And because the teacher distribution is per-image while the blend is per-anchor, one vector is broadcast across all of an image's foreground anchors, which is correct for a single-animal image and a simplification for any other. Box regression receives no distillation signal at all, since the teacher's suppressed output and the student's anchor-free head share no box-distribution representation to align.
+--- rephrased
+There are two approximations in \Cref{eq:kd-blend} that are worth mentioning because they both weaken the teacher signal relative to the textbook formulation. First, the cache stores probabilities rather than logits, so temperature cannot be applied before the softmax. Instead, it is applied as a renormalization on the simplex $\tau_T(\mathbf{p})_c \propto p_c^{1/T}$, which is exact only at $T = 1$. Otherwise, it approximates the intended softening. Because the teacher distribution is per-image and the blend is per-anchor, one vector is broadcast across all of an image's foreground anchors. This is correct for a single-animal image but a simplification for any other image. Box regression receives no distillation signal, as the teacher's suppressed output and the student's anchor-free head have no shared box-distribution representation.
+--- final
+There are two approximations in \Cref{eq:kd-blend} that are worth mentioning because they both weaken the teacher signal relative to the textbook formulation. First, the cache stores probabilities rather than logits, so temperature cannot be applied before the softmax. Instead, it is applied as a renormalization on the simplex $\tau_T(\mathbf{p})_c \propto p_c^{1/T}$, which is exact only at $T = 1$. Otherwise, it approximates the intended softening. Because the teacher distribution is per-image and the blend is per-anchor, one vector is broadcast across all of an image's foreground anchors. This is correct for a single-animal image but a simplification for any other image. Box regression receives no distillation signal, as the teacher's suppressed output and the student's anchor-free head have no shared box-distribution representation.
+--- verdict
+rephrased: accepted as is, meaning and math spans preserved, no hedges lost. risk: high
+
+
+#### P015  36-Model_Training_and_Experiment_Tracking.tex:68  flags: cite-lowconf: \cite{mirzadehImprovedKnowledgeDistillation2020} (0.36)
+## section: Knowledge Distillation Loss
+--- original
+The capacity gap between the two models bounds what this design can be expected to achieve. At a parameter ratio of roughly $70$ to $1$, it sits far outside the ratios the distillation literature treats as empirically safe, and negative transfer under such a gap is a documented failure mode and not a remote possibility \cite{mirzadehImprovedKnowledgeDistillation2020}. A distilled student that fails to beat its directly fine-tuned counterpart is nonetheless treated in \Cref{sec:results_kd_basic_comparison} as a result to report rather than a defect to debug away.
+--- rephrased
+The capacity gap between the two models determines what this design can achieve. With a parameter ratio of about $70$ to $1$, the design falls well outside the ratios that the distillation literature considers safe. Negative transfer under such a gap is a well-documented failure mode, not a remote possibility \cite{mirzadehImprovedKnowledgeDistillation2020}. In \Cref{sec:results_kd_basic_comparison}, a distilled student that fails to outperform its directly fine-tuned counterpart is treated as a result to report rather than a defect to debug.
+--- final
+
+--- verdict
+original: kept original throughout, rephrase dropped the hedge "can be expected to achieve" (-> "can achieve") and the scope qualifier "empirically safe" (-> "considers safe"); citation placement on the negative-transfer claim is unchanged and correct. risk: high
+
+
+#### P016  36-Model_Training_and_Experiment_Tracking.tex:73  flags: semicolon, rather-than
+## section: Experiment Tracking
+--- original
+Every run logs its complete configuration to a self-hosted tracking server, together with the commit hash, the device and the realized split sizes, so a finished run is reconstructable from the record and not from the working tree. \Cref{sec:appendix_experiment_tracking} gives the setup and the on-disk run layout. Reproducibility rests on a single seed, fixed at $42$, which seeds the Python, NumPy and Torch generators, selects deterministic convolution algorithms, reaches each dataloader worker, and is reused for the evaluation subsampling and the bootstrap resampling of \Cref{sec:evaluation_framework}. What it does not fix is arithmetic. Two runs at different batch sizes or on different devices are not bit-identical, so the seed buys a comparable sample and not a reproducible float, which is the level every comparison in \Cref{chapter:results} relies on.
+--- rephrased
+Every run logs its complete configuration, together with the commit hash, device, and realized split sizes, to a self-hosted tracking server. This allows a finished run to be reconstructed from the record rather than the working tree. \Cref{sec:appendix_experiment_tracking} provides the setup and the on-disk run layout. Reproducibility relies on a single fixed seed of $42$, which is used to seed the Python, NumPy, and Torch generators; select deterministic convolution algorithms; reach each data loader worker; and evaluate subsampling and bootstrap resampling for \Cref{sec:evaluation_framework}. However, it does not fix arithmetic. Two runs with different batch sizes or on different devices are not bit-identical. Thus, the seed provides a comparable sample, not a reproducible float. Every comparison in \Cref{chapter:results} relies on this level.
+--- final
+Every run logs its complete configuration to a self-hosted tracking server, together with the commit hash, the device and the realized split sizes, so a finished run is reconstructable from the record and not from the working tree. \Cref{sec:appendix_experiment_tracking} gives the setup and the on-disk run layout. Reproducibility rests on a single seed, fixed at $42$, which seeds the Python, NumPy and Torch generators, selects deterministic convolution algorithms, reaches each dataloader worker, and is reused for the evaluation subsampling and the bootstrap resampling of \Cref{sec:evaluation_framework}. What it does not fix is arithmetic. Two runs with different batch sizes or on different devices are not bit-identical. Thus, the seed provides a comparable sample, not a reproducible float. Every comparison in \Cref{chapter:results} relies on this level.
+--- verdict
+merged: kept original s1 (rephrase added a new "rather than" tic) and the seed-list sentence as original (rephrase introduced semicolons in the verb list, a house-style violation); kept rephrased split for the final two sentences. risk: high
+
+

@@ -1,0 +1,187 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 37-Evaluation_Framework.tex: 5 paragraphs -->
+
+#### P013  37-Evaluation_Framework.tex:39  flags: -
+## section: Look-Alike Groups and Coarse Evaluation
+--- original
+It is frozen before the first evaluation runs, because a later change would invalidate every coarse figure already computed without raising a visible error. \Cref{sec:results_lookalike_confusion} checks it against the confusions the model actually makes, descriptively and never as an input.
+--- rephrased
+It is frozen before the first evaluation runs because a later change would invalidate all the preliminary figures that have already been computed without triggering an obvious error. \Cref{sec:results_lookalike_confusion} checks it against the actual confusions the model makes descriptively, not as an input.
+--- final
+It is frozen before the first evaluation runs because a later change would invalidate every coarse figure already computed without triggering an obvious error. \Cref{sec:results_lookalike_confusion} checks it against the actual confusions the model makes descriptively, not as an input.
+--- verdict
+merged: kept original's "coarse figure" (term tied to the coarse-to-fine evaluation, not "preliminary"), took DeepL's sentence wording otherwise. risk: medium
+
+
+#### P014  37-Evaluation_Framework.tex:44  flags: -
+## section: Metric Selection
+--- original
+The COCO twelve-statistic vector surveyed in \Cref{sec:lit_detection_metrics} is retained unchanged as the baseline instrument, because it is the bridge that keeps this work's numbers legible against published work. All scoring runs through one implementation, validated against the training loop's own evaluator, so a figure quoted from a training log and one quoted from an evaluation report are the same measurement.
+--- rephrased
+The COCO twelve-statistic vector, as surveyed in \Cref{sec:lit_detection_metrics}, is retained as the baseline instrument because it maintains the legibility of this work's numbers against those of published works. All scoring runs through one implementation and is validated against the training loop's evaluator. Therefore, a figure quoted from a training log is the same measurement as one quoted from an evaluation report.
+--- final
+The COCO twelve-statistic vector, as surveyed in \Cref{sec:lit_detection_metrics}, is retained unchanged as the baseline instrument because it maintains the legibility of this work's numbers against published work. All scoring runs through one implementation and is validated against the training loop's evaluator. Therefore, a figure quoted from a training log is the same measurement as one quoted from an evaluation report.
+--- verdict
+merged: restored "unchanged" dropped by DeepL (claim that the vector is kept exactly as is) and "published work", kept DeepL's split into three sentences. risk: medium
+
+
+#### P015  37-Evaluation_Framework.tex:46  flags: format-lost: $9$
+## section: Metric Selection
+--- original
+Four qualifications accompany every number. Macro averaging over classes stays primary, as the COCO standard and the class-imbalance-robust choice, with a count-weighted average reported as a sensitivity check, since the two can diverge on a test set this uneven. Bootstrap confidence intervals, resampling images with replacement, cover the headline figure and the band and domain differences, because the Band A and Band B test sets are small enough that a difference between two models may not be a difference at all. The $9$ classes holding fewer than $30$ real test images are flagged in every per-class table, and the headline is reported both with and without them.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/evaluation/evaluation_report.json
+--- rephrased
+Four qualifications accompany every number. Macro averaging over classes remains the primary method, as defined by the COCO standard and the class-imbalance-robust approach. A count-weighted average is reported as a sensitivity check since these two methods can diverge on such an uneven test set. Bootstrap confidence intervals cover the headline figure, band, and domain differences because the Band A and Band B test sets are small enough that a difference between two models may not actually exist. The nine classes with fewer than $30$ real test images are flagged in every per-class table, and the headline figure is reported with and without them.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/evaluation/evaluation_report.json
+--- final
+Four qualifications accompany every number. Macro averaging over classes remains the primary method, as defined by the COCO standard and the class-imbalance-robust approach. A count-weighted average is reported as a sensitivity check since these two methods can diverge on such an uneven test set. Bootstrap confidence intervals, resampling images with replacement, cover the headline figure and the band and domain differences, because the Band A and Band B test sets are small enough that a difference between two models may not actually exist. The $9$ classes with fewer than $30$ real test images are flagged in every per-class table, and the headline figure is reported with and without them.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/evaluation/evaluation_report.json
+--- verdict
+merged: restored "$9$" math mode (format-lost) and the dropped "resampling images with replacement" mechanism detail, kept DeepL's other wording. risk: high
+
+
+#### P016  37-Evaluation_Framework.tex:47  flags: -
+## section: Metric Selection
+--- original
+And a single fixed seed governs every sampled evaluation, so re-running the suite against a new checkpoint yields a comparable figure.
+--- rephrased
+A single fixed seed governs every sampled evaluation, so rerunning the suite against a new checkpoint yields a comparable result.
+--- final
+A single fixed seed governs every sampled evaluation, so rerunning the suite against a new checkpoint yields a comparable result.
+--- verdict
+rephrased: dropped leading "And" and "figure"->"result" are stylistic only, meaning unchanged. risk: low
+
+
+#### P017  37-Evaluation_Framework.tex:49  flags: -
+## section: Metric Selection
+--- original
+Two instruments complement the metric vector without extending it. The error-type decomposition anchored in \Cref{sec:lit_error_decomposition} partitions the detector's mistakes into classification, localization, duplicate, background and missed ground truth, and corroborates that a coarse-to-fine gap really is look-alike confusion rather than a hidden localization problem. The within-group confusion rate asks, of the detections that are correctly localized and in the right group, what fraction name the wrong species. Both feed the reporting structure that \Cref{sec:results_regime_comparison} follows: a headline table per model, three diagnostic tables, and the per-class and full-vector material emitted as appendix artifacts.
+--- rephrased
+Two instruments complement the metric vector without extending it. The \Cref{sec:lit_error_decomposition} error-type decomposition partitions the detector's mistakes into five categories: classification, localization, duplicate, background, and missed ground truth. This corroborates the idea that a coarse-to-fine gap is actually look-alike confusion rather than a hidden localization problem. The within-group confusion rate asks what fraction of correctly localized detections in the right group name the wrong species. Both feed the reporting structure that \Cref{sec:results_regime_comparison} follows, which includes a headline table per model, three diagnostic tables, and per-class and full-vector material in the appendix.
+--- final
+Two instruments complement the metric vector without extending it. The error-type decomposition anchored in \Cref{sec:lit_error_decomposition} partitions the detector's mistakes into classification, localization, duplicate, background and missed ground truth, and corroborates that a coarse-to-fine gap really is look-alike confusion rather than a hidden localization problem. The within-group confusion rate asks what fraction of correctly localized detections in the right group name the wrong species. Both feed the reporting structure that \Cref{sec:results_regime_comparison} follows: a headline table per model, three diagnostic tables, and the per-class and full-vector material emitted as appendix artifacts.
+--- verdict
+merged: restored the original's \Cref placement ("anchored in") over DeepL's awkward pre-noun wrap, dropped DeepL's added "five categories" count, and restored "emitted as appendix artifacts" (build artifacts, not just the thesis appendix); kept DeepL's within-group sentence. risk: medium
+
+

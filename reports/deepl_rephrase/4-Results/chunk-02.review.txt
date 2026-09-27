@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 4-Results.tex: 12 paragraphs -->
+
+#### P013  4-Results.tex:96  flags: -
+## section: Per-Class Structure: Where the Ranking Comes From
+--- original
+One case makes the point concretely. FLUX.2-klein renders kinkajous with a heavily ringed tail and a spotted coat, closer to a genet or civet than to the real animal, whose tail is plain golden-brown and unringed. The defect is consistent across its images of that class and specific to that model, since SD 3.5 Large and HiDream-I1 render the species correctly from the same prompt (\Cref{fig:kinkajou-generator-samples}). Its effect on measured accuracy is nil, at $0.0064$ against SD 3.5 Large's $0.0058$, so a generator that draws the wrong animal goes unpenalized by the only axis this study executed.
+--- rephrased
+One case illustrates this point. FLUX.2-klein depicts kinkajous with heavily ringed tails and spotted coats. These depictions are closer to genets or civets than to real kinkajous, whose tails are plain golden-brown and unringed. This defect is consistent across all images of this species and is specific to this model since SD 3.5 Large and HiDream-I1 correctly render the species from the same prompt (\Cref{fig:kinkajou-generator-samples}). The effect on measured accuracy is negligible, at $0.0064$ compared to $0.0058$ for SD 3.5 Large, so a generator that misrepresents the animal is not penalized by the only axis this study examined.
+--- final
+One case illustrates this point. FLUX.2-klein depicts kinkajous with heavily ringed tails and spotted coats, closer to a genet or civet than to the real animal, whose tail is plain golden-brown and unringed. This defect is consistent across its images of that class and specific to that model, since SD 3.5 Large and HiDream-I1 render the species correctly from the same prompt (\Cref{fig:kinkajou-generator-samples}). Its effect on measured accuracy is nil, at $0.0064$ against SD 3.5 Large's $0.0058$, so a generator that draws the wrong animal goes unpenalized by the only axis this study executed.
+--- verdict
+merged: kept DeepL s1-s2 wording, restored original's "nil" (rephrase's "negligible" implies a small nonzero effect, changing the claim) and "draws the wrong animal" (term consistent with P019). risk: high
+
+
+#### P014  4-Results.tex:131  flags: -
+## section: Per-Class Structure: Where the Ranking Comes From
+--- original
+\renewcommand{\figurename}{Figure}
+--- rephrased
+\renewcommand{\figurename} Figure
+--- final
+\renewcommand{\figurename}{Figure}
+--- verdict
+original: rephrase dropped the braces around the command argument, breaking the LaTeX. risk: low
+
+
+#### P015  4-Results.tex:133  flags: rather-than
+## section: Per-Class Structure: Where the Ranking Comes From
+--- original
+Within-group confusion over the zebras tracks detector quality at the extremes and not through the middle of the ranking. The three lowest rates, from $0.218$ to $0.253$, belong to three of the four top-ranked cells, and the two highest, $0.628$ and $0.683$, to the two lowest-ranked, while the incumbent ranks third on accuracy carrying $0.339$. Species confusion among look-alikes is therefore largely downstream of general detection quality, so a cell's confusion rate cannot substitute for the qualitative judgment it appears to stand in for.
+--- rephrased
+Within-group confusion over the zebra tracks indicates poor detector quality at the extremes of the ranking, rather than in the middle. The three lowest rates, ranging from $0.218$ to $0.253$, belong to three of the four top-ranked cells. Meanwhile, the two highest rates, $0.628$ and $0.683$, belong to the two lowest-ranked cells. The incumbent ranks third in terms of accuracy, with a rate of $0.339$. Therefore, species confusion among look-alikes is largely downstream of general detection quality. Consequently, a cell's confusion rate cannot substitute for the qualitative judgment it appears to stand in for.
+--- final
+Within-group confusion over the zebras tracks detector quality at the extremes and not through the middle of the ranking. The three lowest rates, ranging from $0.218$ to $0.253$, belong to three of the four top-ranked cells. Meanwhile, the two highest rates, $0.628$ and $0.683$, belong to the two lowest-ranked cells. The incumbent ranks third in terms of accuracy, with a rate of $0.339$. Therefore, species confusion among look-alikes is largely downstream of general detection quality, so a cell's confusion rate cannot substitute for the qualitative judgment it appears to stand in for.
+--- verdict
+merged: kept original s1 ("tracks detector quality" not "indicates poor detector quality", which mischaracterizes a correlation as one-directional, and dropped the added "rather than" tic), kept DeepL's split for the rate figures, recombined the closing clause with "so" instead of DeepL's stacked "Therefore/Consequently". risk: high
+
+
+#### P016  4-Results.tex:138  flags: -
+## section: Execution Status of the Qualitative Rubric
+--- original
+The blind multi-rater rubric of \Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies. The one computed, automatic annotation yield, places the local cells between $93.6\%$ and $98.8\%$, too narrow a range to separate them. The rubric was the designed instrument for the setting in which downstream accuracy has no resolution, so its absence is why the kinkajou error is visible to the eye and to no executed measure.
+--- rephrased
+The blind multi-rater rubric of \Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies. The one automatic annotation that was computed places the local cells between $93.6\%$ and $98.8\%$, which is too narrow a range to separate them. The rubric was designed for settings in which downstream accuracy cannot be determined, so its absence is why the kinkajou error is visible and cannot be resolved by any measure.
+--- final
+The blind multi-rater rubric of \Cref{sec:generator_comparison_evaluation} was not carried out, nor were three of the four automatic proxies. The one computed, automatic annotation yield, places the local cells between $93.6\%$ and $98.8\%$, too narrow a range to separate them. The rubric was the designed instrument for the setting in which downstream accuracy has no resolution, so its absence is why the kinkajou error is visible to the eye and to no executed measure.
+--- verdict
+original: rephrase dropped "yield" (the metric's name) and changed "has no resolution" (a precision limit) to "cannot be determined" and "visible to the eye and to no executed measure" to "cannot be resolved by any measure" (an actually-run scope condition became a general impossibility claim). risk: high
+
+
+#### P017  4-Results.tex:143  flags: -
+## section: Practicability Verdict
+--- original
+Three conclusions are supported by the evidence assembled here, and one is not.
+--- rephrased
+The evidence assembled here supports three conclusions and refutes one.
+--- final
+Three conclusions are supported by the evidence assembled here, and one is not.
+--- verdict
+original: "refutes" claims active contradiction, but the evidence merely fails to support the fourth conclusion (confirmed by P019's "what is not supported"), a direction change. risk: medium
+
+
+#### P018  4-Results.tex:145  flags: -
+## section: Practicability Verdict
+--- original
+The production choice of generator is not vindicated and not refuted. The incumbent ranks third of twelve, is beaten by roughly $28\%$ by \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime, and is tied with the cheaper variant from its own vendor. That margin is smaller than the one attributable to prompt length, and the original basis for the choice, that the output looked more realistic, was a poor predictor. Second, prompt detail matters more than generator identity across the range tested. Third, cheaper tiers are not worse tiers in either vendor family or in the local grid, so generation cost is not usable as a proxy for training-data quality.
+--- rephrased
+The choice of generator for production is neither vindicated nor refuted. It ranks third out of twelve, falling roughly $28\%$ behind \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime and tying with the cheaper variant from its own vendor. This margin is smaller than the one attributable to prompt length. The original rationale for choosing this generator, that the output appeared more realistic, was an unreliable predictor. Second, prompt detail matters more than generator identity across the range tested. Third, cheaper tiers are not inferior in either vendor family or the local grid. Therefore, generation cost cannot be used as a proxy for training-data quality.
+--- final
+The choice of generator for production is neither vindicated nor refuted. It ranks third out of twelve, falling roughly $28\%$ behind \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime and tying with the cheaper variant from its own vendor. This margin is smaller than the one attributable to prompt length. The original rationale for choosing this generator, that the output appeared more realistic, was an unreliable predictor. Second, prompt detail matters more than generator identity across the range tested. Third, cheaper tiers are not inferior in either vendor family or the local grid. Therefore, generation cost cannot be used as a proxy for training-data quality.
+--- verdict
+rephrased: preserves the claim direction, hedges ("roughly"), figures, and \texttt{} formatting while splitting the long original sentence. risk: high
+
+
+#### P019  4-Results.tex:147  flags: -
+## section: Practicability Verdict
+--- original
+What is not supported is any conclusion about the rare, long-tail classes, which is the case that motivated synthetic data in this work at all. On those classes every generator is indistinguishable from every other under the only axis executed, and at least one is demonstrably drawing the wrong animal without penalty. The comparison establishes a ranking for data-rich classes and establishes that the current instrument cannot rank generators for data-poor ones.
+--- rephrased
+No conclusions can be drawn about the rare, long-tail classes. This is the issue that motivated the use of synthetic data in the first place. For those classes, every generator is indistinguishable from every other generator along the only axis examined, and at least one generator is clearly depicting the wrong animal without penalty. The comparison establishes a ranking for data-rich classes and shows that the current instrument cannot rank generators for data-poor classes.
+--- final
+No conclusions can be drawn about the rare, long-tail classes, which is the case that motivated the use of synthetic data in this work at all. On those classes every generator is indistinguishable from every other under the only axis executed, and at least one is demonstrably drawing the wrong animal without penalty. The comparison establishes a ranking for data-rich classes and shows that the current instrument cannot rank generators for data-poor classes.
+--- verdict
+merged: kept DeepL's s1 opening and s3 "shows" (avoids repeated "establishes"), restored "in this work" self-reference, "demonstrably", and "drawing the wrong animal" (term consistent with P013; DeepL's "clearly depicting" softens the evidentiary claim). risk: high
+
+
+#### P020  4-Results.tex:150  flags: format-lost: \enquote{indistinguishable}
+## section: A note on seeds
+--- original
+At a single training seed the incumbent scored $0.064$ against its cheaper variant's $0.094$. A second seed moved it to $0.090$ and the conclusion to \enquote{indistinguishable}, and a third moved it to $0.105$ and reversed the gap outright. A single-seed difference of this size carries no information, and the same caution governs the larger comparison that follows, where every model contributes a single run.
+--- rephrased
+With a single training seed, the incumbent scored $0.064$, while its cheaper variant scored $0.094$. A second seed increased the score to $0.090$, resulting in the conclusion that the two were "indistinguishable." A third seed increased the score to $0.105$, which reversed the initial gap. A difference of this size in a single seed carries no information, and the same caution applies to the larger comparison that follows, in which every model contributes a single run.
+--- final
+With a single training seed, the incumbent scored $0.064$, while its cheaper variant scored $0.094$. A second seed increased the score to $0.090$, resulting in the conclusion that the two were \enquote{indistinguishable}, and a third seed increased the score to $0.105$, reversing the gap outright. A difference of this size in a single seed carries no information, and the same caution applies to the larger comparison that follows, in which every model contributes a single run.
+--- verdict
+merged: restored \enquote{} (format-lost flag; DeepL rendered it as a plain quoted string) and "outright" (dropped intensifier on the reversal), kept DeepL's sentence restructuring otherwise. risk: high
+
+
+#### P021  4-Results.tex:155  flags: -
+## section: Detection Performance Across Training Bands and Test Domains
+--- original
+\Cref{sec:evaluation_framework} fixed one instrument and one reporting structure, and this section applies both to the trained detectors. Every figure below comes from one evaluation-suite run against a fixed test set of $63{,}802$ real and $11{,}250$ synthetic images, carrying $92{,}094$ and $11{,}264$ ground-truth boxes.
+--- rephrased
+\Cref{sec:evaluation_framework} fixed one instrument and one reporting structure, which applies to both trained detectors. Each figure below is from one evaluation suite run against a fixed test set of $63{,}802$ real images and $11{,}250$ synthetic images. These images have $92{,}094$ and $11{,}264$ ground-truth boxes, respectively.
+--- final
+\Cref{sec:evaluation_framework} fixed one instrument and one reporting structure, and this section applies both to the trained detectors. Each figure below is from one evaluation-suite run against a fixed test set of $63{,}802$ real images and $11{,}250$ synthetic images. These images have $92{,}094$ and $11{,}264$ ground-truth boxes, respectively.
+--- verdict
+merged: restored original's agency in s1 ("this section applies" the instrument, not the rephrase's "which applies to" the detectors on its own), kept DeepL's split and "respectively" for the counts. risk: high
+
+
+#### P022  4-Results.tex:157  flags: -
+## section: Detection Performance Across Training Bands and Test Domains
+--- original
+The mixed test set is the union of the two, scored together as a single set of $75{,}052$ images. Four models are reported: the \textit{MegaDetector} and \textit{SpeciesNet} ensemble off the shelf, the same ensemble with its classifier fine-tuned (\Cref{sec:teacher_finetuning}), \textit{YOLOv5s}, and \textit{YOLO26n} under direct fine-tuning. The distilled student is held back for \Cref{sec:results_kd_basic_comparison}.
+--- rephrased
+The mixed test set is the union of the two sets, which are scored together as a single set of $75{,}052$ images. Four models are reported: the off-the-shelf \textit{MegaDetector} and \textit{SpeciesNet} ensemble, the same ensemble with a fine-tuned classifier (\Cref{sec:teacher_finetuning}), \textit{YOLOv5s}, and \textit{YOLO26n} with direct fine-tuning. The distilled student is held back for \Cref{sec:results_kd_basic_comparison}.
+--- final
+The mixed test set is the union of the two sets, which are scored together as a single set of $75{,}052$ images. Four models are reported: the off-the-shelf \textit{MegaDetector} and \textit{SpeciesNet} ensemble, the same ensemble with a fine-tuned classifier (\Cref{sec:teacher_finetuning}), \textit{YOLOv5s}, and \textit{YOLO26n} with direct fine-tuning. The distilled student is held back for \Cref{sec:results_kd_basic_comparison}.
+--- verdict
+rephrased: preserves meaning, model names, \textit{} markup, and the \Cref, "direct fine-tuning" term of art, and count intact. risk: high
+
+
+#### P023  4-Results.tex:159  flags: -
+## section: Detection Performance Across Training Bands and Test Domains
+--- original
+Two qualifications apply to every number here. Each model contributes one training run, and the bootstrap confidence intervals of \Cref{sec:metric_selection} were never computed, since the resample count stayed at zero, so no difference between two cells is significant.
+--- rephrased
+Two qualifications apply to every number here. Each model contributes one training run. The bootstrap confidence intervals of \Cref{sec:metric_selection} were never computed since the resample count remained at zero. Therefore, no difference between the two cells is significant.
+--- final
+Two qualifications apply to every number here. Each model contributes one training run. The bootstrap confidence intervals of \Cref{sec:metric_selection} were never computed since the resample count remained at zero, so no difference between two cells is significant.
+--- verdict
+merged: kept DeepL's split for s1-s2, restored original's indefinite "two cells" (rephrase's "the two cells" wrongly implies two specific cells were named) and its causal "so". risk: high
+
+
+#### P024  4-Results.tex:161  flags: -
+## section: Detection Performance Across Training Bands and Test Domains
+--- original
+And the bands hold different species, assigned by data availability rather than at random (\Cref{sec:band_structure}), so every cross-band difference is confounded with how hard those species happen to be.
+--- rephrased
+The bands hold different species, which are assigned based on data availability rather than randomly (\Cref{sec:band_structure}). Therefore, every difference between bands is confounded with how difficult it is to find those species.
+--- final
+The bands hold different species, which are assigned based on data availability rather than randomly (\Cref{sec:band_structure}). Therefore, every cross-band difference is confounded with how hard those species happen to be.
+--- verdict
+merged: kept DeepL's s1, restored original's "cross-band difference" and "how hard those species happen to be" (detection difficulty, since rephrase's "difficult it is to find" wrongly conflates the confound with the data-availability criterion used to assign bands). risk: high
+
+

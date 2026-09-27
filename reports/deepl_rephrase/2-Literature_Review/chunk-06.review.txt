@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 2-Literature_Review.tex: 12 paragraphs -->
+
+#### P061  2-Literature_Review.tex:161  flags: -
+## section: Embedded Inference Feasibility
+--- original
+Export format and runtime are a second variable such a benchmark must hold fixed. The case for a portable, interpreter-based deployment framework over a bespoke per-device compiled pipeline rests on the embedded ecosystem being fragmented across instruction sets, absent operating-system and dynamic-memory support, and vendor-specific kernel optimizations \cite{davidTensorFlowLiteMicro2021}. The same work treats interpreter behavior under multi-threaded and multi-core execution as a first-class design concern rather than an afterthought. Thread and core-affinity choices on a multi-core ARM system-on-chip, such as the \textit{AX Visio}'s, are therefore a further variable to hold fixed across repeated measurements, alongside the export format itself, whether \textit{ONNX}, \textit{TFLite}, \textit{NCNN}, or a vendor-specific format such as Qualcomm's \textit{SNPE} \texttt{.dlc}.
+--- rephrased
+A second variable that such a benchmark must hold fixed is the export format and runtime. The case for a portable, interpreter-based deployment framework instead of a bespoke, per-device, compiled pipeline rests on the fragmented nature of the embedded ecosystem across instruction sets, the absence of operating system and dynamic memory support, and the need for vendor-specific kernel optimizations \cite{davidTensorFlowLiteMicro2021}. The same work treats interpreter behavior under multi-threaded and multi-core execution as a primary design concern rather than an afterthought. Therefore, thread and core affinity choices on a multicore ARM system on a chip (SoC), such as the \textit{AX Visio}'s, are a variable that must be held constant across repeated measurements, along with the export format itself (whether \textit{ONNX}, \textit{TFLite}, \textit{NCNN}, or a vendor-specific format, such as Qualcomm's \textit{SNPE} \texttt{.dlc}).
+--- final
+A second variable that such a benchmark must hold fixed is the export format and runtime. The case for a portable, interpreter-based deployment framework instead of a bespoke, per-device, compiled pipeline rests on the fragmented nature of the embedded ecosystem across instruction sets, the absence of operating system and dynamic memory support, and the need for vendor-specific kernel optimizations \cite{davidTensorFlowLiteMicro2021}. The same work treats interpreter behavior under multi-threaded and multi-core execution as a primary design concern rather than an afterthought. Therefore, thread and core affinity choices on a multicore ARM system on a chip (SoC), such as the \textit{AX Visio}'s, are a variable that must be held constant across repeated measurements, along with the export format itself (whether \textit{ONNX}, \textit{TFLite}, \textit{NCNN}, or a vendor-specific format, such as Qualcomm's \textit{SNPE} \texttt{.dlc}).
+--- verdict
+rephrased: accepted DeepL's wording throughout, no meaning change detected. risk: high
+
+
+#### P062  2-Literature_Review.tex:163  flags: cite-lowconf: \cite{krishnamoorthiQuantizingDeepConvolutional2018} (0.45)
+## section: Embedded Inference Feasibility
+--- original
+Numerical precision is the cheapest optimization available, and the foundational literature on it targets exactly this work's hardware family. Quantizing a trained network's weights and activations from 32-bit floating point to 8-bit integers after training, known as post-training quantization (PTQ), keeps classification accuracy within $2\%$ of the floating-point baseline across a range of convolutional architectures when weights are quantized per channel and activations per layer \cite{krishnamoorthiQuantizingDeepConvolutional2018}. The resulting speedup is benchmarked at up to $10\times$ over floating-point CPU inference on Qualcomm fixed-point SIMD DSPs of the same class as the \textit{Hexagon 685} \cite{krishnamoorthiQuantizingDeepConvolutional2018}.
+--- rephrased
+Of all the available optimizations, numerical precision is the cheapest, and the foundational literature on it targets this work's hardware family. Post-training quantization (PTQ) involves quantizing a trained network's weights and activations from 32-bit floating point to 8-bit integers after training. This technique maintains classification accuracy within $2\%$ of the floating-point baseline across various convolutional architectures when weights are quantized per channel and activations per layer \cite{krishnamoorthiQuantizingDeepConvolutional2018}. The resulting speedup is benchmarked at up to $10\times$ compared to floating-point CPU inference on Qualcomm fixed-point SIMD digital signal processors (DSPs) of the same class as the \textit{Hexagon 685} \cite{krishnamoorthiQuantizingDeepConvolutional2018}.
+--- final
+Numerical precision is the cheapest optimization available, and the foundational literature on it targets exactly this work's hardware family. Post-training quantization (PTQ) involves quantizing a trained network's weights and activations from 32-bit floating point to 8-bit integers after training. This technique maintains classification accuracy within $2\%$ of the floating-point baseline across a range of convolutional architectures when weights are quantized per channel and activations per layer \cite{krishnamoorthiQuantizingDeepConvolutional2018}. The resulting speedup is benchmarked at up to $10\times$ over floating-point CPU inference on Qualcomm fixed-point SIMD DSPs of the same class as the \textit{Hexagon 685} \cite{krishnamoorthiQuantizingDeepConvolutional2018}.
+--- verdict
+merged: kept original's "targets exactly this work's hardware family" since DeepL dropped the scope-defining "exactly", used DeepL's split of the PTQ sentence with the citation correctly kept on the accuracy-retention claim, restored "SIMD DSPs" over DeepL's unrequested "digital signal processors" expansion. risk: high
+
+
+#### P063  2-Literature_Review.tex:165  flags: cite-moved: \cite{QualcommAimet2026}
+## section: Embedded Inference Feasibility
+--- original
+Quantization-aware training (QAT) goes further by simulating quantization during training, inserting fake-quantization nodes into the computation graph so that weights and activation ranges adapt to quantization noise before it is applied at inference \cite{jacobQuantizationTrainingNeural2018}. That work frames integer-arithmetic-only hardware such as the Qualcomm Hexagon as its target deployment setting, and reports that QAT narrows the residual accuracy gap to the floating-point baseline further than PTQ alone. The practical distinction is cost against accuracy: PTQ needs only a trained model and a small calibration set, whereas QAT requires a full retraining pass. On the \textit{QCS605} the vendor toolchain implementing both is the Snapdragon Neural Processing Engine (SNPE) together with the AI Model Efficiency Toolkit (AIMET) \cite{QualcommAimet2026}, cited here to identify the toolchain rather than as an independent technical source.
+--- rephrased
+Quantization-aware training (QAT) takes it a step further by simulating quantization during training. It inserts fake quantization nodes into the computation graph so that the weights and activation ranges can adapt to quantization noise before it is applied during inference \cite{jacobQuantizationTrainingNeural2018}. This approach is designed for hardware that only uses integer arithmetic, such as the Qualcomm Hexagon, and it has been shown that QAT reduces the residual accuracy gap to the floating-point baseline more effectively than PTQ alone. The practical distinction lies in the trade-off between cost and accuracy: PTQ requires only a trained model and a small calibration set, whereas QAT necessitates a full retraining process. For the \textit{QCS605}, the vendor toolchain that implements both is the Snapdragon Neural Processing Engine (SNPE) together with the AI Model Efficiency Toolkit (AIMET) \cite{QualcommAimet2026}. Here, it is cited to identify the toolchain rather than as an independent technical source.
+--- final
+Quantization-aware training (QAT) takes it a step further by simulating quantization during training. It inserts fake quantization nodes into the computation graph so that the weights and activation ranges can adapt to quantization noise before it is applied during inference \cite{jacobQuantizationTrainingNeural2018}. That work frames integer-arithmetic-only hardware such as the Qualcomm Hexagon as its target deployment setting, and reports that QAT narrows the residual accuracy gap to the floating-point baseline further than PTQ alone. The practical distinction lies in the trade-off between cost and accuracy: PTQ requires only a trained model and a small calibration set, whereas QAT necessitates a full retraining process. For the \textit{QCS605}, the vendor toolchain that implements both is the Snapdragon Neural Processing Engine (SNPE) together with the AI Model Efficiency Toolkit (AIMET) \cite{QualcommAimet2026}. Here, it is cited to identify the toolchain rather than as an independent technical source.
+--- verdict
+merged: kept original's "That work frames... as its target deployment setting" for precise attribution to the cited source rather than DeepL's generic "This approach is designed for", used DeepL elsewhere including the split AIMET sentence. risk: high
+
+
+#### P064  2-Literature_Review.tex:167  flags: -
+## section: Embedded Inference Feasibility
+--- original
+This work surveys quantization for that context but implements neither PTQ nor QAT, nor any other compression technique. The result reported in \Cref{sec:results_embedded_benchmark} is a single runtime measurement of the unoptimized, full-precision model, so the accelerated integer path this literature targets is surveyed here but not exercised there.
+--- rephrased
+This work surveys quantization in that context, but does not implement PTQ, QAT, or any other compression technique. The result reported in \Cref{sec:results_embedded_benchmark} is a single runtime measurement of the unoptimized, full-precision model. Thus, the accelerated integer path targeted by this literature is surveyed here, but not exercised there.
+--- final
+This work surveys quantization in that context, but does not implement PTQ, QAT, or any other compression technique. The result reported in \Cref{sec:results_embedded_benchmark} is a single runtime measurement of the unoptimized, full-precision model. Thus, the accelerated integer path targeted by this literature is surveyed here, but not exercised there.
+--- verdict
+rephrased: accepted DeepL's wording and sentence split, no meaning change detected. risk: medium
+
+
+#### P065  2-Literature_Review.tex:169  flags: -
+## section: Embedded Inference Feasibility
+--- original
+Whatever precision the deployed model runs at, its accuracy still has to be reported in a form that a 225-class, look-alike-heavy taxonomy makes legible.
+--- rephrased
+No matter what level of precision the deployed model runs at, its accuracy must be reported in a way that a 225-class, heavy-taxonomy look-alike makes legible.
+--- final
+Whatever precision the deployed model runs at, its accuracy still has to be reported in a form that a 225-class, look-alike-heavy taxonomy makes legible.
+--- verdict
+original: DeepL garbled the term of art "look-alike-heavy taxonomy" into the nonsensical "heavy-taxonomy look-alike", took the original sentence back. risk: low
+
+
+#### P066  2-Literature_Review.tex:174  flags: -
+## section: Evaluation Metrics for Fine-Grained Wildlife Detection
+--- original
+Reporting a single mean-average-precision number is sufficient for a generic 80-class benchmark, but is a poor fit for a 225-class, visually confusable, dual-domain wildlife taxonomy. A model that mistakes a plains zebra for a Grévy's zebra has made a fundamentally different error than one that misses the animal entirely. A model evaluated on a synthetic image has also been probed under a different data-generating process than one evaluated on a field photograph.
+--- rephrased
+Reporting a single mean average precision number is sufficient for a generic 80-class benchmark but not for a 225-class, visually confusable, dual-domain wildlife taxonomy. For example, a model that mistakes a plains zebra for a Grévy's zebra has made a different error than a model that misses the animal entirely. Additionally, a model evaluated on a synthetic image has been probed under a different data-generating process than a model evaluated on a field photograph.
+--- final
+Reporting a single mean average precision number is sufficient for a generic 80-class benchmark but not for a 225-class, visually confusable, dual-domain wildlife taxonomy. For example, a model that mistakes a plains zebra for a Grévy's zebra has made a fundamentally different error than a model that misses the animal entirely. Additionally, a model evaluated on a synthetic image has been probed under a different data-generating process than a model evaluated on a field photograph.
+--- verdict
+merged: kept original's "fundamentally different error" since DeepL dropped the intensifier that carries the paragraph's point, used DeepL's wording and worked-example phrasing elsewhere. risk: medium
+
+
+#### P067  2-Literature_Review.tex:176  flags: -
+## section: Evaluation Metrics for Fine-Grained Wildlife Detection
+--- original
+This section surveys the literature underlying the work's evaluation design. It moves from the general-purpose detection metrics that any object detector is judged against, through the diagnostic instruments developed for understanding \textit{why} a detector fails, to the question of how a test set that mixes real and synthetic imagery should be interpreted at all. The final subsection is the direct literature anchor for the evaluation methodology adopted in \Cref{sec:evaluation_framework}.
+--- rephrased
+This section reviews the literature that informs the evaluation design of the work. It begins with the general-purpose detection metrics by which any object detector is judged, then moves on to the diagnostic instruments developed to understand \textit{why} a detector fails. Finally, it addresses the question of how to interpret a test set that mixes real and synthetic imagery. The final subsection directly anchors the evaluation methodology adopted in \Cref{sec:evaluation_framework} in the literature.
+--- final
+This section reviews the literature that informs the evaluation design of the work. It begins with the general-purpose detection metrics by which any object detector is judged, then moves on to the diagnostic instruments developed to understand \textit{why} a detector fails. Finally, it addresses the question of how to interpret a test set that mixes real and synthetic imagery. The final subsection directly anchors the evaluation methodology adopted in \Cref{sec:evaluation_framework} in the literature.
+--- verdict
+rephrased: accepted DeepL's wording and sentence split, purely structural signposting with no meaning change. risk: low
+
+
+#### P068  2-Literature_Review.tex:180  flags: -
+## section: General Object Detection Metrics
+--- original
+The dominant evaluation protocol for object detection was established by the \textit{PASCAL VOC} challenge \cite{everinghamPascalVisualObject2010}. A detection counts as correct if its bounding box overlaps a ground-truth box above a fixed \textit{Intersection-over-Union} (IoU) threshold, the ratio of the intersection of the two boxes to their union. That threshold is conventionally set to $0.5$, a deliberately low value chosen to absorb the inherent subjectivity of drawing a tight box around a non-convex object such as an animal with limbs extended \cite{everinghamPascalVisualObject2010}.
+--- rephrased
+The \textit{PASCAL VOC} challenge established the dominant evaluation protocol for object detection \cite{everinghamPascalVisualObject2010}. A detection is considered correct if its bounding box overlaps a ground-truth box by a fixed \textit{Intersection-over-Union} (IoU) threshold. The IoU is the ratio of the intersection of the two boxes to their union. The threshold is typically set at $0.5$, a deliberately low value chosen to account for the subjectivity involved in drawing a tight box around non-convex objects, such as animals with extended limbs \cite{everinghamPascalVisualObject2010}.
+--- final
+The dominant evaluation protocol for object detection was established by the \textit{PASCAL VOC} challenge \cite{everinghamPascalVisualObject2010}. A detection counts as correct if its bounding box overlaps a ground-truth box above a fixed \textit{Intersection-over-Union} (IoU) threshold, the ratio of the intersection of the two boxes to their union. That threshold is conventionally set to $0.5$, a deliberately low value chosen to absorb the inherent subjectivity of drawing a tight box around a non-convex object such as an animal with limbs extended \cite{everinghamPascalVisualObject2010}.
+--- verdict
+original: DeepL changed "overlaps...above a fixed threshold" to the direction-less "overlaps...by a fixed threshold", distorting the correctness criterion, took the original paragraph back. risk: low
+
+
+#### P069  2-Literature_Review.tex:182  flags: wrap-case: Average Precision -> Average precision
+## section: General Object Detection Metrics
+--- original
+Every prediction above the confidence threshold is then a true or a false positive, from which precision, the fraction of predictions that are correct, and recall, the fraction of ground-truth objects that are detected, follow as functions of that threshold. \textit{Average Precision} (AP) summarizes the resulting precision-recall curve as the mean interpolated precision at a fixed set of recall levels, and mean Average Precision (mAP) averages AP across classes \cite{everinghamPascalVisualObject2010}. This formulation was adopted because a simple accuracy count is misleading under the heavy imbalance between the small number of true objects and the very large number of candidate regions a detector must reject, and it has remained the basis of essentially every detection benchmark since \cite{everinghamPascalVisualObject2010,zouObjectDetection202023}.
+--- rephrased
+Each prediction above the confidence threshold is either a true positive or a false positive. From these, precision (the fraction of correct predictions) and recall (the fraction of ground-truth objects detected) are functions of the threshold. \textit{Average Precision} (AP) summarizes the precision-recall curve by taking the mean interpolated precision at fixed recall levels \cite{everinghamPascalVisualObject2010}. Mean average precision (mAP) averages AP across classes. This formulation was adopted because a simple accuracy count can be misleading when there is a significant imbalance between the small number of true objects and the large number of candidate regions that a detector must reject \cite{everinghamPascalVisualObject2010,zouObjectDetection202023}. It has remained the basis of essentially every detection benchmark since then.
+--- final
+Each prediction above the confidence threshold is either a true positive or a false positive. From these, precision (the fraction of correct predictions) and recall (the fraction of ground-truth objects detected) are functions of the threshold. \textit{Average Precision} (AP) summarizes the resulting precision-recall curve as the mean interpolated precision at a fixed set of recall levels, and mean average precision (mAP) averages AP across classes \cite{everinghamPascalVisualObject2010}. This formulation was adopted because a simple accuracy count is misleading under the heavy imbalance between the small number of true objects and the very large number of candidate regions a detector must reject, and it has remained the basis of essentially every detection benchmark since \cite{everinghamPascalVisualObject2010,zouObjectDetection202023}.
+--- verdict
+merged: used DeepL's split of the true/false-positive sentence, kept original's combined AP/mAP sentence and combined closing sentence so the citations still cover the mAP definition and the "remained the basis" claim that DeepL's split left uncited, fixed casing to "mean average precision" per the wrap-case flag. risk: high
+
+
+#### P070  2-Literature_Review.tex:184  flags: wrap-case: Average Recall -> Average recall, format-lost: $1$, format-lost: $10$, format-lost: $100$, semicolon
+## section: General Object Detection Metrics
+--- original
+Two refinements produced the metric vector used throughout modern detection research. A fixed IoU of $0.5$ rewards coarse localization, because it cannot distinguish a tightly fitted box from a loose one as long as both clear the bar. Averaging AP over ten IoU thresholds spanning $0.5$ to $0.95$ in steps of $0.05$, denoted AP@[.5:.95], as the \textit{COCO} benchmark does, rewards progressively tighter localization instead \cite{linMicrosoftCOCOCommon2015,zouObjectDetection202023}. The single-threshold AP50 and the stricter AP75 are retained beside it as complementary operating points, the first closer to the original PASCAL protocol and the second probing high-precision localization specifically \cite{zouObjectDetection202023}. Separately, AP credits a detector only for the boxes it does emit, so it says nothing about ground-truth objects that are never proposed at all. \textit{Average Recall} (AR) measures that upper bound on achievable recall independently of the confidence ranking, reported at a fixed budget of the top $1$, $10$, or $100$ detections per image \cite{zouObjectDetection202023}.
+--- rephrased
+Two refinements produced the metric vector used in modern detection research. A fixed intersection over union (IoU) threshold of $0.5$ rewards coarse localization because it cannot distinguish between a tightly fitted box and a loose one, as long as both boxes contain the target. However, averaging AP over ten IoU thresholds ranging from $0.5$ to $0.95$ in $0.05$ increments, as the \textit{COCO} benchmark does, rewards progressively tighter localization \cite{linMicrosoftCOCOCommon2015,zouObjectDetection202023}. The single-threshold AP50 and the stricter AP75 are retained alongside it as complementary operating points: the former is closer to the original PASCAL protocol, while the latter probes high-precision localization specifically \cite{zouObjectDetection202023}. AP credits a detector only for the boxes it emits; therefore, it says nothing about ground-truth objects that are never proposed. \textit{Average Recall} (AR) independently measures the upper bound of achievable recall, regardless of the confidence ranking, and is reported at a fixed budget of the top one, ten, or one hundred detections per image \cite{zouObjectDetection202023}.
+--- final
+Two refinements produced the metric vector used throughout modern detection research. A fixed IoU of $0.5$ rewards coarse localization, because it cannot distinguish a tightly fitted box from a loose one as long as both clear the bar. Averaging AP over ten IoU thresholds spanning $0.5$ to $0.95$ in steps of $0.05$, denoted AP@[.5:.95], as the \textit{COCO} benchmark does, rewards progressively tighter localization instead \cite{linMicrosoftCOCOCommon2015,zouObjectDetection202023}. The single-threshold AP50 and the stricter AP75 are retained beside it as complementary operating points, the first closer to the original PASCAL protocol and the second probing high-precision localization specifically \cite{zouObjectDetection202023}. Separately, AP credits a detector only for the boxes it does emit, so it says nothing about ground-truth objects that are never proposed at all. \textit{Average Recall} (AR) measures that upper bound on achievable recall independently of the confidence ranking, reported at a fixed budget of the top $1$, $10$, or $100$ detections per image \cite{zouObjectDetection202023}.
+--- verdict
+original: DeepL spelled out $1$/$10$/$100$ in a metric definition, added a semicolon, dropped the "denoted AP@[.5:.95]" notation, and changed "as long as both clear the bar" to the technically different "as long as both boxes contain the target", took the original paragraph back. risk: low
+
+
+#### P071  2-Literature_Review.tex:186  flags: -
+## section: General Object Detection Metrics
+--- original
+The resulting twelve-statistic vector covers AP@[.5:.95], AP50, AP75, AP split by object size, and AR at the three detection budgets split the same way. This work retains it unchanged as its own baseline reporting format (\Cref{sec:evaluation_framework}), because it is the bridge that keeps the work's numbers legible against published results. It is nonetheless too coarse on its own to answer the questions a 225-class, look-alike-heavy wildlife taxonomy raises.
+--- rephrased
+The resulting twelve-statistic vector includes AP@[.5:.95], AP50, AP75, AP split by object size, and AP split by the three detection budgets. This work retains it as its own baseline reporting format (\Cref{sec:evaluation_framework}) because it bridges the gap between this work's numbers and published results. However, it is too coarse to answer the questions that a 225-class, look-alike-heavy wildlife taxonomy raises on its own.
+--- final
+The resulting twelve-statistic vector covers AP@[.5:.95], AP50, AP75, AP split by object size, and AR at the three detection budgets split the same way. This work retains it unchanged as its own baseline reporting format (\Cref{sec:evaluation_framework}), because it is the bridge that keeps the work's numbers legible against published results. It is nonetheless too coarse on its own to answer the questions a 225-class, look-alike-heavy wildlife taxonomy raises.
+--- verdict
+original: DeepL mistakenly changed "AR at the three detection budgets" to "AP split by the three detection budgets", a factual error, and relocated "on its own" so it reads as modifying the questions the taxonomy raises rather than the metric vector's coarseness, took the original paragraph back. risk: low
+
+
+#### P072  2-Literature_Review.tex:190  flags: -
+## section: Hierarchical Evaluation and Error-Type Decomposition
+--- original
+A single flat AP computed over all 225 classes cannot distinguish two very different errors: finding an animal and naming the wrong species inside a visually confusable group, such as a plains zebra scored as a Grévy's zebra, and naming a completely unrelated class, such as a wolf scored as a squirrel. Nor does AP say \textit{why} a detector underperforms, whether it fails to localize objects at all, localizes them but assigns the wrong label, or duplicates detections on the same object. From a practical-deployment standpoint these are not equivalent failures, and they call for different fixes.
+--- rephrased
+A single flat AP computed over all 225 classes cannot distinguish between two very different types of errors. One type of error is finding an animal and naming the wrong species within a visually similar group. For example, a plains zebra could be scored as a Grevy's zebra. The other type of error is naming a completely different class. For example, a wolf could be scored as a squirrel. Additionally, AP does not explain \textit{why} a detector underperforms. It may fail to localize objects, localize them but assign the wrong label, or duplicate detections on the same object. From a practical deployment standpoint, these failures are not equivalent, and they call for different solutions.
+--- final
+A single flat AP computed over all 225 classes cannot distinguish between two very different types of errors. One type of error is finding an animal and naming the wrong species within a visually confusable group. For example, a plains zebra could be scored as a Grévy's zebra. The other type of error is naming a completely unrelated class. For example, a wolf could be scored as a squirrel. Additionally, AP does not explain \textit{why} a detector underperforms. It may fail to localize objects, localize them but assign the wrong label, or duplicate detections on the same object. From a practical-deployment standpoint, these failures are not equivalent, and they call for different fixes.
+--- verdict
+merged: restored the proper name "Grévy's" that DeepL spelled as "Grevy's", restored "visually confusable" and "completely unrelated class" that DeepL weakened to "similar" and "different" undermining the error-type contrast, kept DeepL's clearer sentence split with worked examples. risk: high
+
+

@@ -1,0 +1,259 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 36-Model_Training_and_Experiment_Tracking.tex: 12 paragraphs -->
+
+#### P001  36-Model_Training_and_Experiment_Tracking.tex:4  flags: -
+## section: Model Training and Experiment Tracking
+--- original
+\Cref{sec:data_augmentation} fixed what a training run is shown. This section fixes everything else: which models are trained, the optimization protocol they share, the procedure that produced the frozen teacher, and the loss through which that teacher reaches the student. The distilled and the directly fine-tuned run must differ in the training signal and in nothing else.
+--- rephrased
+\Cref{sec:data_augmentation} fixed how a training run is displayed. This section addresses everything else, including which models are trained, the optimization protocol they share, the procedure that produces the frozen teacher, and the loss through which the teacher transfers knowledge to the student. The distilled and directly fine-tuned runs must differ only in the training signal.
+--- final
+\Cref{sec:data_augmentation} fixed what a training run is shown. This section addresses everything else, including which models are trained, the optimization protocol they share, the procedure that produces the frozen teacher, and the loss through which the teacher transfers knowledge to the student. The distilled and directly fine-tuned runs must differ only in the training signal.
+--- verdict
+merged: kept original s1 ("what" vs "how" changes what is fixed), used rephrased s2-s3. risk: low
+
+#### P002  36-Model_Training_and_Experiment_Tracking.tex:9  flags: format-lost: $7.63\,\mathrm{M}$, wrap-reordered: AX Visio, format-lost: $2.71\,\mathrm{M}$, format-lost: $193\,\mathrm{M}$, cite-moved: \cite{ultralyticsComprehensiveGuideUltralytics}, cite-moved: \cite{UltralyticsYOLO262025}, cite-lowconf: \cite{beeryEfficientPipelineCamera2019} (0.46), cite-moved: \cite{beeryEfficientPipelineCamera2019}, cite-lowconf: \cite{gadotCropNotCrop2024a} (0.46), cite-moved: \cite{gadotCropNotCrop2024a}, cite-merged: \cite{beeryEfficientPipelineCamera2019,gadotCropNotCrop2024a}, bare-number
+## section: Model Selection
+--- original
+Two detector architectures are trained, and practical constraints rather than a comparative architecture search decide both. \textit{YOLOv5s} \cite{ultralyticsComprehensiveGuideUltralytics}, at $7.63\,\mathrm{M}$ parameters and $17.7$ GFLOPs at $640$ px, is the production-baseline reference, because it is approximately the size of the detector already deployed in the \textit{AX Visio} pipeline. It is commercially usable only up to commit \texttt{5cdad89} (\Cref{sec:lit_yolo_family}), which fixed the revision trained here. It is deliberately not the distillation student, since distilling into a model the size of what already ships studies no capacity reduction. \textit{YOLO26n} \cite{UltralyticsYOLO262025}, at $2.71\,\mathrm{M}$ parameters and $6.8$ GFLOPs, is the student. It is trained twice, once directly and once under distillation, and those two runs are the work's central comparison. The teacher is the \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019} and \textit{SpeciesNet} \cite{gadotCropNotCrop2024a} pipeline of \Cref{sec:lit_md_speciesnet}, which is wildlife-specific and, at roughly $193\,\mathrm{M}$ parameters, far too large to deploy.  % 140.06 M + 52.71 M, reports/embedded_benchmark/latency_summary.csv Nano-scale detectors outside the YOLO family were surveyed and set aside on time grounds, so neither student won a benchmarked comparison, a limitation carried in \Cref{sec:limitations}.
+--- rephrased
+Two detector architectures are trained, and practical constraints rather than a comparative architecture search determine them both. \textit{YOLOv5s} is the production-baseline reference because it is approximately the size of the detector already deployed in the \textit{AX Visio} pipeline \cite{ultralyticsComprehensiveGuideUltralytics}. It has 7.63 million parameters and operates at $17.7$ GFLOPs at $640$ px. It is only commercially usable up to commit \texttt{5cdad89} (\Cref{sec:lit_yolo_family}), which fixed the revision trained here. It is not the distillation student because distilling into a model the size of what already ships does not reduce capacity. \textit{YOLO26n}, with 2.71 million parameters and $6.8$ GFLOPs, serves as the student model \cite{UltralyticsYOLO262025}. It is trained twice: once directly and once under distillation. Those two runs are the central comparison of this work. The teacher is the \Cref{sec:lit_md_speciesnet} \textit{MegaDetector} and \textit{SpeciesNet} pipeline, which is wildlife-specific. At roughly 193 million parameters, it is far too large to deploy \cite{beeryEfficientPipelineCamera2019,gadotCropNotCrop2024a}.  % 140.06 M + 52.71 M, reports/embedded_benchmark/latency_summary.csv Nano-scale detectors outside the YOLO family were surveyed and set aside on time grounds, so neither student won a benchmarked comparison, a limitation carried in \Cref{sec:limitations}.
+--- final
+
+--- verdict
+original: reverted throughout, DeepL de-formatted every $...\,\mathrm{M}$ parameter count to bare "million" prose, moved \cite{ultralyticsComprehensiveGuideUltralytics} and \cite{UltralyticsYOLO262025} off the model names they identify onto unrelated claims, and merged \cite{beeryEfficientPipelineCamera2019,gadotCropNotCrop2024a} onto the "too large to deploy" claim though each citation only identifies its own tool (MegaDetector vs. SpeciesNet). risk: high
+
+#### P003  36-Model_Training_and_Experiment_Tracking.tex:14  flags: -
+## section: Training Procedure
+--- original
+Both detectors run the same optimization protocol, summarized in \Cref{tab:training-protocol}, and share the dataloader and augmentation code path without modification, which makes the byte-identical claim of \Cref{sec:augmentation_reproducibility} literal. The training and validation splits merge the synthetic imagery of \Cref{sec:band_structure} into the real imagery. The test split stays real, so the synthetic test set of \Cref{sec:synthetic_test_set} enters evaluation only where \Cref{sec:evaluation_framework} says it does.
+--- rephrased
+Both detectors run the same optimization protocol (summarized in \Cref{tab:training-protocol}) and share an unmodified dataloader and augmentation code path, making the byte-identical claim of \Cref{sec:augmentation_reproducibility} literal. The training and validation splits incorporate the synthetic imagery of \Cref{sec:band_structure} with the real imagery. The test split remains real, so the \Cref{sec:synthetic_test_set} synthetic test set is evaluated only where \Cref{sec:evaluation_framework} specifies.
+--- final
+Both detectors run the same optimization protocol (summarized in \Cref{tab:training-protocol}) and share an unmodified dataloader and augmentation code path, making the byte-identical claim of \Cref{sec:augmentation_reproducibility} literal. The training and validation splits incorporate the synthetic imagery of \Cref{sec:band_structure} with the real imagery. The test split remains real, so the \Cref{sec:synthetic_test_set} synthetic test set is evaluated only where \Cref{sec:evaluation_framework} specifies.
+--- verdict
+rephrased: same meaning, all \Cref spans preserved, no house-style issues. risk: low
+
+#### P004  36-Model_Training_and_Experiment_Tracking.tex:38  flags: bare-number
+## section: Training Procedure
+--- original
+Two settings are exempted, and each exemption is a correctness requirement. Batch size is a property of an architecture's memory footprint, so it is determined per model by probing until allocation fails. The loss gains are the more consequential exemption. \textit{YOLO26n} is anchor-free and suppression-free, assigns targets through a task-aligned assigner, and carries no objectness term, so the anchor-based objectness, anchor-threshold and focal-loss gains tuned for \textit{YOLOv5s} have no counterpart in it. Transplanting them onto a structurally different loss would mis-scale the comparison, so each architecture keeps its own reference defaults.
+--- rephrased
+There are two settings that are exempt, and each exemption is a correctness requirement. Batch size is a property of an architecture's memory footprint and is therefore determined by probing each model until allocation fails. Loss gains are the more consequential exemption. \textit{YOLO26n} is both anchor-free and suppression-free. It assigns targets through a task-aligned assigner and carries no objectness term. Therefore, the anchor-based objectness, anchor threshold, and focal loss gains tuned for \textit{YOLOv5s} have no counterpart in YOLO26n. Applying them to a structurally different loss would mis-scale the comparison, so each architecture uses its own reference defaults.
+--- final
+There are two settings that are exempt, and each exemption is a correctness requirement. Batch size is a property of an architecture's memory footprint and is therefore determined by probing each model until allocation fails. Loss gains are the more consequential exemption. \textit{YOLO26n} is both anchor-free and suppression-free. It assigns targets through a task-aligned assigner and carries no objectness term. Therefore, the anchor-based objectness, anchor threshold, and focal loss gains tuned for \textit{YOLOv5s} have no counterpart in YOLO26n. Applying them to a structurally different loss would mis-scale the comparison, so each architecture uses its own reference defaults.
+--- verdict
+rephrased: same meaning and mechanism, no numbers or citations to lose, "bare-number" flag was spurious (paragraph has no digits). risk: high
+
+#### P005  36-Model_Training_and_Experiment_Tracking.tex:40  flags: -
+## section: Training Procedure
+--- original
+One metric decides both which checkpoint is retained and when the run stops, which removes the temptation to select on one quantity and report another. Its binding cost is the validation pass, single-threaded over $225$ classes at roughly $12.5$ minutes regardless of image size or batch size against roughly $50$ minutes for a training epoch, so the evaluation interval is a tunable and patience counts evaluations, not epochs.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/
+--- rephrased
+One metric determines which checkpoint is retained and when the run ends, eliminating the temptation to select one quantity and report another. The validation pass is the binding cost, which is single-threaded over $225$ classes and takes about $12.5$ minutes, regardless of image or batch size. This is much faster than a training epoch, which takes about $50$ minutes. Therefore, the evaluation interval is tunable, and patience is required for evaluations, not epochs.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/
+--- final
+One metric determines which checkpoint is retained and when the run ends, eliminating the temptation to select one quantity and report another. The validation pass is the binding cost, which is single-threaded over $225$ classes and takes about $12.5$ minutes, regardless of image size or batch size. This is much faster than a training epoch, which takes about $50$ minutes. Therefore, the evaluation interval is tunable and patience counts evaluations, not epochs.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/
+--- verdict
+merged: restored "image size" (DeepL dropped "size"), kept original "patience counts evaluations" (DeepL's "patience is required for evaluations" changes the mechanism from a counting rule to a requirement). risk: high
+
+#### P006  36-Model_Training_and_Experiment_Tracking.tex:41  flags: -
+## section: Training Procedure
+--- original
+The runs reported in \Cref{chapter:results} validated every epoch and ran for between $182$ and $200$ epochs over four to nine days on a single \textit{NVIDIA A40}.
+--- rephrased
+The runs reported in \Cref{chapter:results} were validated at every epoch and ran for between $182$ and $200$ epochs over a period of four to nine days on a single \textit{NVIDIA A40}.
+--- final
+The runs reported in \Cref{chapter:results} were validated at every epoch and ran for between $182$ and $200$ epochs over a period of four to nine days on a single \textit{NVIDIA A40}.
+--- verdict
+rephrased: same meaning, numbers and \textit{NVIDIA A40} preserved. risk: high
+
+#### P007  36-Model_Training_and_Experiment_Tracking.tex:46  flags: format-lost: $193\,\mathrm{M}$, bare-number
+## section: Teacher Fine-Tuning
+--- original
+The teacher is fine-tuned on this work's dataset and then frozen, which is the standard two-stage arrangement and here also a resource requirement, since an ensemble of roughly $193\,\mathrm{M}$ parameters cannot run inside a student training step. It is instead evaluated once, offline, and its predictions cached.
+--- rephrased
+The teacher is fine-tuned on the dataset of this work and then frozen. This is the standard two-stage arrangement, which is also a resource requirement since an ensemble of approximately 193 million parameters cannot be run during a student training step. Instead, it is evaluated offline and its predictions are cached.
+--- final
+The teacher is fine-tuned on this work's dataset and then frozen. This is the standard two-stage arrangement, which is also a resource requirement since an ensemble of roughly $193\,\mathrm{M}$ parameters cannot be run during a student training step. Instead, it is evaluated once, offline, and its predictions are cached.
+--- verdict
+merged: restored $193\,\mathrm{M}$ format and "once" (DeepL dropped the count of how many times the teacher is evaluated). risk: high
+
+#### P008  36-Model_Training_and_Experiment_Tracking.tex:48  flags: -
+## section: Teacher Fine-Tuning
+--- original
+Only the classifier is fine-tuned. \textit{MegaDetector} is class-agnostic and already accurate on camera-style imagery, so there is limited headroom in adapting a localizer that does not name species. The classifier trains on the same annotation files the detectors do, so teacher and student see identical image, box and class triples and not merely identical splits. Its native taxonomy carries $2{,}498$ leaf labels, and a grouped cross-entropy sums the leaf probabilities belonging to each of the project's $225$ classes before taking the loss. For the $178$ species-level classes this reduces to ordinary cross-entropy, and it only does real work for the genus-level and family-level classes that several leaves map into.
+--- rephrased
+Only the classifier is fine-tuned. Since \textit{MegaDetector} is class-agnostic and already accurate with camera-style imagery, there is limited potential for adapting a localizer that does not identify species. The classifier is trained using the same annotation files as the detectors, so the teacher and student see identical image, box, and class triples, not merely identical splits. The classifier's native taxonomy contains $2{,}498$ leaf labels, and a grouped cross-entropy sums the leaf probabilities belonging to each of the project's $225$ classes before calculating the loss. For the $178$ species-level classes, it reduces to ordinary cross-entropy. It only does real work for the genus- and family-level classes, which several leaves map into.
+--- final
+Only the classifier is fine-tuned. Since \textit{MegaDetector} is class-agnostic and already accurate with camera-style imagery, there is limited potential for adapting a localizer that does not identify species. The classifier is trained using the same annotation files as the detectors, so the teacher and student see identical image, box, and class triples, not merely identical splits. The classifier's native taxonomy contains $2{,}498$ leaf labels, and a grouped cross-entropy sums the leaf probabilities belonging to each of the project's $225$ classes before calculating the loss. For the $178$ species-level classes, it reduces to ordinary cross-entropy. It only does real work for the genus- and family-level classes, which several leaves map into.
+--- verdict
+rephrased: same meaning, all numbers ($2{,}498$, $225$, $178$) preserved in math mode. risk: high
+
+#### P009  36-Model_Training_and_Experiment_Tracking.tex:50  flags: -
+## section: Teacher Fine-Tuning
+--- original
+Three deviations follow from the teacher being a classifier rather than a detector. It trains at $480$ px, its own native input resolution. It uses AdamW at $1 \times 10^{-4}$ rather than SGD, the ordinary convention for adapting a pretrained classification backbone. And macro F1 rather than mAP selects the checkpoint. One caveat attaches to any accuracy improvement reported for this fine-tune. Part of the corpus was admitted by agreeing with the pre-fine-tuning classifier (\Cref{sec:speciesnet_matching}), so the fine-tuned classifier is partly measured against its own earlier self and the improvement is optimistic by an unknown, probably small amount.
+--- rephrased
+There are three consequences of the teacher being a classifier rather than a detector. First, it trains at $480$ px, its own native input resolution. It uses AdamW at $1 \times 10^{-4}$ rather than SGD, which is the standard method for adapting a pretrained classification backbone. Macro F1, rather than mAP, selects the checkpoint. However, one caveat applies to any reported accuracy improvement for this fine-tuning. Part of the corpus was classified using the pre-fine-tuning classifier (\Cref{sec:speciesnet_matching}). Therefore, the fine-tuned classifier is partially evaluated against its earlier version, resulting in an overestimation of the improvement by an unknown, likely small amount.
+--- final
+Three deviations follow from the teacher being a classifier rather than a detector. It trains at $480$ px, its own native input resolution. It uses AdamW at $1 \times 10^{-4}$ rather than SGD, which is the standard method for adapting a pretrained classification backbone. Macro F1, rather than mAP, selects the checkpoint. However, one caveat applies to any reported accuracy improvement for this fine-tuning. Part of the corpus was admitted by agreeing with the pre-fine-tuning classifier (\Cref{sec:speciesnet_matching}), so the fine-tuned classifier is partly measured against its own earlier self and the improvement is optimistic by an unknown, probably small amount.
+--- verdict
+merged: kept original "deviations" (ties to the shared-protocol framing) and restored "admitted by agreeing with" (DeepL's "classified using" turns a corpus-admission/filtering criterion into a different claim about classification). risk: high
+
+#### P010  36-Model_Training_and_Experiment_Tracking.tex:55  flags: cite-moved: \cite{hintonDistillingKnowledgeNeural2015}, cite-merged: \cite{hintonDistillingKnowledgeNeural2015,gouKnowledgeDistillationSurvey2021}
+## section: Knowledge Distillation Loss
+--- original
+Feature-based distillation, which aligns intermediate activations, is excluded at the outset. It presupposes spatially corresponding feature maps, which a two-stage teacher seeing $480$ px crops and a single-stage student with a dense multi-scale pyramid over the whole frame do not have. Response-based distillation \cite{hintonDistillingKnowledgeNeural2015} is used instead, because it consumes only the teacher's final class distribution and so is indifferent to the architectural mismatch \cite{gouKnowledgeDistillationSurvey2021}.
+--- rephrased
+Feature-based distillation, which aligns intermediate activations, is excluded from the beginning. It presupposes spatially corresponding feature maps, which the two-stage teacher, which sees $480$-px crops, and the single-stage student, which has a dense, multi-scale pyramid over the whole frame, do not have. Instead, response-based distillation is used, as it only consumes the teacher's final class distribution and is therefore indifferent to the architectural mismatch \cite{hintonDistillingKnowledgeNeural2015,gouKnowledgeDistillationSurvey2021}.
+--- final
+
+--- verdict
+original: DeepL merged \cite{hintonDistillingKnowledgeNeural2015} (identifies response-based distillation) and \cite{gouKnowledgeDistillationSurvey2021} (supports the architectural-mismatch claim) into one \cite{a,b} on the mismatch claim alone, and the triple nested "which" in s2 is harder to parse than the original. risk: high
+
+#### P011  36-Model_Training_and_Experiment_Tracking.tex:57  flags: semicolon
+## section: Knowledge Distillation Loss
+--- original
+The teacher's output is projected onto the $225$-class space and cached once per training image, so the frozen teacher never executes inside the training loop. The cache holds one distribution per image, from the highest-confidence detection, so multi-animal images contribute a single teacher vector. Secondary detections were not used as extra pseudo-annotations, so distillation's supervision advantage in multi-animal scenes remains untested here.
+--- rephrased
+The teacher's output is projected onto the $225$-class space and cached once per training image. Thus, the frozen teacher never executes inside the training loop. The cache stores one distribution per image from the highest-confidence detection; therefore, multi-animal images contribute a single teacher vector. Since secondary detections were not used as extra pseudo-annotations, distillation's supervision advantage in multi-animal scenes remains untested.
+--- final
+The teacher's output is projected onto the $225$-class space and cached once per training image. Thus, the frozen teacher never executes inside the training loop. The cache holds one distribution per image, from the highest-confidence detection, so multi-animal images contribute a single teacher vector. Since secondary detections were not used as extra pseudo-annotations, distillation's supervision advantage in multi-animal scenes remains untested here.
+--- verdict
+merged: fixed the semicolon by reverting to the original comma-"so" clause, restored "here" (scope of the limitation). risk: high
+
+#### P012  36-Model_Training_and_Experiment_Tracking.tex:59  flags: -
+## section: Knowledge Distillation Loss
+--- original
+Distillation acts on the student's classification branch alone. The task-aligned assigner produces a soft target score vector $\mathbf{y}_i$ at each anchor $i$, and at the foreground anchors $\mathcal{F}$ that vector is blended toward the teacher distribution before the binary cross-entropy term is taken:
+--- rephrased
+Distillation only acts on the student's classification branch. The task-aligned assigner produces a soft target score vector, $\mathbf{y}_i$, at each anchor, $i$. At the foreground anchors, $\mathcal{F}$, that vector is blended toward the teacher distribution before the binary cross-entropy term is applied.
+--- final
+
+--- verdict
+original: DeepL's split into sentences ending in a period breaks the original's trailing colon, which leads into a following display equation. risk: high
+

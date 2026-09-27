@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 2-Literature_Review.tex: 12 paragraphs -->
+
+#### P013  2-Literature_Review.tex:38  flags: cite-lowconf: \cite{redmonYOLO9000BetterFaster2017} (0.41), cite-moved: \cite{redmonYOLO9000BetterFaster2017}, cite-lowconf: \cite{geYOLOXExceedingYOLO2021} (0.41), cite-moved: \cite{geYOLOXExceedingYOLO2021}, cite-lowconf: \cite{wangYOLOv10RealTimeEndtoEnd2024} (0.41), cite-merged: \cite{redmonYOLO9000BetterFaster2017,geYOLOXExceedingYOLO2021,wangYOLOv10RealTimeEndtoEnd2024}
+## section: The YOLO Model Family
+--- original
+Within the single-stage lineage, the YOLO family evolved along two intertwined axes: from anchor-based to anchor-free box prediction, and from non-maximum-suppression (NMS)-dependent to increasingly NMS-free inference. Anchor boxes were first learned by clustering the training-set box distribution \cite{redmonYOLO9000BetterFaster2017}, then dropped entirely in favor of direct prediction from a decoupled classification and regression head \cite{geYOLOXExceedingYOLO2021}, and the NMS post-processing step was finally removed from inference by consistent dual label assignment during training \cite{wangYOLOv10RealTimeEndtoEnd2024}. Reliably detecting several small objects clustered in one image nonetheless remains unresolved across the generations of the family \cite{nazirYouOnlyLook2023}.
+--- rephrased
+Within the single-stage lineage, the YOLO family evolved along two intertwined axes: from anchor-based to anchor-free box prediction and from NMS-dependent to increasingly NMS-free inference. First, anchor boxes were learned by clustering the training set box distribution. Then, they were dropped entirely in favor of direct prediction from a decoupled classification and regression head. Finally, the NMS post-processing step was removed from inference by consistent dual label assignment during training \cite{redmonYOLO9000BetterFaster2017,geYOLOXExceedingYOLO2021,wangYOLOv10RealTimeEndtoEnd2024}. However, reliably detecting several small objects clustered in one image remains unresolved across the generations of the family \cite{nazirYouOnlyLook2023}.
+--- final
+Within the single-stage lineage, the YOLO family evolved along two intertwined axes: from anchor-based to anchor-free box prediction, and from non-maximum-suppression (NMS)-dependent to increasingly NMS-free inference. First, anchor boxes were learned by clustering the training-set box distribution \cite{redmonYOLO9000BetterFaster2017}. Then, they were dropped entirely in favor of direct prediction from a decoupled classification and regression head \cite{geYOLOXExceedingYOLO2021}. Finally, the NMS post-processing step was removed from inference by consistent dual label assignment during training \cite{wangYOLOv10RealTimeEndtoEnd2024}. Reliably detecting several small objects clustered in one image nonetheless remains unresolved across the generations of the family \cite{nazirYouOnlyLook2023}.
+--- verdict
+merged: kept DeepL's three-sentence split but undid the citation merge, each of the three citations was moved back onto the clause whose claim it actually supports instead of all three hanging off the last sentence; restored the NMS definition dropped by DeepL. risk: high
+
+
+#### P014  2-Literature_Review.tex:40  flags: -
+## section: The YOLO Model Family
+--- original
+One early design in this lineage is a direct precedent for the taxonomy-aware inference discussed in \Cref{sec:lit_md_speciesnet}: a hierarchical \textit{WordTree} label space that lets a single detector combine detection-only and classification-only training data across a taxonomy \cite{redmonYOLO9000BetterFaster2017}.
+--- rephrased
+An early design in this lineage serves as a direct precedent for the taxonomy-aware inference discussed in \Cref{sec:lit_md_speciesnet}: a hierarchical \textit{WordTree} label space that enables a single detector to combine detection-only and classification-only training data across a taxonomy \cite{redmonYOLO9000BetterFaster2017}.
+--- final
+An early design in this lineage serves as a direct precedent for the taxonomy-aware inference discussed in \Cref{sec:lit_md_speciesnet}: a hierarchical \textit{WordTree} label space that enables a single detector to combine detection-only and classification-only training data across a taxonomy \cite{redmonYOLO9000BetterFaster2017}.
+--- verdict
+rephrased: wording-only change, no claim, hedge, number, or citation placement affected. risk: high
+
+
+#### P015  2-Literature_Review.tex:42  flags: wrap-ambiguous: YOLOv5, cite-moved: \cite{ultralyticsComprehensiveGuideUltralytics}, semicolon
+## section: The YOLO Model Family
+--- original
+Licensing, not architecture, fixes which generation this work can train. \textit{YOLOv5} \cite{ultralyticsComprehensiveGuideUltralytics} is commercially usable only up to commit \texttt{5cdad89}, and later commits require additional licensing that is incompatible with the requirement that the resulting weights be usable in a commercial product. This rules out every newer Ultralytics release independently of any architectural or accuracy comparison, and \textit{YOLOv5s} is accordingly the architecture trained throughout \Cref{sec:augmentation_setups}. None of the family's releases from YOLOv5 onward has a peer-reviewed paper of its own, so citations here are to codebases, release notes, or independent architectural analyses.
+--- rephrased
+It is licensing, not architecture, that determines which generation this work can be trained with. \textit{YOLOv5} can only be used commercially up to commit \texttt{5cdad89}; later commits require additional licensing that is incompatible with the requirement that the resulting weights be usable in a commercial product \cite{ultralyticsComprehensiveGuideUltralytics}. Therefore, every newer Ultralytics release is ruled out, independent of any architectural or accuracy comparison. \textit{YOLOv5s} is the architecture trained throughout \Cref{sec:augmentation_setups}. There is no peer-reviewed paper for any of the releases from YOLOv5 onward, so citations here are to codebases, release notes, or independent architectural analyses.
+--- final
+It is licensing, not architecture, that determines which generation this work can be trained with. \textit{YOLOv5} can only be used commercially up to commit \texttt{5cdad89}. Later commits require additional licensing that is incompatible with the requirement that the resulting weights be usable in a commercial product \cite{ultralyticsComprehensiveGuideUltralytics}. Therefore, every newer Ultralytics release is ruled out, independent of any architectural or accuracy comparison. \textit{YOLOv5s} is the architecture trained throughout \Cref{sec:augmentation_setups}. There is no peer-reviewed paper for any of the releases from YOLOv5 onward, so citations here are to codebases, release notes, or independent architectural analyses.
+--- verdict
+rephrased: split the semicolon into two sentences, citation placement at the end of the licensing-constraint sentence confirmed correct, no other content lost. risk: high
+
+
+#### P016  2-Literature_Review.tex:44  flags: format-lost: $3.2\,\mathrm{M}$, bare-number
+## section: The YOLO Model Family
+--- original
+The nano-scale variants most relevant to embedded deployment sit in the $2.6$--$3.2\,\mathrm{M}$-parameter range (\Cref{sec:target_class_definition}). No paper in the surveyed literature establishes a class-count-versus-accuracy ceiling for backbones of that size. The closest indirect evidence holds class count fixed and varies backbone size instead: a $0.99\,\mathrm{M}$-parameter detector reaches $30.6\%$ average precision on COCO against $25.3\%$ for a $0.91\,\mathrm{M}$-parameter one \cite{yuPPPicoDetBetterRealTime2021,geYOLOXExceedingYOLO2021}. That establishes discriminative capacity as a binding constraint for sub-million-parameter backbones in general, but not how that capacity trades off against a growing number of classes. The $200$--$250$-class ceiling adopted in \Cref{sec:target_class_definition} is therefore this work's own extrapolation from that general capacity-accuracy relationship, not a literature-established figure, and it is treated as such throughout.
+--- rephrased
+The nano-scale variants most relevant to embedded deployment are in the $2.6$-3.2 million parameter range (\Cref{sec:target_class_definition}). No paper in the surveyed literature establishes a ceiling for class count versus accuracy for backbones of that size. The closest indirect evidence fixes the class count and varies the backbone size: a $0.99\,\mathrm{M}$-parameter detector achieves an average precision of $30.6\%$ on COCO, compared to $25.3\%$ for a $0.91\,\mathrm{M}$-parameter detector \cite{yuPPPicoDetBetterRealTime2021,geYOLOXExceedingYOLO2021}. This suggests that discriminative capacity is a limiting factor for sub-million-parameter backbones in general. However, it does not address how this capacity compares to a growing number of classes. The $200$–$250$ class ceiling adopted in \Cref{sec:target_class_definition} is therefore this work's extrapolation of the general capacity-accuracy relationship, not a figure established in the literature. It is treated as such throughout.
+--- final
+The nano-scale variants most relevant to embedded deployment are in the $2.6$--$3.2\,\mathrm{M}$-parameter range (\Cref{sec:target_class_definition}). No paper in the surveyed literature establishes a ceiling for class count versus accuracy for backbones of that size. The closest indirect evidence fixes the class count and varies the backbone size: a $0.99\,\mathrm{M}$-parameter detector achieves an average precision of $30.6\%$ on COCO, compared to $25.3\%$ for a $0.91\,\mathrm{M}$-parameter detector \cite{yuPPPicoDetBetterRealTime2021,geYOLOXExceedingYOLO2021}. That establishes discriminative capacity as a binding constraint for sub-million-parameter backbones in general, but not how that capacity trades off against a growing number of classes. The $200$--$250$-class ceiling adopted in \Cref{sec:target_class_definition} is therefore this work's own extrapolation from that general capacity-accuracy relationship, not a literature-established figure, and it is treated as such throughout.
+--- verdict
+merged: kept DeepL's first three sentences after restoring the lost $3.2\,\mathrm{M}$ and $200$--$250$-class math formatting, reverted the "establishes...binding constraint" sentence to original since DeepL's "suggests...limiting factor" softens a claim the evidence is meant to state firmly. risk: high
+
+
+#### P017  2-Literature_Review.tex:46  flags: -
+## section: The YOLO Model Family
+--- original
+A ceiling on what one small detector can resolve makes the established alternative for wildlife imagery worth examining directly.
+--- rephrased
+The established alternative for wildlife imagery is worth examining directly due to the limitations of what one small detector can resolve.
+--- final
+The established alternative for wildlife imagery is worth examining directly due to the limitations of what one small detector can resolve.
+--- verdict
+rephrased: restructured connective sentence, same meaning, no claim or number affected. risk: low
+
+
+#### P018  2-Literature_Review.tex:51  flags: -
+## section: The Detector-Plus-Classifier Ensemble
+--- original
+A second architecture takes the opposite structural approach: a species-agnostic localizer feeding a separate, much larger species classifier. This work uses it inside its own pipeline as a pseudo-labeling and quality-filtering tool rather than as a deployment target (\Cref{sec:staged_filtering_pipeline,sec:speciesnet_matching}).
+--- rephrased
+A second architecture takes an opposite structural approach: a species-agnostic localizer that feeds a separate, much larger species classifier. This work uses the localizer as a pseudo-labeling and quality-filtering tool inside its own pipeline rather than as a deployment target (\Cref{sec:staged_filtering_pipeline,sec:speciesnet_matching}).
+--- final
+A second architecture takes an opposite structural approach: a species-agnostic localizer that feeds a separate, much larger species classifier. This work uses the localizer as a pseudo-labeling and quality-filtering tool inside its own pipeline rather than as a deployment target (\Cref{sec:staged_filtering_pipeline,sec:speciesnet_matching}).
+--- verdict
+rephrased: "it" clarified to "the localizer", same architecture and role described, no meaning change. risk: high
+
+
+#### P019  2-Literature_Review.tex:53  flags: format-lost: $36\,\mathrm{M}$, cite-moved: \cite{gadotCropNotCrop2024a}, cite-merged: \cite{gadotCropNotCrop2024a,gadotCropNotCrop2024}, bare-number
+## section: The Detector-Plus-Classifier Ensemble
+--- original
+\textit{MegaDetector} localizes animals, humans, and vehicles in camera-style imagery without attempting to resolve species identity \cite{beeryEfficientPipelineCamera2019}. Its output crops pass to \textit{SpeciesNet}, a classifier built on an \textit{EfficientNetV2-M} backbone \cite{gadotCropNotCrop2024a} and trained, in its largest reported configuration, on roughly $36\,\mathrm{M}$ camera-trap images spanning more than $2{,}000$ taxonomic labels \cite{gadotCropNotCrop2024}.
+--- rephrased
+\textit{MegaDetector} detects animals, humans, and vehicles in camera-style imagery without identifying species \cite{beeryEfficientPipelineCamera2019}. Its output is sent to \textit{SpeciesNet}, a classifier built on an \textit{EfficientNetV2-M} backbone that was trained on approximately 36 million camera-trap images spanning over $2{,}000$ taxonomic labels in its largest reported configuration \cite{gadotCropNotCrop2024a,gadotCropNotCrop2024}.
+--- final
+\textit{MegaDetector} detects animals, humans, and vehicles in camera-style imagery without identifying species \cite{beeryEfficientPipelineCamera2019}. Its output crops pass to \textit{SpeciesNet}, a classifier built on an \textit{EfficientNetV2-M} backbone \cite{gadotCropNotCrop2024a} and trained, in its largest reported configuration, on roughly $36\,\mathrm{M}$ camera-trap images spanning more than $2{,}000$ taxonomic labels \cite{gadotCropNotCrop2024}.
+--- verdict
+merged: kept DeepL's first sentence, reverted the second sentence to original since the citation merge misattributed the backbone-source citation to the joint sentence, dropped the "crops" detail, and lost the $36\,\mathrm{M}$ math formatting. risk: high
+
+
+#### P020  2-Literature_Review.tex:55  flags: -
+## section: The Detector-Plus-Classifier Ensemble
+--- original
+Rather than committing to a species-level prediction regardless of confidence, the classification stage applies a confidence-gated taxonomic rollup. When the top species-level prediction falls below a confidence threshold, per-taxon confidence scores are summed upward across the taxonomy until some higher clade (genus, family, and so on) clears it. A low-confidence prediction thereby degrades into a coarser but still informative answer instead of an outright wrong species call \cite{gadotCropNotCrop2024}. A complementary geofencing step rolls up the same way whenever the top prediction falls outside a region-specific allow-list \cite{gadotCropNotCrop2024}.
+--- rephrased
+Instead of making a species-level prediction regardless of confidence, the classification stage uses a confidence-gated taxonomic rollup. When the top species-level prediction falls below the confidence threshold, the confidence scores of each taxon are summed upward across the taxonomy until a higher clade (genus, family, etc.) clears it. Thus, a low-confidence prediction degrades into a coarser but still informative answer instead of an incorrect species identification \cite{gadotCropNotCrop2024}. Similarly, a complementary geofencing step rolls up in the same way whenever the top prediction falls outside a region-specific allow list \cite{gadotCropNotCrop2024}.
+--- final
+Instead of making a species-level prediction regardless of confidence, the classification stage uses a confidence-gated taxonomic rollup. When the top species-level prediction falls below the confidence threshold, the confidence scores of each taxon are summed upward across the taxonomy until a higher clade (genus, family, etc.) clears it. Thus, a low-confidence prediction degrades into a coarser but still informative answer instead of an incorrect species identification \cite{gadotCropNotCrop2024}. Similarly, a complementary geofencing step rolls up in the same way whenever the top prediction falls outside a region-specific allow list \cite{gadotCropNotCrop2024}.
+--- verdict
+rephrased: both citations kept on their original claims, no hedge, number, or mechanism detail altered. risk: high
+
+
+#### P021  2-Literature_Review.tex:57  flags: cite-lowconf: \cite{gadotCropNotCrop2024} (0.41)
+## section: The Detector-Plus-Classifier Ensemble
+--- original
+Two properties make this arrangement the practical accuracy reference for wildlife species recognition from camera-style imagery. Cropping to a detected animal before classifying improves macro-averaged F1 by roughly $25\%$ over whole-image classification on a large, long-tailed camera-trap dataset, and the result reproduces on two further public datasets \cite{gadotCropNotCrop2024}. The rollup then guarantees that a classification too uncertain to name a species still returns a correct genus or family. A single detector trained directly on species-level classes has no such fallback by default. Below its confidence threshold a detection is simply dropped or misclassified, unless an intermediate taxonomic level is deliberately engineered into the label space or the loss, which \textit{WordTree} showed to be possible in principle for a detector \cite{redmonYOLO9000BetterFaster2017}.
+--- rephrased
+This arrangement is the practical accuracy reference for recognizing wildlife species from camera-style imagery due to two properties. Cropping to a detected animal before classification improves the macro-averaged F1 score by about $25\%$ compared to whole-image classification using a large, long-tailed camera trap dataset \cite{gadotCropNotCrop2024}. This result is reproducible using two additional public datasets. The rollup then ensures that classifications that are too uncertain to identify a species correctly still return the correct genus or family. A single detector trained directly on species-level classes does not have this capability by default. Below its confidence threshold, a detection is either dropped or misclassified unless an intermediate taxonomic level is deliberately engineered into the label space or loss function \cite{redmonYOLO9000BetterFaster2017}. \textit{WordTree} demonstrated the feasibility of this approach for a detector.
+--- final
+This arrangement is the practical accuracy reference for recognizing wildlife species from camera-style imagery due to two properties. Cropping to a detected animal before classifying improves macro-averaged F1 by roughly $25\%$ over whole-image classification on a large, long-tailed camera-trap dataset, and the result reproduces on two further public datasets \cite{gadotCropNotCrop2024}. The rollup then ensures that classifications that are too uncertain to identify a species correctly still return the correct genus or family. A single detector trained directly on species-level classes does not have this capability by default. Below its confidence threshold a detection is simply dropped or misclassified, unless an intermediate taxonomic level is deliberately engineered into the label space or the loss, which \textit{WordTree} showed to be possible in principle for a detector \cite{redmonYOLO9000BetterFaster2017}.
+--- verdict
+merged: kept DeepL's opening and middle sentences, reverted the F1-and-reproduction sentence and the fallback/WordTree sentence to original because splitting them left the reproduction claim and the WordTree claim without the citation that in the original covers the whole joint claim. risk: high
+
+
+#### P022  2-Literature_Review.tex:59  flags: -
+## section: The Detector-Plus-Classifier Ensemble
+--- original
+The cost is structural, and the two components' separate design does not hide it. A full detector and a large classification backbone both run, and the classifier runs once per detected crop, so total inference time scales with the number of animals in the frame instead of staying constant. \textit{EfficientNetV2-M} on its own is far larger than the nano-scale backbones already established as demanding to fit inside the per-frame latency budget of the \textit{QCS605}'s Hexagon 685 DSP, and that comparison is before counting the detector backbone or the per-crop multiplier.
+--- rephrased
+The cost is structural, and the separate designs of the two components do not hide it. Both a full detector and a large classification backbone run, and the classifier runs once per detected crop. Therefore, total inference time scales with the number of animals in the frame instead of staying constant. Even on its own, \textit{EfficientNetV2-M} is far larger than nano-scale backbones that have already been shown to exceed the per-frame latency budget of the \textit{QCS605}'s Hexagon 685 DSP. This comparison does not even take into account the detector backbone or the per-crop multiplier.
+--- final
+The cost is structural, and the separate designs of the two components do not hide it. Both a full detector and a large classification backbone run, and the classifier runs once per detected crop. Therefore, total inference time scales with the number of animals in the frame instead of staying constant. \textit{EfficientNetV2-M} on its own is far larger than the nano-scale backbones already established as demanding to fit inside the per-frame latency budget of the \textit{QCS605}'s Hexagon 685 DSP. This comparison does not even take into account the detector backbone or the per-crop multiplier.
+--- verdict
+merged: kept DeepL's structure throughout but reverted the DSP-comparison clause to original, DeepL's "already been shown to exceed the...budget" reverses the original's weaker "established as demanding to fit inside" claim about whether nano-scale backbones fit the budget. risk: high
+
+
+#### P023  2-Literature_Review.tex:61  flags: -
+## section: The Detector-Plus-Classifier Ensemble
+--- original
+The choice between the two architectures therefore resolves on deployability rather than on accuracy. The ensemble is more accurate and degrades more gracefully, but fitting it to the target hardware would mean compressing two separately trained networks, each with its own accuracy-versus-size curve. A single end-to-end detector trained on the 225-class taxonomy gives up both the accuracy margin and the taxonomic fallback, but runs at a fixed per-frame cost and leaves one network to compress and export. This work trains the single detector, which moves the accuracy burden onto the training data: a nano-scale detector asked to resolve 225 fine-grained classes must see enough of each one.
+--- rephrased
+Therefore, the choice between the two architectures is based on deployability rather than accuracy. The ensemble is more accurate and degrades more gracefully. However, fitting it to the target hardware would require compressing two networks that were trained separately, each with its own accuracy-versus-size curve. A single end-to-end detector trained on the 225-class taxonomy sacrifices both the accuracy margin and the taxonomic fallback. However, it runs at a fixed per-frame cost and leaves one network to compress and export. This work trains the single detector, shifting the accuracy burden to the training data. A nano-scale detector asked to resolve 225 fine-grained classes must be shown enough examples of each class.
+--- final
+Therefore, the choice between the two architectures is based on deployability rather than accuracy. The ensemble is more accurate and degrades more gracefully. However, fitting it to the target hardware would require compressing two networks that were trained separately, each with its own accuracy-versus-size curve. A single end-to-end detector trained on the 225-class taxonomy sacrifices both the accuracy margin and the taxonomic fallback. However, it runs at a fixed per-frame cost and leaves one network to compress and export. This work trains the single detector, shifting the accuracy burden to the training data. A nano-scale detector asked to resolve 225 fine-grained classes must be shown enough examples of each class.
+--- verdict
+rephrased: same trade-off and class counts preserved throughout, no citation or hedge affected. risk: high
+
+
+#### P024  2-Literature_Review.tex:66  flags: -
+## section: Synthetic Training Data for Visual Recognition
+--- original
+Synthetic imagery enters this work as a remedy for classes whose real-image pool is too small to train on (\Cref{sec:synthetic_data_supplementation}). This section proceeds from the generative models that produce such imagery, to the sim-to-real gap that governs whether it is usable for training at all, to how its quality can be measured, and finally to the specific role it can play for long-tail classes.
+--- rephrased
+This work introduces synthetic imagery as a solution for classes with insufficient real-image data for training (\Cref{sec:synthetic_data_supplementation}). This section begins with the generative models that produce such imagery and then moves on to the sim-to-real gap, which determines whether the imagery can be used for training. Next, it discusses how to measure the quality of the imagery. Finally, it covers the specific role that synthetic imagery can play for long-tail classes.
+--- final
+This work introduces synthetic imagery as a solution for classes with insufficient real-image data for training (\Cref{sec:synthetic_data_supplementation}). This section begins with the generative models that produce such imagery and then moves on to the sim-to-real gap, which determines whether the imagery can be used for training. Next, it discusses how to measure the quality of the imagery. Finally, it covers the specific role that synthetic imagery can play for long-tail classes.
+--- verdict
+rephrased: chapter roadmap, all four topics and their order preserved, no numbers or citations involved. risk: low
+
+

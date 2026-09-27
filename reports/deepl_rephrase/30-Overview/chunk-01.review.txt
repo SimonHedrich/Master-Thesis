@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 30-Overview.tex: 12 paragraphs -->
+
+#### P001  30-Overview.tex:5  flags: -
+## section: Methods and Implementation
+--- original
+This chapter describes how the comparison between distillation and direct
+--- rephrased
+This chapter describes the comparison between distillation and direct methods.
+--- final
+
+--- verdict
+original: rephrased drops fine-tuning and invents methods, ending the sentence early against the line wrap. risk: low
+
+
+#### P002  30-Overview.tex:6  flags: -
+## section: Methods and Implementation
+--- original
+fine-tuning was set up, in enough detail to let the results in
+--- rephrased
+The fine-tuning was set up in enough detail to allow the results to come in.
+--- final
+
+--- verdict
+original: rephrased ends the sentence early, breaking the link to \Cref{chapter:results} on the next line. risk: low
+
+
+#### P003  30-Overview.tex:7  flags: -
+## section: Methods and Implementation
+--- original
+\Cref{chapter:results} be read and checked. Because the target domain of
+--- rephrased
+\Cref{chapter:results} can be read and checked. The target domain is
+--- final
+
+--- verdict
+original: rephrased drops the causal Because, turning a cause-effect clause into an unrelated statement. risk: medium
+
+
+#### P004  30-Overview.tex:8  flags: -
+## section: Methods and Implementation
+--- original
+non-bird mammal species departs substantially from the COCO-style classes most
+--- rephrased
+Non-bird mammals depart substantially from the COCO-style classes.
+--- final
+
+--- verdict
+original: rephrased drops species and truncates before most, breaking the list continuation to the next line. risk: low
+
+
+#### P005  30-Overview.tex:9  flags: -
+## section: Methods and Implementation
+--- original
+detection datasets are built around, most of the methodological work went into
+--- rephrased
+Most of the methodological work went into building detection datasets.
+--- final
+
+--- verdict
+original: rephrased invents building detection datasets in place of the actual corpus-construction claim. risk: medium
+
+
+#### P006  30-Overview.tex:10  flags: -
+## section: Methods and Implementation
+--- original
+constructing a corpus large enough, clean enough and balanced enough across
+--- rephrased
+Constructing a large enough, clean enough, and balanced enough corpus.
+--- final
+
+--- verdict
+original: rephrased truncates before across, breaking the link to the species count on the next line. risk: low
+
+
+#### P007  30-Overview.tex:11  flags: -
+## section: Methods and Implementation
+--- original
+$225$ species-level classes to make that comparison fair.
+--- rephrased
+There are $225$ species-level classes to make that comparison fair.
+--- final
+
+--- verdict
+original: kept to match the across ending kept on the prior line, and to preserve the $225$ figure verbatim. risk: high
+
+
+#### P008  30-Overview.tex:13  flags: -
+## section: Methods and Implementation
+--- original
+The chapter has three parts.
+--- rephrased
+The chapter is divided into three parts.
+--- final
+The chapter is divided into three parts.
+--- verdict
+rephrased: same meaning, cleaner phrasing. risk: low
+
+
+#### P010  30-Overview.tex:15  flags: -
+## section: Methods and Implementation
+--- original
+build the dataset, from class taxonomy and source imagery through cleaning,
+--- rephrased
+Build the dataset from the class taxonomy and source imagery, and then clean it.
+--- final
+
+--- verdict
+original: rephrased closes the sentence early, dropping the ground-truth verification, synthetic supplementation and augmentation steps that follow. risk: low
+
+
+#### P011  30-Overview.tex:16  flags: -
+## section: Methods and Implementation
+--- original
+ground-truth verification, synthetic supplementation of under-resourced classes,
+--- rephrased
+Ground-truth verification and synthetic supplementation of under-resourced classes.
+--- final
+
+--- verdict
+original: rephrased inserts a false and and closes the sentence early, orphaning the augmentation clause on the next line. risk: low
+
+
+#### P012  30-Overview.tex:17  flags: -
+## section: Methods and Implementation
+--- original
+and augmentation as a controlled variable. \Cref{sec:generator_comparison} is a
+--- rephrased
+Augmentation is a controlled variable. \Cref{sec:generator_comparison} is a
+--- final
+
+--- verdict
+original: rephrased drops the leading and, breaking the list closure carried from the prior line. risk: low
+
+
+#### P013  30-Overview.tex:18  flags: -
+## section: Methods and Implementation
+--- original
+self-contained sub-study that tests the synthetic pipeline's most consequential
+--- rephrased
+This is a self-contained sub-study that tests the most consequential aspects of the synthetic pipeline.
+--- final
+
+--- verdict
+original: rephrased adds a redundant This is a, duplicating the verb already supplied by is a on the prior line. risk: low
+
+

@@ -1,0 +1,263 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 4-Results.tex: 12 paragraphs -->
+
+#### P001  4-Results.tex:5  flags: bare-number
+## section: Results
+--- original
+This chapter reports two experiments. \Cref{sec:results_synthetic_data_practicability} reports the practicability of synthetic training data through a controlled comparison of twelve generator and prompt-regime cells. \Cref{sec:results_regime_comparison} reports detection accuracy across the four training bands and the three test domains of \Cref{sec:evaluation_framework}. Three findings from them recur throughout the remaining chapters: prompt detail matters more than generator identity, synthetic imagery substitutes for half of a small real training set but not for all of it, and species classification rather than localization is where every model loses its accuracy. \Cref{sec:results_kd_and_embedded} reports one distillation comparison and one runtime measurement, and \Cref{sec:results_general_observations} collects what crosses section boundaries.
+--- rephrased
+This chapter describes two experiments. The first, \Cref{sec:results_synthetic_data_practicability}, reports on the feasibility of synthetic training data by comparing twelve generator and prompt-regime cells in a controlled manner. \Cref{sec:results_regime_comparison} reports on detection accuracy across the four training bands and three test domains of \Cref{sec:evaluation_framework}. Three findings recur throughout the remaining chapters:
+1) Prompt detail matters more than generator identity.
+2) Synthetic imagery substitutes for half of a small real training set, but not all of it.
+3) Species classification, rather than localization, is where every model loses accuracy. \Cref{sec:results_kd_and_embedded} reports one distillation comparison and one runtime measurement. \Cref{sec:results_general_observations} contains information that crosses section boundaries.
+--- final
+
+--- verdict
+original: kept original prose list; DeepL's numbered 1)/2)/3) list breaks the one-paragraph-one-line rule and "feasibility" drifts from the section's own term "practicability". risk: low
+
+#### P002  4-Results.tex:10  flags: token-lost: 1 LaTeX span(s) did not come back: '\\Cref{sec:results_rubric_not_executed}'
+## section: Practicability of Synthetic Training Data: Generator Comparison
+--- original
+This section reports the controlled comparison designed in \Cref{sec:generator_comparison}: twelve generator$\times$prompt-regime cells, each supplying $1{,}200$ synthetic training images for the same $12$ classes to the same detector under the same schedule, each scored on the same $9{,}742$ real photographs. Two qualifications determine how the numbers below should be read. Every cell was annotated automatically (\Cref{sec:generator_comparison_training}), so absolute accuracy is provisional even though the identical treatment leaves the ranking unaffected. And of the three evaluation axes designed, only downstream utility was executed (\Cref{sec:results_rubric_not_executed}).
+--- rephrased
+This section reports the controlled comparison designed in \Cref{sec:generator_comparison}: twelve generator$\times$prompt-regime cells, each supplying $1{,}200$ synthetic training images for the same $12$ classes to the same detector under the same schedule, each scored on the same $9{,}742$ real photographs. Two qualifications determine how the numbers below should be read. Every cell was annotated automatically (\Cref{sec:generator_comparison_training}), so absolute accuracy is provisional even though the identical treatment leaves the ranking unaffected. And of the three evaluation axes designed, only downstream utility was executed (\Cref{sec:results_rubric_not_executed}).
+--- final
+
+--- verdict
+original: rephrased text is identical to the original (token-lost fallback); nothing to change. risk: low
+
+#### P003  4-Results.tex:15  flags: -
+## section: Downstream Utility on Real Photographs
+--- original
+\Cref{tab:generator-ranking} gives the headline result. Accuracy is mean average precision over the real test set, averaged across training seeds and reported with its standard deviation. The confusion column is the within-group error rate over the three zebra species defined in \Cref{sec:generator_comparison_evaluation}.
+--- rephrased
+\Cref{tab:generator-ranking} provides the main result. Accuracy is the mean average precision over the real test set, averaged across training seeds, and reported with its standard deviation. The "confusion" column is the within-group error rate for the three zebra species defined in \Cref{sec:generator_comparison_evaluation}.
+--- final
+
+--- verdict
+original: kept original; "headline result" matches the recurring cross-reference name (\Cref{sec:results_headline_mixed}) and the unquoted "confusion column" avoids an unneeded added quotation mark. risk: low
+
+#### P004  4-Results.tex:41  flags: token-reordered: \Cref{fig:generator-headline-map}, token-reordered: \Cref{tab:generator-ranking}, wrap-case: gemini-3.1-flash-lite-image -> Gemini-3.1-Flash-Lite-Image
+## section: Downstream Utility on Real Photographs
+--- original
+\Cref{tab:generator-ranking} separates tiers rather than individual models, as \Cref{fig:generator-headline-map} plots. The five highest-ranked cells are all proprietary API services and the best locally-run model ranks sixth. The one crossing is \texttt{gemini-3.1-flash-lite-image} under the short prompt, a deliberately handicapped cell whose unabridged counterpart sits fourth. Under each model's best prompt, no local model reaches any API model. Within the local tier the two Stable Diffusion 3.5 variants without step distillation lead and are statistically indistinguishable from one another, while SD 3.5 Large's four-step Turbo variant trails it by roughly a fifth. Step count alone does not decide the outcome, since HiDream-I1 also runs its full sampling schedule and ranks eleventh.
+--- rephrased
+Unlike \Cref{fig:generator-headline-map}, \Cref{tab:generator-ranking} separates tiers rather than individual models. The five highest-ranked cells are all proprietary API services, with the best locally run model ranking sixth. The only crossing is \texttt{gemini-3.1-flash-lite-image} under the short prompt. It is a deliberately handicapped cell, and its unabridged counterpart sits in fourth place. Under each model's optimal prompt, no local model outperforms any API model. Within the local tier, the two Stable Diffusion 3.5 variants without step distillation are statistically indistinguishable from one another and lead, while SD 3.5 Large's four-step Turbo variant trails by about a fifth. Step count alone does not determine the outcome since HiDream-I1 runs its full sampling schedule and ranks eleventh.
+--- final
+Unlike \Cref{fig:generator-headline-map}, \Cref{tab:generator-ranking} separates tiers rather than individual models. The five highest-ranked cells are all proprietary API services, with the best locally-run model ranking sixth. The only crossing is \texttt{gemini-3.1-flash-lite-image} under the short prompt, a deliberately handicapped cell whose unabridged counterpart sits fourth. Under each model's best prompt, no local model reaches any API model. Within the local tier, the two Stable Diffusion 3.5 variants without step distillation are statistically indistinguishable from one another and lead, while SD 3.5 Large's four-step Turbo variant trails it by roughly a fifth. Step count alone does not decide the outcome, since HiDream-I1 also runs its full sampling schedule and ranks eleventh.
+--- verdict
+merged: kept DeepL's framing and sentence splits but restored "reaches" (DeepL's "outperforms" weakens the claim that no local model even matches an API model) and the hedge "roughly" (DeepL's "about"). risk: high
+
+#### P005  4-Results.tex:43  flags: -
+## section: Downstream Utility on Real Photographs
+--- original
+Every cell scores far below what the same detector reaches on the full dataset (\Cref{sec:results_headline_mixed}), as expected of a $1{,}200$-image fine-tune across $12$ classes scored on a far larger test set. These figures rank generators and support no claim about achievable accuracy. They also confound two variables, since the local cells ran a length-capped prompt and the API cells the unabridged one.
+--- rephrased
+As expected of a $1{,}200$-image fine-tune across $12$ classes scored on a far larger test set, every cell scores far below what the same detector reaches on the full dataset (\Cref{sec:results_headline_mixed}). These figures rank generators and do not support any claims about achievable accuracy. Additionally, they confound two variables since the local cells ran a length-capped prompt and the API cells ran an unabridged one.
+--- final
+As expected of a $1{,}200$-image fine-tune across $12$ classes scored on a far larger test set, every cell scores far below what the same detector reaches on the full dataset (\Cref{sec:results_headline_mixed}). These figures rank generators and do not support any claims about achievable accuracy. Additionally, they confound two variables since the local cells ran a length-capped prompt and the API cells ran an unabridged one.
+--- verdict
+rephrased: accepted, meaning, hedges and numbers unchanged, only clause order and wording paraphrased. risk: high
+
+#### P006  4-Results.tex:48  flags: -
+## section: Prompt Length Versus Model Identity
+--- original
+The controlled ablation of \Cref{sec:generator_comparison_prompts} separates those two variables by varying prompt length alone, within a fixed model, for two models at different capability levels (\Cref{tab:prompt-length-ablation}).
+--- rephrased
+The controlled ablation of \Cref{sec:generator_comparison_prompts} distinguishes between the two variables by varying the prompt length within a fixed model for two models with different levels of capability (\Cref{tab:prompt-length-ablation}).
+--- final
+The controlled ablation of \Cref{sec:generator_comparison_prompts} distinguishes between the two variables by varying the prompt length alone within a fixed model for two models with different levels of capability (\Cref{tab:prompt-length-ablation}).
+--- verdict
+merged: kept DeepL's phrasing but restored "alone" (dropped scope qualifier that the ablation isolates prompt length as the single varied factor). risk: high
+
+#### P007  4-Results.tex:64  flags: -
+## section: Prompt Length Versus Model Identity
+--- original
+Compressing the prompt costs roughly half the downstream accuracy, almost identically for both models despite their differing capability (\Cref{fig:prompt-length-ablation}). The effect is larger than most model-to-model differences in \Cref{tab:generator-ranking}, moving the top-ranked cell to fifth place and the fourth to eighth. Within-group confusion moves in step, from $0.253$ to $0.457$ and from $0.218$ to $0.405$, so the long prompt supplies the diagnostic detail on which species discrimination depends.
+--- rephrased
+Compressing the prompt results in roughly half the downstream accuracy for both models, despite their differing capabilities (\Cref{fig:prompt-length-ablation}). This effect is larger than most model-to-model differences in \Cref{tab:generator-ranking}. It moves the top-ranked cell to fifth place and the fourth cell to eighth place. Within-group confusion increases proportionally, from $0.253$ to $0.457$ and from $0.218$ to $0.405$. Thus, the long prompt provides the diagnostic detail necessary for species discrimination.
+--- final
+Compressing the prompt costs roughly half the downstream accuracy, almost identically for both models despite their differing capabilities (\Cref{fig:prompt-length-ablation}). This effect is larger than most model-to-model differences in \Cref{tab:generator-ranking}. It moves the top-ranked cell to fifth place and the fourth cell to eighth place. Within-group confusion moves in step, from $0.253$ to $0.457$ and from $0.218$ to $0.405$, so the long prompt supplies the diagnostic detail on which species discrimination depends.
+--- verdict
+merged: kept DeepL's sentence split but restored "almost identically" (dropped claim that the effect size is nearly the same for both models) and "moves in step" (DeepL's "increases proportionally" asserts an unsupported linear relationship). risk: high
+
+#### P008  4-Results.tex:66  flags: -
+## section: Prompt Length Versus Model Identity
+--- original
+The gap between the API and local tiers is therefore substantially, though not wholly, a prompt-capacity effect, which makes the local tier's disadvantage partly one of its text encoders. The practical ordering of concerns inverts: how much detail a generator is given matters more than which generator is chosen. The ablation covers two models and the local tier has no unabridged-prompt cell, so this is a demonstrated effect rather than a general law. The remaining criterion available before any detector is trained is price.
+--- rephrased
+The gap between the API and local tiers is therefore substantially, though not entirely, a prompt-capacity effect. This makes the disadvantage of the local tier partly due to its text encoders. The practical ordering of concerns is inverted: how much detail a generator is given matters more than which generator is chosen. The ablation study covers two models, and the local tier lacks an unabridged prompt cell. Thus, this is a demonstrated effect rather than a general law. Price is the remaining criterion before any detector is trained.
+--- final
+The gap between the API and local tiers is therefore substantially, though not entirely, a prompt-capacity effect. This makes the disadvantage of the local tier partly due to its text encoders. The practical ordering of concerns is inverted: how much detail a generator is given matters more than which generator is chosen. The ablation study covers two models, and the local tier lacks an unabridged prompt cell. Thus, this is a demonstrated effect rather than a general law. Price is the remaining criterion before any detector is trained.
+--- verdict
+rephrased: accepted, hedge "though not entirely" and scope limit "demonstrated effect rather than a general law" both preserved. risk: high
+
+#### P009  4-Results.tex:71  flags: -
+## section: Cost Does Not Predict Quality
+--- original
+Within the local tier, generation cost and downstream quality are unrelated to the point of inversion. The most expensive cell to produce is HiDream-I1, at nearly $48$ GPU-hours for $1{,}200$ images, and it ranks eleventh of twelve, while the cheapest by two orders of magnitude ranks twelfth. SD 3.5 Medium is the best trade-off in the grid, indistinguishable from SD 3.5 Large at less than half its generation time. Model scale, denoising-step count and generation time all fail to predict the outcome. Model family does predict it, with the Stable Diffusion 3.5 architecture leading at either size.
+--- rephrased
+Within the local tier, generation cost and downstream quality are inversely related. HiDream-I1 is the most expensive cell to produce, at nearly $48$ GPU-hours for $1{,}200$ images. It ranks eleventh out of twelve, while the twelfth-ranked cell is the cheapest by two orders of magnitude. SD 3.5 Medium offers the best trade-off in the grid and is indistinguishable from SD 3.5 Large, despite having less than half the generation time. Model scale, denoising step count, and generation time all fail to predict the outcome. However, model family does predict the outcome, with the Stable Diffusion 3.5 architecture leading at either size.
+--- final
+Within the local tier, generation cost and downstream quality are unrelated to the point of inversion. HiDream-I1 is the most expensive cell to produce, at nearly $48$ GPU-hours for $1{,}200$ images. It ranks eleventh out of twelve, while the twelfth-ranked cell is the cheapest by two orders of magnitude. SD 3.5 Medium offers the best trade-off in the grid and is indistinguishable from SD 3.5 Large, despite having less than half the generation time. Model scale, denoising-step count and generation time all fail to predict the outcome. However, model family does predict the outcome, with the Stable Diffusion 3.5 architecture leading at either size.
+--- verdict
+merged: restored original s1 "unrelated to the point of inversion" (DeepL's "inversely related" asserts a negative correlation, contradicting this section's own title "Cost Does Not Predict Quality"); kept DeepL's remaining sentences. risk: high
+
+#### P010  4-Results.tex:80  flags: wrap-case: gpt-image-2 -> GPT-Image-2
+## section: Cost Does Not Predict Quality
+--- original
+\Cref{fig:generator-cost-vs-map} shows no trend across that tier. The API tier is sharper still, because there the cost is monetary. The two \texttt{gpt-image-2} quality tiers differ by a factor of $2.9$ in price ($\$10.11$ against $\$29.36$ for the same $1{,}200$ images) and are statistically tied, a gap of $0.008$ against a combined standard deviation of roughly $0.018$. The incumbent and its cheaper variant are likewise indistinguishable within their spreads. In neither family is the cheaper tier the worse one, and no single cost axis spans the whole table, since reducing GPU-hours and currency to one number would require an assumed price of compute that would carry the conclusion.
+--- rephrased
+\Cref{fig:generator-cost-vs-map} shows no trend within that tier. The API tier is even sharper because the cost is monetary. The two \texttt{gpt-image-2} quality tiers differ by a price factor of $2.9$ ($\$10.11$ versus $\$29.36$ for $1{,}200$ images), and they are statistically tied: a gap of $0.008$ versus a combined standard deviation of approximately $0.018$. Likewise, the incumbent and its cheaper variant are indistinguishable within their spreads. Neither family's cheaper tier is worse, and no single cost axis spans the whole table. Reducing GPU hours and currency to one number would require an assumed price of compute that would carry the conclusion.
+--- final
+\Cref{fig:generator-cost-vs-map} shows no trend within that tier. The API tier is even sharper because the cost is monetary. The two \texttt{gpt-image-2} quality tiers differ by a price factor of $2.9$ ($\$10.11$ against $\$29.36$ for $1{,}200$ images), and they are statistically tied: a gap of $0.008$ against a combined standard deviation of roughly $0.018$. Likewise, the incumbent and its cheaper variant are indistinguishable within their spreads. Neither family's cheaper tier is worse, and no single cost axis spans the whole table. Reducing GPU-hours and currency to one number would require an assumed price of compute that would carry the conclusion.
+--- verdict
+merged: kept DeepL's sentence split but restored the hedge "roughly" (DeepL's "approximately") and the hyphenated "GPU-hours" for consistency with the same term elsewhere in this section. risk: high
+
+#### P011  4-Results.tex:85  flags: -
+## section: Per-Class Structure: Where the Ranking Comes From
+--- original
+The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced across the twelve classes, and that imbalance is this section's most important result. Essentially all of the discriminating signal comes from the three data-rich anchor classes and the zebras, with American black bear alone ranging from $0.072$ for the weakest cell to $0.326$ for the strongest. The six rare classes behave in the opposite way. Five of them, namely aye-aye, kinkajou, ringtail, saiga and the pangolin family, stay below $0.05$ average precision for \emph{every} cell in the grid. Water deer is the sole exception and peaks at $0.066$.
+--- rephrased
+The aggregate figures in \Cref{tab:generator-ranking} are not evenly distributed across the twelve classes. This imbalance is the most important result of this section. Nearly all of the discriminating signal originates from the three data-rich anchor classes and the zebras. The American black bear, for example, ranges from $0.072$ in the weakest cell to $0.326$ in the strongest. The six rare classes behave in the opposite way. Five of them—aye-aye, kinkajou, ringtail, saiga, and pangolin—stay below an average precision of $0.05$ for \emph{every} cell in the grid. The water deer is the sole exception, peaking at $0.066$.
+--- final
+The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced across the twelve classes, and that imbalance is this section's most important result. Nearly all of the discriminating signal comes from the three data-rich anchor classes and the zebras, with American black bear alone ranging from $0.072$ for the weakest cell to $0.326$ for the strongest. The six rare classes behave in the opposite way. Five of them, namely aye-aye, kinkajou, ringtail, saiga and the pangolin family, stay below an average precision of $0.05$ for \emph{every} cell in the grid. Water deer is the sole exception and peaks at $0.066$.
+--- verdict
+merged: replaced DeepL's em-dash list ("Five of them—aye-aye...") with the original comma list (hard rule bans parenthetical dashes), and restored "the pangolin family" and "alone" (both dropped by DeepL). risk: high
+
+#### P012  4-Results.tex:94  flags: -
+## section: Per-Class Structure: Where the Ranking Comes From
+--- original
+\Cref{fig:generator-per-class-heatmap} shows that contrast column by column. It is a resolution limit of the evaluation axis rather than a finding about the generators: with at most a few hundred real test images per rare class and a detector fine-tuned on $100$ synthetic images of it, the measurement cannot separate generators on exactly the classes synthetic data was introduced for.
+--- rephrased
+\Cref{fig:generator-per-class-heatmap} shows the contrast column by column. This is a resolution limit of the evaluation axis rather than an insight into the generators. With only a few hundred real test images per rare class and a detector fine-tuned on $100$ synthetic images, the measurement cannot distinguish between generators in the exact classes for which synthetic data was introduced.
+--- final
+\Cref{fig:generator-per-class-heatmap} shows the contrast column by column. This is a resolution limit of the evaluation axis rather than an insight into the generators. With at most a few hundred real test images per rare class and a detector fine-tuned on $100$ synthetic images of it, the measurement cannot distinguish between generators in the exact classes for which synthetic data was introduced.
+--- verdict
+merged: restored "at most" (DeepL's "only" loses the upper-bound qualifier on the image count) and "of it" (referring back to the rare class), kept DeepL's other phrasing. risk: high
+
+

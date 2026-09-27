@@ -1,0 +1,187 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 35-Synthetic_Generator_Comparison.tex: 5 paragraphs -->
+
+#### P025  35-Synthetic_Generator_Comparison.tex:239  flags: -
+## section: Evaluation Methodology
+--- original
+The judgment this sub-study replaces was a single informal impression. The remedy is a structured, blind, multi-rater rubric triangulated against two axes independent of human impression, and a claim is strong only when the three agree. \Cref{tab:generator-evaluation-axes} gives the axes and what was carried out, since that gap shapes how the results read.
+--- rephrased
+The judgment that this sub-study replaced was based on a single, informal impression. The remedy is a structured, blind, multi-rater rubric triangulated against two independent axes, and a claim is considered strong only when all three agree. \Cref{tab:generator-evaluation-axes} outlines the axes and the procedures performed, as these factors influence how the results are interpreted.
+--- final
+The judgment this sub-study replaces was a single informal impression. The remedy is a structured, blind, multi-rater rubric triangulated against two axes independent of human impression, and a claim is strong only when the three agree. \Cref{tab:generator-evaluation-axes} gives the axes and what was carried out, since that gap shapes how the results read.
+--- verdict
+original: kept original, rephrasing dropped the scope condition "independent of human impression" and blurred the forward reference "that gap" into vague "these factors". risk: high
+
+
+#### P026  35-Synthetic_Generator_Comparison.tex:257  flags: this-thesis
+## section: Axis A: Structured Qualitative Rubric
+--- original
+Six criteria were pre-registered: anatomical correctness, diagnostic-feature fidelity, species identity, habitat plausibility, photorealism, artifact rate. The protocol around them is what would make the axis thesis-grade rather than impressionistic: hidden model identity, randomized order, multiple raters and a frozen rubric. It is also the only instrument that could separate generators on the rare classes, where \Cref{sec:results_per_class_structure} shows accuracy at a noise floor. It was never executed.
+--- rephrased
+Six criteria were pre-registered: anatomical correctness, diagnostic-feature fidelity, species identity, habitat plausibility, photorealism, and artifact rate. The protocol surrounding these criteria is what makes the thesis grade rather than impressionistic: hidden model identity, randomized order, multiple raters, and a frozen rubric. This protocol is also the only one that could distinguish between generators in rare classes where \Cref{sec:results_per_class_structure} shows accuracy at a noise floor. However, it was never executed.
+--- final
+Six criteria were pre-registered: anatomical correctness, diagnostic-feature fidelity, species identity, habitat plausibility, photorealism, artifact rate. The protocol around them is what would make the axis thesis-grade rather than impressionistic: hidden model identity, randomized order, multiple raters and a frozen rubric. It is also the only instrument that could separate generators on the rare classes, where \Cref{sec:results_per_class_structure} shows accuracy at a noise floor. It was never executed.
+--- verdict
+original: kept original, rephrasing broke the term of art "thesis-grade" into "the thesis grade", corrupting the claim and triggering the this-thesis style flag. risk: high
+
+
+#### P027  35-Synthetic_Generator_Comparison.tex:260  flags: cite-moved: \cite{gadotCropNotCrop2024a}, cite-moved: \cite{heuselGANsTrainedTwo2018,binkowskiDemystifyingMMDGANs2021}, cite-moved: \cite{hesselCLIPScoreReferencefreeEvaluation2021}, cite-merged: \cite{gadotCropNotCrop2024a,heuselGANsTrainedTwo2018,binkowskiDemystifyingMMDGANs2021,hesselCLIPScoreReferencefreeEvaluation2021}, semicolon
+## section: Axis B: Automatic Proxies
+--- original
+Four measures were specified, all scaling to every image: teacher-recognition confidence from the project's own classifier \cite{gadotCropNotCrop2024a}, per-class Fréchet and kernel distances against real images of the class \cite{heuselGANsTrainedTwo2018,binkowskiDemystifyingMMDGANs2021}, a CLIP-based image-prompt alignment score \cite{hesselCLIPScoreReferencefreeEvaluation2021}, and the annotation yield. Only the yield was computed, which is why the results chapter leads with downstream accuracy rather than a converged judgment.
+--- rephrased
+Four measures were specified that scale to every image: teacher-recognition confidence from the project's classifier; per-class Fréchet and kernel distances against real images of the class; a CLIP-based image-prompt alignment score; and the annotation yield \cite{gadotCropNotCrop2024a,heuselGANsTrainedTwo2018,binkowskiDemystifyingMMDGANs2021,hesselCLIPScoreReferencefreeEvaluation2021}. However, only the annotation yield was computed, which is why the results chapter begins with downstream accuracy rather than a converged judgment.
+--- final
+Four measures were specified, all scaling to every image: teacher-recognition confidence from the project's own classifier \cite{gadotCropNotCrop2024a}, per-class Fréchet and kernel distances against real images of the class \cite{heuselGANsTrainedTwo2018,binkowskiDemystifyingMMDGANs2021}, a CLIP-based image-prompt alignment score \cite{hesselCLIPScoreReferencefreeEvaluation2021}, and the annotation yield. Only the yield was computed, which is why the results chapter leads with downstream accuracy rather than a converged judgment.
+--- verdict
+original: kept original, rephrasing used semicolons in the list (house style) and merged the three separate citations onto the sentence end, misattributing each source away from the specific measure it supports. risk: high
+
+
+#### P028  35-Synthetic_Generator_Comparison.tex:263  flags: token-lost: 1 LaTeX span(s) did not come back: '\\Cref{sec:lookalike_groups}'
+## section: Axis C: Downstream Utility
+--- original
+The fixed detector trains on each cell's synthetic images and is evaluated on real photographs only (\Cref{sec:evaluation_framework}). The headline measure is mean average precision over the real test set. Per-class average precision separates the data-rich anchors from the rare classes. The within-group confusion rate over the three zebra species, the fraction of correctly localized detections landing in the right look-alike group but the wrong species, is the sharpest available test of whether synthetic data teaches species-level discrimination. Only the zebras have more than one member of a frozen look-alike group (\Cref{sec:lookalike_groups}) here, so the bear group's rate is structurally zero and excluded.
+--- rephrased
+The fixed detector trains on each cell's synthetic images and is evaluated on real photographs only (\Cref{sec:evaluation_framework}). The headline measure is mean average precision over the real test set. Per-class average precision separates the data-rich anchors from the rare classes. The within-group confusion rate over the three zebra species, the fraction of correctly localized detections landing in the right look-alike group but the wrong species, is the sharpest available test of whether synthetic data teaches species-level discrimination. Only the zebras have more than one member of a frozen look-alike group (\Cref{sec:lookalike_groups}) here, so the bear group's rate is structurally zero and excluded.
+--- final
+The fixed detector trains on each cell's synthetic images and is evaluated on real photographs only (\Cref{sec:evaluation_framework}). The headline measure is mean average precision over the real test set. Per-class average precision separates the data-rich anchors from the rare classes. The within-group confusion rate over the three zebra species, the fraction of correctly localized detections landing in the right look-alike group but the wrong species, is the sharpest available test of whether synthetic data teaches species-level discrimination. Only the zebras have more than one member of a frozen look-alike group (\Cref{sec:lookalike_groups}) here, so the bear group's rate is structurally zero and excluded.
+--- verdict
+original: token-lost, DeepL dropped the \Cref{sec:lookalike_groups} span so the tool discarded the rephrasing, kept original throughout. risk: low
+
+
+#### P029  35-Synthetic_Generator_Comparison.tex:266  flags: wrap-ambiguous: and
+## section: Decision Rule
+--- original
+The criterion was fixed in advance. A generator counts as usable if it lands within a stated margin of the incumbent on the axes that matter, downstream accuracy on real photographs and diagnostic fidelity, \emph{and} is practical on cost and throughput. Raw photorealism alone is not sufficient, since it is the impression that motivated the original choice. The production choice is justified only if the incumbent sits at or near the top. Because differences on a dataset this small may fall within run-to-run noise, results are reported as a mean with its spread across seeds, and two cells whose intervals overlap are indistinguishable rather than ranked.
+--- rephrased
+The criterion was set in advance. A generator is considered usable if it falls within a specified margin of the incumbent on the relevant axes, such as downstream accuracy on real photographs \emph{and} diagnostic fidelity, while also being practical in terms of cost and throughput. Raw photorealism alone is insufficient because it was the impression that motivated the original choice. The production choice is justified only if the incumbent is at or near the top. Since differences in a dataset this small may fall within run-to-run noise, the results are reported as a mean with its spread across seeds. Two cells whose intervals overlap are indistinguishable rather than ranked.
+--- final
+The criterion was set in advance. A generator counts as usable if it lands within a stated margin of the incumbent on the axes that matter, downstream accuracy on real photographs and diagnostic fidelity, \emph{and} is practical on cost and throughput. Raw photorealism alone is insufficient because it is the impression that motivated the original choice. The production choice is justified only if the incumbent is at or near the top. Since differences in a dataset this small may fall within run-to-run noise, the results are reported as a mean with its spread across seeds. Two cells whose intervals overlap are indistinguishable rather than ranked.
+--- verdict
+merged: kept the original axis-list sentence to restore \emph{and}'s placement over the practicality clause and the exhaustive "axes that matter" framing instead of "such as" (wrap-ambiguous), took DeepL's "insufficient" and its sentence split for the closing sentence. risk: high
+
+

@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 33-Synthetic_Data_Supplementation.tex: 12 paragraphs -->
+
+#### P013  33-Synthetic_Data_Supplementation.tex:72  flags: -
+## section: Photography Style
+--- original
+Images were generated in a documentary wildlife-photography style, observed through optical binoculars, in full-scene sharp focus. That anchor replaced an earlier shallow-depth-of-field style once the ten genuine \textit{AX Visio} captures available showed that the binocular's optics produce no background blur at any distance.  % resources/AX_Visio_images/
+--- rephrased
+The images were generated in the style of documentary wildlife photography, observed through optical binoculars in sharp focus across the entire scene. The anchor replaced an earlier shallow depth of field style once the ten available genuine \textit{AX Visio} captures showed that the binoculars' optics produce no background blur at any distance.  % resources/AX_Visio_images/
+--- final
+The images were generated in the style of documentary wildlife photography, observed through optical binoculars in sharp focus across the entire scene. The anchor replaced an earlier shallow-depth-of-field style once the ten available genuine \textit{AX Visio} captures showed that the binocular's optics produce no background blur at any distance.  % resources/AX_Visio_images/
+--- verdict
+merged: kept rephrased sentence structure, restored singular "binocular's" (the AX Visio device is referred to in the singular elsewhere) and the hyphenated "shallow-depth-of-field" compound. risk: high
+
+
+#### P014  33-Synthetic_Data_Supplementation.tex:73  flags: -
+## section: Photography Style
+--- original
+Blurred backgrounds would have supplied a subject-background separation cue absent at inference. The $380$ images generated before the correction were kept and flagged as a non-target style, and the remaining $12{,}220$ follow the corrected one.
+--- rephrased
+Blurred backgrounds would have provided a cue for separating the subject from the background, which was absent at inference. The $380$ images generated before the correction were kept and flagged as a non-target style. The remaining $12{,}220$ images follow the corrected style.
+--- final
+Blurred backgrounds would have provided a cue for separating the subject from the background, which was absent at inference. The $380$ images generated before the correction were kept and flagged as a non-target style. The remaining $12{,}220$ images follow the corrected style.
+--- verdict
+rephrased: split second sentence for readability, meaning and all figures preserved. risk: high
+
+
+#### P015  33-Synthetic_Data_Supplementation.tex:76  flags: token-lost: 1 LaTeX span(s) did not come back: '$4{:}3$'
+## section: Format and Quality Control
+--- original
+Images were requested at the generator's smallest size in a $4{:}3$ aspect ratio and are written at $592 \times 448$ pixels. Both choices are economic: synthetic images are letterboxed down to the detector's input resolution anyway, so a larger size adds detail the pipeline discards, and $4{:}3$ wastes the least area in that letterboxing. Every image then passes through \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019}, and any without a qualifying detection is flagged for regeneration.
+--- rephrased
+Images were requested at the generator's smallest size in a $4{:}3$ aspect ratio and are written at $592 \times 448$ pixels. Both choices are economic: synthetic images are letterboxed down to the detector's input resolution anyway, so a larger size adds detail the pipeline discards, and $4{:}3$ wastes the least area in that letterboxing. Every image then passes through \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019}, and any without a qualifying detection is flagged for regeneration.
+--- final
+
+--- verdict
+original: token-lost ($4{:}3$), rephrased text shown is identical to the original, kept as-is. risk: high
+
+
+#### P016  33-Synthetic_Data_Supplementation.tex:81  flags: -
+## section: Prompt Diversity Refinement
+--- original
+A bank of plausible ecological scenarios is pre-generated per species with a lower-cost language model, varying behavior, substrate, viewpoint, lighting and season jointly rather than independently. Review of the first $50$ images per class showed that bank converging on the modal description of an animal, so five constraints were added to the scenario-generation step:
+--- rephrased
+A bank of plausible ecological scenarios is pre-generated for each species using a low-cost language model that varies behavior, substrate, viewpoint, lighting, and season jointly rather than independently. A review of the first $50$ images per class showed that the bank was converging on the modal description of an animal. Therefore, five constraints were added to the scenario-generation step.
+--- final
+A bank of plausible ecological scenarios is pre-generated for each species using a low-cost language model that varies behavior, substrate, viewpoint, lighting, and season jointly rather than independently. A review of the first $50$ images per class showed that the bank was converging on the modal description of an animal. Therefore, five constraints were added to the scenario-generation step:
+--- verdict
+merged: kept rephrased wording and grammar fix, restored the trailing colon that introduces the itemized constraints below. risk: high
+
+
+#### P017  33-Synthetic_Data_Supplementation.tex:84  flags: -
+## section: Prompt Diversity Refinement
+--- original
+\item at least one resting or sleeping behavior,
+--- rephrased
+\item At least one resting or sleeping behavior.
+--- final
+
+--- verdict
+original: kept lowercase comma-continuation to preserve the enumerated sentence begun by the preceding colon. risk: low
+
+
+#### P018  33-Synthetic_Data_Supplementation.tex:85  flags: -
+## section: Prompt Diversity Refinement
+--- original
+\item at least one active foraging behavior,
+--- rephrased
+\item At least one active foraging behavior.
+--- final
+
+--- verdict
+original: kept lowercase comma-continuation for consistency with the enumerated sentence. risk: low
+
+
+#### P019  33-Synthetic_Data_Supplementation.tex:86  flags: -
+## section: Prompt Diversity Refinement
+--- original
+\item at least one behavior with gaze away from the camera,
+--- rephrased
+\item At least one behavior involves looking away from the camera.
+--- final
+
+--- verdict
+original: kept lowercase comma-continuation, rephrasing's "involves looking away" adds nothing over "with gaze away" and breaks the list's grammar. risk: low
+
+
+#### P020  33-Synthetic_Data_Supplementation.tex:87  flags: -
+## section: Prompt Diversity Refinement
+--- original
+\item at most one walking or standing-alert pose per batch, and
+--- rephrased
+\item At most, include one pose of a person walking or standing alert per batch.
+--- final
+
+--- verdict
+original: rephrasing hallucinated a "person" pose where the original describes an animal's pose, and dropped the list's closing "and". risk: high
+
+
+#### P021  33-Synthetic_Data_Supplementation.tex:88  flags: -
+## section: Prompt Diversity Refinement
+--- original
+\item guild minimums, such as climbing for arboreal species and digging for fossorial ones.
+--- rephrased
+\item There are guild minimums for climbing arboreal species and digging fossorial ones.
+--- final
+
+--- verdict
+original: kept lowercase comma-continuation, rephrasing's "There are guild minimums for..." obscures the original's exemplifying "such as" relation. risk: low
+
+
+#### P022  33-Synthetic_Data_Supplementation.tex:91  flags: -
+## section: Prompt Diversity Refinement
+--- original
+Affected classes were regenerated by clearing their cached scenario profiles. Diverse images are of no use to a detector until they carry boxes, which the generator does not supply.
+--- rephrased
+The affected classes were regenerated by clearing their cached scenario profiles. Images of diverse subjects are of no use to a detector until they contain boxes, which the generator does not provide.
+--- final
+The affected classes were regenerated by clearing their cached scenario profiles. Images of diverse subjects are of no use to a detector until they contain boxes, which the generator does not provide.
+--- verdict
+rephrased: synonymous wording changes only, meaning preserved. risk: medium
+
+
+#### P023  33-Synthetic_Data_Supplementation.tex:96  flags: format-lost: $2$, format-lost: $403$
+## section: Bounding-Box Annotation of Synthetic Images
+--- original
+Synthetic images need the same bounding-box ground truth as real ones, and the routing rule follows from the prompts' single-animal constraint. An image on which the detector finds exactly one animal is what the prompt intended and needs only cheap confirmation. One with none, or with two or more, needs a box drawn by hand. Across the batch, $2$ images ($0.0\%$) carried no significant detection, $12{,}445$ ($98.8\%$) exactly one, and $153$ ($1.2\%$) two or more. $403$ were labeled by hand.
+--- rephrased
+Synthetic images require the same bounding box ground truth as real images. The routing rule stems from the prompts' single-animal constraint. An image on which the detector finds exactly one animal is what the prompt intended and requires only basic confirmation. An image with no animals or with more than one animal requires a hand-drawn box. Of the images in the batch, two ($0.0\%$) had no significant detection, $12{,}445$ ($98.8\%$) had exactly one, and $153$ ($1.2\%$) had two or more. Four hundred and three were labeled by hand.
+--- final
+Synthetic images require the same bounding-box ground truth as real images. The routing rule stems from the prompts' single-animal constraint. An image on which the detector finds exactly one animal is what the prompt intended and requires only basic confirmation. An image with no animals or with more than one animal requires a hand-drawn box. Of the images in the batch, $2$ ($0.0\%$) had no significant detection, $12{,}445$ ($98.8\%$) had exactly one, and $153$ ($1.2\%$) had two or more. $403$ were labeled by hand.
+--- verdict
+merged: kept rephrased prose, restored math-mode numerals $2$ and $403$ (format-lost) and the hyphenated "bounding-box" compound. risk: high
+
+
+#### P024  33-Synthetic_Data_Supplementation.tex:98  flags: rather-than
+## section: Bounding-Box Annotation of Synthetic Images
+--- original
+One property qualifies how far that ground truth can be trusted. The confirmation step is a negative-confirmation interface: the reviewer clicks only to \emph{reject} the detector's reading, and every image left unclicked is committed as confirmed. It measures the rejection rate, not an independent judgment per image, so $98.8\%$ is an upper bound on verification.
+--- rephrased
+One property determines how reliable the ground truth is. The confirmation step is a negative confirmation interface. The reviewer only clicks to \emph{reject} the detector's reading. Every image that is not clicked is considered confirmed. Since it measures the rejection rate rather than an independent judgment per image, $98.8\%$ is an upper bound on verification.
+--- final
+One property qualifies how far that ground truth can be trusted. The confirmation step is a negative-confirmation interface. The reviewer only clicks to \emph{reject} the detector's reading. Every image that is not clicked is considered confirmed. It measures the rejection rate, not an independent judgment per image, so $98.8\%$ is an upper bound on verification.
+--- verdict
+merged: kept original s1 (trust hedge) and s5 (avoids DeepL's added "rather than" tic), kept rephrased's split of s2 into three sentences, restored hyphenated "negative-confirmation". risk: high
+
+

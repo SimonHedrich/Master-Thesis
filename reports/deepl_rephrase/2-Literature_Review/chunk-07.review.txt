@@ -1,0 +1,247 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 2-Literature_Review.tex: 10 paragraphs -->
+
+#### P073  2-Literature_Review.tex:192  flags: cite-moved: \textcite{hoiemDiagnosingErrorObject2012}, cite-subject
+## section: Hierarchical Evaluation and Error-Type Decomposition
+--- original
+\textcite{hoiemDiagnosingErrorObject2012} supply the precedent for both distinctions. Every false positive is partitioned into one of four mutually exclusive categories: localization error, confusion with a semantically similar object, confusion with a dissimilar labeled object, and confusion with unlabeled background. Localization error means a detection that overlaps a true object of the correct class with insufficient IoU, and it includes duplicate detections on an already-detected object. Similarity is defined by small sets of semantically related categories, such as all vehicles or all animals, fixed \textit{a priori} from domain knowledge about which categories are related, before any detector is run, and never read off a trained model's confusion matrix afterward.
+--- rephrased
+Supply the precedent for both distinctions \textcite{hoiemDiagnosingErrorObject2012}. Each false positive falls into one of four mutually exclusive categories: localization error, confusion with a semantically similar object, confusion with a dissimilar labeled object, or confusion with unlabeled background. A localization error occurs when a detection overlaps a true object of the correct class with insufficient IoU. It also includes duplicate detections on an already-detected object. Similarity is defined by small sets of semantically related categories, such as all vehicles or all animals. These sets are fixed \textit{a priori} based on domain knowledge about which categories are related before any detector is run and are never read off a trained model's confusion matrix afterward.
+--- final
+Prior work supplies the precedent for both distinctions \cite{hoiemDiagnosingErrorObject2012}. Each false positive falls into one of four mutually exclusive categories: localization error, confusion with a semantically similar object, confusion with a dissimilar labeled object, or confusion with unlabeled background. A localization error occurs when a detection overlaps a true object of the correct class with insufficient IoU. It also includes duplicate detections on an already-detected object. Similarity is defined by small sets of semantically related categories, such as all vehicles or all animals. These sets are fixed \textit{a priori} based on domain knowledge about which categories are related before any detector is run and are never read off a trained model's confusion matrix afterward.
+--- verdict
+merged: replaced \textcite-as-subject with impersonal "Prior work" and \cite at sentence end (citation may not be the sentence's subject); kept rephrased s2-4, risk: high
+
+
+#### P074  2-Literature_Review.tex:194  flags: -
+## section: Hierarchical Evaluation and Error-Type Decomposition
+--- original
+Two findings from that decomposition carry over to this work. Within-group confusion and pure localization error together account for the large majority of high-confidence false positives, markedly more than confusion with dissimilar or unlabeled background clutter. And reporting the AP improvement that would follow from eliminating each category in isolation identifies which failure mode is actually worth addressing, a conclusion invisible in a single aggregate number. Within-group confusion is precisely the failure mode this work expects to dominate among the zebra, elephant, lynx-caracal, and gazelle-antelope look-alike clusters of the target taxonomy.
+--- rephrased
+Two findings from that decomposition are relevant to this work. Together, within-group confusion and pure localization error account for the vast majority of high-confidence false positives, far more than confusion involving dissimilar or unlabeled background clutter. Reporting the AP improvement that would result from eliminating each category in isolation reveals which failure mode is worth addressing, a detail that would be missed by looking at a single aggregate number. This work expects within-group confusion to dominate among the zebra, elephant, lynx-caracal, and gazelle-antelope look-alike clusters of the target taxonomy.
+--- final
+Two findings from that decomposition are relevant to this work. Together, within-group confusion and pure localization error account for the vast majority of high-confidence false positives, far more than confusion involving dissimilar or unlabeled background clutter. Reporting the AP improvement that would result from eliminating each category in isolation reveals which failure mode is worth addressing, a detail that would be missed by looking at a single aggregate number. This work expects within-group confusion to dominate among the zebra, elephant, lynx-caracal, and gazelle-antelope look-alike clusters of the target taxonomy.
+--- verdict
+rephrased: preserves meaning, no hedges or terms of art dropped, risk: high
+
+
+#### P075  2-Literature_Review.tex:196  flags: -
+## section: Hierarchical Evaluation and Error-Type Decomposition
+--- original
+The a-priori requirement is the load-bearing part for this work's own grouping strategy (\Cref{sec:evaluation_framework}). A taxonomic or curated visual-similarity rollup, decided independently of any candidate model's behavior, is admissible. A grouping mined from a model's own confusion matrix is circular, because it would define the very categories that model is then evaluated against.
+--- rephrased
+The a priori requirement is the load-bearing component of this work's grouping strategy (\Cref{sec:evaluation_framework}). An admissible taxonomic or curated visual-similarity rollup is one that is decided independently of any candidate model's behavior. However, a grouping mined from a model's confusion matrix is circular because it defines the categories against which the model is evaluated.
+--- final
+The a-priori requirement is the load-bearing part for this work's own grouping strategy (\Cref{sec:evaluation_framework}). A taxonomic or curated visual-similarity rollup, decided independently of any candidate model's behavior, is admissible. A grouping mined from a model's own confusion matrix is circular, because it would define the very categories that model is then evaluated against.
+--- verdict
+original: rephrasing dropped "own" (the model's own matrix) and softened "would define" to "defines", both load-bearing for the circularity argument, and dropped the a-priori compound hyphen used elsewhere for this modifier, risk: high
+
+
+#### P076  2-Literature_Review.tex:198  flags: -
+## section: Hierarchical Evaluation and Error-Type Decomposition
+--- original
+The literature surveyed for this work contains no paper performing such a rollup at species, genus, and family resolution specifically, and none that formally compares a taxonomy-driven grouping against an empirical-confusion-driven one as competing evaluation designs. The closest available anchor is the general a-priori-grouping principle above, which this work extends from a handful of hand-picked semantic sets to a full taxonomic hierarchy. The four-way decomposition is adopted alongside it as a corroborating instrument, used to check whether an accuracy loss between the coarse and fine granularity levels is attributable to classification confusion among look-alike species, as expected, or to a hidden localization or duplicate-detection problem. Modern off-the-shelf toolboxes extend the same partition with a missed-ground-truth category, but the survey conducted for this work could not establish a verifiable citation for the specific implementation used in \Cref{chapter:results}, so the method is anchored here in its original source rather than in a named downstream implementation.
+--- rephrased
+The literature surveyed for this work contains no papers that perform such a rollup at the species, genus, and family levels, nor any that formally compare a taxonomy-driven grouping with an empirically driven one as competing evaluation designs. The closest available reference is the aforementioned a priori grouping principle, which this work expands from a few hand-picked semantic sets to a complete taxonomic hierarchy. The four-way decomposition is adopted alongside the principle as a corroborating instrument to check whether the expected accuracy loss between coarse and fine granularity levels is due to classification confusion among similar species or to hidden localization or duplicate detection problems. Modern off-the-shelf toolboxes use the same partition with an additional category for missed ground truth. However, the literature review for this study could not find a verifiable citation for the specific implementation used in \Cref{chapter:results}. Therefore, the method is anchored in its original source rather than in a named downstream implementation.
+--- final
+The literature surveyed for this work contains no papers that perform such a rollup at the species, genus, and family levels, nor any that formally compare a taxonomy-driven grouping with an empirical-confusion-driven one as competing evaluation designs. The closest available reference is the aforementioned a-priori-grouping principle, which this work expands from a few hand-picked semantic sets to a complete taxonomic hierarchy. The four-way decomposition is adopted alongside the principle as a corroborating instrument to check whether the expected accuracy loss between coarse and fine granularity levels is due to classification confusion among look-alike species, as expected, or to hidden localization or duplicate detection problems. Modern off-the-shelf toolboxes use the same partition with an additional category for missed ground truth. However, the literature review for this work could not find a verifiable citation for the specific implementation used in \Cref{chapter:results}. Therefore, the method is anchored in its original source rather than in a named downstream implementation.
+--- verdict
+merged: restored "empirical-confusion-driven" and the a-priori-grouping hyphenation, the term of art "look-alike", the hedge "as expected", and "this work" over "this study"; kept the rephrased sentence splits, risk: high
+
+
+#### P077  2-Literature_Review.tex:200  flags: -
+## section: Hierarchical Evaluation and Error-Type Decomposition
+--- original
+Both instruments still presuppose a single, homogeneous test set.
+--- rephrased
+Both instruments presuppose a single, homogeneous test set.
+--- final
+Both instruments still presuppose a single, homogeneous test set.
+--- verdict
+original: kept "still", which signals the limitation persists despite the decomposition just discussed and sets up the next section, risk: low
+
+
+#### P078  2-Literature_Review.tex:204  flags: format-lost: $225\times50$, bare-number
+## section: Evaluating Across a Real/Synthetic Test-Domain Split
+--- original
+Every evaluation protocol discussed so far is computed over one homogeneous test set of real photographs. This work's dataset instead ships two test domains: an uneven, per-class real test set, and a class-balanced $225\times50$ synthetic test set (\Cref{sec:synthetic_data_supplementation}).
+--- rephrased
+So far, every evaluation protocol has been computed over one homogeneous test set of real photographs. Instead, this work's dataset has two test domains: an uneven, per-class real test set and a class-balanced, 225×50 synthetic test set (\Cref{sec:synthetic_data_supplementation}).
+--- final
+So far, every evaluation protocol has been computed over one homogeneous test set of real photographs. Instead, this work's dataset ships two test domains: an uneven, per-class real test set, and a class-balanced $225\times50$ synthetic test set (\Cref{sec:synthetic_data_supplementation}).
+--- verdict
+merged: restored the $225\times50$ math span (DeepL flattened it to plain text) and "ships"; kept the rephrased opening restructure, risk: high
+
+
+#### P079  2-Literature_Review.tex:206  flags: cite-lowconf: \cite{heSyntheticDataGenerative2023} (0.44)
+## section: Evaluating Across a Real/Synthetic Test-Domain Split
+--- original
+Standard practice when synthetic imagery is involved in training is to keep evaluation strictly on real, established test sets, rather than blending synthetic images into the test condition itself. Domain-randomization work tackling the same sim-to-real problem this work faces evaluates its detector exclusively on the real-world \textit{KITTI} test set, and never mixes synthetic renders into the test condition, even though a synthetic dataset rendered to match that test domain was available as a comparison point \cite{tremblayTrainingDeepNetworks2018}. Work evaluating whether modern generative-model output is usable as training data likewise benchmarks its synthetically trained models against standard, unmodified real test sets rather than any blended variant, and attributes the resulting gaps to a domain gap between the generated and real image distributions \cite{heSyntheticDataGenerative2023}.
+--- rephrased
+When synthetic imagery is involved in training, the standard practice is to evaluate strictly on real, established test sets rather than blend synthetic images into the test condition itself. Work addressing the same sim-to-real problem that this work faces evaluates its detector exclusively on the real-world \textit{KITTI} test set and never incorporates synthetic renders into the test condition, even though a synthetic dataset rendered to match the test domain was available for comparison \cite{tremblayTrainingDeepNetworks2018}. Similarly, work evaluating the usability of modern generative model output as training data benchmarks its synthetically trained models against standard, unmodified real-world test sets rather than blended variants \cite{heSyntheticDataGenerative2023}. The resulting gaps are attributed to a domain gap between generated and real image distributions.
+--- final
+When synthetic imagery is involved in training, the standard practice is to evaluate strictly on real, established test sets rather than blend synthetic images into the test condition itself. Work addressing the same sim-to-real problem that this work faces evaluates its detector exclusively on the real-world \textit{KITTI} test set and never incorporates synthetic renders into the test condition, even though a synthetic dataset rendered to match the test domain was available for comparison \cite{tremblayTrainingDeepNetworks2018}. Similarly, work evaluating the usability of modern generative model output as training data benchmarks its synthetically trained models against standard, unmodified real-world test sets rather than blended variants. The resulting gaps are attributed to a domain gap between generated and real image distributions \cite{heSyntheticDataGenerative2023}.
+--- verdict
+merged: moved \cite{heSyntheticDataGenerative2023} from the benchmarking-practice sentence to the attribution sentence it actually supports, since the split left that specific finding uncited, risk: high
+
+
+#### P080  2-Literature_Review.tex:208  flags: cite-moved: \cite{zhouDomainGeneralizationSurvey2023}, cite-merged: \cite{zhouDomainGeneralizationSurvey2023,UnbiasedLookDataset}
+## section: Evaluating Across a Real/Synthetic Test-Domain Split
+--- original
+The general problem of a mismatch between the distribution a model is evaluated on and the one it will actually encounter is the subject of a substantial domain-generalization literature \cite{zhouDomainGeneralizationSurvey2023}, tracing back to early work establishing that benchmark datasets themselves carry systematic biases that limit how their measured performance transfers \cite{UnbiasedLookDataset}. A synthetic-to-real train/test shift is one instance of it.
+--- rephrased
+The general problem of a mismatch between the distribution on which a model is evaluated and the distribution it will actually encounter is the subject of substantial domain-generalization literature. This literature traces back to early work establishing that benchmark datasets themselves carry systematic biases that limit how their measured performance transfers \cite{zhouDomainGeneralizationSurvey2023,UnbiasedLookDataset}. One instance of this is a synthetic-to-real train/test shift.
+--- final
+The general problem of a mismatch between the distribution on which a model is evaluated and the distribution it will actually encounter is the subject of substantial domain-generalization literature \cite{zhouDomainGeneralizationSurvey2023}. This literature traces back to early work establishing that benchmark datasets themselves carry systematic biases that limit how their measured performance transfers \cite{UnbiasedLookDataset}. One instance of this is a synthetic-to-real train/test shift.
+--- verdict
+merged: undid the erroneous cite-merge, the survey \cite{zhouDomainGeneralizationSurvey2023} tags the general domain-generalization-literature claim and \cite{UnbiasedLookDataset} tags the specific early-work claim, they do not support the same sentence, risk: high
+
+
+#### P081  2-Literature_Review.tex:210  flags: -
+## section: Evaluating Across a Real/Synthetic Test-Domain Split
+--- original
+None of this literature, however, treats a synthetic partition as a component to be folded into a single headline test metric alongside real data. Where synthetic data appears in a test protocol at all, it is either the sole test domain, isolating a specific capability, or is kept rigidly separate from the real test condition, precisely so that the domain-shift gap stays measurable.
+--- rephrased
+However, none of this literature treats a synthetic partition as a component to be incorporated into a single headline test metric alongside real data. When synthetic data is included in a test protocol, it is either the sole test domain, isolating a specific capability, or kept rigidly separate from the real test condition so that the domain-shift gap remains measurable.
+--- final
+However, none of this literature treats a synthetic partition as a component to be incorporated into a single headline test metric alongside real data. When synthetic data is included in a test protocol, it is either the sole test domain, isolating a specific capability, or kept rigidly separate from the real test condition so that the domain-shift gap remains measurable.
+--- verdict
+rephrased: preserves the mutually-exclusive-alternatives claim, only drops emphasis words "at all" and "precisely", risk: high
+
+
+#### P082  2-Literature_Review.tex:212  flags: -
+## section: Evaluating Across a Real/Synthetic Test-Domain Split
+--- original
+The surveyed literature therefore offers \textbf{no established precedent} for two specific choices this work makes: reporting a headline detection metric computed over the union of a real and a synthetic test set, and using a class-balanced synthetic test set as a diagnostic instrument for classes where the real test data is thin or noisy. Both are argued for on their own terms in \Cref{sec:evaluation_framework}, which also defines the real-only breakout reported alongside the mixed figure and the real-versus-synthetic watchdog that would force a revision of the evaluation axes. The literature above is context for that argument, showing what the established alternative looks like and why departing from it needs its own justification. It is not literature that itself endorses a mixed real-and-synthetic headline metric.
+--- rephrased
+Therefore, the surveyed literature offers \textbf{no established precedent} for the two specific choices that this work makes: reporting a headline detection metric computed over the union of a real and synthetic test set and using a class-balanced synthetic test set as a diagnostic instrument for classes where real test data is scarce or unreliable. These choices are both argued for on their own terms in \Cref{sec:evaluation_framework}, which also defines the real-only breakout reported alongside the mixed figure and the real-versus-synthetic watchdog that would force a revision of the evaluation axes. The above literature provides context for that argument, showing what the established alternative looks like and why departing from it requires justification. However, it does not endorse a mixed real-and-synthetic headline metric itself.
+--- final
+Therefore, the surveyed literature offers \textbf{no established precedent} for the two specific choices that this work makes: reporting a headline detection metric computed over the union of a real and synthetic test set and using a class-balanced synthetic test set as a diagnostic instrument for classes where real test data is scarce or unreliable. These choices are both argued for on their own terms in \Cref{sec:evaluation_framework}, which also defines the real-only breakout reported alongside the mixed figure and the real-versus-synthetic watchdog that would force a revision of the evaluation axes. The above literature provides context for that argument, showing what the established alternative looks like and why departing from it requires justification. However, it does not endorse a mixed real-and-synthetic headline metric itself.
+--- verdict
+rephrased: preserves the two-choices claim and the \textbf{} emphasis and \Cref, no hedges lost, risk: high
+
+

@@ -1,0 +1,245 @@
+{
+ "source": "thesis/manuscript/chapters/3-Methods_and_Implementation/36-Model_Training_and_Experiment_Tracking.tex",
+ "source_sha": "25e61a0d1150337fa43b94d8893f26d5913e5b0421fcd250d34aa53edcd879ea",
+ "target_lang": "en-US",
+ "created": "2026-09-27T21:34:44+00:00",
+ "paragraphs": [
+  {
+   "id": "P001",
+   "line": 4,
+   "section": "Model Training and Experiment Tracking",
+   "indent": "",
+   "original": "\\Cref{sec:data_augmentation} fixed what a training run is shown. This section fixes everything else: which models are trained, the optimization protocol they share, the procedure that produced the frozen teacher, and the loss through which that teacher reaches the student. The distilled and the directly fine-tuned run must differ in the training signal and in nothing else.",
+   "sent": "ZQX0ZQX fixed what a training run is shown. This section fixes everything else: which models are trained, the optimization protocol they share, the procedure that produced the frozen teacher, and the loss through which that teacher reaches the student. The distilled and the directly fine-tuned run must differ in the training signal and in nothing else.",
+   "received": "ZQX0ZQX fixed how a training run is displayed. This section addresses everything else, including which models are trained, the optimization protocol they share, the procedure that produces the frozen teacher, and the loss through which the teacher transfers knowledge to the student. The distilled and directly fine-tuned runs must differ only in the training signal.",
+   "restored": "\\Cref{sec:data_augmentation} fixed how a training run is displayed. This section addresses everything else, including which models are trained, the optimization protocol they share, the procedure that produces the frozen teacher, and the loss through which the teacher transfers knowledge to the student. The distilled and directly fine-tuned runs must differ only in the training signal.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 354
+  },
+  {
+   "id": "P002",
+   "line": 9,
+   "section": "Model Selection",
+   "indent": "",
+   "original": "Two detector architectures are trained, and practical constraints rather than a comparative architecture search decide both. \\textit{YOLOv5s} \\cite{ultralyticsComprehensiveGuideUltralytics}, at $7.63\\,\\mathrm{M}$ parameters and $17.7$ GFLOPs at $640$ px, is the production-baseline reference, because it is approximately the size of the detector already deployed in the \\textit{AX Visio} pipeline. It is commercially usable only up to commit \\texttt{5cdad89} (\\Cref{sec:lit_yolo_family}), which fixed the revision trained here. It is deliberately not the distillation student, since distilling into a model the size of what already ships studies no capacity reduction. \\textit{YOLO26n} \\cite{UltralyticsYOLO262025}, at $2.71\\,\\mathrm{M}$ parameters and $6.8$ GFLOPs, is the student. It is trained twice, once directly and once under distillation, and those two runs are the work's central comparison. The teacher is the \\textit{MegaDetector} \\cite{beeryEfficientPipelineCamera2019} and \\textit{SpeciesNet} \\cite{gadotCropNotCrop2024a} pipeline of \\Cref{sec:lit_md_speciesnet}, which is wildlife-specific and, at roughly $193\\,\\mathrm{M}$ parameters, far too large to deploy.  % 140.06 M + 52.71 M, reports/embedded_benchmark/latency_summary.csv Nano-scale detectors outside the YOLO family were surveyed and set aside on time grounds, so neither student won a benchmarked comparison, a limitation carried in \\Cref{sec:limitations}.",
+   "sent": "Two detector architectures are trained, and practical constraints rather than a comparative architecture search decide both. YOLOv5s, at 7.63 M parameters and 17.7 GFLOPs at 640 px, is the production-baseline reference, because it is approximately the size of the detector already deployed in the AX Visio pipeline. It is commercially usable only up to commit 5cdad89 (ZQX0ZQX), which fixed the revision trained here. It is deliberately not the distillation student, since distilling into a model the size of what already ships studies no capacity reduction. YOLO26n, at 2.71 M parameters and 6.8 GFLOPs, is the student. It is trained twice, once directly and once under distillation, and those two runs are the work's central comparison. The teacher is the MegaDetector and SpeciesNet pipeline of ZQX1ZQX, which is wildlife-specific and, at roughly 193 M parameters, far too large to deploy.",
+   "received": "Two detector architectures are trained, and practical constraints rather than a comparative architecture search determine them both. YOLOv5s is the production-baseline reference because it is approximately the size of the detector already deployed in the AX Visio pipeline. It has 7.63 million parameters and operates at 17.7 GFLOPs at 640 px. It is only commercially usable up to commit 5cdad89 (ZQX0ZQX), which fixed the revision trained here. It is not the distillation student because distilling into a model the size of what already ships does not reduce capacity. YOLO26n, with 2.71 million parameters and 6.8 GFLOPs, serves as the student model. It is trained twice: once directly and once under distillation. Those two runs are the central comparison of this work. The teacher is the ZQX1ZQX MegaDetector and SpeciesNet pipeline, which is wildlife-specific. At roughly 193 million parameters, it is far too large to deploy.",
+   "restored": "Two detector architectures are trained, and practical constraints rather than a comparative architecture search determine them both. \\textit{YOLOv5s} is the production-baseline reference because it is approximately the size of the detector already deployed in the \\textit{AX Visio} pipeline \\cite{ultralyticsComprehensiveGuideUltralytics}. It has 7.63 million parameters and operates at $17.7$ GFLOPs at $640$ px. It is only commercially usable up to commit \\texttt{5cdad89} (\\Cref{sec:lit_yolo_family}), which fixed the revision trained here. It is not the distillation student because distilling into a model the size of what already ships does not reduce capacity. \\textit{YOLO26n}, with 2.71 million parameters and $6.8$ GFLOPs, serves as the student model \\cite{UltralyticsYOLO262025}. It is trained twice: once directly and once under distillation. Those two runs are the central comparison of this work. The teacher is the \\Cref{sec:lit_md_speciesnet} \\textit{MegaDetector} and \\textit{SpeciesNet} pipeline, which is wildlife-specific. At roughly 193 million parameters, it is far too large to deploy \\cite{beeryEfficientPipelineCamera2019,gadotCropNotCrop2024a}.  % 140.06 M + 52.71 M, reports/embedded_benchmark/latency_summary.csv Nano-scale detectors outside the YOLO family were surveyed and set aside on time grounds, so neither student won a benchmarked comparison, a limitation carried in \\Cref{sec:limitations}.",
+   "flags": [
+    "format-lost: $7.63\\,\\mathrm{M}$",
+    "wrap-reordered: AX Visio",
+    "format-lost: $2.71\\,\\mathrm{M}$",
+    "format-lost: $193\\,\\mathrm{M}$",
+    "cite-moved: \\cite{ultralyticsComprehensiveGuideUltralytics}",
+    "cite-moved: \\cite{UltralyticsYOLO262025}",
+    "cite-lowconf: \\cite{beeryEfficientPipelineCamera2019} (0.46)",
+    "cite-moved: \\cite{beeryEfficientPipelineCamera2019}",
+    "cite-lowconf: \\cite{gadotCropNotCrop2024a} (0.46)",
+    "cite-moved: \\cite{gadotCropNotCrop2024a}",
+    "cite-merged: \\cite{beeryEfficientPipelineCamera2019,gadotCropNotCrop2024a}",
+    "bare-number"
+   ],
+   "status": "fetched",
+   "chars": 892
+  },
+  {
+   "id": "P003",
+   "line": 14,
+   "section": "Training Procedure",
+   "indent": "",
+   "original": "Both detectors run the same optimization protocol, summarized in \\Cref{tab:training-protocol}, and share the dataloader and augmentation code path without modification, which makes the byte-identical claim of \\Cref{sec:augmentation_reproducibility} literal. The training and validation splits merge the synthetic imagery of \\Cref{sec:band_structure} into the real imagery. The test split stays real, so the synthetic test set of \\Cref{sec:synthetic_test_set} enters evaluation only where \\Cref{sec:evaluation_framework} says it does.",
+   "sent": "Both detectors run the same optimization protocol, summarized in ZQX0ZQX, and share the dataloader and augmentation code path without modification, which makes the byte-identical claim of ZQX1ZQX literal. The training and validation splits merge the synthetic imagery of ZQX2ZQX into the real imagery. The test split stays real, so the synthetic test set of ZQX3ZQX enters evaluation only where ZQX4ZQX says it does.",
+   "received": "Both detectors run the same optimization protocol (summarized in ZQX0ZQX) and share an unmodified dataloader and augmentation code path, making the byte-identical claim of ZQX1ZQX literal. The training and validation splits incorporate the synthetic imagery of ZQX2ZQX with the real imagery. The test split remains real, so the ZQX3ZQX synthetic test set is evaluated only where ZQX4ZQX specifies.",
+   "restored": "Both detectors run the same optimization protocol (summarized in \\Cref{tab:training-protocol}) and share an unmodified dataloader and augmentation code path, making the byte-identical claim of \\Cref{sec:augmentation_reproducibility} literal. The training and validation splits incorporate the synthetic imagery of \\Cref{sec:band_structure} with the real imagery. The test split remains real, so the \\Cref{sec:synthetic_test_set} synthetic test set is evaluated only where \\Cref{sec:evaluation_framework} specifies.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 416
+  },
+  {
+   "id": "P004",
+   "line": 38,
+   "section": "Training Procedure",
+   "indent": "",
+   "original": "Two settings are exempted, and each exemption is a correctness requirement. Batch size is a property of an architecture's memory footprint, so it is determined per model by probing until allocation fails. The loss gains are the more consequential exemption. \\textit{YOLO26n} is anchor-free and suppression-free, assigns targets through a task-aligned assigner, and carries no objectness term, so the anchor-based objectness, anchor-threshold and focal-loss gains tuned for \\textit{YOLOv5s} have no counterpart in it. Transplanting them onto a structurally different loss would mis-scale the comparison, so each architecture keeps its own reference defaults.",
+   "sent": "Two settings are exempted, and each exemption is a correctness requirement. Batch size is a property of an architecture's memory footprint, so it is determined per model by probing until allocation fails. The loss gains are the more consequential exemption. YOLO26n is anchor-free and suppression-free, assigns targets through a task-aligned assigner, and carries no objectness term, so the anchor-based objectness, anchor-threshold and focal-loss gains tuned for YOLOv5s have no counterpart in it. Transplanting them onto a structurally different loss would mis-scale the comparison, so each architecture keeps its own reference defaults.",
+   "received": "There are two settings that are exempt, and each exemption is a correctness requirement. Batch size is a property of an architecture's memory footprint and is therefore determined by probing each model until allocation fails. Loss gains are the more consequential exemption. YOLO26n is both anchor-free and suppression-free. It assigns targets through a task-aligned assigner and carries no objectness term. Therefore, the anchor-based objectness, anchor threshold, and focal loss gains tuned for YOLOv5s have no counterpart in YOLO26n. Applying them to a structurally different loss would mis-scale the comparison, so each architecture uses its own reference defaults.",
+   "restored": "There are two settings that are exempt, and each exemption is a correctness requirement. Batch size is a property of an architecture's memory footprint and is therefore determined by probing each model until allocation fails. Loss gains are the more consequential exemption. \\textit{YOLO26n} is both anchor-free and suppression-free. It assigns targets through a task-aligned assigner and carries no objectness term. Therefore, the anchor-based objectness, anchor threshold, and focal loss gains tuned for \\textit{YOLOv5s} have no counterpart in YOLO26n. Applying them to a structurally different loss would mis-scale the comparison, so each architecture uses its own reference defaults.",
+   "flags": [
+    "bare-number"
+   ],
+   "status": "fetched",
+   "chars": 639
+  },
+  {
+   "id": "P005",
+   "line": 40,
+   "section": "Training Procedure",
+   "indent": "",
+   "original": "One metric decides both which checkpoint is retained and when the run stops, which removes the temptation to select on one quantity and report another. Its binding cost is the validation pass, single-threaded over $225$ classes at roughly $12.5$ minutes regardless of image size or batch size against roughly $50$ minutes for a training epoch, so the evaluation interval is a tunable and patience counts evaluations, not epochs.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/",
+   "sent": "One metric decides both which checkpoint is retained and when the run stops, which removes the temptation to select on one quantity and report another. Its binding cost is the validation pass, single-threaded over 225 classes at roughly 12.5 minutes regardless of image size or batch size against roughly 50 minutes for a training epoch, so the evaluation interval is a tunable and patience counts evaluations, not epochs.",
+   "received": "One metric determines which checkpoint is retained and when the run ends, eliminating the temptation to select one quantity and report another. The validation pass is the binding cost, which is single-threaded over 225 classes and takes about 12.5 minutes, regardless of image or batch size. This is much faster than a training epoch, which takes about 50 minutes. Therefore, the evaluation interval is tunable, and patience is required for evaluations, not epochs.",
+   "restored": "One metric determines which checkpoint is retained and when the run ends, eliminating the temptation to select one quantity and report another. The validation pass is the binding cost, which is single-threaded over $225$ classes and takes about $12.5$ minutes, regardless of image or batch size. This is much faster than a training epoch, which takes about $50$ minutes. Therefore, the evaluation interval is tunable, and patience is required for evaluations, not epochs.  % scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/",
+   "flags": [],
+   "status": "fetched",
+   "chars": 422
+  },
+  {
+   "id": "P006",
+   "line": 41,
+   "section": "Training Procedure",
+   "indent": "",
+   "original": "The runs reported in \\Cref{chapter:results} validated every epoch and ran for between $182$ and $200$ epochs over four to nine days on a single \\textit{NVIDIA A40}.",
+   "sent": "The runs reported in ZQX0ZQX validated every epoch and ran for between 182 and 200 epochs over four to nine days on a single NVIDIA A40.",
+   "received": "The runs reported in ZQX0ZQX were validated at every epoch and ran for between 182 and 200 epochs over a period of four to nine days on a single NVIDIA A40.",
+   "restored": "The runs reported in \\Cref{chapter:results} were validated at every epoch and ran for between $182$ and $200$ epochs over a period of four to nine days on a single \\textit{NVIDIA A40}.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 136
+  },
+  {
+   "id": "P007",
+   "line": 46,
+   "section": "Teacher Fine-Tuning",
+   "indent": "",
+   "original": "The teacher is fine-tuned on this work's dataset and then frozen, which is the standard two-stage arrangement and here also a resource requirement, since an ensemble of roughly $193\\,\\mathrm{M}$ parameters cannot run inside a student training step. It is instead evaluated once, offline, and its predictions cached.",
+   "sent": "The teacher is fine-tuned on this work's dataset and then frozen, which is the standard two-stage arrangement and here also a resource requirement, since an ensemble of roughly 193 M parameters cannot run inside a student training step. It is instead evaluated once, offline, and its predictions cached.",
+   "received": "The teacher is fine-tuned on the dataset of this work and then frozen. This is the standard two-stage arrangement, which is also a resource requirement since an ensemble of approximately 193 million parameters cannot be run during a student training step. Instead, it is evaluated offline and its predictions are cached.",
+   "restored": "The teacher is fine-tuned on the dataset of this work and then frozen. This is the standard two-stage arrangement, which is also a resource requirement since an ensemble of approximately 193 million parameters cannot be run during a student training step. Instead, it is evaluated offline and its predictions are cached.",
+   "flags": [
+    "format-lost: $193\\,\\mathrm{M}$",
+    "bare-number"
+   ],
+   "status": "fetched",
+   "chars": 303
+  },
+  {
+   "id": "P008",
+   "line": 48,
+   "section": "Teacher Fine-Tuning",
+   "indent": "",
+   "original": "Only the classifier is fine-tuned. \\textit{MegaDetector} is class-agnostic and already accurate on camera-style imagery, so there is limited headroom in adapting a localizer that does not name species. The classifier trains on the same annotation files the detectors do, so teacher and student see identical image, box and class triples and not merely identical splits. Its native taxonomy carries $2{,}498$ leaf labels, and a grouped cross-entropy sums the leaf probabilities belonging to each of the project's $225$ classes before taking the loss. For the $178$ species-level classes this reduces to ordinary cross-entropy, and it only does real work for the genus-level and family-level classes that several leaves map into.",
+   "sent": "Only the classifier is fine-tuned. MegaDetector is class-agnostic and already accurate on camera-style imagery, so there is limited headroom in adapting a localizer that does not name species. The classifier trains on the same annotation files the detectors do, so teacher and student see identical image, box and class triples and not merely identical splits. Its native taxonomy carries 2,498 leaf labels, and a grouped cross-entropy sums the leaf probabilities belonging to each of the project's 225 classes before taking the loss. For the 178 species-level classes this reduces to ordinary cross-entropy, and it only does real work for the genus-level and family-level classes that several leaves map into.",
+   "received": "Only the classifier is fine-tuned. Since MegaDetector is class-agnostic and already accurate with camera-style imagery, there is limited potential for adapting a localizer that does not identify species. The classifier is trained using the same annotation files as the detectors, so the teacher and student see identical image, box, and class triples, not merely identical splits. The classifier's native taxonomy contains 2,498 leaf labels, and a grouped cross-entropy sums the leaf probabilities belonging to each of the project's 225 classes before calculating the loss. For the 178 species-level classes, it reduces to ordinary cross-entropy. It only does real work for the genus- and family-level classes, which several leaves map into.",
+   "restored": "Only the classifier is fine-tuned. Since \\textit{MegaDetector} is class-agnostic and already accurate with camera-style imagery, there is limited potential for adapting a localizer that does not identify species. The classifier is trained using the same annotation files as the detectors, so the teacher and student see identical image, box, and class triples, not merely identical splits. The classifier's native taxonomy contains $2{,}498$ leaf labels, and a grouped cross-entropy sums the leaf probabilities belonging to each of the project's $225$ classes before calculating the loss. For the $178$ species-level classes, it reduces to ordinary cross-entropy. It only does real work for the genus- and family-level classes, which several leaves map into.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 710
+  },
+  {
+   "id": "P009",
+   "line": 50,
+   "section": "Teacher Fine-Tuning",
+   "indent": "",
+   "original": "Three deviations follow from the teacher being a classifier rather than a detector. It trains at $480$ px, its own native input resolution. It uses AdamW at $1 \\times 10^{-4}$ rather than SGD, the ordinary convention for adapting a pretrained classification backbone. And macro F1 rather than mAP selects the checkpoint. One caveat attaches to any accuracy improvement reported for this fine-tune. Part of the corpus was admitted by agreeing with the pre-fine-tuning classifier (\\Cref{sec:speciesnet_matching}), so the fine-tuned classifier is partly measured against its own earlier self and the improvement is optimistic by an unknown, probably small amount.",
+   "sent": "Three deviations follow from the teacher being a classifier rather than a detector. It trains at 480 px, its own native input resolution. It uses AdamW at ZQX0ZQX rather than SGD, the ordinary convention for adapting a pretrained classification backbone. And macro F1 rather than mAP selects the checkpoint. One caveat attaches to any accuracy improvement reported for this fine-tune. Part of the corpus was admitted by agreeing with the pre-fine-tuning classifier (ZQX1ZQX), so the fine-tuned classifier is partly measured against its own earlier self and the improvement is optimistic by an unknown, probably small amount.",
+   "received": "There are three consequences of the teacher being a classifier rather than a detector. First, it trains at 480 px, its own native input resolution. It uses AdamW at ZQX0ZQX rather than SGD, which is the standard method for adapting a pretrained classification backbone. Macro F1, rather than mAP, selects the checkpoint. However, one caveat applies to any reported accuracy improvement for this fine-tuning. Part of the corpus was classified using the pre-fine-tuning classifier (ZQX1ZQX). Therefore, the fine-tuned classifier is partially evaluated against its earlier version, resulting in an overestimation of the improvement by an unknown, likely small amount.",
+   "restored": "There are three consequences of the teacher being a classifier rather than a detector. First, it trains at $480$ px, its own native input resolution. It uses AdamW at $1 \\times 10^{-4}$ rather than SGD, which is the standard method for adapting a pretrained classification backbone. Macro F1, rather than mAP, selects the checkpoint. However, one caveat applies to any reported accuracy improvement for this fine-tuning. Part of the corpus was classified using the pre-fine-tuning classifier (\\Cref{sec:speciesnet_matching}). Therefore, the fine-tuned classifier is partially evaluated against its earlier version, resulting in an overestimation of the improvement by an unknown, likely small amount.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 624
+  },
+  {
+   "id": "P010",
+   "line": 55,
+   "section": "Knowledge Distillation Loss",
+   "indent": "",
+   "original": "Feature-based distillation, which aligns intermediate activations, is excluded at the outset. It presupposes spatially corresponding feature maps, which a two-stage teacher seeing $480$ px crops and a single-stage student with a dense multi-scale pyramid over the whole frame do not have. Response-based distillation \\cite{hintonDistillingKnowledgeNeural2015} is used instead, because it consumes only the teacher's final class distribution and so is indifferent to the architectural mismatch \\cite{gouKnowledgeDistillationSurvey2021}.",
+   "sent": "Feature-based distillation, which aligns intermediate activations, is excluded at the outset. It presupposes spatially corresponding feature maps, which a two-stage teacher seeing 480 px crops and a single-stage student with a dense multi-scale pyramid over the whole frame do not have. Response-based distillation is used instead, because it consumes only the teacher's final class distribution and so is indifferent to the architectural mismatch.",
+   "received": "Feature-based distillation, which aligns intermediate activations, is excluded from the beginning. It presupposes spatially corresponding feature maps, which the two-stage teacher, which sees 480-px crops, and the single-stage student, which has a dense, multi-scale pyramid over the whole frame, do not have. Instead, response-based distillation is used, as it only consumes the teacher's final class distribution and is therefore indifferent to the architectural mismatch.",
+   "restored": "Feature-based distillation, which aligns intermediate activations, is excluded from the beginning. It presupposes spatially corresponding feature maps, which the two-stage teacher, which sees $480$-px crops, and the single-stage student, which has a dense, multi-scale pyramid over the whole frame, do not have. Instead, response-based distillation is used, as it only consumes the teacher's final class distribution and is therefore indifferent to the architectural mismatch \\cite{hintonDistillingKnowledgeNeural2015,gouKnowledgeDistillationSurvey2021}.",
+   "flags": [
+    "cite-moved: \\cite{hintonDistillingKnowledgeNeural2015}",
+    "cite-merged: \\cite{hintonDistillingKnowledgeNeural2015,gouKnowledgeDistillationSurvey2021}"
+   ],
+   "status": "fetched",
+   "chars": 448
+  },
+  {
+   "id": "P011",
+   "line": 57,
+   "section": "Knowledge Distillation Loss",
+   "indent": "",
+   "original": "The teacher's output is projected onto the $225$-class space and cached once per training image, so the frozen teacher never executes inside the training loop. The cache holds one distribution per image, from the highest-confidence detection, so multi-animal images contribute a single teacher vector. Secondary detections were not used as extra pseudo-annotations, so distillation's supervision advantage in multi-animal scenes remains untested here.",
+   "sent": "The teacher's output is projected onto the 225-class space and cached once per training image, so the frozen teacher never executes inside the training loop. The cache holds one distribution per image, from the highest-confidence detection, so multi-animal images contribute a single teacher vector. Secondary detections were not used as extra pseudo-annotations, so distillation's supervision advantage in multi-animal scenes remains untested here.",
+   "received": "The teacher's output is projected onto the 225-class space and cached once per training image. Thus, the frozen teacher never executes inside the training loop. The cache stores one distribution per image from the highest-confidence detection; therefore, multi-animal images contribute a single teacher vector. Since secondary detections were not used as extra pseudo-annotations, distillation's supervision advantage in multi-animal scenes remains untested.",
+   "restored": "The teacher's output is projected onto the $225$-class space and cached once per training image. Thus, the frozen teacher never executes inside the training loop. The cache stores one distribution per image from the highest-confidence detection; therefore, multi-animal images contribute a single teacher vector. Since secondary detections were not used as extra pseudo-annotations, distillation's supervision advantage in multi-animal scenes remains untested.",
+   "flags": [
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 449
+  },
+  {
+   "id": "P012",
+   "line": 59,
+   "section": "Knowledge Distillation Loss",
+   "indent": "",
+   "original": "Distillation acts on the student's classification branch alone. The task-aligned assigner produces a soft target score vector $\\mathbf{y}_i$ at each anchor $i$, and at the foreground anchors $\\mathcal{F}$ that vector is blended toward the teacher distribution before the binary cross-entropy term is taken:",
+   "sent": "Distillation acts on the student's classification branch alone. The task-aligned assigner produces a soft target score vector ZQX0ZQX at each anchor ZQX1ZQX, and at the foreground anchors ZQX2ZQX that vector is blended toward the teacher distribution before the binary cross-entropy term is taken:",
+   "received": "Distillation only acts on the student's classification branch. The task-aligned assigner produces a soft target score vector, ZQX0ZQX, at each anchor, ZQX1ZQX. At the foreground anchors, ZQX2ZQX, that vector is blended toward the teacher distribution before the binary cross-entropy term is applied.",
+   "restored": "Distillation only acts on the student's classification branch. The task-aligned assigner produces a soft target score vector, $\\mathbf{y}_i$, at each anchor, $i$. At the foreground anchors, $\\mathcal{F}$, that vector is blended toward the teacher distribution before the binary cross-entropy term is applied.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 297
+  },
+  {
+   "id": "P013",
+   "line": 64,
+   "section": "Knowledge Distillation Loss",
+   "indent": "",
+   "original": "where $\\mathbf{p}$ is the image's cached teacher distribution and $\\tau_T$ applies temperature $T$. Background anchors, and images with no cached teacher entry, keep the assigner's own targets. The defaults are $T = 4$ and $\\alpha = 0.5$, and the blend is applied to the one-to-one head the architecture uses at inference, not to its auxiliary head.",
+   "sent": "where ZQX0ZQX is the image's cached teacher distribution and ZQX1ZQX applies temperature ZQX2ZQX. Background anchors, and images with no cached teacher entry, keep the assigner's own targets. The defaults are ZQX3ZQX and ZQX4ZQX, and the blend is applied to the one-to-one head the architecture uses at inference, not to its auxiliary head.",
+   "received": "Where ZQX0ZQX is the cached teacher distribution of the image and ZQX1ZQX applies the temperature to ZQX2ZQX. Background anchors and images without a cached teacher entry keep the assigner's own targets. The defaults are ZQX3ZQX and ZQX4ZQX. The blend is applied to the one-to-one head that the architecture uses for inference, not its auxiliary head.",
+   "restored": "Where $\\mathbf{p}$ is the cached teacher distribution of the image and $\\tau_T$ applies the temperature to $T$. Background anchors and images without a cached teacher entry keep the assigner's own targets. The defaults are $T = 4$ and $\\alpha = 0.5$. The blend is applied to the one-to-one head that the architecture uses for inference, not its auxiliary head.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 340
+  },
+  {
+   "id": "P014",
+   "line": 66,
+   "section": "Knowledge Distillation Loss",
+   "indent": "",
+   "original": "Two approximations in \\Cref{eq:kd-blend} are worth stating, because both weaken the teacher signal relative to the textbook formulation. The cache stores probabilities rather than logits, so temperature cannot be applied before the softmax. It is applied instead as a renormalization on the simplex, $\\tau_T(\\mathbf{p})_c \\propto p_c^{1/T}$, which is exact only at $T = 1$ and otherwise approximates the intended softening. And because the teacher distribution is per-image while the blend is per-anchor, one vector is broadcast across all of an image's foreground anchors, which is correct for a single-animal image and a simplification for any other. Box regression receives no distillation signal at all, since the teacher's suppressed output and the student's anchor-free head share no box-distribution representation to align.",
+   "sent": "Two approximations in ZQX0ZQX are worth stating, because both weaken the teacher signal relative to the textbook formulation. The cache stores probabilities rather than logits, so temperature cannot be applied before the softmax. It is applied instead as a renormalization on the simplex, ZQX1ZQX, which is exact only at ZQX2ZQX and otherwise approximates the intended softening. And because the teacher distribution is per-image while the blend is per-anchor, one vector is broadcast across all of an image's foreground anchors, which is correct for a single-animal image and a simplification for any other. Box regression receives no distillation signal at all, since the teacher's suppressed output and the student's anchor-free head share no box-distribution representation to align.",
+   "received": "There are two approximations in ZQX0ZQX that are worth mentioning because they both weaken the teacher signal relative to the textbook formulation. First, the cache stores probabilities rather than logits, so temperature cannot be applied before the softmax. Instead, it is applied as a renormalization on the simplex ZQX1ZQX, which is exact only at ZQX2ZQX. Otherwise, it approximates the intended softening. Because the teacher distribution is per-image and the blend is per-anchor, one vector is broadcast across all of an image's foreground anchors. This is correct for a single-animal image but a simplification for any other image. Box regression receives no distillation signal, as the teacher's suppressed output and the student's anchor-free head have no shared box-distribution representation.",
+   "restored": "There are two approximations in \\Cref{eq:kd-blend} that are worth mentioning because they both weaken the teacher signal relative to the textbook formulation. First, the cache stores probabilities rather than logits, so temperature cannot be applied before the softmax. Instead, it is applied as a renormalization on the simplex $\\tau_T(\\mathbf{p})_c \\propto p_c^{1/T}$, which is exact only at $T = 1$. Otherwise, it approximates the intended softening. Because the teacher distribution is per-image and the blend is per-anchor, one vector is broadcast across all of an image's foreground anchors. This is correct for a single-animal image but a simplification for any other image. Box regression receives no distillation signal, as the teacher's suppressed output and the student's anchor-free head have no shared box-distribution representation.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 787
+  },
+  {
+   "id": "P015",
+   "line": 68,
+   "section": "Knowledge Distillation Loss",
+   "indent": "",
+   "original": "The capacity gap between the two models bounds what this design can be expected to achieve. At a parameter ratio of roughly $70$ to $1$, it sits far outside the ratios the distillation literature treats as empirically safe, and negative transfer under such a gap is a documented failure mode and not a remote possibility \\cite{mirzadehImprovedKnowledgeDistillation2020}. A distilled student that fails to beat its directly fine-tuned counterpart is nonetheless treated in \\Cref{sec:results_kd_basic_comparison} as a result to report rather than a defect to debug away.",
+   "sent": "The capacity gap between the two models bounds what this design can be expected to achieve. At a parameter ratio of roughly 70 to 1, it sits far outside the ratios the distillation literature treats as empirically safe, and negative transfer under such a gap is a documented failure mode and not a remote possibility. A distilled student that fails to beat its directly fine-tuned counterpart is nonetheless treated in ZQX0ZQX as a result to report rather than a defect to debug away.",
+   "received": "The capacity gap between the two models determines what this design can achieve. With a parameter ratio of about 70 to 1, the design falls well outside the ratios that the distillation literature considers safe. Negative transfer under such a gap is a well-documented failure mode, not a remote possibility. In ZQX0ZQX, a distilled student that fails to outperform its directly fine-tuned counterpart is treated as a result to report rather than a defect to debug.",
+   "restored": "The capacity gap between the two models determines what this design can achieve. With a parameter ratio of about $70$ to $1$, the design falls well outside the ratios that the distillation literature considers safe. Negative transfer under such a gap is a well-documented failure mode, not a remote possibility \\cite{mirzadehImprovedKnowledgeDistillation2020}. In \\Cref{sec:results_kd_basic_comparison}, a distilled student that fails to outperform its directly fine-tuned counterpart is treated as a result to report rather than a defect to debug.",
+   "flags": [
+    "cite-lowconf: \\cite{mirzadehImprovedKnowledgeDistillation2020} (0.36)"
+   ],
+   "status": "fetched",
+   "chars": 484
+  },
+  {
+   "id": "P016",
+   "line": 73,
+   "section": "Experiment Tracking",
+   "indent": "",
+   "original": "Every run logs its complete configuration to a self-hosted tracking server, together with the commit hash, the device and the realized split sizes, so a finished run is reconstructable from the record and not from the working tree. \\Cref{sec:appendix_experiment_tracking} gives the setup and the on-disk run layout. Reproducibility rests on a single seed, fixed at $42$, which seeds the Python, NumPy and Torch generators, selects deterministic convolution algorithms, reaches each dataloader worker, and is reused for the evaluation subsampling and the bootstrap resampling of \\Cref{sec:evaluation_framework}. What it does not fix is arithmetic. Two runs at different batch sizes or on different devices are not bit-identical, so the seed buys a comparable sample and not a reproducible float, which is the level every comparison in \\Cref{chapter:results} relies on.",
+   "sent": "Every run logs its complete configuration to a self-hosted tracking server, together with the commit hash, the device and the realized split sizes, so a finished run is reconstructable from the record and not from the working tree. ZQX0ZQX gives the setup and the on-disk run layout. Reproducibility rests on a single seed, fixed at 42, which seeds the Python, NumPy and Torch generators, selects deterministic convolution algorithms, reaches each dataloader worker, and is reused for the evaluation subsampling and the bootstrap resampling of ZQX1ZQX. What it does not fix is arithmetic. Two runs at different batch sizes or on different devices are not bit-identical, so the seed buys a comparable sample and not a reproducible float, which is the level every comparison in ZQX2ZQX relies on.",
+   "received": "Every run logs its complete configuration, together with the commit hash, device, and realized split sizes, to a self-hosted tracking server. This allows a finished run to be reconstructed from the record rather than the working tree. ZQX0ZQX provides the setup and the on-disk run layout. Reproducibility relies on a single fixed seed of 42, which is used to seed the Python, NumPy, and Torch generators; select deterministic convolution algorithms; reach each data loader worker; and evaluate subsampling and bootstrap resampling for ZQX1ZQX. However, it does not fix arithmetic. Two runs with different batch sizes or on different devices are not bit-identical. Thus, the seed provides a comparable sample, not a reproducible float. Every comparison in ZQX2ZQX relies on this level.",
+   "restored": "Every run logs its complete configuration, together with the commit hash, device, and realized split sizes, to a self-hosted tracking server. This allows a finished run to be reconstructed from the record rather than the working tree. \\Cref{sec:appendix_experiment_tracking} provides the setup and the on-disk run layout. Reproducibility relies on a single fixed seed of $42$, which is used to seed the Python, NumPy, and Torch generators; select deterministic convolution algorithms; reach each data loader worker; and evaluate subsampling and bootstrap resampling for \\Cref{sec:evaluation_framework}. However, it does not fix arithmetic. Two runs with different batch sizes or on different devices are not bit-identical. Thus, the seed provides a comparable sample, not a reproducible float. Every comparison in \\Cref{chapter:results} relies on this level.",
+   "flags": [
+    "semicolon",
+    "rather-than"
+   ],
+   "status": "fetched",
+   "chars": 794
+  }
+ ],
+ "applied_at": "2026-09-27T21:51:56+00:00"
+}

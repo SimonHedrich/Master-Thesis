@@ -1,0 +1,383 @@
+{
+ "source": "thesis/manuscript/chapters/3-Methods_and_Implementation/32-Data_Quality_and_Curation.tex",
+ "source_sha": "36bcb51bcaffda4e8f1807eeec46a54f3c8d1fa3c57e0a90edcf3fec17e718f2",
+ "target_lang": "en-US",
+ "created": "2026-09-27T21:34:44+00:00",
+ "paragraphs": [
+  {
+   "id": "P001",
+   "line": 4,
+   "section": "Data Quality Assurance and Curation",
+   "indent": "",
+   "original": "The corpus assembled in \\Cref{sec:data_sourcing_and_taxonomy} is heterogeneous in reliability. Community-contributed species labels vary in accuracy, Wikimedia Commons images carry no bounding boxes and may depict illustrations, taxidermy or museum specimens, and even trusted sources hold low-quality frames. This section describes the staged filtering pipeline that turns the raw corpus into a curated, quality-scored dataset with verified ground truth, and the correction passes required once downstream analysis exposed what the initial design had missed.",
+   "sent": "The corpus assembled in ZQX0ZQX is heterogeneous in reliability. Community-contributed species labels vary in accuracy, Wikimedia Commons images carry no bounding boxes and may depict illustrations, taxidermy or museum specimens, and even trusted sources hold low-quality frames. This section describes the staged filtering pipeline that turns the raw corpus into a curated, quality-scored dataset with verified ground truth, and the correction passes required once downstream analysis exposed what the initial design had missed.",
+   "received": "The corpus assembled in ZQX0ZQX is heterogeneous in terms of reliability. Community-contributed species labels vary in accuracy. Wikimedia Commons images may depict illustrations, taxidermy, or museum specimens and carry no bounding boxes. Even trusted sources contain low-quality frames. This section describes the staged filtering pipeline that transforms the raw corpus into a curated, quality-scored dataset with verified ground truth. The pipeline also identifies and corrects errors that the initial design missed.",
+   "restored": "The corpus assembled in \\Cref{sec:data_sourcing_and_taxonomy} is heterogeneous in terms of reliability. Community-contributed species labels vary in accuracy. Wikimedia Commons images may depict illustrations, taxidermy, or museum specimens and carry no bounding boxes. Even trusted sources contain low-quality frames. This section describes the staged filtering pipeline that transforms the raw corpus into a curated, quality-scored dataset with verified ground truth. The pipeline also identifies and corrects errors that the initial design missed.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 529
+  },
+  {
+   "id": "P002",
+   "line": 9,
+   "section": "Staged Quality Filtering Pipeline",
+   "indent": "",
+   "original": "Filtering is source-aware and cost-staged rather than uniform. Cheap checks run first on every image, and expensive checks run only on what survives them, and only where the source's reliability profile calls for it. \\Cref{fig:quality-pipeline} shows the pipeline, whose four image-level stages feed the species classifier of \\Cref{sec:speciesnet_matching}.",
+   "sent": "Filtering is source-aware and cost-staged rather than uniform. Cheap checks run first on every image, and expensive checks run only on what survives them, and only where the source's reliability profile calls for it. ZQX0ZQX shows the pipeline, whose four image-level stages feed the species classifier of ZQX1ZQX.",
+   "received": "Filtering is source-aware and cost-staged rather than uniform. Inexpensive checks are performed on every image first, and expensive checks are performed only on images that survive the initial checks and only where the source's reliability profile calls for it. The ZQX0ZQX pipeline has four stages that feed the ZQX1ZQX species classifier.",
+   "restored": "Filtering is source-aware and cost-staged rather than uniform. Inexpensive checks are performed on every image first, and expensive checks are performed only on images that survive the initial checks and only where the source's reliability profile calls for it. The \\Cref{fig:quality-pipeline} pipeline has four stages that feed the \\Cref{sec:speciesnet_matching} species classifier.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 314
+  },
+  {
+   "id": "P003",
+   "line": 36,
+   "section": "Stage 0: Metadata",
+   "indent": "",
+   "original": "This stage needs no image I/O and applies per-source criteria to source metadata: a minimum classifier score and detection confidence for GBIF, a research-grade or still-pending community identification for iNaturalist, and a minimum shorter side and photographic file type for Wikimedia. The criteria for the two largest sources were not in fact applied, because a bulk rename of the downloaded files severed the identifier mapping they depend on, which left rejection to the later and more expensive stages.",
+   "sent": "This stage needs no image I/O and applies per-source criteria to source metadata: a minimum classifier score and detection confidence for GBIF, a research-grade or still-pending community identification for iNaturalist, and a minimum shorter side and photographic file type for Wikimedia. The criteria for the two largest sources were not in fact applied, because a bulk rename of the downloaded files severed the identifier mapping they depend on, which left rejection to the later and more expensive stages.",
+   "received": "This stage does not require image input/output and applies per-source criteria to source metadata. For GBIF, the criteria are a minimum classifier score and detection confidence. For iNaturalist, the criteria are research-grade or still-pending community identification. For Wikimedia, the criteria are a minimum shorter side and photographic file type. However, the criteria for the two largest sources were not applied because a bulk rename of the downloaded files severed the identifier mapping they depend on. This resulted in rejection in later, more expensive stages.",
+   "restored": "This stage does not require image input/output and applies per-source criteria to source metadata. For GBIF, the criteria are a minimum classifier score and detection confidence. For iNaturalist, the criteria are research-grade or still-pending community identification. For Wikimedia, the criteria are a minimum shorter side and photographic file type. However, the criteria for the two largest sources were not applied because a bulk rename of the downloaded files severed the identifier mapping they depend on. This resulted in rejection in later, more expensive stages.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 509
+  },
+  {
+   "id": "P004",
+   "line": 39,
+   "section": "Stage 1: Heuristics",
+   "indent": "",
+   "original": "Cheap CPU-only checks then apply to every image: corruption, a shorter side of at least $256\\,\\mathrm{px}$, an aspect ratio no greater than $4.0$, a grayscale test on mean saturation, and a Laplacian blur variance of at least $100$. The $256\\,\\mathrm{px}$ floor is calibrated against iNaturalist's standard derivative, whose shorter side is roughly $281\\,\\mathrm{px}$.",
+   "sent": "Cheap CPU-only checks then apply to every image: corruption, a shorter side of at least 256 px, an aspect ratio no greater than 4.0, a grayscale test on mean saturation, and a Laplacian blur variance of at least 100. The 256 px floor is calibrated against iNaturalist's standard derivative, whose shorter side is roughly 281 px.",
+   "received": "Then, cheap CPU-only checks are applied to every image: a corruption check, a check for a shorter side of at least 256 pixels, a check for an aspect ratio no greater than 4.0, a grayscale test on mean saturation, and a check for a Laplacian blur variance of at least 100. The 256-px floor is calibrated against iNaturalist's standard derivative, whose shorter side is approximately 281 px.",
+   "restored": "Then, cheap CPU-only checks are applied to every image: a corruption check, a check for a shorter side of at least 256 pixels, a check for an aspect ratio no greater than $4.0$, a grayscale test on mean saturation, and a check for a Laplacian blur variance of at least $100$. The 256-px floor is calibrated against iNaturalist's standard derivative, whose shorter side is approximately $281\\,\\mathrm{px}$.",
+   "flags": [
+    "format-lost: $256\\,\\mathrm{px}$",
+    "format-lost: $256\\,\\mathrm{px}$",
+    "bare-number"
+   ],
+   "status": "fetched",
+   "chars": 328
+  },
+  {
+   "id": "P005",
+   "line": 42,
+   "section": "Stage 2: MegaDetector",
+   "indent": "",
+   "original": "\\textit{MegaDetector} v5 \\cite{beeryEfficientPipelineCamera2019}, a general-purpose animal detector, runs on every image surviving Stage 1 and removes content that passes the cheaper heuristics without being a photograph of a live animal, such as drawings, taxidermy mounts and plush toys.",
+   "sent": "MegaDetector v5, a general-purpose animal detector, runs on every image surviving Stage 1 and removes content that passes the cheaper heuristics without being a photograph of a live animal, such as drawings, taxidermy mounts and plush toys.",
+   "received": "The MegaDetector v5 is a general-purpose animal detector that runs on every image that survives Stage 1. It removes content that passes the cheaper heuristics but is not a photograph of a live animal. This includes drawings, taxidermy mounts, and plush toys.",
+   "restored": "The \\textit{MegaDetector} v5 is a general-purpose animal detector that runs on every image that survives Stage 1. It removes content that passes the cheaper heuristics but is not a photograph of a live animal \\cite{beeryEfficientPipelineCamera2019}. This includes drawings, taxidermy mounts, and plush toys.",
+   "flags": [
+    "cite-lowconf: \\cite{beeryEfficientPipelineCamera2019} (0.35)",
+    "cite-moved: \\cite{beeryEfficientPipelineCamera2019}"
+   ],
+   "status": "fetched",
+   "chars": 240
+  },
+  {
+   "id": "P006",
+   "line": 44,
+   "section": "Stage 2: MegaDetector",
+   "indent": "",
+   "original": "Its output is consumed under two thresholds answering different questions. Admission is strict: an image is retained only if it carries an animal detection above confidence $0.5$ covering at least $1\\%$ of the frame. Recording is permissive: every detection above confidence $0.2$ is written to the image's record. Separating the two keeps information a single-threshold design would have discarded, and three later corrections in this section depend on it.",
+   "sent": "Its output is consumed under two thresholds answering different questions. Admission is strict: an image is retained only if it carries an animal detection above confidence 0.5 covering at least 1% of the frame. Recording is permissive: every detection above confidence 0.2 is written to the image's record. Separating the two keeps information a single-threshold design would have discarded, and three later corrections in this section depend on it.",
+   "received": "Its output is divided into two categories that answer different questions. Admission is strict; an image is retained only if it has an animal detection with a confidence level above 0.5 that covers at least 1% of the frame. Recording is more permissive; every detection above a confidence level of 0.2 is written to the image's record. This separation preserves information that a single-threshold design would discard, and three later corrections in this section depend on it.",
+   "restored": "Its output is divided into two categories that answer different questions. Admission is strict; an image is retained only if it has an animal detection with a confidence level above $0.5$ that covers at least $1\\%$ of the frame. Recording is more permissive; every detection above a confidence level of $0.2$ is written to the image's record. This separation preserves information that a single-threshold design would discard, and three later corrections in this section depend on it.",
+   "flags": [
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 450
+  },
+  {
+   "id": "P007",
+   "line": 47,
+   "section": "Stage 3: VLM Rescue (Wikimedia Only)",
+   "indent": "",
+   "original": "A rescue stage runs on Wikimedia images that failed Stage 2, the one source holding both unusual real photographs a detector may miss and much illustration and museum material. A caption from \\textit{Florence-2-large} \\cite{xiaoFlorence2AdvancingUnified2023} is scanned for rejection keywords, and an image containing none is reinstated.",
+   "sent": "A rescue stage runs on Wikimedia images that failed Stage 2, the one source holding both unusual real photographs a detector may miss and much illustration and museum material. A caption from Florence-2-large is scanned for rejection keywords, and an image containing none is reinstated.",
+   "received": "A rescue stage runs on Wikimedia images that failed Stage 2. This stage is the only source that holds both unusual real photographs that a detector may miss and a lot of illustration and museum material. Captions are scanned for rejection keywords, and images containing none are reinstated.",
+   "restored": "A rescue stage runs on Wikimedia images that failed Stage 2. This stage is the only source that holds both unusual real photographs that a detector may miss and a lot of illustration and museum material. Captions are scanned for rejection keywords, and images containing none are reinstated \\cite{xiaoFlorence2AdvancingUnified2023}.",
+   "flags": [
+    "format-lost: \\textit{Florence-2-large}",
+    "cite-moved: \\cite{xiaoFlorence2AdvancingUnified2023}"
+   ],
+   "status": "fetched",
+   "chars": 287
+  },
+  {
+   "id": "P008",
+   "line": 50,
+   "section": "Caption-Based Evaluation",
+   "indent": "",
+   "original": "All surviving images are captioned with \\textit{Florence-2-base} \\cite{xiaoFlorence2AdvancingUnified2023}, and a language model judges each caption on whether the subject is a real, living animal, whether the image is a photograph rather than a rendering, and whether a substantial part of the animal is visible. The instruction also enumerates what is not grounds for rejection (\\Cref{sec:appendix_caption_settings}). A manual review pass over the unsettled cases examined $17{,}737$ images, approving $13{,}827$ and declining $3{,}910$. The $22\\%$ rejection rate confirms genuinely ambiguous material, and its per-class availability estimates are what the band structure of \\Cref{sec:band_structure} was built on.",
+   "sent": "All surviving images are captioned with Florence-2-base, and a language model judges each caption on whether the subject is a real, living animal, whether the image is a photograph rather than a rendering, and whether a substantial part of the animal is visible. The instruction also enumerates what is not grounds for rejection (ZQX0ZQX). A manual review pass over the unsettled cases examined 17,737 images, approving 13,827 and declining 3,910. The 22% rejection rate confirms genuinely ambiguous material, and its per-class availability estimates are what the band structure of ZQX1ZQX was built on.",
+   "received": "All surviving images are captioned with \"Florence-2-base,\" and a language model judges each caption based on three criteria: whether the subject is a real, living animal; whether the image is a photograph rather than a rendering; and whether a substantial part of the animal is visible. The instructions also list what is not grounds for rejection (ZQX0ZQX). A manual review of the remaining cases examined 17,737 images, approving 13,827 and rejecting 3,910. The 22% rejection rate confirms the existence of genuinely ambiguous material. Its per-class availability estimates are what the ZQX1ZQX band structure was built on.",
+   "restored": "All surviving images are captioned with \"\\textit{Florence-2-base},\" and a language model judges each caption based on three criteria: whether the subject is a real, living animal; whether the image is a photograph rather than a rendering; and whether a substantial part of the animal is visible \\cite{xiaoFlorence2AdvancingUnified2023}. The instructions also list what is not grounds for rejection (\\Cref{sec:appendix_caption_settings}). A manual review of the remaining cases examined $17{,}737$ images, approving $13{,}827$ and rejecting $3{,}910$. The $22\\%$ rejection rate confirms the existence of genuinely ambiguous material. Its per-class availability estimates are what the \\Cref{sec:band_structure} band structure was built on.",
+   "flags": [
+    "cite-moved: \\cite{xiaoFlorence2AdvancingUnified2023}",
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 603
+  },
+  {
+   "id": "P009",
+   "line": 55,
+   "section": "Species-Level Classification and Taxonomic Matching",
+   "indent": "",
+   "original": "Passing the quality gates establishes that an image depicts a real animal, not which of the $225$ classes it shows. \\textit{SpeciesNet} \\cite{gadotCropNotCrop2024a}, an \\textit{EfficientNetV2-M} \\cite{tanEfficientNetV2SmallerModels2021} classifier, therefore runs on every MegaDetector-cropped animal region.",
+   "sent": "Passing the quality gates establishes that an image depicts a real animal, not which of the 225 classes it shows. SpeciesNet, an EfficientNetV2-M classifier, therefore runs on every MegaDetector-cropped animal region.",
+   "received": "Passing the quality gates confirms that an image depicts a real animal but does not determine which of the 225 classes the image shows. Therefore, SpeciesNet, an EfficientNetV2-M classifier, runs on every MegaDetector-cropped animal region.",
+   "restored": "Passing the quality gates confirms that an image depicts a real animal but does not determine which of the $225$ classes the image shows. Therefore, \\textit{SpeciesNet}, an \\textit{EfficientNetV2-M} classifier, runs on every MegaDetector-cropped animal region \\cite{gadotCropNotCrop2024a,tanEfficientNetV2SmallerModels2021}.",
+   "flags": [
+    "cite-moved: \\cite{gadotCropNotCrop2024a}",
+    "cite-moved: \\cite{tanEfficientNetV2SmallerModels2021}",
+    "cite-merged: \\cite{gadotCropNotCrop2024a,tanEfficientNetV2SmallerModels2021}"
+   ],
+   "status": "fetched",
+   "chars": 217
+  },
+  {
+   "id": "P010",
+   "line": 57,
+   "section": "Species-Level Classification and Taxonomic Matching",
+   "indent": "",
+   "original": "Because the taxonomy mixes species-, genus- and family-level labels, a prediction is accepted on a match level read relative to the granularity of the target class rather than absolutely. A genus-level class cannot be matched at species level even by a perfect classifier, so a genus-level prediction there counts as a full match. A coarser prediction counts as partial, and disagreement at family level or above is evidence of a mislabel.",
+   "sent": "Because the taxonomy mixes species-, genus- and family-level labels, a prediction is accepted on a match level read relative to the granularity of the target class rather than absolutely. A genus-level class cannot be matched at species level even by a perfect classifier, so a genus-level prediction there counts as a full match. A coarser prediction counts as partial, and disagreement at family level or above is evidence of a mislabel.",
+   "received": "Since the taxonomy combines species-, genus-, and family-level labels, predictions are accepted based on a relative match to the target class's granularity rather than absolutely. Even a perfect classifier cannot match a genus-level class at the species level, so a genus-level prediction counts as a full match there. A coarser prediction is considered partial, and disagreement at the family level or above suggests a mislabel.",
+   "restored": "Since the taxonomy combines species-, genus-, and family-level labels, predictions are accepted based on a relative match to the target class's granularity rather than absolutely. Even a perfect classifier cannot match a genus-level class at the species level, so a genus-level prediction counts as a full match there. A coarser prediction is considered partial, and disagreement at the family level or above suggests a mislabel.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 439
+  },
+  {
+   "id": "P011",
+   "line": 59,
+   "section": "Species-Level Classification and Taxonomic Matching",
+   "indent": "",
+   "original": "The thresholds are a minimum MegaDetector confidence of $0.5$, a minimum SpeciesNet top-1 score of $0.3$, and a family-mismatch confidence threshold of $0.5$. The third inverts the usual role of confidence: for a family-level disagreement, higher classifier confidence makes rejection more likely, since a confident prediction of a different family is evidence that the source label is wrong.",
+   "sent": "The thresholds are a minimum MegaDetector confidence of 0.5, a minimum SpeciesNet top-1 score of 0.3, and a family-mismatch confidence threshold of 0.5. The third inverts the usual role of confidence: for a family-level disagreement, higher classifier confidence makes rejection more likely, since a confident prediction of a different family is evidence that the source label is wrong.",
+   "received": "The thresholds are a minimum MegaDetector confidence of 0.5, a minimum SpeciesNet top-1 score of 0.3, and a family mismatch confidence threshold of 0.5. The third threshold inverts the usual role of confidence. For a family-level disagreement, a higher confidence in the classifier makes rejection more likely since a confident prediction of a different family indicates that the source label is incorrect.",
+   "restored": "The thresholds are a minimum MegaDetector confidence of $0.5$, a minimum SpeciesNet top-1 score of $0.3$, and a family mismatch confidence threshold of $0.5$. The third threshold inverts the usual role of confidence. For a family-level disagreement, a higher confidence in the classifier makes rejection more likely since a confident prediction of a different family indicates that the source label is incorrect.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 386
+  },
+  {
+   "id": "P012",
+   "line": 82,
+   "section": "Species-Level Classification and Taxonomic Matching",
+   "indent": "",
+   "original": "The dominant failure in \\Cref{tab:speciesnet-filter-attrition} is no taxonomic match at all rather than a confident disagreement, the first sign that the filter measured the classifier's coverage as much as the data's correctness. \\Cref{sec:speciesnet_coverage_gaps} takes that up.",
+   "sent": "The dominant failure in ZQX0ZQX is no taxonomic match at all rather than a confident disagreement, the first sign that the filter measured the classifier's coverage as much as the data's correctness. ZQX1ZQX takes that up.",
+   "received": "The dominant failure in ZQX0ZQX is the absence of a taxonomic match rather than a confident disagreement. This is the first indication that the filter measured the classifier's coverage as much as the correctness of the data. ZQX1ZQX builds on that.",
+   "restored": "The dominant failure in \\Cref{tab:speciesnet-filter-attrition} is the absence of a taxonomic match rather than a confident disagreement. This is the first indication that the filter measured the classifier's coverage as much as the correctness of the data. \\Cref{sec:speciesnet_coverage_gaps} builds on that.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 222
+  },
+  {
+   "id": "P013",
+   "line": 87,
+   "section": "Correcting SpeciesNet Coverage Gaps",
+   "indent": "",
+   "original": "Applying the match-level filter uniformly cost several classes the overwhelming majority of their images, among them \\textit{Saguinus} tamarins ($1{,}065 \\rightarrow 5$) and pikas ($1{,}484 \\rightarrow 31$). Inspecting those cases showed not mislabeling at the source but a coverage gap in \\textit{SpeciesNet}, which does not reliably recognize those taxa.",
+   "sent": "Applying the match-level filter uniformly cost several classes the overwhelming majority of their images, among them Saguinus tamarins (ZQX0ZQX) and pikas (ZQX1ZQX). Inspecting those cases showed not mislabeling at the source but a coverage gap in SpeciesNet, which does not reliably recognize those taxa.",
+   "received": "The match-level filter uniformly removed the majority of images from several classes, including Saguinus tamarins (ZQX0ZQX) and pikas (ZQX1ZQX). Examining these cases revealed no mislabeling at the source, but rather a coverage gap in SpeciesNet, which does not reliably recognize these taxa.",
+   "restored": "The match-level filter uniformly removed the majority of images from several classes, including \\textit{Saguinus} tamarins ($1{,}065 \\rightarrow 5$) and pikas ($1{,}484 \\rightarrow 31$). Examining these cases revealed no mislabeling at the source, but rather a coverage gap in \\textit{SpeciesNet}, which does not reliably recognize these taxa.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 305
+  },
+  {
+   "id": "P014",
+   "line": 89,
+   "section": "Correcting SpeciesNet Coverage Gaps",
+   "indent": "",
+   "original": "A fallback rule therefore applies where the evidence points that way. If a class's dominant failure is a missing or class-level match and fewer than $20\\%$ of its images pass, or an order-level match with fewer than $15\\%$ passing, the class bypasses the SpeciesNet filter and falls back to the pre-classification quality-pass flag. This recovered approximately $14{,}500$ images across $17$ classes. Two classes whose dominant failure was instead a confident family mismatch were held under the stricter filter, since that signals label contamination rather than a coverage gap.",
+   "sent": "A fallback rule therefore applies where the evidence points that way. If a class's dominant failure is a missing or class-level match and fewer than 20% of its images pass, or an order-level match with fewer than 15% passing, the class bypasses the SpeciesNet filter and falls back to the pre-classification quality-pass flag. This recovered approximately 14,500 images across 17 classes. Two classes whose dominant failure was instead a confident family mismatch were held under the stricter filter, since that signals label contamination rather than a coverage gap.",
+   "received": "A fallback rule applies when the evidence indicates as much. If a class's dominant failure is a missing class-level match and fewer than 20% of its images pass, or an order-level match where fewer than 15% pass, then the class bypasses the SpeciesNet filter and falls back to the pre-classification quality pass flag. This recovered approximately 14,500 images across 17 classes. However, two classes with a dominant failure of a confident family mismatch were held under the stricter filter since this indicates label contamination rather than a coverage gap.",
+   "restored": "A fallback rule applies when the evidence indicates as much. If a class's dominant failure is a missing class-level match and fewer than $20\\%$ of its images pass, or an order-level match where fewer than $15\\%$ pass, then the class bypasses the SpeciesNet filter and falls back to the pre-classification quality pass flag. This recovered approximately $14{,}500$ images across $17$ classes. However, two classes with a dominant failure of a confident family mismatch were held under the stricter filter since this indicates label contamination rather than a coverage gap.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 567
+  },
+  {
+   "id": "P015",
+   "line": 95,
+   "section": "The Multi-Box Annotation Bug",
+   "indent": "",
+   "original": "A later audit found that every one of $63{,}796$ images in the test annotation file carried exactly one ground-truth bounding box, although MegaDetector had detected multiple animals in a substantial fraction of them. % annotations_test.json",
+   "sent": "A later audit found that every one of 63,796 images in the test annotation file carried exactly one ground-truth bounding box, although MegaDetector had detected multiple animals in a substantial fraction of them.",
+   "received": "A later audit revealed that each of the 63,796 images in the test annotation file contained precisely one ground-truth bounding box, despite the fact that MegaDetector had identified multiple animals in a significant proportion of them.",
+   "restored": "A later audit revealed that each of the $63{,}796$ images in the test annotation file contained precisely one ground-truth bounding box, despite the fact that MegaDetector had identified multiple animals in a significant proportion of them. % annotations_test.json",
+   "flags": [],
+   "status": "fetched",
+   "chars": 213
+  },
+  {
+   "id": "P016",
+   "line": 96,
+   "section": "The Multi-Box Annotation Bug",
+   "indent": "",
+   "original": "The fix forwards the full detection list through the pipeline and emits one annotation per detection at or above confidence $0.5$, for every image.",
+   "sent": "The fix forwards the full detection list through the pipeline and emits one annotation per detection at or above confidence 0.5, for every image.",
+   "received": "The fix sends the complete list of detections through the pipeline and produces one annotation for each detection with a confidence level of at least 0.5 for each image.",
+   "restored": "The fix sends the complete list of detections through the pipeline and produces one annotation for each detection with a confidence level of at least $0.5$ for each image.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 145
+  },
+  {
+   "id": "P017",
+   "line": 99,
+   "section": "Cross-Species Contamination in Multi-Box Images",
+   "indent": "",
+   "original": "Fixing the multi-box bug exposed a subtler defect: every box on an image had been given the image's primary label, so a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (\\Cref{sec:speciesnet_matching}) were reused to flag secondary boxes automatically, subject to a taxonomic tolerance. Agreement at species, genus or family level counts as acceptable variation. Divergence at order level or above, or no match at all, is flagged instead, provided the secondary box carries a SpeciesNet confidence of at least $0.3$. Without that tolerance the queue would have been unmanageable, since $32{,}401$ of $57{,}205$ multi-detection images carry a differing species index on a secondary box.",
+   "sent": "Fixing the multi-box bug exposed a subtler defect: every box on an image had been given the image's primary label, so a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (ZQX0ZQX) were reused to flag secondary boxes automatically, subject to a taxonomic tolerance. Agreement at species, genus or family level counts as acceptable variation. Divergence at order level or above, or no match at all, is flagged instead, provided the secondary box carries a SpeciesNet confidence of at least 0.3. Without that tolerance the queue would have been unmanageable, since 32,401 of 57,205 multi-detection images carry a differing species index on a secondary box.",
+   "received": "Fixing the multi-box bug revealed a more subtle defect: each box in an image was assigned the image's primary label. Consequently, a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (ZQX0ZQX) were reused to automatically flag secondary boxes, subject to taxonomic tolerance. Agreement at the species, genus, or family level is considered acceptable variation. Divergence at the order level or above, or no match at all, is flagged instead, provided that the secondary box has a SpeciesNet confidence level of at least 0.3. Without this tolerance, the queue would be unmanageable since 32,401 out of 57,205 multi-detection images have a different species index in a secondary box.",
+   "restored": "Fixing the multi-box bug revealed a more subtle defect: each box in an image was assigned the image's primary label. Consequently, a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (\\Cref{sec:speciesnet_matching}) were reused to automatically flag secondary boxes, subject to taxonomic tolerance. Agreement at the species, genus, or family level is considered acceptable variation. Divergence at the order level or above, or no match at all, is flagged instead, provided that the secondary box has a SpeciesNet confidence level of at least $0.3$. Without this tolerance, the queue would be unmanageable since $32{,}401$ out of $57{,}205$ multi-detection images have a different species index in a secondary box.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 710
+  },
+  {
+   "id": "P018",
+   "line": 101,
+   "section": "Cross-Species Contamination in Multi-Box Images",
+   "indent": "",
+   "original": "The filter flagged $11{,}354$ images, of which $7{,}271$ were resolved: $6{,}477$ as keep, $794$ as edit, and none as discard. No images were removed, and $1{,}344$ mislabeled annotations were deleted across the three splits. The review also yielded $1{,}733$ candidate confusion pairs, which informed the frozen look-alike grouping used for coarse-grained evaluation (\\Cref{sec:lookalike_groups}).",
+   "sent": "The filter flagged 11,354 images, of which 7,271 were resolved: 6,477 as keep, 794 as edit, and none as discard. No images were removed, and 1,344 mislabeled annotations were deleted across the three splits. The review also yielded 1,733 candidate confusion pairs, which informed the frozen look-alike grouping used for coarse-grained evaluation (ZQX0ZQX).",
+   "received": "The filter flagged 11,354 images, of which 7,271 were resolved. 6,477 were labeled as \"keep,\" 794 as \"edit,\" and none as \"discard.\" No images were removed, and 1,344 mislabeled annotations were deleted across the three splits. The review also yielded 1,733 candidate confusion pairs, which informed the frozen look-alike grouping used for the coarse-grained evaluation (ZQX0ZQX).",
+   "restored": "The filter flagged $11{,}354$ images, of which $7{,}271$ were resolved. $6{,}477$ were labeled as \"keep,\" $794$ as \"edit,\" and none as \"discard.\" No images were removed, and $1{,}344$ mislabeled annotations were deleted across the three splits. The review also yielded $1{,}733$ candidate confusion pairs, which informed the frozen look-alike grouping used for the coarse-grained evaluation (\\Cref{sec:lookalike_groups}).",
+   "flags": [],
+   "status": "fetched",
+   "chars": 356
+  },
+  {
+   "id": "P019",
+   "line": 106,
+   "section": "Quality Scoring and Split Assembly",
+   "indent": "",
+   "original": "Images surviving all stages carry a composite quality score $Q \\in [0,1]$ guiding validation sampling and tie-breaking in split assembly:",
+   "sent": "Images surviving all stages carry a composite quality score ZQX0ZQX guiding validation sampling and tie-breaking in split assembly:",
+   "received": "Images that survive all stages carry a composite quality score (ZQX0ZQX), which guides the validation, sampling, and tie-breaking processes in split assembly.",
+   "restored": "Images that survive all stages carry a composite quality score ($Q \\in [0,1]$), which guides the validation, sampling, and tie-breaking processes in split assembly.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 131
+  },
+  {
+   "id": "P020",
+   "line": 128,
+   "section": "Quality Scoring and Split Assembly",
+   "indent": "",
+   "original": "\\Cref{tab:quality-score-components} defines the four components. Two hard exclusions override the score: a box covering less than $1\\%$ of the frame, or one extending beyond the image boundary, forces $Q = 0$. An image with no detection at all is dropped rather than kept as a hard example, since it carries no ground-truth box and could only produce false positives.",
+   "sent": "ZQX0ZQX defines the four components. Two hard exclusions override the score: a box covering less than 1% of the frame, or one extending beyond the image boundary, forces ZQX1ZQX. An image with no detection at all is dropped rather than kept as a hard example, since it carries no ground-truth box and could only produce false positives.",
+   "received": "ZQX0ZQX defines the four components. Two hard exclusions override the score. A box that covers less than 1% of the frame or extends beyond the image boundary forces ZQX1ZQX. An image with no detection is discarded rather than retained as a hard example since it lacks a ground-truth box and could only generate false positives.",
+   "restored": "\\Cref{tab:quality-score-components} defines the four components. Two hard exclusions override the score. A box that covers less than $1\\%$ of the frame or extends beyond the image boundary forces $Q = 0$. An image with no detection is discarded rather than retained as a hard example since it lacks a ground-truth box and could only generate false positives.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 336
+  },
+  {
+   "id": "P021",
+   "line": 130,
+   "section": "Quality Scoring and Split Assembly",
+   "indent": "",
+   "original": "The three splits are then drawn under deliberately different rules. The test set is drawn first and stratified so that its source mixture mirrors the class's actual pool, since it estimates behavior on the operating distribution. Training images are then taken greedily by quality score from what remains. Validation is sampled from the $30$th to $70$th percentile of $Q$ under a fixed seed, because training has skimmed the top and a random validation set would be easier than the data the model will face.",
+   "sent": "The three splits are then drawn under deliberately different rules. The test set is drawn first and stratified so that its source mixture mirrors the class's actual pool, since it estimates behavior on the operating distribution. Training images are then taken greedily by quality score from what remains. Validation is sampled from the ZQX0ZQXth to ZQX1ZQXth percentile of ZQX2ZQX under a fixed seed, because training has skimmed the top and a random validation set would be easier than the data the model will face.",
+   "received": "The three splits are drawn under different, deliberate rules. First, the test set is drawn and stratified so that its source mixture mirrors the actual pool of the class, since it estimates behavior on the operating distribution. Training images are then taken by quality score from what remains. Validation samples are drawn from the ZQX0ZQXth to ZQX1ZQXth percentile of ZQX2ZQX under a fixed seed because the training set has skimmed the top, and a random validation set would resemble the data that the model will encounter more closely.",
+   "restored": "The three splits are drawn under different, deliberate rules. First, the test set is drawn and stratified so that its source mixture mirrors the actual pool of the class, since it estimates behavior on the operating distribution. Training images are then taken by quality score from what remains. Validation samples are drawn from the $30$th to $70$th percentile of $Q$ under a fixed seed because the training set has skimmed the top, and a random validation set would resemble the data that the model will encounter more closely.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 517
+  },
+  {
+   "id": "P022",
+   "line": 132,
+   "section": "Quality Scoring and Split Assembly",
+   "indent": "",
+   "original": "For the largest classes (Band D, \\Cref{sec:band_structure}) a soft source-diversity cap limits any single source to at most $60\\%$ of a class's training images, so that one source's photographic style does not become the feature the model learns. The background and human images sit outside this logic, split in fixed proportions. What these rules produce, class by class, is the dataset the rest of the work trains on.",
+   "sent": "For the largest classes (Band D, ZQX0ZQX) a soft source-diversity cap limits any single source to at most 60% of a class's training images, so that one source's photographic style does not become the feature the model learns. The background and human images sit outside this logic, split in fixed proportions. What these rules produce, class by class, is the dataset the rest of the work trains on.",
+   "received": "For the largest classes (B and D, ZQX0ZQX), a soft source diversity cap limits any single source to a maximum of 60% of a class's training images. This ensures that the model does not learn one source's photographic style as the defining feature. Background and human images are outside this logic and are split in fixed proportions. These rules produce the dataset that the rest of the work trains on, class by class.",
+   "restored": "For the largest classes (B and D, \\Cref{sec:band_structure}), a soft source diversity cap limits any single source to a maximum of $60\\%$ of a class's training images. This ensures that the model does not learn one source's photographic style as the defining feature. Background and human images are outside this logic and are split in fixed proportions. These rules produce the dataset that the rest of the work trains on, class by class.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 398
+  },
+  {
+   "id": "P023",
+   "line": 137,
+   "section": "The Resulting Dataset",
+   "indent": "",
+   "original": "\\Cref{tab:final-real-composition} gives the authoritative composition of the curated real-image dataset after the ground-truth corrections of \\Cref{sec:gt_annotation_integrity}. Figures reported earlier in this section for intermediate stages are superseded by it.",
+   "sent": "ZQX0ZQX gives the authoritative composition of the curated real-image dataset after the ground-truth corrections of ZQX1ZQX. Figures reported earlier in this section for intermediate stages are superseded by it.",
+   "received": "ZQX0ZQX provides the definitive composition of the curated real-image dataset following the ZQX1ZQX ground-truth corrections. The figures reported earlier in this section for intermediate stages are superseded by ZQX0ZQX.",
+   "restored": "\\Cref{tab:final-real-composition} gives the authoritative composition of the curated real-image dataset after the ground-truth corrections of \\Cref{sec:gt_annotation_integrity}. Figures reported earlier in this section for intermediate stages are superseded by it.",
+   "flags": [
+    "token-lost: 1 LaTeX span(s) came back more than once: '\\\\Cref{tab:final-real-composition}'"
+   ],
+   "status": "fetched",
+   "chars": 211
+  },
+  {
+   "id": "P024",
+   "line": 158,
+   "section": "The Resulting Dataset",
+   "indent": "",
+   "original": "In the exported annotation files this is $145{,}728$ training images with $187{,}705$ boxes, $12{,}543$ validation images with $19{,}732$ boxes, and $63{,}802$ test images with $92{,}094$ boxes, for $222{,}073$ real images and $299{,}531$ annotations across $225$ categories. The real images carry no hand-drawn ground truth. Every box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.",
+   "sent": "In the exported annotation files this is 145,728 training images with 187,705 boxes, 12,543 validation images with 19,732 boxes, and 63,802 test images with 92,094 boxes, for 222,073 real images and 299,531 annotations across 225 categories. The real images carry no hand-drawn ground truth. Every box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.",
+   "received": "The exported annotation files contain 145,728 training images with 187,705 boxes, 12,543 validation images with 19,732 boxes, and 63,802 test images with 92,094 boxes. This amounts to 222,073 real images and 299,531 annotations across 225 categories. The real images have no hand-drawn ground truth. Each box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.",
+   "restored": "The exported annotation files contain $145{,}728$ training images with $187{,}705$ boxes, $12{,}543$ validation images with $19{,}732$ boxes, and $63{,}802$ test images with $92{,}094$ boxes. This amounts to $222{,}073$ real images and $299{,}531$ annotations across $225$ categories. The real images have no hand-drawn ground truth. Each box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 409
+  },
+  {
+   "id": "P025",
+   "line": 160,
+   "section": "The Resulting Dataset",
+   "indent": "",
+   "original": "Band A contributes no training images by design, its classes being supported entirely by synthetic imagery (\\Cref{sec:band_structure}). Band D's $231{,}107$ surplus images exceed the per-class caps, and they are what made the enlarged test set of the generator comparison (\\Cref{sec:generator_comparison_classes}) possible without touching training data.",
+   "sent": "Band A contributes no training images by design, its classes being supported entirely by synthetic imagery (ZQX0ZQX). Band D's 231,107 surplus images exceed the per-class caps, and they are what made the enlarged test set of the generator comparison (ZQX1ZQX) possible without touching training data.",
+   "received": "By design, Band A contributes no training images; its classes are supported entirely by synthetic imagery (ZQX0ZQX). Band D's surplus of 231,107 images exceeds the per-class cap and made the enlarged generator comparison test set (ZQX1ZQX) possible without touching the training data.",
+   "restored": "By design, Band A contributes no training images; its classes are supported entirely by synthetic imagery (\\Cref{sec:band_structure}). Band D's surplus of $231{,}107$ images exceeds the per-class cap and made the enlarged generator comparison test set (\\Cref{sec:generator_comparison_classes}) possible without touching the training data.",
+   "flags": [
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 300
+  },
+  {
+   "id": "P026",
+   "line": 163,
+   "section": "Known Defects in the Split",
+   "indent": "",
+   "original": "Three defects in the assembled split are recorded here. First, $99$ hard-excluded images reached the Band A test set, because a Band A class assigns its whole pool to testing without quality filtering. Second, band assignment used a conservative estimate of each class's pool, so some classes sit one band below their actual imagery. Third, the Band B and C test sets are quality-biased low by construction, since training takes the top of the quality distribution and validation the middle, leaving the remainder to test. The effect is bounded but real. It means absolute accuracy on those bands is not directly comparable with Band D's.",
+   "sent": "Three defects in the assembled split are recorded here. First, 99 hard-excluded images reached the Band A test set, because a Band A class assigns its whole pool to testing without quality filtering. Second, band assignment used a conservative estimate of each class's pool, so some classes sit one band below their actual imagery. Third, the Band B and C test sets are quality-biased low by construction, since training takes the top of the quality distribution and validation the middle, leaving the remainder to test. The effect is bounded but real. It means absolute accuracy on those bands is not directly comparable with Band D's.",
+   "received": "Three defects in the assembled split are recorded here. First, 99 images were excluded from the Band A test set because Band A assigns its entire pool to testing without quality filtering. Second, band assignment used a conservative estimate of each class's pool, so some classes are assigned to a band below their actual level. Third, the Band B and C test sets are low quality by design, since training uses the top of the quality distribution, validation uses the middle, and testing uses the remainder. The effect is small but real. This means that absolute accuracy on those bands is not directly comparable to that of Band D.",
+   "restored": "Three defects in the assembled split are recorded here. First, $99$ images were excluded from the Band A test set because Band A assigns its entire pool to testing without quality filtering. Second, band assignment used a conservative estimate of each class's pool, so some classes are assigned to a band below their actual level. Third, the Band B and C test sets are low quality by design, since training uses the top of the quality distribution, validation uses the middle, and testing uses the remainder. The effect is small but real. This means that absolute accuracy on those bands is not directly comparable to that of Band D.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 636
+  },
+  {
+   "id": "P027",
+   "line": 166,
+   "section": "A Note on Tuning",
+   "indent": "",
+   "original": "The quality-score weights and breakpoints, the band boundaries, the per-band quotas and the validation window are fixed design choices, justified by reasoning of the kind given above but not selected by any sensitivity analysis. No ablation over them was run. Band A's total dependence on synthetic imagery, visible in \\Cref{tab:final-real-composition}, is what \\Cref{sec:synthetic_data_supplementation} takes up.",
+   "sent": "The quality-score weights and breakpoints, the band boundaries, the per-band quotas and the validation window are fixed design choices, justified by reasoning of the kind given above but not selected by any sensitivity analysis. No ablation over them was run. Band A's total dependence on synthetic imagery, visible in ZQX0ZQX, is what ZQX1ZQX takes up.",
+   "received": "The quality-score weights, breakpoints, band boundaries, per-band quotas, and validation window are fixed design choices. They are justified by the reasoning given above, but they are not selected by any sensitivity analysis. No ablation was run over them. Band A's total dependence on synthetic imagery is visible in ZQX0ZQX and is taken up by ZQX1ZQX.",
+   "restored": "The quality-score weights, breakpoints, band boundaries, per-band quotas, and validation window are fixed design choices. They are justified by the reasoning given above, but they are not selected by any sensitivity analysis. No ablation was run over them. Band A's total dependence on synthetic imagery is visible in \\Cref{tab:final-real-composition} and is taken up by \\Cref{sec:synthetic_data_supplementation}.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 353
+  }
+ ],
+ "applied_at": "2026-09-27T21:51:55+00:00"
+}

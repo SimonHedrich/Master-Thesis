@@ -1,0 +1,259 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 4-Results.tex: 12 paragraphs -->
+
+#### P049  4-Results.tex:316  flags: -
+## section: Look-Alike Within-Group Confusion
+--- original
+The within-group confusion rate asks a narrower question than the granularity ladder: of the detections correctly localized and placed in the right look-alike group, what fraction name the wrong species inside it. \Cref{tab:lookalike-group-confusion} reports that rate for every multi-member group, and \Cref{tab:lookalike-group-confusion-excerpt} excerpts its two ends.
+--- rephrased
+The within-group confusion rate asks a more specific question than the granularity ladder. It asks what fraction of detections that are correctly localized and placed in the right look-alike group name the wrong species inside it. \Cref{tab:lookalike-group-confusion} reports this rate for each group with multiple members, and \Cref{tab:lookalike-group-confusion-excerpt} provides the rates for the two ends.
+--- final
+The within-group confusion rate asks a more specific question than the granularity ladder. It asks what fraction of detections that are correctly localized and placed in the right look-alike group name the wrong species inside it. \Cref{tab:lookalike-group-confusion} reports this rate for each group with multiple members, and \Cref{tab:lookalike-group-confusion-excerpt} provides the rates for the two ends.
+--- verdict
+rephrased: clean split, definition and scope preserved, no meaning change. risk: high
+
+#### P050  4-Results.tex:346  flags: wrap-case: kobus -> Kobus
+## section: Look-Alike Within-Group Confusion
+--- original
+Confusion inside the look-alike groups is common and very unevenly distributed. The primary detector confuses $19.3\%$ of its correctly grouped detections and the fine-tuned ensemble $12.9\%$, so the larger model is better at the fine-grained decision too. The range spans two orders of magnitude, from $0.006$ for \texttt{kobus} to $0.508$ for \texttt{elephant}. The five groups above $0.24$ carry $60.3\%$ of all within-group confusions and the nine below $0.08$ carry $5.4\%$ between them, so a large share of the frozen table is absorbing error the models were not making. This resolves the apparent tension with the small $\Delta_{\text{fine}}$ of \Cref{tab:granularity-gaps}: look-alike confusion is frequent but concentrated in too few classes to move the aggregate.
+--- rephrased
+Confusion within look-alike groups is common and unevenly distributed. The primary detector misclassifies $19.3\%$ of correctly grouped detections, while the fine-tuned ensemble misclassifies $12.9\%$. Therefore, the larger model is also better at fine-grained classification. The range spans two orders of magnitude, from $0.006$ for \texttt{kobus} to $0.508$ for \texttt{elephant}. The five groups above $0.24$ account for $60.3\%$ of all within-group confusions, while the nine groups below $0.08$ account for only $5.4\%$. Thus, a significant portion of the frozen table absorbs errors that the models were not making. This resolves the apparent tension with the small $\Delta_{\text{fine}}$ of \Cref{tab:granularity-gaps}: Look-alike confusion is frequent, but it is concentrated in too few classes to affect the aggregate.
+--- final
+Confusion within look-alike groups is common and unevenly distributed. The primary detector misclassifies $19.3\%$ of correctly grouped detections, while the fine-tuned ensemble misclassifies $12.9\%$. Therefore, the larger model is also better at fine-grained classification. The range spans two orders of magnitude, from $0.006$ for \texttt{kobus} to $0.508$ for \texttt{elephant}. The five groups above $0.24$ account for $60.3\%$ of all within-group confusions, while the nine groups below $0.08$ account for only $5.4\%$. Thus, a significant portion of the frozen table absorbs errors that the models were not making. This resolves the apparent tension with the small $\Delta_{\text{fine}}$ of \Cref{tab:granularity-gaps}: look-alike confusion is frequent, but it is concentrated in too few classes to affect the aggregate.
+--- verdict
+rephrased: restored lowercase "look-alike" after the colon (wrap-case fix); numbers and meaning otherwise unchanged. risk: high
+
+#### P051  4-Results.tex:348  flags: -
+## section: Look-Alike Within-Group Confusion
+--- original
+The zebras, which motivated the look-alike treatment in the first place, are one of the easier groups at $9.5\%$, against $50.8\%$ for the two elephants and $39.6\%$ for the three gazelles. \Cref{tab:lookalike-group-confusion} supports all three changes the grouping review of \Cref{sec:lookalike_groups} made to the taxonomic backbone. The cross-genus \texttt{gazelle} merge captures a hard decision at $0.396$, and the \texttt{panthera\_rosette} split isolates one at $0.244$ that a whole-genus grouping would have diluted with the unmistakable lion and tiger. Splitting the equids separated a group at $0.095$ from one at $0.272$.
+--- rephrased
+The zebras, which prompted the similar treatment in the first place, are one of the easier groups at $9.5\%$, compared to $50.8\%$ for the two elephants and $39.6\%$ for the three gazelles. \Cref{tab:lookalike-group-confusion} supports all three of the changes that the \Cref{sec:lookalike_groups} grouping review made to the taxonomic backbone. The cross-genus \texttt{gazelle} merge represents a difficult decision with a value of $0.396$. The \texttt{panthera\_rosette} split isolates a group with a value of $0.244$ that would have been diluted by a whole-genus grouping with the unmistakable lion and tiger. Splitting the equids separated a group at $0.095$ from a group at $0.272$.
+--- final
+The zebras, which motivated the look-alike treatment in the first place, are one of the easier groups at $9.5\%$, against $50.8\%$ for the two elephants and $39.6\%$ for the three gazelles. \Cref{tab:lookalike-group-confusion} supports all three of the changes that the \Cref{sec:lookalike_groups} grouping review made to the taxonomic backbone. The cross-genus \texttt{gazelle} merge represents a difficult decision with a value of $0.396$. The \texttt{panthera\_rosette} split isolates a group with a value of $0.244$ that would have been diluted by a whole-genus grouping with the unmistakable lion and tiger. Splitting the equids separated a group at $0.095$ from a group at $0.272$.
+--- verdict
+merged: kept original s1, DeepL replaced "look-alike" with "similar" (term of art dropped); rest of DeepL's wording kept. risk: high
+
+#### P052  4-Results.tex:350  flags: format-lost: $9$
+## section: Look-Alike Within-Group Confusion
+--- original
+The pair-level counts of \Cref{tab:lookalike-top-pairs} show two patterns. The confusion is concentrated, with ten of the $135$ observed pairs carrying $61.8\%$ of all within-group errors and the elephant pair alone carrying $25.2\%$. And it is almost entirely one-directional. Asian elephants are labeled as African elephants $1{,}545$ times against $9$ in reverse, and nine of the ten pairs show a reverse count below $5\%$ of the forward one. The model is not confusing two classes symmetrically. It is collapsing one onto another. Test-set size does not explain the direction, since the Asian elephant carries $1{,}393$ real test images against the African elephant's $500$.  % evaluation_report.json tier3_per_class
+--- rephrased
+The pair-level counts of \Cref{tab:lookalike-top-pairs} exhibit two patterns. Most of the confusion is concentrated in ten of the $135$ observed pairs, which carry $61.8\%$ of all within-group errors. The elephant pair alone carries $25.2\%$ of these errors. It is also almost entirely one-directional. Asian elephants are mislabeled as African elephants $1{,}545$ times, compared to nine times in the opposite direction. Nine of the ten pairs have a reverse count below $5\%$ of the forward count. The model does not confuse the two classes symmetrically. Rather, it is collapsing one onto another. Test set size does not explain the direction since Asian elephants carry $1{,}393$ real test images, while African elephants carry $500$.  % evaluation_report.json tier3_per_class
+--- final
+The pair-level counts of \Cref{tab:lookalike-top-pairs} exhibit two patterns. Most of the confusion is concentrated in ten of the $135$ observed pairs, which carry $61.8\%$ of all within-group errors. The elephant pair alone carries $25.2\%$ of these errors. It is also almost entirely one-directional. Asian elephants are mislabeled as African elephants $1{,}545$ times, compared to $9$ times in the opposite direction. Nine of the ten pairs have a reverse count below $5\%$ of the forward count. The model does not confuse the two classes symmetrically. Rather, it is collapsing one onto another. Test-set size does not explain the direction since Asian elephants carry $1{,}393$ real test images, while African elephants carry $500$.  % evaluation_report.json tier3_per_class
+--- verdict
+merged: restored $9$ (format-lost, DeepL spelled it "nine") and the "Test-set" hyphen; rest of DeepL's wording kept. risk: high
+
+#### P053  4-Results.tex:351  flags: -
+## section: Look-Alike Within-Group Confusion
+--- original
+A training-composition imbalance is the natural candidate and is not verified here.
+--- rephrased
+A training-composition imbalance is the most likely explanation, but it is not verified here.
+--- final
+A training-composition imbalance is the natural candidate and is not verified here.
+--- verdict
+original: DeepL strengthened "the natural candidate" to "the most likely explanation", an unwarranted hedge change for an unverified claim. risk: low
+
+#### P054  4-Results.tex:353  flags: -
+## section: Look-Alike Within-Group Confusion
+--- original
+One check the grouping review asked for cannot be answered from these artifacts: confirming that lion and tiger are not confused with each other needs cross-group counts, which the suite emits only within groups. The rosette half is confirmed at $216$ mutual confusions among snow leopard, leopard and jaguar. Everything to this point concerns the student trained by direct fine-tuning, which leaves its training recipe and its deployment cost untested.
+--- rephrased
+One question from the group review cannot be answered using these artifacts. Confirming that lions and tigers are not confused with each other requires cross-group counts, which the suite only provides within groups. The rosette half is confirmed with $216$ mutual confusions among the snow leopard, leopard, and jaguar. All of this concerns the student trained by direct fine-tuning, which leaves its training recipe and deployment cost untested.
+--- final
+One question from the grouping review cannot be answered using these artifacts. Confirming that lion and tiger are not confused with each other requires cross-group counts, which the suite only provides within groups. The rosette half is confirmed with $216$ mutual confusions among the snow leopard, leopard, and jaguar. All of this concerns the student trained by direct fine-tuning, which leaves its training recipe and deployment cost untested.
+--- verdict
+merged: restored "grouping review" term and singular "lion and tiger" for consistency with the surrounding paragraphs; rest of DeepL's wording kept. risk: high
+
+#### P055  4-Results.tex:358  flags: -
+## section: Knowledge Distillation and Embedded Feasibility
+--- original
+\Cref{sec:lit_knowledge_distillation,sec:lit_embedded_inference} survey a design space of distillation objectives, teacher and student pairings, weighting schedules and quantization strategies. What was carried out against it is one comparison between two training runs at one hyperparameter point, and one runtime measurement on one proxy device with no optimization applied. Both findings are reported as indicative evidence at a single design point, and the rest is deferred to \Cref{sec:further_work}.
+--- rephrased
+The \Cref{sec:lit_knowledge_distillation,sec:lit_embedded_inference} survey covers a design space of distillation objectives, teacher-student pairings, weighting schedules, and quantization strategies. One comparison was carried out between two training runs at one hyperparameter point and one runtime measurement was carried out on one proxy device with no optimization applied. The findings are both reported as indicative evidence at a single design point, and the rest is deferred to \Cref{sec:further_work}.
+--- final
+\Cref{sec:lit_knowledge_distillation,sec:lit_embedded_inference} survey a design space of distillation objectives, teacher and student pairings, weighting schedules and quantization strategies. What was carried out against it is one comparison between two training runs at one hyperparameter point, and one runtime measurement on one proxy device with no optimization applied. Both findings are reported as indicative evidence at a single design point, and the rest is deferred to \Cref{sec:further_work}.
+--- verdict
+original: DeepL's added "The" before \Cref breaks subject-verb agreement, since \Cref already expands to a plural section reference. risk: low
+
+#### P056  4-Results.tex:362  flags: bare-number
+## section: Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison
+--- original
+Setup A and Setup B of \Cref{sec:augmentation_setups} are the two runs compared here, both training \textit{YOLO26n} for $225$ classes at $640$ px on the same data with the same schedule.
+--- rephrased
+Setups A and B of \Cref{sec:augmentation_setups} are compared here. Both setups train \textit{YOLO26n} on the same data with the same schedule, but Setup A uses $225$ classes and $640$ px, while Setup B uses 100 classes and 480 px.
+--- final
+Setup A and Setup B of \Cref{sec:augmentation_setups} are the two runs compared here, both training \textit{YOLO26n} for $225$ classes at $640$ px on the same data with the same schedule.
+--- verdict
+original: DeepL invented a 100-class, 480 px variant for Setup B not present in the source, where both setups share $225$ classes and $640$ px. risk: low
+
+#### P057  4-Results.tex:363  flags: semicolon
+## section: Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison
+--- original
+Setup A blends the frozen teacher's cached class distribution into the classification target through \Cref{eq:kd-blend}, at the default $T = 4$ and $\alpha = 0.5$, and Setup B takes the assigner's own targets untouched. Both use the basic augmentation set of \Cref{sec:basic_augmentation} through the same code path, so the intended single varied factor is the training signal.
+--- rephrased
+Setup A blends the frozen teacher's cached class distribution into the classification target via \Cref{eq:kd-blend} at the default $T = 4$ and $\alpha = 0.5$. Setup B leaves the assigner's targets unchanged. Both use the basic augmentation set of \Cref{sec:basic_augmentation} through the same code path; therefore, the intended single varied factor is the training signal.
+--- final
+Setup A blends the frozen teacher's cached class distribution into the classification target via \Cref{eq:kd-blend} at the default $T = 4$ and $\alpha = 0.5$. Setup B leaves the assigner's targets unchanged. Both use the basic augmentation set of \Cref{sec:basic_augmentation} through the same code path. Therefore, the intended single varied factor is the training signal.
+--- verdict
+merged: fixed the semicolon by splitting into two sentences; rest of DeepL's wording kept. risk: high
+
+#### P058  4-Results.tex:392  flags: -
+## section: Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison
+--- original
+Direct fine-tuning is the stronger recipe in every row of \Cref{tab:kd-vs-direct}, the confusion rate included, where the lower value is better. On the mixed test set it reaches $0.599$ against the distilled student's $0.560$, and on the real-only breakout $0.529$ against $0.479$. The negative is clean rather than ambiguous, and it holds on the case the hypothesis was expected to help most: Band A, whose training signal is entirely synthetic and thin, is where distillation loses by the widest margin, at $0.086$ mixed and $0.061$ real. Neither run carries a confidence interval, so the gap cannot be called significant. Setup B nonetheless leads in all $17$ cells, across two test domains, three granularity levels, four bands and the validation metric the runs were selected on. A single seed can invert a difference of this magnitude, as \Cref{sec:results_practicability_verdict} shows it doing, so the direction is treated as real and the magnitude as unquantified.
+--- rephrased
+Direct fine-tuning is the superior method in every category of \Cref{tab:kd-vs-direct}, including the confusion rate, where a lower value is preferable. On the mixed test set, direct fine-tuning reaches $0.599$, compared to the distilled student's $0.560$. On the real-only breakout, direct fine-tuning reaches $0.529$, compared to the distilled student's $0.479$. The negative is clean rather than ambiguous. It holds true in the case where the hypothesis was expected to help the most: Band A. Band A's training signal is entirely synthetic and thin. This is where distillation loses by the widest margin: $0.086$ for the mixed test set and $0.061$ for the real-only breakout. However, neither run carries a confidence interval, so the gap cannot be considered significant. Nevertheless, Setup B leads in all $17$ cells across two test domains, three granularity levels, four bands, and the validation metric on which the runs were selected. A single seed can invert a difference of this magnitude, as \Cref{sec:results_practicability_verdict} demonstrates, so the direction is considered real, and the magnitude is considered unquantified.
+--- final
+Direct fine-tuning is the stronger recipe in every row of \Cref{tab:kd-vs-direct}, the confusion rate included, where the lower value is better. On the mixed test set, direct fine-tuning reaches $0.599$, compared to the distilled student's $0.560$. On the real-only breakout, direct fine-tuning reaches $0.529$, compared to the distilled student's $0.479$. The negative is clean rather than ambiguous, and it holds on the case the hypothesis was expected to help most: Band A, whose training signal is entirely synthetic and thin, is where distillation loses by the widest margin, at $0.086$ mixed and $0.061$ real. However, neither run carries a confidence interval, so the gap cannot be considered significant. Nevertheless, Setup B leads in all $17$ cells across two test domains, three granularity levels, four bands, and the validation metric on which the runs were selected. A single seed can invert a difference of this magnitude, as \Cref{sec:results_practicability_verdict} demonstrates, so the direction is considered real, and the magnitude is considered unquantified.
+--- verdict
+merged: kept original s1 ("row"/"recipe") and s4 (tighter Band A clause) for precision, kept DeepL's clearer split elsewhere. risk: high
+
+#### P059  4-Results.tex:394  flags: -
+## section: Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison
+--- original
+Three asymmetries must be disclosed, because the first breaks the single-factor design \Cref{sec:augmentation_setups} specifies. The distilled run trained at an effective batch size of $16$ against $32$ for the direct run, both auto-reduced from a nominal $64$ by the memory probe of \Cref{sec:training_procedure}, the extra cached teacher vector per image being the plausible and unconfirmed cause.  % run logs: batch_size_effective=16 vs 32
+--- rephrased
+Three asymmetries must be disclosed because the first one breaks the single-factor design that \Cref{sec:augmentation_setups} specifies. The distilled run was trained at an effective batch size of $16$, whereas the direct run was trained at $32$. Both were auto-reduced from a nominal $64$ by the memory probe of \Cref{sec:training_procedure}. The extra cached teacher vector per image is the most likely, though unconfirmed, cause.  % run logs: batch_size_effective=16 vs 32
+--- final
+Three asymmetries must be disclosed because the first one breaks the single-factor design that \Cref{sec:augmentation_setups} specifies. The distilled run was trained at an effective batch size of $16$, whereas the direct run was trained at $32$. Both were auto-reduced from a nominal $64$ by the memory probe of \Cref{sec:training_procedure}. The extra cached teacher vector per image is the plausible and unconfirmed cause.  % run logs: batch_size_effective=16 vs 32
+--- verdict
+merged: restored "plausible" in place of DeepL's strengthened "most likely" for an unconfirmed cause; rest of DeepL's wording kept. risk: high
+
+#### P060  4-Results.tex:395  flags: -
+## section: Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison
+--- original
+Batch size is therefore a second varied factor whose contribution to the gap is unmeasured. Second, the distilled run ended at epoch $186$ of $200$ after an unhandled tracking-client exception, and its epoch-$185$ checkpoint is used as final with the validation metric still rising, from $0.724$ at epoch $175$ to $0.733$ at epoch $185$.  % docs/2026-09-07_model-comparison-teacher-and-students.md 3.3
+--- rephrased
+Batch size is a second variable whose contribution to the gap is unmeasured. Second, the distilled run ended at epoch $186$ out of $200$ due to an unhandled tracking-client exception. Its epoch $185$ checkpoint was used as the final one, even though the validation metric was still rising from $0.724$ at epoch $175$ to $0.733$ at epoch $185$.  % docs/2026-09-07_model-comparison-teacher-and-students.md 3.3
+--- final
+Batch size is therefore a second varied factor whose contribution to the gap is unmeasured. Second, the distilled run ended at epoch $186$ out of $200$ due to an unhandled tracking-client exception. Its epoch $185$ checkpoint was used as the final one, even though the validation metric was still rising from $0.724$ at epoch $175$ to $0.733$ at epoch $185$.  % docs/2026-09-07_model-comparison-teacher-and-students.md 3.3
+--- verdict
+merged: restored "varied factor" and "therefore" for terminology consistency with \Cref{sec:augmentation_setups}'s single-factor design; rest of DeepL's wording kept. risk: high
+

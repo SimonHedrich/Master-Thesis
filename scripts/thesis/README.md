@@ -415,7 +415,12 @@ LaTeX span one of three treatments:
 | a leading `\item`, a trailing `% comment` | not sent | put back verbatim |
 
 Math glued to a word (`v$4.0.2$a`, `$30$th`) stays a token, because its plain
-form could not be found again. Headings, labels, comments, and the bodies of
+form could not be found again.
+
+**One paragraph per physical line is assumed.** `30-Overview.tex` is hard-wrapped,
+so each line there is a sentence fragment; DeepL turns fragments into standalone
+sentences and the reviewers rightly kept the originals. Re-flow such a file to
+one paragraph per line before running it through this pipeline. Headings, labels, comments, and the bodies of
 tables, figures, tikz pictures and display math are never prose and never
 sent. A prose line that also occurs verbatim in another manuscript file is
 held back (`verbatim-echo`): that is the four research questions, which

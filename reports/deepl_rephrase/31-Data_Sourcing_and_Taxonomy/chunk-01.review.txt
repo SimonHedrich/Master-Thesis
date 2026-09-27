@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 31-Data_Sourcing_and_Taxonomy.tex: 12 paragraphs -->
+
+#### P001  31-Data_Sourcing_and_Taxonomy.tex:4  flags: -
+## section: Dataset Sourcing and Class Taxonomy
+--- original
+The set of species the detector is expected to recognize had to be fixed before any imagery could be gathered, since it determines what counts as a usable image and how large a corpus is obtainable. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and reports what the sourcing effort produced.
+--- rephrased
+Before any imagery could be gathered, the set of species that the detector was expected to recognize had to be determined, since this set determines what counts as a usable image and how large a corpus can be obtained. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and summarizes the results of the sourcing effort.
+--- final
+Before any imagery could be gathered, the set of species that the detector was expected to recognize had to be determined, since this set determines what counts as a usable image and how large a corpus can be obtained. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and summarizes the results of the sourcing effort.
+--- verdict
+rephrased: same meaning, reads cleaner. risk: low
+
+
+#### P002  31-Data_Sourcing_and_Taxonomy.tex:9  flags: cite-moved: \cite{gadotCropNotCrop2024a}
+## section: Target Class Definition
+--- original
+The class universe originates in the taxonomy of \textit{SpeciesNet} \cite{gadotCropNotCrop2024a}, a published species classifier. Of its $3{,}537$ labels, roughly $1{,}415$ are mammal taxa. Because the AX Visio binocular targets non-bird mammals, the taxonomy was restricted to that subset and then filtered by the product owner to $483$ candidate labels.  % resources/refineLabels.py
+--- rephrased
+The Class Universe originates from the \textit{SpeciesNet} taxonomy, a published species classifier \cite{gadotCropNotCrop2024a}. Of its $3{,}537$ labels, approximately $1{,}415$ are mammal taxa. Since the AX Visio binoculars target non-bird mammals, the taxonomy was restricted to that subset. Then, the product owner filtered it down to $483$ candidate labels.  % resources/refineLabels.py
+--- final
+The class universe originates from the \textit{SpeciesNet} taxonomy, a published species classifier \cite{gadotCropNotCrop2024a}. Of its $3{,}537$ labels, approximately $1{,}415$ are mammal taxa. Since the AX Visio binocular targets non-bird mammals, the taxonomy was restricted to that subset. Then, the product owner filtered it down to $483$ candidate labels.  % resources/refineLabels.py
+--- verdict
+merged: kept rephrasing but restored lowercase "class universe" and singular "binocular", verified cite placement. risk: high
+
+
+#### P003  31-Data_Sourcing_and_Taxonomy.tex:10  flags: -
+## section: Target Class Definition
+--- original
+The criterion applied there is observability rather than taxonomy: what survives is the set of diurnal land mammals a user is plausibly able to photograph, with visually inseparable congeners merged instead of dropped.
+--- rephrased
+The applied criterion is observability rather than taxonomy. What survives is the set of diurnal land mammals that a user can plausibly photograph. Visually inseparable congeners are merged instead of being dropped.
+--- final
+The applied criterion is observability rather than taxonomy. What survives is the set of diurnal land mammals that a user can plausibly photograph. Visually inseparable congeners are merged instead of being dropped.
+--- verdict
+rephrased: same meaning, clearer as three short sentences. risk: medium
+
+
+#### P004  31-Data_Sourcing_and_Taxonomy.tex:12  flags: cite-lowconf: \cite{GBIF} (0.38), cite-moved: \cite{GBIF}
+## section: Target Class Definition
+--- original
+Whether a species could be supported with imagery at all was decided separately, from per-taxon image counts surveyed on \textit{GBIF} \cite{GBIF}, with at least $300$ images required for inclusion.  % data/gbif/metadata/GBIF_image_counts_v1.csv
+--- rephrased
+The decision of whether a species could be supported by imagery was made separately based on the number of images surveyed on \textit{GBIF} for each taxon \cite{GBIF}. At least $300$ images were required for inclusion.  % data/gbif/metadata/GBIF_image_counts_v1.csv
+--- final
+The decision of whether a species could be supported by imagery was made separately based on the number of images surveyed on \textit{GBIF} for each taxon \cite{GBIF}. At least $300$ images were required for inclusion.  % data/gbif/metadata/GBIF_image_counts_v1.csv
+--- verdict
+rephrased: cite still tags the GBIF survey claim despite low confidence flag, hedge "at least" kept. risk: high
+
+
+#### P005  31-Data_Sourcing_and_Taxonomy.tex:13  flags: wrap-reordered: 479
+## section: Target Class Definition
+--- original
+The survey caps at approximately $300$ observations per taxon, and $125$ of $479$ surveyed taxa sit exactly at that ceiling, so a count at the cap means only \enquote{at least $300$}, whereas a low count is evidence of genuine scarcity. That asymmetry makes the measure usable as a rarity proxy in \Cref{sec:generator_comparison_classes}.
+--- rephrased
+The survey caps at approximately $300$ observations per taxon. Of the $479$ taxa surveyed, $125$ sit exactly at that ceiling. Thus, a count at the cap means only \enquote{at least $300$}. In contrast, a low count is evidence of genuine scarcity. This asymmetry makes the measure usable as a proxy for rarity in \Cref{sec:generator_comparison_classes}.
+--- final
+The survey caps at approximately $300$ observations per taxon. Of the $479$ taxa surveyed, $125$ sit exactly at that ceiling. Thus, a count at the cap means only \enquote{at least $300$}. In contrast, a low count is evidence of genuine scarcity. This asymmetry makes the measure usable as a proxy for rarity in \Cref{sec:generator_comparison_classes}.
+--- verdict
+rephrased: numbers reordered (479 then 125) but both preserved correctly, wrap placement verified. risk: high
+
+
+#### P006  31-Data_Sourcing_and_Taxonomy.tex:15  flags: -
+## section: Target Class Definition
+--- original
+A list of $483$ classes exceeds what the target hardware can carry. A nano-scale detector in the $1$--$3\,\mathrm{M}$-parameter range spreads its discriminative capacity too thinly once the label space grows beyond roughly $200$--$300$ fine-grained classes, which fixed an approximate ceiling of $200$--$250$ classes. Birds, bats and marine mammals other than pinnipeds were then excluded outright, and domestic animals deliberately kept.
+--- rephrased
+A list of $483$ classes exceeds the capacity of the target hardware. A nanoscale detector in the $1$-$3\,\mathrm{M}$ parameter range loses its discriminative capacity once the label space grows beyond $200$-$300$ fine-grained classes. This establishes an approximate upper limit of $200$-$250$ classes. Birds, bats, and marine mammals other than pinnipeds were excluded outright, while domestic animals were kept.
+--- final
+A list of $483$ classes exceeds the capacity of the target hardware. A nano-scale detector in the $1$--$3\,\mathrm{M}$-parameter range spreads its discriminative capacity too thinly once the label space grows beyond roughly $200$--$300$ fine-grained classes, which fixed an approximate ceiling of $200$--$250$ classes. Birds, bats, and marine mammals other than pinnipeds were excluded outright, while domestic animals were deliberately kept.
+--- verdict
+merged: kept original mechanism sentence ("spreads ... too thinly", hedge "roughly", term "nano-scale", en-dash ranges) since DeepL changed the mechanism to "loses" and dropped the hedge and hyphenation, restored "deliberately". risk: high
+
+
+#### P007  31-Data_Sourcing_and_Taxonomy.tex:17  flags: -
+## section: Target Class Definition
+--- original
+The final list holds $225$ classes across three taxonomic ranks: $164$ at species level, $41$ at genus level where the species of a genus are not reliably separable in a daylight image, and $20$ at family level or above. \Cref{tab:class-taxonomy-orders} breaks them down by taxonomic order. Whether each of those classes could actually be filled with usable imagery is a question about the available sources.
+--- rephrased
+The final list includes $225$ classes across three taxonomic ranks: $164$ at the species level, $41$ at the genus level (where the species of a genus cannot be reliably separated in a daylight image), and $20$ at the family level or above. \Cref{tab:class-taxonomy-orders} breaks them down by taxonomic order. Whether each of those classes can be filled with usable imagery depends on the available sources.
+--- final
+The final list includes $225$ classes across three taxonomic ranks: $164$ at the species level, $41$ at the genus level (where the species of a genus cannot be reliably separated in a daylight image), and $20$ at the family level or above. \Cref{tab:class-taxonomy-orders} breaks them down by taxonomic order. Whether each of those classes can be filled with usable imagery depends on the available sources.
+--- verdict
+rephrased: meaning and numbers preserved, relative clause turned into parenthetical. risk: high
+
+
+#### P008  31-Data_Sourcing_and_Taxonomy.tex:43  flags: -
+## section: Candidate Data Sources and Licensing Assessment
+--- original
+With the class list fixed, candidate image sources were surveyed on two criteria: commercial usability of the license, and suitability of the imagery for close-to-mid-range daylight observation. Because the trained weights are intended for a commercial product, any dataset carrying a NonCommercial, NoDerivatives or ShareAlike clause was excluded (\Cref{tab:candidate-sources}).
+--- rephrased
+With the class list finalized, candidate image sources were evaluated based on two criteria: the commercial usability of the license and the suitability of the imagery for close-to-mid-range daylight observation. Since the trained weights are intended for a commercial product, any dataset with a NonCommercial, NoDerivatives, or ShareAlike clause was excluded (\Cref{tab:candidate-sources}).
+--- final
+With the class list finalized, candidate image sources were evaluated based on two criteria: the commercial usability of the license and the suitability of the imagery for close-to-mid-range daylight observation. Since the trained weights are intended for a commercial product, any dataset with a NonCommercial, NoDerivatives, or ShareAlike clause was excluded (\Cref{tab:candidate-sources}).
+--- verdict
+rephrased: same meaning, wording only. risk: low
+
+
+#### P009  31-Data_Sourcing_and_Taxonomy.tex:64  flags: -
+## section: Candidate Data Sources and Licensing Assessment
+--- original
+Source selection also fixed how far each source's own species labels can be trusted, an axis the curation pipeline depends on. \textit{iNaturalist}, \textit{GBIF} and Wikipedia-derived material are label-trusted, since their labels carry an identifiable contributor and community verification. Open Images and the stock-image source are unverified, their labels being colloquial or of unknown provenance. An unverified source contributes to a class's usable pool only where an independent classifier corroborates the label, whereas a trusted source contributes on passing the quality gates alone (\Cref{sec:data_quality_and_curation}).
+--- rephrased
+The source selection also determines how reliable each source's species labels are, which is an important factor for the curation pipeline. \textit{iNaturalist}, \textit{GBIF}, and Wikipedia-derived material are considered reliable because their labels have identifiable contributors and community verification. Open Images and the stock-image source are unverified because their labels are colloquial or of unknown origin. An unverified source only contributes to a class's usable pool where an independent classifier corroborates the label. In contrast, a trusted source contributes simply by passing the quality gates (\Cref{sec:data_quality_and_curation}).
+--- final
+Source selection also fixed how far each source's own species labels can be trusted, an axis the curation pipeline depends on. \textit{iNaturalist}, \textit{GBIF} and Wikipedia-derived material are label-trusted, since their labels carry an identifiable contributor and community verification. Open Images and the stock-image source are unverified because their labels are colloquial or of unknown origin. An unverified source only contributes to a class's usable pool where an independent classifier corroborates the label. In contrast, a trusted source contributes simply by passing the quality gates (\Cref{sec:data_quality_and_curation}).
+--- verdict
+merged: kept original "label-trusted"/"trusted" terminology for consistency with the paragraph's own contrast, kept DeepL's split final sentence. risk: high
+
+
+#### P010  31-Data_Sourcing_and_Taxonomy.tex:69  flags: format-lost: $31$, format-lost: $10$, cite-moved: \cite{GBIF}, cite-moved: \cite{gadotCropNotCrop2024a}, cite-merged: \cite{GBIF,gadotCropNotCrop2024a}
+## section: Sourcing Execution and the LILA BC Rejection
+--- original
+The initial corpus was assembled from \textit{GBIF} \cite{GBIF} observation records, classified with \textit{SpeciesNet} v$4.0.2$a \cite{gadotCropNotCrop2024a}, yielding $66{,}881$ usable images. This corpus was highly uneven across classes: $31$ of the $225$ classes had zero images, and a further $55$ classes had fewer than $10$. Closing that gap required sourcing additional imagery.
+--- rephrased
+The initial corpus was assembled from \textit{GBIF} observation records and classified using \textit{SpeciesNet} v$4.0.2$a, yielding $66{,}881$ usable images \cite{GBIF,gadotCropNotCrop2024a}. However, this corpus was highly uneven across classes. Thirty-one of the $225$ classes had zero images, and a further $55$ classes had fewer than ten. Closing that gap required sourcing additional imagery.
+--- final
+The initial corpus was assembled from \textit{GBIF} \cite{GBIF} observation records and classified using \textit{SpeciesNet} v$4.0.2$a \cite{gadotCropNotCrop2024a}, yielding $66{,}881$ usable images. This corpus was highly uneven across classes: $31$ of the $225$ classes had zero images, and a further $55$ classes had fewer than $10$. Closing that gap required sourcing additional imagery.
+--- verdict
+merged: split the merged \cite{GBIF,gadotCropNotCrop2024a} back to each source's own claim, restored numerals $31$/$10$ lost to spelled-out words, kept DeepL's "classified using" connective. risk: high
+
+
+#### P011  31-Data_Sourcing_and_Taxonomy.tex:71  flags: -
+## section: Sourcing Execution and the LILA BC Rejection
+--- original
+Three large camera-trap archives under a commercially compatible license were scanned against the $225$-class taxonomy and rejected \cite{LILABCLabeled}. Their species coverage overlapped the classes that were already well supplied and missed the scarce ones, and their imagery is fixed-viewpoint, long-range and frequently infrared, whereas the \textit{AX Visio} is used for close-to-mid-range daylight observation. No images from them entered the corpus.
+--- rephrased
+Three large camera-trap archives under commercially compatible licenses were scanned against the $225$-class taxonomy and rejected \cite{LILABCLabeled}. Their species coverage overlapped with well-supplied classes and missed scarce ones. Additionally, their imagery is fixed-viewpoint, long-range, and frequently infrared. The \textit{AX Visio}, however, is used for close-to-mid-range, daylight observation. No images from these archives were included in the corpus.
+--- final
+Three large camera-trap archives under commercially compatible licenses were scanned against the $225$-class taxonomy and rejected \cite{LILABCLabeled}. Their species coverage overlapped with well-supplied classes and missed scarce ones. Additionally, their imagery is fixed-viewpoint, long-range, and frequently infrared. The \textit{AX Visio}, however, is used for close-to-mid-range daylight observation. No images from these archives were included in the corpus.
+--- verdict
+merged: kept DeepL's split sentences, removed the erroneous comma inserted into "close-to-mid-range daylight observation" to match the compound modifier used elsewhere. risk: medium
+
+
+#### P012  31-Data_Sourcing_and_Taxonomy.tex:74  flags: -
+## section: Gap-Filling Sources Actually Used
+--- original
+A metadata-level match against \textit{iNaturalist} Open Data records exposed through \textit{GBIF} reached $221$ of the $225$ classes and $6{,}816{,}962$ photographs, of which only $831{,}050$ ($12\%$) carried a commercially safe CC0 or CC-BY license. The CC-BY-NC remainder was excluded under the policy of \Cref{sec:candidate_sources_licensing}. Coverage stayed uneven: white-tailed deer retained $61{,}865$ safe images, while nine classes had none and needed separate sourcing.
+--- rephrased
+A metadata-level comparison of \textit{iNaturalist} Open Data records shared via \textit{GBIF} revealed $221$ of the $225$ categories and $6{,}816{,}962$ images. Of these, only $831{,}050$ ($12\%$) had a safe commercial license, either CC0 or CC-BY. The remainder with a CC-BY-NC license was excluded under the \Cref{sec:candidate_sources_licensing} policy. Coverage remained uneven: White-tailed deer had $61{,}865$ safe images, while nine classes had none and required separate sourcing.
+--- final
+A metadata-level match against \textit{iNaturalist} Open Data records exposed through \textit{GBIF} reached $221$ of the $225$ classes and $6{,}816{,}962$ photographs. Of these, only $831{,}050$ ($12\%$) carried a commercially safe CC0 or CC-BY license. The CC-BY-NC remainder was excluded under the policy of \Cref{sec:candidate_sources_licensing}. Coverage stayed uneven: white-tailed deer retained $61{,}865$ safe images, while nine classes had none and needed separate sourcing.
+--- verdict
+merged: restored "classes" over "categories" for term consistency, restored "match"/"retained" for mechanism precision, kept DeepL's sentence split. risk: high
+
+

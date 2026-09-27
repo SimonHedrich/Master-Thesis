@@ -1,0 +1,271 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 35-Synthetic_Generator_Comparison.tex: 12 paragraphs -->
+
+#### P013  35-Synthetic_Generator_Comparison.tex:148  flags: -
+## section: Generator Roster
+--- original
+Two local models carry genuinely permissive licenses. The rest carry community or non-commercial terms needing review before production use, and HiDream-I1's nominally permissive license is a composite inheriting its gated encoder's terms. For a product-facing comparison, a license is part of a model's score.
+--- rephrased
+Two local models have genuinely permissive licenses. The rest carry community or noncommercial terms that need to be reviewed before they can be used for production. HiDream-I1's nominally permissive license is a composite that inherits the terms of its gated encoder. For a product-facing comparison, a license is part of a model's score.
+--- final
+Two local models have genuinely permissive licenses. The rest carry community or noncommercial terms that need to be reviewed before they can be used for production. HiDream-I1's nominally permissive license is a composite that inherits the terms of its gated encoder. For a product-facing comparison, a license is part of a model's score.
+--- verdict
+rephrased: no meaning change, splits one compound sentence cleanly. risk: medium
+
+
+#### P014  35-Synthetic_Generator_Comparison.tex:153  flags: -
+## section: Prompt Regimes
+--- original
+The production prompts run to approximately $1{,}300$ words, while the SDXL-family text encoder stops reading after $77$ tokens \cite{radfordLearningTransferableVisual2021}. The same text therefore does not give both models the same information, and a gap measured that way confounds how well a model generates with how much it read.
+--- rephrased
+The production prompts are about $1{,}300$ words long, but the SDXL-family text encoder stops reading after $77$ tokens \cite{radfordLearningTransferableVisual2021}. Therefore, the same text does not provide both models with the same information. Measuring a gap in this way confounds how well a model generates with how much it reads.
+--- final
+The production prompts are about $1{,}300$ words long, but the SDXL-family text encoder stops reading after $77$ tokens \cite{radfordLearningTransferableVisual2021}. Therefore, the same text does not provide both models with the same information. Measuring a gap in this way confounds how well a model generates with how much it reads.
+--- verdict
+rephrased: numbers and citation placement unchanged, sentence split preserves meaning. risk: high
+
+
+#### P015  35-Synthetic_Generator_Comparison.tex:170  flags: -
+## section: Prompt Regimes
+--- original
+The \texttt{compressed} prompt is dense and ordered by importance, since an encoder weights early tokens most heavily and discards the rest. A trimming rule drops habitat first, then pose, then reduces diagnostic features to one, so the species name and at least one marker survive longest.
+--- rephrased
+The \texttt{compressed} prompt is dense and ordered by importance since an encoder weighs early tokens most heavily and discards the rest. A trimming rule first drops habitat, then pose, and then reduces diagnostic features to one. This ensures that the species name and at least one marker survive the longest.
+--- final
+The \texttt{compressed} prompt is dense and ordered by importance since an encoder weighs early tokens most heavily and discards the rest. A trimming rule first drops habitat, then pose, and then reduces diagnostic features to one. This ensures that the species name and at least one marker survive the longest.
+--- verdict
+rephrased: trimming order and \texttt{} span preserved, no meaning change. risk: high
+
+
+#### P016  35-Synthetic_Generator_Comparison.tex:172  flags: -
+## section: Prompt Regimes
+--- original
+The \texttt{maxlen} regime is built by accumulation rather than truncation, growing a short template until the next description sentence would breach the budget. Per-image pose and environment carry over from the production image list, so the prompts keep real per-image variation. Measured lengths sit under the nominal ceilings (\Cref{sec:appendix_prompt_token_budgets}). \Cref{fig:prompt-regime-example} shows the scale of the difference for one class.
+--- rephrased
+The \texttt{maxlen} regime is built by accumulation rather than truncation. It grows a short template until the next description sentence exceeds the budget. The per-image pose and environment carry over from the production image list so that the prompts maintain real per-image variation. Measured lengths fall below the nominal ceilings (\Cref{sec:appendix_prompt_token_budgets}). \Cref{fig:prompt-regime-example} illustrates the extent of the difference for one class.
+--- final
+The \texttt{maxlen} regime is built by accumulation rather than truncation. It grows a short template until the next description sentence exceeds the budget. The per-image pose and environment carry over from the production image list so that the prompts maintain real per-image variation. Measured lengths fall below the nominal ceilings (\Cref{sec:appendix_prompt_token_budgets}). \Cref{fig:prompt-regime-example} illustrates the extent of the difference for one class.
+--- verdict
+rephrased: both \Cref spans preserved, mechanism and meaning unchanged. risk: high
+
+
+#### P017  35-Synthetic_Generator_Comparison.tex:192  flags: -
+## section: Prompt Regimes
+--- original
+Two asymmetries are disclosed rather than smoothed over. The \texttt{full} regime is not byte-identical across vendors, since one API caps prompts at $32{,}000$ characters, so species with long articles had their description trimmed. And negative prompts could not be applied uniformly, because the FLUX-family pipeline accepts none, so one cell lacks a control the others have.
+--- rephrased
+Rather than smoothing over, two asymmetries are disclosed. The \texttt{full} regime is not byte-identical across vendors since one API caps prompts at $32{,}000$ characters. Consequently, species with long articles had their descriptions trimmed. Additionally, negative prompts could not be applied uniformly because the FLUX-family pipeline accepts none, resulting in one cell lacking a control that the others have.
+--- final
+Two asymmetries are disclosed rather than smoothed over. The \texttt{full} regime is not byte-identical across vendors since one API caps prompts at $32{,}000$ characters. Consequently, species with long articles had their descriptions trimmed. Additionally, negative prompts could not be applied uniformly because the FLUX-family pipeline accepts none, resulting in one cell lacking a control that the others have.
+--- verdict
+merged: kept original s1, rephrase's fronted "Rather than smoothing over" leaves a dangling modifier. risk: high
+
+
+#### P018  35-Synthetic_Generator_Comparison.tex:194  flags: semicolon
+## section: Prompt Regimes
+--- original
+Reproducibility differs by tier. The local models are deterministic, with per-image seeds from a fixed class ordering. The API services expose no seed, so there the archived images and request parameters are the reproducible artifact. Within the local tier the two short regimes index seeds differently, so the same slot in each was not generated from the same seed, which adds noise to any comparison between them.
+--- rephrased
+Reproducibility varies by tier. Local models are deterministic with per-image seeds from a fixed class ordering. The API services do not expose a seed; therefore, the archived images and request parameters are the reproducible artifacts. Within the local tier, the two short regimes index seeds differently. Therefore, the same slot in each regime is not generated from the same seed. This adds noise to any comparison between the two regimes.
+--- final
+Reproducibility varies by tier. Local models are deterministic with per-image seeds from a fixed class ordering. The API services do not expose a seed. Therefore, the archived images and request parameters are the reproducible artifacts. Within the local tier, the two short regimes index seeds differently. Therefore, the same slot in each regime is not generated from the same seed. This adds noise to any comparison between the two regimes.
+--- verdict
+rephrased: split the flagged semicolon into two sentences, meaning otherwise unchanged. risk: high
+
+
+#### P019  35-Synthetic_Generator_Comparison.tex:199  flags: -
+## section: Throughput, Cost and Hardware
+--- original
+Generation ran on a single NVIDIA A40 instance with $23.8\,\mathrm{GB}$ of video memory, and detector training separately on an RTX 3060. Throughput is reported as a result in its own right, since excellent images at an unusable rate are not practical training data. \Cref{tab:generator-throughput} gives the measured cost of each cell.
+--- rephrased
+The generation process ran on a single NVIDIA A40 instance with $23.8\,\mathrm{GB}$ of video memory. The detector was trained separately on an RTX 3060. Since excellent images at an unusable rate are not practical training data, throughput is reported as a result in its own right. \Cref{tab:generator-throughput} provides the cost of each cell.
+--- final
+The generation process ran on a single NVIDIA A40 instance with $23.8\,\mathrm{GB}$ of video memory. The detector was trained separately on an RTX 3060. Since excellent images at an unusable rate are not practical training data, throughput is reported as a result in its own right. \Cref{tab:generator-throughput} gives the measured cost of each cell.
+--- verdict
+merged: kept original s4, rephrase dropped the "measured" qualifier on cost. risk: high
+
+
+#### P020  35-Synthetic_Generator_Comparison.tex:223  flags: -
+## section: Throughput, Cost and Hardware
+--- original
+The six local cells consumed approximately $93$ GPU-hours, so generating the full $12{,}600$-image production set locally would have taken weeks of GPU time. That is much of why an API service was the practical production choice whatever the output quality. The billed figures also exceeded their naive estimates: the cheapest tier cost roughly $2.8$ times the per-image list price, because prompt text bills as input tokens separately from generation.
+--- rephrased
+The six local cells consumed approximately $93$ GPU hours. Generating the full production set of $12{,}600$ images locally would have taken weeks of GPU time. This is one reason why an API service was the practical production choice, regardless of output quality. The billed figures also exceeded naive estimates: the cheapest tier cost about $2.8$ times the per-image list price because the API service bills prompt text as input tokens separately from generation.
+--- final
+The six local cells consumed approximately $93$ GPU-hours. Generating the full production set of $12{,}600$ images locally would have taken weeks of GPU time. That is much of why an API service was the practical production choice, regardless of output quality. The billed figures also exceeded naive estimates: the cheapest tier cost about $2.8$ times the per-image list price because the API service bills prompt text as input tokens separately from generation.
+--- verdict
+merged: kept original s3, "much of why" downgraded to "one reason why" understates the claim. risk: high
+
+
+#### P021  35-Synthetic_Generator_Comparison.tex:228  flags: cite-moved: \cite{beeryEfficientPipelineCamera2019}
+## section: Annotation, Detector and Training Protocol
+--- original
+Every cell was annotated by the detector \cite{beeryEfficientPipelineCamera2019} and procedure of \Cref{sec:synthetic_annotation}. One deviation qualifies every downstream number in \Cref{sec:results_synthetic_data_practicability}: the human review stages were never executed here, so all cells use the detector's own boxes. The ranking is unlikely to be an annotation artifact, since every cell was annotated identically, but the absolute figures are not final. Single-animal yield ranged from $93.6\%$ to $98.8\%$ across the local cells and is itself a quality signal.
+--- rephrased
+The detector and procedure of \Cref{sec:synthetic_annotation} annotated every cell \cite{beeryEfficientPipelineCamera2019}. One deviation in \Cref{sec:results_synthetic_data_practicability} qualifies every downstream number: the human review stages were never executed here, so all cells use the detector's boxes. While the ranking is unlikely to be an annotation artifact since every cell was annotated identically, the absolute figures are not final. Single-animal yield ranged from $93.6\%$ to $98.8\%$ across local cells, which is a quality signal itself.
+--- final
+Every cell was annotated by the detector \cite{beeryEfficientPipelineCamera2019} and procedure of \Cref{sec:synthetic_annotation}. One deviation qualifies every downstream number in \Cref{sec:results_synthetic_data_practicability}: the human review stages were never executed here, so all cells use the detector's own boxes. While the ranking is unlikely to be an annotation artifact since every cell was annotated identically, the absolute figures are not final. Single-animal yield ranged from $93.6\%$ to $98.8\%$ across local cells, which is a quality signal itself.
+--- verdict
+merged: kept original s1 so the citation still tags the detector rather than the internal \Cref, kept original s2 so \Cref scopes "downstream number" not the deviation, took rephrase s3-s4. risk: high
+
+
+#### P022  35-Synthetic_Generator_Comparison.tex:230  flags: cite-lowconf: \cite{UltralyticsYOLO262025} (0.38), cite-moved: \cite{UltralyticsYOLO262025}, cite-lowconf: \cite{ultralyticsComprehensiveGuideUltralytics} (0.46), cite-moved: \cite{ultralyticsComprehensiveGuideUltralytics}
+## section: Annotation, Detector and Training Protocol
+--- original
+\textit{YOLO26n} \cite{UltralyticsYOLO262025} was fixed as the detector for every cell. The available alternative, \textit{YOLOv5s} \cite{ultralyticsComprehensiveGuideUltralytics}, is roughly the size of the detector that already ships, whereas \textit{YOLO26n} is the architecture class this work targets for embedded deployment, so a result on it stays load-bearing for the main study.
+--- rephrased
+\textit{YOLO26n} was chosen as the detector for each cell \cite{UltralyticsYOLO262025}. The available alternative, \textit{YOLOv5s}, is roughly the same size as the existing detector, whereas \textit{YOLO26n} is the target architecture class for embedded deployment in this study, so the results remain relevant \cite{ultralyticsComprehensiveGuideUltralytics}.
+--- final
+\textit{YOLO26n} \cite{UltralyticsYOLO262025} was fixed as the detector for every cell. The available alternative, \textit{YOLOv5s} \cite{ultralyticsComprehensiveGuideUltralytics}, is roughly the size of the detector that already ships, whereas \textit{YOLO26n} is the architecture class this work targets for embedded deployment, so a result on it stays load-bearing for the main study.
+--- verdict
+original: both citations are tool citations that must stay next to their model names, not move to clause/sentence ends, "fixed" (control variable) was weakened to "chosen", "load-bearing for the main study" was weakened to "remain relevant", and "in this study" replaced the required "this work" self-reference. risk: high
+
+
+#### P023  35-Synthetic_Generator_Comparison.tex:232  flags: -
+## section: Annotation, Detector and Training Protocol
+--- original
+Model selection and early stopping use a per-class stratified fifth of each cell's synthetic images, drawn with a seed independent of the training seed, so the split is identical across a cell's repeated runs. The real test set is scored once per run, on the best checkpoint.
+--- rephrased
+Model selection and early stopping use a per-class, stratified fifth of each cell's synthetic images. These images are drawn with a seed that is independent of the training seed. This ensures that the split is identical across a cell's repeated runs. The real test set is scored once per run on the best checkpoint.
+--- final
+Model selection and early stopping use a per-class, stratified fifth of each cell's synthetic images. These images are drawn with a seed that is independent of the training seed. This ensures that the split is identical across a cell's repeated runs. The real test set is scored once per run on the best checkpoint.
+--- verdict
+rephrased: "real test set" term of art and meaning preserved, sentence split is clean. risk: high
+
+
+#### P024  35-Synthetic_Generator_Comparison.tex:234  flags: -
+## section: Annotation, Detector and Training Protocol
+--- original
+Because a single run on a dataset this small is noisy, each cell was trained with several seeds and averaged: three per API cell, two per local cell, short of the three the protocol recommends.
+--- rephrased
+Because a single run on a dataset this small produces noisy results, each cell was trained with several seeds and averaged. Three seeds were used for each API cell and two for each local cell, which is less than the three recommended by the protocol.
+--- final
+Because a single run on a dataset this small produces noisy results, each cell was trained with several seeds and averaged. Three seeds were used for each API cell and two for each local cell, which is less than the three recommended by the protocol.
+--- verdict
+rephrased: counts unchanged, meaning preserved. risk: high
+
+
