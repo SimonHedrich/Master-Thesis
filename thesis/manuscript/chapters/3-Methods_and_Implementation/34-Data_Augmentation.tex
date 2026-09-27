@@ -1,12 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Training-Time Data Augmentation}\label{sec:data_augmentation}
 
-\Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation,sec:synthetic_data_supplementation} describe how the dataset was constructed. This section describes how it is transformed at training time. Augmentation is treated as a variable to control for in service of the central question, whether distillation outperforms direct fine-tuning, rather than as an object of study in its own right.
+\Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation,sec:synthetic_data_supplementation} describe how the dataset was constructed. This section describes how the dataset is transformed during training. Augmentation is treated as a variable to control for in service of the central question, whether distillation outperforms direct fine-tuning, rather than as an object of study in its own right.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Augmentation as a Controlled Variable}\label{sec:augmentation_controlled_variable}
 
-Two properties of an augmentation transform determine how it may be used here. The first is \emph{distillation compatibility}. Single-image transforms such as flipping, color jitter and affine scaling preserve a one-to-one correspondence between an image and its augmented version, so the same augmented image can be shown to both teacher and student. Multi-image compositing transforms such as mosaic, mixup and copy-paste build a new image from fragments of several sources, and no well-defined single teacher view exists for such a composite: the teacher would have to reconcile predictions for several unrelated crops in one frame. Compositing is therefore never used in the distillation condition. The second property is \emph{architecture specificity}. Flipping, color jitter, scale and translation are architecture-agnostic, whereas mosaic is tuned to YOLO's anchor-coverage assumptions and does not transfer unchanged to an arbitrary detector.
+There are two properties of an augmentation transform that determine how it can be used. The first is \emph{distillation compatibility}. Single-image transforms, such as flipping, color jitter, and affine scaling, preserve a one-to-one correspondence between an image and its augmented version, so the same augmented image can be shown to both the teacher and the student. Multi-image compositing transforms, such as mosaic, mixup, and copy-paste, build a new image from fragments of several sources, and no well-defined single teacher view exists for such a composite: the teacher would have to reconcile predictions for several unrelated crops in one frame. Compositing is therefore never used in the distillation condition. The second property is \emph{architecture specificity}. Flipping, color jitter, scaling, and translation are architecture-agnostic, whereas mosaic is tuned to YOLO's anchor-coverage assumptions and does not transfer unchanged to an arbitrary detector.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Experimental Setups}\label{sec:augmentation_setups}
@@ -33,7 +33,7 @@ Setup A against Setup B isolates the benefit attributable to distillation itself
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Basic Augmentation Set (Setups A and B)}\label{sec:basic_augmentation}
 
-\Cref{tab:basic-augmentation} lists the transforms in the basic set shared by Setups A and B, and those considered and excluded.
+\Cref{tab:basic-augmentation} lists the transforms included in the basic set shared by Setups A and B, as well as those that were considered but ultimately excluded.
 
 \begin{table}[H]
 \centering
@@ -58,9 +58,9 @@ Blur, CutOut, grayscale & No & Kept out to hold the basic set minimal \\
 
 Setup C adds three compositing transforms on top of the basic set. Mosaic tiles four training images into one frame at probability $\approx 1.0$, following \textit{YOLOv4} convention \cite{bochkovskiyYOLOv4OptimalSpeed2020}. Mixup linearly blends two images and their labels at probability $\approx 0.1$ \cite{zhangMixupEmpiricalRisk2018}. Copy-paste \cite{ghiasiSimpleCopyPasteStrong2021} is implemented but is a no-op here, since the curated ground truth carries bounding boxes only and no masks to paste. Mosaic and mixup are disabled for the final $10\%$ of epochs, the \enquote{close-mosaic} tail, so the model fine-tunes on the un-composited distribution before training ends.
 
-Compositing is not a substitute for real training data. Augmenting a small image set many times over fits a model to those images' poses and backgrounds rather than to the underlying class, which is the reasoning behind the $100$-real-image floor in the Band C control condition of \Cref{sec:band_structure}. Augmentation multiplies the variance of an adequate pool. It does not stand in for one.
+Compositing is not a substitute for real training data. Augmenting a small set of images many times fits a model to the poses and backgrounds of those images rather than to the underlying class. This is the reasoning behind the $100$-real-image floor in the Band C control condition of \Cref{sec:band_structure}. Augmentation multiplies the variance of an adequate pool. It does not stand in for one.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Reproducibility and Confound Control}\label{sec:augmentation_reproducibility}
 
-Because the Setup A/B comparison is the work's central result, the two configurations share a single dataset and transforms code path rather than parallel implementations, so any difference in outcome is attributable to the teacher rather than to a discrepancy between two pipelines. Seeding is controlled so that the same augmented image reaches teacher and student within a given distillation step, and an assertion verifies that the compositing flags are disabled before a distillation run begins. Every run's augmentation configuration is logged alongside its training metrics (\Cref{sec:model_training_experiment_tracking}), and Band A test mAP is logged separately, since classes trained entirely on synthetic imagery are the most likely to reveal augmentation amplifying generation artifacts.
+Because the Setup A/B comparison is the work's central result, the two configurations share a single dataset and transforms code path rather than having parallel implementations. Therefore, any difference in outcome can be attributed to the teacher rather than to a discrepancy between the two pipelines. Seeding is controlled so that the same augmented image is delivered to the teacher and the student within a given distillation step. An assertion verifies that the compositing flags are disabled before a distillation run begins. The augmentation configuration of every run is logged alongside its training metrics (\Cref{sec:model_training_experiment_tracking}), and the Band A test mAP is logged separately since classes trained entirely on synthetic imagery are most likely to reveal augmentation-amplified generation artifacts.

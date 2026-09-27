@@ -1,23 +1,23 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Comparing Synthetic-Image Generators}\label{sec:generator_comparison}
 
-The synthetic imagery of \Cref{sec:synthetic_data_supplementation} came from a single generative model, chosen early on a visual comparison against a few alternatives. That choice is load-bearing. If a cheaper or free model would have served as well, or if apparent realism does not translate into detection accuracy, the conclusions of the synthetic-data experiments change. The second possibility is not hypothetical. Earlier work by the present author found that generated image context conferred no downstream advantage over random noise on a small-object car-detection task \cite{hedrichGeneratingSyntheticDatasets2026}. This section describes the controlled comparison built to test it: what was compared, how it was made fair, and how the generators were judged.
+The synthetic imagery of \Cref{sec:synthetic_data_supplementation} originated from a single generative model that was selected through a visual comparison with a few alternatives early on. This choice is critical. If a cheaper or free model would have served just as well, or if apparent realism does not translate into detection accuracy, then the conclusions of the synthetic-data experiments would change. The second possibility is not hypothetical. Earlier work by the present author found that generated image context conferred no downstream advantage over random noise on a small-object car-detection task \cite{hedrichGeneratingSyntheticDatasets2026}. This section describes the controlled comparison built to test this finding: what was compared, how it was made fair, and how the generators were judged.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Motivation and Scoped Research Question}\label{sec:generator_comparison_motivation}
 
-The work's question about synthetic data is whether current image-generation models can produce training data useful for wildlife detection, particularly for long-tail species. \enquote{Useful} has meaning only against alternatives, and a single-model study cannot separate a property of synthetic data from a property of one vendor's model. The scoped, secondary question is therefore:
+The work's question about synthetic data is whether current image-generation models can produce training data useful for wildlife detection, particularly for long-tail species. The term \enquote{Useful} is meaningful only in relation to other options, and a study using a single model cannot distinguish a property of synthetic data from a property of a specific vendor's model. The scoped, secondary question is therefore:
 
 \begin{quote}
 On a purposively chosen subset of classes, how do synthetic images from different generators (proprietary API services and locally-run open-weight models) compare, both under a structured qualitative rubric and under downstream detection accuracy measured on real photographs, and does the resulting ranking justify the production choice?
 \end{quote}
 
-The production run had already consumed most of the synthetic-image budget, so regenerating the full dataset per candidate was never an option. The comparison runs on a reduced class set at a modest per-class image count.
+Most of the synthetic-image budget had already been consumed by the production run, so regenerating the full dataset per candidate was never an option. Instead, the comparison runs on a reduced class set with a modest number of images per class.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Experimental Design and Fixed Controls}\label{sec:generator_comparison_design}
 
-The design is a single-factor experiment with one deliberate secondary factor. The class set, images per class, annotation procedure, detector and hyperparameters, augmentation policy and real test set are fixed, so any difference in outcome belongs to the generator.
+The design is a single-factor experiment with one secondary factor that was deliberately introduced. The class set, number of images per class, annotation procedure, detector, hyperparameters, augmentation policy, and real test set are fixed. Therefore, any difference in outcome belongs to the generator.
 
 \begin{figure}[H]
 \centering
@@ -41,7 +41,7 @@ The design is a single-factor experiment with one deliberate secondary factor. T
 \label{fig:generator-comparison-pipeline}
 \end{figure}
 
-\Cref{tab:generator-comparison-factors} lists the two varying factors. The prompt regime is a factor rather than an implementation detail because the candidates differ by orders of magnitude in how much text they can read, so a fixed prompt is not fixed conditioning.
+\Cref{tab:generator-comparison-factors} lists the two varying factors. The prompt regime is a factor rather than an implementation detail because candidates differ by orders of magnitude in how much text they can read. Therefore, a fixed prompt does not provide fixed conditioning.
 
 \begin{table}[H]
 \centering
@@ -64,7 +64,7 @@ Each cell comprises $12$ classes $\times\ 100$ images $= 1{,}200$ synthetic trai
 
 The subset must expose three phenomena: long-tail species under-represented in the generators' pretraining data, classes with enough real test images to separate a difference from noise, and near-identical species that test fine-grained markers. The rarest species also have the fewest real test images, so the subset covers all three as a set rather than in every class.
 
-\Cref{tab:generator-comparison-classes} lists the resulting $12$ classes. The rarity proxy is the per-species GBIF count, which caps near $300$ and is evidence of scarcity only at its low end (\Cref{sec:target_class_definition}).
+\Cref{tab:generator-comparison-classes} lists the $12$ resulting classes. The rarity proxy is the GBIF count per species, which caps at around $300$. This count is only evidence of scarcity at its low end (\Cref{sec:target_class_definition}).
 
 \begin{table}[H]
 \centering
@@ -94,12 +94,12 @@ Pangolin family & Rare & $52$ & $1$--$63$ \\
 
 The look-alikes differ only in stripe geometry, shown on real photographs in \Cref{fig:zebra-species}, and the last three rare classes are test-limited.
 
-Because this experiment never trains on real images, the photographs the production split reserves for training and validation are idle here and were folded into the test set, giving $9{,}742$ real images and much more power on the anchors. One consequence follows. The production split assigns training images greedily by quality score, so the enlarged set skews toward higher quality than a random sample. This does not bias the comparison, since every generator is scored on the identical set, but the set is specific to this sub-study and is not the project's general benchmark.
+Since this experiment does not use real images for training, the photographs that were set aside for training and validation are not used here. They were added to the test set, which now has $9{,}742$ real images. This gives the anchors much more power. One consequence follows. The production split allocates training images greedily by quality score, so the expanded set leans toward higher quality than a random sample. However, this does not bias the comparison since every generator is scored on the same set. Still, the set is specific to this sub-study and is not the project's general benchmark.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Generator Roster}\label{sec:generator_comparison_roster}
 
-Candidates came from two tiers: proprietary services billed per image, and open-weight models run locally at the cost of GPU time. \Cref{tab:generator-api-roster} lists the API tier and \Cref{tab:generator-local-roster} the local tier.
+The candidates came from two tiers: proprietary services, which are billed per image, and open-weight models, which are run locally at the cost of GPU time. \Cref{tab:generator-api-roster} lists the API tier, while \Cref{tab:generator-local-roster} lists the local tier.
 
 \begin{table}[H]
 \centering
@@ -145,12 +145,12 @@ FLUX.2-dev & $32\,\mathrm{B}$ & FLUX non-comm. & --- & Rejected: exceeds device 
 \end{tabularx}
 \end{table}
 
-Two local models carry genuinely permissive licenses. The rest carry community or non-commercial terms needing review before production use, and HiDream-I1's nominally permissive license is a composite inheriting its gated encoder's terms. For a product-facing comparison, a license is part of a model's score.
+Two local models have genuinely permissive licenses. The rest carry community or non-commercial terms that need to be reviewed before they can be used for production. HiDream-I1's nominally permissive license is a composite that inherits the terms of its gated encoder. For a product-facing comparison, a license is part of a model's score.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Prompt Regimes}\label{sec:generator_comparison_prompts}
 
-The production prompts run to approximately $1{,}300$ words, while the SDXL-family text encoder stops reading after $77$ tokens \cite{radfordLearningTransferableVisual2021}. The same text therefore does not give both models the same information, and a gap measured that way confounds how well a model generates with how much it read.
+The production prompts are about $1{,}300$ words long, but the SDXL-family text encoder stops reading after $77$ tokens \cite{radfordLearningTransferableVisual2021}. Therefore, the same text does not provide both models with the same information. Measuring a gap in this way confounds how well a model generates with how much it reads.
 
 \begin{table}[H]
 \centering
@@ -167,9 +167,9 @@ Regime & Budget & Purpose \\
 \end{tabularx}
 \end{table}
 
-The \texttt{compressed} prompt is dense and ordered by importance, since an encoder weights early tokens most heavily and discards the rest. A trimming rule drops habitat first, then pose, then reduces diagnostic features to one, so the species name and at least one marker survive longest.
+The \texttt{compressed} prompt is dense and ordered by importance since an encoder weighs early tokens most heavily and discards the rest. A trimming rule first drops habitat, then pose, and then reduces diagnostic features to one. This ensures that the species name and at least one marker survive the longest.
 
-The \texttt{maxlen} regime is built by accumulation rather than truncation, growing a short template until the next description sentence would breach the budget. Per-image pose and environment carry over from the production image list, so the prompts keep real per-image variation. Measured lengths sit under the nominal ceilings (\Cref{sec:appendix_prompt_token_budgets}). \Cref{fig:prompt-regime-example} shows the scale of the difference for one class.
+The \texttt{maxlen} regime is built by accumulation rather than truncation. It grows a short template until the next description sentence exceeds the budget. The per-image pose and environment carry over from the production image list so that the prompts maintain real per-image variation. Measured lengths fall below the nominal ceilings (\Cref{sec:appendix_prompt_token_budgets}). \Cref{fig:prompt-regime-example} illustrates the extent of the difference for one class.
 
 \begin{figure}[H]
 \centering
@@ -189,14 +189,14 @@ Realistic wildlife photograph of a lion (panthera leo). Species characteristics:
 \label{fig:prompt-regime-example}
 \end{figure}
 
-Two asymmetries are disclosed rather than smoothed over. The \texttt{full} regime is not byte-identical across vendors, since one API caps prompts at $32{,}000$ characters, so species with long articles had their description trimmed. And negative prompts could not be applied uniformly, because the FLUX-family pipeline accepts none, so one cell lacks a control the others have.
+Two asymmetries are disclosed rather than smoothed over. The \texttt{full} regime is not byte-identical across vendors since one API caps prompts at $32{,}000$ characters. Consequently, species with long articles had their descriptions trimmed. Additionally, negative prompts could not be applied uniformly because the FLUX-family pipeline accepts none, resulting in one cell lacking a control that the others have.
 
-Reproducibility differs by tier. The local models are deterministic, with per-image seeds from a fixed class ordering. The API services expose no seed, so there the archived images and request parameters are the reproducible artifact. Within the local tier the two short regimes index seeds differently, so the same slot in each was not generated from the same seed, which adds noise to any comparison between them.
+Reproducibility varies by tier. Local models are deterministic with per-image seeds from a fixed class ordering. The API services do not expose a seed. Therefore, the archived images and request parameters are the reproducible artifacts. Within the local tier, the two short regimes index seeds differently. Therefore, the same slot in each regime is not generated from the same seed. This adds noise to any comparison between the two regimes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Throughput, Cost and Hardware}\label{sec:generator_comparison_cost}
 
-Generation ran on a single NVIDIA A40 instance with $23.8\,\mathrm{GB}$ of video memory, and detector training separately on an RTX 3060. Throughput is reported as a result in its own right, since excellent images at an unusable rate are not practical training data. \Cref{tab:generator-throughput} gives the measured cost of each cell.
+The generation process ran on a single NVIDIA A40 instance with $23.8\,\mathrm{GB}$ of video memory. The detector was trained separately on an RTX 3060. Since excellent images at an unusable rate are not practical training data, throughput is reported as a result in its own right. \Cref{tab:generator-throughput} gives the measured cost of each cell.
 
 \begin{table}[H]
 \centering
@@ -220,18 +220,18 @@ HiDream-I1 & $143.92$ & $47.97\,\mathrm{h}$ \\
 \end{tabular}
 \end{table}
 
-The six local cells consumed approximately $93$ GPU-hours, so generating the full $12{,}600$-image production set locally would have taken weeks of GPU time. That is much of why an API service was the practical production choice whatever the output quality. The billed figures also exceeded their naive estimates: the cheapest tier cost roughly $2.8$ times the per-image list price, because prompt text bills as input tokens separately from generation.
+The six local cells consumed approximately $93$ GPU-hours. Generating the full production set of $12{,}600$ images locally would have taken weeks of GPU time. That is much of why an API service was the practical production choice, regardless of output quality. The billed figures also exceeded naive estimates: the cheapest tier cost about $2.8$ times the per-image list price because the API service bills prompt text as input tokens separately from generation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Annotation, Detector and Training Protocol}\label{sec:generator_comparison_training}
 
-Every cell was annotated by the detector \cite{beeryEfficientPipelineCamera2019} and procedure of \Cref{sec:synthetic_annotation}. One deviation qualifies every downstream number in \Cref{sec:results_synthetic_data_practicability}: the human review stages were never executed here, so all cells use the detector's own boxes. The ranking is unlikely to be an annotation artifact, since every cell was annotated identically, but the absolute figures are not final. Single-animal yield ranged from $93.6\%$ to $98.8\%$ across the local cells and is itself a quality signal.
+Every cell was annotated by the detector \cite{beeryEfficientPipelineCamera2019} and procedure of \Cref{sec:synthetic_annotation}. One deviation qualifies every downstream number in \Cref{sec:results_synthetic_data_practicability}: the human review stages were never executed here, so all cells use the detector's own boxes. While the ranking is unlikely to be an annotation artifact since every cell was annotated identically, the absolute figures are not final. Single-animal yield ranged from $93.6\%$ to $98.8\%$ across local cells, which is a quality signal itself.
 
 \textit{YOLO26n} \cite{UltralyticsYOLO262025} was fixed as the detector for every cell. The available alternative, \textit{YOLOv5s} \cite{ultralyticsComprehensiveGuideUltralytics}, is roughly the size of the detector that already ships, whereas \textit{YOLO26n} is the architecture class this work targets for embedded deployment, so a result on it stays load-bearing for the main study.
 
-Model selection and early stopping use a per-class stratified fifth of each cell's synthetic images, drawn with a seed independent of the training seed, so the split is identical across a cell's repeated runs. The real test set is scored once per run, on the best checkpoint.
+Model selection and early stopping use a per-class, stratified fifth of each cell's synthetic images. These images are drawn with a seed that is independent of the training seed. This ensures that the split is identical across a cell's repeated runs. The real test set is scored once per run on the best checkpoint.
 
-Because a single run on a dataset this small is noisy, each cell was trained with several seeds and averaged: three per API cell, two per local cell, short of the three the protocol recommends.
+Because a single run on a dataset this small produces noisy results, each cell was trained with several seeds and averaged. Three seeds were used for each API cell and two for each local cell, which is less than the three recommended by the protocol.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Evaluation Methodology}\label{sec:generator_comparison_evaluation}
@@ -263,4 +263,4 @@ Four measures were specified, all scaling to every image: teacher-recognition co
 The fixed detector trains on each cell's synthetic images and is evaluated on real photographs only (\Cref{sec:evaluation_framework}). The headline measure is mean average precision over the real test set. Per-class average precision separates the data-rich anchors from the rare classes. The within-group confusion rate over the three zebra species, the fraction of correctly localized detections landing in the right look-alike group but the wrong species, is the sharpest available test of whether synthetic data teaches species-level discrimination. Only the zebras have more than one member of a frozen look-alike group (\Cref{sec:lookalike_groups}) here, so the bear group's rate is structurally zero and excluded.
 
 \paragraph{Decision Rule}
-The criterion was fixed in advance. A generator counts as usable if it lands within a stated margin of the incumbent on the axes that matter, downstream accuracy on real photographs and diagnostic fidelity, \emph{and} is practical on cost and throughput. Raw photorealism alone is not sufficient, since it is the impression that motivated the original choice. The production choice is justified only if the incumbent sits at or near the top. Because differences on a dataset this small may fall within run-to-run noise, results are reported as a mean with its spread across seeds, and two cells whose intervals overlap are indistinguishable rather than ranked.
+The criterion was set in advance. A generator counts as usable if it lands within a stated margin of the incumbent on the axes that matter, downstream accuracy on real photographs and diagnostic fidelity, \emph{and} is practical on cost and throughput. Raw photorealism alone is insufficient because it is the impression that motivated the original choice. The production choice is justified only if the incumbent is at or near the top. Since differences in a dataset this small may fall within run-to-run noise, the results are reported as a mean with its spread across seeds. Two cells whose intervals overlap are indistinguishable rather than ranked.

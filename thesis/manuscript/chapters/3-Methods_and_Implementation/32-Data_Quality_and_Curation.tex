@@ -33,7 +33,7 @@ Filtering is source-aware and cost-staged rather than uniform. Cheap checks run 
 \end{figure}
 
 \paragraph{Stage 0: Metadata}
-This stage needs no image I/O and applies per-source criteria to source metadata: a minimum classifier score and detection confidence for GBIF, a research-grade or still-pending community identification for iNaturalist, and a minimum shorter side and photographic file type for Wikimedia. The criteria for the two largest sources were not in fact applied, because a bulk rename of the downloaded files severed the identifier mapping they depend on, which left rejection to the later and more expensive stages.
+This stage does not require image input/output and applies per-source criteria to source metadata. For GBIF, the criteria are a minimum classifier score and detection confidence. For iNaturalist, the criteria are research-grade or still-pending community identification. For Wikimedia, the criteria are a minimum shorter side and photographic file type. However, the criteria for the two largest sources were not applied because a bulk rename of the downloaded files severed the identifier mapping they depend on. This resulted in rejection in later, more expensive stages.
 
 \paragraph{Stage 1: Heuristics}
 Cheap CPU-only checks then apply to every image: corruption, a shorter side of at least $256\,\mathrm{px}$, an aspect ratio no greater than $4.0$, a grayscale test on mean saturation, and a Laplacian blur variance of at least $100$. The $256\,\mathrm{px}$ floor is calibrated against iNaturalist's standard derivative, whose shorter side is roughly $281\,\mathrm{px}$.
@@ -54,9 +54,9 @@ All surviving images are captioned with \textit{Florence-2-base} \cite{xiaoFlore
 
 Passing the quality gates establishes that an image depicts a real animal, not which of the $225$ classes it shows. \textit{SpeciesNet} \cite{gadotCropNotCrop2024a}, an \textit{EfficientNetV2-M} \cite{tanEfficientNetV2SmallerModels2021} classifier, therefore runs on every MegaDetector-cropped animal region.
 
-Because the taxonomy mixes species-, genus- and family-level labels, a prediction is accepted on a match level read relative to the granularity of the target class rather than absolutely. A genus-level class cannot be matched at species level even by a perfect classifier, so a genus-level prediction there counts as a full match. A coarser prediction counts as partial, and disagreement at family level or above is evidence of a mislabel.
+Since the taxonomy combines species-, genus-, and family-level labels, predictions are accepted based on a relative match to the target class's granularity rather than absolutely. Even a perfect classifier cannot match a genus-level class at the species level, so a genus-level prediction counts as a full match there. A coarser prediction is considered partial, and disagreement at the family level or above suggests a mislabel.
 
-The thresholds are a minimum MegaDetector confidence of $0.5$, a minimum SpeciesNet top-1 score of $0.3$, and a family-mismatch confidence threshold of $0.5$. The third inverts the usual role of confidence: for a family-level disagreement, higher classifier confidence makes rejection more likely, since a confident prediction of a different family is evidence that the source label is wrong.
+The thresholds are a minimum MegaDetector confidence of $0.5$, a minimum SpeciesNet top-1 score of $0.3$, and a family-mismatch confidence threshold of $0.5$. The third threshold inverts the usual role of confidence. For a family-level disagreement, a higher confidence in the classifier makes rejection more likely since a confident prediction of a different family indicates that the source label is incorrect.
 
 \begin{table}[H]
 \centering
@@ -79,24 +79,24 @@ Primary crop too small to classify & $2{,}556$ & $0.5\%$ \\
 \end{tabular}
 \end{table}
 
-The dominant failure in \Cref{tab:speciesnet-filter-attrition} is no taxonomic match at all rather than a confident disagreement, the first sign that the filter measured the classifier's coverage as much as the data's correctness. \Cref{sec:speciesnet_coverage_gaps} takes that up.
+The dominant failure in \Cref{tab:speciesnet-filter-attrition} is the absence of a taxonomic match rather than a confident disagreement. This is the first indication that the filter measured the classifier's coverage as much as the correctness of the data. \Cref{sec:speciesnet_coverage_gaps} takes that up.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Correcting SpeciesNet Coverage Gaps}\label{sec:speciesnet_coverage_gaps}
 
-Applying the match-level filter uniformly cost several classes the overwhelming majority of their images, among them \textit{Saguinus} tamarins ($1{,}065 \rightarrow 5$) and pikas ($1{,}484 \rightarrow 31$). Inspecting those cases showed not mislabeling at the source but a coverage gap in \textit{SpeciesNet}, which does not reliably recognize those taxa.
+Applying the match-level filter uniformly cost several classes the overwhelming majority of their images, among them \textit{Saguinus} tamarins ($1{,}065 \rightarrow 5$) and pikas ($1{,}484 \rightarrow 31$). Examining these cases revealed no mislabeling at the source, but rather a coverage gap in \textit{SpeciesNet}, which does not reliably recognize these taxa.
 
-A fallback rule therefore applies where the evidence points that way. If a class's dominant failure is a missing or class-level match and fewer than $20\%$ of its images pass, or an order-level match with fewer than $15\%$ passing, the class bypasses the SpeciesNet filter and falls back to the pre-classification quality-pass flag. This recovered approximately $14{,}500$ images across $17$ classes. Two classes whose dominant failure was instead a confident family mismatch were held under the stricter filter, since that signals label contamination rather than a coverage gap.
+A fallback rule applies when the evidence indicates as much. If a class's dominant failure is a missing or class-level match and fewer than $20\%$ of its images pass, or an order-level match with fewer than $15\%$ passing, the class bypasses the SpeciesNet filter and falls back to the pre-classification quality-pass flag. This recovered approximately $14{,}500$ images across $17$ classes. However, two classes with a dominant failure of a confident family mismatch were held under the stricter filter since this indicates label contamination rather than a coverage gap.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ground-Truth Annotation Integrity}\label{sec:gt_annotation_integrity}
 
 \paragraph{The Multi-Box Annotation Bug}
-A later audit found that every one of $63{,}796$ images in the test annotation file carried exactly one ground-truth bounding box, although MegaDetector had detected multiple animals in a substantial fraction of them. % annotations_test.json
-The fix forwards the full detection list through the pipeline and emits one annotation per detection at or above confidence $0.5$, for every image.
+A later audit revealed that each of the $63{,}796$ images in the test annotation file contained precisely one ground-truth bounding box, despite the fact that MegaDetector had identified multiple animals in a significant proportion of them. % annotations_test.json
+The fix sends the complete list of detections through the pipeline and produces one annotation for each detection with a confidence level of at least $0.5$ for each image.
 
 \paragraph{Cross-Species Contamination in Multi-Box Images}
-Fixing the multi-box bug exposed a subtler defect: every box on an image had been given the image's primary label, so a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (\Cref{sec:speciesnet_matching}) were reused to flag secondary boxes automatically, subject to a taxonomic tolerance. Agreement at species, genus or family level counts as acceptable variation. Divergence at order level or above, or no match at all, is flagged instead, provided the secondary box carries a SpeciesNet confidence of at least $0.3$. Without that tolerance the queue would have been unmanageable, since $32{,}401$ of $57{,}205$ multi-detection images carry a differing species index on a secondary box.
+Fixing the multi-box bug revealed a more subtle defect: each box in an image was assigned the image's primary label, so a second animal of a different species was mislabeled as the primary one. The per-box SpeciesNet predictions (\Cref{sec:speciesnet_matching}) were reused to automatically flag secondary boxes, subject to a taxonomic tolerance. Agreement at the species, genus, or family level is considered acceptable variation. Divergence at the order level or above, or no match at all, is flagged instead, provided that the secondary box has a SpeciesNet confidence level of at least $0.3$. Without that tolerance, the queue would have been unmanageable, since $32{,}401$ of $57{,}205$ multi-detection images carry a differing species index on a secondary box.
 
 The filter flagged $11{,}354$ images, of which $7{,}271$ were resolved: $6{,}477$ as keep, $794$ as edit, and none as discard. No images were removed, and $1{,}344$ mislabeled annotations were deleted across the three splits. The review also yielded $1{,}733$ candidate confusion pairs, which informed the frozen look-alike grouping used for coarse-grained evaluation (\Cref{sec:lookalike_groups}).
 
@@ -125,11 +125,11 @@ $S_{\text{conf}}$ & MegaDetector box confidence, $0.30$ when unavailable \\
 \end{tabularx}
 \end{table}
 
-\Cref{tab:quality-score-components} defines the four components. Two hard exclusions override the score: a box covering less than $1\%$ of the frame, or one extending beyond the image boundary, forces $Q = 0$. An image with no detection at all is dropped rather than kept as a hard example, since it carries no ground-truth box and could only produce false positives.
+\Cref{tab:quality-score-components} defines the four components. Two hard exclusions override the score. A box that covers less than $1\%$ of the frame or extends beyond the image boundary forces $Q = 0$. An image with no detection is discarded rather than retained as a hard example since it lacks a ground-truth box and could only generate false positives.
 
-The three splits are then drawn under deliberately different rules. The test set is drawn first and stratified so that its source mixture mirrors the class's actual pool, since it estimates behavior on the operating distribution. Training images are then taken greedily by quality score from what remains. Validation is sampled from the $30$th to $70$th percentile of $Q$ under a fixed seed, because training has skimmed the top and a random validation set would be easier than the data the model will face.
+The three splits are drawn under different, deliberate rules. First, the test set is drawn and stratified so that its source mixture mirrors the actual pool of the class, since it estimates behavior on the operating distribution. Training images are then taken greedily by quality score from what remains. Validation is sampled from the $30$th to $70$th percentile of $Q$ under a fixed seed, because training has skimmed the top and a random validation set would be easier than the data the model will face.
 
-For the largest classes (Band D, \Cref{sec:band_structure}) a soft source-diversity cap limits any single source to at most $60\%$ of a class's training images, so that one source's photographic style does not become the feature the model learns. The background and human images sit outside this logic, split in fixed proportions. What these rules produce, class by class, is the dataset the rest of the work trains on.
+For the largest classes (Band D, \Cref{sec:band_structure}) a soft source-diversity cap limits any single source to a maximum of $60\%$ of a class's training images. This ensures that the model does not learn one source's photographic style as the defining feature. Background and human images are outside this logic and are split in fixed proportions. These rules produce the dataset that the rest of the work trains on, class by class.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Resulting Dataset}\label{sec:final_dataset_composition}
@@ -155,12 +155,12 @@ Total & $226$ & $459{,}773$ & $145{,}813$ & $12{,}545$ & $63{,}860$ & $231{,}107
 \end{tabular}
 \end{table}
 
-In the exported annotation files this is $145{,}728$ training images with $187{,}705$ boxes, $12{,}543$ validation images with $19{,}732$ boxes, and $63{,}802$ test images with $92{,}094$ boxes, for $222{,}073$ real images and $299{,}531$ annotations across $225$ categories. The real images carry no hand-drawn ground truth. Every box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.
+The exported annotation files contain $145{,}728$ training images with $187{,}705$ boxes, $12{,}543$ validation images with $19{,}732$ boxes, and $63{,}802$ test images with $92{,}094$ boxes. This amounts to $222{,}073$ real images and $299{,}531$ annotations across $225$ categories. The real images have no hand-drawn ground truth. Each box originates from automatic detection, and human effort went into verifying labels rather than drawing boxes.
 
-Band A contributes no training images by design, its classes being supported entirely by synthetic imagery (\Cref{sec:band_structure}). Band D's $231{,}107$ surplus images exceed the per-class caps, and they are what made the enlarged test set of the generator comparison (\Cref{sec:generator_comparison_classes}) possible without touching training data.
+Band A contributes no training images by design, its classes being supported entirely by synthetic imagery (\Cref{sec:band_structure}). Band D's surplus of $231{,}107$ images exceeds the per-class caps and made the enlarged generator comparison test set (\Cref{sec:generator_comparison_classes}) possible without touching the training data.
 
 \paragraph{Known Defects in the Split}
-Three defects in the assembled split are recorded here. First, $99$ hard-excluded images reached the Band A test set, because a Band A class assigns its whole pool to testing without quality filtering. Second, band assignment used a conservative estimate of each class's pool, so some classes sit one band below their actual imagery. Third, the Band B and C test sets are quality-biased low by construction, since training takes the top of the quality distribution and validation the middle, leaving the remainder to test. The effect is bounded but real. It means absolute accuracy on those bands is not directly comparable with Band D's.
+Three defects in the assembled split are recorded here. First, $99$ hard-excluded images reached the Band A test set, because a Band A class assigns its whole pool to testing without quality filtering. Second, band assignment used a conservative estimate of each class's pool, so some classes sit one band below their actual imagery. Third, the Band B and C test sets are quality-biased low by construction, since training takes the top of the quality distribution and validation the middle, leaving the remainder to test. The effect is bounded but real. This means that absolute accuracy on those bands is not directly comparable to that of Band D.
 
 \paragraph{A Note on Tuning}
-The quality-score weights and breakpoints, the band boundaries, the per-band quotas and the validation window are fixed design choices, justified by reasoning of the kind given above but not selected by any sensitivity analysis. No ablation over them was run. Band A's total dependence on synthetic imagery, visible in \Cref{tab:final-real-composition}, is what \Cref{sec:synthetic_data_supplementation} takes up.
+The quality-score weights, breakpoints, band boundaries, per-band quotas, and validation window are fixed design choices. They are justified by the reasoning given above, but they are not selected by any sensitivity analysis. No ablation was run over them. Band A's total dependence on synthetic imagery is visible in \Cref{tab:final-real-composition} and is taken up by \Cref{sec:synthetic_data_supplementation}.
