@@ -166,6 +166,30 @@ the hardware.
 `category_id` fields are being described, and should be visibly marked as COCO's vocabulary
 (`\texttt{}`) when it is.
 
+### 2.7 Recognition, detection, classification
+
+Added 2026-09-27. The models are object detectors, but the scientific difficulty of this work
+is telling 225 species apart, and the Results chapter shows it: every model loses far more mAP
+between the class-agnostic and the species-level score than between species and look-alike
+group (`4-Results.tex`, `tab:granularity-gaps`). The vocabulary keeps the two apart:
+
+| concept | approved | not approved |
+|---|---|---|
+| the trained model | **detector** (the student is a YOLO detector) | *species detector*, *classifier* for the whole model |
+| the whole on-device task, box plus species name | **species recognition** | *species detection* as the task name |
+| the sub-problem that is hard here | **species classification** (`\textbf` at first mention, §2.1.1 of the Literature Review) | *species detection*, *categorization* |
+| the localization sub-problem | **localization**, **animal detection** | — |
+| the metric | **detection accuracy**, defined once in the Objective as species-level mAP, which scores box and species jointly | — |
+
+Research questions 1 to 4 keep "detection accuracy" verbatim, and Chapter 5 restates them
+unchanged.
+
+**German abstract.** Composed in German, not translated sentence by sentence. Fixed choices,
+at the author's request: *Detektor* for the model, *Detektion* for the act of detecting,
+*Klassifikation der Tierart* for the task, *Fine-Tuning* (noun) and *nachtrainiert*
+(participle), *Knowledge Distillation*, *Bildgenerator*. Never *Beobachtung* for detection,
+*Artdetektor*, or *feinabgestimmt*. English technical terms win over German coinages.
+
 ---
 
 ## 3. Hyphenation
