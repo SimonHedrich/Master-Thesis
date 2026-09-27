@@ -107,6 +107,17 @@ end. A named work, method or tool may be the subject ("\textit{YOLOv5}
 
 Write the complete paragraph into the `--- final` block (one line) and one
 line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
-short reason ("kept original s2: hedge dropped"). Leave `--- final` empty to
-keep the original paragraph unchanged. Skip entries whose `--- final` block is
-already filled. Edit only these blocks; change nothing else in this file.
+short reason ("kept original s2: hedge dropped"), and ending with a risk tag
+`risk: low`, `risk: medium` or `risk: high`. The tag tells a second reader
+which finals deserve a close look:
+
+- `high`: the paragraph states a number, a measured result, a comparison, a
+  technical mechanism, a definition, or a citation was moved or merged, or
+  you were unsure about any sentence.
+- `medium`: substantive prose where you changed more than wording, or where
+  the rephrasing restructured sentences.
+- `low`: connective or structural prose, or a paragraph you kept as original.
+
+Leave `--- final` empty to keep the original paragraph unchanged (still give
+a verdict and a risk tag). Skip entries whose `--- final` block is already
+filled. Edit only these blocks; change nothing else in this file.

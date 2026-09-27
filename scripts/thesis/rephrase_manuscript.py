@@ -754,6 +754,59 @@ def apply(bundle_dir: Path, *, in_place: bool = False, stderr: Any = None) -> in
     return 0
 
 
+# ── diff: what a second reader should look at ─────────────────────────────────
+
+_RISK_RE = re.compile(r"risk:\s*(low|medium|high)", re.I)
+_WATCH_FLAGS = ("cite-", "format-lost", "wrap-", "token-")
+
+
+def risk_of(verdict: str) -> str:
+    match = _RISK_RE.search(verdict)
+    return match.group(1).lower() if match else "untagged"
+
+
+def word_diff(a: str, b: str) -> str:
+    """Inline word-level diff, [-old-] {+new+}, for reading a rephrasing."""
+    out: list[str] = []
+    sm = difflib.SequenceMatcher(a=a.split(), b=b.split(), autojunk=False)
+    for op, i1, i2, j1, j2 in sm.get_opcodes():
+        if op == "equal":
+            out.extend(a.split()[i1:i2])
+        else:
+            if i2 > i1:
+                out.append("[-" + " ".join(a.split()[i1:i2]) + "-]")
+            if j2 > j1:
+                out.append("{+" + " ".join(b.split()[j1:j2]) + "+}")
+    return " ".join(out)
+
+
+def show_diff(bundle_dir: Path, *, risks: Sequence[str], watch_flags: bool = True, out: Any = None) -> int:
+    """Print the word diff of every applied final whose risk tag is in `risks`
+    or (with `watch_flags`) whose paragraph carried a citation/format flag."""
+    stream = out or sys.stdout
+    manifest = load_manifest(bundle_dir)
+    entries: dict[str, dict[str, str]] = {}
+    for path in sorted(bundle_dir.glob("chunk-*.review.txt")):
+        entries.update(parse_review_file(path))
+    shown = 0
+    name = Path(manifest.source).name
+    for p in manifest.paragraphs:
+        entry = entries.get(p.id)
+        if entry is None or not entry["final"].strip() or entry["final"].strip() == p.original:
+            continue
+        risk = risk_of(entry["verdict"])
+        flagged = any(f.startswith(_WATCH_FLAGS) for f in p.flags)
+        if risk not in risks and not (watch_flags and flagged):
+            continue
+        shown += 1
+        print(f"#### {p.id}  {name}:{p.line}  risk: {risk}  flags: {', '.join(p.flags) or '-'}", file=stream)
+        print(f"verdict: {entry['verdict']}", file=stream)
+        print(word_diff(p.original, entry["final"].strip()), file=stream)
+        print(file=stream)
+    print(f"{name}: {shown} paragraph(s) shown", file=stream)
+    return 0
+
+
 # ── status ────────────────────────────────────────────────────────────────────
 
 def status(out_dir: Path = DEFAULT_OUT_DIR, stderr: Any = None) -> int:
@@ -808,6 +861,11 @@ def build_parser() -> argparse.ArgumentParser:
     a.add_argument("bundle", type=Path, help="Bundle directory, e.g. reports/deepl_rephrase/1-Introduction.")
     a.add_argument("--in-place", action="store_true", help="Rewrite the .tex instead of printing a diff.")
 
+    d = sub.add_parser("diff", help="Word diffs of reviewed finals worth a second look.")
+    d.add_argument("bundle", type=Path)
+    d.add_argument("--risk", default="high,medium", help="Comma-separated risk tags to show (default high,medium).")
+    d.add_argument("--no-flags", action="store_true", help="Do not also show citation/format-flagged paragraphs.")
+
     sub.add_parser("status", help="Fetched / reviewed / applied per bundle.")
     return parser
 
@@ -824,6 +882,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         if args.command == "apply":
             return apply(args.bundle, in_place=args.in_place)
+        if args.command == "diff":
+            return show_diff(args.bundle, risks=[r.strip() for r in args.risk.split(",")], watch_flags=not args.no_flags)
         return status(args.out_dir)
     except deepl_write.DeepLError as exc:
         print(f"error: {exc}", file=sys.stderr)
