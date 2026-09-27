@@ -41,6 +41,12 @@ section has a *non-human* actor available, and that actor is genuinely informati
 a metric? Then name it. Passive is permitted only where the actor is the author, or where the
 actor genuinely does not matter.
 
+The same verdict covers the *other* human actor, the cited author. "Hinton et al. showed" and
+"\cite{key} trained" put a person or a bracketed number in the subject slot, and the author's
+rule (`scope.md` §3) forbids both. Reach for the method or finding as subject first; when only
+the existence of prior work is the point, "previous work has shown… \cite{key}" is the
+sanctioned impersonal form.
+
 **What the verdict costs:** slightly more mechanical prose in the few places where the author
 really is the actor and the passive was hiding a decision rather than a component. Watch for
 "it was decided that" and "a choice was made to" — those are the passives worth rewriting into

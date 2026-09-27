@@ -56,8 +56,9 @@ plus the license acronyms.
 
 ## 4. Citations
 
-- biblatex, numeric, `sorting=none`. `\cite` is the default form; `\textcite` where the author
-  is the grammatical subject.
+- biblatex, numeric, `sorting=none`. `\cite` is the only form in use. `\citeauthor` and
+  `\textcite` are not used: an author name is never the grammatical subject, and a `\cite` is
+  never a noun (`scope.md` §3). Grep for both before committing.
 - Keys resolve against `bibliography/references.bib` (project entries: datasets, tools, model
   releases, short hand-made keys) or `bibliography/references_zotero.bib` (Better BibTeX keys).
 - Currently clean: 100 distinct keys, 158 calls, zero unresolved, zero dangling `\Cref`.

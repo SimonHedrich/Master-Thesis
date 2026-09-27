@@ -87,16 +87,39 @@ open with one.
 > augmentation in fine-grained few-shot settings
 > \cite{trabuccoEffectiveDataAugmentation2025}.
 
-Four cases earn a named source, and only these four:
+**A `\cite` is never a noun, and an author name is never a sentence subject**
+(author's rule, 2026-09-27). Both forms below are banned, whatever the case:
+
+> **Banned.** \cite{buciluaModelCompression2006} trained a small, fast model to
+> reproduce the outputs of a large ensemble.
+>
+> **Banned.** \citeauthor{hintonDistillingKnowledgeNeural2015}
+> \cite{hintonDistillingKnowledgeNeural2015} generalized the idea. *Also:*
+> "Hinton et al. showed that…"
+
+The citation is a tag hung on a claim, not a word in the sentence. When the
+finding is the point, state it and cite at the end. When the *existence of prior
+work* is the point, use an impersonal subject and still cite at the end:
+"Previous work trained a small, fast model to reproduce the outputs of a large
+ensemble \cite{…}." "It has been shown that… \cite{…}." "Early work on model
+compression… \cite{…}. Later work generalized the idea… \cite{…}." This is the
+one place where the passive or an impersonal subject beats naming the actor
+(`conflicts.md` §1), because the only available actor is the author, and the
+author is what the rule keeps out of the sentence.
+
+Four cases earn a named source, and only these four. Even then the name is the
+*work*, the *method*, or the *tool*, never the people, and the `\cite` stays a
+tag on it:
 
 | Case | Example |
 |---|---|
-| Borrowing someone's taxonomy | "categorized into three areas, as shown by Wahyudi et al. \cite{…}" |
-| Historical priority is the claim | "the neocognitron, introduced by Kunihiko Fukushima \cite{…}" |
-| Identifying which implementation was used | "Faster R-CNN, as implemented by Ren et al. \cite{…}" |
+| Borrowing someone's taxonomy | "categorized into three areas, following the survey's taxonomy \cite{…}" |
+| Historical priority is the claim | "the neocognitron, the first such architecture \cite{…}" |
+| Identifying which implementation was used | "the reference \textit{Faster R-CNN} implementation \cite{…}" |
 | The study itself is the object of discussion | a survey whose *scope* is being characterized |
 
-Everything else is claim-first. `2-Literature_Review.tex:397` already does this
+"\textit{YOLOv5} \cite{…} is commercially usable only up to…" is fine: the
+subject is the tool, and the citation tags it. Everything else is claim-first. `2-Literature_Review.tex:397` already does this
 correctly with the same source that `:183` mishandles — use it as the model.
 
 **In Results and Discussion, a citation must be a genuine external comparison.**
