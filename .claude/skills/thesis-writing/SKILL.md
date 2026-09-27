@@ -67,7 +67,10 @@ deleting it.
 Two things to know without opening anything: the **mixed-set headline number is always reported
 with its real-only breakout** (`claims.md` §5, from `CLAUDE.md`), and **hedges that calibrate a
 claim against its evidence are mandatory** — only hedges that soften tone get cut
-(`conflicts.md` §2). That second one is the rule most likely to be over-applied.
+(`conflicts.md` §2). That second one is the rule most likely to be over-applied. A third:
+**a `\cite` is never a noun and an author name is never a sentence subject** — no
+"\cite{key} showed", no "\citeauthor{key} showed", no "Smith et al. showed". State the finding,
+or say "previous work", and cite at the end (`scope.md` §3).
 
 ## Where the rules come from
 

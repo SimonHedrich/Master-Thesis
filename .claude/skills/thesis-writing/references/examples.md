@@ -71,6 +71,9 @@ One sentence becomes seven, none over 30 words. What changed and why:
   style contract marks with bold. `\textit` is for tool and dataset names.
 - The closing sentence of the original paragraph ("None of these failure modes is a purely
   theoretical concern…") now has room to be the paragraph's landing, per `construction.md` §2.2.
+- Not fixed here, and now a rule: the "(Azizi et al.)" and "He et al.'s" parentheticals are
+  author names standing in for citations. They should be `\cite` tags at the ends of their
+  clauses (`scope.md` §3, example 9 below).
 
 ---
 
@@ -260,3 +263,42 @@ assessment level?), *regimes* (prompt regimes, or training bands?).
 Every collision resolved by `terminology.md` §1. Note that the fix required knowing which sense
 was meant — which is the argument for fixing the vocabulary before the chapters that use it get
 written, not after.
+
+---
+
+## 9. A citation used as a noun, and an author as the subject
+
+`1-Introduction.tex:12`, fixed 2026-09-27 at the author's request. The only instance in the
+manuscript, but the pattern is common enough in the field to imitate by accident.
+
+> **BEFORE**
+>
+> \citeauthor{buciluaModelCompression2006} \cite{buciluaModelCompression2006} trained a small,
+> fast model to reproduce the outputs of a large ensemble, and
+> \citeauthor{hintonDistillingKnowledgeNeural2015} \cite{hintonDistillingKnowledgeNeural2015}
+> generalized the idea by having the student match the teacher's softened output distribution
+> rather than its hard predictions.
+
+**AFTER**
+
+> Early work on model compression trained a small, fast model to reproduce the outputs of a
+> large ensemble \cite{buciluaModelCompression2006}. Later work generalized the idea by having
+> the student match the teacher's softened output distribution rather than its hard predictions
+> \cite{hintonDistillingKnowledgeNeural2015}.
+
+What changed and why:
+
+- The `\cite` moves from the subject slot to the **end of the clause**, where it tags the claim
+  instead of standing in for a noun. Read aloud, the original says "[12] trained a model".
+- Both `\citeauthor` calls go. An author name as subject ("Hinton et al. showed") is banned
+  outright, not just discouraged (`scope.md` §3, `mechanics.md` §4).
+- The replacement subject is **impersonal**: "early work", "later work". "Previous work has
+  shown" and "it has been shown that" are the other sanctioned forms. This is the one case where
+  `conflicts.md` §1 prefers an impersonal subject over a named actor, because the only actor
+  available is a person.
+- One sentence becomes two, each carrying one citation. A compound sentence with a citation per
+  clause was also the reason both citations had drifted into the subject position.
+- The variant with the *finding* as subject is equally good and often better: "Matching the
+  teacher's softened output distribution rather than its hard predictions generalizes the
+  approach \cite{…}." Choose it whenever the finding, not the existence of prior work, is the
+  point of the sentence.
