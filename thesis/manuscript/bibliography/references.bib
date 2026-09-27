@@ -1,11 +1,112 @@
 
-@misc{PyTorcha,
+@misc{AIProblemSolvers,
+	title = {The {AI} for {Problem} {Solvers} {\textbar} {Claude} by {Anthropic}},
+	url = {https://claude.com/product/overview},
+	abstract = {Claude is the AI assistant for work. Hand off tasks, turn ideas into decks, spreadsheets and prototypes, and run scheduled tasks across your apps and files.},
+	language = {en},
+	urldate = {2026-09-27},
+	journal = {Claude},
+}
+
+@misc{ClaudeCodeAnthropic,
+	title = {Claude {Code} by {Anthropic} {\textbar} {AI} {Coding} {Agent}, {Terminal}, {IDE}},
+	url = {https://claude.com/product/claude-code},
+	abstract = {Anthropic's agentic coding tool for developers. Claude Code understands your codebase, edits files, runs commands, and helps you ship faster.},
+	language = {en},
+	urldate = {2026-09-27},
+	journal = {Claude},
+}
+
+@misc{PyTorch,
 	title = {{PyTorch}},
 	url = {https://pytorch.org/},
 	abstract = {PyTorch Foundation is the deep learning community home for the open source PyTorch framework and ecosystem.},
 	language = {en-US},
 	urldate = {2026-09-21},
 	journal = {PyTorch},
+}
+
+@article{wangNovelAlgebraicSolution2020,
+	title = {A novel algebraic solution to the perspective-three-line pose problem},
+	volume = {191},
+	issn = {1077-3142},
+	url = {https://www.sciencedirect.com/science/article/pii/S1077314218301929},
+	doi = {10.1016/j.cviu.2018.08.005},
+	abstract = {In this work, we present a novel algebraic method to the perspective-three-line (P3L) problem for determining the position and attitude of a calibrated camera from features of three known reference lines. Unlike other methods, the proposed method uses an intermediate camera frame F and an intermediate world frame E, with sparse known line coordinates, facilitating formulations of the P3L problem. Additionally, the rotation matrix between the frame E and the frame F is parameterized by using its orthogonality, and then a closed-form solution for the P3L pose problem is obtained from subsequent substitutions. This algebraic method makes the processes more easily followed and significantly improves the performance. The experimental results show that the proposed method offers numerical stability, accuracy and efficiency comparable or better than that of state-of-the-art method.},
+	urldate = {2026-09-09},
+	journal = {Computer Vision and Image Understanding},
+	author = {Wang, Ping and Xu, Guili and Cheng, Yuehua},
+	month = feb,
+	year = {2020},
+	keywords = {Absolute position and attitude, Computer vision, Imaging geometry, Perspective-three-line problem (P3L), Pose estimation},
+	pages = {102711},
+}
+
+@inproceedings{menezesRocksWallsModelfree2021,
+	title = {From {Rocks} to {Walls}: a {Model}-free {Reinforcement} {Learning} {Approach} to {Dry} {Stacking} with {Irregular} {Rocks}},
+	issn = {2160-7516},
+	shorttitle = {From {Rocks} to {Walls}},
+	url = {https://ieeexplore.ieee.org/document/9522889},
+	doi = {10.1109/CVPRW53098.2021.00234},
+	abstract = {In-situ resource utilization (ISRU) is a key aspect for an efficient human exploration of extraterrestrial environments. A cost-effective method for the construction of preliminary structures is dry stacking with locally found unprocessed rocks. This work focus on learning this task from scratch. Former approaches rely on previously acquired models of rocks, which may be hard to obtain in the context of a mission. In alternative, we propose a model-free, data driven approach. We formulate the problem as the task of selecting the position to place each rock on top of the currently built structure. The rocks are presented to the robot in sequence. The goal is to assemble a wall that approximates a target volume, given the 3D perception of the currently built structure, the next object and the target volume. An agent is developed to learn this task using reinforcement learning. The deep Q-networks (DQN) algorithm is used, where the Q-network outputs a value map corresponding to the expected return of placing the object in each position of a top-view depth image. The learned policy outperforms engineered heuristics, both in terms of stability of the structure and similarity with the target volume. Despite the simplification of the task, the policy learned with this approach could be applied to a realistic setting as the high level planner in an autonomous construction pipeline.},
+	urldate = {2026-09-09},
+	booktitle = {2021 {IEEE}/{CVF} {Conference} on {Computer} {Vision} and {Pattern} {Recognition} {Workshops} ({CVPRW})},
+	author = {Menezes, André and Vicente, Pedro and Bernardino, Alexandre and Ventura, Rodrigo},
+	month = jun,
+	year = {2021},
+	note = {ISSN: 2160-7516},
+	keywords = {Data models, Pipelines, Reinforcement learning, Rocks, Stability analysis, Stacking, Three-dimensional displays},
+	pages = {2057--2065},
+}
+
+@inproceedings{wangYOLOv9LearningWhat2025,
+	address = {Cham},
+	title = {{YOLOv9}: {Learning} {What} {You} {Want} to {Learn} {Using} {Programmable} {Gradient} {Information}},
+	isbn = {978-3-031-72751-1},
+	shorttitle = {{YOLOv9}},
+	doi = {10.1007/978-3-031-72751-1_1},
+	abstract = {Today’s deep learning methods focus on how to design the objective functions to make the prediction as close as possible to the target. Meanwhile, an appropriate neural network architecture has to be designed. Existing methods ignore a fact that when input data undergoes layer-by-layer feature transformation, large amount of information will be lost. This paper delve into the important issues of information bottleneck and reversible functions. We proposed the concept of programmable gradient information (PGI) to cope with the various changes required by deep networks to achieve multiple objectives. PGI can provide complete input information for the target task to calculate objective function, so that reliable gradient information can be obtained to update network parameters. In addition, a lightweight network architecture—Generalized Efficient Layer Aggregation Network (GELAN) is designed. GELAN confirms that PGI has gained superior results on lightweight models. We verified the proposed GELAN and PGI on MS COCO object detection dataset. The results show that GELAN only uses conventional convolution operators to achieve better parameter utilization than the state-of-the-art methods developed based on depth-wise convolution. PGI can be used for variety of models from lightweight to large. It can be used to obtain complete information, so that train-from-scratch models can achieve better results than state-of-the-art models pre-trained using large datasets, the comparison results are shown in Fig. 1. The source codes are released at https://github.com/WongKinYiu/yolov9.},
+	language = {en},
+	booktitle = {Computer {Vision} – {ECCV} 2024},
+	publisher = {Springer Nature Switzerland},
+	author = {Wang, Chien-Yao and Yeh, I-Hau and Mark Liao, Hong-Yuan},
+	editor = {Leonardis, Aleš and Ricci, Elisa and Roth, Stefan and Russakovsky, Olga and Sattler, Torsten and Varol, Gül},
+	year = {2025},
+	keywords = {information bottleneck, object detection, reversible model},
+	pages = {1--21},
+}
+
+@misc{HowDoesSWAROVSKI,
+	title = {How does the {SWAROVSKI} {OPTIK} {Wildlife} {ID} app work?},
+	url = {https://myservice.swarovskioptik.com/s/article/How-does-the-SWAROVSKI-OPTIK-Wildlife-ID-app-work?language=en_US},
+	urldate = {2026-09-27},
+}
+
+@misc{IdentifyBirdsPhotos,
+	title = {Identify birds in photos with {Merlin} {Bird} {ID}},
+	url = {https://www.merlinbirds.org/photo-id/},
+	abstract = {Snap a photo of a bird, or pull one in from your camera roll, and Photo ID will offer a short list of possible matches. Photo ID works completely offline, so you can identify birds in the photos you take no matter where you are. 
+
+
+
+
+More about Photo ID
+
+
+
+
+
+
+
+
+
+
+
+
+Photo ID covers over 8,000 species},
+	language = {en-US},
+	urldate = {2026-09-27},
+	journal = {Merlin Bird ID - Free, instant bird identification help and guide for thousands of birds},
 }
 
 @misc{ONNXHome,
@@ -20,15 +121,6 @@
 	abstract = {Cross-platform accelerated machine learning. Built-in optimizations speed up training and inferencing with your existing technology stack.},
 	language = {en},
 	urldate = {2026-09-21},
-}
-
-@misc{PyTorch,
-	title = {{PyTorch}},
-	url = {https://pytorch.org/},
-	abstract = {PyTorch Foundation is the deep learning community home for the open source PyTorch framework and ecosystem.},
-	language = {en-US},
-	urldate = {2026-09-21},
-	journal = {PyTorch},
 }
 
 @misc{TorchcompilerAPIReference,
@@ -440,40 +532,6 @@ ISBN: 9781728146614},
 	journal = {ResearchGate},
 	month = jul,
 	year = {2026},
-}
-
-@inproceedings{menezesRocksWallsModelfree2021a,
-	title = {From {Rocks} to {Walls}: a {Model}-free {Reinforcement} {Learning} {Approach} to {Dry} {Stacking} with {Irregular} {Rocks}},
-	issn = {2160-7516},
-	shorttitle = {From {Rocks} to {Walls}},
-	url = {https://ieeexplore.ieee.org/document/9522889},
-	doi = {10.1109/CVPRW53098.2021.00234},
-	abstract = {In-situ resource utilization (ISRU) is a key aspect for an efficient human exploration of extraterrestrial environments. A cost-effective method for the construction of preliminary structures is dry stacking with locally found unprocessed rocks. This work focus on learning this task from scratch. Former approaches rely on previously acquired models of rocks, which may be hard to obtain in the context of a mission. In alternative, we propose a model-free, data driven approach. We formulate the problem as the task of selecting the position to place each rock on top of the currently built structure. The rocks are presented to the robot in sequence. The goal is to assemble a wall that approximates a target volume, given the 3D perception of the currently built structure, the next object and the target volume. An agent is developed to learn this task using reinforcement learning. The deep Q-networks (DQN) algorithm is used, where the Q-network outputs a value map corresponding to the expected return of placing the object in each position of a top-view depth image. The learned policy outperforms engineered heuristics, both in terms of stability of the structure and similarity with the target volume. Despite the simplification of the task, the policy learned with this approach could be applied to a realistic setting as the high level planner in an autonomous construction pipeline.},
-	urldate = {2026-09-09},
-	booktitle = {2021 {IEEE}/{CVF} {Conference} on {Computer} {Vision} and {Pattern} {Recognition} {Workshops} ({CVPRW})},
-	author = {Menezes, André and Vicente, Pedro and Bernardino, Alexandre and Ventura, Rodrigo},
-	month = jun,
-	year = {2021},
-	note = {ISSN: 2160-7516},
-	keywords = {Data models, Pipelines, Reinforcement learning, Rocks, Stability analysis, Stacking, Three-dimensional displays},
-	pages = {2057--2065},
-}
-
-@inproceedings{menezesRocksWallsModelfree2021,
-	title = {From {Rocks} to {Walls}: a {Model}-free {Reinforcement} {Learning} {Approach} to {Dry} {Stacking} with {Irregular} {Rocks}},
-	issn = {2160-7516},
-	shorttitle = {From {Rocks} to {Walls}},
-	url = {https://ieeexplore.ieee.org/document/9522889},
-	doi = {10.1109/CVPRW53098.2021.00234},
-	abstract = {In-situ resource utilization (ISRU) is a key aspect for an efficient human exploration of extraterrestrial environments. A cost-effective method for the construction of preliminary structures is dry stacking with locally found unprocessed rocks. This work focus on learning this task from scratch. Former approaches rely on previously acquired models of rocks, which may be hard to obtain in the context of a mission. In alternative, we propose a model-free, data driven approach. We formulate the problem as the task of selecting the position to place each rock on top of the currently built structure. The rocks are presented to the robot in sequence. The goal is to assemble a wall that approximates a target volume, given the 3D perception of the currently built structure, the next object and the target volume. An agent is developed to learn this task using reinforcement learning. The deep Q-networks (DQN) algorithm is used, where the Q-network outputs a value map corresponding to the expected return of placing the object in each position of a top-view depth image. The learned policy outperforms engineered heuristics, both in terms of stability of the structure and similarity with the target volume. Despite the simplification of the task, the policy learned with this approach could be applied to a realistic setting as the high level planner in an autonomous construction pipeline.},
-	urldate = {2026-09-09},
-	booktitle = {2021 {IEEE}/{CVF} {Conference} on {Computer} {Vision} and {Pattern} {Recognition} {Workshops} ({CVPRW})},
-	author = {Menezes, André and Vicente, Pedro and Bernardino, Alexandre and Ventura, Rodrigo},
-	month = jun,
-	year = {2021},
-	note = {ISSN: 2160-7516},
-	keywords = {Data models, Pipelines, Reinforcement learning, Rocks, Stability analysis, Stacking, Three-dimensional displays},
-	pages = {2057--2065},
 }
 
 @inproceedings{hoiemDiagnosingErrorObject2012,
@@ -1630,38 +1688,6 @@ ISBN: 9781728146614},
 	pages = {111816},
 }
 
-@article{wangNovelAlgebraicSolution2020a,
-	title = {A novel algebraic solution to the perspective-three-line pose problem},
-	volume = {191},
-	issn = {1077-3142},
-	url = {https://www.sciencedirect.com/science/article/pii/S1077314218301929},
-	doi = {10.1016/j.cviu.2018.08.005},
-	abstract = {In this work, we present a novel algebraic method to the perspective-three-line (P3L) problem for determining the position and attitude of a calibrated camera from features of three known reference lines. Unlike other methods, the proposed method uses an intermediate camera frame F and an intermediate world frame E, with sparse known line coordinates, facilitating formulations of the P3L problem. Additionally, the rotation matrix between the frame E and the frame F is parameterized by using its orthogonality, and then a closed-form solution for the P3L pose problem is obtained from subsequent substitutions. This algebraic method makes the processes more easily followed and significantly improves the performance. The experimental results show that the proposed method offers numerical stability, accuracy and efficiency comparable or better than that of state-of-the-art method.},
-	urldate = {2026-09-09},
-	journal = {Computer Vision and Image Understanding},
-	author = {Wang, Ping and Xu, Guili and Cheng, Yuehua},
-	month = feb,
-	year = {2020},
-	keywords = {Absolute position and attitude, Computer vision, Imaging geometry, Perspective-three-line problem (P3L), Pose estimation},
-	pages = {102711},
-}
-
-@article{wangNovelAlgebraicSolution2020,
-	title = {A novel algebraic solution to the perspective-three-line pose problem},
-	volume = {191},
-	issn = {1077-3142},
-	url = {https://www.sciencedirect.com/science/article/pii/S1077314218301929},
-	doi = {10.1016/j.cviu.2018.08.005},
-	abstract = {In this work, we present a novel algebraic method to the perspective-three-line (P3L) problem for determining the position and attitude of a calibrated camera from features of three known reference lines. Unlike other methods, the proposed method uses an intermediate camera frame F and an intermediate world frame E, with sparse known line coordinates, facilitating formulations of the P3L problem. Additionally, the rotation matrix between the frame E and the frame F is parameterized by using its orthogonality, and then a closed-form solution for the P3L pose problem is obtained from subsequent substitutions. This algebraic method makes the processes more easily followed and significantly improves the performance. The experimental results show that the proposed method offers numerical stability, accuracy and efficiency comparable or better than that of state-of-the-art method.},
-	urldate = {2026-09-09},
-	journal = {Computer Vision and Image Understanding},
-	author = {Wang, Ping and Xu, Guili and Cheng, Yuehua},
-	month = feb,
-	year = {2020},
-	keywords = {Absolute position and attitude, Computer vision, Imaging geometry, Perspective-three-line problem (P3L), Pose estimation},
-	pages = {102711},
-}
-
 @article{gadotCropNotCrop2024,
 	title = {To crop or not to crop: {Comparing} whole-image and cropped classification on a large dataset of camera trap images},
 	volume = {18},
@@ -1680,23 +1706,6 @@ ISBN: 9781728146614},
 	pages = {1193--1208},
 }
 
-@inproceedings{wangYOLOv9LearningWhat2025a,
-	address = {Cham},
-	title = {{YOLOv9}: {Learning} {What} {You} {Want} to {Learn} {Using} {Programmable} {Gradient} {Information}},
-	isbn = {978-3-031-72751-1},
-	shorttitle = {{YOLOv9}},
-	doi = {10.1007/978-3-031-72751-1_1},
-	abstract = {Today’s deep learning methods focus on how to design the objective functions to make the prediction as close as possible to the target. Meanwhile, an appropriate neural network architecture has to be designed. Existing methods ignore a fact that when input data undergoes layer-by-layer feature transformation, large amount of information will be lost. This paper delve into the important issues of information bottleneck and reversible functions. We proposed the concept of programmable gradient information (PGI) to cope with the various changes required by deep networks to achieve multiple objectives. PGI can provide complete input information for the target task to calculate objective function, so that reliable gradient information can be obtained to update network parameters. In addition, a lightweight network architecture—Generalized Efficient Layer Aggregation Network (GELAN) is designed. GELAN confirms that PGI has gained superior results on lightweight models. We verified the proposed GELAN and PGI on MS COCO object detection dataset. The results show that GELAN only uses conventional convolution operators to achieve better parameter utilization than the state-of-the-art methods developed based on depth-wise convolution. PGI can be used for variety of models from lightweight to large. It can be used to obtain complete information, so that train-from-scratch models can achieve better results than state-of-the-art models pre-trained using large datasets, the comparison results are shown in Fig. 1. The source codes are released at https://github.com/WongKinYiu/yolov9.},
-	language = {en},
-	booktitle = {Computer {Vision} – {ECCV} 2024},
-	publisher = {Springer Nature Switzerland},
-	author = {Wang, Chien-Yao and Yeh, I-Hau and Mark Liao, Hong-Yuan},
-	editor = {Leonardis, Aleš and Ricci, Elisa and Roth, Stefan and Russakovsky, Olga and Sattler, Torsten and Varol, Gül},
-	year = {2025},
-	keywords = {information bottleneck, object detection, reversible model},
-	pages = {1--21},
-}
-
 @misc{tianYOLOv12AttentionCentricRealTime2025,
 	title = {{YOLOv12}: {Attention}-{Centric} {Real}-{Time} {Object} {Detectors}},
 	shorttitle = {{YOLOv12}},
@@ -1708,23 +1717,6 @@ ISBN: 9781728146614},
 	author = {Tian, Yunjie and Ye, Qixiang and Doermann, David},
 	month = feb,
 	year = {2025},
-}
-
-@inproceedings{wangYOLOv9LearningWhat2025,
-	address = {Cham},
-	title = {{YOLOv9}: {Learning} {What} {You} {Want} to {Learn} {Using} {Programmable} {Gradient} {Information}},
-	isbn = {978-3-031-72751-1},
-	shorttitle = {{YOLOv9}},
-	doi = {10.1007/978-3-031-72751-1_1},
-	abstract = {Today’s deep learning methods focus on how to design the objective functions to make the prediction as close as possible to the target. Meanwhile, an appropriate neural network architecture has to be designed. Existing methods ignore a fact that when input data undergoes layer-by-layer feature transformation, large amount of information will be lost. This paper delve into the important issues of information bottleneck and reversible functions. We proposed the concept of programmable gradient information (PGI) to cope with the various changes required by deep networks to achieve multiple objectives. PGI can provide complete input information for the target task to calculate objective function, so that reliable gradient information can be obtained to update network parameters. In addition, a lightweight network architecture—Generalized Efficient Layer Aggregation Network (GELAN) is designed. GELAN confirms that PGI has gained superior results on lightweight models. We verified the proposed GELAN and PGI on MS COCO object detection dataset. The results show that GELAN only uses conventional convolution operators to achieve better parameter utilization than the state-of-the-art methods developed based on depth-wise convolution. PGI can be used for variety of models from lightweight to large. It can be used to obtain complete information, so that train-from-scratch models can achieve better results than state-of-the-art models pre-trained using large datasets, the comparison results are shown in Fig. 1. The source codes are released at https://github.com/WongKinYiu/yolov9.},
-	language = {en},
-	booktitle = {Computer {Vision} – {ECCV} 2024},
-	publisher = {Springer Nature Switzerland},
-	author = {Wang, Chien-Yao and Yeh, I-Hau and Mark Liao, Hong-Yuan},
-	editor = {Leonardis, Aleš and Ricci, Elisa and Roth, Stefan and Russakovsky, Olga and Sattler, Torsten and Varol, Gül},
-	year = {2025},
-	keywords = {information bottleneck, object detection, reversible model},
-	pages = {1--21},
 }
 
 @misc{wangYOLOv10RealTimeEndtoEnd2024,
@@ -2055,22 +2047,6 @@ ISBN: 9781728146614},
 	abstract = {DeepL Write is a tool that helps you perfect your writing. Write clearly, precisely, with ease, and without errors. Try for free now!},
 	language = {en},
 	urldate = {2025-01-07},
-}
-
-@misc{Claude,
-	title = {{Claude}},
-	url = {https://claude.ai/},
-	abstract = {Claude is a family of large language models developed by Anthropic, built to help with writing, analysis, coding, and research.},
-	language = {en},
-	urldate = {2026-09-21},
-}
-
-@misc{ClaudeCode,
-	title = {{Claude} {Code}},
-	url = {https://claude.com/product/claude-code},
-	abstract = {Claude Code is Anthropic's agentic coding tool, run from the terminal or IDE, that understands a codebase and helps write, edit, test, and ship code through natural-language instructions.},
-	language = {en},
-	urldate = {2026-09-21},
 }
 
 @misc{UltralyticsRevolutionizingWorld,
