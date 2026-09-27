@@ -1,0 +1,260 @@
+# Review instructions
+
+You are reviewing paragraphs of a Master's thesis manuscript (LaTeX) after a
+DeepL Write "rephrase" pass. Each entry below shows the paragraph as it stands
+in the manuscript (`--- original`), the rephrased version with its LaTeX
+restored mechanically (`--- rephrased`), the section it belongs to, and flags
+the tooling raised. Your job, per entry: write the paragraph that should end
+up in the manuscript into `--- final`, and one line into `--- verdict`.
+
+The reader of the thesis is one examiner who knows machine learning but not
+this project, reading under time pressure, who wants the decision, the reason,
+the evidence and the limit. Plain, exact prose serves that reader. Decoration
+does not.
+
+## What to keep and what to take back
+
+Keep DeepL's wording wherever it reads better **and says the same thing**.
+Take the original sentence back wherever the rephrasing changed any of:
+
+- the meaning or direction of a claim ("excludes" -> "includes", "exercises
+  both problems" -> "addresses both problems", a negation dropped or added),
+- an epistemic hedge or scope condition ("on the mixed test set", "for Band A",
+  "measured on the proxy device", "roughly", "at least"). These calibrate a
+  claim against its evidence and are mandatory. Only tone-softening padding
+  ("arguably", "somewhat", "it is worth noting") may go,
+- a number, a unit, a count, a date, or a proper name,
+- a term of art: "fine-grained" (not "finely grained"), "nano-scale",
+  "long-tailed", "look-alike", "trade-off", "held-out", "real-only",
+  "mixed test set" / "real test set" / "synthetic test set", "Band A..D" (never
+  "tier", "group", "regime" for the bands), "teacher model" / "student model",
+  "knowledge distillation", "step distillation" (never bare "distillation" for
+  the diffusion sense), "prompt regime", "generator", "cell",
+- who acts: the script, the filter, the model, the stage, not the author and
+  never "we" / "I". "This work" is the self-reference, not "this thesis"
+  (except when the document itself is meant).
+
+Mixing at sentence level is expected: take DeepL's sentence 1 and 3 and the
+original sentence 2 if that is what reads best and stays true. Do not add
+content of your own, and do not rewrite beyond choosing between the two
+versions and repairing citation placement or formatting.
+
+## Hard rules (the apply step rejects a final that breaks one)
+
+- Every LaTeX span of the original must appear in the final and none may be
+  added: every `\cite{...}` key, `\Cref{...}`, `\hyperref`, `\textit{...}`,
+  `\texttt{...}`, `\enquote{...}`, `$...$` math, `\%`, and any other command.
+  Reposition them, never drop or invent them. `\cite{a} ... \cite{b}` and
+  `\cite{a,b}` count as the same.
+- No parenthetical dash (` -- ` or `---`) and no semicolon in prose. Split the
+  sentence instead. Numeric ranges like `12--15` are fine.
+- No `\citeauthor`, no `\textcite`, no "Smith et al. showed". A citation is a
+  tag hung on a claim, never a word in the sentence and never its subject:
+  wrong: "\cite{key} trained a small model"; right: "Early work trained a small
+  model to reproduce a large ensemble \cite{key}."
+- The final is one paragraph on one line, exactly as it goes into the `.tex`,
+  with a leading `\item` if the original had one and any trailing `% comment`
+  kept.
+
+## Citation placement
+
+State the finding, hang the citation at the end of the sentence that makes
+the claim. The tooling already moved every citation to the end of the
+sentence its claim landed in after rephrasing (flag `cite-moved`); check that
+the citation still tags the right claim. If DeepL merged two cited sentences
+into one, the citations were merged into one `\cite{a,b}` (`cite-merged`,
+`cite-merged-sentences`): confirm both sources support the merged sentence,
+or split the sentence again and give each its citation. When the existence
+of prior work is the point, an impersonal subject is right ("Previous work
+trained...", "It has been shown that...") and the citation still goes at the
+end. A named work, method or tool may be the subject ("\textit{YOLOv5}
+\cite{...} is commercially usable only up to..."), people never.
+
+## House style (warnings only, but fix them when you see them)
+
+- American spelling: behavior, artifact, judgment, color, labeled, analyze,
+  -ize, -ization.
+- Numbers in math mode: `$225$`, `$28\%$`, `$1{,}200$`. DeepL sometimes
+  spells a number out or writes "28 percent"; put the original `$...$` back.
+- `\textit{}` on a tool, dataset or model name only at its first mention in the
+  chapter; the original shows which mentions carry it.
+- Sentences target 20-30 words; over 55 is a rewrite. Prefer two sentences.
+- "rather than" is an authorial tic; do not add new ones.
+- German text (the German abstract) follows the same rules; keep the German
+  terminology as written ("Knowledge Distillation", "Fine-Tuning",
+  "Objektdetektor").
+
+## Flags
+
+- `unchanged`: DeepL returned the text unchanged; nothing to do.
+- `cite-moved`: a citation that sat mid-sentence now sits at the sentence end.
+- `cite-merged` / `cite-merged-sentences`: citations were joined into one call
+  because their sentences were merged.
+- `cite-lowconf`: the tooling was unsure which rephrased sentence the cited
+  claim moved to. Check the placement with care.
+- `format-lost: <span>`: a `\textit`, `$...$` or similar could not be found in
+  the rephrased text (DeepL changed the wording inside it). The rephrased
+  version shows the plain text; restore the span from the original.
+- `wrap-ambiguous` / `wrap-reordered` / `wrap-case`: a span was re-wrapped
+  where the tooling thought it belonged; verify the placement.
+- `token-lost`: DeepL dropped a cross-reference or math token; the rephrased
+  text was discarded and the original is shown. Keep the original.
+- `dash`, `semicolon`, `british`, `bare-number`, `long-sentence`,
+  `this-thesis`, `rather-than`, `cite-subject`: the named house-style problem
+  appeared in the rephrased text. Fix it in the final.
+
+## How to fill an entry
+
+Write the complete paragraph into the `--- final` block (one line) and one
+line into `--- verdict`: `rephrased`, `original`, or `merged`, followed by a
+short reason ("kept original s2: hedge dropped"). Leave `--- final` empty to
+keep the original paragraph unchanged. Skip entries whose `--- final` block is
+already filled. Edit only these blocks; change nothing else in this file.
+
+
+<!-- 1-Introduction.tex: 12 paragraphs -->
+
+#### P001  1-Introduction.tex:5  flags: cached, wrap-reordered: 50, wrap-reordered: 150
+## section: Introduction
+--- original
+This work investigates how an object detector small enough for embedded hardware can be trained when real training images are scarce, using wildlife species recognition as the test case. The deployment context is a consumer binocular that classifies the mammal a user is looking at, on the device itself, and without a network connection. That fixes two hard constraints: a per-frame latency budget on a mobile system-on-chip, and a class universe of $225$ mammal species rather than the few dozen coarse classes of a general detection benchmark. The detector has to locate the animal and classify its species, and classification carries the difficulty, since many of these species differ only in fine markings (\Cref{sec:results_granularity_gaps}). Two training strategies are compared: distilling a much larger fine-tuned teacher model into a small student model and fine-tuning that same student directly on the wildlife dataset. Of the $225$ classes, $50$ retain fewer than $150$ usable real photographs each, so this work also asks whether diffusion-generated imagery can provide the missing real data, and how far a detector trained on it still transfers to real photographs.
+--- rephrased
+This work investigates how to train an object detector small enough for embedded hardware when real training images are scarce. Wildlife species recognition is used as the test case. The deployment context is a pair of consumer binoculars that classify the mammal a user is looking at on the device itself and without a network connection. This establishes two constraints: a per-frame latency budget on a mobile system-on-chip and a classification category of $225$ mammal species, as opposed to the few dozen categories of a general detection benchmark. The detector must locate the animal and classify its species. Classification is difficult because many of these species differ only in fine markings (\Cref{sec:results_granularity_gaps}). Two training strategies are compared: distilling a much larger fine-tuned teacher model into a small student model, and fine-tuning the same student model directly on the wildlife dataset. Since only $150$ or fewer real photographs are available for $50$ of the $225$ classes, this work also explores whether diffusion-generated imagery can provide the missing real data and the extent to which a detector trained on it can be applied to real photographs.
+--- final
+This work investigates how to train an object detector small enough for embedded hardware when real training images are scarce. Wildlife species recognition is used as the test case. The deployment context is a consumer binocular that classifies the mammal a user is looking at, on the device itself, and without a network connection. That fixes two hard constraints: a per-frame latency budget on a mobile system-on-chip, and a class universe of $225$ mammal species rather than the few dozen coarse classes of a general detection benchmark. The detector must locate the animal and classify its species. Classification is difficult because many of these species differ only in fine markings (\Cref{sec:results_granularity_gaps}). Two training strategies are compared: distilling a much larger fine-tuned teacher model into a small student model, and fine-tuning the same student model directly on the wildlife dataset. Of the $225$ classes, $50$ retain fewer than $150$ usable real photographs each, so this work also asks whether diffusion-generated imagery can provide the missing real data, and how far a detector trained on it still transfers to real photographs.
+--- verdict
+merged: kept original for "class universe"/"hard constraints"/"coarse classes" (rephrase blurred these terms) and for "fewer than $150$" (rephrase's "$150$ or fewer" shifts the threshold); took rephrased sentence split for the locate/classify sentence.
+
+
+#### P002  1-Introduction.tex:10  flags: cached, cite-lowconf: \cite{AXVisio} (0.47), cite-moved: \cite{AXVisio}, cite-moved: \cite{QCS605}, cite-moved: \cite{ltdBuyRaspberryPi}
+## section: Motivation
+--- original
+Species identification in the field has begun to move from printed field guides into the optics themselves. The \textit{AX Visio} binocular \cite{AXVisio} runs a species-recognition model on board and classifies the animal the user is already looking at. The classification must happen while the animal is still within the field of view. This rules out sending the frame to a remote service. The habitats in which the device is used also rule this out, since network coverage cannot be assumed there. The recognition model therefore has to fit a mobile system-on-chip and meet a per-frame latency budget on it. The deployment target is the \textit{Qualcomm QCS605} \cite{QCS605}, a mobile platform combining a \textit{Hexagon 685} digital signal processor with an \textit{Adreno 615} graphics processor, whose compute budget excludes the model scales at which detection accuracy is normally reported. Development and benchmarking in this work targeted a \textit{Raspberry Pi 400} \cite{ltdBuyRaspberryPi} instead, for the software-maturity reasons set out in \Cref{sec:results_embedded_benchmark}.
+--- rephrased
+The process of identifying species in the field has begun to shift from using printed field guides to using the binoculars themselves. The \textit{AX Visio} binoculars have an onboard species-recognition model that classifies the animal the user is looking at \cite{AXVisio}. Classification must occur while the animal remains within the field of view. This rules out sending the image to a remote service. The habitats in which the device is used also preclude this option, since network coverage cannot be assumed there. Therefore, the recognition model must fit on a mobile system-on-chip and meet its per-frame latency budget. The deployment target is the \textit{Qualcomm QCS605}, a mobile platform that combines a \textit{Hexagon 685} digital signal processor and an \textit{Adreno 615} graphics processor \cite{QCS605}. However, the compute budget of this platform excludes the model scales at which detection accuracy is typically reported. For software-maturity reasons set out in \Cref{sec:results_embedded_benchmark}, development and benchmarking in this work targeted a \textit{Raspberry Pi 400} instead \cite{ltdBuyRaspberryPi}.
+--- final
+Species identification in the field has begun to move from printed field guides into the optics themselves. The \textit{AX Visio} binocular \cite{AXVisio} runs a species-recognition model on board and classifies the animal the user is already looking at. Classification must occur while the animal remains within the field of view. This rules out sending the frame to a remote service. The habitats in which the device is used also preclude this option, since network coverage cannot be assumed there. Therefore, the recognition model must fit on a mobile system-on-chip and meet its per-frame latency budget. The deployment target is the \textit{Qualcomm QCS605}, a mobile platform that combines a \textit{Hexagon 685} digital signal processor and an \textit{Adreno 615} graphics processor \cite{QCS605}. However, the compute budget of this platform excludes the model scales at which detection accuracy is typically reported. For software-maturity reasons set out in \Cref{sec:results_embedded_benchmark}, development and benchmarking in this work targeted a \textit{Raspberry Pi 400} instead \cite{ltdBuyRaspberryPi}.
+--- verdict
+merged: kept original for "optics" (broader than "binoculars"), "AX Visio binocular" singular plus "already looking at", and "frame" (not "image"); took rephrased cite-end placements and sentence splits elsewhere, which still tag the right claims.
+
+
+#### P003  1-Introduction.tex:12  flags: cached, format-lost: $193\,\mathrm{M}$, format-lost: $2.71\,\mathrm{M}$, cite-moved: \cite{zouObjectDetection202023}, bare-number
+## section: Motivation
+--- original
+Accurate detection comes at the cost of model size and inference speed. The most accurate models are large \cite{zouObjectDetection202023}, which makes an embedded target difficult to achieve. The teacher model used in this study has approximately $193\,\mathrm{M}$ parameters, compared to $2.71\,\mathrm{M}$ for the student model that was actually exported to the device. Knowledge distillation is the established solution to such a discrepancy. Early work on model compression trained a small, fast model to reproduce the outputs of a large ensemble \cite{buciluaModelCompression2006}. Later work generalized the idea by having the student match the teacher's softened output distribution rather than its hard predictions \cite{hintonDistillingKnowledgeNeural2015}. Whether that mechanism survives a move from general object classes to fine-grained species is the question this work was built around.
+--- rephrased
+Accurate detection requires larger models and slower inference speeds. The most accurate models are large, making an embedded target difficult to achieve \cite{zouObjectDetection202023}. The teacher model used in this study has approximately 193 million parameters, whereas the student model exported to the device has only 2.71 million. Knowledge distillation is an established solution to such discrepancies. Early work on model compression involved training a small, fast model to reproduce the outputs of a large ensemble \cite{buciluaModelCompression2006}. Later work generalized this concept by having the student model match the teacher model's softened output distribution rather than its hard predictions \cite{hintonDistillingKnowledgeNeural2015}. The question this work was built around is whether that mechanism survives a move from general object classes to fine-grained species.
+--- final
+Accurate detection comes at the cost of model size and inference speed. The most accurate models are large \cite{zouObjectDetection202023}, which makes an embedded target difficult to achieve. The teacher model used in this study has approximately $193\,\mathrm{M}$ parameters, compared to $2.71\,\mathrm{M}$ for the student model that was actually exported to the device. Knowledge distillation is the established solution to such a discrepancy. Early work on model compression trained a small, fast model to reproduce the outputs of a large ensemble \cite{buciluaModelCompression2006}. Later work generalized the idea by having the student match the teacher's softened output distribution rather than its hard predictions \cite{hintonDistillingKnowledgeNeural2015}. Whether that mechanism survives a move from general object classes to fine-grained species is the question this work was built around.
+--- verdict
+original: rephrase weakened "comes at the cost of" to "requires" (a trade-off became a necessity claim), spelled out $193\,\mathrm{M}$/$2.71\,\mathrm{M}$ as plain numbers (must stay in math mode), and moved the citation past the uncited "difficult to achieve" inference.
+
+
+#### P004  1-Introduction.tex:14  flags: cite-moved: \cite{beeryRecognitionTerraIncognita2018}, semicolon
+## section: Motivation
+--- original
+Two properties of the wildlife domain make that question non-trivial. The class universe is fine-grained: many of the $225$ classes differ only in fine markings, and a detector has to learn exactly those markings \cite{weiFineGrainedImageAnalysis2022}. The available imagery is long-tailed, with a few well-photographed species dominating the corpus while most are supported by comparatively few usable photographs \cite{zhangDeepLongTailedLearning2023}. Machine-learning work on wildlife imagery treats both properties as recurring obstacles rather than as edge cases \cite{tuiaPerspectivesMachineLearning2022}. Camera-trap detection is also known to degrade sharply once a model is evaluated at locations it was not trained on \cite{beeryRecognitionTerraIncognita2018}, so a thin per-class image pool is a generalization problem and not only a sample-count problem.
+--- rephrased
+Two properties of the wildlife domain make that question nontrivial. First, the class universe is fine-grained; many of the $225$ classes differ only in fine markings, which a detector must learn \cite{weiFineGrainedImageAnalysis2022}. Second, the available imagery is long-tailed, with a few well-photographed species dominating the corpus, while most species are represented by comparatively few usable photographs \cite{zhangDeepLongTailedLearning2023}. Machine learning work on wildlife imagery treats these properties as recurring obstacles rather than edge cases \cite{tuiaPerspectivesMachineLearning2022}. Additionally, camera-trap detection is known to degrade sharply when models are evaluated in locations where they were not trained, so a thin per-class image pool presents a generalization problem, not just a sample-count problem \cite{beeryRecognitionTerraIncognita2018}.
+--- final
+Two properties of the wildlife domain make that question non-trivial. The class universe is fine-grained: many of the $225$ classes differ only in fine markings, and a detector has to learn exactly those markings \cite{weiFineGrainedImageAnalysis2022}. The available imagery is long-tailed, with a few well-photographed species dominating the corpus while most are supported by comparatively few usable photographs \cite{zhangDeepLongTailedLearning2023}. Machine-learning work on wildlife imagery treats both properties as recurring obstacles rather than as edge cases \cite{tuiaPerspectivesMachineLearning2022}. Camera-trap detection is also known to degrade sharply once a model is evaluated at locations it was not trained on \cite{beeryRecognitionTerraIncognita2018}, so a thin per-class image pool is a generalization problem and not only a sample-count problem.
+--- verdict
+original: rephrase introduced a semicolon (house-style violation) and moved the Beery citation to the end of the sentence, past the author's own "generalization problem" inference it does not support.
+
+
+#### P005  1-Introduction.tex:16  flags: cite-moved: \cite{rombachHighResolutionImageSynthesis2022}, cite-moved: \cite{heSyntheticDataGenerative2023}, cite-lowconf: \cite{hedrichGeneratingSyntheticDatasets2026} (0.37), cite-moved: \cite{hedrichGeneratingSyntheticDatasets2026}, cite-merged: \cite{heSyntheticDataGenerative2023,aziziSyntheticDataDiffusion2023}
+## section: Motivation
+--- original
+Text-to-image diffusion models \cite{rombachHighResolutionImageSynthesis2022} offer the one intervention that can add appearance content a data-poor class's own photographs do not contain, such as an unrecorded pose, habitat or lighting condition. Training a classifier from scratch on generated images, however, required roughly five times as many of them to match real images of the same classes \cite{heSyntheticDataGenerative2023}, and prompting an off-the-shelf generator with bare class names produced a very poor classifier \cite{aziziSyntheticDataDiffusion2023}. Earlier work by the present author found that generated image context conferred no downstream detection advantage over per-pixel random noise on a small-object car-detection task \cite{hedrichGeneratingSyntheticDatasets2026}, which is what leaves the choice of generator an open question here (\Cref{sec:generator_comparison}). Synthetic imagery is therefore treated in this work as a supplement whose usefulness is measured rather than assumed.
+--- rephrased
+Text-to-image diffusion models are the only intervention that can add appearance content that data-poor classes' photographs do not contain, such as unrecorded poses, habitats, or lighting conditions \cite{rombachHighResolutionImageSynthesis2022}. However, training a classifier from scratch on generated images required roughly five times as many images to match real images of the same classes \cite{heSyntheticDataGenerative2023,aziziSyntheticDataDiffusion2023}. Prompting an off-the-shelf generator with bare class names produced a very poor classifier. Previous research by the present author revealed that generated image context did not provide a significant advantage in downstream detection compared to per-pixel random noise in a small-object car detection task \cite{hedrichGeneratingSyntheticDatasets2026}. This leaves the selection of a generator as an open question (\Cref{sec:generator_comparison}). This work therefore treats synthetic imagery as a supplement whose usefulness is measured rather than assumed.
+--- final
+Text-to-image diffusion models \cite{rombachHighResolutionImageSynthesis2022} offer the one intervention that can add appearance content a data-poor class's own photographs do not contain, such as an unrecorded pose, habitat or lighting condition. Training a classifier from scratch on generated images, however, required roughly five times as many of them to match real images of the same classes \cite{heSyntheticDataGenerative2023}, and prompting an off-the-shelf generator with bare class names produced a very poor classifier \cite{aziziSyntheticDataDiffusion2023}. Earlier work by the present author found that generated image context conferred no downstream detection advantage over per-pixel random noise on a small-object car-detection task \cite{hedrichGeneratingSyntheticDatasets2026}, which is what leaves the choice of generator an open question here (\Cref{sec:generator_comparison}). This work therefore treats synthetic imagery as a supplement whose usefulness is measured rather than assumed.
+--- verdict
+merged: kept original for the two distinct citations that rephrase merged into one \cite{heSyntheticDataGenerative2023,aziziSyntheticDataDiffusion2023} (leaving the "bare class names" claim uncited), and for "conferred no downstream detection advantage" (rephrase's "did not provide a significant advantage" implies a possible small effect); took rephrased final sentence (active voice, no meaning change).
+
+
+#### P006  1-Introduction.tex:18  flags: -
+## section: Motivation
+--- original
+Wildlife species recognition for a handheld optic exercises both problems at once, which makes it a demanding test case. It combines a fixed latency ceiling, a fine-grained class universe, a long-tailed image supply, and a product requirement that the resulting weights remain commercially licensable. None of these constraints was constructed for the experiment.
+--- rephrased
+Recognizing wildlife species with a handheld optic presents two problems at once, making it a demanding test case. It involves a fixed latency ceiling, a fine-grained class universe, a long-tailed image supply, and the requirement that the resulting weights be commercially licensable. None of these constraints were created for the experiment.
+--- final
+Recognizing wildlife species with a handheld optic presents two problems at once, making it a demanding test case. It combines a fixed latency ceiling, a fine-grained class universe, a long-tailed image supply, and a product requirement that the resulting weights remain commercially licensable. None of these constraints were created for the experiment.
+--- verdict
+merged: kept original "product requirement that the resulting weights remain commercially licensable" (rephrase dropped "product" and softened "remain" to "be"); took rephrased opening and closing sentences, which say the same thing.
+
+
+#### P007  1-Introduction.tex:23  flags: -
+## section: Objective
+--- original
+The objective is to build, train and evaluate a nano-scale detector for wildlife species recognition on embedded hardware, and to measure which of the available training strategies actually helps it. Nano-scale here means the smallest variants of a detector family, at roughly one to three million parameters. Detection accuracy means mean average precision over the species classes, which scores the box and the species together, so a correctly located animal with the wrong species name counts as a miss. It is reported throughout on the mixed test set, the union of the real and synthetic held-out images, with the real test set breakout stated alongside it every time (\Cref{sec:mixed_default}). Four research questions organize the work:
+--- rephrased
+The objective is to build, train, and evaluate a nanoscale detector for recognizing wildlife species on embedded hardware and measure which training strategies help it. "Nano-scale" refers to the smallest variants of a detector family, with roughly one to three million parameters. Detection accuracy is the mean average precision over species classes, scoring both the box and species together. Thus, a correctly located animal with the wrong species name is counted as a miss. Results are reported on the mixed test set, which is the union of real and synthetic held-out images. The real test set breakout is stated alongside it every time (\Cref{sec:mixed_default}). Four research questions organize the work:
+--- final
+The objective is to build, train and evaluate a nano-scale detector for wildlife species recognition on embedded hardware, and to measure which of the available training strategies actually helps it. Nano-scale here means the smallest variants of a detector family, at roughly one to three million parameters. Detection accuracy is the mean average precision over species classes, scoring both the box and species together. Thus, a correctly located animal with the wrong species name is counted as a miss. It is reported throughout on the mixed test set, the union of the real and synthetic held-out images, with the real test set breakout stated alongside it every time (\Cref{sec:mixed_default}). Four research questions organize the work:
+--- verdict
+merged: kept original "nano-scale" hyphenation (rephrase wrote "nanoscale") and "which of the available training strategies actually helps it", and kept "reported throughout" (a scope claim rephrase dropped); took rephrased split for the accuracy-definition sentence.
+
+
+#### P012  1-Introduction.tex:32  flags: -
+## section: Objective
+--- original
+The four questions did not receive equal effort. Roughly $80\%$ of the available time went into dataset construction and synthetic-image generation, so questions $2$ and $3$ carry the bulk of the experimental work. Question $1$ is answered from a single teacher and student pairing at one distillation hyperparameter setting, and question $4$ from a single full-precision runtime measurement on the proxy device. \Cref{sec:limitations} treats that reduced scope as a named limitation. Each question is restated and answered in turn in \Cref{chapter:discussion_conclusion}, from the evidence assembled in \Cref{chapter:results}.
+--- rephrased
+The four questions did not receive equal attention. About $80\%$ of the available time was spent on dataset construction and generating synthetic images, so questions $2$ and $3$ represent most of the experimental work. Question $1$ was answered using data from a single teacher-student pairing and a single distillation hyperparameter setting. Question $4$ was answered using a single full-precision runtime measurement on the proxy device. \Cref{sec:limitations} acknowledges this limited scope as a defined limitation. \Cref{chapter:discussion_conclusion} restates and answers each question in turn, using the evidence assembled in \Cref{chapter:results}.
+--- final
+The four questions did not receive equal attention. About $80\%$ of the available time was spent on dataset construction and generating synthetic images, so questions $2$ and $3$ represent most of the experimental work. Question $1$ was answered using data from a single teacher-student pairing and a single distillation hyperparameter setting. Question $4$ was answered using a single full-precision runtime measurement on the proxy device. \Cref{sec:limitations} acknowledges this limited scope as a defined limitation. \Cref{chapter:discussion_conclusion} restates and answers each question in turn, using the evidence assembled in \Cref{chapter:results}.
+--- verdict
+rephrased: no meaning, hedge, or LaTeX-span changes, all numbers and cross-references intact.
+
+
+#### P013  1-Introduction.tex:36  flags: token-lost: 1 LaTeX span(s) came back more than once: '\\textit{Data Management \\& Analytics}'
+## section: Environment
+--- original
+This Master's thesis is carried out in partnership with \textit{inovex GmbH} \cite{inovex}, an IT consultancy headquartered in Karlsruhe, Germany. \textit{inovex} maintains practice areas spanning \textit{Application Development}, \textit{IT Operations}, and \textit{Data Management \& Analytics}, and the present work is hosted within the latter. The collaboration grants access to \textit{inovex}'s internal compute infrastructure, whose GPU resources make the training and distillation experiments feasible within the available timeframe. \textit{inovex} placed no fixed requirements on the research direction, leaving the choice and design of the technical approach to the author.
+--- rephrased
+This Master's thesis is carried out in partnership with \textit{inovex GmbH} \cite{inovex}, an IT consultancy headquartered in Karlsruhe, Germany. \textit{inovex} maintains practice areas spanning \textit{Application Development}, \textit{IT Operations}, and \textit{Data Management \& Analytics}, and the present work is hosted within the latter. The collaboration grants access to \textit{inovex}'s internal compute infrastructure, whose GPU resources make the training and distillation experiments feasible within the available timeframe. \textit{inovex} placed no fixed requirements on the research direction, leaving the choice and design of the technical approach to the author.
+--- final
+This Master's thesis is carried out in partnership with \textit{inovex GmbH} \cite{inovex}, an IT consultancy headquartered in Karlsruhe, Germany. \textit{inovex} maintains practice areas spanning \textit{Application Development}, \textit{IT Operations}, and \textit{Data Management \& Analytics}, and the present work is hosted within the latter. The collaboration grants access to \textit{inovex}'s internal compute infrastructure, whose GPU resources make the training and distillation experiments feasible within the available timeframe. \textit{inovex} placed no fixed requirements on the research direction, leaving the choice and design of the technical approach to the author.
+--- verdict
+original: token-lost flag, the rephrase was discarded by the tooling because a LaTeX span duplicated, so the original stands unchanged.
+
+
+#### P014  1-Introduction.tex:39  flags: cite-moved: \cite{ChatGPT}, cite-moved: \cite{DeepLTranslateWorlds}, cite-moved: \cite{DeepLWriteAIpowered}, cite-merged: \cite{ChatGPT,DeepLTranslateWorlds,DeepLWriteAIpowered}
+## section: Utilization of AI Tools in Thesis Preparation
+--- original
+Several AI tools supported the preparation of this work, in line with the guidelines issued by \textit{Hochschule Karlsruhe} on May 16, 2024. ChatGPT \cite{ChatGPT}, DeepL Translator \cite{DeepLTranslateWorlds}, and DeepL Write \cite{DeepLWriteAIpowered} were used to polish sentence structure, correct spelling and grammar, and translate text the author had already written. Because this use only reformulates content the author originally authored, it falls outside the guideline's citation requirement, but is disclosed here regardless.
+--- rephrased
+In line with the guidelines issued by \textit{Hochschule Karlsruhe} on May 16, 2024, several AI tools supported the preparation of this work. ChatGPT, DeepL Translator, and DeepL Write were used to refine sentence structure, correct spelling and grammar errors, and translate the author's existing text \cite{ChatGPT,DeepLTranslateWorlds,DeepLWriteAIpowered}. Since these tools only reformulated content originally written by the author, they fall outside the guideline's citation requirement. However, they are disclosed here regardless.
+--- final
+Several AI tools supported the preparation of this work, in line with the guidelines issued by \textit{Hochschule Karlsruhe} on May 16, 2024. ChatGPT \cite{ChatGPT}, DeepL Translator \cite{DeepLTranslateWorlds}, and DeepL Write \cite{DeepLWriteAIpowered} were used to polish sentence structure, correct spelling and grammar, and translate text the author had already written. Because this use only reformulates content the author originally authored, it falls outside the guideline's citation requirement, but is disclosed here regardless.
+--- verdict
+original: rephrase merged three distinct per-tool citations into one \cite{ChatGPT,DeepLTranslateWorlds,DeepLWriteAIpowered}, losing the tool-to-citation attribution, and shifted the exemption from "this use" to "these tools", broadening the claim's scope.
+
+
+#### P015  1-Introduction.tex:41  flags: cite-moved: \cite{Claude}, cite-moved: \cite{ClaudeCode}, cite-moved: \cite{GeminiAPI}, cite-merged: \cite{Claude,ClaudeCode,GeminiAPI}
+## section: Utilization of AI Tools in Thesis Preparation
+--- original
+Technical work drew on additional AI assistance. \textit{Claude} \cite{Claude} and \textit{Claude Code} \cite{ClaudeCode}, Anthropic's models and coding agent, and \textit{Gemini} \cite{GeminiAPI} supported idea generation, literature research, and the coding, debugging, and drafting behind the data pipelines, training, evaluation, and this manuscript's prose. All AI-assisted output was reviewed, tested, and corrected by the author, whose research questions, experimental design, and interpretation of results remain their own.
+--- rephrased
+Additional AI assistance was drawn upon for technical work. Anthropic's \textit{Claude} and \textit{Claude Code} models, as well as their coding agent, \textit{Gemini}, supported idea generation, literature research, and the coding, debugging, and drafting behind the data pipelines, training, evaluation, and prose of this manuscript \cite{Claude,ClaudeCode,GeminiAPI}. The author reviewed, tested, and corrected all AI-assisted output. The author's research questions, experimental design, and interpretation of results remain their own.
+--- final
+Technical work drew on additional AI assistance. \textit{Claude} \cite{Claude} and \textit{Claude Code} \cite{ClaudeCode}, Anthropic's models and coding agent, and \textit{Gemini} \cite{GeminiAPI} supported idea generation, literature research, and the coding, debugging, and drafting behind the data pipelines, training, evaluation, and this manuscript's prose. The author reviewed, tested, and corrected all AI-assisted output. The author's research questions, experimental design, and interpretation of results remain their own.
+--- verdict
+merged: kept original for the tools sentence, the rephrase garbled it into "their [Anthropic's] coding agent, Gemini", implying Gemini is Anthropic's, and merged three distinct citations into one; took rephrased split for the final "reviewed, tested, corrected" sentence.
+
+
+#### P016  1-Introduction.tex:46  flags: -
+## section: Pre-Work and Preliminary Resources
+--- original
+Several resources and constraints were fixed before this work's own experimental work began. They are recorded here because they bound the design space the later chapters operate in.
+--- rephrased
+Several resources and constraints were established before the experimental work for this project began. These are recorded here because they define the design space in which the later chapters operate.
+--- final
+Several resources and constraints were fixed before this work's own experimental work began. They are recorded here because they bound the design space the later chapters operate in.
+--- verdict
+original: rephrase weakened "fixed" to "established", replaced the "this work" self-reference with "this project", and softened "bound" (constrain) to "define" (specify).
+
+

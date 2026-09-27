@@ -1,0 +1,347 @@
+{
+ "source": "thesis/manuscript/chapters/1-Introduction.tex",
+ "source_sha": "c1f18c0ffdb7f6c81207b5fa9c5dcc97aeb74f3a7bb8627a6245c1cbc3828e2b",
+ "target_lang": "en-US",
+ "created": "2026-09-27T21:02:37+00:00",
+ "paragraphs": [
+  {
+   "id": "P001",
+   "line": 5,
+   "section": "Introduction",
+   "indent": "",
+   "original": "This work investigates how an object detector small enough for embedded hardware can be trained when real training images are scarce, using wildlife species recognition as the test case. The deployment context is a consumer binocular that classifies the mammal a user is looking at, on the device itself, and without a network connection. That fixes two hard constraints: a per-frame latency budget on a mobile system-on-chip, and a class universe of $225$ mammal species rather than the few dozen coarse classes of a general detection benchmark. The detector has to locate the animal and classify its species, and classification carries the difficulty, since many of these species differ only in fine markings (\\Cref{sec:results_granularity_gaps}). Two training strategies are compared: distilling a much larger fine-tuned teacher model into a small student model and fine-tuning that same student directly on the wildlife dataset. Of the $225$ classes, $50$ retain fewer than $150$ usable real photographs each, so this work also asks whether diffusion-generated imagery can provide the missing real data, and how far a detector trained on it still transfers to real photographs.",
+   "sent": "This work investigates how an object detector small enough for embedded hardware can be trained when real training images are scarce, using wildlife species recognition as the test case. The deployment context is a consumer binocular that classifies the mammal a user is looking at, on the device itself, and without a network connection. That fixes two hard constraints: a per-frame latency budget on a mobile system-on-chip, and a class universe of 225 mammal species rather than the few dozen coarse classes of a general detection benchmark. The detector has to locate the animal and classify its species, and classification carries the difficulty, since many of these species differ only in fine markings (ZQX0ZQX). Two training strategies are compared: distilling a much larger fine-tuned teacher model into a small student model and fine-tuning that same student directly on the wildlife dataset. Of the 225 classes, 50 retain fewer than 150 usable real photographs each, so this work also asks whether diffusion-generated imagery can provide the missing real data, and how far a detector trained on it still transfers to real photographs.",
+   "received": "This work investigates how to train an object detector small enough for embedded hardware when real training images are scarce. Wildlife species recognition is used as the test case. The deployment context is a pair of consumer binoculars that classify the mammal a user is looking at on the device itself and without a network connection. This establishes two constraints: a per-frame latency budget on a mobile system-on-chip and a classification category of 225 mammal species, as opposed to the few dozen categories of a general detection benchmark. The detector must locate the animal and classify its species. Classification is difficult because many of these species differ only in fine markings (ZQX0ZQX). Two training strategies are compared: distilling a much larger fine-tuned teacher model into a small student model, and fine-tuning the same student model directly on the wildlife dataset. Since only 150 or fewer real photographs are available for 50 of the 225 classes, this work also explores whether diffusion-generated imagery can provide the missing real data and the extent to which a detector trained on it can be applied to real photographs.",
+   "restored": "This work investigates how to train an object detector small enough for embedded hardware when real training images are scarce. Wildlife species recognition is used as the test case. The deployment context is a pair of consumer binoculars that classify the mammal a user is looking at on the device itself and without a network connection. This establishes two constraints: a per-frame latency budget on a mobile system-on-chip and a classification category of $225$ mammal species, as opposed to the few dozen categories of a general detection benchmark. The detector must locate the animal and classify its species. Classification is difficult because many of these species differ only in fine markings (\\Cref{sec:results_granularity_gaps}). Two training strategies are compared: distilling a much larger fine-tuned teacher model into a small student model, and fine-tuning the same student model directly on the wildlife dataset. Since only $150$ or fewer real photographs are available for $50$ of the $225$ classes, this work also explores whether diffusion-generated imagery can provide the missing real data and the extent to which a detector trained on it can be applied to real photographs.",
+   "flags": [
+    "cached",
+    "wrap-reordered: 50",
+    "wrap-reordered: 150"
+   ],
+   "status": "fetched",
+   "chars": 1145
+  },
+  {
+   "id": "P002",
+   "line": 10,
+   "section": "Motivation",
+   "indent": "",
+   "original": "Species identification in the field has begun to move from printed field guides into the optics themselves. The \\textit{AX Visio} binocular \\cite{AXVisio} runs a species-recognition model on board and classifies the animal the user is already looking at. The classification must happen while the animal is still within the field of view. This rules out sending the frame to a remote service. The habitats in which the device is used also rule this out, since network coverage cannot be assumed there. The recognition model therefore has to fit a mobile system-on-chip and meet a per-frame latency budget on it. The deployment target is the \\textit{Qualcomm QCS605} \\cite{QCS605}, a mobile platform combining a \\textit{Hexagon 685} digital signal processor with an \\textit{Adreno 615} graphics processor, whose compute budget excludes the model scales at which detection accuracy is normally reported. Development and benchmarking in this work targeted a \\textit{Raspberry Pi 400} \\cite{ltdBuyRaspberryPi} instead, for the software-maturity reasons set out in \\Cref{sec:results_embedded_benchmark}.",
+   "sent": "Species identification in the field has begun to move from printed field guides into the optics themselves. The AX Visio binocular runs a species-recognition model on board and classifies the animal the user is already looking at. The classification must happen while the animal is still within the field of view. This rules out sending the frame to a remote service. The habitats in which the device is used also rule this out, since network coverage cannot be assumed there. The recognition model therefore has to fit a mobile system-on-chip and meet a per-frame latency budget on it. The deployment target is the Qualcomm QCS605, a mobile platform combining a Hexagon 685 digital signal processor with an Adreno 615 graphics processor, whose compute budget excludes the model scales at which detection accuracy is normally reported. Development and benchmarking in this work targeted a Raspberry Pi 400 instead, for the software-maturity reasons set out in ZQX0ZQX.",
+   "received": "The process of identifying species in the field has begun to shift from using printed field guides to using the binoculars themselves. The AX Visio binoculars have an onboard species-recognition model that classifies the animal the user is looking at. Classification must occur while the animal remains within the field of view. This rules out sending the image to a remote service. The habitats in which the device is used also preclude this option, since network coverage cannot be assumed there. Therefore, the recognition model must fit on a mobile system-on-chip and meet its per-frame latency budget. The deployment target is the Qualcomm QCS605, a mobile platform that combines a Hexagon 685 digital signal processor and an Adreno 615 graphics processor. However, the compute budget of this platform excludes the model scales at which detection accuracy is typically reported. For software-maturity reasons set out in ZQX0ZQX, development and benchmarking in this work targeted a Raspberry Pi 400 instead.",
+   "restored": "The process of identifying species in the field has begun to shift from using printed field guides to using the binoculars themselves. The \\textit{AX Visio} binoculars have an onboard species-recognition model that classifies the animal the user is looking at \\cite{AXVisio}. Classification must occur while the animal remains within the field of view. This rules out sending the image to a remote service. The habitats in which the device is used also preclude this option, since network coverage cannot be assumed there. Therefore, the recognition model must fit on a mobile system-on-chip and meet its per-frame latency budget. The deployment target is the \\textit{Qualcomm QCS605}, a mobile platform that combines a \\textit{Hexagon 685} digital signal processor and an \\textit{Adreno 615} graphics processor \\cite{QCS605}. However, the compute budget of this platform excludes the model scales at which detection accuracy is typically reported. For software-maturity reasons set out in \\Cref{sec:results_embedded_benchmark}, development and benchmarking in this work targeted a \\textit{Raspberry Pi 400} instead \\cite{ltdBuyRaspberryPi}.",
+   "flags": [
+    "cached",
+    "cite-lowconf: \\cite{AXVisio} (0.47)",
+    "cite-moved: \\cite{AXVisio}",
+    "cite-moved: \\cite{QCS605}",
+    "cite-moved: \\cite{ltdBuyRaspberryPi}"
+   ],
+   "status": "fetched",
+   "chars": 968
+  },
+  {
+   "id": "P003",
+   "line": 12,
+   "section": "Motivation",
+   "indent": "",
+   "original": "Accurate detection comes at the cost of model size and inference speed. The most accurate models are large \\cite{zouObjectDetection202023}, which makes an embedded target difficult to achieve. The teacher model used in this study has approximately $193\\,\\mathrm{M}$ parameters, compared to $2.71\\,\\mathrm{M}$ for the student model that was actually exported to the device. Knowledge distillation is the established solution to such a discrepancy. Early work on model compression trained a small, fast model to reproduce the outputs of a large ensemble \\cite{buciluaModelCompression2006}. Later work generalized the idea by having the student match the teacher's softened output distribution rather than its hard predictions \\cite{hintonDistillingKnowledgeNeural2015}. Whether that mechanism survives a move from general object classes to fine-grained species is the question this work was built around.",
+   "sent": "Accurate detection comes at the cost of model size and inference speed. The most accurate models are large, which makes an embedded target difficult to achieve. The teacher model used in this study has approximately 193 M parameters, compared to 2.71 M for the student model that was actually exported to the device. Knowledge distillation is the established solution to such a discrepancy. Early work on model compression trained a small, fast model to reproduce the outputs of a large ensemble. Later work generalized the idea by having the student match the teacher's softened output distribution rather than its hard predictions. Whether that mechanism survives a move from general object classes to fine-grained species is the question this work was built around.",
+   "received": "Accurate detection requires larger models and slower inference speeds. The most accurate models are large, making an embedded target difficult to achieve. The teacher model used in this study has approximately 193 million parameters, whereas the student model exported to the device has only 2.71 million. Knowledge distillation is an established solution to such discrepancies. Early work on model compression involved training a small, fast model to reproduce the outputs of a large ensemble. Later work generalized this concept by having the student model match the teacher model's softened output distribution rather than its hard predictions. The question this work was built around is whether that mechanism survives a move from general object classes to fine-grained species.",
+   "restored": "Accurate detection requires larger models and slower inference speeds. The most accurate models are large, making an embedded target difficult to achieve \\cite{zouObjectDetection202023}. The teacher model used in this study has approximately 193 million parameters, whereas the student model exported to the device has only 2.71 million. Knowledge distillation is an established solution to such discrepancies. Early work on model compression involved training a small, fast model to reproduce the outputs of a large ensemble \\cite{buciluaModelCompression2006}. Later work generalized this concept by having the student model match the teacher model's softened output distribution rather than its hard predictions \\cite{hintonDistillingKnowledgeNeural2015}. The question this work was built around is whether that mechanism survives a move from general object classes to fine-grained species.",
+   "flags": [
+    "cached",
+    "format-lost: $193\\,\\mathrm{M}$",
+    "format-lost: $2.71\\,\\mathrm{M}$",
+    "cite-moved: \\cite{zouObjectDetection202023}",
+    "bare-number"
+   ],
+   "status": "fetched",
+   "chars": 768
+  },
+  {
+   "id": "P004",
+   "line": 14,
+   "section": "Motivation",
+   "indent": "",
+   "original": "Two properties of the wildlife domain make that question non-trivial. The class universe is fine-grained: many of the $225$ classes differ only in fine markings, and a detector has to learn exactly those markings \\cite{weiFineGrainedImageAnalysis2022}. The available imagery is long-tailed, with a few well-photographed species dominating the corpus while most are supported by comparatively few usable photographs \\cite{zhangDeepLongTailedLearning2023}. Machine-learning work on wildlife imagery treats both properties as recurring obstacles rather than as edge cases \\cite{tuiaPerspectivesMachineLearning2022}. Camera-trap detection is also known to degrade sharply once a model is evaluated at locations it was not trained on \\cite{beeryRecognitionTerraIncognita2018}, so a thin per-class image pool is a generalization problem and not only a sample-count problem.",
+   "sent": "Two properties of the wildlife domain make that question non-trivial. The class universe is fine-grained: many of the 225 classes differ only in fine markings, and a detector has to learn exactly those markings. The available imagery is long-tailed, with a few well-photographed species dominating the corpus while most are supported by comparatively few usable photographs. Machine-learning work on wildlife imagery treats both properties as recurring obstacles rather than as edge cases. Camera-trap detection is also known to degrade sharply once a model is evaluated at locations it was not trained on, so a thin per-class image pool is a generalization problem and not only a sample-count problem.",
+   "received": "Two properties of the wildlife domain make that question nontrivial. First, the class universe is fine-grained; many of the 225 classes differ only in fine markings, which a detector must learn. Second, the available imagery is long-tailed, with a few well-photographed species dominating the corpus, while most species are represented by comparatively few usable photographs. Machine learning work on wildlife imagery treats these properties as recurring obstacles rather than edge cases. Additionally, camera-trap detection is known to degrade sharply when models are evaluated in locations where they were not trained, so a thin per-class image pool presents a generalization problem, not just a sample-count problem.",
+   "restored": "Two properties of the wildlife domain make that question nontrivial. First, the class universe is fine-grained; many of the $225$ classes differ only in fine markings, which a detector must learn \\cite{weiFineGrainedImageAnalysis2022}. Second, the available imagery is long-tailed, with a few well-photographed species dominating the corpus, while most species are represented by comparatively few usable photographs \\cite{zhangDeepLongTailedLearning2023}. Machine learning work on wildlife imagery treats these properties as recurring obstacles rather than edge cases \\cite{tuiaPerspectivesMachineLearning2022}. Additionally, camera-trap detection is known to degrade sharply when models are evaluated in locations where they were not trained, so a thin per-class image pool presents a generalization problem, not just a sample-count problem \\cite{beeryRecognitionTerraIncognita2018}.",
+   "flags": [
+    "cite-moved: \\cite{beeryRecognitionTerraIncognita2018}",
+    "semicolon"
+   ],
+   "status": "fetched",
+   "chars": 702
+  },
+  {
+   "id": "P005",
+   "line": 16,
+   "section": "Motivation",
+   "indent": "",
+   "original": "Text-to-image diffusion models \\cite{rombachHighResolutionImageSynthesis2022} offer the one intervention that can add appearance content a data-poor class's own photographs do not contain, such as an unrecorded pose, habitat or lighting condition. Training a classifier from scratch on generated images, however, required roughly five times as many of them to match real images of the same classes \\cite{heSyntheticDataGenerative2023}, and prompting an off-the-shelf generator with bare class names produced a very poor classifier \\cite{aziziSyntheticDataDiffusion2023}. Earlier work by the present author found that generated image context conferred no downstream detection advantage over per-pixel random noise on a small-object car-detection task \\cite{hedrichGeneratingSyntheticDatasets2026}, which is what leaves the choice of generator an open question here (\\Cref{sec:generator_comparison}). Synthetic imagery is therefore treated in this work as a supplement whose usefulness is measured rather than assumed.",
+   "sent": "Text-to-image diffusion models offer the one intervention that can add appearance content a data-poor class's own photographs do not contain, such as an unrecorded pose, habitat or lighting condition. Training a classifier from scratch on generated images, however, required roughly five times as many of them to match real images of the same classes, and prompting an off-the-shelf generator with bare class names produced a very poor classifier. Earlier work by the present author found that generated image context conferred no downstream detection advantage over per-pixel random noise on a small-object car-detection task, which is what leaves the choice of generator an open question here (ZQX0ZQX). Synthetic imagery is therefore treated in this work as a supplement whose usefulness is measured rather than assumed.",
+   "received": "Text-to-image diffusion models are the only intervention that can add appearance content that data-poor classes' photographs do not contain, such as unrecorded poses, habitats, or lighting conditions. However, training a classifier from scratch on generated images required roughly five times as many images to match real images of the same classes. Prompting an off-the-shelf generator with bare class names produced a very poor classifier. Previous research by the present author revealed that generated image context did not provide a significant advantage in downstream detection compared to per-pixel random noise in a small-object car detection task. This leaves the selection of a generator as an open question (ZQX0ZQX). This work therefore treats synthetic imagery as a supplement whose usefulness is measured rather than assumed.",
+   "restored": "Text-to-image diffusion models are the only intervention that can add appearance content that data-poor classes' photographs do not contain, such as unrecorded poses, habitats, or lighting conditions \\cite{rombachHighResolutionImageSynthesis2022}. However, training a classifier from scratch on generated images required roughly five times as many images to match real images of the same classes \\cite{heSyntheticDataGenerative2023,aziziSyntheticDataDiffusion2023}. Prompting an off-the-shelf generator with bare class names produced a very poor classifier. Previous research by the present author revealed that generated image context did not provide a significant advantage in downstream detection compared to per-pixel random noise in a small-object car detection task \\cite{hedrichGeneratingSyntheticDatasets2026}. This leaves the selection of a generator as an open question (\\Cref{sec:generator_comparison}). This work therefore treats synthetic imagery as a supplement whose usefulness is measured rather than assumed.",
+   "flags": [
+    "cite-moved: \\cite{rombachHighResolutionImageSynthesis2022}",
+    "cite-moved: \\cite{heSyntheticDataGenerative2023}",
+    "cite-lowconf: \\cite{hedrichGeneratingSyntheticDatasets2026} (0.37)",
+    "cite-moved: \\cite{hedrichGeneratingSyntheticDatasets2026}",
+    "cite-merged: \\cite{heSyntheticDataGenerative2023,aziziSyntheticDataDiffusion2023}"
+   ],
+   "status": "fetched",
+   "chars": 823
+  },
+  {
+   "id": "P006",
+   "line": 18,
+   "section": "Motivation",
+   "indent": "",
+   "original": "Wildlife species recognition for a handheld optic exercises both problems at once, which makes it a demanding test case. It combines a fixed latency ceiling, a fine-grained class universe, a long-tailed image supply, and a product requirement that the resulting weights remain commercially licensable. None of these constraints was constructed for the experiment.",
+   "sent": "Wildlife species recognition for a handheld optic exercises both problems at once, which makes it a demanding test case. It combines a fixed latency ceiling, a fine-grained class universe, a long-tailed image supply, and a product requirement that the resulting weights remain commercially licensable. None of these constraints was constructed for the experiment.",
+   "received": "Recognizing wildlife species with a handheld optic presents two problems at once, making it a demanding test case. It involves a fixed latency ceiling, a fine-grained class universe, a long-tailed image supply, and the requirement that the resulting weights be commercially licensable. None of these constraints were created for the experiment.",
+   "restored": "Recognizing wildlife species with a handheld optic presents two problems at once, making it a demanding test case. It involves a fixed latency ceiling, a fine-grained class universe, a long-tailed image supply, and the requirement that the resulting weights be commercially licensable. None of these constraints were created for the experiment.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 363
+  },
+  {
+   "id": "P007",
+   "line": 23,
+   "section": "Objective",
+   "indent": "",
+   "original": "The objective is to build, train and evaluate a nano-scale detector for wildlife species recognition on embedded hardware, and to measure which of the available training strategies actually helps it. Nano-scale here means the smallest variants of a detector family, at roughly one to three million parameters. Detection accuracy means mean average precision over the species classes, which scores the box and the species together, so a correctly located animal with the wrong species name counts as a miss. It is reported throughout on the mixed test set, the union of the real and synthetic held-out images, with the real test set breakout stated alongside it every time (\\Cref{sec:mixed_default}). Four research questions organize the work:",
+   "sent": "The objective is to build, train and evaluate a nano-scale detector for wildlife species recognition on embedded hardware, and to measure which of the available training strategies actually helps it. Nano-scale here means the smallest variants of a detector family, at roughly one to three million parameters. Detection accuracy means mean average precision over the species classes, which scores the box and the species together, so a correctly located animal with the wrong species name counts as a miss. It is reported throughout on the mixed test set, the union of the real and synthetic held-out images, with the real test set breakout stated alongside it every time (ZQX0ZQX). Four research questions organize the work:",
+   "received": "The objective is to build, train, and evaluate a nanoscale detector for recognizing wildlife species on embedded hardware and measure which training strategies help it. \"Nano-scale\" refers to the smallest variants of a detector family, with roughly one to three million parameters. Detection accuracy is the mean average precision over species classes, scoring both the box and species together. Thus, a correctly located animal with the wrong species name is counted as a miss. Results are reported on the mixed test set, which is the union of real and synthetic held-out images. The real test set breakout is stated alongside it every time (ZQX0ZQX). Four research questions organize the work:",
+   "restored": "The objective is to build, train, and evaluate a nanoscale detector for recognizing wildlife species on embedded hardware and measure which training strategies help it. \"Nano-scale\" refers to the smallest variants of a detector family, with roughly one to three million parameters. Detection accuracy is the mean average precision over species classes, scoring both the box and species together. Thus, a correctly located animal with the wrong species name is counted as a miss. Results are reported on the mixed test set, which is the union of real and synthetic held-out images. The real test set breakout is stated alongside it every time (\\Cref{sec:mixed_default}). Four research questions organize the work:",
+   "flags": [],
+   "status": "fetched",
+   "chars": 725
+  },
+  {
+   "id": "P008",
+   "line": 26,
+   "section": "Objective",
+   "indent": "    ",
+   "original": "\\item Does knowledge distillation from a fine-tuned teacher model into a nano-scale student model yield higher detection accuracy than fine-tuning the same student directly on the wildlife dataset, given the domain shift from COCO-style classes to $225$ mammal species?",
+   "sent": "",
+   "received": null,
+   "restored": null,
+   "flags": [
+    "verbatim-echo"
+   ],
+   "status": "held-back",
+   "chars": 0
+  },
+  {
+   "id": "P009",
+   "line": 27,
+   "section": "Objective",
+   "indent": "    ",
+   "original": "\\item Which synthetic-image generator produces the most useful training data for this domain, and do the two criteria available before any detector is trained, apparent visual realism and per-image price, predict that ranking?",
+   "sent": "",
+   "received": null,
+   "restored": null,
+   "flags": [
+    "verbatim-echo"
+   ],
+   "status": "held-back",
+   "chars": 0
+  },
+  {
+   "id": "P010",
+   "line": 28,
+   "section": "Objective",
+   "indent": "    ",
+   "original": "\\item How does the composition of a class's training data, from synthetic images alone through a large pool of real photographs, affect detection accuracy, and does accuracy measured on the mixed test set hold up on the real test set alone?",
+   "sent": "",
+   "received": null,
+   "restored": null,
+   "flags": [
+    "verbatim-echo"
+   ],
+   "status": "held-back",
+   "chars": 0
+  },
+  {
+   "id": "P011",
+   "line": 29,
+   "section": "Objective",
+   "indent": "    ",
+   "original": "\\item Does a nano-scale detector meet the per-frame latency budget of the target hardware without quantization or any other compression step, measured on a target-adjacent proxy device?",
+   "sent": "",
+   "received": null,
+   "restored": null,
+   "flags": [
+    "verbatim-echo"
+   ],
+   "status": "held-back",
+   "chars": 0
+  },
+  {
+   "id": "P012",
+   "line": 32,
+   "section": "Objective",
+   "indent": "",
+   "original": "The four questions did not receive equal effort. Roughly $80\\%$ of the available time went into dataset construction and synthetic-image generation, so questions $2$ and $3$ carry the bulk of the experimental work. Question $1$ is answered from a single teacher and student pairing at one distillation hyperparameter setting, and question $4$ from a single full-precision runtime measurement on the proxy device. \\Cref{sec:limitations} treats that reduced scope as a named limitation. Each question is restated and answered in turn in \\Cref{chapter:discussion_conclusion}, from the evidence assembled in \\Cref{chapter:results}.",
+   "sent": "The four questions did not receive equal effort. Roughly 80% of the available time went into dataset construction and synthetic-image generation, so questions 2 and 3 carry the bulk of the experimental work. Question 1 is answered from a single teacher and student pairing at one distillation hyperparameter setting, and question 4 from a single full-precision runtime measurement on the proxy device. ZQX0ZQX treats that reduced scope as a named limitation. Each question is restated and answered in turn in ZQX1ZQX, from the evidence assembled in ZQX2ZQX.",
+   "received": "The four questions did not receive equal attention. About 80% of the available time was spent on dataset construction and generating synthetic images, so questions 2 and 3 represent most of the experimental work. Question 1 was answered using data from a single teacher-student pairing and a single distillation hyperparameter setting. Question 4 was answered using a single full-precision runtime measurement on the proxy device. ZQX0ZQX acknowledges this limited scope as a defined limitation. ZQX1ZQX restates and answers each question in turn, using the evidence assembled in ZQX2ZQX.",
+   "restored": "The four questions did not receive equal attention. About $80\\%$ of the available time was spent on dataset construction and generating synthetic images, so questions $2$ and $3$ represent most of the experimental work. Question $1$ was answered using data from a single teacher-student pairing and a single distillation hyperparameter setting. Question $4$ was answered using a single full-precision runtime measurement on the proxy device. \\Cref{sec:limitations} acknowledges this limited scope as a defined limitation. \\Cref{chapter:discussion_conclusion} restates and answers each question in turn, using the evidence assembled in \\Cref{chapter:results}.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 557
+  },
+  {
+   "id": "P013",
+   "line": 36,
+   "section": "Environment",
+   "indent": "",
+   "original": "This Master's thesis is carried out in partnership with \\textit{inovex GmbH} \\cite{inovex}, an IT consultancy headquartered in Karlsruhe, Germany. \\textit{inovex} maintains practice areas spanning \\textit{Application Development}, \\textit{IT Operations}, and \\textit{Data Management \\& Analytics}, and the present work is hosted within the latter. The collaboration grants access to \\textit{inovex}'s internal compute infrastructure, whose GPU resources make the training and distillation experiments feasible within the available timeframe. \\textit{inovex} placed no fixed requirements on the research direction, leaving the choice and design of the technical approach to the author.",
+   "sent": "This Master's thesis is carried out in partnership with inovex GmbH, an IT consultancy headquartered in Karlsruhe, Germany. inovex maintains practice areas spanning Application Development, IT Operations, and ZQX0ZQX, and the present work is hosted within the latter. The collaboration grants access to inovex's internal compute infrastructure, whose GPU resources make the training and distillation experiments feasible within the available timeframe. inovex placed no fixed requirements on the research direction, leaving the choice and design of the technical approach to the author.",
+   "received": "This Master's thesis is a collaboration with inovex GmbH, an IT consulting firm based in Karlsruhe, Germany. inovex has practice areas in Application Development, IT Operations, and ZQX0ZQX. The current project is hosted in the ZQX0ZQX area. This collaboration provides access to inovex's internal computing infrastructure, whose GPU resources enable the training and distillation experiments to be completed within the allotted time. inovex did not impose any specific requirements on the research direction, allowing the author to determine and design the technical approach.",
+   "restored": "This Master's thesis is carried out in partnership with \\textit{inovex GmbH} \\cite{inovex}, an IT consultancy headquartered in Karlsruhe, Germany. \\textit{inovex} maintains practice areas spanning \\textit{Application Development}, \\textit{IT Operations}, and \\textit{Data Management \\& Analytics}, and the present work is hosted within the latter. The collaboration grants access to \\textit{inovex}'s internal compute infrastructure, whose GPU resources make the training and distillation experiments feasible within the available timeframe. \\textit{inovex} placed no fixed requirements on the research direction, leaving the choice and design of the technical approach to the author.",
+   "flags": [
+    "token-lost: 1 LaTeX span(s) came back more than once: '\\\\textit{Data Management \\\\& Analytics}'"
+   ],
+   "status": "fetched",
+   "chars": 586
+  },
+  {
+   "id": "P014",
+   "line": 39,
+   "section": "Utilization of AI Tools in Thesis Preparation",
+   "indent": "",
+   "original": "Several AI tools supported the preparation of this work, in line with the guidelines issued by \\textit{Hochschule Karlsruhe} on May 16, 2024. ChatGPT \\cite{ChatGPT}, DeepL Translator \\cite{DeepLTranslateWorlds}, and DeepL Write \\cite{DeepLWriteAIpowered} were used to polish sentence structure, correct spelling and grammar, and translate text the author had already written. Because this use only reformulates content the author originally authored, it falls outside the guideline's citation requirement, but is disclosed here regardless.",
+   "sent": "Several AI tools supported the preparation of this work, in line with the guidelines issued by Hochschule Karlsruhe on May 16, 2024. ChatGPT, DeepL Translator, and DeepL Write were used to polish sentence structure, correct spelling and grammar, and translate text the author had already written. Because this use only reformulates content the author originally authored, it falls outside the guideline's citation requirement, but is disclosed here regardless.",
+   "received": "In line with the guidelines issued by Hochschule Karlsruhe on May 16, 2024, several AI tools supported the preparation of this work. ChatGPT, DeepL Translator, and DeepL Write were used to refine sentence structure, correct spelling and grammar errors, and translate the author's existing text. Since these tools only reformulated content originally written by the author, they fall outside the guideline's citation requirement. However, they are disclosed here regardless.",
+   "restored": "In line with the guidelines issued by \\textit{Hochschule Karlsruhe} on May 16, 2024, several AI tools supported the preparation of this work. ChatGPT, DeepL Translator, and DeepL Write were used to refine sentence structure, correct spelling and grammar errors, and translate the author's existing text \\cite{ChatGPT,DeepLTranslateWorlds,DeepLWriteAIpowered}. Since these tools only reformulated content originally written by the author, they fall outside the guideline's citation requirement. However, they are disclosed here regardless.",
+   "flags": [
+    "cite-moved: \\cite{ChatGPT}",
+    "cite-moved: \\cite{DeepLTranslateWorlds}",
+    "cite-moved: \\cite{DeepLWriteAIpowered}",
+    "cite-merged: \\cite{ChatGPT,DeepLTranslateWorlds,DeepLWriteAIpowered}"
+   ],
+   "status": "fetched",
+   "chars": 460
+  },
+  {
+   "id": "P015",
+   "line": 41,
+   "section": "Utilization of AI Tools in Thesis Preparation",
+   "indent": "",
+   "original": "Technical work drew on additional AI assistance. \\textit{Claude} \\cite{Claude} and \\textit{Claude Code} \\cite{ClaudeCode}, Anthropic's models and coding agent, and \\textit{Gemini} \\cite{GeminiAPI} supported idea generation, literature research, and the coding, debugging, and drafting behind the data pipelines, training, evaluation, and this manuscript's prose. All AI-assisted output was reviewed, tested, and corrected by the author, whose research questions, experimental design, and interpretation of results remain their own.",
+   "sent": "Technical work drew on additional AI assistance. Claude and Claude Code, Anthropic's models and coding agent, and Gemini supported idea generation, literature research, and the coding, debugging, and drafting behind the data pipelines, training, evaluation, and this manuscript's prose. All AI-assisted output was reviewed, tested, and corrected by the author, whose research questions, experimental design, and interpretation of results remain their own.",
+   "received": "Additional AI assistance was drawn upon for technical work. Anthropic's Claude and Claude Code models, as well as their coding agent, Gemini, supported idea generation, literature research, and the coding, debugging, and drafting behind the data pipelines, training, evaluation, and prose of this manuscript. The author reviewed, tested, and corrected all AI-assisted output. The author's research questions, experimental design, and interpretation of results remain their own.",
+   "restored": "Additional AI assistance was drawn upon for technical work. Anthropic's \\textit{Claude} and \\textit{Claude Code} models, as well as their coding agent, \\textit{Gemini}, supported idea generation, literature research, and the coding, debugging, and drafting behind the data pipelines, training, evaluation, and prose of this manuscript \\cite{Claude,ClaudeCode,GeminiAPI}. The author reviewed, tested, and corrected all AI-assisted output. The author's research questions, experimental design, and interpretation of results remain their own.",
+   "flags": [
+    "cite-moved: \\cite{Claude}",
+    "cite-moved: \\cite{ClaudeCode}",
+    "cite-moved: \\cite{GeminiAPI}",
+    "cite-merged: \\cite{Claude,ClaudeCode,GeminiAPI}"
+   ],
+   "status": "fetched",
+   "chars": 455
+  },
+  {
+   "id": "P016",
+   "line": 46,
+   "section": "Pre-Work and Preliminary Resources",
+   "indent": "",
+   "original": "Several resources and constraints were fixed before this work's own experimental work began. They are recorded here because they bound the design space the later chapters operate in.",
+   "sent": "Several resources and constraints were fixed before this work's own experimental work began. They are recorded here because they bound the design space the later chapters operate in.",
+   "received": "Several resources and constraints were established before the experimental work for this project began. These are recorded here because they define the design space in which the later chapters operate.",
+   "restored": "Several resources and constraints were established before the experimental work for this project began. These are recorded here because they define the design space in which the later chapters operate.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 182
+  },
+  {
+   "id": "P017",
+   "line": 49,
+   "section": "The Production Baseline",
+   "indent": "",
+   "original": "The \\textit{AX Visio} already ships a two-stage recognition pipeline, a fine-tuned \\textit{YOLOv5s} detector followed by the \\textit{SpeciesNet} \\cite{gadotCropNotCrop2024a} classifier applied to each detected crop. The full \\textit{MegaDetector} \\cite{beeryEfficientPipelineCamera2019} was too large for the device and was replaced there by the smaller detector. That arrangement supplied both the accuracy reference this work measures against and the architecture family its student model was drawn from (\\Cref{sec:lit_yolo_vs_ensemble,sec:model_selection}).",
+   "sent": "The AX Visio already ships a two-stage recognition pipeline, a fine-tuned YOLOv5s detector followed by the SpeciesNet classifier applied to each detected crop. The full MegaDetector was too large for the device and was replaced there by the smaller detector. That arrangement supplied both the accuracy reference this work measures against and the architecture family its student model was drawn from (ZQX0ZQX).",
+   "received": "The AX Visio comes with a two-stage recognition pipeline: a fine-tuned YOLOv5s detector followed by a SpeciesNet classifier that is applied to each detected crop. The full MegaDetector was too large for the device, so a smaller detector was used instead. This arrangement provided the accuracy standard against which this work is measured and the architectural family from which its student model was drawn (ZQX0ZQX).",
+   "restored": "The \\textit{AX Visio} comes with a two-stage recognition pipeline: a fine-tuned \\textit{YOLOv5s} detector followed by a \\textit{SpeciesNet} classifier that is applied to each detected crop \\cite{gadotCropNotCrop2024a}. The full \\textit{MegaDetector} was too large for the device, so a smaller detector was used instead \\cite{beeryEfficientPipelineCamera2019}. This arrangement provided the accuracy standard against which this work is measured and the architectural family from which its student model was drawn (\\Cref{sec:lit_yolo_vs_ensemble,sec:model_selection}).",
+   "flags": [
+    "cite-moved: \\cite{gadotCropNotCrop2024a}",
+    "cite-moved: \\cite{beeryEfficientPipelineCamera2019}"
+   ],
+   "status": "fetched",
+   "chars": 411
+  },
+  {
+   "id": "P018",
+   "line": 52,
+   "section": "Class Universe and Species Selection",
+   "indent": "",
+   "original": "The class universe was inherited rather than designed. It originates in \\textit{SpeciesNet}'s published taxonomy, restricted to non-bird mammals and then filtered down by the AX Visio product owner to the labels a binocular user is plausibly able to observe (\\Cref{sec:target_class_definition}). Inclusion decisions drew on observation counts scraped from \\textit{GBIF} \\cite{GBIF}, on the premise that a species with very few recorded observations is both hard to train on and unlikely to be encountered.",
+   "sent": "The class universe was inherited rather than designed. It originates in SpeciesNet's published taxonomy, restricted to non-bird mammals and then filtered down by the AX Visio product owner to the labels a binocular user is plausibly able to observe (ZQX0ZQX). Inclusion decisions drew on observation counts scraped from GBIF, on the premise that a species with very few recorded observations is both hard to train on and unlikely to be encountered.",
+   "received": "The class universe was inherited rather than designed. It originates from the published taxonomy of SpeciesNet, which is restricted to non-bird mammals. Then, the AX Visio product owner filtered it down to the labels that a binocular user can plausibly observe (ZQX0ZQX). Decisions about which species to include were based on observation counts scraped from GBIF. The premise was that species with very few recorded observations are both hard to train on and unlikely to be encountered.",
+   "restored": "The class universe was inherited rather than designed. It originates from the published taxonomy of \\textit{SpeciesNet}, which is restricted to non-bird mammals. Then, the AX Visio product owner filtered it down to the labels that a binocular user can plausibly observe (\\Cref{sec:target_class_definition}). Decisions about which species to include were based on observation counts scraped from \\textit{GBIF}. The premise was that species with very few recorded observations are both hard to train on and unlikely to be encountered \\cite{GBIF}.",
+   "flags": [
+    "cite-moved: \\cite{GBIF}"
+   ],
+   "status": "fetched",
+   "chars": 448
+  },
+  {
+   "id": "P019",
+   "line": 55,
+   "section": "Licensing Constraint",
+   "indent": "",
+   "original": "Because the resulting weights are intended for a commercial product, \\textit{YOLOv5}'s licensing bounded which codebase revision was usable at all, independently of any accuracy argument (\\Cref{sec:lit_yolo_family,sec:model_selection}).",
+   "sent": "Because the resulting weights are intended for a commercial product, YOLOv5's licensing bounded which codebase revision was usable at all, independently of any accuracy argument (ZQX0ZQX).",
+   "received": "Because the resulting weights are intended for a commercial product, the licensing of YOLOv5 bound which codebase revision could be used, regardless of any argument about accuracy (ZQX0ZQX).",
+   "restored": "Because the resulting weights are intended for a commercial product, the licensing of \\textit{YOLOv5} bound which codebase revision could be used, regardless of any argument about accuracy (\\Cref{sec:lit_yolo_family,sec:model_selection}).",
+   "flags": [],
+   "status": "fetched",
+   "chars": 188
+  },
+  {
+   "id": "P020",
+   "line": 58,
+   "section": "Image Sources Assessed in Advance",
+   "indent": "",
+   "original": "Candidate corpora were surveyed before sourcing began. The \\textit{iNaturalist} competition datasets \\cite{hornINaturalistSpeciesClassification2018} were preferred as an open collection of daylight photographs with heavy overlap onto the target class list. Camera-trap archives were examined and largely set aside, since their imagery is shaped by a fixed trap rather than by a handheld optic (\\Cref{sec:data_sourcing_and_taxonomy}).",
+   "sent": "Candidate corpora were surveyed before sourcing began. The iNaturalist competition datasets were preferred as an open collection of daylight photographs with heavy overlap onto the target class list. Camera-trap archives were examined and largely set aside, since their imagery is shaped by a fixed trap rather than by a handheld optic (ZQX0ZQX).",
+   "received": "Before sourcing began, candidate corpora were surveyed. The iNaturalist competition datasets were chosen because they are an open collection of daylight photographs with significant overlap with the target class list. Camera-trap archives were examined but largely set aside since the imagery is shaped by a fixed trap rather than a handheld optic.",
+   "restored": "Candidate corpora were surveyed before sourcing began. The \\textit{iNaturalist} competition datasets \\cite{hornINaturalistSpeciesClassification2018} were preferred as an open collection of daylight photographs with heavy overlap onto the target class list. Camera-trap archives were examined and largely set aside, since their imagery is shaped by a fixed trap rather than by a handheld optic (\\Cref{sec:data_sourcing_and_taxonomy}).",
+   "flags": [
+    "token-lost: 1 LaTeX span(s) did not come back: '\\\\Cref{sec:data_sourcing_and_taxonomy}'"
+   ],
+   "status": "fetched",
+   "chars": 346
+  },
+  {
+   "id": "P021",
+   "line": 63,
+   "section": "Structure",
+   "indent": "",
+   "original": "The remainder of this thesis is organized into four chapters and an appendix. The \\hyperref[chapter:literature_review]{\\textit{Literature Review}} traces object detection from its two architectural lineages to the nano-scale variants relevant here, then covers generative image models, the sim-to-real gap, synthetic-image quality evaluation and the long-tail literature, and closes with knowledge distillation, embedded inference feasibility and the evaluation literature this work's metrics draw on. \\hyperref[chapter:methods_implementation]{\\textit{Methods and Implementation}} describes how the dataset and the experiments were built, from class taxonomy and image sourcing through curation, synthetic supplementation and augmentation, then a sub-study comparing ten generators across three prompt regimes, and finally the training setup and the evaluation framework.",
+   "sent": "The remainder of this thesis is organized into four chapters and an appendix. The ZQX0ZQX traces object detection from its two architectural lineages to the nano-scale variants relevant here, then covers generative image models, the sim-to-real gap, synthetic-image quality evaluation and the long-tail literature, and closes with knowledge distillation, embedded inference feasibility and the evaluation literature this work's metrics draw on. ZQX1ZQX describes how the dataset and the experiments were built, from class taxonomy and image sourcing through curation, synthetic supplementation and augmentation, then a sub-study comparing ten generators across three prompt regimes, and finally the training setup and the evaluation framework.",
+   "received": "The remainder of this thesis is organized into four chapters and an appendix. Chapter ZQX0ZQX traces object detection from its two architectural lineages to nano-scale variants, which are relevant here. It then covers generative image models, the sim-to-real gap, synthetic image quality evaluation, and the long-tail literature. Finally, it closes with knowledge distillation, embedded inference feasibility, and the evaluation literature that this work's metrics draw on. Chapter ZQX1ZQX describes how the dataset and experiments were developed, including class taxonomy, image sourcing, curation, synthetic supplementation, and augmentation. It also covers a sub-study that compares ten generators across three prompt regimes and the training setup and evaluation framework.",
+   "restored": "The remainder of this thesis is organized into four chapters and an appendix. Chapter \\hyperref[chapter:literature_review]{\\textit{Literature Review}} traces object detection from its two architectural lineages to nano-scale variants, which are relevant here. It then covers generative image models, the sim-to-real gap, synthetic image quality evaluation, and the long-tail literature. Finally, it closes with knowledge distillation, embedded inference feasibility, and the evaluation literature that this work's metrics draw on. Chapter \\hyperref[chapter:methods_implementation]{\\textit{Methods and Implementation}} describes how the dataset and experiments were developed, including class taxonomy, image sourcing, curation, synthetic supplementation, and augmentation. It also covers a sub-study that compares ten generators across three prompt regimes and the training setup and evaluation framework.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 743
+  },
+  {
+   "id": "P022",
+   "line": 65,
+   "section": "Structure",
+   "indent": "",
+   "original": "The \\hyperref[chapter:results]{\\textit{Results}} chapter reports the generator comparison, detection performance across the training bands and test domains, the distillation-versus-direct-fine-tuning comparison, and the runtime benchmark on the proxy device. \\hyperref[chapter:discussion_conclusion]{\\textit{Discussion and Conclusion}} answers the four research questions from that evidence, states the limitations, and proposes the further work they motivate. The \\hyperref[appendix]{\\textit{Appendix}} holds supplementary material kept out of the main chapters, including the per-class band assignment, the frozen look-alike group listing, the full result tables, and qualitative sample galleries.",
+   "sent": "The ZQX0ZQX chapter reports the generator comparison, detection performance across the training bands and test domains, the distillation-versus-direct-fine-tuning comparison, and the runtime benchmark on the proxy device. ZQX1ZQX answers the four research questions from that evidence, states the limitations, and proposes the further work they motivate. The ZQX2ZQX holds supplementary material kept out of the main chapters, including the per-class band assignment, the frozen look-alike group listing, the full result tables, and qualitative sample galleries.",
+   "received": "The ZQX0ZQX chapter presents a comparison of generators, detection performance across training bands and test domains, a comparison of distillation versus direct fine-tuning, and a runtime benchmark on the proxy device. The ZQX1ZQX chapter uses this evidence to answer the four research questions, state the limitations, and propose further work. ZQX2ZQX contains supplementary material excluded from the main chapters, including per-class band assignments, frozen look-alike group listings, full result tables, and qualitative sample galleries.",
+   "restored": "The \\hyperref[chapter:results]{\\textit{Results}} chapter presents a comparison of generators, detection performance across training bands and test domains, a comparison of distillation versus direct fine-tuning, and a runtime benchmark on the proxy device. The \\hyperref[chapter:discussion_conclusion]{\\textit{Discussion and Conclusion}} chapter uses this evidence to answer the four research questions, state the limitations, and propose further work. \\hyperref[appendix]{\\textit{Appendix}} contains supplementary material excluded from the main chapters, including per-class band assignments, frozen look-alike group listings, full result tables, and qualitative sample galleries.",
+   "flags": [],
+   "status": "fetched",
+   "chars": 562
+  }
+ ],
+ "applied_at": "2026-09-27T21:10:13+00:00"
+}
