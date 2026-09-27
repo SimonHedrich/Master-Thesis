@@ -33,6 +33,7 @@ character-identical instead of being rephrased.
 
 from __future__ import annotations
 
+import collections
 import re
 from dataclasses import dataclass, field
 
@@ -55,8 +56,10 @@ MASKED_COMMANDS: frozenset[str] = frozenset({
     "si", "num", "SI", "qty",
 })
 
-# Escaped literals: the backslash is load-bearing and DeepL drops it.
-ESCAPED_LITERAL_RE = re.compile(r"\\[%&_#$~^{}]")
+# Escaped literals: the backslash is load-bearing and DeepL drops it. Includes
+# the spacing commands (`\,` `\;` `\ ` `\/` `\-`), which are punctuation-like
+# control symbols rather than named commands.
+ESCAPED_LITERAL_RE = re.compile(r"\\[%&_#$~^{},;/ \-]")
 
 # A control sequence with no arguments, e.g. \newpage, \midrule, \hfill, \pm.
 BARE_COMMAND_RE = re.compile(r"\\[A-Za-z@]+\*?")
@@ -364,3 +367,454 @@ def iter_lines(document: str) -> list[Line]:
         )
         lines.append(Line(text=text, ending=ending, is_prose=is_prose, number=number))
     return lines
+
+
+# ── Flattening: plain prose out, markup back in ──────────────────────────────
+#
+# `mask` hides every span behind a noun token. That is safe, but the service then
+# treats each token as a noun and restructures around it. `flatten` goes one
+# step further for the spans that *have* a natural plain-text reading: a
+# `\textit{AX Visio}` is sent as "AX Visio", a `$225$` as "225", a `\cite{}` is
+# removed altogether. The paragraph the service sees is ordinary prose. On the
+# way back, `restore` re-wraps the plain strings, re-inserts the citations at the
+# end of the sentence they belonged to, and reports every span it could not
+# place, so the caller can hand that paragraph to a reviewer instead of the
+# manuscript.
+
+# Wrappers whose argument is prose-like enough to send bare.
+FLATTEN_COMMANDS: frozenset[str] = frozenset({
+    "textit", "textbf", "texttt", "emph", "textsc", "enquote",
+})
+
+# Citation commands: stripped from the sent text, re-attached afterwards.
+CITE_COMMANDS: frozenset[str] = frozenset({
+    "cite", "textcite", "parencite", "citeauthor", "citeyear", "footcite",
+})
+
+# Escaped literals that read naturally as their bare character.
+FLATTEN_LITERALS: dict[str, str] = {r"\%": "%", r"\&": "&", r"\_": "_", r"\#": "#"}
+
+# Inline-math tokens with an obvious plain rendering. Anything else in a math
+# span (a variable, a superscript, a \frac) keeps the span masked as a token.
+_MATH_TOKEN_RENDERING: tuple[tuple[str, str], ...] = (
+    ("{,}", ","), (r"\%", "%"), (r"\,", " "), (r"\times", " × "), (r"\pm", " ± "),
+    (r"\approx", " ≈ "), (r"\leq", " ≤ "), (r"\geq", " ≥ "), (r"\sim", " ~ "),
+)
+_MATH_UNIT_RE = re.compile(r"\\(?:mathrm|text|textrm)\{([A-Za-z%]{1,4})\}")
+_NUMERIC_PLAIN_RE = re.compile(
+    r"^[-+]?\d[\d.,]*(?:\s?%|\s?[×±≈≤≥~x]\s?\d[\d.,]*%?)*(?:\s?[A-Za-z]{1,4})?$"
+)
+
+_CITE_KEYS_RE = re.compile(
+    r"\\(?:cite|textcite|parencite|citeauthor|citeyear|footcite)\*?(?:\[[^\]]*\])*\{([^}]*)\}"
+)
+
+# An unescaped % starts a comment that runs to the end of the line.
+_TRAILING_COMMENT_RE = re.compile(r"(?<!\\)(\s*%.*)$")
+
+_ITEM_PREFIX_RE = re.compile(r"^(\\item\s+)")
+
+
+def render_numeric_math(span: str) -> str | None:
+    """The plain-text form of a simple numeric `$…$` span, or None if it has none.
+
+    `$225$` -> "225", `$28\\%$` -> "28%", `$1{,}200$` -> "1,200",
+    `$193\\,\\mathrm{M}$` -> "193 M", `$512 \\times 512$` -> "512 × 512".
+    `$T$`, `$10^{-4}$` and `$\\Delta_{\\text{fine}}$` -> None: mask them instead.
+    """
+    inner = span[1:-1] if span.startswith("$") and span.endswith("$") else span
+    plain = _MATH_UNIT_RE.sub(r"\1", inner)
+    for token, rendering in _MATH_TOKEN_RENDERING:
+        plain = plain.replace(token, rendering)
+    plain = re.sub(r"\s+", " ", plain).strip()
+    if "\\" in plain or any(ch in plain for ch in "{}^_"):
+        return None
+    return plain if _NUMERIC_PLAIN_RE.match(plain) else None
+
+
+@dataclass(frozen=True)
+class FlatSpan:
+    """A span sent as plain text, to be re-wrapped on the way back.
+
+    `before` and `after` are the few characters around it in the sent text, so
+    that a plain string occurring more than once in the improved text ("and",
+    "2") can be put back where it belongs.
+    """
+
+    plain: str
+    latex: str
+    before: str = ""
+    after: str = ""
+
+
+@dataclass(frozen=True)
+class Citation:
+    """A citation removed from the sent text, with where it came from."""
+
+    latex: str
+    sentence: int         # index into split_sentences(flattened text)
+    sentence_final: bool  # nothing but closing punctuation followed it
+
+    @property
+    def keys(self) -> list[str]:
+        match = _CITE_KEYS_RE.match(self.latex)
+        return [k.strip() for k in match.group(1).split(",")] if match else []
+
+
+@dataclass
+class Flattened:
+    """A paragraph reduced to plain prose plus everything needed to rebuild it."""
+
+    text: str                              # what gets sent
+    item_prefix: str = ""                  # a leading "\item " peeled off, if any
+    comment_suffix: str = ""               # a trailing "% …" comment, kept verbatim
+    masked: Masked = field(default_factory=lambda: Masked(text=""))
+    flat_spans: list[FlatSpan] = field(default_factory=list)
+    citations: list[Citation] = field(default_factory=list)
+
+    @property
+    def has_prose(self) -> bool:
+        stripped = PLACEHOLDER_RE.sub("", self.text)
+        return bool(re.search(r"[A-Za-z]{2,}", stripped))
+
+
+def _glued(text: str, start: int, end: int, out: list[str]) -> bool:
+    """Whether the span text[start:end] touches a word character on either side.
+
+    `v$4.0.2$a` and `$30$th` have no plain form that can be found again, so such
+    spans stay masked.
+    """
+    prev = out[-1][-1] if out and out[-1] else ""
+    nxt = text[end] if end < len(text) else ""
+    return bool(re.match(r"\w", prev or " ")) or bool(re.match(r"\w", nxt or " "))
+
+
+def flatten(text: str) -> Flattened:
+    """Reduce `text` to plain prose: strip citations, unwrap text commands,
+    render numeric math, and mask whatever remains as a noun token."""
+    prefix = ""
+    match = _ITEM_PREFIX_RE.match(text)
+    if match:
+        prefix = match.group(1)
+        text = text[match.end():]
+    suffix = ""
+    comment = _TRAILING_COMMENT_RE.search(text)
+    if comment and not text.lstrip().startswith("%"):
+        suffix = comment.group(1)
+        text = text[: comment.start(1)]
+
+    out: list[str] = []
+    masked_spans: list[str] = []
+    # (offset in flattened text, plain, latex); contexts are filled in at the end.
+    flat_positions: list[tuple[int, str, str]] = []
+    cite_positions: list[tuple[int, str]] = []
+    i = 0
+    length = len(text)
+
+    def current_length() -> int:
+        return sum(len(part) for part in out)
+
+    def emit_masked(span: str) -> None:
+        out.append(PLACEHOLDER_TEMPLATE.format(len(masked_spans)))
+        masked_spans.append(span)
+
+    def emit_flat(plain: str, span: str) -> None:
+        flat_positions.append((current_length(), plain, span))
+        out.append(plain)
+
+    while i < length:
+        char = text[i]
+
+        if char == "$":
+            end = _match_inline_math(text, i)
+            if end > i:
+                span = text[i:end]
+                plain = render_numeric_math(span)
+                if plain is not None and not _glued(text, i, end, out):
+                    emit_flat(plain, span)
+                else:
+                    emit_masked(span)
+                i = end
+                continue
+
+        if char == "\\":
+            literal = ESCAPED_LITERAL_RE.match(text, i)
+            if literal:
+                span = literal.group(0)
+                if span in FLATTEN_LITERALS:
+                    emit_flat(FLATTEN_LITERALS[span], span)
+                else:
+                    emit_masked(span)
+                i = literal.end()
+                continue
+
+            command = BARE_COMMAND_RE.match(text, i)
+            if command:
+                name = command.group(0).lstrip("\\").rstrip("*")
+                end = command.end()
+                if name in MASKED_COMMANDS or name in FLATTEN_COMMANDS or name in CITE_COMMANDS:
+                    while end < length:
+                        if text[end] == "[":
+                            nxt = _match_balanced(text, end, "[", "]")
+                        elif text[end] == "{":
+                            nxt = _match_balanced(text, end, "{", "}")
+                        else:
+                            break
+                        if nxt == end:
+                            break
+                        end = nxt
+                span = text[i:end]
+
+                if name in CITE_COMMANDS:
+                    # Drop the citation together with the space that led into
+                    # it: "large \cite{x}, which" -> "large, which".
+                    if out and out[-1].endswith(" "):
+                        out[-1] = out[-1][:-1]
+                        if not out[-1]:
+                            out.pop()
+                    elif end < length and text[end] == " ":
+                        end += 1  # "(\cite{x} and" -> "(and"
+                    cite_positions.append((current_length(), span))
+                    i = end
+                    continue
+
+                if name in FLATTEN_COMMANDS:
+                    inner_start = span.find("{")
+                    inner = span[inner_start + 1:-1] if inner_start >= 0 and span.endswith("}") else ""
+                    # A wrapper whose argument itself carries markup is not
+                    # plain prose; keep it a token.
+                    if inner and "\\" not in inner and "$" not in inner and not _glued(text, i, end, out):
+                        plain = f'"{inner}"' if name == "enquote" else inner
+                        emit_flat(plain, span)
+                        i = end
+                        continue
+
+                emit_masked(span)
+                i = end
+                continue
+
+        out.append(char)
+        i += 1
+
+    flat_text = "".join(out)
+
+    flat_spans = [
+        FlatSpan(
+            plain=plain, latex=latex,
+            before=flat_text[max(0, offset - 24):offset],
+            after=flat_text[offset + len(plain):offset + len(plain) + 24],
+        )
+        for offset, plain, latex in flat_positions
+    ]
+
+    sentences = split_sentences(flat_text)
+    bounds: list[tuple[int, int]] = []
+    pos = 0
+    for sentence in sentences:
+        bounds.append((pos, pos + len(sentence)))
+        pos += len(sentence)
+    citations: list[Citation] = []
+    for offset, latex in cite_positions:
+        index = len(bounds) - 1
+        for k, (start, end) in enumerate(bounds):
+            if offset < end:
+                index = k
+                break
+        remainder = flat_text[offset:bounds[index][1]] if bounds else ""
+        final = not re.search(r"[A-Za-z0-9]", remainder)
+        citations.append(Citation(latex=latex, sentence=max(index, 0), sentence_final=final))
+
+    return Flattened(
+        text=flat_text,
+        item_prefix=prefix,
+        comment_suffix=suffix,
+        masked=Masked(text=flat_text, spans=masked_spans),
+        flat_spans=flat_spans,
+        citations=citations,
+    )
+
+
+@dataclass
+class Restored:
+    """The rebuilt paragraph and everything that did not go back cleanly."""
+
+    text: str
+    flags: list[str] = field(default_factory=list)
+
+    @property
+    def clean(self) -> bool:
+        return not any(f.startswith(("format-lost", "token-lost")) for f in self.flags)
+
+
+_STOPWORDS = frozenset(
+    "the a an and or of to in on for with that this those these is are was were be "
+    "been by as at it its from than which who whose into not no but if then so such".split()
+)
+
+
+def _content_words(sentence: str) -> set[str]:
+    return {
+        w for w in re.findall(r"[a-z][a-z\-]{2,}", sentence.lower()) if w not in _STOPWORDS
+    }
+
+
+def align_sentences(original: list[str], improved: list[str]) -> list[tuple[int, float]]:
+    """For each original sentence, the improved sentence it best matches.
+
+    Monotonic and greedy: sentence i maps to some j at or after the mapping of
+    sentence i-1, so a rephrasing that merges or splits sentences still maps
+    every original sentence somewhere sensible. Returns (index, similarity).
+    """
+    result: list[tuple[int, float]] = []
+    improved_words = [_content_words(s) for s in improved]
+    floor = 0
+    for sentence in original:
+        words = _content_words(sentence)
+        best_j, best_score = floor, 0.0
+        for j in range(floor, len(improved)):
+            union = words | improved_words[j]
+            score = len(words & improved_words[j]) / len(union) if union else 0.0
+            if score > best_score:
+                best_j, best_score = j, score
+        result.append((min(best_j, max(len(improved) - 1, 0)), best_score))
+        floor = best_j
+    return result
+
+
+def _boundary_pattern(plain: str, flags: int = 0) -> re.Pattern[str]:
+    """A regex for `plain` that will not match inside a longer word or number."""
+    head = r"(?<![\w.,])" if re.match(r"\w", plain) else ""
+    tail = r"(?![\w]|[.,]\d)" if re.search(r"\w$", plain) else ""
+    return re.compile(head + re.escape(plain) + tail, flags)
+
+
+def _last_word(text: str) -> str:
+    words = re.findall(r"[\w%]+", text)
+    return words[-1].lower() if words else ""
+
+
+def _first_word(text: str) -> str:
+    words = re.findall(r"[\w%]+", text)
+    return words[0].lower() if words else ""
+
+
+def _pick(candidates: list[re.Match[str]], text: str, span: FlatSpan) -> tuple[re.Match[str], bool]:
+    """The candidate whose surroundings best match the sent text, and whether
+    that choice was unique."""
+    if len(candidates) == 1:
+        return candidates[0], True
+    scored = []
+    for m in candidates:
+        score = 0
+        if _last_word(text[:m.start()]) and _last_word(text[:m.start()]) == _last_word(span.before):
+            score += 1
+        if _first_word(text[m.end():]) and _first_word(text[m.end():]) == _first_word(span.after):
+            score += 1
+        scored.append((score, m))
+    best = max(s for s, _ in scored)
+    winners = [m for s, m in scored if s == best]
+    return winners[0], len(winners) == 1
+
+
+_TERMINAL_RE = re.compile(r"[.!?]+[\"')\]]*\s*$")
+
+
+def _attach(sentence: str, citation_latex: str) -> str:
+    """Put a citation at the end of a sentence, before its closing punctuation."""
+    body = sentence.rstrip()
+    trailing_ws = sentence[len(body):]
+    match = _TERMINAL_RE.search(body)
+    if match:
+        return body[: match.start()] + " " + citation_latex + body[match.start():] + trailing_ws
+    return body + " " + citation_latex + trailing_ws
+
+
+def restore(improved: str, flat: Flattened, *, low_confidence: float = 0.5) -> Restored:
+    """Rebuild a LaTeX paragraph from the service's improved plain prose."""
+    flags: list[str] = []
+
+    # 1. Noun tokens back. A token the service dropped makes the text unusable.
+    try:
+        text = unmask(improved, flat.masked)
+    except PlaceholderLost as exc:
+        return Restored(text="", flags=[f"token-lost: {exc}"])
+    for span in reordered_spans(improved, flat.masked):
+        flags.append(f"token-reordered: {span}")
+
+    # 2. Flattened spans re-wrapped, in order, choosing among repeats by context.
+    replacements: list[tuple[int, int, str]] = []
+    cursor = 0
+    for span in flat.flat_spans:
+        pattern = _boundary_pattern(span.plain)
+        taken = lambda m: any(s < m.end() and m.start() < e for s, e, _ in replacements)  # noqa: E731
+        candidates = [m for m in pattern.finditer(text, cursor) if not taken(m)]
+        if not candidates:
+            candidates = [m for m in pattern.finditer(text) if not taken(m)]
+            if candidates:
+                flags.append(f"wrap-reordered: {span.plain}")
+        if not candidates:
+            ci = [m for m in _boundary_pattern(span.plain, re.IGNORECASE).finditer(text) if not taken(m)]
+            if ci:
+                candidates = ci
+                flags.append(f"wrap-case: {span.plain} -> {ci[0].group(0)}")
+        if not candidates:
+            flags.append(f"format-lost: {span.latex}")
+            continue
+        match, unique = _pick(candidates, text, span)
+        if not unique:
+            flags.append(f"wrap-ambiguous: {span.plain}")
+        replacements.append((match.start(), match.end(), span.latex))
+        cursor = max(cursor, match.end())
+    for start, end, latex in sorted(replacements, reverse=True):
+        text = text[:start] + latex + text[end:]
+
+    # 3. Citations back, each at the end of the sentence its claim moved to.
+    if flat.citations:
+        original_sentences = split_sentences(flat.text)
+        improved_sentences = split_sentences(text) or [text]
+        mapping = align_sentences(original_sentences, improved_sentences)
+        per_sentence: dict[int, list[Citation]] = collections.defaultdict(list)
+        cited_targets: dict[int, set[int]] = collections.defaultdict(set)
+        for citation in flat.citations:
+            j, score = mapping[citation.sentence] if citation.sentence < len(mapping) else (len(improved_sentences) - 1, 0.0)
+            per_sentence[j].append(citation)
+            cited_targets[j].add(citation.sentence)
+            if score < low_confidence:
+                flags.append(f"cite-lowconf: {citation.latex} ({score:.2f})")
+            if not citation.sentence_final:
+                flags.append(f"cite-moved: {citation.latex}")
+        if any(len(origins) > 1 for origins in cited_targets.values()):
+            flags.append("cite-merged-sentences")
+        for j, citations in per_sentence.items():
+            # Plain \cite{} commands landing on one sentence merge into one call.
+            simple = [c for c in citations if c.latex.startswith("\\cite{")]
+            others = [c for c in citations if not c.latex.startswith("\\cite{")]
+            if len(simple) > 1:
+                merged_latex = "\\cite{" + ",".join(k for c in simple for k in c.keys) + "}"
+                flags.append(f"cite-merged: {merged_latex}")
+                calls = [merged_latex] + [c.latex for c in others]
+            else:
+                calls = [c.latex for c in simple] + [c.latex for c in others]
+            for latex in calls:
+                improved_sentences[j] = _attach(improved_sentences[j], latex)
+        text = "".join(improved_sentences)
+
+    return Restored(text=flat.item_prefix + text + flat.comment_suffix, flags=flags)
+
+
+def span_inventory(text: str) -> tuple[list[str], list[str]]:
+    """(non-citation spans, citation keys), both sorted, for equality checks.
+
+    Two texts with the same inventory carry the same LaTeX: nothing lost,
+    nothing invented. Citation keys are compared as a multiset so that
+    `\\cite{a} … \\cite{b}` and `\\cite{a,b}` count as the same.
+    """
+    spans: list[str] = []
+    keys: list[str] = []
+    for span in mask(text).spans:
+        match = _CITE_KEYS_RE.match(span)
+        if match:
+            keys.extend(k.strip() for k in match.group(1).split(","))
+        else:
+            spans.append(span)
+    return sorted(spans), sorted(keys)
