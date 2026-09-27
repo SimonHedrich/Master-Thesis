@@ -2,7 +2,7 @@
 
 This document analyzes the author's bachelor thesis (Overleaf export at `resources/Thesis_Bachelor/`) in detail, as a reference for writing the Master's thesis in this repository. The bachelor thesis covers a different topic — augmenting training data with Stable-Diffusion-generated synthetic images to improve small-object (car) detection with Faster R-CNN — but it establishes the author's/institution's conventions for structure, LaTeX tooling, and academic writing style that the Master's thesis can largely reuse.
 
-Source: `resources/Thesis_Bachelor/thesis.tex` and everything it includes.
+Source: `resources/Thesis_Bachelor/main.tex` and everything it includes.
 
 ## 1. Overview & Metadata
 
@@ -17,7 +17,7 @@ Source: `resources/Thesis_Bachelor/thesis.tex` and everything it includes.
 ## 2. File & Directory Organization
 
 ```
-thesis.tex                         — top-level document; assembles everything via \include/\input
+main.tex                         — top-level document; assembles everything via \include/\input
 chapters/
   1-Introduction.tex
   2-Literature_and_Developments-new.tex   — the version actually \include'd
@@ -74,7 +74,7 @@ figures/
 
 ## 4. Front Matter Pattern
 
-- **Title page**: *not* compiled from `title_page.tex` in the final build — `thesis.tex` instead does `\includepdf[pages={1}]{preamble/Thesis_Bachelor-WS 2024-Simon Hedrich.pdf}`, i.e. a separately designed/exported PDF page is spliced in. `title_page.tex` remains as a LaTeX-native template/fallback with placeholder fields: university, faculty, degree program, thesis title, degree type ("Bachelorarbeit" — change to "Masterarbeit"), author + Matrikelnummer, submission date, and a three-row table for Betreuer/Erstgutachter/Zweitgutachter.
+- **Title page**: *not* compiled from `title_page.tex` in the final build — `main.tex` instead does `\includepdf[pages={1}]{preamble/Thesis_Bachelor-WS 2024-Simon Hedrich.pdf}`, i.e. a separately designed/exported PDF page is spliced in. `title_page.tex` remains as a LaTeX-native template/fallback with placeholder fields: university, faculty, degree program, thesis title, degree type ("Bachelorarbeit" — change to "Masterarbeit"), author + Matrikelnummer, submission date, and a three-row table for Betreuer/Erstgutachter/Zweitgutachter.
 - **Eidesstattliche Erklärung** (declaration of originality): fixed German legal boilerplate + place/date + signature line. Needed verbatim (with updated date) for the Master's thesis.
 - **Abstract**: dual-language, laid out as two `minipage`s in sequence (German "Zusammenfassung" first, then English "Abstract"), each `\input`-ing its own one-file-per-language content (`abstract_ger.tex`, `abstract_eng.tex`) so translations can be edited independently. Each abstract is 3 short paragraphs: problem framing → method summary → results/contribution summary.
 - **Roman-numeral pagination** (`\pagenumbering{Roman}`) for everything before Chapter 1, switching to arabic at the first `\include{chapters/...}`.
