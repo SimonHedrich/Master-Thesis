@@ -149,7 +149,6 @@ def write_csv(rows: list[dict], out: Path) -> None:
 
 
 def write_markdown(rows: list[dict], out: Path, native_run: Path | None) -> None:
-    lo, hi = C.PI400_PASS_BAND_MS
     base = next((r for r in rows if r["image_size"] == 640), None)
     lines = [
         "# Input resolution: accuracy against measured on-device latency",
@@ -184,9 +183,9 @@ def write_markdown(rows: list[dict], out: Path, native_run: Path | None) -> None
         )
     lines += [
         "",
-        f"Design targets: **≤{C.TARGET_LATENCY_MS_QCS605:.0f} ms** on the QCS605 "
-        f"(Pi 400 pass band ≤{lo:.0f}–{hi:.0f} ms) and **≤500 MB**. Every row meets "
-        "the memory budget; none meets the latency budget.",
+        "No fixed latency or memory requirement was set for this work (the 30 ms / "
+        "500 MB figures in older documents were an early working idea, dropped as "
+        "pass/fail criteria on 2026-09-28). Read the rows as a curve, not as a verdict.",
         "",
     ]
     if not any(r["arm"] == "resolution-native" for r in rows):
@@ -206,13 +205,11 @@ def plot(rows: list[dict], out: Path) -> None:
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
 
-    lo, _ = C.PI400_PASS_BAND_MS
     arm1 = sorted([r for r in rows if r["arm"] == "no-retraining"], key=lambda r: r["e2e_ms"])
     arm2 = sorted([r for r in rows if r["arm"] == "resolution-native"], key=lambda r: r["e2e_ms"])
 
     fig, ax = plt.subplots(figsize=(7.4, 4.8), dpi=200)
-    ax.axvspan(1, lo, color="#1baf7a", alpha=0.10, zorder=0)
-    ax.axvline(lo, color=INK_MUTED, linestyle="--", linewidth=1.2, zorder=1)
+    # No fixed latency requirement exists (constants.py): no pass band.
 
     for series, colour, name in ((arm1, BLUE, "mixed"), (arm1, ORANGE, "real")):
         key = "map_mixed" if name == "mixed" else "map_real"
@@ -238,14 +235,7 @@ def plot(rows: list[dict], out: Path) -> None:
     ys = [r[k] for r in rows for k in ("map_mixed", "map_real")]
     pad = max(0.03, (max(ys) - min(ys)) * 0.30)
     ax.set_ylim(min(ys) - pad * 0.5, max(ys) + pad)
-    ax.set_xlim(lo * 0.45, max(r["e2e_ms"] for r in rows) * 2.2)
-
-    ax.annotate(
-        f"$\\leq{C.TARGET_LATENCY_MS_QCS605:.0f}$ ms QCS605 budget\n"
-        f"(Pi 400 pass band $\\leq{lo:.0f}$ ms)",
-        xy=(lo, max(ys) + pad * 0.55), xytext=(4, 0), textcoords="offset points",
-        fontsize=8, color=INK_MUTED, ha="left", va="top",
-    )
+    ax.set_xlim(min(r["e2e_ms"] for r in rows) * 0.45, max(r["e2e_ms"] for r in rows) * 2.2)
     ax.set_xlabel("End-to-end latency per frame on the Raspberry Pi 400, ms "
                   f"(log scale, ONNX Runtime, {C.PROTOCOL['headline_threads']} threads)",
                   fontsize=9.5, color=INK)
@@ -260,8 +250,8 @@ def plot(rows: list[dict], out: Path) -> None:
 
     # A log axis over a ~4x range emits a single decade tick, which leaves the
     # reader unable to read any value off the plot. Label the actual measured
-    # points plus the budget edge instead.
-    ticks = sorted({round(lo)} | {round(r["e2e_ms"]) for r in rows})
+    # points instead.
+    ticks = sorted({round(r["e2e_ms"]) for r in rows})
     ax.set_xticks(ticks)
     ax.set_xticklabels([str(t) for t in ticks])
     ax.minorticks_off()

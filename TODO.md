@@ -658,7 +658,8 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       fp16 arithmetic, so an INT8 speedup measured *there* would understate
       the target's (the QCS605's ARMv8.2 Kryo 300 has both, and the Hexagon
       685's HVX more again); and even a 4× INT8 gain leaves YOLO26n around
-      100 ms/frame, i.e. still above the 30 ms budget on the CPU path alone.
+      100 ms/frame on the CPU path alone (no fixed budget was ever set; the
+      30 ms figure was an early idea, dropped 2026-09-28).
 - [x] **5.2 Export + on-device benchmarking.** **Done 2026-09-18** on a
       **Raspberry Pi 400** (not the RPi 5 originally specified — see the dated
       addendum in `docs/2026-03-09_hardware-proxy-selection.md`: the Pi 4/400
@@ -670,7 +671,7 @@ gitignored) — sync via the Makefile's existing rsync targets instead:
       `docs/2026-09-18_embedded-benchmark-results.md`.
       76 measured cells, 0 failing the thermal validity gate, peak 64.8 °C.
       Headline: YOLO26n 423 ms/frame end-to-end (≈360–381 ms implied on the
-      QCS605 CPU, ~12× the 30 ms target); YOLOv5s 949 ms; the MD+SpeciesNet
+      QCS605 CPU; no fixed target existed, 2026-09-28); YOLOv5s 949 ms; the MD+SpeciesNet
       teacher ≈35 s/frame. No GPU number — `pnnx` cannot convert either
       detector, and NCNN-Vulkan was the device's only GPU compute path.
       No measurement was taken on AX Visio hardware, which was not available.

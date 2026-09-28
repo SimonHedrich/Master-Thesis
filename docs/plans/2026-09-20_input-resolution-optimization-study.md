@@ -1,5 +1,7 @@
 # Input-Resolution Optimization Study — the final training run
 
+> **Correction (2026-09-28):** no fixed per-frame latency or memory requirement was ever set for this thesis. The ≤30 ms / ≤500 MB figures below were an early working idea (`docs/2026-03-10_object-detection-models-for-embedded-systems.md`), not a requirement, and are no longer used as pass/fail criteria. The manuscript reads the benchmark as a comparison between the nano-scale detector and the two-stage ensembles (MegaDetector+SpeciesNet, YOLOv5s+SpeciesNet) and states that real-time use needs further optimization.
+
 **Date:** 2026-09-20
 **Status:** In progress — see the Progress log at the end of this document.
 **Feeds:** `thesis/manuscript/chapters/4-Results.tex` §`sec:results_resolution_tradeoff` (new),

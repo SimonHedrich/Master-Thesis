@@ -1,5 +1,7 @@
 # **Optimization and Deployment of Deep Learning Models for Real-Time Object Recognition on Resource-Constrained Embedded Hardware**
 
+> **Correction (2026-09-28):** no fixed per-frame latency or memory requirement was ever set for this thesis. The ≤30 ms / ≤500 MB figures below were an early working idea (`docs/2026-03-10_object-detection-models-for-embedded-systems.md`), not a requirement, and are no longer used as pass/fail criteria. The manuscript reads the benchmark as a comparison between the nano-scale detector and the two-stage ensembles (MegaDetector+SpeciesNet, YOLOv5s+SpeciesNet) and states that real-time use needs further optimization.
+
 ## **1\. Executive Summary**
 
 The deployment of real-time object detection models on resource-constrained embedded edge hardware represents a highly complex intersection of computer vision architecture design, hardware-specific optimization, and domain-specific applied machine learning. Based on an exhaustive review of current literature, model architectures, and hardware profiling, achieving a target inference latency of ≤30ms at a 640×640 resolution on ARM Cortex-A76 class CPUs and the Qualcomm QCS605 (Hexagon 685 DSP) imposes severe architectural constraints. The absolute memory budget of ≤500MB further restricts operational parameters, mandating the utilization of highly optimized nano-scale convolutional networks or heavily quantized architectures, effectively ruling out massive foundation models for direct on-device inference.

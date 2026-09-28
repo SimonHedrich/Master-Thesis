@@ -68,14 +68,14 @@ most published embedded latency numbers incomparable:
 | `W_infer` | the runtime forward call only, on an already-preprocessed tensor in memory — **the MLPerf-Tiny-scoped headline** the thesis's §2.3.2 commits to |
 | `W_pre` | JPEG decode → letterbox → BGR2RGB → `/255` → CHW, on a median test image *and* on a native 4192×3120 AX Visio still |
 | `W_post` | NMS + rescale (YOLOv5s, MegaDetector), rescale only (YOLO26n, whose top-k is in-graph), softmax+top-k (SpeciesNet) |
-| `W_e2e` | all three as one wall-clock loop — the number that actually answers "does this fit a 30 ms per-frame budget" |
+| `W_e2e` | all three as one wall-clock loop — the number that a per-frame latency question needs (no fixed budget was set) |
 
 Held fixed across every cell, per §2.3.2's explicit requirements: batch size 1,
 core affinity (`taskset`), thread count (passed to each runtime, never
 autodetected), the `performance` governor, and the export format.
 
 **Two confidence regimes, never mixed.** `deployment` (conf 0.25 / IoU 0.45)
-produces the headline and the 30 ms verdict; `eval` (conf 0.001 / IoU 0.6,
+produces the headline latency; `eval` (conf 0.001 / IoU 0.6,
 mirroring `constants.EVAL_*`) is used only for the parity run. The eval
 regime's NMS cost over 225 classes at conf 0.001 is pathological on an A72 and
 would badly misrepresent deployment latency.

@@ -1,5 +1,7 @@
 # Hardware Proxy Selection for CV Model Research
 
+> **Correction (2026-09-28):** no fixed per-frame latency or memory requirement was ever set for this thesis. The ≤30 ms / ≤500 MB figures below were an early working idea (`docs/2026-03-10_object-detection-models-for-embedded-systems.md`), not a requirement, and are no longer used as pass/fail criteria. The manuscript reads the benchmark as a comparison between the nano-scale detector and the two-stage ensembles (MegaDetector+SpeciesNet, YOLOv5s+SpeciesNet) and states that real-time use needs further optimization.
+
 This analysis details the selection of a hardware proxy for academic research into computer vision (CV) models. The primary goal is to find a platform that mimics the performance of the **Qualcomm Dragonwing™ QCS605** while avoiding its software stability and firmware limitations.
 
 ## The Use Case & Problem Statement

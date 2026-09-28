@@ -33,7 +33,7 @@ Several factors specific to the AX Visio use case suggest that the advantage of 
 
 2. **Domain shift:** The paper evaluated on camera trap images (fixed-position, motion-triggered, often low-quality IR). The AX Visio produces user-aimed photographs of animals, which are typically higher quality, better framed, and more consistently lit — reducing the need for a detector to isolate small subjects from cluttered backgrounds.
 
-3. **Latency advantage:** A single-stage model avoids the cascading latency of running a detector, cropping, and then running a classifier — critical for the 30ms inference budget on the QCS605.
+3. **Latency advantage:** A single-stage model avoids the cascading latency of running a detector, cropping, and then running a classifier — critical for the 30ms inference budget on the QCS605 *(an early working idea, never fixed as a requirement, see the 2026-09-28 note in `docs/2026-09-18_embedded-benchmark-results.md`)*.
 
 #### Proposed Experimental Approach
 

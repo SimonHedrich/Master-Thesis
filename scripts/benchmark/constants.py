@@ -179,7 +179,7 @@ PROTOCOL = {
 }
 
 # Confidence regimes. `deployment` produces the headline latency and the
-# 30 ms verdict; `eval` mirrors constants.EVAL_* and is used for the parity
+# headline latency (no fixed budget); `eval` mirrors constants.EVAL_* and is used for the parity
 # run only. Never mixed — the eval regime's NMS cost over 225 classes at
 # conf 0.001 is pathological on an A72 and would misrepresent deployment cost.
 REGIMES = {
@@ -196,12 +196,18 @@ THERMAL_GATE = {
     "cooldown_s": 120,
 }
 
-# ─── Targets (project design estimates, NOT vendor-certified) ─────────────────
+# ─── Reference points (NOT requirements) ──────────────────────────────────────
 #
-# docs/2026-03-10_object-detection-models-for-embedded-systems.md §1.
+# No fixed latency or memory requirement was ever set for this work. The
+# 30 ms / 500 MB figures below were an early working idea from
+# docs/2026-03-10_object-detection-models-for-embedded-systems.md §1 and were
+# dropped as pass/fail criteria on 2026-09-28. They are kept only so that the
+# reports can still state the implied QCS605 CPU latency next to them; nothing
+# is judged against them, and the reports compare the detector to the two
+# ensembles instead.
 
-TARGET_LATENCY_MS_QCS605 = 30.0
-TARGET_PEAK_RSS_MB = 500.0
+REFERENCE_LATENCY_MS_QCS605 = 30.0
+REFERENCE_PEAK_RSS_MB = 500.0
 
 # docs/2026-03-09_hardware-proxy-selection.md rates the Pi 4/400 at -10% CPU
 # vs. the QCS605 (the doc's text widens that to 10-15%), so the QCS605 is
@@ -209,9 +215,9 @@ TARGET_PEAK_RSS_MB = 500.0
 # the Pi 400 has no analogue to the Hexagon 685 DSP and its VideoCore VI is
 # far weaker than the Adreno 615.
 QCS605_SCALE = (0.85, 0.90)
-PI400_PASS_BAND_MS = (
-    TARGET_LATENCY_MS_QCS605 / QCS605_SCALE[1],  # ~33.3 ms
-    TARGET_LATENCY_MS_QCS605 / QCS605_SCALE[0],  # ~35.3 ms
+PI400_REFERENCE_BAND_MS = (
+    REFERENCE_LATENCY_MS_QCS605 / QCS605_SCALE[1],  # ~33.3 ms
+    REFERENCE_LATENCY_MS_QCS605 / QCS605_SCALE[0],  # ~35.3 ms
 )
 
 # ─── Parity tolerances ────────────────────────────────────────────────────────

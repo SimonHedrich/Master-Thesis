@@ -1,5 +1,7 @@
 # Embedded Benchmark Results — Raspberry Pi 400 as QCS605 Proxy
 
+> **Correction (2026-09-28):** no fixed per-frame latency or memory requirement was ever set for this thesis. The ≤30 ms / ≤500 MB figures below were an early working idea (`docs/2026-03-10_object-detection-models-for-embedded-systems.md`), not a requirement, and are no longer used as pass/fail criteria. The manuscript reads the benchmark as a comparison between the nano-scale detector and the two-stage ensembles (MegaDetector+SpeciesNet, YOLOv5s+SpeciesNet) and states that real-time use needs further optimization.
+
 **Date:** 2026-09-18
 **Closes:** `TODO.md` §5.2
 **Plan:** [`plans/2026-09-17_on-device-benchmarking-plan.md`](plans/2026-09-17_on-device-benchmarking-plan.md)
@@ -26,10 +28,12 @@ ONNX Runtime, 4 threads, batch 1, FP32, `performance` governor. Median of three
 independent process invocations.
 Source: `reports/embedded_benchmark/latency_summary.csv`.
 
-**Nothing meets the ≤30 ms / ≤500 MB design targets.** The fastest model is
-~12× over the latency budget after translating to the QCS605 CPU. The
-MD+SpeciesNet teacher, at a derived ≈35 s per frame, is over by three orders of
-magnitude.
+**No fixed latency budget existed** (see the correction note above). Read as a
+comparison: YOLO26n at 423 ms is ≈83× faster than the derived MD+SpeciesNet
+teacher ensemble (≈35 s) and ≈13× faster than the derived YOLOv5s+SpeciesNet
+production pairing (≈5.4 s), with 71× and 22× fewer parameters, at a cost of
+0.064 mAP (mixed) / 0.070 (real) against the teacher. Real-time use still needs
+further optimization (quantized Hexagon path unmeasured).
 
 **No GPU number exists** — see §6.
 
@@ -46,7 +50,7 @@ document's 2026-09-17 addendum.
 $$\text{QCS605} \approx \text{Pi 400} \times 0.85\text{–}0.90
 \quad\Rightarrow\quad \text{pass band: Pi 400} \leq 33\text{–}35\,\text{ms}$$
 
-| Model | $W_\text{e2e}$ Pi 400 | Implied QCS605 CPU | ≤30 ms? | Peak RSS | ≤500 MB? |
+| Model | $W_\text{e2e}$ Pi 400 | Implied QCS605 CPU | ≤30 ms idea? (not a requirement) | Peak RSS | ≤500 MB idea? (not a requirement) |
 |---|---:|---:|:--:|---:|:--:|
 | YOLO26n direct-FT | 423 ms | 360–381 ms | no (~12×) | 284 MB | yes |
 | YOLO26n KD | 442 ms | 375–398 ms | no | 284 MB | yes |
@@ -55,7 +59,7 @@ $$\text{QCS605} \approx \text{Pi 400} \times 0.85\text{–}0.90
 | MegaDetector v5a | 30,963 ms | 26,318–27,867 ms | no (~900×) | 1,570 MB | **no** |
 | MD+SN ensemble (derived) | ≈35,290 ms | ≈30–32 s | no | — | **no** |
 
-Both targets are **project design estimates, not vendor-certified figures**
+Both figures were **an early working idea, never a requirement** (2026-09-28 correction)
 (`docs/2026-03-10_object-detection-models-for-embedded-systems.md` §1). The
 translation covers the **CPU path only**: the Pi 400 has no Hexagon 685
 analogue, so the accelerated path a shipping product would use is unmeasured.
@@ -202,11 +206,11 @@ silently. This is precisely what the parity tier exists to catch.
 ## 10. What this changes
 
 1. `TODO.md` §5.2 closed; §5.1 (QAT) annotated as the largest remaining lever —
-   though note that even a 4× INT8 gain leaves YOLO26n near 100 ms/frame, still
-   above budget on the CPU path alone.
+   though note that even a 4× INT8 gain leaves YOLO26n near 100 ms/frame on the
+   CPU path alone, so real-time use still needs the Hexagon path.
 2. The manuscript's proxy argument (§2.3.2) was rewritten from the Pi 5 ceiling
    to the Pi 400 floor, and the AX Visio claim removed.
-3. §2.1's "fixed, tight per-frame latency budget" premise, and §2.1.3's reasoned
+3. §2.1's single-stage-only premise (formerly worded as a "fixed, tight per-frame latency budget", reworded 2026-09-28), and §2.1.3's reasoned
    claim that the ensemble cannot ship, are now **measured** rather than
    asserted.
 4. The deployment-candidate argument for YOLO26n over YOLOv5s now holds on

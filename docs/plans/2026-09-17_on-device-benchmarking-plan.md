@@ -1,5 +1,7 @@
 # On-Device Benchmarking Plan — Raspberry Pi 400 as QCS605 Proxy
 
+> **Correction (2026-09-28):** no fixed per-frame latency or memory requirement was ever set for this thesis. The ≤30 ms / ≤500 MB figures below were an early working idea (`docs/2026-03-10_object-detection-models-for-embedded-systems.md`), not a requirement, and are no longer used as pass/fail criteria. The manuscript reads the benchmark as a comparison between the nano-scale detector and the two-stage ensembles (MegaDetector+SpeciesNet, YOLOv5s+SpeciesNet) and states that real-time use needs further optimization.
+
 **Date:** 2026-09-17
 **Status:** Plan only — no implementation yet.
 **Closes:** `TODO.md` §5.2 (export + on-device benchmarking)
@@ -433,7 +435,7 @@ has to be stated in the manuscript for the first time, with provenance:
 - **≤30 ms per frame at 640×640** on the QCS605 — from
   `docs/2026-03-10_object-detection-models-for-embedded-systems.md` §1.
 - **≤500 MB memory budget** — same source.
-- Both are **project design targets, not vendor-certified figures**, and must be
+- Both were **an early working idea, never a fixed requirement** (2026-09-28 correction; the manuscript compares against the ensembles instead), and must be
   labelled as such per `claims.md`'s claim taxonomy.
 - Translated to the measurement device: **Pi 400 ≤ ~33–35 ms** implies ≤30 ms on
   the QCS605 CPU.
