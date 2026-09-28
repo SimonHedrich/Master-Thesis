@@ -119,7 +119,7 @@ None of these axes measures what ultimately matters for a downstream detector: w
 Three evaluation axes therefore exist and demonstrably disagree: structured blind human rating, automatic distributional and embedding-based proxies, and downstream task utility. This work evaluates its candidate generators along all three and treats none as decisive (\Cref{sec:results_synthetic_data_practicability}), because a generator strong on one need not be strong on another. What that leaves open is which classes synthetic imagery should be spent on in the first place.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Synthetic Data for Long-Tail and Rare-Class Problems}\label{sec:lit_synthetic_long_tail}
+\subsection{Synthetic Data for Long-Tail Recognition}\label{sec:lit_synthetic_long_tail}
 
 Real-world visual recognition datasets rarely have a uniform class distribution. There are two types of remedies: class re-balancing, which covers re-sampling and cost-sensitive re-weighting, and information augmentation, which covers transfer learning and data augmentation \cite{zhangDeepLongTailedLearning2023}. Both types predate the current generation of generative image models and were designed to optimize the use of existing samples rather than generate new ones.
 
@@ -134,7 +134,7 @@ The same limit applies to the augmentation methods examined alongside them. Both
 Rather than any single method, it is this contrast that motivates the band structure adopted in this work (\Cref{sec:band_structure}). Re-sampling, cost-sensitive re-weighting, and feature-space augmentation redistribute the information that an existing image pool of a class already contains, so their effectiveness is limited by the visual diversity of that pool. Image-level generative synthesis is a categorically different intervention because it manufactures new appearance content, such as camera angle, habitat, lighting, and pose, that real images of a data-poor class cannot provide. Synthetic supplementation is therefore reserved for classes with a real image pool deemed too limited to provide that diversity. It is deliberately withheld from classes with a more extensive real image pool so they can serve as a real-data control at a matched training set size.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Knowledge Distillation and Embedded Inference Feasibility}\label{sec:lit_kd_and_embedded}
+\section{Model Compression for Embedded Inference}\label{sec:lit_kd_and_embedded}
 
 Getting a detector trained this way onto the target device raises two further questions: whether a large model's knowledge can be transferred into a small one, and what governs whether the small one meets a latency budget once deployed.
 
@@ -185,7 +185,7 @@ Two refinements produced the metric vector used throughout modern detection rese
 
 The resulting twelve-statistic vector covers AP@[.5:.95], AP50, AP75, AP split by object size, and AR at the three detection budgets split the same way. This work retains it unchanged as its own baseline reporting format (\Cref{sec:evaluation_framework}), because it is the bridge that keeps the work's numbers legible against published results. It is nonetheless too coarse on its own to answer the questions a 225-class, look-alike-heavy wildlife taxonomy raises.
 
-\subsection{Hierarchical Evaluation and Error-Type Decomposition}\label{sec:lit_hierarchical_evaluation}\label{sec:lit_error_decomposition}
+\subsection{Hierarchical Error Decomposition}\label{sec:lit_hierarchical_evaluation}\label{sec:lit_error_decomposition}
 
 A single flat AP computed over all 225 classes cannot distinguish between two very different types of errors. One type of error is finding an animal and naming the wrong species within a visually confusable group. For example, a plains zebra could be scored as a Grévy's zebra. The other type of error is naming a completely unrelated class. For example, a wolf could be scored as a squirrel. Additionally, AP does not explain \textit{why} a detector underperforms. It may fail to localize objects, localize them but assign the wrong label, or duplicate detections on the same object. From a practical-deployment standpoint, these failures are not equivalent, and they call for different fixes.
 
