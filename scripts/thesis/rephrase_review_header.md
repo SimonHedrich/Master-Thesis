@@ -14,8 +14,10 @@ does not.
 
 ## What to keep and what to take back
 
-Keep DeepL's wording wherever it reads better **and says the same thing**.
-Take the original sentence back wherever the rephrasing changed any of:
+DeepL's version is the default: the author reads it more easily than the
+drafted sentence structure. Keep it wherever it **says the same thing**, and
+take a single original sentence back, never the whole paragraph, only where
+the rephrasing changed any of:
 
 - the meaning or direction of a claim ("excludes" -> "includes", "exercises
   both problems" -> "addresses both problems", a negation dropped or added),
@@ -119,5 +121,6 @@ which finals deserve a close look:
 - `low`: connective or structural prose, or a paragraph you kept as original.
 
 Leave `--- final` empty to keep the original paragraph unchanged (still give
-a verdict and a risk tag). Skip entries whose `--- final` block is already
+a verdict and a risk tag). Do that only when every DeepL sentence failed a
+rule above; one bad sentence means `merged`, not `original`. Skip entries whose `--- final` block is already
 filled. Edit only these blocks; change nothing else in this file.

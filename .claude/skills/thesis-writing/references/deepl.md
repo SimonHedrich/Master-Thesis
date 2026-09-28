@@ -70,8 +70,10 @@ uv run python -m scripts.thesis.deepl_write rephrase -t en-US --paragraphs --dif
 
 ## 4. Review the diff, sentence by sentence
 
-Keep DeepL's wording where it reads better and says the same thing. Take the original
-sentence back wherever any of these changed:
+DeepL's version is the default and the draft is the fallback. The author compared both on
+a whole chapter (2026-09-28) and found the rephrased text much easier to read, so a
+reviewer who "keeps the original when in doubt" undoes the point of the pass. Take a single
+sentence back, never the whole paragraph, and only where one of these changed:
 
 - the direction of a claim: "exercises both problems" became "addresses both problems",
   "whose budget excludes" became "includes", "understate the cost" became "the actual cost";

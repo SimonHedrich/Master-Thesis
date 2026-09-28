@@ -85,6 +85,15 @@ the refit checklist. Three things it will not let you skip: never send raw LaTeX
 `--latex`, never `--in-place` on a manuscript file, and every `\cite` key that left the
 paragraph comes back at the end of the sentence that carries its claim.
 
+**DeepL's version is the default and the draft is the fallback.** The author compared both
+on a whole chapter (2026-09-28) and found the rephrased text much easier to read than the
+drafted sentence structure, which stacks clauses. Take a sentence back only for a changed
+claim, a lost hedge, number, name, term of art, or actor, or a new dash, semicolon or
+self-reference, and never keep a whole paragraph in the original because one sentence
+needed reverting. When reviewers are subagents, say exactly that; an instruction such as
+"when in doubt, take the original" made a full chapter keep its draft structure and had to
+be redone.
+
 ## Where the rules come from
 
 Three systems that predate this thesis and disagree with each other. Gopen and Swan's *The
