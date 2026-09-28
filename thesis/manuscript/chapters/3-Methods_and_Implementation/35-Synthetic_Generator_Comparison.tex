@@ -109,12 +109,12 @@ The candidates came from two tiers: proprietary services, which are billed per i
 \toprule
 Model & Role or reason for exclusion \\
 \midrule
-\texttt{gemini-3.1-flash-image-preview} \cite{GeminiAPI} & Production incumbent \\
+\texttt{gemini-3.1-flash-image-preview} \cite{GeminiAPI} & In production use \\
 \texttt{gemini-3.1-flash-lite-image} & Cheaper tier, same vendor \\
 \texttt{gpt-image-2} (low) \cite{ImageGenerationOpenAI} & Cross-vendor price floor \\
 \texttt{gpt-image-2} (medium) & Quality-tier contrast at matched prompt \\
 \midrule
-\texttt{gpt-image-2} (high) & An order of magnitude above the incumbent \\
+\texttt{gpt-image-2} (high) & An order of magnitude above the production generator \\
 Nano Banana Pro & Quality ceiling, never generated. Too costly to be decision-relevant \\
 Imagen 4 & Withdrawn from the vendor's API mid-study \\
 Midjourney & No official API \\
@@ -275,4 +275,4 @@ Four measures were specified, all scaling to every image: teacher-recognition co
 The fixed detector trains on each cell's synthetic images and is evaluated on real photographs only (\Cref{sec:evaluation_framework}). The headline measure is mean average precision over the real test set. Per-class average precision separates the data-rich anchors from the rare classes. The within-group confusion rate over the three zebra species, the fraction of correctly localized detections landing in the right look-alike group but the wrong species, is the sharpest available test of whether synthetic data teaches species-level discrimination. Only the zebras have more than one member of a frozen look-alike group (\Cref{sec:lookalike_groups}) here, so the bear group's rate is structurally zero and excluded.
 
 \paragraph{Decision Rule}
-The criterion was set in advance. A generator counts as usable if it lands within a stated margin of the incumbent on the axes that matter, downstream accuracy on real photographs and diagnostic fidelity, \emph{and} is practical on cost and throughput. Raw photorealism alone is insufficient because it is the impression that motivated the original choice. The production choice is justified only if the incumbent is at or near the top. Since differences in a dataset this small may fall within run-to-run noise, the results are reported as a mean with its spread across seeds. Two cells whose intervals overlap are indistinguishable rather than ranked.
+The criterion was set in advance. A generator counts as usable if it lands within a stated margin of the production generator on the axes that matter, downstream accuracy on real photographs and diagnostic fidelity, \emph{and} is practical on cost and throughput. Raw photorealism alone is insufficient because it is the impression that motivated the original choice. The production choice is justified only if that generator is at or near the top. Since differences in a dataset this small may fall within run-to-run noise, the results are reported as a mean with its spread across seeds. Two cells whose intervals overlap are indistinguishable rather than ranked.

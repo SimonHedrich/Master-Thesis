@@ -16,24 +16,24 @@ This section reports the controlled comparison designed in \Cref{sec:generator_c
 
 \begin{table}[H]
 \centering
-\caption[Generator ranking by downstream accuracy]{All twelve cells ranked by mean average precision on the real test set. \enquote{Regime} is the prompt regime of \Cref{tab:generator-prompt-regimes}, and the incumbent produced the production synthetic dataset.}
+\caption[Generator ranking by downstream accuracy]{All twelve cells, ordered by mean average precision on the real test set from highest to lowest. \enquote{Regime} is the prompt regime of \Cref{tab:generator-prompt-regimes}. \texttt{gemini-3.1-flash-image-preview} produced the production synthetic dataset.}
 \label{tab:generator-ranking}
-\begin{tabular}{@{}rllrlr@{}}
+\begin{tabular}{@{}llrlr@{}}
 \toprule
-Rank & Generator & Regime & Seeds & mAP & Zebra confusion \\
+Generator & Regime & Seeds & mAP & Zebra confusion \\
 \midrule
-$1$ & \texttt{gpt-image-2} (low) & \texttt{full} & $3$ & $0.134 \pm 0.014$ & $0.253$ \\
-$2$ & \texttt{gpt-image-2} (medium) & \texttt{full} & $3$ & $0.126 \pm 0.011$ & $0.228$ \\
-$3$ & \texttt{gemini-3.1-flash-image-preview} (incumbent) & \texttt{full} & $3$ & $0.105 \pm 0.036$ & $0.339$ \\
-$4$ & \texttt{gemini-3.1-flash-lite-image} & \texttt{full} & $3$ & $0.095 \pm 0.006$ & $0.218$ \\
-$5$ & \texttt{gpt-image-2} (low) & \texttt{compressed} & $3$ & $0.074 \pm 0.002$ & $0.457$ \\
-$6$ & SD 3.5 Large & \texttt{maxlen} & $2$ & $0.055 \pm 0.002$ & $0.318$ \\
-$7$ & SD 3.5 Medium & \texttt{maxlen} & $2$ & $0.054 \pm 0.001$ & $0.472$ \\
-$8$ & \texttt{gemini-3.1-flash-lite-image} & \texttt{compressed} & $3$ & $0.049 \pm 0.003$ & $0.405$ \\
-$9$ & SD 3.5 Large Turbo & \texttt{maxlen} & $2$ & $0.043 \pm 0.005$ & $0.343$ \\
-$10$ & FLUX.2-klein & \texttt{maxlen} & $2$ & $0.037 \pm 0.001$ & $0.380$ \\
-$11$ & HiDream-I1 & \texttt{maxlen} & $2$ & $0.029 \pm 0.002$ & $0.683$ \\
-$12$ & RealVisXL + Lightning & \texttt{maxlen} & $2$ & $0.023 \pm 0.001$ & $0.628$ \\
+\texttt{gpt-image-2} (low) & \texttt{full} & $3$ & $0.134 \pm 0.014$ & $0.253$ \\
+\texttt{gpt-image-2} (medium) & \texttt{full} & $3$ & $0.126 \pm 0.011$ & $0.228$ \\
+\texttt{gemini-3.1-flash-image-preview} & \texttt{full} & $3$ & $0.105 \pm 0.036$ & $0.339$ \\
+\texttt{gemini-3.1-flash-lite-image} & \texttt{full} & $3$ & $0.095 \pm 0.006$ & $0.218$ \\
+\texttt{gpt-image-2} (low) & \texttt{compressed} & $3$ & $0.074 \pm 0.002$ & $0.457$ \\
+SD 3.5 Large & \texttt{maxlen} & $2$ & $0.055 \pm 0.002$ & $0.318$ \\
+SD 3.5 Medium & \texttt{maxlen} & $2$ & $0.054 \pm 0.001$ & $0.472$ \\
+\texttt{gemini-3.1-flash-lite-image} & \texttt{compressed} & $3$ & $0.049 \pm 0.003$ & $0.405$ \\
+SD 3.5 Large Turbo & \texttt{maxlen} & $2$ & $0.043 \pm 0.005$ & $0.343$ \\
+FLUX.2-klein & \texttt{maxlen} & $2$ & $0.037 \pm 0.001$ & $0.380$ \\
+HiDream-I1 & \texttt{maxlen} & $2$ & $0.029 \pm 0.002$ & $0.683$ \\
+RealVisXL + Lightning & \texttt{maxlen} & $2$ & $0.023 \pm 0.001$ & $0.628$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -77,7 +77,7 @@ Within the local tier, generation cost and downstream quality are unrelated to t
 \label{fig:generator-cost-vs-map}
 \end{figure}
 
-\Cref{fig:generator-cost-vs-map} shows no trend within that tier. The API tier is even sharper because the cost is monetary. The two \texttt{gpt-image-2} quality tiers differ by a price factor of $2.9$ ($\$10.11$ against $\$29.36$ for $1{,}200$ images), and they are statistically tied: a gap of $0.008$ against a combined standard deviation of roughly $0.018$. Likewise, the incumbent and its cheaper variant are indistinguishable within their spreads. Neither family's cheaper tier is worse, and no single cost axis spans the whole table. Reducing GPU-hours and currency to one number would require an assumed price of compute that would carry the conclusion.
+\Cref{fig:generator-cost-vs-map} shows no trend within that tier. The API tier is even sharper because the cost is monetary. The two \texttt{gpt-image-2} quality tiers differ by a price factor of $2.9$ ($\$10.11$ against $\$29.36$ for $1{,}200$ images), and they are statistically tied: a gap of $0.008$ against a combined standard deviation of roughly $0.018$. Likewise, the production generator and its cheaper variant are indistinguishable within their spreads. Neither family's cheaper tier is worse, and no single cost axis spans the whole table. Reducing GPU-hours and currency to one number would require an assumed price of compute that would carry the conclusion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Per-Class Structure: Where the Ranking Comes From}\label{sec:results_per_class_structure}
@@ -130,7 +130,7 @@ One case illustrates this point. FLUX.2-klein depicts kinkajous with heavily rin
 \end{figure}
 \renewcommand{\figurename}{Figure}
 
-Within-group confusion over the zebras tracks detector quality at the extremes and not through the middle of the ranking. The three lowest rates, ranging from $0.218$ to $0.253$, belong to three of the four top-ranked cells. Meanwhile, the two highest rates, $0.628$ and $0.683$, belong to the two lowest-ranked cells. The incumbent ranks third in terms of accuracy, with a rate of $0.339$. Therefore, species confusion among look-alikes is largely downstream of general detection quality, so a cell's confusion rate cannot substitute for the qualitative judgment it appears to stand in for.
+Within-group confusion over the zebras tracks detector quality at the extremes and not through the middle of the ranking. The three lowest rates, ranging from $0.218$ to $0.253$, belong to three of the four top-ranked cells. Meanwhile, the two highest rates, $0.628$ and $0.683$, belong to the two lowest-ranked cells. The production generator ranks third in terms of accuracy, with a rate of $0.339$. Therefore, species confusion among look-alikes is largely downstream of general detection quality, so a cell's confusion rate cannot substitute for the qualitative judgment it appears to stand in for.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Execution Status of the Qualitative Rubric}\label{sec:results_rubric_not_executed}
@@ -142,12 +142,12 @@ The blind multi-rater rubric of \Cref{sec:generator_comparison_evaluation} was n
 
 Three conclusions are supported by the evidence assembled here, and one is not.
 
-The choice of generator for production is neither vindicated nor refuted. The incumbent ranks third out of twelve, falling roughly $28\%$ behind \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime and tying with the cheaper variant from its own vendor. This margin is smaller than the one attributable to prompt length. The original rationale for choosing this generator, that the output appeared more realistic, was an unreliable predictor. Second, prompt detail matters more than generator identity across the range tested. Third, cheaper tiers are not inferior in either vendor family or the local grid. Therefore, generation cost cannot be used as a proxy for training-data quality.
+The choice of generator for production is neither vindicated nor refuted. The production generator ranks third out of twelve, falling roughly $28\%$ behind \texttt{gpt-image-2} at its cheapest tier under an identical prompt regime and tying with the cheaper variant from its own vendor. This margin is smaller than the one attributable to prompt length. The original rationale for choosing this generator, that the output appeared more realistic, was an unreliable predictor. Second, prompt detail matters more than generator identity across the range tested. Third, cheaper tiers are not inferior in either vendor family or the local grid. Therefore, generation cost cannot be used as a proxy for training-data quality.
 
 No conclusions can be drawn about the rare, long-tail classes, which is the case that motivated the use of synthetic data in this work at all. On those classes every generator is indistinguishable from every other under the only axis executed, and at least one is demonstrably drawing the wrong animal without penalty. The comparison establishes a ranking for data-rich classes and shows that the current instrument cannot rank generators for data-poor classes.
 
 \paragraph{A note on seeds}
-With a single training seed, the incumbent scored $0.064$, while its cheaper variant scored $0.094$. A second seed increased the score to $0.090$, resulting in the conclusion that the two were \enquote{indistinguishable}, and a third seed increased the score to $0.105$, reversing the gap outright. A difference of this size in a single seed carries no information, and the same caution applies to the larger comparison that follows, in which every model contributes a single run.
+With a single training seed, the production generator scored $0.064$, while its cheaper variant scored $0.094$. A second seed increased the score to $0.090$, resulting in the conclusion that the two were \enquote{indistinguishable}, and a third seed increased the score to $0.105$, reversing the gap outright. A difference of this size in a single seed carries no information, and the same caution applies to the larger comparison that follows, in which every model contributes a single run.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Detection Performance per Band on Each Test Domain}\label{sec:results_regime_comparison}
@@ -368,7 +368,7 @@ Setup A blends the frozen teacher's cached class distribution into the classific
 \label{tab:kd-vs-direct}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
-Measure & Setup A (distilled) & Setup B (direct) & B $-$ A \\
+Measure & A (distilled) & B (direct) & B $-$ A \\
 \midrule
 mAP, mixed (headline) & $0.560$ & $\mathbf{0.599}$ & $+0.039$ \\
 mAP, real (breakout) & $0.479$ & $\mathbf{0.529}$ & $+0.050$ \\
