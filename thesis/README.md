@@ -4,7 +4,7 @@ This directory is the home for everything related to producing the final Master'
 
 ## Current status
 
-The LaTeX manuscript lives in `manuscript/` and is assembled by `manuscript/main.tex`. Chapter 2 (Literature Review) and all of Chapter 3 (Methodology) are drafted; Chapters 1 and 5, and Results §4.2–§4.3.1, are still stubs marked with `% TODO`.
+The LaTeX manuscript lives in `manuscript/` and is assembled by `manuscript/main.tex`. Chapter 2 (Literature Review) and all of Chapter 3 (Methods and Implementation) are drafted; Chapters 1 and 5, and Results §4.2–§4.3.1, are still stubs marked with `% TODO`.
 
 No LaTeX toolchain is installed in this repo's container (`pdflatex`/`latexmk`/`biber` are absent) and there is no `make` target for the thesis — the document is compiled on Overleaf, which `manuscript/` is synced to two-way by `scripts/thesis/sync_overleaf.py` (`make overleaf` picks the direction; `make overleaf-push|overleaf-pull|overleaf-status` force one — on the `thesis/overleaf-sync` branch; see `scripts/thesis/README.md`). Structural checks (citation keys resolving against the two `.bib` files, `\label`/`\Cref` consistency, environment balance, figure paths) are therefore done by inspection rather than by compilation.
 
