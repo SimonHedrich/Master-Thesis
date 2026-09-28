@@ -19,7 +19,7 @@ Most of the synthetic-image budget had already been consumed by the production r
 
 The design is a single-factor experiment with one secondary factor that was deliberately introduced. The class set, number of images per class, annotation procedure, detector, hyperparameters, augmentation policy, and real test set are fixed. Therefore, any difference in outcome belongs to the generator.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[node distance=0.45cm and 0.75cm,
   stage/.style={draw,rounded corners,fill=gray!10,minimum width=2.3cm,minimum height=1cm,align=center,font=\small},
@@ -43,7 +43,7 @@ The design is a single-factor experiment with one secondary factor that was deli
 
 \Cref{tab:generator-comparison-factors} lists the two varying factors. The prompt regime is a factor rather than an implementation detail because candidates differ by orders of magnitude in how much text they can read. Therefore, a fixed prompt does not provide fixed conditioning.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{The two varied factors. Everything else is fixed.}
 \label{tab:generator-comparison-factors}
@@ -66,7 +66,7 @@ The subset must expose three phenomena: long-tail species under-represented in t
 
 \Cref{tab:generator-comparison-classes} lists the $12$ resulting classes. The rarity proxy is the GBIF count per species, which caps at around $300$. This count is only evidence of scarcity at its low end (\Cref{sec:target_class_definition}).
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[The twelve-class comparison subset]{The $12$-class subset, grouped by the property each class contributes. \enquote{Real test} counts the photographs scoring every cell.}
 \label{tab:generator-comparison-classes}
@@ -101,7 +101,7 @@ Since this experiment does not use real images for training, the photographs tha
 
 The candidates came from two tiers: proprietary services, which are billed per image, and open-weight models, which are run locally at the cost of GPU time. \Cref{tab:generator-api-roster} lists the API tier, while \Cref{tab:generator-local-roster} lists the local tier.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[API generators included and excluded]{API generators included, and candidates excluded with reasons.}
 \label{tab:generator-api-roster}
@@ -124,7 +124,7 @@ FLUX API & Terms forbid training on its outputs \\
 \end{tabularx}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Locally-run open-weight generators]{Locally-run open-weight generators. Qwen-Image was dropped for quantization artifacts, and FLUX.2-dev was rejected because it exceeds device memory.}
 \label{tab:generator-local-roster}
@@ -152,7 +152,7 @@ Two local models have genuinely permissive licenses. The rest carry community or
 
 The production prompts are about $1{,}300$ words long, but the SDXL-family text encoder stops reading after $77$ tokens \cite{radfordLearningTransferableVisual2021}. Therefore, the same text does not provide both models with the same information. Measuring a gap in this way confounds how well a model generates with how much it reads.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{The three prompt regimes and what each is for.}
 \label{tab:generator-prompt-regimes}
@@ -171,7 +171,7 @@ The \texttt{compressed} prompt is dense and ordered by importance since an encod
 
 The \texttt{maxlen} regime is built by accumulation rather than truncation. It grows a short template until the next description sentence exceeds the budget. The per-image pose and environment carry over from the production image list so that the prompts maintain real per-image variation. Measured lengths fall below the nominal ceilings (\Cref{sec:appendix_prompt_token_budgets}). \Cref{fig:prompt-regime-example} illustrates the extent of the difference for one class. \Cref{sec:appendix_prompt_regime_examples} reproduces all three prompts for that image in full.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \begin{minipage}{0.95\textwidth}
 \small
@@ -198,7 +198,7 @@ Reproducibility varies by tier. Local models are deterministic with per-image se
 
 The generation process ran on a single NVIDIA A40 instance with $23.8\,\mathrm{GB}$ of video memory. The detector was trained separately on an RTX 3060. Since excellent images at an unusable rate are not practical training data, throughput is reported as a result in its own right. \Cref{tab:generator-throughput} gives the measured generation time of each local cell, and \Cref{tab:generator-api-cost} the price of each API cell.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Measured generation time per local cell]{Measured generation time per $1{,}200$-image cell for the six local generators.}
 \label{tab:generator-throughput}
@@ -216,7 +216,7 @@ HiDream-I1 & $143.92$ & $47.97$ \\
 \end{tabular}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Cost per API cell]{Cost per $1{,}200$-image API cell. Direct and Batch are list prices computed from the token usage reported per request, including the prompt text, at the vendors' standard and batch rates. Billed is the amount actually charged where it was recorded.}
 \label{tab:generator-api-cost}
@@ -250,7 +250,7 @@ Because a single run on a dataset this small produces noisy results, each cell w
 
 The judgment this sub-study replaces was a single informal impression. The remedy is a structured, blind, multi-rater rubric triangulated against two axes independent of human impression, and a claim is strong only when the three agree. \Cref{tab:generator-evaluation-axes} gives the axes and what was carried out, since that gap shapes how the results read.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{The three evaluation axes as designed, and their execution status.}
 \label{tab:generator-evaluation-axes}

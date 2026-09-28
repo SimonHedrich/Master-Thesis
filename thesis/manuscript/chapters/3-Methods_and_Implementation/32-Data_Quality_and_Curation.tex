@@ -8,7 +8,7 @@ The corpus assembled in \Cref{sec:data_sourcing_and_taxonomy} is heterogeneous i
 
 Filtering is source-aware and cost-staged rather than uniform. Cheap checks run first on every image, and expensive checks run only on what survives them, and only where the source's reliability profile calls for it. \Cref{fig:quality-pipeline} shows the pipeline, whose four image-level stages feed the species classifier of \Cref{sec:speciesnet_matching}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \begin{tikzpicture}[
   node distance=0.5cm and 0.9cm,
@@ -58,7 +58,7 @@ Since the taxonomy combines species-, genus-, and family-level labels, predictio
 
 The thresholds are a minimum MegaDetector confidence of $0.5$, a minimum SpeciesNet top-1 score of $0.3$, and a family-mismatch confidence threshold of $0.5$. The third threshold inverts the usual role of confidence. For a family-level disagreement, a higher confidence in the classifier makes rejection more likely since a confident prediction of a different family indicates that the source label is incorrect.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Outcome of the SpeciesNet-based filter over $465{,}130$ classified records.}
 \label{tab:speciesnet-filter-attrition}
@@ -109,7 +109,7 @@ Images surviving all stages carry a composite quality score $Q \in [0,1]$ guidin
     \label{eq:quality-score}
 \end{equation}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Components of the quality score of \Cref{eq:quality-score}.}
 \label{tab:quality-score-components}
@@ -136,7 +136,7 @@ For the largest classes (Band D, \Cref{sec:band_structure}) a soft source-divers
 
 \Cref{tab:final-real-composition} gives the authoritative composition of the curated real-image dataset after the ground-truth corrections of \Cref{sec:gt_annotation_integrity}. Figures reported earlier in this section for intermediate stages are superseded by it.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Composition of the curated real-image dataset by band]{Composition of the curated real-image dataset by band. \enquote{Pool} is the number of quality-passed images available to a class. \enquote{Surplus} is pool imagery beyond the training and test caps, retained but unallocated.}
 \label{tab:final-real-composition}

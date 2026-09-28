@@ -13,7 +13,7 @@ Two detector architectures are trained, and practical constraints rather than a 
 
 Both detectors run the same optimization protocol (summarized in \Cref{tab:training-protocol}) and share an unmodified dataloader and augmentation code path, making the byte-identical claim of \Cref{sec:augmentation_reproducibility} literal. The training and validation splits incorporate the synthetic imagery of \Cref{sec:band_structure} with the real imagery. The test split remains real, so the \Cref{sec:synthetic_test_set} synthetic test set is evaluated only where \Cref{sec:evaluation_framework} specifies.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Optimization protocol shared by both detector architectures.}
 \label{tab:training-protocol}

@@ -174,7 +174,7 @@ The \texttt{override} entries in the last column are where that criterion overru
 
 \renewcommand{\figurename}{Appendix Samples}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \begin{subfigure}[b]{0.23\textwidth}
     \centering
@@ -222,7 +222,7 @@ The \texttt{override} entries in the last column are where that criterion overru
 \label{fig:appendix-gallery-lion}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \begin{subfigure}[b]{0.23\textwidth}
     \centering
@@ -270,7 +270,7 @@ The \texttt{override} entries in the last column are where that criterion overru
 \label{fig:appendix-gallery-saiga}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \begin{subfigure}[b]{0.23\textwidth}
     \centering
@@ -419,7 +419,7 @@ The vocabularies and budgets behind the synthetic pipeline of \Cref{sec:syntheti
 
 The six axes of variation described in \Cref{sec:synthetic_generation_pipeline} draw on three controlled vocabularies. \Cref{tab:appendix-environment-codes} lists the ten environment codes, \Cref{tab:appendix-lighting-codes} the five lighting codes, and \Cref{tab:appendix-guilds} the eight ecological guilds that bias the environment and behavior axes toward species-plausible combinations. Codes marked as guild-restricted are only scheduled for species assigned to the guild named.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Environment and habitat codes used in the synthetic shot schedule.}
 \label{tab:appendix-environment-codes}
@@ -441,7 +441,7 @@ Code & Description \\
 \end{tabularx}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Lighting codes used in the synthetic shot schedule.}
 \label{tab:appendix-lighting-codes}
@@ -458,7 +458,7 @@ Code & Description \\
 \end{tabularx}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Ecological guilds biasing the environment and behavior axes]{The eight ecological guilds. Each species carries one or more, and the guild biases which environments and behaviors the shot schedule emphasizes.}
 \label{tab:appendix-guilds}
@@ -497,7 +497,7 @@ Each prompt is preceded by the image that was generated from it for this slot (\
 
 The look-alike group of \Cref{tab:generator-comparison-classes} turns on stripe geometry, which is easier to judge by eye than to read.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \begin{subfigure}[b]{0.31\textwidth}
     \centering
@@ -543,7 +543,7 @@ The full versions of tables \Cref{chapter:results} reports in excerpt, and the c
 
 \Cref{sec:results_lookalike_confusion} reports the eight hardest and four easiest groups inline. \Cref{tab:lookalike-group-confusion} gives all $30$ multi-member groups of the frozen table, and \Cref{tab:lookalike-top-pairs} the ten largest confusion pairs behind them.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Within-group confusion rate per look-alike group]{Within-group species confusion for all $30$ multi-member look-alike groups, on the mixed test set, ordered by the primary detector's rate. \enquote{Matched} counts detections that were correctly localized and placed in the right group. The two rightmost columns are the same rate for \textit{YOLOv5s} and the fine-tuned ensemble.}
 \label{tab:lookalike-group-confusion}
@@ -588,7 +588,7 @@ All groups & $81$ & $31{,}672$ & $6{,}126$ & $0.193$ & $0.190$ / $0.129$ \\
 \end{tabular}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Largest within-group confusion pairs]{The ten largest within-group confusion pairs for \textit{YOLO26n} under direct fine-tuning, on the mixed test set, with the count in the reverse direction. These ten pairs carry $61.8\%$ of all $6{,}126$ within-group confusions.}
 \label{tab:lookalike-top-pairs}
@@ -614,7 +614,7 @@ grevy's zebra & plains zebra & $112$ & $1$ \\
 
 \Cref{tab:band-grid-mixed} is the band $\times$ granularity grid on the mixed test set, the companion to the real-only breakout of \Cref{tab:band-grid-real}. \Cref{tab:headline-coco12} is the full twelve-statistic COCO vector for the primary detector.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Band by granularity grid on the mixed test set]{Band $\times$ granularity grid on the mixed test set. Band A trains on synthetic images only, Band B on half real and half synthetic, Band C on real images only at the same $200$-image budget, and Band D on the full real pool.}
 \label{tab:band-grid-mixed}
@@ -644,7 +644,7 @@ Ensemble, fine-tuned & A & $0.447$ & $0.447$ & $0.485$ & $0.485$ \\
 \end{table}
 
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Full COCO vector for the primary detector]{The complete twelve-statistic COCO vector for \textit{YOLO26n} under direct fine-tuning, at \texttt{fine} granularity over all bands. The small-object cells carry no value because no test box qualifies as small under COCO's area definition.}
 \label{tab:headline-coco12}
@@ -666,14 +666,14 @@ mAP, large & $0.641$ & $0.573$ & AR, large & $0.872$ & $0.825$ \\
 
 \Cref{fig:generator-headline-map} plots the headline ranking of \Cref{tab:generator-ranking}, and \Cref{fig:prompt-length-ablation} plots the prompt-length ablation of \Cref{tab:prompt-length-ablation}.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/plots/model_comparison_full_headline_map.png}
 \caption[Downstream accuracy of all twelve generator cells]{Mean average precision on the real test set for all twelve cells, with error bars showing the standard deviation across training seeds. Bars are colored by tier: proprietary API services at the unabridged prompt, the same services at the compressed prompt, and locally-run open-weight models.}
 \label{fig:generator-headline-map}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/plots/model_comparison_prompt_ablation_headline_map.png}
 \caption[Prompt-length ablation, plotted]{The prompt-length ablation. Each model appears twice, differing only in the length of the prompt it was conditioned on.}

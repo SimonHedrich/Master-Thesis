@@ -8,7 +8,7 @@ Even after the curation of \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality
 
 After curation, classes were grouped into four bands by real-image pool size, each with its own mix of real and synthetic training imagery, as well as its own set of real images reserved for testing. \Cref{tab:band-structure} defines these bands, with boundaries at $150$, $250$, and $400$ images in the pool, taken from the measured post-curation distribution.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Band structure: real-image pool size to training and test split.}
 \label{tab:band-structure}
@@ -38,7 +38,7 @@ The training signal for Band A is allocated entirely to synthetic imagery. For t
 
 Synthetic images were produced using the \textit{Gemini} \texttt{gemini-3.1-flash-image-preview} model \cite{GeminiAPI}. The choice was driven by prompt-length capacity. The construction below inserts a substantial amount of verbatim reference text into every request. The candidates differ by orders of magnitude in terms of their reading capacity (\Cref{tab:prompt-capacity}). Beyond that the model was chosen by inspecting sample outputs, an insufficient basis for a decision of this weight, which \Cref{sec:generator_comparison} revisits.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Prompt-length capacity of candidate generators.}
 \label{tab:prompt-capacity}
@@ -107,7 +107,7 @@ One property qualifies how far that ground truth can be trusted. The confirmatio
 
 The real test set ranges from $6$ images for the most data-poor Band A classes to $500$ images for the largest Band D classes. Therefore, it cannot support cross-band comparisons without confounding them with test set size. \Cref{tab:synthetic-test-motivation} outlines the issues and presents the standardized $225 \times 50$ synthetic test set developed to address them.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Why a fixed-size, per-class synthetic test set exists.}
 \label{tab:synthetic-test-motivation}
@@ -128,7 +128,7 @@ One design asymmetry should be noted. The training behavior descriptions are phr
 
 \Cref{tab:synthetic-composition} summarizes the output of the pipeline.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption{Synthetic dataset composition as exported.}
 \label{tab:synthetic-composition}
