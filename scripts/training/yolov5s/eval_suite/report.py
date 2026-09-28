@@ -393,7 +393,7 @@ def write_markdown(report: dict, path: Path) -> None:
         L.append("|------|------------------------------|")
         for band in BANDS:
             L.append(f"| {band} | {_fmt(ds['fine_by_band'].get(band))} |")
-        L.append("\n> Watchdog (strategy §3.1): a large/systematic real−synth gap is the "
+        L.append("\n> Assessment (strategy §3.1): a large/systematic real−synth gap is the "
                  "signal to revise the `mixed` default.")
 
     wgc = report["tier2_within_group_confusion"]
