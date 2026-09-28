@@ -25,7 +25,7 @@ Filtering is source-aware and cost-staged rather than uniform. Cheap checks run 
 \draw[arr] (s1) -- (s2);
 \draw[arr] (s2) -- (s3);
 \draw[arr] (s2.south) -- (s5.north);
-\draw[arr] (s3.south) |- ($(s3.south)+(0,-0.5)$) -| (s5.north east);
+\draw[arr] (s3.south) |- ($(s3.south)+(0,-0.5)$) -| (s5.north);
 \draw[arr] (s5) -- (s6);
 \end{tikzpicture}
 \caption[Staged, source-aware quality filtering pipeline]{Staged, source-aware quality filtering pipeline. Cheaper checks run first and gate access to the more expensive stages. The VLM rescue stage applies only to Wikimedia-sourced images that failed automatic animal detection.}
