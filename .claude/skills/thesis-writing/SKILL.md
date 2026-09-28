@@ -59,8 +59,9 @@ These targets are not imported from anywhere. `35-Synthetic_Generator_Comparison
 | Checking LaTeX house style, acronyms, floats, or a submission checklist | `references/mechanics.md` |
 | Choosing plot vs. table vs. inline prose, or laying out a multi-panel image figure | `references/figures.md` |
 | Wanting to see a rule applied to real text from this thesis | `references/examples.md` |
+| Sending a drafted paragraph through DeepL Write, then refitting its citations and markup | `references/deepl.md` |
 
-Read the one you need, not all seven. **`scope.md` is the one to read first when
+Read the one you need, not all eight. **`scope.md` is the one to read first when
 editing existing prose**, because the cheapest fix for a bad paragraph is usually
 deleting it.
 
@@ -71,6 +72,18 @@ claim against its evidence are mandatory** — only hedges that soften tone get 
 **a `\cite` is never a noun and an author name is never a sentence subject** — no
 "\cite{key} showed", no "\citeauthor{key} showed", no "Smith et al. showed". State the finding,
 or say "previous work", and cite at the end (`scope.md` §3).
+
+## After drafting: the DeepL pass
+
+Every new or rewritten paragraph goes through DeepL Write before it is pasted into the
+`.tex`, and the pass is never the last step. The order is fixed: draft under
+`construction.md`, send a plain-prose twin of the paragraph to
+`uv run python -m scripts.thesis.deepl_write rephrase -t en-US` with no `--style`, take back
+only the wording that keeps every claim, hedge, number and actor, and then refit the
+citations and markup by hand. `references/deepl.md` has the procedure, the flatten table, and
+the refit checklist. Three things it will not let you skip: never send raw LaTeX without
+`--latex`, never `--in-place` on a manuscript file, and every `\cite` key that left the
+paragraph comes back at the end of the sentence that carries its claim.
 
 ## Where the rules come from
 
