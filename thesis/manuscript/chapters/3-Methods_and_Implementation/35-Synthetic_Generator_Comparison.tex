@@ -128,11 +128,11 @@ FLUX API & Terms forbid training on its outputs \\
 \centering
 \caption[Locally-run open-weight generators]{Locally-run open-weight generators. Qwen-Image was dropped for quantization artifacts, and FLUX.2-dev was rejected because it exceeds device memory.}
 \label{tab:generator-local-roster}
-\begin{tabularx}{\textwidth}{@{}lXll@{}}
+\begin{tabularx}{\textwidth}{@{}*{4}{>{\raggedright\arraybackslash}X}@{}}
 \toprule
 Model & Scale & License & Precision \\
 \midrule
-\begin{tabular}[t]{@{}l@{}}RealVisXL +\\SDXL-Lightning \cite{podellSDXLImprovingLatent2023}\end{tabular} & SDXL, $4$-step & OpenRAIL++ & fp16 \\
+RealVisXL +\newline SDXL-Lightning \cite{podellSDXLImprovingLatent2023} & SDXL, $4$-step & OpenRAIL++ & fp16 \\
 SD 3.5 Medium \cite{esserScalingRectifiedFlow2024} & $2.5\,\mathrm{B}$ & Stability Comm. & bf16 \\
 SD 3.5 Large & $8\,\mathrm{B}$ & Stability Comm. & bf16 \\
 SD 3.5 Large Turbo & $8\,\mathrm{B}$, $4$-step & Stability Comm. & bf16 \\
