@@ -2,7 +2,7 @@
 \cleardoublepage
 \chapter{Results}\label{chapter:results}
 
-This chapter reports two experiments. \Cref{sec:results_synthetic_data_practicability} reports the practicability of synthetic training data through a controlled comparison of twelve generator and prompt-regime cells. \Cref{sec:results_regime_comparison} reports detection accuracy across the four training bands and the three test domains of \Cref{sec:evaluation_framework}. Three findings from them recur throughout the remaining chapters: prompt detail matters more than generator identity, synthetic imagery substitutes for half of a small real training set but not for all of it, and species classification rather than localization is where every model loses its accuracy. \Cref{sec:results_kd_and_embedded} reports one distillation comparison and one runtime measurement, and \Cref{sec:results_general_observations} collects what crosses section boundaries.
+This chapter reports the experiments in four sections. \Cref{sec:results_synthetic_data_practicability} reports the practicability of synthetic training data through a controlled comparison of twelve generator and prompt-regime cells. \Cref{sec:results_regime_comparison} reports detection accuracy across the four training bands and the three test domains of \Cref{sec:evaluation_framework}. \Cref{sec:results_kd_basic_comparison} compares the distilled student with its directly fine-tuned counterpart at one design point. \Cref{sec:results_embedded_benchmark} measures the runtime of each model on the proxy device. Three findings from these sections recur throughout the remaining chapters: prompt detail matters more than generator identity, synthetic imagery substitutes for half of a small real training set but not for all of it, and species classification rather than localization is where every model loses accuracy.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Practicability of Synthetic Training Data: Generator Comparison}\label{sec:results_synthetic_data_practicability}
@@ -156,7 +156,10 @@ With a single training seed, the production generator scored $0.064$, while its 
 % scripts/training/yolo26n/model_exports/yolo26n-kd-bs16-20260916-101612/eval_run.log
 The mixed test set is the union of the two sets, which are scored together as a single set of $75{,}052$ images. Four models are reported: the off-the-shelf \textit{MegaDetector} and \textit{SpeciesNet} ensemble, the same ensemble with a fine-tuned classifier (\Cref{sec:teacher_finetuning}), \textit{YOLOv5s}, and \textit{YOLO26n} with direct fine-tuning. The distilled student is held back for \Cref{sec:results_kd_basic_comparison}.
 
-Two qualifications apply to every number here. Each model contributes one training run. The bootstrap confidence intervals of \Cref{sec:metric_selection} were never computed since the resample count remained at zero, so no difference between two cells is significant.
+Each fine-tuned model comes from a single training run on one \textit{NVIDIA A40}, lasting between roughly $21$ hours and $8.8$ days. The teacher's classifier fine-tune stopped early at epoch $22$ after about $21$ hours. \textit{YOLOv5s} ran $200$ epochs in about $5.0$ days, \textit{YOLO26n} ran $193$ epochs under direct fine-tuning in about $8.8$ days, and the distilled run finished $186$ epochs in about $4.5$ days.  % run directory logs, first and last epoch timestamps
+These wall-clock figures are not a throughput comparison, because all four runs overlapped on the same host and contended for the same device.
+
+Two qualifications apply to every number here. Each model contributes that single run, and the bootstrap confidence intervals of \Cref{sec:metric_selection} were never computed since the resample count remained at zero, so no difference between two cells is significant.
 % evaluation_report.json: config.bootstrap_n = 0 in all five eval runs
 The bands hold different species, which are assigned based on data availability rather than randomly (\Cref{sec:band_structure}). Therefore, every cross-band difference is confounded with how hard those species happen to be.
 
@@ -261,6 +264,8 @@ The central result is the contrast between Band B and Band C on the real test se
 
 That conclusion does not extend to Band A. Training a class entirely on synthetic imagery leaves the primary detector at $0.300$ on the real test set, roughly half the $0.591$ the same budget of real photographs achieves, and \textit{YOLOv5s} at $0.058$. The direction is unambiguous across all three models even without confidence intervals, because the gap is an order of magnitude larger than the Band B against Band C difference beside it. Synthetic imagery substitutes for half a training set and not for all of it. Whether the failure is one of image realism or of pose and background diversity is not separable from these numbers.
 
+The generator comparison of \Cref{sec:results_practicability_verdict} reaches the same boundary from the other side. It ranks generators on the data-rich classes but cannot rank them on the data-poor classes for which synthetic data was generated in the first place. Both studies therefore place the useful range of synthetic imagery in the middle of the availability spectrum, where it supplements a small real training set. Neither study supports it at the long-tail end that motivated generating it. The two studies were designed independently, so the shared boundary does not follow from a shared assumption.
+
 The same grid on the mixed test set shows smaller gaps, which argues for reporting both. Band A increases from $0.300$ to $0.579$ for the primary detector when its training domain is included in the test set. Meanwhile, Band D decreases from $0.742$ real to $0.726$ mixed.
 
 Two smaller observations remain. First, the \texttt{coarse} column falls below the \texttt{fine} column in several cells. This is most visible in Band C for the primary detector, where it is $0.597$ against $0.614$ on the mixed test set. This is the duplicate-merge penalty that \Cref{sec:evaluation_axes} calls the conservative direction. Additionally, fine-tuning the teacher's classifier lowers Band A's accuracy on real photographs rather than raising it, from $0.324$ off the shelf to $0.182$ fine-tuned.  % model_exports/pretrained/eval/eval_band_grid.csv
@@ -353,11 +358,7 @@ A training-composition imbalance is the natural candidate and is not verified he
 One question from the grouping review cannot be answered using these artifacts. Confirming that lion and tiger are not confused with each other requires cross-group counts, which the suite only provides within groups. The rosette half is confirmed with $216$ mutual confusions among the snow leopard, leopard, and jaguar. All of this concerns the student trained by direct fine-tuning, which leaves its training recipe and deployment cost untested.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Model Compression Results}\label{sec:results_kd_and_embedded}
-
-\Cref{sec:lit_knowledge_distillation,sec:lit_embedded_inference} survey a design space of distillation objectives, teacher and student pairings, weighting schedules and quantization strategies. What was carried out against it is one comparison between two training runs at one hyperparameter point, and one runtime measurement on one proxy device with no optimization applied. Both findings are reported as indicative evidence at a single design point, and the rest is deferred to \Cref{sec:further_work}.
-
-\subsection{Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison}\label{sec:results_kd_basic_comparison}
+\section{Distillation Against Direct Fine-Tuning}\label{sec:results_kd_basic_comparison}
 
 Setup A and Setup B of \Cref{sec:augmentation_setups} are the two runs compared here, both training \textit{YOLO26n} for $225$ classes at $640$ px on the same data with the same schedule.
 Setup A blends the frozen teacher's cached class distribution into the classification target as described in \Cref{sec:kd_loss} at the default $T = 4$ and $\alpha = 0.5$. Setup B leaves the assigner's targets unchanged. Both use the basic augmentation set of \Cref{sec:basic_augmentation} through the same code path. Therefore, the intended single varied factor is the training signal.
@@ -397,7 +398,8 @@ Third, the direct run stopped on its own patience criterion at epoch $193$ with 
 
 Four limits bound what the comparison establishes, and all four are scope boundaries rather than defects. The test is performed on one $(T, \alpha)$ point, not the \Cref{sec:kd_loss} grid, so a benefit is ruled out at that point, not distillation in general. It tests one teacher, the fine-tuned ensemble, at a parameter ratio of about $70$ to $1$. \Cref{sec:kd_loss} identifies this ratio as being far outside the range that the literature considers safe. It is also a documented setting for negative transfer. It tests response-based distillation only, feature-based alignment having been excluded on architectural grounds before any run started. The multi-animal subset cut, which was expected to demonstrate the supervision advantage of distillation, was never evaluated. Thus, the one mechanism that might favor Setup A remains unexamined. Regardless of which recipe wins on accuracy, the student still has to operate within a per-frame budget.
 
-\subsection{Runtime Benchmark on the Proxy Device}\label{sec:results_embedded_benchmark}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Runtime Benchmark on the Proxy Device}\label{sec:results_embedded_benchmark}
 
 Every model was exported and timed on a \textit{Raspberry Pi 400} rather than on the \textit{QCS605}, because the target's Hexagon 685 DSP is tied to a 2018-era vendor stack whose inconsistently documented operator support makes routine model iteration a driver-debugging exercise. The board's four Cortex-A72 cores are estimated to run $10$ to $15\%$ slower than the target's Kryo 300 cores, so the proxy supplies a conservative floor rather than a ceiling to discount.  % docs/2026-03-09_hardware-proxy-selection.md
 There are two limits to that inference. First, the board has no analogue to the Hexagon 685 DSP. Second, its Cortex-A72 predates the ARMv8.2 extensions, so it provides neither the $8$-bit dot-product instruction nor the half-precision arithmetic that the Kryo 300 cores do.  % reports/embedded_benchmark/device_profile.json
@@ -450,16 +452,3 @@ The export path, runtime selection, thermal campaign, and host-device parity che
 
 Three limits apply to everything above. The models are full-precision and unoptimized, so the figures bound latency from above rather than estimating what the hardware can do. The campaign covers one device, and the translation to the \textit{QCS605} rests on a published CPU-performance estimate rather than a measurement of the target. Most importantly, the Hexagon~685 DSP has no analogue on the proxy, so the accelerated path the quantization literature of \Cref{sec:lit_embedded_inference} reports order-of-magnitude gains for remains unmeasured. How close the target's accelerated path comes to real-time inference is therefore still open, and \Cref{sec:further_work} treats it as the first item of further work.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Cross-Cutting Observations}\label{sec:results_general_observations}
-
-Two observations span the sections above and belong to none of them.
-
-\paragraph{Training cost}
-The four final runs used a single \textit{NVIDIA A40} for between roughly $21$ hours and $8.8$ days. The teacher's classifier fine-tune early-stopped at epoch $22$ after about $21$ hours. \textit{YOLOv5s} ran $200$ epochs in about $5.0$ days. \textit{YOLO26n} ran $193$ epochs under direct fine-tuning in about $8.8$ days. The distilled run finished $186$ epochs in about $4.5$ days.  % run directory logs, first and last epoch timestamps
-These wall-clock figures are not a throughput comparison, because all four runs overlapped on the same host and each was contending for the same device.
-
-\paragraph{The two synthetic-data results agree}
-\Cref{sec:results_practicability_verdict} concludes that the generator comparison can rank generators for data-rich classes but not for data-poor ones. \Cref{sec:results_band_granularity} comes to a similar conclusion from a different perspective: synthetic imagery can substitute for half of a small real training set at little to no measurable cost, whereas Band A loses roughly half of the accuracy that the same budget of real photographs achieves. Both studies place the useful range of synthetic data in the middle of the availability spectrum and neither study supports using synthetic data at the extreme end of the long tail that motivated generating it. Since the two sub-studies were designed independently, their agreement is corroboration rather than a shared assumption.
-
-\Cref{sec:results_domain_shift} supplies the mechanism, since a model trained on synthetic images of a class performs better on synthetic test images of that class than on real ones by a median of $0.72$ mAP for Band A. Only the paired per-class delta reveals this.
