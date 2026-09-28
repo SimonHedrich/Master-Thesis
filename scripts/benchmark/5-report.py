@@ -330,7 +330,7 @@ def plot_pareto(rows: list[dict], out: Path) -> bool:
         # Default: label above the mixed marker. When another model sits within
         # a narrow latency window (e.g. the two YOLO26n fine-tunes at 423 and
         # 442 ms) and its rule spans this marker's height, a label above would
-        # land on the neighbour's real-only square, so hang it to the right of
+        # land on the neighbour's real-only square, so hang it to the left of
         # this model's own real-only square instead, below the neighbours'
         # labels.
         crowded = any(
@@ -341,7 +341,7 @@ def plot_pareto(rows: list[dict], out: Path) -> bool:
         )
         if crowded:
             ax.annotate(label, (x, m_real), textcoords="offset points",
-                        xytext=(9, 0), fontsize=8.5, color=INK, ha="left",
+                        xytext=(-9, 0), fontsize=8.5, color=INK, ha="right",
                         va="center")
         else:
             ax.annotate(label, (x, m_mixed), textcoords="offset points",
