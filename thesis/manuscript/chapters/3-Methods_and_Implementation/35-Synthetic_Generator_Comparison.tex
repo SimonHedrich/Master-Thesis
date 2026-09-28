@@ -169,13 +169,13 @@ Regime & Budget & Purpose \\
 
 The \texttt{compressed} prompt is dense and ordered by importance since an encoder weighs early tokens most heavily and discards the rest. A trimming rule first drops habitat, then pose, and then reduces diagnostic features to one. This ensures that the species name and at least one marker survive the longest.
 
-The \texttt{maxlen} regime is built by accumulation rather than truncation. It grows a short template until the next description sentence exceeds the budget. The per-image pose and environment carry over from the production image list so that the prompts maintain real per-image variation. Measured lengths fall below the nominal ceilings (\Cref{sec:appendix_prompt_token_budgets}). \Cref{fig:prompt-regime-example} illustrates the extent of the difference for one class.
+The \texttt{maxlen} regime is built by accumulation rather than truncation. It grows a short template until the next description sentence exceeds the budget. The per-image pose and environment carry over from the production image list so that the prompts maintain real per-image variation. Measured lengths fall below the nominal ceilings (\Cref{sec:appendix_prompt_token_budgets}). \Cref{fig:prompt-regime-example} illustrates the extent of the difference for one class. \Cref{sec:appendix_prompt_regime_examples} reproduces all three prompts for that image in full.
 
 \begin{figure}[H]
 \centering
 \begin{minipage}{0.95\textwidth}
 \small
-\textbf{\texttt{compressed}} ($150$ characters):
+\textbf{\texttt{compressed}} ($159$ characters):
 \begin{quote}\itshape
 lion, tawny uniform coat, tufted tail, muscular shoulders, standing alert, on open savanna grassland, wildlife photograph, telephoto, photorealistic, full body
 \end{quote}

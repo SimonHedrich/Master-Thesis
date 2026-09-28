@@ -415,6 +415,13 @@ Primate & \texttt{canopy}, \texttt{forest\_interior} & Social grooming, branch-w
 The prompt regimes of \Cref{sec:generator_comparison_prompts} were verified against the target encoders' own tokenizers rather than estimated from word counts. Across all $1{,}200$ \texttt{compressed} prompts the longest reached $57$ tokens against the $75$-token budget. Across all $2{,}400$ \texttt{maxlen} prompts the longest reached $245$ tokens in the $256$-token tier and $495$ in the $512$-token tier. Both \texttt{maxlen} tiers sit deliberately under their nominal ceilings, to absorb the difference between the two related tokenizers that share the larger tier.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{One Image Under Every Prompt Regime}\label{sec:appendix_prompt_regime_examples}
+
+\Cref{fig:prompt-regime-example} shows the three prompt regimes for one class in excerpt. This section reproduces the prompts in full for the same image slot, the first \texttt{lion} image of the comparison training set, so that the regimes can be compared on identical content. The text is quoted verbatim from the archived prompt files, with straight quotation marks and special characters converted to their typeset equivalents. The \texttt{compressed} prompt is a single ordered clause list. The two \texttt{maxlen} tiers share one template and differ only in how many description sentences the token budget admits. The \texttt{full} prompt inserts the Wikipedia description, behavior and habitat sections verbatim, which is why its length is set by the article rather than by the template. The pose and environment sentences in the \texttt{maxlen} prompts are the ones the \texttt{full} prompt carries in its scene specification, so all three regimes describe the same scene.
+
+\input{appendices/prompt_regime_examples}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Three Look-Alike Zebra Species}\label{sec:appendix_zebra_species}
 
 The look-alike group of \Cref{tab:generator-comparison-classes} turns on stripe geometry, which is easier to judge by eye than to read.
