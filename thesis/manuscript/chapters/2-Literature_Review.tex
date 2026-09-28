@@ -4,7 +4,7 @@
 
 This chapter provides an overview of the literature that informed the technical decisions made in this work.
 
-\Cref{sec:lit_object_detection} focuses on object detection, particularly the lightweight models in the YOLO family and the detector-plus-classifier ensemble, which is the established alternative for wildlife imagery. \Cref{sec:lit_synthetic_data} covers generative image models, the sim-to-real gap, synthetic image quality evaluation, and the role of synthetic data in long-tail recognition. \Cref{sec:lit_kd_and_embedded} covers knowledge distillation, as well as the quantization and benchmarking practices that determine whether a trained detector fits an embedded latency budget. \Cref{sec:lit_evaluation_metrics} closes with the evaluation literature this work's own metrics and test-set design draw on.
+\Cref{sec:lit_object_detection} focuses on object detection, particularly the lightweight models in the YOLO family and the detector-plus-classifier ensemble, which is the established alternative for wildlife imagery. \Cref{sec:lit_synthetic_data} covers generative image models, the sim-to-real gap, synthetic image quality evaluation, and the role of synthetic data in long-tail recognition. \Cref{sec:lit_kd_and_embedded} covers knowledge distillation, as well as the quantization and benchmarking practices that determine how fast a trained detector runs once embedded. \Cref{sec:lit_evaluation_metrics} closes with the evaluation literature this work's own metrics and test-set design draw on.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Object Detection for Wildlife Monitoring}\label{sec:lit_object_detection}
@@ -13,7 +13,7 @@ Modern object detection descends from two lineages that emerged within a few yea
 
 The single-stage lineage eliminated the separate proposal step. \textit{YOLO}, for \enquote{you only look once}, reframed detection as a single regression over the whole image \cite{redmonYouOnlyLook2016a}, and multi-scale default boxes narrowed the resulting accuracy gap while retaining one forward pass \cite{liuSSDSingleShot2016a}. Correcting the inherent foreground-background class imbalance of dense single-stage prediction closed most of what remained \cite{linFocalLossDense2017}.
 
-Two-stage detectors keep a modest accuracy advantage, at the cost of two sequential network evaluations per image. In contrast, single-stage detectors sacrifice some accuracy for a fixed, single-pass cost that does not increase with the number of candidate objects in a scene. Since the target hardware has a fixed, tight per-frame latency budget, only the single-stage lineage is considered further.
+Two-stage detectors keep a modest accuracy advantage, at the cost of two sequential network evaluations per image. In contrast, single-stage detectors sacrifice some accuracy for a fixed, single-pass cost that does not increase with the number of candidate objects in a scene. Since the target hardware must answer while the animal is still in view, only the single-stage lineage is considered further.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Challenges in Wildlife Species Recognition}\label{sec:lit_wildlife_challenges}
@@ -56,7 +56,7 @@ Instead of making a species-level prediction regardless of confidence, the class
 
 This arrangement is the practical accuracy reference for recognizing wildlife species from camera-style imagery due to two properties. Cropping to a detected animal before classifying improves macro-averaged F1 by roughly $25\%$ over whole-image classification on a large, long-tailed camera-trap dataset, and the result reproduces on two further public datasets \cite{gadotCropNotCrop2024}. The rollup then ensures that classifications that are too uncertain to identify a species correctly still return the correct genus or family. A single detector trained directly on species-level classes does not have this capability by default. Below its confidence threshold a detection is simply dropped or misclassified, unless an intermediate taxonomic level is deliberately engineered into the label space or the loss, which \textit{WordTree} showed to be possible in principle for a detector \cite{redmonYOLO9000BetterFaster2017}.
 
-The cost is structural, and the separate designs of the two components do not hide it. Both a full detector and a large classification backbone run, and the classifier runs once per detected crop. Therefore, total inference time scales with the number of animals in the frame instead of staying constant. \textit{EfficientNetV2-M} on its own is far larger than the nano-scale backbones already established as demanding to fit inside the per-frame latency budget of the \textit{QCS605}'s Hexagon 685 DSP. This comparison does not even take into account the detector backbone or the per-crop multiplier.
+The cost is structural, and the separate designs of the two components do not hide it. Both a full detector and a large classification backbone run, and the classifier runs once per detected crop. Therefore, total inference time scales with the number of animals in the frame instead of staying constant. \textit{EfficientNetV2-M} on its own is far larger than the nano-scale backbones that the \textit{QCS605}'s Hexagon 685 DSP is sized for. This comparison does not even take into account the detector backbone or the per-crop multiplier.
 
 Therefore, the choice between the two architectures is based on deployability rather than accuracy. The ensemble is more accurate and degrades more gracefully. However, fitting it to the target hardware would require compressing two networks that were trained separately, each with its own accuracy-versus-size curve. A single end-to-end detector trained on the 225-class taxonomy sacrifices both the accuracy margin and the taxonomic fallback. However, it runs at a fixed per-frame cost and leaves one network to compress and export. This work trains the single detector, shifting the accuracy burden to the training data. A nano-scale detector asked to resolve 225 fine-grained classes must be shown enough examples of each class.
 
@@ -136,7 +136,7 @@ Rather than any single method, it is this contrast that motivates the band struc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model Compression for Embedded Inference}\label{sec:lit_kd_and_embedded}
 
-Getting a detector trained this way onto the target device raises two further questions: whether a large model's knowledge can be transferred into a small one, and what governs whether the small one meets a latency budget once deployed.
+Getting a detector trained this way onto the target device raises two further questions: whether a large model's knowledge can be transferred into a small one, and what governs how fast the small one runs once deployed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Knowledge Distillation Fundamentals}\label{sec:lit_knowledge_distillation}
