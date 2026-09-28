@@ -29,7 +29,7 @@ The objective is to build, train and evaluate a nano-scale detector for wildlife
     \item Does a nano-scale detector meet the per-frame latency budget of the target hardware without quantization or any other compression step, measured on a target-adjacent device?
 \end{enumerate}
 
-The four questions did not receive equal effort. About $80\%$ of the available time was spent on dataset construction and generating synthetic images, so questions $2$ and $3$ represent most of the experimental work. Question $1$ was answered using data from a single teacher-student pairing and a single distillation hyperparameter setting. Question $4$ was answered using a single full-precision runtime measurement on the proxy device. \Cref{sec:limitations} treats this reduced scope as a named limitation. \Cref{chapter:discussion_conclusion} restates and answers each question in turn, using the evidence assembled in \Cref{chapter:results}.
+The four questions did not receive equal effort. Dataset construction and synthetic image generation took considerably more time than initially allocated, so questions $2$ and $3$ represent most of the experimental work. Question $1$ was answered using data from a single teacher-student pairing and a single distillation hyperparameter setting. Question $4$ was answered using a single full-precision runtime measurement on the proxy device. \Cref{sec:limitations} treats this reduced scope as a named limitation. \Cref{chapter:discussion_conclusion} restates and answers each question in turn, using the evidence assembled in \Cref{chapter:results}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Environment}\label{sec:environment}
