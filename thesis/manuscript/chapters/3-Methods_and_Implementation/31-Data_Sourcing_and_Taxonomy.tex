@@ -40,26 +40,17 @@ Total & $225$ & $100\%$ \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Licensing Assessment of Candidate Sources}\label{sec:candidate_sources_licensing}
 
-With the class list finalized, candidate image sources were evaluated based on two criteria: the commercial usability of the license and the suitability of the imagery for close-to-mid-range daylight observation. Since the trained weights are intended for a commercial product, any dataset with a NonCommercial, NoDerivatives, or ShareAlike clause was excluded (\Cref{tab:candidate-sources}).
+With the class list finalized, candidate image sources were evaluated based on two criteria: the commercial usability of the license and the suitability of the imagery for close-to-mid-range daylight observation. Because the trained weights are intended for a commercial product, any dataset with a NonCommercial, NoDerivatives, or ShareAlike clause was excluded. The seven candidates and their verdicts are listed below, with the sources that were used first.
 
-\begin{table}[H]
-\centering
-\caption{Candidate image sources and their licensing verdicts.}
-\label{tab:candidate-sources}
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.22\textwidth} X >{\raggedright\arraybackslash}p{0.20\textwidth}@{}}
-\toprule
-Source & Notes & Verdict \\
-\midrule
-iNaturalist Competition datasets \cite{hornINaturalistSpeciesClassification2018} & Taxonomically ideal (2021 edition: $246$ mammal species, $68{,}917$ training images) but distributed under a non-commercial academic license & Not allowed \\
-iNaturalist Open Data (via \textit{GBIF} \cite{GBIF} / AWS S3) & Same underlying photographs, filtered to observations whose contributors opted into CC0 or CC-BY & Used \\
-\textit{LILA BC} \cite{LILABCLabeled} (Snapshot Serengeti, Snapshot Safari, WCS Camera Traps, Caltech Camera Traps) & CDLA-Permissive license & License allowed. Rejected on suitability grounds, see \Cref{sec:sourcing_execution} \\
-Open Images V7 \cite{kuznetsovaOpenImagesDataset2020} & CC-BY 2.0 images / CC-BY 4.0 boxes. \enquote{Mammal} class covers $95{,}335$ boxed images under colloquial (non-species-level) labels & Used, with taxonomy remapping \\
-COCO 2017 \cite{linMicrosoftCOCOCommon2015} & $330\mathrm{k}$ images, $10$ mammal-adjacent classes including \texttt{person} & Used, with strict filtering (\Cref{sec:sourcing_execution}) \\
-iWildCam, Wildlife-71, ATRW & Contain unverifiable web-scraped imagery or images contaminated with restricted iNaturalist data & Not allowed \\
-TreeOfLife-200M / \textit{BioCLIP} \cite{stevensBioCLIPVisionFoundation2024} & Raw image bundle is license-mixed (partially CC-BY-NC-ND via FathomNet). Model weights themselves are MIT-licensed & Weights used as a pseudo-labeler only, not as an image source \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\begin{description}
+    \item[iNaturalist Open Data] Used. The photographs are exposed through \textit{GBIF} \cite{GBIF} and an AWS S3 mirror, filtered to observations whose contributors opted into a CC0 or CC-BY license.
+    \item[Open Images V7] Used, with taxonomy remapping. The images are licensed CC-BY 2.0 and the boxes CC-BY 4.0. Its \enquote{Mammal} class covers $95{,}335$ boxed images under colloquial rather than species-level labels \cite{kuznetsovaOpenImagesDataset2020}.
+    \item[COCO 2017] Used, with strict filtering (\Cref{sec:sourcing_execution}). Its $330\mathrm{k}$ images span $10$ mammal-adjacent classes including \texttt{person} \cite{linMicrosoftCOCOCommon2015}.
+    \item[BioCLIP] Weights used as a pseudo-labeler only, not as an image source. The model weights are MIT-licensed, whereas the underlying TreeOfLife-200M image bundle is license-mixed and partially CC-BY-NC-ND \cite{stevensBioCLIPVisionFoundation2024}.
+    \item[LILA BC camera-trap archives] License permitted, rejected on suitability. The CDLA-Permissive license would have allowed Snapshot Serengeti, Snapshot Safari, WCS Camera Traps, and Caltech Camera Traps, but their imagery does not match the observation scenario (\Cref{sec:sourcing_execution}) \cite{LILABCLabeled}.
+    \item[iNaturalist Competition datasets] Not allowed. The $2021$ edition is taxonomically ideal with $246$ mammal species and $68{,}917$ training images, but it is distributed under a non-commercial academic license \cite{hornINaturalistSpeciesClassification2018}.
+    \item[iWildCam, Wildlife-71, ATRW] Not allowed. They contain unverifiable web-scraped images or images contaminated with restricted iNaturalist data.
+\end{description}
 
 Source selection also fixed how far each source's own species labels can be trusted, an axis the curation pipeline depends on. \textit{iNaturalist}, \textit{GBIF} and Wikipedia-derived material are label-trusted, since their labels carry an identifiable contributor and community verification. Open Images and the stock-image source are unverified because their labels are colloquial or of unknown origin. An unverified source only contributes to a class's usable pool where an independent classifier corroborates the label. In contrast, a trusted source contributes simply by passing the quality gates (\Cref{sec:data_quality_and_curation}).
 
