@@ -360,7 +360,7 @@ One question from the grouping review cannot be answered using these artifacts. 
 \subsection{Distillation vs.\ Direct Fine-Tuning: A Single Basic Comparison}\label{sec:results_kd_basic_comparison}
 
 Setup A and Setup B of \Cref{sec:augmentation_setups} are the two runs compared here, both training \textit{YOLO26n} for $225$ classes at $640$ px on the same data with the same schedule.
-Setup A blends the frozen teacher's cached class distribution into the classification target via \Cref{eq:kd-blend} at the default $T = 4$ and $\alpha = 0.5$. Setup B leaves the assigner's targets unchanged. Both use the basic augmentation set of \Cref{sec:basic_augmentation} through the same code path. Therefore, the intended single varied factor is the training signal.
+Setup A blends the frozen teacher's cached class distribution into the classification target as described in \Cref{sec:kd_loss} at the default $T = 4$ and $\alpha = 0.5$. Setup B leaves the assigner's targets unchanged. Both use the basic augmentation set of \Cref{sec:basic_augmentation} through the same code path. Therefore, the intended single varied factor is the training signal.
 
 \begin{table}[H]
 \centering
