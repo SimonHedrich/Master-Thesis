@@ -227,7 +227,7 @@ The remaining $144$ sit alone. Thus, $\Delta_{\text{fine}}$ measures confusion w
 % docs/progress_notes/2026-06-11_evaluation-suite-implementation.md
 Cross-group misclassifications, duplicate detections, and background false positives all end up in $\Delta_{\text{coarse}}$, making it an upper bound on cross-group species confusion. This makes it a diagnostic rather than a finding about taxonomy. The next question is whether the training band moves it.
 
-\subsection{Band $\times$ Granularity: Does Training-Data Composition Change Accuracy?}\label{sec:results_band_granularity}
+\subsection{Synthetic Versus Real Training Data at Matched Budget}\label{sec:results_band_granularity}
 
 This is the comparison the band structure of \Cref{sec:band_structure} was built to support. Bands A, B, and C have an equal training budget of $200$ images and differ only in composition: entirely synthetic, half real and half synthetic, and entirely real. Band D is the data-rich reference. \Cref{tab:band-grid-real} reports the grid on the real-only breakout, which \Cref{sec:mixed_default} designates the tie-breaker here, and \Cref{tab:band-grid-mixed} the same grid on the mixed test set.
 
