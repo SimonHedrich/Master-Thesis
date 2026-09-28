@@ -14,13 +14,13 @@ This section reports the controlled comparison designed in \Cref{sec:generator_c
 
 \Cref{tab:generator-ranking} gives the headline result. Accuracy is mean average precision over the real test set, averaged across training seeds and reported with its standard deviation. The confusion column is the within-group error rate over the three zebra species defined in \Cref{sec:generator_comparison_evaluation}.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Generator ranking by downstream accuracy]{All twelve cells, ordered by mean average precision on the real test set from highest to lowest. \enquote{Regime} is the prompt regime of \Cref{tab:generator-prompt-regimes}. \texttt{gemini-3.1-flash-image-preview} produced the production synthetic dataset.}
 \label{tab:generator-ranking}
 \begin{tabular}{@{}llrlr@{}}
 \toprule
-Generator & Regime & Seeds & mAP & Zebra confusion \\
+Generator & Regime & Seeds & mAP & Zebra conf. \\
 \midrule
 \texttt{gpt-image-2} (low) & \texttt{full} & $3$ & $0.134 \pm 0.014$ & $0.253$ \\
 \texttt{gpt-image-2} (medium) & \texttt{full} & $3$ & $0.126 \pm 0.011$ & $0.228$ \\
@@ -47,7 +47,7 @@ As expected of a $1{,}200$-image fine-tune across $12$ classes scored on a far l
 
 The controlled ablation of \Cref{sec:generator_comparison_prompts} distinguishes between the two variables by varying the prompt length alone within a fixed model for two models with different levels of capability (\Cref{tab:prompt-length-ablation}).
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Prompt-length ablation, tabulated]{The controlled prompt-length ablation: the same model, the same everything else, only the prompt regime varies.}
 \label{tab:prompt-length-ablation}
@@ -70,7 +70,7 @@ The gap between the API and local tiers is therefore substantially, though not e
 
 Within the local tier, generation cost and downstream quality are unrelated to the point of inversion. HiDream-I1 is the most expensive cell to produce, at nearly $48$ GPU-hours for $1{,}200$ images. It ranks eleventh out of twelve, while the twelfth-ranked cell is the cheapest by two orders of magnitude. SD 3.5 Medium offers the best trade-off in the grid and is indistinguishable from SD 3.5 Large, despite having less than half the generation time. Model scale, denoising-step count and generation time all fail to predict the outcome. However, model family does predict the outcome, with the Stable Diffusion 3.5 architecture leading at either size.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\textwidth]{figures/plots/model_comparison_maxlen_cost_vs_map.png}
 \caption[Generation cost against downstream accuracy]{Generation cost against downstream accuracy for the six locally-run generators. The absence of any trend is the result: the most and least expensive cells are the two weakest.}
@@ -84,7 +84,7 @@ Within the local tier, generation cost and downstream quality are unrelated to t
 
 The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced across the twelve classes, and that imbalance is this section's most important result. Nearly all of the discriminating signal comes from the three data-rich anchor classes and the zebras, with American black bear alone ranging from $0.072$ for the weakest cell to $0.326$ for the strongest. The six rare classes behave in the opposite way. Five of them, namely aye-aye, kinkajou, ringtail, saiga and the pangolin family, stay below an average precision of $0.05$ for \emph{every} cell in the grid. Water deer is the sole exception and peaks at $0.066$.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{figures/plots/model_comparison_full_per_class_heatmap.png}
 \caption[Per-class average precision across all cells]{Per-class average precision for every cell, with rows grouped by training band and columns by generator tier. The contrast between the data-rich rows, which carry the ranking, and the near-zero rare-class rows is the section's central observation. \Cref{tab:appendix-per-class-ap-rare,tab:appendix-per-class-ap-rich} list the values with their spread across seeds.}
@@ -95,7 +95,7 @@ The aggregate figures in \Cref{tab:generator-ranking} are not evenly sourced acr
 
 One case illustrates this point. FLUX.2-klein depicts kinkajous with heavily ringed tails and spotted coats, closer to a genet or civet than to the real animal, whose tail is plain golden-brown and unringed. This defect is consistent across its images of that class and specific to that model, since SD 3.5 Large and HiDream-I1 render the species correctly from the same prompt (\Cref{fig:kinkajou-generator-samples}). Its effect on measured accuracy is nil, at $0.0064$ against SD 3.5 Large's $0.0058$, so a generator that draws the wrong animal goes unpenalized by the only axis this study executed.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
 \centering
 \renewcommand{\figurename}{Samples}
 \begin{subfigure}[b]{0.23\textwidth}
@@ -166,7 +166,7 @@ A third property specifically bounds the teacher's figures, and it is stated onc
 
 \Cref{tab:headline-cross-model} provides the default cell for all four models with \texttt{fine} granularity across all bands on the mixed test set. The real-only breakout is shown beside it, followed by the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which is the analog of \Cref{sec:mixed_default}.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Headline accuracy of all four evaluated models]{The default cell (\texttt{fine} granularity, all bands) for every model, on the mixed test set and the real-only breakout. $\mathrm{mAP}_{\text{detect}}$ is the class-agnostic analog. The two ensemble rows are scored against ground truth their own localizer produced and are upper bounds.}
 \label{tab:headline-cross-model}
@@ -199,7 +199,7 @@ The real-only breakout falls below the mixed headline for every model by between
 
 For all four models on the mixed test set, \Cref{tab:granularity-gaps} reports the nested ladder of \Cref{eq:granularity-ladder}, with the two gaps that are the quantities of interest.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Granularity gap decomposition on the mixed test set]{The granularity ladder and its two gaps, on the mixed test set over all bands. $\Delta_{\text{coarse}}$ is the cost of naming a look-alike group and $\Delta_{\text{fine}}$ the further cost of naming the species within it.}
 \label{tab:granularity-gaps}
@@ -228,7 +228,7 @@ Cross-group misclassifications, duplicate detections, and background false posit
 
 This is the comparison the band structure of \Cref{sec:band_structure} was built to support. Bands A, B, and C have an equal training budget of $200$ images and differ only in composition: entirely synthetic, half real and half synthetic, and entirely real. Band D is the data-rich reference. \Cref{tab:band-grid-real} reports the grid on the real-only breakout, which \Cref{sec:mixed_default} designates the tie-breaker here, and \Cref{tab:band-grid-mixed} the same grid on the mixed test set.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Band by granularity grid on the real test set]{Band $\times$ granularity grid on the real-only breakout. Band A and Band B are partly scored on their own training domain under the mixed condition of \Cref{tab:band-grid-mixed}, and this table removes that advantage. Band B against Band C here is the synthetic-versus-real training question at matched sample size.}
 \label{tab:band-grid-real}
@@ -270,7 +270,7 @@ Adapting it to $225$ wildlife classes loses generic recognition capability on th
 
 \Cref{sec:mixed_default} makes the mixed default conditional on the paired per-class difference $\Delta_{\text{domain}}(\text{class}) = \mathrm{mAP}_{\text{real}} - \mathrm{mAP}_{\text{synthetic}}$. \Cref{tab:domain-shift-delta} reports its distribution per band as a median with an interquartile range because a mean over $50$ thin Band A classes can be easily altered by a few of them.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Distribution of the paired domain-shift delta per band]{Distribution of $\Delta_{\text{domain}}$ over classes, per band, at \texttt{fine} granularity. A negative value means the class scores higher on the synthetic test set than on the real one. The last column counts classes where the real test set is the easier of the two.}
 \label{tab:domain-shift-delta}
@@ -315,7 +315,7 @@ Two reporting rules mitigate the damage, but do not repair it. Each headline fig
 
 The within-group confusion rate asks a more specific question than the granularity ladder. It asks what fraction of detections that are correctly localized and placed in the right look-alike group name the wrong species inside it. \Cref{tab:lookalike-group-confusion} reports this rate for each group with multiple members, and \Cref{tab:lookalike-group-confusion-excerpt} provides the rates for the two ends.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Within-group confusion, hardest and easiest groups]{The eight hardest and four easiest of the $30$ multi-member look-alike groups by the primary detector's confusion rate, on the mixed test set. \enquote{Matched} counts detections correctly localized and placed in the right group. \Cref{tab:lookalike-group-confusion} holds all $30$.}
 \label{tab:lookalike-group-confusion-excerpt}
@@ -362,7 +362,7 @@ One question from the grouping review cannot be answered using these artifacts. 
 Setup A and Setup B of \Cref{sec:augmentation_setups} are the two runs compared here, both training \textit{YOLO26n} for $225$ classes at $640$ px on the same data with the same schedule.
 Setup A blends the frozen teacher's cached class distribution into the classification target as described in \Cref{sec:kd_loss} at the default $T = 4$ and $\alpha = 0.5$. Setup B leaves the assigner's targets unchanged. Both use the basic augmentation set of \Cref{sec:basic_augmentation} through the same code path. Therefore, the intended single varied factor is the training signal.
 
-\begin{table}[H]
+\begin{table}[htbp]
 \centering
 \caption[Distillation against direct fine-tuning for the student]{Setup A (distillation from the fine-tuned teacher) against Setup B (direct fine-tuning), both \textit{YOLO26n} at $2.71\,\mathrm{M}$ parameters. Every row is a single run, without confidence intervals.}
 \label{tab:kd-vs-direct}

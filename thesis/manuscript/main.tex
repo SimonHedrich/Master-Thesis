@@ -34,6 +34,13 @@
 \tikzset{font={\fontsize{10pt}{12}\selectfont}}
 \usepackage{pdfpages}
 \usepackage{float}
+% let floats move to the next page instead of forcing an early page break ([htbp]),
+% but never past the end of their own section
+\usepackage[section]{placeins}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.6}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
 \usepackage{multirow}
 \usepackage{graphicx}
 \usepackage{svg}
