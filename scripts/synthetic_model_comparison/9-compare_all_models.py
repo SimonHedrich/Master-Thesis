@@ -243,7 +243,31 @@ def plot_headline_map(cells: list[dict], path: Path) -> None:
     print(f"wrote {path.relative_to(REPO_ROOT)}")
 
 
+# Short two-line column labels for the heatmap: the full generator ids are too
+# long to fit twelve columns across a text-width figure.
+HEATMAP_LABEL = {
+    "realvisxl-lightning": "RealVisXL\nLightning",
+    "sd35m": "SD 3.5\nMedium",
+    "flux2-klein-9b": "FLUX.2\nklein 9B",
+    "sd35-large-turbo": "SD 3.5\nLarge Turbo",
+    "sd35-large": "SD 3.5\nLarge",
+    "hidream-i1": "HiDream\nI1",
+    "gemini-3.1-flash-image-preview": "Gemini 3.1\nFlash",
+    "gpt-image-2-low": "GPT-image-2\nlow",
+    "gpt-image-2-medium": "GPT-image-2\nmedium",
+    "gemini-3.1-flash-lite-image": "Gemini 3.1\nFlash-Lite",
+}
+CATEGORY_HEADER = {"local": "local, maxlen", "api_full": "API, full prompt", "api_compressed": "API, compressed"}
+
+
+def heatmap_label(cell: dict) -> str:
+    return HEATMAP_LABEL.get(cell["generator"], cell["generator"])
+
+
 def plot_per_class_heatmap(cells: list[dict], path: Path) -> None:
+    """Near-square 12x12 heatmap sized for a text-width figure: the grid is
+    only twelve cells wide, so a wide aspect ratio would just shrink the
+    annotations below legibility once scaled to the page."""
     by_key = {(c["generator"], c["prompt_regime"]): c for c in cells}
     col_order = [(g, r) for g, r, _ in CELLS if (g, r) in by_key]
     class_names = list(next(iter(by_key.values()))["per_class"].keys())
@@ -256,26 +280,40 @@ def plot_per_class_heatmap(cells: list[dict], path: Path) -> None:
     ])
 
     cmap = plt.matplotlib.colors.LinearSegmentedColormap.from_list("seq_blue", SEQUENTIAL_BLUE)
-    fig, ax = plt.subplots(figsize=(1.5 * len(col_order) + 3, 0.45 * len(class_order) + 2))
+    fig, ax = plt.subplots(figsize=(8.0, 7.2))
     im = ax.imshow(data, cmap=cmap, aspect="auto", vmin=0.0)
 
-    col_labels = [label(by_key[k]) for k in col_order]
     ax.set_xticks(range(len(col_order)))
-    ax.set_xticklabels(col_labels, fontsize=7, rotation=30, ha="right")
+    ax.set_xticklabels([heatmap_label(by_key[k]) for k in col_order], fontsize=9, rotation=90)
     row_labels = [f"{cls}  ({by_key[ref]['per_class'][cls]['band']})" for cls in class_order]
     ax.set_yticks(range(len(class_order)))
-    ax.set_yticklabels(row_labels)
+    ax.set_yticklabels(row_labels, fontsize=9)
+    ax.tick_params(length=0)
 
     for i in range(len(class_order)):
         for j in range(len(col_order)):
             v = data[i, j]
             color = "white" if v > data.max() * 0.6 else "#0b0b0b"
-            ax.text(j, i, f"{v:.3f}", ha="center", va="center", fontsize=7, color=color)
+            ax.text(j, i, f"{v:.3f}", ha="center", va="center", fontsize=9, color=color)
 
-    ax.set_title("Per-class AP — all 12 trained cells (row label shows band A/B/D)")
-    fig.colorbar(im, ax=ax, label="AP", shrink=0.8)
+    # Tier headers above the grid, with thin separators between column groups.
+    categories = [by_key[k]["category"] for k in col_order]
+    j = 0
+    while j < len(categories):
+        k = j
+        while k < len(categories) and categories[k] == categories[j]:
+            k += 1
+        ax.text((j + k - 1) / 2, -0.75, CATEGORY_HEADER[categories[j]], ha="center", va="bottom", fontsize=9, color=MUTED)
+        if k < len(categories):
+            ax.axvline(k - 0.5, color="white", linewidth=2.5)
+        j = k
+    ax.set_ylim(len(class_order) - 0.5, -1.2)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+
+    fig.colorbar(im, ax=ax, label="AP", shrink=0.7, pad=0.02)
     fig.tight_layout()
-    fig.savefig(path, dpi=150)
+    fig.savefig(path, dpi=200)
     plt.close(fig)
     print(f"wrote {path.relative_to(REPO_ROOT)}")
 

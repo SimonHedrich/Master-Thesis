@@ -321,6 +321,75 @@ The \texttt{override} entries in the last column are where that criterion overru
 \renewcommand{\figurename}{Figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Per-Class Accuracy of Every Generator Cell}\label{sec:appendix_per_class_ap}
+
+\Cref{fig:generator-per-class-heatmap} shows the per-class average precision of the twelve generator cells as a heatmap, which conveys the contrast between the rare and the data-rich classes but rounds every value to three decimals and omits the spread across training seeds. \Cref{tab:appendix-per-class-ap-rare,tab:appendix-per-class-ap-rich} list the same values with their standard deviation across seeds, split by band so that each table fits the page. Cells appear in the same order as the heatmap's columns: the six locally-run \texttt{maxlen} cells first, then the four API cells under the full prompt, then the two API cells under the compressed prompt. The values are reproduced from \texttt{model\_comparison\_full\_per\_class\_ap.csv}, the export the heatmap itself is drawn from. Seed counts are those of \Cref{tab:generator-ranking}, namely two seeds per local cell and three per API cell, so a standard deviation over a local cell is the spread of two runs.
+
+\begin{table}[p]
+\centering
+\footnotesize
+\setstretch{1.0}
+\setlength{\tabcolsep}{4pt}
+\caption[Per-class average precision, rare classes]{Per-class average precision of every generator cell on the six Band A classes, mean and standard deviation across training seeds. The second header row gives the class band and the number of real test images.}
+\label{tab:appendix-per-class-ap-rare}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{}llrrrrrr@{}}
+    \toprule
+    Generator & Regime & aye-aye & kinkajou & pangolin family & ringtail & saiga & water deer \\
+     & & (A, $29$) & (A, $160$) & (A, $52$) & (A, $186$) & (A, $50$) & (A, $151$) \\
+    \midrule
+    RealVisXL + Lightning & \texttt{maxlen} & $0.002 \pm 0.001$ & $0.005 \pm 0.005$ & $0.006 \pm 0.000$ & $0.002 \pm 0.001$ & $0.001 \pm 0.000$ & $0.003 \pm 0.002$ \\
+    SD 3.5 Medium & \texttt{maxlen} & $0.001 \pm 0.000$ & $0.002 \pm 0.001$ & $0.003 \pm 0.001$ & $0.002 \pm 0.000$ & $0.012 \pm 0.000$ & $0.015 \pm 0.003$ \\
+    FLUX.2-klein & \texttt{maxlen} & $0.007 \pm 0.002$ & $0.006 \pm 0.002$ & $0.001 \pm 0.000$ & $0.001 \pm 0.000$ & $0.002 \pm 0.001$ & $0.002 \pm 0.000$ \\
+    SD 3.5 Large Turbo & \texttt{maxlen} & $0.008 \pm 0.004$ & $0.003 \pm 0.002$ & $0.003 \pm 0.003$ & $0.001 \pm 0.000$ & $0.001 \pm 0.000$ & $0.005 \pm 0.002$ \\
+    SD 3.5 Large & \texttt{maxlen} & $0.002 \pm 0.001$ & $0.006 \pm 0.002$ & $0.014 \pm 0.002$ & $0.008 \pm 0.006$ & $0.007 \pm 0.002$ & $0.018 \pm 0.003$ \\
+    HiDream-I1 & \texttt{maxlen} & $0.001 \pm 0.001$ & $0.001 \pm 0.000$ & $0.022 \pm 0.007$ & $0.001 \pm 0.000$ & $0.003 \pm 0.003$ & $0.007 \pm 0.007$ \\
+    \midrule
+    \texttt{gemini-3.1-flash-image-preview} & \texttt{full} & $0.027 \pm 0.002$ & $0.021 \pm 0.010$ & $0.010 \pm 0.009$ & $0.004 \pm 0.003$ & $0.033 \pm 0.021$ & $0.012 \pm 0.008$ \\
+    \texttt{gpt-image-2} (low) & \texttt{full} & $0.045 \pm 0.027$ & $0.020 \pm 0.005$ & $0.017 \pm 0.017$ & $0.010 \pm 0.004$ & $0.027 \pm 0.005$ & $0.066 \pm 0.022$ \\
+    \texttt{gpt-image-2} (medium) & \texttt{full} & $0.011 \pm 0.002$ & $0.016 \pm 0.011$ & $0.013 \pm 0.004$ & $0.009 \pm 0.005$ & $0.029 \pm 0.013$ & $0.042 \pm 0.003$ \\
+    \texttt{gemini-3.1-flash-lite-image} & \texttt{full} & $0.027 \pm 0.021$ & $0.020 \pm 0.003$ & $0.005 \pm 0.003$ & $0.005 \pm 0.002$ & $0.020 \pm 0.013$ & $0.013 \pm 0.008$ \\
+    \midrule
+    \texttt{gpt-image-2} (low) & \texttt{compressed} & $0.036 \pm 0.032$ & $0.029 \pm 0.005$ & $0.002 \pm 0.002$ & $0.003 \pm 0.002$ & $0.005 \pm 0.004$ & $0.011 \pm 0.010$ \\
+    \texttt{gemini-3.1-flash-lite-image} & \texttt{compressed} & $0.015 \pm 0.017$ & $0.012 \pm 0.003$ & $0.000 \pm 0.000$ & $0.001 \pm 0.001$ & $0.002 \pm 0.002$ & $0.005 \pm 0.003$ \\
+    \bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\begin{table}[p]
+\centering
+\footnotesize
+\setstretch{1.0}
+\setlength{\tabcolsep}{4pt}
+\caption[Per-class average precision, data-rich classes]{Per-class average precision of every generator cell on the Band B and Band D classes, mean and standard deviation across training seeds. The second header row gives the class band and the number of real test images.}
+\label{tab:appendix-per-class-ap-rich}
+\begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{@{}llrrrrrr@{}}
+    \toprule
+    Generator & Regime & grevy's zebra & american black bear & lion & mountain zebra & plains zebra & red fox \\
+     & & (B, $224$) & (D, $2{,}097$) & (D, $2{,}097$) & (D, $467$) & (D, $2{,}079$) & (D, $2{,}150$) \\
+    \midrule
+    RealVisXL + Lightning & \texttt{maxlen} & $0.006 \pm 0.000$ & $0.072 \pm 0.001$ & $0.028 \pm 0.001$ & $0.053 \pm 0.001$ & $0.067 \pm 0.020$ & $0.033 \pm 0.004$ \\
+    SD 3.5 Medium & \texttt{maxlen} & $0.026 \pm 0.001$ & $0.187 \pm 0.024$ & $0.077 \pm 0.008$ & $0.045 \pm 0.012$ & $0.134 \pm 0.018$ & $0.141 \pm 0.011$ \\
+    FLUX.2-klein & \texttt{maxlen} & $0.018 \pm 0.006$ & $0.118 \pm 0.005$ & $0.037 \pm 0.001$ & $0.030 \pm 0.002$ & $0.134 \pm 0.010$ & $0.087 \pm 0.004$ \\
+    SD 3.5 Large Turbo & \texttt{maxlen} & $0.015 \pm 0.001$ & $0.174 \pm 0.032$ & $0.053 \pm 0.015$ & $0.028 \pm 0.001$ & $0.151 \pm 0.004$ & $0.076 \pm 0.012$ \\
+    SD 3.5 Large & \texttt{maxlen} & $0.033 \pm 0.017$ & $0.183 \pm 0.018$ & $0.080 \pm 0.018$ & $0.036 \pm 0.004$ & $0.167 \pm 0.008$ & $0.103 \pm 0.002$ \\
+    HiDream-I1 & \texttt{maxlen} & $0.010 \pm 0.009$ & $0.088 \pm 0.029$ & $0.035 \pm 0.000$ & $0.047 \pm 0.004$ & $0.089 \pm 0.025$ & $0.050 \pm 0.001$ \\
+    \midrule
+    \texttt{gemini-3.1-flash-image-preview} & \texttt{full} & $0.191 \pm 0.069$ & $0.255 \pm 0.077$ & $0.054 \pm 0.021$ & $0.194 \pm 0.082$ & $0.280 \pm 0.066$ & $0.173 \pm 0.078$ \\
+    \texttt{gpt-image-2} (low) & \texttt{full} & $0.190 \pm 0.009$ & $0.326 \pm 0.023$ & $0.131 \pm 0.026$ & $0.219 \pm 0.036$ & $0.290 \pm 0.011$ & $0.266 \pm 0.040$ \\
+    \texttt{gpt-image-2} (medium) & \texttt{full} & $0.176 \pm 0.007$ & $0.320 \pm 0.040$ & $0.115 \pm 0.010$ & $0.234 \pm 0.038$ & $0.298 \pm 0.018$ & $0.251 \pm 0.026$ \\
+    \texttt{gemini-3.1-flash-lite-image} & \texttt{full} & $0.159 \pm 0.035$ & $0.248 \pm 0.007$ & $0.074 \pm 0.010$ & $0.111 \pm 0.025$ & $0.256 \pm 0.006$ & $0.201 \pm 0.010$ \\
+    \midrule
+    \texttt{gpt-image-2} (low) & \texttt{compressed} & $0.094 \pm 0.008$ & $0.226 \pm 0.025$ & $0.050 \pm 0.002$ & $0.129 \pm 0.017$ & $0.197 \pm 0.015$ & $0.106 \pm 0.013$ \\
+    \texttt{gemini-3.1-flash-lite-image} & \texttt{compressed} & $0.071 \pm 0.013$ & $0.165 \pm 0.012$ & $0.036 \pm 0.002$ & $0.046 \pm 0.013$ & $0.168 \pm 0.023$ & $0.070 \pm 0.006$ \\
+    \bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Dataset Construction Details}\label{sec:appendix_data_details}
 
 These are the filter specifications and controlled vocabularies that \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation} state only by their effect.
