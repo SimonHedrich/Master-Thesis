@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 import statistics
 import sys
 from collections import defaultdict
@@ -326,8 +327,25 @@ def plot_pareto(rows: list[dict], out: Path) -> bool:
                    edgecolor="white", linewidth=1.4)
         ax.scatter([x], [m_real], s=64, color=ORANGE, marker="s", zorder=3,
                    edgecolor="white", linewidth=1.4)
-        ax.annotate(label, (x, m_mixed), textcoords="offset points", xytext=(0, 13),
-                    fontsize=8.5, color=INK, ha="center")
+        # Default: label above the mixed marker. When another model sits within
+        # a narrow latency window (e.g. the two YOLO26n fine-tunes at 423 and
+        # 442 ms) and its rule spans this marker's height, a label above would
+        # land on the neighbour's real-only square, so hang it to the right of
+        # this model's own real-only square instead, below the neighbours'
+        # labels.
+        crowded = any(
+            o is not (x, m_mixed, m_real, label)
+            and abs(math.log10(o[0] / x)) < 0.12
+            and min(o[1], o[2]) <= m_mixed + 0.03 <= max(o[1], o[2])
+            for o in pts
+        )
+        if crowded:
+            ax.annotate(label, (x, m_real), textcoords="offset points",
+                        xytext=(9, 0), fontsize=8.5, color=INK, ha="left",
+                        va="center")
+        else:
+            ax.annotate(label, (x, m_mixed), textcoords="offset points",
+                        xytext=(0, 13), fontsize=8.5, color=INK, ha="center")
 
     ax.set_xscale("log")
     ax.set_xlim(min(p[0] for p in pts) * 0.45, max(p[0] for p in pts) * 2.6)
