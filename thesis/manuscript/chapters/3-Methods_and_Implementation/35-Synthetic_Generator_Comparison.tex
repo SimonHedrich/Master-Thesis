@@ -126,21 +126,21 @@ FLUX API & Terms forbid training on its outputs \\
 
 \begin{table}[H]
 \centering
-\caption[Locally-run open-weight generators]{Locally-run open-weight generators. \enquote{Offload} means weight streaming to fit $23.8\,\mathrm{GB}$ of video memory.}
+\caption[Locally-run open-weight generators]{Locally-run open-weight generators. Qwen-Image was dropped for quantization artifacts, and FLUX.2-dev was rejected because it exceeds device memory.}
 \label{tab:generator-local-roster}
-\begin{tabularx}{\textwidth}{@{}lXllc@{}}
+\begin{tabularx}{\textwidth}{@{}lXll@{}}
 \toprule
-Model & Scale & License & Precision & Offload \\
+Model & Scale & License & Precision \\
 \midrule
-RealVisXL + SDXL-Lightning \cite{podellSDXLImprovingLatent2023} & SDXL, $4$-step & OpenRAIL++ & fp16 & No \\
-SD 3.5 Medium \cite{esserScalingRectifiedFlow2024} & $2.5\,\mathrm{B}$ & Stability Comm. & bf16 & No \\
-SD 3.5 Large & $8\,\mathrm{B}$ & Stability Comm. & bf16 & Yes \\
-SD 3.5 Large Turbo & $8\,\mathrm{B}$, $4$-step & Stability Comm. & bf16 & Yes \\
-FLUX.2-klein \cite{labsBlackForestLabs} & $9\,\mathrm{B}$, $4$-step & FLUX non-comm. & bf16 & Yes \\
-HiDream-I1 \cite{HiDreamaiHiDreamI1FullHugging2025} & $17\,\mathrm{B}$, four encoders & MIT (composite) & NF4 & Yes \\
+\begin{tabular}[t]{@{}l@{}}RealVisXL +\\SDXL-Lightning \cite{podellSDXLImprovingLatent2023}\end{tabular} & SDXL, $4$-step & OpenRAIL++ & fp16 \\
+SD 3.5 Medium \cite{esserScalingRectifiedFlow2024} & $2.5\,\mathrm{B}$ & Stability Comm. & bf16 \\
+SD 3.5 Large & $8\,\mathrm{B}$ & Stability Comm. & bf16 \\
+SD 3.5 Large Turbo & $8\,\mathrm{B}$, $4$-step & Stability Comm. & bf16 \\
+FLUX.2-klein \cite{labsBlackForestLabs} & $9\,\mathrm{B}$, $4$-step & FLUX non-comm. & bf16 \\
+HiDream-I1 \cite{HiDreamaiHiDreamI1FullHugging2025} & $17\,\mathrm{B}$, four encoders & MIT (composite) & NF4 \\
 \midrule
-Qwen-Image \cite{QwenQwenImageHugging2025} & $20.4\,\mathrm{B}$ & Apache-2.0 & NF4 & Dropped: quantization artifacts \\
-FLUX.2-dev & $32\,\mathrm{B}$ & FLUX non-comm. & --- & Rejected: exceeds device memory \\
+Qwen-Image \cite{QwenQwenImageHugging2025} & $20.4\,\mathrm{B}$ & Apache-2.0 & NF4 \\
+FLUX.2-dev & $32\,\mathrm{B}$ & FLUX non-comm. & --- \\
 \bottomrule
 \end{tabularx}
 \end{table}
