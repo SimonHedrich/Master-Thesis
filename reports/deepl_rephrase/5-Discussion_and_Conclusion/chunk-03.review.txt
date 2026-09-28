@@ -123,137 +123,41 @@ a verdict and a risk tag). Skip entries whose `--- final` block is already
 filled. Edit only these blocks; change nothing else in this file.
 
 
-<!-- 5-Discussion_and_Conclusion.tex: 11 paragraphs -->
+<!-- 5-Discussion_and_Conclusion.tex: 3 paragraphs -->
 
-#### P029  5-Discussion_and_Conclusion.tex:83  flags: semicolon
-## section: Further Work
+#### P029  5-Discussion_and_Conclusion.tex:81  flags: -
+## section: Conclusion
 --- original
-\item \textbf{Retroactive confidence intervals.} Bootstrap resampling over the stored per-image predictions would give every comparison the significance test it lacks, without retraining anything. The suite already accepts a resample count and the artifacts are archived, so the cost is compute rather than redesign. The comparisons that need it most are Band B against Band C and the two tied generator tiers.
+This work asked how a detector small enough for embedded hardware should be trained to recognize $225$ mammal species when real photographs are scarce for many of them. A corpus of openly licensed photographs was assembled and curated automatically, twelve generator and prompt-regime cells were compared on the same classes, four detectors were trained and evaluated on real and generated test images, and the runtime of each was measured on a device adjacent to the target.
 --- rephrased
-\item \textbf{Retroactive confidence intervals.} Using bootstrap resampling on the stored per-image predictions would provide a significance test for every comparison without retraining anything. The suite already accepts a resample count, and the artifacts are archived; therefore, the cost is computational rather than redesign. The comparisons that need it most are Band B against Band C, as well as the two tied generator tiers.
+This study examined how to train a detector small enough for embedded hardware to recognize $225$ mammal species when real photographs are scarce for many of them. An automatically curated corpus of openly licensed photographs was assembled. Twelve generator and prompt-regime cells were compared on the same classes. Four detectors were trained and evaluated on real and generated test images. The runtime of each detector was measured on a device adjacent to the target.
 --- final
-
+This work asked how a detector small enough for embedded hardware should be trained to recognize $225$ mammal species when real photographs are scarce for many of them. An automatically curated corpus of openly licensed photographs was assembled. Twelve generator and prompt-regime cells were compared on the same classes. Four detectors were trained and evaluated on real and generated test images. The runtime of each detector was measured on a device adjacent to the target.
 --- verdict
-original: rephrased joined two clauses with a semicolon and "therefore" (semicolon flag), a house-style violation the original avoids without loss. risk: low
+merged: restored original sentence 1 for the "This work" self-reference term (DeepL's "This study" is not the sanctioned term), kept DeepL's split of the run-on second sentence into four short sentences. risk: medium
 
 
-#### P030  5-Discussion_and_Conclusion.tex:84  flags: -
-## section: Further Work
+#### P030  5-Discussion_and_Conclusion.tex:83  flags: -
+## section: Conclusion
 --- original
-\item \textbf{Re-scoring the archived predictions.} Evaluating \textit{YOLO26n} from raw COCO weights is one run and the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on the images holding more than one animal is the concrete test of distillation's expected supervision advantage, and both prediction sets are archived, so it needs no retraining.
+Generated images can replace half of a small real training set without measurable loss, but a class trained on generated images alone reaches about half the accuracy of one trained on real photographs, so synthetic data extends a small real pool and does not replace one. How much detail a generator is given matters more than which generator is chosen, and neither apparent realism nor price predicts the usefulness of its output. A current nano-scale detector trained directly on the data is smaller, more accurate and faster than the larger detector of the previous generation, distilling a far larger fine-tuned model into it does not improve on direct training, and it loses its accuracy in naming the species once the animal is found.
 --- rephrased
-\item \textbf{Re-scoring the archived predictions.} Evaluating \textit{YOLO26n} from raw COCO weights requires only one run and is the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on images with more than one animal tests the expected advantage of distillation's supervision, and both prediction sets are archived, so no retraining is necessary.
+Generated images can replace half of a small, real training set without measurable loss. However, a class trained on generated images alone achieves approximately half the accuracy of a class trained on real photographs. Therefore, synthetic data supplements, but does not replace, a small, real pool. The amount of detail provided to a generator matters more than the generator chosen, and neither apparent realism nor price predicts the usefulness of its output. A nano-scale detector trained directly on the data is smaller, more accurate, and faster than the previous generation's larger detector. Distilling a far larger fine-tuned model into it does not improve upon direct training. However, it loses its accuracy in naming the species once the animal is found.
 --- final
-\item \textbf{Re-scoring the archived predictions.} Evaluating \textit{YOLO26n} from raw COCO weights requires only one run and is the cheapest missing measurement here, turning every student figure from an absolute level into a gain. Re-scoring Setup A against Setup B on images with more than one animal tests the expected advantage of distillation's supervision, and both prediction sets are archived, so no retraining is necessary.
+Generated images can replace half of a small, real training set without measurable loss. However, a class trained on generated images alone achieves approximately half the accuracy of a class trained on real photographs. Synthetic data therefore extends a small, real pool and does not replace one. The amount of detail provided to a generator matters more than the generator chosen, and neither apparent realism nor price predicts the usefulness of its output. A current nano-scale detector trained directly on the data is smaller, more accurate, and faster than the previous generation's larger detector. Distilling a far larger fine-tuned model into it does not improve on direct training. It also loses its accuracy in naming the species once the animal is found.
 --- verdict
-rephrased: DeepL's wording preserves the claim, scope, and mechanism unchanged, no term or hedge lost. risk: high
+merged: kept DeepL's sentence splits, restored "current" before nano-scale detector, replaced DeepL's "supplements, but does not replace" with the original's plainer "extends ... and does not replace" to avoid a rhetorical antithesis, and changed the closing "However" to "It also" since that clause was a plain list item in the original, not a contrast. risk: high
 
 
 #### P031  5-Discussion_and_Conclusion.tex:85  flags: -
-## section: Further Work
---- original
-\item \textbf{A wider distillation design space.} Question $1$'s answer is scoped to one cell, so the direct follow-on is the sweep over temperature $T$ and blend weight $\alpha$ that \Cref{sec:kd_loss} was written around. Two further axes matter more: closing the parameter ratio of roughly $70$ to $1$ with an intermediate-capacity teacher assistant, which is the remedy \Cref{sec:lit_knowledge_distillation} reports for this configuration, and attention-aware detection distillation. Any repeat should hold the effective batch size equal across the two setups, which the comparison reported here did not.
---- rephrased
-\item \textbf{A wider distillation design space.} The answer to Question $1$ is limited to one cell. The next step is to perform a sweep over temperature $T$ and blend weight $\alpha$, which \Cref{sec:kd_loss} was written around. Two further axes matter more: closing the parameter ratio to roughly $70$:$1$ with an intermediate-capacity teacher assistant (the remedy reported by \Cref{sec:lit_knowledge_distillation} for this configuration) and attention-aware detection distillation. Any repeat should maintain an equal effective batch size across the two setups, which the comparison reported here did not do.
---- final
-
---- verdict
-original: kept the "$70$ to $1$" ratio wording used elsewhere in this chapter over DeepL's "$70$:$1$", and the original's tighter Cref placement. risk: low
-
-
-#### P032  5-Discussion_and_Conclusion.tex:86  flags: format-lost: \textbf{The blind rating rubric.}
-## section: Further Work
---- original
-\item \textbf{The blind rating rubric.} The rubric of \Cref{sec:generator_comparison_evaluation} remains fully specified and directly executable on the archived images, and it needs raters rather than compute. It is the axis that would resolve the rare-class question the executed axis has no power over.
---- rephrased
-\item The Blind Rating Rubric The \Cref{sec:generator_comparison_evaluation} rubric is fully specified and can be executed directly on the archived images. It requires raters rather than computation. It is the axis that resolves the rare-class question over which the executed axis has no power.
---- final
-
---- verdict
-original: rephrased dropped the \textbf{} heading entirely (format-lost) and flattened "would resolve" into a flat "resolves", losing the hedge on an axis that has not been executed. risk: low
-
-
-#### P033  5-Discussion_and_Conclusion.tex:87  flags: -
-## section: Further Work
---- original
-\item \textbf{The watchdog revision.} Restoring the real test set as the reported default is outstanding, and nothing blocks it but the rewriting effort, since every table already holds both domains. Redesigning the mixed condition is the larger version of that task, because the synthetic test set holds one centered animal per image and is easier for that reason alone.
---- rephrased
-\item \textbf{The watchdog revision.} Restoring the real test set as the reported default is outstanding and can be done without any obstacles, since every table already holds both domains. Redesigning the mixed condition is a larger version of that task because the synthetic test set contains one animal in the center of each image, making it easier.
---- final
-
---- verdict
-original: rephrased dropped the "nothing blocks it but the rewriting effort" exception, claiming no obstacles at all, and dropped "for that reason alone", both scope changes. risk: low
-
-
-#### P034  5-Discussion_and_Conclusion.tex:90  flags: -
-## section: Further Work
---- original
-The first item decides whether the system is deployable at all. The rest decide how well it would perform once it is.
---- rephrased
-The first item determines whether the system can be deployed at all. The rest determine how well it will perform.
---- final
-
---- verdict
-original: rephrased dropped the "once it is [deployable]" conditional link between the two sentences, and "will" for "would" loses that conditioning. risk: low
-
-
-#### P035  5-Discussion_and_Conclusion.tex:95  flags: -
 ## section: Conclusion
 --- original
-This work set out to build, train and evaluate a nano-scale detector for wildlife species recognition on embedded hardware, over a class universe of $225$ mammal species of which $50$ retain fewer than $150$ usable real photographs each. The substantive contribution sits in two sub-studies, while the distillation and deployment questions were each answered at a single design point.
+The contribution is a measured map of where generated imagery helps a fine-grained wildlife detector, and evidence that a nano-scale single-stage detector resolves a $225$-species taxonomy at a fraction of the size and time of the two-stage ensemble it was compared against. Generators and detectors are improving at a pace that may overtake these findings within a few years, so the value of this work lies as much in a protocol that can be rerun as in the numbers it reports today.
 --- rephrased
-This work aimed to develop, train, and evaluate a nanoscale detector for recognizing wildlife species on embedded hardware. The detector was tested on a universe of $225$ mammal species, $50$ of which had fewer than $150$ usable photographs. Two sub-studies made the most significant contributions, while the distillation and deployment questions were each answered at a single design point.
+This study provides a measured map showing where generated imagery assists a fine-grained wildlife detector. It also presents evidence that a nanoscale, single-stage detector can resolve a $225$-species taxonomy in a fraction of the time and space required by the two-stage ensemble with which it was compared. However, generators and detectors are improving at a pace that may render these findings obsolete within a few years. Therefore, the value of this work lies as much in a protocol that can be repeated as in the numbers it reports today.
 --- final
-
+The contribution is a measured map of where generated imagery helps a fine-grained wildlife detector, and evidence that a nano-scale single-stage detector resolves a $225$-species taxonomy at a fraction of the size and time of the two-stage ensemble it was compared against. Generators and detectors are improving at a pace that may overtake these findings within a few years, so the value of this work lies as much in a protocol that can be rerun as in the numbers it reports today.
 --- verdict
-original: rephrased dropped "real" before "photographs" (the real-vs-synthetic distinction), de-hyphenated "nano-scale", and reworded "the substantive contribution sits in two sub-studies" into a weaker superlative claim. risk: low
-
-
-#### P036  5-Discussion_and_Conclusion.tex:97  flags: format-lost: $12$
-## section: Conclusion
---- original
-The first is a controlled comparison of twelve generator and prompt-regime cells, each supplying $1{,}200$ synthetic training images of the same $12$ classes to the same detector under the same schedule. Neither criterion available before a detector is trained predicts what it achieves. The generator chosen for the production dataset on apparent realism ranks third of twelve, and per-image price is unrelated to outcome in both vendor families and the local grid. Prompt detail outranks generator identity, since compressing the prompt roughly halves downstream accuracy while the spread across generators under their best prompt is smaller. For the long-tail classes that motivated generating images at all, the comparison establishes that its own instrument has no resolution.
---- rephrased
-The first criterion is a controlled comparison of twelve generator and prompt-regime cells. Each cell supplies $1{,}200$ synthetic training images of the same twelve classes to the same detector under the same schedule. No available criterion before training a detector predicts its outcome. The generator selected for the production dataset based on apparent realism ranks third out of twelve. Additionally, per-image price is unrelated to the outcome in both vendor families and the local grid. Prompt detail outranks generator identity since compressing the prompt roughly halves the accuracy of the downstream process, whereas the spread across generators under their best prompt is smaller. For the long-tail classes that motivated the generation of images in the first place, the comparison shows that the instrument itself has no resolution.
---- final
-The first is a controlled comparison of twelve generator and prompt-regime cells. Each cell supplies $1{,}200$ synthetic training images of the same $12$ classes to the same detector under the same schedule. Neither criterion available before a detector is trained predicts what it achieves. The generator selected for the production dataset based on apparent realism ranks third out of twelve, and per-image price is unrelated to the outcome in both vendor families and the local grid. Prompt detail outranks generator identity since compressing the prompt roughly halves the accuracy of the downstream process, whereas the spread across generators under their best prompt is smaller. For the long-tail classes that motivated the generation of images in the first place, the comparison shows that the instrument itself has no resolution.
---- verdict
-merged: dropped rephrased's inserted "criterion" (not in the original, and confusable with the criterion discussed two sentences later), restored $12$ as math (format-lost), kept original's "Neither" pairing with the two criteria that follow, kept the rest of DeepL's wording. risk: high
-
-
-#### P037  5-Discussion_and_Conclusion.tex:99  flags: wrap-reordered: 0.045, wrap-reordered: YOLOv5s, wrap-reordered: 0.300, wrap-reordered: 0.591
-## section: Conclusion
---- original
-The second is the band comparison at a matched $200$-image training budget. Replacing half of a small real training set with synthetic imagery produces no measurable loss for the primary detector or the fine-tuned teacher, at $0.588$ against $0.591$ mAP on the real test set, and a loss of $0.045$ for \textit{YOLOv5s}. Replacing all of it roughly halves accuracy, at $0.300$ against $0.591$. Both rest on single runs and on bands that hold different species, so they are directional rather than exact. The paired per-class domain-shift delta then fired the watchdog attached to the mixed default, and the designed revision did not follow within the available time, which is the one protocol deviation this work discloses.
---- rephrased
-Second is the band comparison with a matched training budget of $200$ images. Replacing half of a small real training set with synthetic images results in no measurable loss for the primary detector or the fine-tuned teacher. The mAP is $0.588$ and $0.591$ on the real test set, respectively, and the loss for \textit{YOLOv5s} is $0.045$. However, replacing all of the real training set with synthetic imagery roughly halves the accuracy to $0.300$ against $0.591$. Both rest on single runs and bands containing different species, making them directional rather than exact. The paired per-class domain shift delta then triggered the watchdog attached to the mixed default. The designed revision did not occur within the available time, which is the only protocol deviation disclosed by this work.
---- final
-The second is the band comparison at a matched $200$-image training budget. Replacing half of a small real training set with synthetic images results in no measurable loss for the primary detector or the fine-tuned teacher, at $0.588$ against $0.591$ mAP on the real test set, and a loss of $0.045$ for \textit{YOLOv5s}. Replacing all of the real training set with synthetic imagery roughly halves the accuracy to $0.300$ against $0.591$. Both rest on single runs and bands containing different species, making them directional rather than exact. The paired per-class domain-shift delta then triggered the watchdog attached to the mixed default. The designed revision did not occur within the available time, which is the one protocol deviation this work discloses.
---- verdict
-merged: kept the original's single number sentence rather than DeepL's "respectively", which implies the $0.588$/$0.591$ pair are two separate models' scores, a claim the original does not make. Restored the "domain-shift" hyphen and "this work discloses" for active voice, kept DeepL's sentence splits and other wording. risk: high
-
-
-#### P038  5-Discussion_and_Conclusion.tex:101  flags: -
-## section: Conclusion
---- original
-On the central question, distillation from the fine-tuned teacher lost to direct fine-tuning in all $17$ reported cells, at $0.599$ against $0.560$ mAP on the mixed test set and $0.529$ against $0.479$ on the real one. That is a negative result at one $(T, \alpha)$ point, with one pairing at a parameter ratio of roughly $70$ to $1$, and three disclosed asymmetries keep it from being a clean single-factor comparison. It is nonetheless useful to anyone weighing the same architecture-scale gap, because the simpler recipe won on every axis measured, by the widest margin on the thin-data band where the teacher's soft targets were expected to help most.
---- rephrased
-Regarding the central question, distillation from the fine-tuned teacher performed worse than direct fine-tuning in all $17$ reported cells. The results were $0.599$ versus $0.560$ mAP on the mixed test set and $0.529$ versus $0.479$ on the real one. This is a negative result at a single $(T, \alpha)$ point with one pairing at a parameter ratio of approximately $70$:$1$. Three asymmetries prevent a clean, single-factor comparison. Nevertheless, it is useful for those considering the same architecture-scale gap because the simpler recipe won on every measured axis, with the widest margin on the thin-data band where the teacher's soft targets were expected to help the most.
---- final
-Regarding the central question, distillation from the fine-tuned teacher performed worse than direct fine-tuning in all $17$ reported cells. The results were $0.599$ versus $0.560$ mAP on the mixed test set and $0.529$ versus $0.479$ on the real one. This is a negative result at a single $(T, \alpha)$ point with one pairing at a parameter ratio of roughly $70$ to $1$. Three disclosed asymmetries prevent a clean single-factor comparison. Nevertheless, it is useful for those considering the same architecture-scale gap because the simpler recipe won on every measured axis, with the widest margin on the thin-data band where the teacher's soft targets were expected to help the most.
---- verdict
-merged: restored "disclosed" before "asymmetries" (dropped by DeepL) and the "$70$ to $1$" ratio wording used elsewhere in this chapter, kept DeepL's sentence splits and other wording. risk: high
-
-
-#### P039  5-Discussion_and_Conclusion.tex:103  flags: token-lost: 1 LaTeX span(s) did not come back: '\\,'
-## section: Conclusion
---- original
-\textit{YOLO26n} under direct fine-tuning is at once the smallest, the most accurate and the fastest detector measured here, at $2.71\,\mathrm{M}$ parameters, $0.599$ mAP on the mixed test set with $0.529$ on the real test set, and $423$\,ms per frame on the proxy device. That last figure is roughly twelve times the target hardware's per-frame budget, and no full-precision model measured here comes closer. No accuracy target was set for this work, and nothing in these measurements identifies accuracy as the obstacle to deployment. What measurably stands between this detector and a shippable model is a compression pass, and the accelerated path such a pass would target has not been measured at all.
---- rephrased
-\textit{YOLO26n} under direct fine-tuning is at once the smallest, the most accurate and the fastest detector measured here, at $2.71\,\mathrm{M}$ parameters, $0.599$ mAP on the mixed test set with $0.529$ on the real test set, and $423$\,ms per frame on the proxy device. That last figure is roughly twelve times the target hardware's per-frame budget, and no full-precision model measured here comes closer. No accuracy target was set for this work, and nothing in these measurements identifies accuracy as the obstacle to deployment. What measurably stands between this detector and a shippable model is a compression pass, and the accelerated path such a pass would target has not been measured at all.
---- final
-
---- verdict
-original: token-lost, DeepL dropped the '\,' spacing token so the tooling discarded the rephrase and the original stands unchanged. risk: low
+original: DeepL wrote "nanoscale" without the required hyphen, swapped "size" for "space" in "fraction of the size and time" (a meaning drift), softened "resolves" to "can resolve", and opened with "This study" instead of the sanctioned "This work" self-reference. The original was already within the sentence-length guidance, so no split was needed. risk: high
 
 

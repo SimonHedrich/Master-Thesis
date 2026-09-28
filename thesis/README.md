@@ -4,7 +4,7 @@ This directory is the home for everything related to producing the final Master'
 
 ## Current status
 
-The LaTeX manuscript lives in `manuscript/` and is assembled by `manuscript/main.tex`. Chapter 2 (Literature Review) and all of Chapter 3 (Methods and Implementation) are drafted; Chapters 1 and 5, and Results §4.2–§4.3.1, are still stubs marked with `% TODO`.
+The LaTeX manuscript lives in `manuscript/` and is assembled by `manuscript/main.tex`. All five chapters are drafted. Chapter 5 was reworked on 2026-09-28 around the answers to the research questions and the author's limitations (see `docs/2026-09-28_chapter5-discussion-critique.md` for the analysis behind it).
 
 No LaTeX toolchain is installed in this repo's container (`pdflatex`/`latexmk`/`biber` are absent) and there is no `make` target for the thesis — the document is compiled on Overleaf, which `manuscript/` is synced to two-way by `scripts/thesis/sync_overleaf.py` (`make overleaf` picks the direction; `make overleaf-push|overleaf-pull|overleaf-status` force one — on the `thesis/overleaf-sync` branch; see `scripts/thesis/README.md`). Structural checks (citation keys resolving against the two `.bib` files, `\label`/`\Cref` consistency, environment balance, figure paths) are therefore done by inspection rather than by compilation.
 
@@ -16,7 +16,7 @@ manuscript/
   main.tex                      — top-level document
   preamble/                       — title page, declaration, abstracts, acronyms
   chapters/
-    1-Introduction.tex            — stub
+    1-Introduction.tex            — drafted
     2-Literature_Review.tex       — drafted
     3-Methods_and_Implementation/
       30-Overview.tex             — chapter lead-in, \input's the sections below
@@ -27,8 +27,8 @@ manuscript/
       35-Synthetic_Generator_Comparison.tex
       36-Model_Training_and_Experiment_Tracking.tex
       37-Evaluation_Framework.tex
-    4-Results.tex                 — §4.1 and §4.3.2 drafted; §4.2–§4.3.1 stubs
-    5-Discussion_and_Conclusion.tex — stub
+    4-Results.tex                 — drafted
+    5-Discussion_and_Conclusion.tex — drafted, reworked 2026-09-28
   bibliography/
     references.bib                — the single bibliography (Better BibTeX keys), exported from Zotero
   figures/plots/                  — charts copied from `reports/`
