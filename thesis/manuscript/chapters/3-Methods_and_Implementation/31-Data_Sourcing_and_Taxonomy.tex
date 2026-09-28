@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Dataset Sourcing and Class Taxonomy}\label{sec:data_sourcing_and_taxonomy}
+\section{Dataset Sourcing}\label{sec:data_sourcing_and_taxonomy}
 
 Before any imagery could be gathered, the set of species that the detector was expected to recognize had to be determined, since this set determines what counts as a usable image and how large a corpus can be obtained. This section derives the class taxonomy, assesses candidate image sources for licensing compatibility and suitability, and summarizes the results of the sourcing effort.
 
@@ -38,7 +38,7 @@ Total & $225$ & $100\%$ \\
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Candidate Data Sources and Licensing Assessment}\label{sec:candidate_sources_licensing}
+\subsection{Licensing Assessment of Candidate Sources}\label{sec:candidate_sources_licensing}
 
 With the class list finalized, candidate image sources were evaluated based on two criteria: the commercial usability of the license and the suitability of the imagery for close-to-mid-range daylight observation. Since the trained weights are intended for a commercial product, any dataset with a NonCommercial, NoDerivatives, or ShareAlike clause was excluded (\Cref{tab:candidate-sources}).
 
@@ -64,7 +64,7 @@ TreeOfLife-200M / \textit{BioCLIP} \cite{stevensBioCLIPVisionFoundation2024} & R
 Source selection also fixed how far each source's own species labels can be trusted, an axis the curation pipeline depends on. \textit{iNaturalist}, \textit{GBIF} and Wikipedia-derived material are label-trusted, since their labels carry an identifiable contributor and community verification. Open Images and the stock-image source are unverified because their labels are colloquial or of unknown origin. An unverified source only contributes to a class's usable pool where an independent classifier corroborates the label. In contrast, a trusted source contributes simply by passing the quality gates (\Cref{sec:data_quality_and_curation}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Sourcing Execution and the LILA BC Rejection}\label{sec:sourcing_execution}
+\subsection{Sourcing Execution}\label{sec:sourcing_execution}
 
 The initial corpus was assembled from \textit{GBIF} \cite{GBIF} observation records and classified using \textit{SpeciesNet} v$4.0.2$a \cite{gadotCropNotCrop2024a}, yielding $66{,}881$ usable images. This corpus was highly uneven across classes: $31$ of the $225$ classes had zero images, and a further $55$ classes had fewer than $10$. Closing that gap required sourcing additional imagery.
 
@@ -77,7 +77,7 @@ Human imagery was withheld from the iNaturalist and GBIF exports for privacy rea
 
 After those two steps, the species that were still underrepresented were filled from a Wikimedia Commons category crawl. This crawl was built as a human-in-the-loop instrument rather than as a downloader. It produces a reviewable category tree per label. An automatic filter drops categories whose subject is not a live wild animal (\Cref{sec:appendix_wikimedia_vocabulary}). Only categories that survive review are fetched.
 
-\paragraph{A Divergence Between the Stated and Implemented License Policy}
+\paragraph{A Divergence from the Stated License Policy}
 An audit found that the implemented license allow-list admits ShareAlike variants, and NoDerivatives on the COCO downloads, contrary to the policy stated above. Of the $11{,}066$ Wikimedia images in the final splits, $6{,}222$ carry a ShareAlike license. Therefore, every model reported in \Cref{chapter:results} was trained and evaluated on a corpus containing imagery excluded by the policy, and this finding is recorded as a named limitation (\Cref{sec:limitations}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

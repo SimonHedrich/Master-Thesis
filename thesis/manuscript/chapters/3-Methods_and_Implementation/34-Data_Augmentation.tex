@@ -31,7 +31,7 @@ C & Direct detection & Basic set $+$ compositing (\Cref{sec:compositing_augmenta
 Setup A against Setup B isolates the benefit attributable to distillation itself, since the two are identical except in the training signal. This is the headline comparison the work is built around, and it requires the two augmentation pipelines to be byte-identical rather than nominally the same. Setup B against Setup C isolates the benefit of compositing on top of direct training. Setup A against Setup C answers a practitioner's question, whether distillation with modest augmentation beats direct training at the student's full augmentation budget, and it is not a clean single-factor comparison, since it varies the training signal and the augmentation policy at once.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Basic Augmentation Set (Setups A and B)}\label{sec:basic_augmentation}
+\subsection{Basic Augmentation Set}\label{sec:basic_augmentation}
 
 \Cref{tab:basic-augmentation} lists the transforms included in the basic set shared by Setups A and B, as well as those that were considered but ultimately excluded.
 
@@ -61,6 +61,6 @@ Setup C adds three compositing transforms on top of the basic set. Mosaic tiles 
 Compositing is not a substitute for real training data. Augmenting a small set of images many times fits a model to the poses and backgrounds of those images rather than to the underlying class. This is the reasoning behind the $100$-real-image floor in the Band C control condition of \Cref{sec:band_structure}. Augmentation multiplies the variance of an adequate pool. It does not stand in for one.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Reproducibility and Confound Control}\label{sec:augmentation_reproducibility}
+\subsection{Confound Control}\label{sec:augmentation_reproducibility}
 
 Because the Setup A/B comparison is the work's central result, the two configurations share a single dataset and transforms code path rather than having parallel implementations. Therefore, any difference in outcome can be attributed to the teacher rather than to a discrepancy between the two pipelines. Seeding is controlled so that the same augmented image is delivered to the teacher and the student within a given distillation step. An assertion verifies that the compositing flags are disabled before a distillation run begins. The augmentation configuration of every run is logged alongside its training metrics (\Cref{sec:model_training_experiment_tracking}), and the Band A test mAP is logged separately since classes trained entirely on synthetic imagery are most likely to reveal augmentation-amplified generation artifacts.

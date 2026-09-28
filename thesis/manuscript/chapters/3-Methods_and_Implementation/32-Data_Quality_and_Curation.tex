@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Data Quality Assurance and Curation}\label{sec:data_quality_and_curation}
+\section{Data Curation}\label{sec:data_quality_and_curation}
 
 The corpus assembled in \Cref{sec:data_sourcing_and_taxonomy} is heterogeneous in reliability. Community-contributed species labels vary in accuracy, Wikimedia Commons images carry no bounding boxes and may depict illustrations, taxidermy or museum specimens, and even trusted sources hold low-quality frames. This section describes the staged filtering pipeline that turns the raw corpus into a curated, quality-scored dataset with verified ground truth, and the correction passes required once downstream analysis exposed what the initial design had missed.
 
@@ -50,7 +50,7 @@ A rescue stage runs on Wikimedia images that failed Stage 2, the one source hold
 All surviving images are captioned with \textit{Florence-2-base} \cite{xiaoFlorence2AdvancingUnified2023}, and a language model judges each caption on whether the subject is a real, living animal, whether the image is a photograph rather than a rendering, and whether a substantial part of the animal is visible. The instruction also enumerates what is not grounds for rejection (\Cref{sec:appendix_caption_settings}). A manual review pass over the unsettled cases examined $17{,}737$ images, approving $13{,}827$ and declining $3{,}910$. The $22\%$ rejection rate confirms genuinely ambiguous material, and its per-class availability estimates are what the band structure of \Cref{sec:band_structure} was built on.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Species-Level Classification and Taxonomic Matching}\label{sec:speciesnet_matching}
+\subsection{Taxonomic Matching of Species Predictions}\label{sec:speciesnet_matching}
 
 Passing the quality gates establishes that an image depicts a real animal, not which of the $225$ classes it shows. \textit{SpeciesNet} \cite{gadotCropNotCrop2024a}, an \textit{EfficientNetV2-M} \cite{tanEfficientNetV2SmallerModels2021} classifier, therefore runs on every MegaDetector-cropped animal region.
 
@@ -101,7 +101,7 @@ Fixing the multi-box bug revealed a more subtle defect: each box in an image was
 The filter flagged $11{,}354$ images, of which $7{,}271$ were resolved: $6{,}477$ as keep, $794$ as edit, and none as discard. No images were removed, and $1{,}344$ mislabeled annotations were deleted across the three splits. The review also yielded $1{,}733$ candidate confusion pairs, which informed the frozen look-alike grouping used for coarse-grained evaluation (\Cref{sec:lookalike_groups}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Quality Scoring and Split Assembly}\label{sec:quality_scoring_splits}
+\subsection{Quality-Scored Split Assembly}\label{sec:quality_scoring_splits}
 
 Images surviving all stages carry a composite quality score $Q \in [0,1]$ guiding validation sampling and tie-breaking in split assembly:
 \begin{equation}

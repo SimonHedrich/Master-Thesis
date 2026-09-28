@@ -65,14 +65,14 @@ The prompts follow a fixed template of five blocks: subject, species description
 
 Three prompt constraints have consequences elsewhere. First, the animal must be fully visible, with no part cut off at the frame edge. This is because a subject cropped at the boundary cannot plausibly be scaled down by the scale augmentation of \Cref{sec:data_augmentation}. Exactly one individual of the target species may appear, which keeps automatic single-box annotation valid. Text, watermarks, borders, and anachronistic objects are prohibited since a detector would otherwise treat them as evidence.
 
-\paragraph{Generation Schedule and Curated Validation Set}
+\paragraph{Generation Schedule}
 Band A classes receive $200$ images each: $160$ for training and $40$ for validation. The validation images are not drawn from the same generation distribution. They use fixed \enquote{prototypical} shot parameters (eye-level angle, medium distance, canonical poses, minimal occlusion) chosen to resemble typical field photography so that early stopping is not specifically tuned for synthetic-image performance. Band B classes receive $100$ images each under the same criteria.
 
 \paragraph{Photography Style}
 The images were generated in the style of documentary wildlife photography, observed through optical binoculars in sharp focus across the entire scene. The anchor replaced an earlier shallow-depth-of-field style once the ten available genuine \textit{AX Visio} captures showed that the binocular's optics produce no background blur at any distance.  % resources/AX_Visio_images/
 Blurred backgrounds would have provided a cue for separating the subject from the background, which was absent at inference. The $380$ images generated before the correction were kept and flagged as a non-target style. The remaining $12{,}220$ images follow the corrected style.
 
-\paragraph{Format and Quality Control}
+\paragraph{Output Format with Detection Gate}
 Images were requested at the generator's smallest size in a $4{:}3$ aspect ratio and are written at $592 \times 448$ pixels. Both choices are economic: synthetic images are letterboxed down to the detector's input resolution anyway, so a larger size adds detail the pipeline discards, and $4{:}3$ wastes the least area in that letterboxing. Every image then passes through \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019}, and any without a qualifying detection is flagged for regeneration.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

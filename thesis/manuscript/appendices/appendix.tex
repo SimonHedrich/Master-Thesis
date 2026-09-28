@@ -321,7 +321,7 @@ The \texttt{override} entries in the last column are where that criterion overru
 \renewcommand{\figurename}{Figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Data Sourcing and Curation Details}\label{sec:appendix_data_details}
+\section{Dataset Construction Details}\label{sec:appendix_data_details}
 
 These are the filter specifications and controlled vocabularies that \Cref{sec:data_sourcing_and_taxonomy,sec:data_quality_and_curation} state only by their effect.
 
@@ -335,7 +335,7 @@ The \texttt{human} class was drawn from COCO 2017 under a filter written for it,
 The Wikimedia Commons crawl of \Cref{sec:sourcing_execution} selects categories through an explicit account of what a wildlife photograph is \emph{not}. A category is excluded if its subject is artwork or illustration, an anatomical specimen or isolated body part, a range map, philatelic material, tracks and spoor, taxidermy or a trophy, a food product, or a fossil. Categories in which the animal is incidental to the subject are excluded on the same grounds, for example \enquote{things named after lions} or \enquote{people with cheetahs}. Exclusions cascade to subcategories, on the reasoning that a Commons subcategory inherits its parent's framing, so every subdivision of an art category is still art. Partial-animal imagery such as heads, paws and trophy shots is therefore attacked at three independent points: in this vocabulary, in the caption-based rescue stage, and in the caption evaluation criteria of \Cref{sec:staged_filtering_pipeline}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Caption Generation and Evaluation Settings}\label{sec:appendix_caption_settings}
+\subsection{Caption-Based Quality Evaluation Settings}\label{sec:appendix_caption_settings}
 
 Captions for the quality evaluation of \Cref{sec:staged_filtering_pipeline} were generated with \textit{Florence-2-base} at batch size $6$, a $768\times768$ input resolution and greedy decoding. The rescue stage of the same section uses \textit{Florence-2-large} in detailed-captioning mode.
 
@@ -446,18 +446,18 @@ The look-alike group of \Cref{tab:generator-comparison-classes} turns on stripe 
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Training and Experiment Tracking}\label{sec:appendix_training_details}
+\section{Experiment Tracking}\label{sec:appendix_training_details}
 
 How runs were recorded, supplementing \Cref{sec:model_training_experiment_tracking}.
 
-\subsection{Experiment Tracking and Run Artifacts}\label{sec:appendix_experiment_tracking}
+\subsection{Run Records}\label{sec:appendix_experiment_tracking}
 
 Runs are tracked on a self-hosted \textit{MLflow} \cite{mlflowPythonAPI2024} server. Each run logs its whole constant module in a single call, not a hand-picked subset, together with the commit hash, the device, the realized split sizes and the effective batch size. A finished run's configuration is therefore recoverable from the tracking record instead of from whatever the working tree happened to contain on the day it started, which matters in a repository where several training and generation efforts overlapped in time. Loss components and learning rate are recorded per step and per epoch, validation mAP per evaluation, and the augmentation configuration of \Cref{sec:augmentation_reproducibility} arrives inside the same parameter set. Checkpoints, the run log and the per-class results attach as run artifacts, and tags separate the distilled runs from the direct ones.
 
 Every run also writes a directory on disk that mirrors that record, so a run stays interpretable when detached from the tracking server. The directory name is timestamped and encodes the distinguishing flags, and it holds the checkpoints, the run log and the evaluation report together. Per-class results are written as plain artifact files. The most recent checkpoint is refreshed every epoch rather than only on an improvement, so an interruption between improvements cannot discard several days of training. All tracking calls are wrapped so that a failure to log cannot abort a multi-day run, at the cost that a run can in principle finish with incomplete tracking.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Supplementary Results and Benchmark Validity}\label{sec:appendix_results_supplement}
+\section{Supplementary Results}\label{sec:appendix_results_supplement}
 
 The full versions of tables \Cref{chapter:results} reports in excerpt, and the checks establishing that the runtime measurements mean what they are read to mean.
 
@@ -602,7 +602,7 @@ mAP, large & $0.641$ & $0.573$ & AR, large & $0.872$ & $0.825$ \\
 \label{fig:prompt-length-ablation}
 \end{figure}
 
-\subsection{Export Path and Runtime Selection on the Proxy Device}\label{sec:appendix_embedded_export}
+\subsection{Runtime Selection on the Proxy Device}\label{sec:appendix_embedded_export}
 
 The export path runs from each training checkpoint to \textit{TorchScript} and to \textit{ONNX} at opset~$17$ with static batch-1 shapes. Because both detector pipelines bypass \textit{Ultralytics}' high-level interface and store bare parameter dictionaries, the exporter rebuilds each architecture through this project's own model factories before tracing. Every exported graph was then checked against its \textit{PyTorch} reference on the host before it reached the device, and all five reproduce it to within floating-point accumulation noise. The export stage freezes a hashed copy of each source checkpoint and builds the host reference from that copy, so a checkpoint rewritten by a still-running training job cannot reach the comparison.
 % reports/embedded_benchmark/pi_results/, scripts/benchmark/1b-convert_and_verify.py

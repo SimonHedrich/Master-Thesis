@@ -31,7 +31,7 @@ Two reporting rules follow, and both hold without exception. First, the real-onl
 No comparison outside this work should read a $225$-class fine-grained wildlife mAP as equivalent to a published $80$-class COCO figure. The class count is larger, and many of the classes are near-duplicates, so a lower fine-grained figure is expected. This is not evidence of a weaker detector. The closest honest analog to a generic benchmark is the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which measures localization independently of the taxonomy. All figures use COCO-standard settings and average over IoU thresholds ranging from $0.5$ to $0.95$, with a maximum of $100$ detections per image.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Look-Alike Groups and Coarse Evaluation}\label{sec:lookalike_groups}
+\subsection{Look-Alike Groups for Coarse Evaluation}\label{sec:lookalike_groups}
 
 Coarse granularity requires a fixed table that maps each of the $225$ classes to a group. Grouping classes by the confusions a trained model makes is rejected outright because a grouping derived from the model under evaluation is circular. Hand-listing notorious look-alikes is also subjective. The taxonomic rollup to genus is reproducible and fixed before any model runs. It is the backbone, corrected by a small, documented override list. This construction follows the a-priori grouping principle \cite{hoiemDiagnosingErrorObject2012}, and the overrides exist because taxonomy leaks in both directions as a proxy for visual similarity.
 

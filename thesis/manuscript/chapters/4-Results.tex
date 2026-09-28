@@ -150,7 +150,7 @@ No conclusions can be drawn about the rare, long-tail classes, which is the case
 With a single training seed, the incumbent scored $0.064$, while its cheaper variant scored $0.094$. A second seed increased the score to $0.090$, resulting in the conclusion that the two were \enquote{indistinguishable}, and a third seed increased the score to $0.105$, reversing the gap outright. A difference of this size in a single seed carries no information, and the same caution applies to the larger comparison that follows, in which every model contributes a single run.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Detection Performance Across Training Bands and Test Domains}\label{sec:results_regime_comparison}
+\section{Detection Performance per Band on Each Test Domain}\label{sec:results_regime_comparison}
 
 \Cref{sec:evaluation_framework} fixed one instrument and one reporting structure, and this section applies both to the trained detectors. Each figure below is from one evaluation-suite run against a fixed test set of $63{,}802$ real images and $11{,}250$ synthetic images. These images have $92{,}094$ and $11{,}264$ ground-truth boxes, respectively.
 % scripts/training/yolo26n/model_exports/yolo26n-kd-bs16-20260916-101612/eval_run.log
@@ -162,7 +162,7 @@ The bands hold different species, which are assigned based on data availability 
 
 A third property specifically bounds the teacher's figures, and it is stated once here rather than beside each table. The ground-truth boxes of both test domains were produced by \textit{MegaDetector} (\Cref{sec:gt_annotation_integrity}), and the teacher ensemble localizes with the same detector, so its localization is scored partly against its own output. The signature is that its mAP averaged over intersection-over-union thresholds from $0.5$ to $0.95$ equals its mAP50 to three decimal places, which no single-stage detector here approaches. Every teacher figure below is an upper bound, and the teacher-to-student gap with it.
 
-\subsection{Headline: Mixed Real+Synthetic mAP and the Real-Only Breakout}\label{sec:results_headline_mixed}
+\subsection{Mixed-Set Headline mAP with Real-Only Breakout}\label{sec:results_headline_mixed}
 
 \Cref{tab:headline-cross-model} provides the default cell for all four models with \texttt{fine} granularity across all bands on the mixed test set. The real-only breakout is shown beside it, followed by the class-agnostic $\mathrm{mAP}_{\text{detect}}$, which is the analog of \Cref{sec:mixed_default}.
 
@@ -353,7 +353,7 @@ A training-composition imbalance is the natural candidate and is not verified he
 One question from the grouping review cannot be answered using these artifacts. Confirming that lion and tiger are not confused with each other requires cross-group counts, which the suite only provides within groups. The rosette half is confirmed with $216$ mutual confusions among the snow leopard, leopard, and jaguar. All of this concerns the student trained by direct fine-tuning, which leaves its training recipe and deployment cost untested.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Knowledge Distillation and Embedded Feasibility}\label{sec:results_kd_and_embedded}
+\section{Model Compression Results}\label{sec:results_kd_and_embedded}
 
 \Cref{sec:lit_knowledge_distillation,sec:lit_embedded_inference} survey a design space of distillation objectives, teacher and student pairings, weighting schedules and quantization strategies. What was carried out against it is one comparison between two training runs at one hyperparameter point, and one runtime measurement on one proxy device with no optimization applied. Both findings are reported as indicative evidence at a single design point, and the rest is deferred to \Cref{sec:further_work}.
 
