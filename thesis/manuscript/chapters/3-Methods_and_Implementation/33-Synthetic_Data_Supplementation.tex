@@ -76,6 +76,10 @@ Blurred backgrounds would have provided a cue for separating the subject from th
 \paragraph{Output Format with Detection Gate}
 Images were requested at the generator's smallest size in a $4{:}3$ aspect ratio and are written at $592 \times 448$ pixels. Both choices are economic: synthetic images are letterboxed down to the detector's input resolution anyway, so a larger size adds detail the pipeline discards, and $4{:}3$ wastes the least area in that letterboxing. Every image then passes through \textit{MegaDetector} \cite{beeryEfficientPipelineCamera2019}, and any without a qualifying detection is flagged for regeneration.
 
+\paragraph{Generation Cost}
+The synthetic images were planned within a budget guideline of roughly \texteuro$500$ to \texteuro$800$.  % docs/plans/2026-05-12_synthetic-image-generation-strategy.md
+Since no invoice for the runs is available, the cost is calculated from the vendor's list prices \cite{GeminiDeveloperAPI}. At the Batch API rate, one image of the requested size is billed at $\$0.022$, and the prompt text is billed separately as input tokens. On average, the prompts run to $3{,}100$ tokens for the training images and $3{,}600$ tokens for the test images, priced at $\$0.25$ per million tokens. The generator was also asked for a text response. In the measured comparison cell of \Cref{sec:generator_comparison_cost}, it reviews its own output and returns a second image in about a third of the responses. Thus, a request bills $1.4$ images on average. Based on these usage figures, the $12{,}600$ training and validation images cost about $\$410$, and the $11{,}250$ test images about $\$370$. The full corpus of $23{,}850$ images costs approximately $\$785$, or roughly \texteuro$690$ at the September 2026 exchange rate, which falls within the guideline. A flat per-image calculation would give about $\$535$ and understate the cost by a third.  % scripts/thesis/synthetic_cost_estimate.py, prices checked 2026-09-28, 1 USD = 0.88 EUR
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Prompt Diversity Refinement}\label{sec:prompt_diversity}
 

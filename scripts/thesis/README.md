@@ -1,9 +1,10 @@
 # `scripts/thesis` — manuscript tooling
 
-Four scripts: an Overleaf sync bridge, a structural checker that stands in for
+Five scripts: an Overleaf sync bridge, a structural checker that stands in for
 the LaTeX compile this container cannot run, a DeepL Write client for language
-passes over prose, and a paragraph-level rephrase pipeline on top of it whose
-output is reviewed by subagents before anything reaches the manuscript.
+passes over prose, a paragraph-level rephrase pipeline on top of it whose
+output is reviewed by subagents before anything reaches the manuscript, and a
+list-price calculator for the synthetic-image cost figures the manuscript quotes.
 
 ## Overleaf sync
 
@@ -181,6 +182,25 @@ Run it before and after any large edit. The baseline immediately before the
 September 2026 shortening pass was 0 dangling references, 0 unresolved keys,
 58 orphaned labels, 19 paragraphs over 180 words, and 56,606 words against a
 31,600-word budget.
+
+## `synthetic_cost_estimate.py` — list-price cost of the synthetic images
+
+```
+uv run python -m scripts.thesis.synthetic_cost_estimate
+```
+
+Prints the two tables behind the cost figures in the Synthetic Data
+Supplementation section (production corpus) and the Generator Comparison
+section (the four API cells). No invoice exists for the Gemini runs, so every
+figure is measured token usage per request times the vendors' published rates,
+standard and batch. Usage is read from the comparison cells' batch-output files
+(`usageMetadata` / `usage`) when present and falls back to the values measured
+on 2026-09-28. The production runs kept no usage records; their prompt tokens
+are estimated from prompt length at the tokens-per-character ratio of the
+comparison cell, and their image and text-output tokens are taken from that
+cell, which used the same model, modalities, size and aspect ratio. The price
+constants at the top of the file carry the pricing-page URLs and the check date;
+re-verify them before submission.
 
 
 ## `deepl_write.py` — DeepL Write API client

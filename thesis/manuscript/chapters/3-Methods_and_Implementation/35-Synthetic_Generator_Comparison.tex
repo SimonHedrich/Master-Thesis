@@ -196,31 +196,43 @@ Reproducibility varies by tier. Local models are deterministic with per-image se
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Generation Throughput}\label{sec:generator_comparison_cost}
 
-The generation process ran on a single NVIDIA A40 instance with $23.8\,\mathrm{GB}$ of video memory. The detector was trained separately on an RTX 3060. Since excellent images at an unusable rate are not practical training data, throughput is reported as a result in its own right. \Cref{tab:generator-throughput} gives the measured cost of each cell.
+The generation process ran on a single NVIDIA A40 instance with $23.8\,\mathrm{GB}$ of video memory. The detector was trained separately on an RTX 3060. Since excellent images at an unusable rate are not practical training data, throughput is reported as a result in its own right. \Cref{tab:generator-throughput} gives the measured generation time of each local cell, and \Cref{tab:generator-api-cost} the price of each API cell.
 
 \begin{table}[H]
 \centering
-\caption[Measured generation cost per cell]{Measured cost per $1{,}200$-image cell. API costs are the amounts billed.}
+\caption[Measured generation time per local cell]{Measured generation time per $1{,}200$-image cell for the six local generators.}
 \label{tab:generator-throughput}
 \begin{tabular}{@{}lrr@{}}
 \toprule
-Generator & Seconds per image & Cost per cell \\
+Generator & Seconds per image & GPU-hours per cell \\
 \midrule
-RealVisXL + SDXL-Lightning & $0.93$ & $0.31\,\mathrm{h}$ \\
-SD 3.5 Medium & $23.94$ & $7.98\,\mathrm{h}$ \\
-SD 3.5 Large Turbo & $24.82$ & $8.27\,\mathrm{h}$ \\
-FLUX.2-klein & $31.19$ & $10.40\,\mathrm{h}$ \\
-SD 3.5 Large & $54.34$ & $18.11\,\mathrm{h}$ \\
-HiDream-I1 & $143.92$ & $47.97\,\mathrm{h}$ \\
-\midrule
-\texttt{gpt-image-2} (low) & --- & $\$10.11$ \\
-\texttt{gpt-image-2} (medium) & --- & $\$29.36$ \\
-\texttt{gemini-3.1-flash-image-preview} & --- & $\approx$~\texteuro$48$ \\
+RealVisXL + SDXL-Lightning & $0.93$ & $0.31$ \\
+SD 3.5 Medium & $23.94$ & $7.98$ \\
+SD 3.5 Large Turbo & $24.82$ & $8.27$ \\
+FLUX.2-klein & $31.19$ & $10.40$ \\
+SD 3.5 Large & $54.34$ & $18.11$ \\
+HiDream-I1 & $143.92$ & $47.97$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The six local cells consumed approximately $93$ GPU-hours. Generating the full production set of $12{,}600$ images locally would have taken weeks of GPU time. That is much of why an API service was the practical production choice, regardless of output quality. The billed figures also exceeded naive estimates: the cheapest tier cost about $2.8$ times the per-image list price because the API service bills prompt text as input tokens separately from generation.
+\begin{table}[H]
+\centering
+\caption[Cost per API cell]{Cost per $1{,}200$-image API cell. Direct and Batch are list prices computed from the token usage reported per request, including the prompt text, at the vendors' standard and batch rates. Billed is the amount actually charged where it was recorded.}
+\label{tab:generator-api-cost}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Generator & Output size & Direct & Batch & Billed \\
+\midrule
+\texttt{gpt-image-2} (low) & $1024 \times 768$ & $\$40.41$ & $\$20.21$ & $\$10.11$ \\
+\texttt{gpt-image-2} (medium) & $1024 \times 768$ & $\$78.93$ & $\$39.47$ & $\$29.36$ \\
+\texttt{gemini-3.1-flash-image-preview} & $592 \times 448$ & $\$79.29$ & $\$39.64$ & --- \\
+\texttt{gemini-3.1-flash-lite-image} & $1200 \times 896$ & $\$41.85$ & $\$20.93$ & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The six local cells consumed approximately $93$ GPU-hours. Generating the full production set of $12{,}600$ images locally would have required weeks of GPU time. This is largely why an API service was the practical production choice, regardless of output quality. \Cref{tab:generator-api-cost} prices the four API cells. Both vendors bill the prompt text as input tokens separately from the image, and both sell the same generation at half price through a batch interface that returns results within a day rather than within seconds \cite{GeminiDeveloperAPI,PricingOpenAIAPI}. All four API cells were generated through that interface. List prices are calculated from the token usage reported by the batch jobs for each request. For the cheapest \texttt{gpt-image-2} tier, the roughly $5{,}900$-token prompt costs about seven times more than the $134$-token image. The production generator returns a second image in about a third of its responses after reviewing its own output. Thus, one request bills $1.4$ images on average, and its cell costs as much as the medium \texttt{gpt-image-2} tier. The two billed amounts fall below the batch column. This is consistent with the vendor's discount on repeated prompt prefixes, which the calculation does not model.  % scripts/thesis/synthetic_cost_estimate.py; docs/synthetic-model-comparison/12_additional-generator-cells-build-log.md
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Training Protocol}\label{sec:generator_comparison_training}
