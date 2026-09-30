@@ -311,6 +311,32 @@ The delta is negative almost everywhere. For the primary detector, it is negativ
 
 Some of the gap is not domain shift at all, and the two parts cannot be separated from these artifacts. The synthetic test set contains $11{,}264$ boxes across $11{,}250$ images, compared to $92{,}094$ boxes across $63{,}802$ real images. Therefore, a synthetic test image contains one animal by design, whereas a real image contains an average of $1.44$ animals. Additionally, a single centered animal against a clean background is inherently easier to detect and name. The off-the-shelf ensemble bounds that contribution since it was never exposed to synthetic images during training yet still achieves higher scores in the synthetic domain in every band by a median of between $0.196$ and $0.287$. Therefore, roughly $0.2$ mAP of the gap is a difference in difficulty rather than an effect of training composition. Only the remainder above that, which varies by band, reads as an effect of how a class was trained.
 
+\Cref{tab:band-grid-synthetic} provides those deltas with an absolute scale for the two \textit{YOLO26n} runs, scored on the synthetic test set alone over each band's images, as in \Cref{tab:band-grid-real}. Here, Band A and Band B classes are scored entirely on their own training domain, and the directly fine-tuned model achieves a mAP above $0.99$ in both. Band C and Band D classes have no synthetic training images, yet score $0.933$ and $0.869$, above the $0.742$ of the best band on real photographs. The distilled student lags behind direct fine-tuning by $0.050$ mAP on the real test set but matches it within $0.003$ in Bands A and B and leads by approximately $0.02$ in Bands C and D. The distillation gap of \Cref{sec:results_kd_basic_comparison} is therefore a gap on real photographs. These figures do not judge any model, in line with the rule of \Cref{sec:mixed_default}.  % model_exports/<run>/evaluation/eval_band_grid_synthetic.csv, scripts/training/yolov5s/eval_suite/synthetic_band_grid.py
+
+\begin{table}[htbp]
+\centering
+\caption[Band by granularity grid on the synthetic test set]{Band $\times$ granularity grid on the synthetic test set alone, for the two \textit{YOLO26n} runs. Since Band A and Band B classes are trained using images from the same generator and prompt regime as the test set, their rows measure fit to the training domain rather than transfer. These values provide \Cref{tab:domain-shift-delta} with its absolute scale and are not an evaluation axis.}
+\label{tab:band-grid-synthetic}
+\small
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+ & & \multicolumn{2}{c}{\texttt{fine}} & \multicolumn{2}{c}{\texttt{coarse}} \\
+\cmidrule(l){3-4}\cmidrule(l){5-6}
+Model & Band & mAP & mAP50 & mAP & mAP50 \\
+\midrule
+\textit{YOLO26n} direct-FT & A & $0.991$ & $0.999$ & $0.991$ & $1.000$ \\
+ & B & $0.993$ & $0.999$ & $0.994$ & $1.000$ \\
+ & C & $0.933$ & $0.944$ & $0.920$ & $0.932$ \\
+ & D & $0.869$ & $0.875$ & $0.879$ & $0.886$ \\
+\midrule
+\textit{YOLO26n} KD & A & $0.990$ & $0.999$ & $0.990$ & $0.999$ \\
+ & B & $0.990$ & $0.996$ & $0.994$ & $1.000$ \\
+ & C & $0.954$ & $0.967$ & $0.935$ & $0.948$ \\
+ & D & $0.891$ & $0.899$ & $0.895$ & $0.903$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \paragraph{Consequence for the mixed default}
 \Cref{sec:mixed_default} states that a systematic discrepancy between the mixed and real results requires revising the default evaluation axes. The discrepancy in \Cref{tab:domain-shift-delta} is large and one-directional rather than marginal or mixed in sign. The synthetic component inflates the mixed headline for every model and every band, most of all in exactly the classes the mixed default was introduced to stabilize. The revision, which would restore the real test set as the default while keeping the mixed figure as secondary, was not carried out. It would have required rewriting every reported figure in this chapter, which was not possible within the allotted time. This deviation from the stated protocol is recorded as such.
 
