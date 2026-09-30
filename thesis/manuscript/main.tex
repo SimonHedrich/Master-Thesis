@@ -66,10 +66,17 @@
 
 \setlength{\parskip}{0.5em}
 
-% verbatim reproduction of a generation prompt (appendices/prompt_regime_examples.tex)
+% verbatim reproduction of a generation prompt (appendices/prompt_regime_examples.tex).
+% Set compactly (footnote size, single spacing, narrow margins) because the
+% full prompt alone runs to 4,600 words.
 \newenvironment{promptquote}
-  {\begin{quote}\small\setlength{\parskip}{0.4em}\setlength{\parindent}{0pt}}
-  {\end{quote}}
+  {\begin{list}{}{%
+      \setlength{\leftmargin}{1em}\setlength{\rightmargin}{1em}%
+      \setlength{\topsep}{0.4em}\setlength{\partopsep}{0pt}%
+      \setlength{\parsep}{0.3em}\setlength{\itemsep}{0pt}%
+      \setlength{\listparindent}{0pt}\setlength{\itemindent}{0pt}}%
+    \item\relax\setstretch{1.0}\footnotesize}
+  {\end{list}}
 
 % include acronyms (the single abbreviation mechanism for this thesis)
 \input{preamble/acronyms}
