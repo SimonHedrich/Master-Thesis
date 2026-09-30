@@ -110,6 +110,7 @@ report). Step 2 takes ~55 min (same scoring workload).
 | `grouping.py` | load fine/coarse/detect remaps + class→band map from `reports/` |
 | `report.py` | assemble Tier 1/2/3 tables → Markdown/CSV/JSON/MLflow |
 | `run_evaluation.py` | CLI + `evaluate_checkpoint()` / `evaluate_from_predictions()` entrypoints |
+| `synthetic_band_grid.py` | band × granularity grid on the synthetic test set alone, from a run's cached `predictions_synth.json` → `eval_band_grid_synthetic.csv` (not part of the report: the strategy never judges a model on synthetic images alone) |
 
 ## Validation
 
