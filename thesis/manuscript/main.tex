@@ -102,7 +102,12 @@
     \setcounter{tocdepth}{1}
     \newpage
     \cleardoublepage
-    \tableofcontents
+    % the TOC is single-spaced so the main-part entries fit on one page
+    % (the body stays at onehalfspacing, set above)
+    \begingroup
+        \singlespacing
+        \tableofcontents
+    \endgroup
     % use arabic numbering for main part
     \cleardoublepage\pagenumbering{arabic}
     % create a tex file for each chapter and include it below
