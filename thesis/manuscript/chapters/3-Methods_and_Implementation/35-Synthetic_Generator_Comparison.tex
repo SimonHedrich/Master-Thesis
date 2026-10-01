@@ -218,21 +218,21 @@ HiDream-I1 & $143.92$ & $47.97$ \\
 
 \begin{table}[htbp]
 \centering
-\caption[Cost per API cell]{Cost per $1{,}200$-image API cell. Direct and Batch are list prices computed from the token usage reported per request, including the prompt text, at the vendors' standard and batch rates. Billed is the amount actually charged where it was recorded.}
+\caption[Cost per API cell]{Cost per $1{,}200$-image API cell. Direct and Batch are list prices computed from the token usage reported per request, including the prompt text, at the vendors' standard and batch rates.}
 \label{tab:generator-api-cost}
-\begin{tabular}{@{}llrrr@{}}
+\begin{tabular}{@{}llrr@{}}
 \toprule
-Generator & Output size & Direct & Batch & Billed \\
+Generator & Output size & Direct & Batch \\
 \midrule
-\texttt{gpt-image-2} (low) & $1024 \times 768$ & $\$40.41$ & $\$20.21$ & $\$10.11$ \\
-\texttt{gpt-image-2} (medium) & $1024 \times 768$ & $\$78.93$ & $\$39.47$ & $\$29.36$ \\
-\texttt{gemini-3.1-flash-image-preview} & $592 \times 448$ & $\$79.29$ & $\$39.64$ & --- \\
-\texttt{gemini-3.1-flash-lite-image} & $1200 \times 896$ & $\$41.85$ & $\$20.93$ & --- \\
+\texttt{gpt-image-2} (low) & $1024 \times 768$ & $\$40.41$ & $\$20.21$ \\
+\texttt{gpt-image-2} (medium) & $1024 \times 768$ & $\$78.93$ & $\$39.47$ \\
+\texttt{gemini-3.1-flash-image-preview} & $592 \times 448$ & $\$79.29$ & $\$39.64$ \\
+\texttt{gemini-3.1-flash-lite-image} & $1200 \times 896$ & $\$41.85$ & $\$20.93$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The six local cells consumed approximately $93$ GPU-hours. Generating the full production set of $12{,}600$ images locally would have required weeks of GPU time. This is largely why an API service was the practical production choice, regardless of output quality. \Cref{tab:generator-api-cost} prices the four API cells. Both vendors bill the prompt text as input tokens separately from the image, and both sell the same generation at half price through a batch interface that returns results within a day rather than within seconds \cite{GeminiDeveloperAPI,PricingOpenAIAPI}. All four API cells were generated through that interface. List prices are calculated from the token usage reported by the batch jobs for each request. For the cheapest \texttt{gpt-image-2} tier, the roughly $5{,}900$-token prompt costs about seven times more than the $134$-token image. The production generator returns a second image in about a third of its responses after reviewing its own output. Thus, one request bills $1.4$ images on average, and its cell costs as much as the medium \texttt{gpt-image-2} tier. The two billed amounts fall below the batch column. This is consistent with the vendor's discount on repeated prompt prefixes, which the calculation does not model.  % scripts/thesis/synthetic_cost_estimate.py; docs/synthetic-model-comparison/12_additional-generator-cells-build-log.md
+The six local cells consumed approximately $93$ GPU-hours. Generating the full production set of $12{,}600$ images locally would have required weeks of GPU time. This is largely why an API service was the practical production choice, regardless of output quality. \Cref{tab:generator-api-cost} prices the four API cells. Both vendors bill the prompt text as input tokens separately from the image, and both sell the same generation at half price through a batch interface that returns results within a day rather than within seconds \cite{GeminiDeveloperAPI,PricingOpenAIAPI}. All four API cells were generated through that interface. List prices are calculated from the token usage reported by the batch jobs for each request. For the cheapest \texttt{gpt-image-2} tier, the roughly $5{,}900$-token prompt costs about seven times more than the $134$-token image. The production generator returns a second image in about a third of its responses after reviewing its own output. Thus, one request bills $1.4$ images on average, and its cell costs as much as the medium \texttt{gpt-image-2} tier.  % scripts/thesis/synthetic_cost_estimate.py; docs/synthetic-model-comparison/12_additional-generator-cells-build-log.md
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Training Protocol}\label{sec:generator_comparison_training}
