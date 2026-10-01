@@ -273,44 +273,44 @@ Adapting it to $225$ wildlife classes loses generic recognition capability on th
 
 \subsection{Domain-Shift Delta: Real vs.\ Synthetic Test Performance}\label{sec:results_domain_shift}
 
-\Cref{sec:mixed_default} makes the mixed default conditional on the paired per-class difference $\Delta_{\text{domain}}(\text{class}) = \mathrm{mAP}_{\text{real}} - \mathrm{mAP}_{\text{synthetic}}$. \Cref{tab:domain-shift-delta} reports its distribution per band as a median with an interquartile range because a mean over $50$ thin Band A classes can be easily altered by a few of them.
+\Cref{sec:mixed_default} makes the mixed default conditional on the paired per-class difference $\Delta_{\text{domain}}(\text{class}) = \mathrm{mAP}_{\text{real}} - \mathrm{mAP}_{\text{synthetic}}$. \Cref{tab:domain-shift-delta} reports the mean per-class AP for each band on each test domain, as well as the mean difference between them, which equals the difference of the two means.
 
 \begin{table}[htbp]
 \centering
-\caption[Distribution of the paired domain-shift delta per band]{Distribution of $\Delta_{\text{domain}}$ over classes, per band, at \texttt{fine} granularity. A negative value means the class scores higher on the synthetic test set than on the real one. The last column counts classes where the real test set is the easier of the two. $\mathrm{mAP}_{\text{real}}$ and $\mathrm{mAP}_{\text{synthetic}}$ are the mean per-class AP over the band's classes, each scored on its full test domain, which are the same per-class values the delta is built from. They differ from \Cref{tab:band-grid-real}, which scores each band's images as a subset, so a class's false positives on other bands' images do not count against it there. The paired median is not the difference of the two means.}
+\caption[Mean domain-shift delta per band]{The mean per-class AP for each band on the real and synthetic test sets at \texttt{fine} granularity and the difference between them. A negative value means that the band's classes perform better on the synthetic test set than on the real one. AP values are scored on each full test domain and differ from \Cref{tab:band-grid-real}. The latter scores each band's images as a subset. Therefore, a class's false positives on other bands' images do not count against it.}
 \label{tab:domain-shift-delta}
 \small
-\begin{tabular}{@{}llrrrrlr@{}}
+\begin{tabular}{@{}llrrrr@{}}
 \toprule
-Model & Band & Classes & $\mathrm{mAP}_{\text{real}}$ & $\mathrm{mAP}_{\text{synthetic}}$ & Median $\Delta_{\text{domain}}$ & Interquartile range & $\Delta_{\text{domain}} > 0$ \\
+Model & Band & Classes & $\mathrm{mAP}_{\text{real}}$ & $\mathrm{mAP}_{\text{synthetic}}$ & $\Delta_{\text{domain}}$ \\
 \midrule
-Ensemble, off the shelf & A & $50$ & $0.307$ & $0.539$ & $-0.196$ & $[-0.481, 0.000]$ & $7$ \\
- & B & $26$ & $0.395$ & $0.650$ & $-0.287$ & $[-0.411, -0.056]$ & $2$ \\
- & C & $26$ & $0.489$ & $0.755$ & $-0.248$ & $[-0.447, -0.131]$ & $1$ \\
- & D & $122$ & $0.507$ & $0.712$ & $-0.221$ & $[-0.326, -0.064]$ & $12$ \\
+Ensemble, off the shelf & A & $50$ & $0.307$ & $0.539$ & $-0.233$ \\
+ & B & $26$ & $0.395$ & $0.650$ & $-0.255$ \\
+ & C & $26$ & $0.489$ & $0.755$ & $-0.266$ \\
+ & D & $122$ & $0.507$ & $0.712$ & $-0.205$ \\
 \midrule
-Ensemble, fine-tuned & A & $50$ & $0.184$ & $0.858$ & $-0.760$ & $[-0.851, -0.576]$ & $0$ \\
- & B & $26$ & $0.625$ & $0.967$ & $-0.326$ & $[-0.447, -0.244]$ & $0$ \\
- & C & $26$ & $0.621$ & $0.653$ & $-0.109$ & $[-0.291, 0.117]$ & $8$ \\
- & D & $122$ & $0.764$ & $0.781$ & $-0.066$ & $[-0.170, 0.060]$ & $36$ \\
+Ensemble, fine-tuned & A & $50$ & $0.184$ & $0.858$ & $-0.675$ \\
+ & B & $26$ & $0.625$ & $0.967$ & $-0.342$ \\
+ & C & $26$ & $0.621$ & $0.653$ & $-0.033$ \\
+ & D & $122$ & $0.764$ & $0.781$ & $-0.017$ \\
 \midrule
-\textit{YOLOv5s} & A & $50$ & $0.057$ & $0.872$ & $-0.858$ & $[-0.936, -0.746]$ & $0$ \\
- & B & $26$ & $0.320$ & $0.934$ & $-0.619$ & $[-0.706, -0.497]$ & $0$ \\
- & C & $26$ & $0.367$ & $0.635$ & $-0.318$ & $[-0.531, -0.068]$ & $4$ \\
- & D & $122$ & $0.577$ & $0.712$ & $-0.181$ & $[-0.314, -0.015]$ & $28$ \\
+\textit{YOLOv5s} & A & $50$ & $0.057$ & $0.872$ & $-0.815$ \\
+ & B & $26$ & $0.320$ & $0.934$ & $-0.614$ \\
+ & C & $26$ & $0.367$ & $0.635$ & $-0.268$ \\
+ & D & $122$ & $0.577$ & $0.712$ & $-0.135$ \\
 \midrule
-\textit{YOLO26n} direct-FT & A & $50$ & $0.202$ & $0.931$ & $-0.724$ & $[-0.850, -0.624]$ & $0$ \\
- & B & $26$ & $0.506$ & $0.968$ & $-0.471$ & $[-0.549, -0.388]$ & $0$ \\
- & C & $26$ & $0.539$ & $0.857$ & $-0.378$ & $[-0.442, -0.274]$ & $3$ \\
- & D & $122$ & $0.664$ & $0.868$ & $-0.213$ & $[-0.334, -0.138]$ & $13$ \\
+\textit{YOLO26n} direct-FT & A & $50$ & $0.202$ & $0.931$ & $-0.729$ \\
+ & B & $26$ & $0.506$ & $0.968$ & $-0.462$ \\
+ & C & $26$ & $0.539$ & $0.857$ & $-0.318$ \\
+ & D & $122$ & $0.664$ & $0.868$ & $-0.204$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The delta is negative almost everywhere. For the primary detector, it is negative for $208$ out of $224$ banded classes and for all $76$ Band A and Band B classes. The synthetic test set is easier by a median of $0.21$ mAP, even for data-rich Band D classes. This difference rises to $0.72$ for Band A. The band ordering is identical across the three fine-tuned models.
-The two mAP columns provide a scale for the delta. The primary detector's Band A classes score $0.931$ on synthetic images and $0.202$ on real photographs. Although there are no synthetic training images for its Band C and Band D classes, they still score $0.857$ and $0.868$, respectively, on synthetic images, which is above the $0.664$ that its Band D classes reach on real photographs.  % evaluation_report.json tier2_domain_shift.fine_per_class, mean over the band's classes
+The delta is negative for every model in every band. For the primary detector, it is negative for $208$ out of $224$ banded classes and all $76$ Band A and Band B classes.  % evaluation_report.json tier2_domain_shift.fine_per_class
+The synthetic test set is $0.20$ mAP easier, even for data-rich Band D classes, and $0.73$ easier for Band A. Band A classes score $0.931$ on synthetic images and $0.202$ on real photographs. The band ordering is identical across the three fine-tuned models. Despite the absence of synthetic training images for the primary detector's Band C and Band D classes, these classes still achieve scores of $0.857$ and $0.868$, respectively, on synthetic images, surpassing the $0.664$ score attained by its Band D classes on real photographs.
 
-Some of the gap is not domain shift at all, and the two parts cannot be separated from these artifacts. The synthetic test set contains $11{,}264$ boxes across $11{,}250$ images, compared to $92{,}094$ boxes across $63{,}802$ real images. Therefore, a synthetic test image contains one animal by design, whereas a real image contains an average of $1.44$ animals. Additionally, a single centered animal against a clean background is inherently easier to detect and name. The off-the-shelf ensemble bounds that contribution since it was never exposed to synthetic images during training yet still achieves higher scores in the synthetic domain in every band by a median of between $0.196$ and $0.287$. Therefore, roughly $0.2$ mAP of the gap is a difference in difficulty rather than an effect of training composition. Only the remainder above that, which varies by band, reads as an effect of how a class was trained.
+Some of the gap is not domain shift at all, and the two parts cannot be separated from these artifacts. The synthetic test set contains $11{,}264$ boxes across $11{,}250$ images, compared to $92{,}094$ boxes across $63{,}802$ real images. Therefore, a synthetic test image contains one animal by design, whereas a real image contains an average of $1.44$ animals. Additionally, a single centered animal against a clean background is inherently easier to detect and name. The off-the-shelf ensemble bounds that contribution because it was never exposed to synthetic images during training, yet it still achieves higher scores in the synthetic domain in every band by between $0.205$ and $0.266$. Therefore, roughly $0.2$ mAP of the gap is a difference in difficulty rather than an effect of training composition. Only the remainder above that, which varies by band, reads as an effect of how a class was trained.
 
 \paragraph{Consequence for the mixed default}
 \Cref{sec:mixed_default} states that a systematic discrepancy between the mixed and real results requires revising the default evaluation axes. The discrepancy in \Cref{tab:domain-shift-delta} is large and one-directional rather than marginal or mixed in sign. The synthetic component inflates the mixed headline for every model and every band, most of all in exactly the classes the mixed default was introduced to stabilize. The revision, which would restore the real test set as the default while keeping the mixed figure as secondary, was not carried out. It would have required rewriting every reported figure in this chapter, which was not possible within the allotted time. This deviation from the stated protocol is recorded as such.
