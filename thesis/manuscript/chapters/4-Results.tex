@@ -277,65 +277,40 @@ Adapting it to $225$ wildlife classes loses generic recognition capability on th
 
 \begin{table}[htbp]
 \centering
-\caption[Distribution of the paired domain-shift delta per band]{Distribution of $\Delta_{\text{domain}}$ over classes, per band, at \texttt{fine} granularity. A negative value means the class scores higher on the synthetic test set than on the real one. The last column counts classes where the real test set is the easier of the two.}
+\caption[Distribution of the paired domain-shift delta per band]{Distribution of $\Delta_{\text{domain}}$ over classes, per band, at \texttt{fine} granularity. A negative value means the class scores higher on the synthetic test set than on the real one. The last column counts classes where the real test set is the easier of the two. $\mathrm{mAP}_{\text{real}}$ and $\mathrm{mAP}_{\text{synthetic}}$ are the mean per-class AP over the band's classes, each scored on its full test domain, which are the same per-class values the delta is built from. They differ from \Cref{tab:band-grid-real}, which scores each band's images as a subset, so a class's false positives on other bands' images do not count against it there. The paired median is not the difference of the two means.}
 \label{tab:domain-shift-delta}
 \small
-\begin{tabular}{@{}llrrlr@{}}
+\begin{tabular}{@{}llrrrrlr@{}}
 \toprule
-Model & Band & Classes & Median $\Delta_{\text{domain}}$ & Interquartile range & $\Delta_{\text{domain}} > 0$ \\
+Model & Band & Classes & $\mathrm{mAP}_{\text{real}}$ & $\mathrm{mAP}_{\text{synthetic}}$ & Median $\Delta_{\text{domain}}$ & Interquartile range & $\Delta_{\text{domain}} > 0$ \\
 \midrule
-Ensemble, off the shelf & A & $50$ & $-0.196$ & $[-0.481, 0.000]$ & $7$ \\
- & B & $26$ & $-0.287$ & $[-0.411, -0.056]$ & $2$ \\
- & C & $26$ & $-0.248$ & $[-0.447, -0.131]$ & $1$ \\
- & D & $122$ & $-0.221$ & $[-0.326, -0.064]$ & $12$ \\
+Ensemble, off the shelf & A & $50$ & $0.307$ & $0.539$ & $-0.196$ & $[-0.481, 0.000]$ & $7$ \\
+ & B & $26$ & $0.395$ & $0.650$ & $-0.287$ & $[-0.411, -0.056]$ & $2$ \\
+ & C & $26$ & $0.489$ & $0.755$ & $-0.248$ & $[-0.447, -0.131]$ & $1$ \\
+ & D & $122$ & $0.507$ & $0.712$ & $-0.221$ & $[-0.326, -0.064]$ & $12$ \\
 \midrule
-Ensemble, fine-tuned & A & $50$ & $-0.760$ & $[-0.851, -0.576]$ & $0$ \\
- & B & $26$ & $-0.326$ & $[-0.447, -0.244]$ & $0$ \\
- & C & $26$ & $-0.109$ & $[-0.291, 0.117]$ & $8$ \\
- & D & $122$ & $-0.066$ & $[-0.170, 0.060]$ & $36$ \\
+Ensemble, fine-tuned & A & $50$ & $0.184$ & $0.858$ & $-0.760$ & $[-0.851, -0.576]$ & $0$ \\
+ & B & $26$ & $0.625$ & $0.967$ & $-0.326$ & $[-0.447, -0.244]$ & $0$ \\
+ & C & $26$ & $0.621$ & $0.653$ & $-0.109$ & $[-0.291, 0.117]$ & $8$ \\
+ & D & $122$ & $0.764$ & $0.781$ & $-0.066$ & $[-0.170, 0.060]$ & $36$ \\
 \midrule
-\textit{YOLOv5s} & A & $50$ & $-0.858$ & $[-0.936, -0.746]$ & $0$ \\
- & B & $26$ & $-0.619$ & $[-0.706, -0.497]$ & $0$ \\
- & C & $26$ & $-0.318$ & $[-0.531, -0.068]$ & $4$ \\
- & D & $122$ & $-0.181$ & $[-0.314, -0.015]$ & $28$ \\
+\textit{YOLOv5s} & A & $50$ & $0.057$ & $0.872$ & $-0.858$ & $[-0.936, -0.746]$ & $0$ \\
+ & B & $26$ & $0.320$ & $0.934$ & $-0.619$ & $[-0.706, -0.497]$ & $0$ \\
+ & C & $26$ & $0.367$ & $0.635$ & $-0.318$ & $[-0.531, -0.068]$ & $4$ \\
+ & D & $122$ & $0.577$ & $0.712$ & $-0.181$ & $[-0.314, -0.015]$ & $28$ \\
 \midrule
-\textit{YOLO26n} direct-FT & A & $50$ & $-0.724$ & $[-0.850, -0.624]$ & $0$ \\
- & B & $26$ & $-0.471$ & $[-0.549, -0.388]$ & $0$ \\
- & C & $26$ & $-0.378$ & $[-0.442, -0.274]$ & $3$ \\
- & D & $122$ & $-0.213$ & $[-0.334, -0.138]$ & $13$ \\
+\textit{YOLO26n} direct-FT & A & $50$ & $0.202$ & $0.931$ & $-0.724$ & $[-0.850, -0.624]$ & $0$ \\
+ & B & $26$ & $0.506$ & $0.968$ & $-0.471$ & $[-0.549, -0.388]$ & $0$ \\
+ & C & $26$ & $0.539$ & $0.857$ & $-0.378$ & $[-0.442, -0.274]$ & $3$ \\
+ & D & $122$ & $0.664$ & $0.868$ & $-0.213$ & $[-0.334, -0.138]$ & $13$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 The delta is negative almost everywhere. For the primary detector, it is negative for $208$ out of $224$ banded classes and for all $76$ Band A and Band B classes. The synthetic test set is easier by a median of $0.21$ mAP, even for data-rich Band D classes. This difference rises to $0.72$ for Band A. The band ordering is identical across the three fine-tuned models.
+The two mAP columns provide a scale for the delta. The primary detector's Band A classes score $0.931$ on synthetic images and $0.202$ on real photographs. Although there are no synthetic training images for its Band C and Band D classes, they still score $0.857$ and $0.868$, respectively, on synthetic images, which is above the $0.664$ that its Band D classes reach on real photographs.  % evaluation_report.json tier2_domain_shift.fine_per_class, mean over the band's classes
 
 Some of the gap is not domain shift at all, and the two parts cannot be separated from these artifacts. The synthetic test set contains $11{,}264$ boxes across $11{,}250$ images, compared to $92{,}094$ boxes across $63{,}802$ real images. Therefore, a synthetic test image contains one animal by design, whereas a real image contains an average of $1.44$ animals. Additionally, a single centered animal against a clean background is inherently easier to detect and name. The off-the-shelf ensemble bounds that contribution since it was never exposed to synthetic images during training yet still achieves higher scores in the synthetic domain in every band by a median of between $0.196$ and $0.287$. Therefore, roughly $0.2$ mAP of the gap is a difference in difficulty rather than an effect of training composition. Only the remainder above that, which varies by band, reads as an effect of how a class was trained.
-
-\Cref{tab:band-grid-synthetic} provides those deltas with an absolute scale for the two \textit{YOLO26n} runs, scored on the synthetic test set alone over each band's images, as in \Cref{tab:band-grid-real}. Here, Band A and Band B classes are scored entirely on their own training domain, and the directly fine-tuned model achieves a mAP above $0.99$ in both. Band C and Band D classes have no synthetic training images, yet score $0.933$ and $0.869$, above the $0.742$ of the best band on real photographs. The distilled student lags behind direct fine-tuning by $0.050$ mAP on the real test set but matches it within $0.003$ in Bands A and B and leads by approximately $0.02$ in Bands C and D. The distillation gap of \Cref{sec:results_kd_basic_comparison} is therefore a gap on real photographs. These figures do not judge any model, in line with the rule of \Cref{sec:mixed_default}.  % model_exports/<run>/evaluation/eval_band_grid_synthetic.csv, scripts/training/yolov5s/eval_suite/synthetic_band_grid.py
-
-\begin{table}[htbp]
-\centering
-\caption[Band by granularity grid on the synthetic test set]{Band $\times$ granularity grid on the synthetic test set alone, for the two \textit{YOLO26n} runs. Since Band A and Band B classes are trained using images from the same generator and prompt regime as the test set, their rows measure fit to the training domain rather than transfer. These values provide \Cref{tab:domain-shift-delta} with its absolute scale and are not an evaluation axis.}
-\label{tab:band-grid-synthetic}
-\small
-\begin{tabular}{@{}llrrrr@{}}
-\toprule
- & & \multicolumn{2}{c}{\texttt{fine}} & \multicolumn{2}{c}{\texttt{coarse}} \\
-\cmidrule(l){3-4}\cmidrule(l){5-6}
-Model & Band & mAP & mAP50 & mAP & mAP50 \\
-\midrule
-\textit{YOLO26n} direct-FT & A & $0.991$ & $0.999$ & $0.991$ & $1.000$ \\
- & B & $0.993$ & $0.999$ & $0.994$ & $1.000$ \\
- & C & $0.933$ & $0.944$ & $0.920$ & $0.932$ \\
- & D & $0.869$ & $0.875$ & $0.879$ & $0.886$ \\
-\midrule
-\textit{YOLO26n} KD & A & $0.990$ & $0.999$ & $0.990$ & $0.999$ \\
- & B & $0.990$ & $0.996$ & $0.994$ & $1.000$ \\
- & C & $0.954$ & $0.967$ & $0.935$ & $0.948$ \\
- & D & $0.891$ & $0.899$ & $0.895$ & $0.903$ \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \paragraph{Consequence for the mixed default}
 \Cref{sec:mixed_default} states that a systematic discrepancy between the mixed and real results requires revising the default evaluation axes. The discrepancy in \Cref{tab:domain-shift-delta} is large and one-directional rather than marginal or mixed in sign. The synthetic component inflates the mixed headline for every model and every band, most of all in exactly the classes the mixed default was introduced to stabilize. The revision, which would restore the real test set as the default while keeping the mixed figure as secondary, was not carried out. It would have required rewriting every reported figure in this chapter, which was not possible within the allotted time. This deviation from the stated protocol is recorded as such.
@@ -391,7 +366,7 @@ Setup A blends the frozen teacher's cached class distribution into the classific
 
 \begin{table}[htbp]
 \centering
-\caption[Distillation against direct fine-tuning for the student]{Setup A (distillation from the fine-tuned teacher) against Setup B (direct fine-tuning), both \textit{YOLO26n} at $2.71\,\mathrm{M}$ parameters. Every row is a single run, without confidence intervals.}
+\caption[Distillation against direct fine-tuning for the student]{Setup A (distillation from the fine-tuned teacher) against Setup B (direct fine-tuning), both \textit{YOLO26n} at $2.71\,\mathrm{M}$ parameters. Every row is a single run, without confidence intervals. The band rows list the mixed, real, and synthetic test sets.}
 \label{tab:kd-vs-direct}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
@@ -399,16 +374,17 @@ Measure & A (distilled) & B (direct) & B $-$ A \\
 \midrule
 mAP, mixed (headline) & $0.560$ & $\mathbf{0.599}$ & $+0.039$ \\
 mAP, real (breakout) & $0.479$ & $\mathbf{0.529}$ & $+0.050$ \\
+mAP, synthetic & $0.899$ & $0.891$ & $-0.008$ \\
 mAP50, mixed & $0.624$ & $0.659$ & $+0.035$ \\
 mAP50, real & $0.550$ & $0.599$ & $+0.049$ \\
 $\mathrm{mAP}_{\text{detect}}$, mixed & $0.770$ & $0.807$ & $+0.037$ \\
 $\mathrm{mAP}_{\text{detect}}$, real & $0.745$ & $0.782$ & $+0.037$ \\
 $\mathrm{mAP}_{\text{coarse}}$, mixed & $0.569$ & $0.608$ & $+0.039$ \\
 \midrule
-Band A, $\mathrm{mAP}_{\text{fine}}$, mixed / real & $0.493$ / $0.239$ & $0.579$ / $0.300$ & $+0.086$ / $+0.061$ \\
-Band B, $\mathrm{mAP}_{\text{fine}}$, mixed / real & $0.659$ / $0.565$ & $0.685$ / $0.588$ & $+0.026$ / $+0.023$ \\
-Band C, $\mathrm{mAP}_{\text{fine}}$, mixed / real & $0.584$ / $0.572$ & $0.614$ / $0.591$ & $+0.030$ / $+0.019$ \\
-Band D, $\mathrm{mAP}_{\text{fine}}$, mixed / real & $0.713$ / $0.706$ & $0.726$ / $0.742$ & $+0.013$ / $+0.036$ \\
+Band A, $\mathrm{mAP}_{\text{fine}}$, mixed / real / synthetic & $0.493$ / $0.239$ / $0.990$ & $0.579$ / $0.300$ / $0.991$ & $+0.086$ / $+0.061$ / $+0.001$ \\
+Band B, $\mathrm{mAP}_{\text{fine}}$, mixed / real / synthetic & $0.659$ / $0.565$ / $0.990$ & $0.685$ / $0.588$ / $0.993$ & $+0.026$ / $+0.023$ / $+0.002$ \\
+Band C, $\mathrm{mAP}_{\text{fine}}$, mixed / real / synthetic & $0.584$ / $0.572$ / $0.954$ & $0.614$ / $0.591$ / $0.933$ & $+0.030$ / $+0.019$ / $-0.022$ \\
+Band D, $\mathrm{mAP}_{\text{fine}}$, mixed / real / synthetic & $0.713$ / $0.706$ / $0.891$ & $0.726$ / $0.742$ / $0.869$ & $+0.013$ / $+0.036$ / $-0.022$ \\
 \midrule
 Within-group confusion rate & $0.203$ & $0.193$ & $-0.010$ \\
 Validation mAP@[.5:.95] at best epoch & $0.733$ & $0.763$ & $+0.030$ \\
@@ -416,7 +392,8 @@ Validation mAP@[.5:.95] at best epoch & $0.733$ & $0.763$ & $+0.030$ \\
 \end{tabular}
 \end{table}
 
-Direct fine-tuning is the stronger recipe in every row of \Cref{tab:kd-vs-direct}, the confusion rate included, where the lower value is better. On the mixed test set, direct fine-tuning reaches $0.599$, compared to the distilled student's $0.560$. On the real-only breakout, direct fine-tuning reaches $0.529$, compared to the distilled student's $0.479$. The negative is clean rather than ambiguous, and it holds on the case the hypothesis was expected to help most: Band A, whose training signal is entirely synthetic and thin, is where distillation loses by the widest margin, at $0.086$ mixed and $0.061$ real. However, neither run carries a confidence interval, so the gap cannot be considered significant. Nevertheless, Setup B leads in all $17$ cells across two test domains, three granularity levels, four bands, and the validation metric on which the runs were selected. A single seed can invert a difference of this magnitude, as \Cref{sec:results_practicability_verdict} demonstrates, so the direction is considered real, and the magnitude is considered unquantified.
+Direct fine-tuning is the stronger recipe in every row of \Cref{tab:kd-vs-direct}, the confusion rate included, where the lower value is better. On the mixed test set, direct fine-tuning reaches $0.599$, compared to the distilled student's $0.560$. On the real-only breakout, direct fine-tuning reaches $0.529$, compared to the distilled student's $0.479$. The negative is clean rather than ambiguous, and it holds on the case the hypothesis was expected to help most: Band A, whose training signal is entirely synthetic and thin, is where distillation loses by the widest margin, at $0.086$ mixed and $0.061$ real. However, neither run carries a confidence interval, so the gap cannot be considered significant. Nevertheless, Setup B leads in all $17$ cells on the mixed and real test sets, across three granularity levels, four bands, and the validation metric used to select the runs. The synthetic test set is the exception. There, Setup A is within $0.003$ of Setup B in Bands A and B, and leads by $0.022$ in Bands C and D, as well as by $0.008$ over the whole set. The distillation gap is therefore a gap on real photographs.  % model_exports/<run>/evaluation/eval_band_grid_synthetic.csv
+A single seed can invert a difference of this magnitude, as \Cref{sec:results_practicability_verdict} demonstrates, so the direction is considered real, and the magnitude is considered unquantified.
 
 Three asymmetries must be disclosed because the first one breaks the single-factor design that \Cref{sec:augmentation_setups} specifies. The distilled run was trained at an effective batch size of $16$, whereas the direct run was trained at $32$. Both were auto-reduced from a nominal $64$ by the memory probe of \Cref{sec:training_procedure}. The extra cached teacher vector per image is the plausible and unconfirmed cause.  % run logs: batch_size_effective=16 vs 32
 Batch size is therefore a second varied factor whose contribution to the gap is unmeasured. Second, the distilled run ended at epoch $186$ out of $200$ due to an unhandled tracking-client exception. Its epoch $185$ checkpoint was used as the final one, even though the validation metric was still rising from $0.724$ at epoch $175$ to $0.733$ at epoch $185$.  % docs/2026-09-07_model-comparison-teacher-and-students.md 3.3
