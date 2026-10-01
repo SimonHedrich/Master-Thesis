@@ -6,13 +6,15 @@ This script fills in the synthetic-only grid from a run's cached
 ``predictions_synth.json`` with the same per-band image subsets and scoring
 call, so the figures are directly comparable to ``eval_band_grid.csv``. It
 writes ``eval_band_grid_synthetic.csv`` next to the run's evaluation report and
-prints the rows.
+prints the rows, followed by one ``all`` row over the whole synthetic test set.
+``--predictions`` points at a ``predictions_synth.json`` that does not sit in the
+evaluation directory (the ensemble runs keep it one level up).
 
 Usage
 -----
     uv run python -m scripts.training.yolov5s.eval_suite.synthetic_band_grid \
         --eval-dir scripts/training/yolo26n/model_exports/<run_name>/evaluation \
-        [--eval-dir ...]
+        [--eval-dir ...] [--predictions <path>/predictions_synth.json ...]
 """
 
 from __future__ import annotations
@@ -32,16 +34,17 @@ logger = logging.getLogger(__name__)
 FIELDS = ["domain", "band", "n_images", "fine_map", "fine_map_50", "coarse_map", "coarse_map_50"]
 
 
-def synthetic_band_grid(eval_dir: Path, synth_ann: Path, max_det: int = 100) -> list[dict]:
-    """Score ``eval_dir/predictions_synth.json`` per band on the synthetic test set."""
+def synthetic_band_grid(predictions: Path, synth_ann: Path, max_det: int = 100) -> list[dict]:
+    """Score cached synthetic predictions per band, then over the whole synthetic test set."""
     synth_gt = scoring.build_gt_index(synth_ann)
-    with open(eval_dir / "predictions_synth.json") as f:
+    with open(predictions) as f:
         preds = json.load(f)["predictions"]
     cat_ids = sorted(synth_gt["cats"].keys())
     remaps = {"fine": grouping.identity_remap(cat_ids), "coarse": grouping.load_coarse_remap()}
     rows = []
-    for band in BANDS:
-        ids = scoring.filter_image_ids_by_band(synth_gt, {band})
+    for band in BANDS + ["all"]:
+        ids = (set(synth_gt["images"].keys()) if band == "all"
+               else scoring.filter_image_ids_by_band(synth_gt, {band}))
         if not ids:
             continue
         fine_s = scoring.score(synth_gt, preds, image_ids=ids, remap=remaps["fine"],
@@ -59,14 +62,20 @@ def synthetic_band_grid(eval_dir: Path, synth_ann: Path, max_det: int = 100) -> 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--eval-dir", action="append", required=True, type=Path,
-                    help="evaluation directory holding predictions_synth.json (repeatable)")
+                    help="evaluation directory to write the CSV into (repeatable)")
+    ap.add_argument("--predictions", action="append", type=Path, default=None,
+                    help="predictions_synth.json per --eval-dir, in the same order "
+                         "(default: <eval-dir>/predictions_synth.json)")
     ap.add_argument("--synth-ann", type=Path, default=DEFAULT_SYNTH_ANN)
     ap.add_argument("--max-det", type=int, default=100)
     args = ap.parse_args()
     logging.basicConfig(level=logging.WARNING)
 
-    for eval_dir in args.eval_dir:
-        rows = synthetic_band_grid(eval_dir, args.synth_ann, args.max_det)
+    preds = args.predictions or [d / "predictions_synth.json" for d in args.eval_dir]
+    if len(preds) != len(args.eval_dir):
+        ap.error("--predictions must be given once per --eval-dir")
+    for eval_dir, pred_path in zip(args.eval_dir, preds):
+        rows = synthetic_band_grid(pred_path, args.synth_ann, args.max_det)
         out = eval_dir / "eval_band_grid_synthetic.csv"
         with open(out, "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=FIELDS)
@@ -74,7 +83,7 @@ def main() -> None:
             w.writerows(rows)
         print(f"== {eval_dir}")
         for r in rows:
-            print(f"  {r['band']}  n={r['n_images']:5d}  fine {r['fine_map']:.3f} / {r['fine_map_50']:.3f}"
+            print(f"  {r['band']:<3} n={r['n_images']:5d}  fine {r['fine_map']:.3f} / {r['fine_map_50']:.3f}"
                   f"  coarse {r['coarse_map']:.3f} / {r['coarse_map_50']:.3f}")
         print(f"  -> {out}")
 
