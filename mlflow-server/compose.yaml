@@ -1,0 +1,18 @@
+# Local MLflow tracking server, migrated from hetzner.taile550ef.ts.net on 2026-10-05.
+# Run from this directory:  docker compose up -d --build   (UI: http://localhost:5050)
+services:
+  mlflow:
+    build: .
+    restart: unless-stopped
+    container_name: mlflow
+    ports:
+      - "5050:5000"   # host 5000 is taken by macOS AirPlay Receiver
+    volumes:
+      - ./config:/mlflow/config
+      - ./db:/mlflow/db
+      - ./mlruns:/mlruns
+      - ./mlartifacts:/mlartifacts
+    environment:
+      MLFLOW_AUTH_CONFIG_PATH: /mlflow/config/auth_config.ini
+      MLFLOW_FLASK_SERVER_SECRET_KEY: ${MLFLOW_FLASK_SERVER_SECRET_KEY}
+      MLFLOW_SERVER_CORS_ALLOWED_ORIGINS: "http://localhost:5050"

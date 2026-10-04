@@ -15,6 +15,8 @@ This is a research repository for a Master's Thesis on **optimizing deep learnin
 
 ```
 docs/         — Analysis documents and progress notes produced during the thesis
+mlflow-server/ — Local MLflow tracking server (Docker Compose), migrated from the Hetzner
+                VPS on 2026-10-05; data dirs are gitignored. See its README for ports/auth.
 research/     — Papers (PDF + Markdown summaries) and literature notes
 resources/    — Raw data files and example images from the AX Visio binocular
 scripts/      — Utility scripts, organized into subpackages (training, benchmark,

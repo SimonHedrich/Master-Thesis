@@ -1,0 +1,7 @@
+# Data migrated from the Hetzner server -- large / contains credentials
+db/
+mlartifacts/
+mlruns/
+config/auth.db
+config/auth_config.ini
+.env
