@@ -1,0 +1,225 @@
+"""Numbers and asset paths for the final talk.
+
+Every figure on a slide comes from here, and each one names its source in the thesis
+(Chapter 4 table labels) or the repo's reports. Accuracy is mAP@[.5:.95] on the REAL
+test set unless the name says otherwise (see results-slides-strategy.md).
+"""
+
+from __future__ import annotations
+
+import csv
+import json
+from pathlib import Path
+
+from theme import HERE, REPO
+
+INTERIM = HERE / "assets" / "interim"  # extracted from the pptx by extract_assets.py
+IMAGES = HERE.parent / "interim-presentation-images"  # gitignored, local only
+FIGS = REPO / "thesis" / "manuscript" / "figures" / "images"
+GEN = FIGS / "generator_comparison"
+DATA = REPO / "data"
+REPORTS = REPO / "reports"
+EVAL_YOLO26N = (
+    REPO / "scripts/training/yolo26n/model_exports/yolo26n-bs32-20260910-212812/evaluation/evaluation_report.json"
+)
+
+# --- interim deck assets (by extracted name; see extract_assets.py) -------------
+LOGO = INTERIM / "layout_01.png"
+PORTRAIT = INTERIM / "slide01_03.png"
+SHOP = INTERIM / "slide02_01.png"
+AX_VISIO = INTERIM / "slide05_01.jpg"
+EYEPIECE = INTERIM / "slide05_02.jpg"
+SWALLOW = INTERIM / "slide05_03.png"
+NN_ICON = INTERIM / "slide05_04.png"
+DIAL = INTERIM / "slide04_02.png"
+OCELOT = INTERIM / "slide07_03.jpg"  # 800x600 camera-trap frame
+OCELOT_CROP = INTERIM / "slide07_04.jpg"
+OCELOT_BBOX = (335, 83, 767, 450)  # MegaDetector box in OCELOT's pixel coordinates
+ICON_IMAGE = INTERIM / "slide08_02.png"
+ICON_CHIP = INTERIM / "slide08_04.png"
+ICON_BRAIN = INTERIM / "slide08_06.png"
+HIERARCHY = INTERIM / "slide13_01.png"
+BINTURONG_REAL = [INTERIM / f"slide18_0{i}.jpg" for i in (1, 2, 3)]
+
+HEDGEHOGS = sorted((IMAGES / "Hedgehogs").glob("*.*"))
+BINTURONG = IMAGES / "Binturong"
+GREVY_SYNTH = sorted((IMAGES / "grevy_s_zebra").glob("*.png"))
+ZEBRAS_GEMINI = {
+    "Grévy's zebra": IMAGES / "Gemini_Generated_Grévy_s zebra.png",
+    "Mountain zebra": IMAGES / "Gemini_Generated_mountain zebra.png",
+    "Plains zebra": IMAGES / "Gemini_Generated_plains zebra.png",
+}
+SYNTH_TEST_ZEBRA = IMAGES / "t_plains_zebra_009.png"  # balanced synthetic test set image
+
+PROMPT = HERE / "assets" / "prompt_grevys_zebra.txt"
+
+# --- repo images -----------------------------------------------------------------
+REAL_HERD = DATA / "inaturalist/images/plains zebra/inat_527331480.jpg"  # zebras + wildebeest
+ASIAN_ELEPHANT = DATA / "inaturalist/images/asian elephant/inat_351716828.jpeg"
+AFRICAN_ELEPHANT = DATA / "inaturalist/images/african elephant/inat_544037112.jpg"
+SAIGA_REAL = GEN / "appendix/saiga_real.jpg"
+HYAENA_SYNTH = DATA / "synthetic/images/band_a/striped_hyaena/a_striped_hyaena_008.png"
+MANGABEY_SYNTH_DIR = DATA / "synthetic/images/band_a/mangabeys_genus"
+ZEBRA_REAL_FINAL = FIGS / "zebra_species/plains_zebra.jpg"
+
+
+def mangabey_synth() -> Path:
+    files = sorted(MANGABEY_SYNTH_DIR.glob("*.png"))
+    return files[7] if len(files) > 7 else MANGABEY_SYNTH_DIR / "missing.png"
+
+
+# Wikimedia images that MegaDetector rejected as "no animal" (data/wikimedia/filter_results.jsonl).
+WIKI = DATA / "wikimedia/images"
+REJECTS = [
+    WIKI / "cheetah/Opening_of_the_Mouth_-_Tutankhamun_and_Aja.jpg",
+    WIKI / "chimpanzee/Monkey-typing.jpg",
+    WIKI / "tiger/Mike_VI_the_Tiger_(Louisiana_State_University_mascot).jpg",
+    WIKI / "aardvark/Aardvark_mask_and_costume,_Cameroon_grassland,_wood_-_Naturhistorisches_Museum_Nürnberg_-_Nuremberg,_Germany_-_DSC03948.jpg",
+    WIKI / "african_buffalo/Syncerus_range_map.png",
+    WIKI / "chimpanzee/Bodybuilderchimp.jpg",
+    WIKI / "wild_boar/Tennō_Yūryaku_detail.jpg",
+    WIKI / "african_elephant/14_Piazzale_delle_Corporazioni_Ostia_Antica_2006-09-08.jpg",
+]
+
+
+def reject_paths() -> list[Path]:
+    """Resolve the reject files tolerantly (long Wikimedia names may be stored truncated)."""
+    out = []
+    for p in REJECTS:
+        if p.exists():
+            out.append(p)
+            continue
+        hits = sorted(p.parent.glob(p.name[:40] + "*"))
+        out.append(hits[0] if hits else p)
+    return out
+
+
+# Generator-comparison sample images: same prompt, one per generator.
+LINEUP = {
+    "Real photo": GEN / "appendix/lion_real.jpg",
+    "SD 3.5 Large": GEN / "appendix/lion_sd35-large.jpg",
+    "SD 3.5 Medium": GEN / "appendix/lion_sd35m.jpg",
+    "FLUX.2 klein": GEN / "appendix/lion_flux2-klein-9b.jpg",
+    "HiDream-I1": GEN / "appendix/lion_hidream-i1.jpg",
+    "RealVisXL": GEN / "appendix/lion_realvisxl-lightning.jpg",
+    "Gemini Flash": GEN / "appendix/lion_001_full_gemini.jpg",
+    # Not in the repo: pull one lion from the gpt-image-2-low-full cell on the GPU server
+    # (data/synthetic_model_comparison/train/) and save it under this name.
+    "gpt-image-2": HERE / "assets/extra/lion_gpt-image-2-low.jpg",
+}
+SAIGA_SYNTH = {
+    "SD 3.5 Large": GEN / "appendix/saiga_sd35-large.jpg",
+    "FLUX.2 klein": GEN / "appendix/saiga_flux2-klein-9b.jpg",
+    "HiDream-I1": GEN / "appendix/saiga_hidream-i1.jpg",
+}
+
+# --- data: the 225 classes ---------------------------------------------------------
+# Class counts per order, from the interim deck's class table (slide 15).
+ORDERS = {
+    "Carnivora": 75,
+    "Cetartiodactyla": 65,
+    "Primates": 24,
+    "Rodentia": 24,
+    "Other orders": 18,
+    "Perissodactyla": 10,
+    "Marsupials &\nmonotremes": 9,
+}
+
+
+def gbif_counts() -> list[int]:
+    """Images per class in the initial GBIF corpus, sorted ascending (114 < 100, 30 = 0)."""
+    with open(REPORTS / "gbif_image_counts_all.csv") as f:
+        return sorted(int(r["image_count"]) for r in csv.DictReader(f))
+
+
+def source_counts() -> list[tuple[int, int]]:
+    """(GBIF, all sources) usable images per class after adding four sources; sorted by total."""
+    with open(REPORTS / "coverage_analysis.csv") as f:
+        rows = [(int(r["gbif_pass"]), int(r["total_pass"])) for r in csv.DictReader(f)]
+    return sorted(rows, key=lambda r: r[1])
+
+
+# --- data: generator comparison (tab:generator-ranking) ----------------------------
+# (label, mAP mean, std, tier) — real test set, 12 classes, YOLO26n fine-tuned on 1,200 images.
+GENERATORS = [
+    ("gpt-image-2 low", 0.134, 0.014, "api"),
+    ("gpt-image-2 medium", 0.126, 0.011, "api"),
+    ("Gemini Flash", 0.105, 0.036, "pick"),
+    ("Gemini Flash-Lite", 0.095, 0.006, "api"),
+    ("SD 3.5 Large", 0.055, 0.002, "local"),
+    ("SD 3.5 Medium", 0.054, 0.001, "local"),
+    ("SD 3.5 Large Turbo", 0.043, 0.005, "local"),
+    ("FLUX.2 klein", 0.037, 0.001, "local"),
+    ("HiDream-I1", 0.029, 0.002, "local"),
+    ("RealVisXL Lightning", 0.023, 0.001, "local"),
+]
+# tab:prompt-length-ablation: full vs compressed prompt, same generator.
+PROMPT_ABLATION = [("gpt-image-2 low", 0.134, 0.074), ("Gemini Flash-Lite", 0.095, 0.049)]
+FULL_PROMPT_TOKENS = 2600  # ~1,300 words (scripts/synthetic_model_comparison/1e-generate_images_openai.py)
+COMPRESSED_PROMPT_TOKENS = 55  # reports/model_comparison_compressed_prompt_metadata.jsonl
+# sec:results_practicability_verdict, "A note on seeds".
+SEED_STEPS = [0.064, 0.090, 0.105]
+SEED_SIBLING = 0.095  # Gemini Flash-Lite, 3-seed mean
+
+
+def generator_heatmap() -> tuple[list[str], list[str], list[list[float]]]:
+    """Per-class AP for the 10 full/maxlen cells (rows: classes, rare first)."""
+    cells = {
+        ("gpt-image-2-low", "full"): "gpt-2 low",
+        ("gpt-image-2-medium", "full"): "gpt-2 med",
+        ("gemini-3.1-flash-image-preview", "full"): "Gemini",
+        ("gemini-3.1-flash-lite-image", "full"): "Gem. Lite",
+        ("sd35-large", "maxlen"): "SD3.5 L",
+        ("sd35m", "maxlen"): "SD3.5 M",
+        ("sd35-large-turbo", "maxlen"): "SD3.5 T",
+        ("flux2-klein-9b", "maxlen"): "FLUX.2",
+        ("hidream-i1", "maxlen"): "HiDream",
+        ("realvisxl-lightning", "maxlen"): "RealVis",
+    }
+    ap: dict[tuple[str, str], float] = {}
+    bands: dict[str, str] = {}
+    with open(REPORTS / "model_comparison_full_per_class_ap.csv") as f:  # holds all 12 cells
+        for r in csv.DictReader(f):
+            k = (r["generator"], r["prompt_regime"])
+            if k in cells:
+                ap[(cells[k], r["class_name"])] = float(r["ap_mean"])
+                bands[r["class_name"]] = r["band"]
+    classes = sorted(bands, key=lambda c: (bands[c] != "A", bands[c], c))
+    cols = list(cells.values())
+    grid = [[ap.get((c, k), 0.0) for c in cols] for k in classes]
+    return classes, cols, grid
+
+
+# --- data: bands (tab:band-grid-real, tab:domain-shift-delta) -----------------------
+BAND_CLASSES = {"A": 50, "B": 26, "C": 26, "D": 122}
+BAND_REAL = {"A": 0.300, "B": 0.588, "C": 0.591, "D": 0.742}  # YOLO26n direct-FT, fine, real
+BAND_SYNTH_TEST = {"A": 0.931, "B": 0.968, "C": 0.857, "D": 0.868}  # mean per-class AP
+BAND_REAL_TEST = {"A": 0.202, "B": 0.506, "C": 0.539, "D": 0.664}
+FIRST_RUN_BAND_A = 0.0  # first-generation model, before the loader fix (interim slide 28)
+
+
+def per_class_real_ap() -> dict[str, list[tuple[str, float]]]:
+    """Real-test AP per class, grouped by band (tier3_per_class of the YOLO26n report)."""
+    rep = json.loads(EVAL_YOLO26N.read_text())
+    out: dict[str, list[tuple[str, float]]] = {b: [] for b in "ABCD"}
+    for c in rep["tier3_per_class"]:
+        v = c["ap_real_fine"]
+        if c.get("band") in out and v == v:  # skip NaN
+            out[c["band"]].append((c["class_name"], v))
+    return out
+
+
+# --- data: models (tab:headline-cross-model, tab:embedded-latency) ------------------
+# (label, real mAP, params M, end-to-end seconds per frame on the Raspberry Pi 400)
+MODELS = [
+    ("Ensemble, fine-tuned", 0.599, 193, 35.0),
+    ("Ensemble, off the shelf", 0.445, 193, 35.0),
+    ("YOLOv5s", 0.407, 7.63, 0.949),
+    ("YOLO26n", 0.529, 2.71, 0.423),
+]
+DETECT_REAL = 0.782  # class-agnostic mAP, YOLO26n, real test (tier1.detect_analog.real_map)
+FINE_REAL = 0.529
+ELEPHANT_FWD, ELEPHANT_REV = 1545, 9  # Asian→African vs African→Asian (sec:results_lookalike_confusion)
+# tab:kd-vs-direct-bands, real test: (distilled, direct)
+KD_BANDS = {"A": (0.239, 0.300), "B": (0.565, 0.588), "C": (0.572, 0.591), "D": (0.706, 0.742)}
+KD_ALL = (0.479, 0.529)

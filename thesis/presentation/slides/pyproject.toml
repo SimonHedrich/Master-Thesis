@@ -1,0 +1,15 @@
+[project]
+name = "final-talk-slides"
+version = "0.1.0"
+description = "Final thesis presentation, built with manim + manim-slides"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "manim>=0.19.0,<0.20",  # manim-slides 5.7 breaks on manim 0.22 (write_to_movie)
+    "manim-slides[pyside6]>=5.5.0",
+    "pillow>=11.0.0,<12",  # manim 0.19 calls Image.fromarray(mode=...), removed in Pillow 12
+    "numpy>=2.0.0",
+    "python-pptx>=1.0.2",
+]
+
+[tool.uv]
+package = false

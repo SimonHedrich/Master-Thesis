@@ -1,0 +1,34 @@
+TASK: Generate a single photorealistic wildlife photograph for use in a computer vision object detection training dataset. The photograph must look like an authentic field photograph taken by a wildlife photographer or camera trap.
+
+SUBJECT: grevy's zebra (equus grevyi)
+
+SPECIES DESCRIPTION:
+Grévy's zebra is the largest of all wild equines. It is 2.5–2.75 m (8.2–9.0 ft) in head-body length, with a tail 55–75 cm (1.80–2.46 ft) long, stands 1.45–1.6 m (4.8–5.2 ft) high at the withers, and weighs 350–450 kg (770–990 lb). Grévy's zebra differs from the other two zebras in its more primitive characteristics. It is particularly mule-like in appearance; the head is large, long, and narrow with elongated nostril openings; the ears are very large, rounded, and conical, and the neck is short but thick. The muzzle is ash-grey to black in colour, and the lips are whiskered. The mane is tall and erect; juveniles have a mane that extends to the length of the back and shortens as they reach adulthood.
+As with all zebra species, Grévy's zebra's pelage has a black and white striping pattern. The stripes are narrow and close-set, broader on the neck, and extending to the hooves. The belly and the area around the base of the tail lack stripes and are just white in color, which is unique to the Grévy's zebra. Foals are born with brown and white striping, with the brown stripes darkening as they grow older.
+
+NATURAL BEHAVIOR AND HABITAT:
+
+Grévy's zebra largely inhabits northern Kenya, with some isolated populations in Ethiopia. It was extirpated from Somalia and Djibouti and its status in South Sudan is uncertain. It lives in Acacia-Commiphora bushlands and barren plains. Ecologically, this species is intermediate between the arid-living African wild ass and the water-dependent plains zebra. Lactating mares and non-territorial stallions use areas with green, short grass and medium, dense bush more often than non-lactating mares and territorial stallions.
+Grévy's zebras rely on grasses, forbs (such as legumes), and browse for nutrition. They commonly browse when grasses are not plentiful. Their hindgut fermentation digestive system allows them to subsist on diets of lower nutritional quality than that necessary for ruminant herbivores. Grevy's zebras can survive up to a week without water, but will drink daily when it is plentiful. They often migrate to better watered highlands during the dry season. Mares require significantly more water when they are lactating. During droughts, the zebras will dig water holes and defend them. 
+The main predators of Grévy's zebras are lions, but spotted hyenas also hunt them. African hunting dogs, cheetahs, and leopards almost never attack adults, even in desperate times, but they sometimes prey on young animals, although mares are fiercely protective of their young. In addition, Grévy's zebra is susceptible to various gastro-intestinal parasites, notably of the genus Trichostrongylus.
+
+SCENE SPECIFICATION:
+- Camera angle / perspective: Camera at the same height as the animal's mid-body, horizontal perspective. The animal's head orientation is NOT fixed to frontal; it may face in any direction (away from camera, in profile, or toward camera) as determined by the behavior description.
+- Distance from subject: Standard field view — animal fills approximately 20–40% of frame (~80–250 m telephoto)
+- Animal pose / behavior: The individual rests in a sternal recumbent position, legs tucked underneath its body.
+- Environment / background: Open savanna plains with withered bunchgrass and a clear, expansive blue sky during midday.
+- Lighting conditions: Harsh overhead midday sunlight, strong shadows
+- Occlusion / visibility: Animal fully visible, no obstruction
+- Special focus: Whole-body images must emphasize the slim, tall leg structure and the specific stripe pattern that becomes narrow and dense toward the dorsal line. Ensure the white belly area is depicted correctly, as this is a primary diagnostic feature distinguishing this species from other zebras.
+
+PHOTOGRAPHY STYLE: Documentary wildlife photography, comparable in quality and style to BBC Natural World or National Geographic. Wildlife observation through optical binoculars (8–10× magnification), full-scene sharp focus, authentic field conditions. No background blur — the animal is integrated into its environment, not isolated against a softened background. No studio lighting, no artificial backgrounds, no text overlays, no watermarks, no borders, no frames, no human-made objects unless contextually relevant to the scene.
+
+CRITICAL REQUIREMENTS:
+1. The grevy's zebra must be the unmistakable primary subject of the photograph.
+2. The following species-diagnostic features must be clearly visible and anatomically correct: narrow vertical stripes, white belly region, large rounded ears, brown nose muzzle
+3. The animal's body proportions, coloration, and posture must match the species description above exactly.
+4. The scene must be ecologically plausible — the environment, weather, and behavior must all occur naturally for this species.
+5. The photograph must be suitable for training an automated species identification system.
+6. The animal must be fully visible within the frame — no part of its body, head, or limbs should be cut off at the image edges.
+7. The animal's body and head orientation must match the angle specification and behavior description above exactly. Do not reorient the animal toward the camera to improve species feature visibility; instead render the diagnostic features from the specified angle.
+8. Exactly one individual grevy's zebra must appear in the photograph. No other individual of the same species should be clearly visible in the frame. Other species may appear incidentally in the distant background.

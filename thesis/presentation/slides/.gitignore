@@ -1,0 +1,9 @@
+.venv/
+build/
+media/
+# manim-slides writes its slide configs and videos here
+slides/
+# extracted from the gitignored interim pptx (NDA content)
+assets/interim/
+# assets pulled from elsewhere (e.g. the GPU server)
+assets/extra/
