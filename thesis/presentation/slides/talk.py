@@ -4,9 +4,9 @@ Seven scenes, one per act of final-talk-storyline.md; the results acts follow
 results-slides-strategy.md. Each `self.next_slide()` is one click in the presenter.
 
 Render (from thesis/presentation/slides/):
-    uv run manim render -qh talk.py Intro Problem Data Generators Bands Models Close
+    uv run manim render -qk --frame_rate 30 talk.py Intro Problem Data Generators Bands Models Close
 Present:
-    uv run manim-slides present Intro Problem Data Generators Bands Models Close
+    uv run manim-slides present -F Intro Problem Data Generators Bands Models Close
 Export a self-contained HTML deck:
     uv run manim-slides convert Intro Problem Data Generators Bands Models Close build/talk.html
 """
@@ -468,7 +468,7 @@ class Generators(TalkSlide):
         ]
         columns = Group()
         for name, paths in cols:
-            col = Group(*[photo(p, width=1.95, aspect=4 / 3, max_px=700) for p in paths]).arrange(DOWN, buff=0.1)
+            col = Group(*[photo(p, width=1.95, aspect=4 / 3) for p in paths]).arrange(DOWN, buff=0.1)
             lab = pill(name, 20, fill=SKY if name == "Real" else WHITE)
             columns.add(Group(col, lab.next_to(col, DOWN, buff=0.2)))
         columns.arrange(RIGHT, buff=0.4).move_to(DOWN * 0.35)
@@ -511,7 +511,7 @@ class Generators(TalkSlide):
         # 18 — R1 lineup: same prompt, eight sources
         tiles_ = Group()
         for name, p in D.LINEUP.items():
-            m = photo(p, width=3.05, aspect=4 / 3, max_px=800)
+            m = photo(p, width=3.05, aspect=4 / 3)
             tiles_.add(labelled(m, name, DL, 18) if name != "Real photo" else labelled(m, name, DL, 18))
         tiles_.arrange_in_grid(rows=2, cols=4, buff=0.2).move_to(DOWN * 0.3)
         head = title("Same prompt, eight sources")
@@ -625,7 +625,7 @@ class Generators(TalkSlide):
         self.play(Create(rare_box), FadeIn(rare_l))
         self.next_slide()
         real = labelled(photo(D.SAIGA_REAL, width=3.2, aspect=4 / 3), "real saiga", DL, 18).move_to([4.9, 1.0, 0])
-        fakes = Group(*[photo(p, width=1.15, aspect=4 / 3, max_px=500) for p in D.SAIGA_SYNTH.values()]).arrange(RIGHT, buff=0.1)
+        fakes = Group(*[photo(p, width=1.15, aspect=4 / 3) for p in D.SAIGA_SYNTH.values()]).arrange(RIGHT, buff=0.1)
         fakes.next_to(real, DOWN, buff=0.35)
         fl = pill("generated (local models)", 18).next_to(fakes, DOWN, buff=0.15)
         nose = pill("no trunk-like nose", 20, fill=GREEN, bold=True).next_to(fl, DOWN, buff=0.15)

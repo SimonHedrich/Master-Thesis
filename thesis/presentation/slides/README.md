@@ -41,15 +41,23 @@ Inputs that are not in git:
 ## Render, present, export
 
 ```
-uv run manim render -qh talk.py Intro Problem Data Generators Bands Models Close
-uv run manim-slides present Intro Problem Data Generators Bands Models Close
+uv run manim render -qk --frame_rate 30 talk.py Intro Problem Data Generators Bands Models Close
+uv run manim-slides present -F Intro Problem Data Generators Bands Models Close
 uv run manim-slides convert Intro Problem Data Generators Bands Models Close build/talk.html
 ```
 
+- **Render at 4K for the real thing** (`-qk`, about 10 minutes for the whole talk at 30 fps).
+  A 1080p video shown full screen on a 1440p or Retina display gets upscaled and looks
+  soft. 4K scales *down* cleanly to any projector or monitor.
+- `theme.py` lowers manim's hard-coded x264 `crf 23` to `crf 12` (`CRF` constant).
+  Otherwise the compression blurs fine text and coloured edges on the static slides.
+- Photos are resized from the render resolution, so a 4K render gets 4K-sharp photos and
+  a `-ql` draft stays fast.
+- `-F` starts the presenter full screen. Use `--screen N` to choose the display. If the
+  window isn't full screen, Qt scales the video and it looks soft again.
 - Render with plain `manim render`, not `manim-slides render`. The `Slide` base class writes
-  the slide files either way, and `manim-slides render` reads `-qh` as `-q -h` and only
-  prints its help.
-- Use `-ql` instead of `-qh` for a fast draft.
+  the slide files either way, and `manim-slides render` reads `-qk` as `-q -k` and fails.
+- Use `-ql` for a fast draft.
 - To iterate on one act, render only that scene.
 - The presenter advances with → / space and goes back with ←.
 - `convert` can also write `--to pptx` (slides become embedded videos), which is useful as a

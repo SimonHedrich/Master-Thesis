@@ -46,6 +46,46 @@ MIST = "#DFE5F0"  # neutral marks, muted text
 WHITE = "#FFFFFF"
 RED = "#FF6B6B"  # only for the ✗ verdict marks
 
+# --- video encoding ---------------------------------------------------------------
+# manim hard-codes libx264 at crf 23, which is tuned for motion and blurs fine text and
+# coloured edges on static slides. manim-slides only remuxes the partial movie files when
+# it joins them, so the crf chosen here is what reaches the screen. Lower = sharper and
+# larger; 12 is visually lossless for slide content.
+CRF = 12
+
+
+def _sharpen_encoding(crf: int = CRF) -> None:
+    import manim.scene.scene_file_writer as sfw
+
+    real_av = sfw.av
+
+    class _Container:
+        def __init__(self, inner):
+            self._inner = inner
+
+        def add_stream(self, codec, *args, options=None, **kwargs):
+            if options and "crf" in options:
+                options = {**options, "crf": str(crf)}
+            return self._inner.add_stream(codec, *args, options=options, **kwargs)
+
+        def __getattr__(self, name):
+            return getattr(self._inner, name)
+
+    class _AV:
+        def __getattr__(self, name):
+            return getattr(real_av, name)
+
+        def open(self, *args, **kwargs):
+            container = real_av.open(*args, **kwargs)
+            writing = kwargs.get("mode") == "w" or (len(args) > 1 and args[1] == "w")
+            return _Container(container) if writing else container
+
+    if not isinstance(sfw.av, _AV):
+        sfw.av = _AV()
+
+
+_sharpen_encoding()
+
 FONT = "Atkinson Hyperlegible"
 MONO = "Menlo"
 
@@ -110,13 +150,30 @@ def _cached(src: Path, aspect: float | None, radius: float, max_px: int) -> Path
     return out
 
 
+def _pixels_needed(src: Path, height: float | None, width: float | None, aspect: float | None) -> int:
+    """Longest side, in source pixels, that the photo occupies at the current render resolution.
+
+    Sizing from config.pixel_width keeps photos sharp at 4K without bloating 1080p drafts.
+    """
+    if aspect is None:
+        with Image.open(src) as im:
+            w, h = im.size
+            if im.getexif().get(0x0112) in (5, 6, 7, 8):  # EXIF rotation swaps the sides
+                w, h = h, w
+        aspect = w / h
+    disp_w = width if width is not None else (height or 2.0) * aspect
+    disp_h = disp_w / aspect
+    scale = config.pixel_width / FRAME_W  # pixels per scene unit
+    return int(min(4096, max(256, max(disp_w, disp_h) * scale * 1.1)))
+
+
 def photo(
     src: Path | str,
     height: float | None = None,
     width: float | None = None,
     aspect: float | None = None,
     radius: float = 0.05,
-    max_px: int = 1400,
+    max_px: int | None = None,
 ):
     """A rounded-corner photo, or a labelled placeholder if the file is missing."""
     src = Path(src)
@@ -124,6 +181,8 @@ def photo(
         a = aspect or 4 / 3
         h = height or (width / a if width else 2.0)
         return placeholder(src.name, h * a, h)
+    if max_px is None:
+        max_px = _pixels_needed(src, height, width, aspect)
     m = ImageMobject(str(_cached(src, aspect, radius, max_px)))
     if height is not None:
         m.scale_to_fit_height(height)
@@ -214,15 +273,20 @@ def collage(paths: list[Path], cols: int, cell_w: float, aspect: float = 4 / 3, 
     tiles = Group()
     cell_h = cell_w / aspect
     for i, p in enumerate(paths):
-        m = photo(p, width=cell_w, aspect=aspect, max_px=600, radius=0.06)
+        m = photo(p, width=cell_w, aspect=aspect, radius=0.06)
         r, c = divmod(i, cols)
         m.move_to([c * (cell_w + gap), -r * (cell_h + gap), 0])
         tiles.add(m)
     return tiles.move_to(ORIGIN)
 
 
-def mosaic(paths: list[Path], cols: int, tile_px: int = 240, aspect: float = 4 / 3, gap_px: int = 8) -> Path:
-    """Pre-render many thumbnails into one image (much faster than one mobject each)."""
+def mosaic(paths: list[Path], cols: int, tile_px: int | None = None, aspect: float = 4 / 3, gap_px: int = 8) -> Path:
+    """Pre-render many thumbnails into one image (much faster than one mobject each).
+
+    tile_px defaults to the tile's on-screen width when the sheet spans the frame.
+    """
+    if tile_px is None:
+        tile_px = max(160, config.pixel_width // cols)
     key = hashlib.md5("|".join(map(str, paths)).encode() + f"{cols}{tile_px}{aspect}".encode()).hexdigest()[:16]
     out = CACHE / f"mosaic_{key}.png"
     if out.exists():
