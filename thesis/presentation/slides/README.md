@@ -27,7 +27,7 @@ ffmpeg) and the presenter needs a Qt window.
 - **`talk_v2.py` (current):** the reworked talk. It builds up step by step: use case →
   data → generated images → bands → models on the hardware → a summary that replays one
   picture from every step. It has six scenes (`UseCase`, `DataV2`, `Generative`, `Bands2`,
-  `ModelsV2`, `Summary`) and 27 slides (64 click states). Images come from `../images/` (run
+  `ModelsV2`, `Summary`) and 26 slides (60 click states). Images come from `../images/` (run
   `collect_images.py` first). The speaker script is `../final-talk-script-v2.md`.
 - **`talk.py`:** the first version, told chronologically (plan → what happened). Kept as is.
 
@@ -93,9 +93,12 @@ Inputs that are not in git:
 - `../interim-presentation.pptx` and `../interim-presentation-images/`. They are gitignored
   because of size and the NDA slides.
 - `data/` at the repo root (inaturalist, wikimedia, synthetic images), for the photos.
-- **Missing:** `assets/extra/lion_gpt-image-2-low.jpg`, one lion from the
-  `gpt-image-2-low-full` cell (`data/synthetic_model_comparison/train/` on the GPU
-  server). Until it exists, the v1 lineup slide (`talk.py`) shows a dashed placeholder; v2 does not use it.
+- `assets/extra/` (gitignored), copied from the GPU server (`ubuntu@100.97.174.47`,
+  `~/Master-Thesis/data/`):
+  - `lion_gpt-image-2-low.jpg` and `saiga_gpt-image-2-low.jpg`: `synthetic_model_comparison/train/gpt-image-2-low/full/images/{lion/d_lion_001,saiga/a_saiga_001}.png`
+  - `real_test_{grevys,mountain,plains}_zebra.jpg`: one-zebra photos from the real test
+    split (`real/annotations_test.json`, single box): `gbif_grevy's_zebra_00075`,
+    `gbif_mountain_zebra_00069`, `gbif_plains_zebra_00064`
 
 ## Render, present, export
 
@@ -120,6 +123,8 @@ uv run manim-slides convert --offline Intro Problem Data Generators Bands Models
 - Render with plain `manim render`, not `manim-slides render`. The `Slide` base class writes
   the slide files either way, and `manim-slides render` reads `-qk` as `-q -k` and fails.
 - Use `-ql` for a fast draft.
+- After swapping an image file, render with `--disable_caching`. manim's partial-movie
+  cache does not notice the new picture and replays the old animation.
 - To iterate on one act, render only that scene.
 - The presenter advances with → / space and goes back with ←.
 - `convert` can also write `--to pptx` (slides become embedded videos), which is useful as a

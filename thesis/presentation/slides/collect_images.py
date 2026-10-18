@@ -85,12 +85,15 @@ SOURCES: dict[str, Path] = {
     "generators/saiga_sd35m.jpg": GEN / "appendix/saiga_sd35m.jpg",
     "generators/saiga_sd35-large-turbo.jpg": GEN / "appendix/saiga_sd35-large-turbo.jpg",
     "generators/saiga_realvisxl.jpg": GEN / "appendix/saiga_realvisxl-lightning.jpg",
+    "generators/saiga_gpt-image-2-low.jpg": HERE / "assets/extra/saiga_gpt-image-2-low.jpg",  # from the GPU server
     "generators/saiga_gemini.png": DATA / "synthetic/images/band_a/saiga/a_saiga_003.png",  # production set
     # --- bands ---
     "bands/synthetic_test_plains_zebra.png": OLD_IMAGES / "t_plains_zebra_009.png",
-    "bands/real_test_zebra_herd.jpg": DATA / "inaturalist/images/plains zebra/inat_527331480.jpg",
-    "bands/real_grevys_zebra_foal.jpg": DATA / "inaturalist/images/grevy's zebra/inat_264890163.jpeg",
-    "bands/real_mountain_zebras_far.jpg": DATA / "inaturalist/images/mountain zebra/inat_417603145.jpeg",
+    # one zebra per photo, from the real test split (data/real/annotations_test.json on the GPU
+    # server: single box; gbif_grevy's_zebra_00075, gbif_mountain_zebra_00069, gbif_plains_zebra_00064)
+    "bands/real_test_grevys_zebra.jpg": HERE / "assets/extra/real_test_grevys_zebra.jpg",
+    "bands/real_test_mountain_zebra.jpg": HERE / "assets/extra/real_test_mountain_zebra.jpg",
+    "bands/real_test_plains_zebra.jpg": HERE / "assets/extra/real_test_plains_zebra.jpg",
     "bands/synthetic_striped_hyaena.png": DATA / "synthetic/images/band_a/striped_hyaena/a_striped_hyaena_008.png",
     # --- models ---
     "models/asian_elephant.jpg": DATA / "inaturalist/images/asian elephant/inat_351716828.jpeg",

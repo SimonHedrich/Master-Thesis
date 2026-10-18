@@ -325,3 +325,70 @@ ELEPHANT_FWD, ELEPHANT_REV = 1545, 9  # Asian→African vs African→Asian (sec:
 # tab:kd-vs-direct-bands, real test: (distilled, direct)
 KD_BANDS = {"A": (0.239, 0.300), "B": (0.565, 0.588), "C": (0.572, 0.591), "D": (0.706, 0.742)}
 KD_ALL = (0.479, 0.529)
+
+
+# =================================================================================
+# v2 feedback round (talk_v2.py only; talk.py keeps the constants above)
+# =================================================================================
+def pct(v: float, d: int = 1) -> str:
+    """mAP/AP as a percentage string: 0.529 -> '52.9 %'."""
+    return f"{v * 100:.{d}f} %"
+
+
+def source_stack_gbif_order() -> list[list[int]]:
+    """Per class, usable images per source in SOURCES order; classes sorted by usable GBIF.
+
+    The usable GBIF count (coverage_analysis.csv) is not a subset of the first GBIF corpus
+    (gbif_image_counts_all.csv): 102 classes have more, from the later, wider GBIF pull.
+    """
+    with open(REPORTS / "coverage_analysis.csv") as f:
+        rows = [[int(r[col]) for _, col in SOURCES] for r in csv.DictReader(f)]
+    return sorted(rows, key=lambda r: r[0])
+
+
+# tab:generator-ranking, compressed-prompt cells (≤ 75 tokens): (label, mAP, std, insert after)
+GENERATORS_COMPRESSED = [
+    ("gpt-image-2 low · compressed", 0.074, 0.002, "Gemini Flash-Lite"),
+    ("Gemini Flash-Lite · compressed", 0.049, 0.003, "SD 3.5 Medium"),
+]
+# Prompt length per cell, in tokens. Full: ~5,900 tokens on average over the 12 comparison
+# classes (Methods sec. 3.5); maxlen: T5 256 for SD 3.5, 512 for FLUX.2 klein and HiDream
+# (GENERATOR_TIER in scripts/synthetic_model_comparison/1i-generate_images_local_maxlen.py);
+# RealVisXL reuses the compressed prompts (77 CLIP tokens, 75 usable).
+GENERATOR_PROMPT = {
+    "gpt-image-2 low": "~5,900",
+    "gpt-image-2 medium": "~5,900",
+    "Gemini Flash": "~5,900",
+    "Gemini Flash-Lite": "~5,900",
+    "SD 3.5 Large": "≤ 256",
+    "SD 3.5 Medium": "≤ 256",
+    "SD 3.5 Large Turbo": "≤ 256",
+    "FLUX.2 klein": "≤ 512",
+    "HiDream-I1": "≤ 512",
+    "RealVisXL Lightning": "≤ 75",
+    "gpt-image-2 low · compressed": "≤ 75",
+    "Gemini Flash-Lite · compressed": "≤ 75",
+}
+
+# tab:headline-cross-model, class-agnostic mAP_detect on the real test set (same order as MODELS)
+MODELS_DETECT = {
+    "Ensemble, fine-tuned": 0.964,
+    "Ensemble, off the shelf": 0.947,
+    "YOLOv5s": 0.750,
+    "YOLO26n": 0.782,
+}
+
+# Look-alikes, YOLO26n direct-FT (EVAL_YOLO26N): real-test AP per zebra class (tier3_per_class),
+# within-group confusion counts (tier2_within_group_confusion.pairs, true -> predicted) and
+# group confusion rates (tab:lookalike-group-confusion-excerpt).
+ZEBRA_AP = {"Grévy's zebra": 0.575, "Mountain zebra": 0.805, "Plains zebra": 0.739}
+ZEBRA_CONFUSION = [
+    ("Grévy's zebra", "Plains zebra", 112),
+    ("Grévy's zebra", "Mountain zebra", 21),
+    ("Mountain zebra", "Plains zebra", 14),
+    ("Mountain zebra", "Grévy's zebra", 12),
+]
+GROUP_CONFUSION = {"zebra": 0.095, "elephant": 0.508}
+# Compressed cells are not in tab:generator-api-cost; same output price, ~5,850 fewer input
+# tokens, so at most the full-prompt batch price.
+GENERATOR_COST_COMPRESSED = {"gpt-image-2 low · compressed": "≤ $0.017", "Gemini Flash-Lite · compressed": "≤ $0.017"}

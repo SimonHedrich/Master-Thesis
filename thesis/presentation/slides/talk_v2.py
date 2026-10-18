@@ -141,7 +141,7 @@ def disc(inner, r: float = 0.95) -> Group:
 
 def prompt_text_card(name: str, width: float, max_height: float) -> ImageMobject:
     """A prompt typeset at one fixed size, so card length shows prompt length."""
-    out = CACHE / f"prompt_{name}.png"
+    out = CACHE / f"prompt_{name}_v2.png"
     px_per_unit = 300
     if not out.exists():
         CACHE.mkdir(parents=True, exist_ok=True)
@@ -161,11 +161,12 @@ def prompt_text_card(name: str, width: float, max_height: float) -> ImageMobject
         d.rounded_rectangle((0, 0, w - 1, h - 1), 26, fill=(255, 255, 255, 255))
         for i, line in enumerate(lines):
             d.text((pad, pad + i * lh), line, fill=(40, 50, 90), font=font)
-        if cut:  # fade the last lines out: the prompt keeps going
+        if cut:  # fade card and text out to transparent: the prompt keeps going
             fade = 8 * lh
-            for k in range(fade):
-                a = int(255 * k / fade)
-                d.line([(0, h - fade + k), (w, h - fade + k)], fill=(255, 255, 255, a))
+            px = np.array(im)
+            ramp = np.linspace(1.0, 0.0, fade)[:, None]
+            px[h - fade :, :, 3] = (px[h - fade :, :, 3] * ramp).astype(np.uint8)
+            im = Image.fromarray(px)
         im.save(out)
     m = ImageMobject(str(out))
     return m.scale_to_fit_width(width)
@@ -223,6 +224,7 @@ class UseCase(Talk2):
         self.play(FadeIn(view), Create(a_opt), FadeIn(opt_l))
         self.play(Create(a_disp), FadeIn(disp_l), FadeIn(view_l))
         self.play(FadeIn(result, scale=1.1))
+        self.snap("birdid")
         self.page()
 
         # 4 — MammalID, laid out as in the interim deck (slide 6)
@@ -242,7 +244,6 @@ class UseCase(Talk2):
         self.next_slide()
         self.play(FadeIn(blog, shift=UP * 0.2))
         self.play(FadeIn(trap, shift=LEFT * 0.2), FadeIn(md))
-        self.snap("mammalid")
         self.page()
 
         # 5 — The model ensemble: detector + classifier
@@ -285,7 +286,6 @@ class UseCase(Talk2):
         Group(*cols).arrange(RIGHT, buff=1.6, aligned_edge=UP).move_to(DOWN * 0.3)
         for g in cols:
             self.play(FadeIn(g, shift=UP * 0.2), run_time=0.6)
-        self.snap("challenges")
         self.next_slide()
 
 
@@ -312,23 +312,30 @@ class DataV2(Talk2):
 
         # 9 — 225 custom classes: every name, grouped by order (shown, not meant to be read)
         self.play(FadeIn(title("225 Custom Classes")))
-        lines = []
+        lines, heads_ = [], set()
         for order, names in D.CLASS_TABLE.items():
+            heads_.add(len(lines))
             lines.append(txt(order, 14, GREEN, bold=True))
             lines += [txt(n_, 12, MIST) for n_ in names]
         box_w, box_h = FRAME_W - 1.2, 5.6
 
         def columns_of(n_cols):
             per = -(-len(lines) // n_cols)
+            groups, k = [], 0
+            while k < len(lines):
+                end = min(k + per, len(lines))
+                if end < len(lines) and end - 1 in heads_:  # never leave an order name alone at a column's foot
+                    end -= 1
+                groups.append(lines[k:end])
+                k = end
             return VGroup(*[
-                VGroup(*lines[k : k + per]).copy().arrange(DOWN, aligned_edge=LEFT, buff=0.07) for k in range(0, len(lines), per)
+                VGroup(*g).copy().arrange(DOWN, aligned_edge=LEFT, buff=0.07) for g in groups
             ]).arrange(RIGHT, aligned_edge=UP, buff=0.3)
 
         # the column count that lets the names come out largest in the free area
         table = max((columns_of(n_) for n_ in range(5, 13)), key=lambda t: min(box_w / t.width, box_h / t.height))
         table.scale(min(box_w / table.width, box_h / table.height)).move_to(DOWN * 0.45)
         self.play(LaggedStart(*[FadeIn(col, shift=UP * 0.15) for col in table], lag_ratio=0.15), run_time=2.2)
-        self.snap("classes")
         self.page()
 
         # 10 — Images per class: GBIF, then four more sources, each in its own colour
@@ -361,8 +368,9 @@ class DataV2(Talk2):
         self.play(FadeIn(p1, shift=UP * 0.2))
         self.play(FadeIn(p2, shift=UP * 0.2))
         self.next_slide()
-        # Usable images per source, stacked on the log axis (GBIF at the bottom).
-        stack = D.source_stack()
+        # Usable images per source, stacked on the log axis (GBIF at the bottom), first in
+        # the order of usable GBIF images, then every class column moves to its rank by the total.
+        stack = D.source_stack_gbif_order()
         layers = [VGroup() for _ in D.SOURCES]
         for i, row in enumerate(stack):
             cum = 0
@@ -382,6 +390,10 @@ class DataV2(Talk2):
         self.play(Transform(bars, layers[0]), run_time=1.2)
         for k in range(1, len(D.SOURCES)):
             self.play(FadeIn(legend[k], shift=UP * 0.1), LaggedStart(*[GrowFromEdge(r, DOWN) for r in layers[k]], lag_ratio=0.004), run_time=1.0)
+        self.next_slide()
+        rank = {i: r for r, i in enumerate(sorted(range(len(stack)), key=lambda i: (sum(stack[i]), i)))}
+        columns_ = [VGroup(bars[i], *[layers[k][i] for k in range(1, len(D.SOURCES))]) for i in range(len(stack))]
+        self.play(*[c.animate.set_x(left + (rank[i] + 0.5) * bw) for i, c in enumerate(columns_)], run_time=2.2)
         self.play(FadeIn(p3, scale=1.1))
         self.snap("images_per_class")
         self.page()
@@ -401,7 +413,6 @@ class DataV2(Talk2):
         arrs = VGroup(*[arrow(a.get_right(), b.get_left(), buff=0.08) for a, b in zip(chips, chips[1:])])
         self.play(rej.animate.scale(0.82).shift(UP * 0.45))
         self.play(LaggedStart(*[FadeIn(c, shift=RIGHT * 0.2) for c in chips], lag_ratio=0.2), Create(arrs), run_time=1.5)
-        self.snap("is_animal")
         self.next_slide()
 
 
@@ -438,7 +449,8 @@ class Generative(Talk2):
         # 13 — Three zebras: details decide; the generator's name comes in on the click
         zs = Group()
         for path, name in (("zebra_grevys_gemini.png", "Grévy's zebra"), ("zebra_mountain_gemini.png", "Mountain zebra"), ("zebra_plains_gemini.png", "Plains zebra")):
-            zs.add(labelled(photo(IMG / "generators" / path, width=4.1, aspect=4 / 3), name, DL, 22))
+            ph = photo(IMG / "generators" / path, width=4.1, aspect=4 / 3)
+            zs.add(Group(ph, pill(name, 22).next_to(ph, DOWN, buff=0.2)))
         zs.arrange(RIGHT, buff=0.3).move_to(DOWN * 0.2)
         self.play(LaggedStart(*[FadeIn(z, shift=UP * 0.2) for z in zs], lag_ratio=0.3))
         self.next_slide()
@@ -467,69 +479,77 @@ class Generative(Talk2):
         self.next_slide()
         for im, tag, pc in cols_[1:]:
             self.play(FadeIn(im), FadeIn(tag), GrowFromEdge(pc, UP), run_time=0.8)
-        self.snap("prompt_regimes")
         self.page()
 
-        # 15 — Training set comparison: detector accuracy per generator, with cost per image
-        head = title("Training set comparison")
+        # 15 — Training images comparison: detector accuracy per generator, cost per image and
+        # prompt length, the same lion from six generators; then the two compressed-prompt
+        # cells drop into the ranking.
+        head = title("Training Images Comparison")
         self.play(FadeIn(head))
-        rows = Group()
-        vmax, L, bars_x = 0.15, 5.0, -3.6
-        for name, mean, std, kind in D.GENERATORS:
-            color = {"api": SKY, "pick": SKY, "local": MIST}[kind]
-            lab = txt(name, 20, WHITE if kind != "local" else MIST)
-            bar = hbar(mean, vmax, L, h=0.34, color=color, opacity=1 if kind != "local" else 0.7)
-            rows.add(VGroup(lab, bar))
-        rows.arrange(DOWN, buff=0.14).move_to([0, -0.45, 0])
-        for row, (name, mean, std, kind) in zip(rows, D.GENERATORS):
-            row[0].next_to([bars_x - 0.25, row.get_y(), 0], LEFT, buff=0)
-            row[1].move_to([bars_x, row.get_y(), 0], aligned_edge=LEFT)
-            err = Line([bars_x + L * (mean - std) / vmax, row.get_y(), 0], [bars_x + L * (mean + std) / vmax, row.get_y(), 0]).set_stroke(WHITE, 2, 0.6)
-            val = txt(f"{mean:.3f}", 18, MIST).move_to([bars_x + L + 0.5, row.get_y(), 0])
-            cost = txt(D.GENERATOR_COST[name], 18, WHITE if kind != "local" else MIST).move_to([bars_x + L + 1.25, row.get_y(), 0], aligned_edge=LEFT)
-            row.add(err, val, cost)
+        vmax, L, bars_x = 0.15, 2.9, -3.0
+        x_val, x_cost, x_prompt = bars_x + L + 0.75, bars_x + L + 1.3, bars_x + L + 2.35
+
+        def slot_y(k):  # twelve slots: ten full-prompt cells now, two compressed ones later
+            return 1.75 - k * 0.42
+
+        def gen_row(name, mean, std, kind, y):
+            local = kind == "local"
+            fg = GREEN if kind == "compressed" else (MIST if local else WHITE)
+            bold = kind == "compressed"
+            color = {"api": SKY, "pick": SKY, "local": MIST, "compressed": GREEN}[kind]
+            lab = txt(name, 16, fg, bold=bold).next_to([bars_x - 0.2, y, 0], LEFT, buff=0)
+            bar = hbar(mean, vmax, L, h=0.26, color=color, opacity=0.7 if local else 1).move_to([bars_x, y, 0], aligned_edge=LEFT)
+            err = Line([bars_x + L * (mean - std) / vmax, y, 0], [bars_x + L * (mean + std) / vmax, y, 0]).set_stroke(WHITE, 2, 0.6)
+            val = txt(D.pct(mean), 16, fg, bold=bold).move_to([x_val, y, 0])
+            cost_s = D.GENERATOR_COST_COMPRESSED.get(name) or D.GENERATOR_COST[name]
+            cost = txt(cost_s, 16, fg, bold=bold).move_to([x_cost, y, 0], aligned_edge=LEFT)
+            prm = txt(D.GENERATOR_PROMPT[name], 16, fg, bold=bold).move_to([x_prompt, y, 0], aligned_edge=LEFT)
+            return VGroup(lab, bar, err, val, cost, prm)
+
+        rows = VGroup(*[gen_row(name, mean, std, kind, slot_y(k)) for k, (name, mean, std, kind) in enumerate(D.GENERATORS)])
+        hy = slot_y(0) + 0.5
         heads = VGroup(
-            txt("mAP", 16, MIST).next_to(rows[0][3], UP, buff=0.2),
-            txt("per image", 16, MIST).next_to(rows[0][4], UP, buff=0.2).align_to(rows[0][4], LEFT),
+            txt("mAP", 15, MIST).move_to([x_val, hy, 0]),
+            txt("per image", 15, MIST).move_to([x_cost, hy, 0], aligned_edge=LEFT),
+            txt("prompt\ntokens", 15, MIST, line_spacing=0.8).move_to([x_prompt, hy + 0.08, 0], aligned_edge=LEFT),
         )
-        foot = txt("per image: API = batch list price · local = seconds on one NVIDIA A40", 15, MIST).to_corner(DL, buff=0.35)
-        legend = VGroup(pill("API", 18, fill=SKY), pill("local", 18, fill=MIST)).arrange(RIGHT, buff=0.2).to_corner(UR, buff=0.4).shift(DOWN * 0.55)
-        lion = labelled(photo(IMG / "generators/lion_gemini.jpg", width=2.1, aspect=4 / 3), "e.g. lion", DL, 14)
-        lion.move_to([5.55, -0.2, 0])
+        foot = txt("per image: API = batch list price · local = seconds on one NVIDIA A40", 14, MIST).to_corner(DL, buff=0.3)
+        legend = VGroup(pill("API", 16, fill=SKY), pill("local", 16, fill=MIST)).arrange(RIGHT, buff=0.15)
+        legend.move_to([x_prompt + 0.9, foot.get_y(), 0], aligned_edge=RIGHT)
+        # The same lion prompt, one picture per generator (the cheapest API cell first).
+        G = IMG / "generators"
+        lions = Group()
+        for name, f in (
+            ("gpt-image-2 low", "lion_gpt-image-2-low.jpg"), ("Gemini Flash", "lion_gemini.jpg"),
+            ("SD 3.5 Large", "lion_sd35-large.jpg"), ("FLUX.2 klein", "lion_flux2-klein.jpg"),
+            ("HiDream-I1", "lion_hidream-i1.jpg"), ("RealVisXL", "lion_realvisxl.jpg"),
+        ):
+            ph = photo(G / f, width=1.8, aspect=4 / 3)
+            lions.add(Group(ph, pill(name, 12).move_to(ph.get_corner(DL), aligned_edge=DL).shift(UR * 0.06)))
+        lions.arrange_in_grid(rows=3, cols=2, buff=(0.1, 0.12)).move_to([5.15, -0.45, 0])
+        lion_l = txt("same lion prompt", 15, MIST).next_to(lions, UP, buff=0.12)
         self.play(FadeIn(legend), LaggedStart(*[FadeIn(r[0]) for r in rows], lag_ratio=0.05))
         self.play(LaggedStart(*[GrowFromEdge(r[1], LEFT) for r in rows], lag_ratio=0.08), run_time=1.6)
         self.play(*[FadeIn(r[2]) for r in rows], *[FadeIn(r[3]) for r in rows], FadeIn(heads[0]))
-        self.play(LaggedStart(*[FadeIn(r[4], shift=LEFT * 0.1) for r in rows], lag_ratio=0.05), FadeIn(heads[1]), FadeIn(foot))
-        self.play(FadeIn(lion, shift=LEFT * 0.2))
-        self.snap("ranking")
-        self.next_slide()
-
-        # 16 — Same title: keep the two prompt-ablation generators, then add the short prompt
-        groups = VGroup()
-        L2, vmax2, x0 = 6.0, 0.15, -3.6
-        for j, (name, f, c) in enumerate(D.PROMPT_ABLATION):
-            y = 1.0 - j * 2.5
-            lab = txt(name, 26, bold=True).move_to([x0, y + 0.65, 0], aligned_edge=LEFT)
-            bf = hbar(f, vmax2, L2, h=0.45, color=SKY).move_to([x0, y, 0], aligned_edge=LEFT)
-            bc = hbar(c, vmax2, L2, h=0.45, color=MIST, opacity=0.75).move_to([x0, y - 0.62, 0], aligned_edge=LEFT)
-            vf = txt(f"{f:.3f}  full prompt", 20, MIST).next_to(bf, RIGHT, buff=0.2)
-            vc = txt(f"{c:.3f}  compressed", 20, MIST).next_to(bc, RIGHT, buff=0.2)
-            loss = pill(f"−{round((1 - c / f) * 100)} %", 28, fill=GREEN, bold=True).move_to([5.6, y - 0.3, 0])
-            groups.add(VGroup(lab, bf, vf, bc, vc, loss))
-        names = [g[0] for g in D.GENERATORS]
-        kept = [names.index(name) for name, _, _ in D.PROMPT_ABLATION]
-        gone = [r for k, r in enumerate(rows) if k not in kept] + [rows[k][m] for k in kept for m in (2, 4)]
         self.play(
-            *[FadeOut(m) for m in (*gone, heads, foot, legend, lion)],
-            *[Transform(rows[k][m], groups[j][n]) for j, k in enumerate(kept) for m, n in ((0, 0), (1, 1), (3, 2))],
-            run_time=1.2,
+            LaggedStart(*[FadeIn(VGroup(r[4], r[5]), shift=LEFT * 0.1) for r in rows], lag_ratio=0.05),
+            FadeIn(heads[1]), FadeIn(heads[2]), FadeIn(foot),
         )
+        self.play(FadeIn(lion_l), LaggedStart(*[FadeIn(t, shift=LEFT * 0.15) for t in lions], lag_ratio=0.12), run_time=1.4)
         self.next_slide()
-        self.play(*[GrowFromEdge(g[3], LEFT) for g in groups], *[FadeIn(g[4]) for g in groups])
-        self.play(*[FadeIn(g[5], scale=1.2) for g in groups])
+        # The compressed prompt (≤ 75 tokens): rows below each insert point slide down.
+        order = [name for name, *_ in D.GENERATORS]
+        for name, *_rest, after in D.GENERATORS_COMPRESSED:
+            order.insert(order.index(after) + 1, name)
+        moves = [r.animate.set_y(slot_y(order.index(name))) for r, (name, *_x) in zip(rows, D.GENERATORS)]
+        self.play(*moves, run_time=1.0)
+        new = VGroup(*[gen_row(name, mean, std, "compressed", slot_y(order.index(name))) for name, mean, std, _a in D.GENERATORS_COMPRESSED])
+        self.play(*[FadeIn(r[0], shift=RIGHT * 0.2) for r in new], *[GrowFromEdge(r[1], LEFT) for r in new], run_time=1.0)
+        self.play(*[FadeIn(VGroup(*r[2:])) for r in new])
+        self.snap("ranking")
         self.page()
 
-        # 17 — Rare animals are a blind spot
+        # 16 — Rare animals
         classes, cols2, grid = D.generator_heatmap()
         cw2, ch2 = 0.46, 0.36
         hm = VGroup()
@@ -543,29 +563,31 @@ class Generative(Talk2):
         heads = VGroup(*[txt(c, 13, MIST).rotate(np.pi / 3).move_to([x0 + j * cw2, y0 + 0.6, 0], aligned_edge=DL).shift(LEFT * 0.1) for j, c in enumerate(cols2)])
         n_rare = 6
         rare_box = SurroundingRectangle(VGroup(*hm[: n_rare * len(cols2)]), buff=0.06, corner_radius=0.08).set_stroke(GREEN, 4)
-        rare_l = pill("rare animals: AP < 0.07 for every generator", 20, fill=GREEN, bold=True).move_to([0, -3.55, 0]).align_to(names, LEFT)
-        self.play(FadeIn(title("Rare animals are a blind spot")))
+        rare_l = pill("rare animals: AP < 7 % for every generator", 20, fill=GREEN, bold=True).move_to([0, -3.55, 0]).align_to(names, LEFT)
+        self.play(FadeIn(title("Rare Animals")))
         self.play(FadeIn(names), FadeIn(heads), LaggedStart(*[FadeIn(c) for c in hm], lag_ratio=0.004), run_time=1.5)
         self.next_slide()
         self.play(Create(rare_box), FadeIn(rare_l))
         self.next_slide()
         # The saiga, real and from every generator we have a picture for, large enough to compare.
         G = IMG / "generators"
+        # (label, image, generator in D.GENERATORS whose ranking mAP the tile shows)
         gallery = [
-            ("real saiga", G / "saiga_real.jpg", SKY), ("Gemini", G / "saiga_gemini.png", WHITE),
-            ("SD 3.5 Large", G / "saiga_sd35-large.jpg", WHITE), ("SD 3.5 Medium", G / "saiga_sd35m.jpg", WHITE),
-            ("SD 3.5 Large Turbo", G / "saiga_sd35-large-turbo.jpg", WHITE), ("FLUX.2 klein", G / "saiga_flux2-klein.jpg", WHITE),
-            ("HiDream-I1", G / "saiga_hidream-i1.jpg", WHITE), ("RealVisXL", G / "saiga_realvisxl.jpg", WHITE),
+            ("real saiga", G / "saiga_real.jpg", None), ("gpt-image-2 low", G / "saiga_gpt-image-2-low.jpg", "gpt-image-2 low"),
+            ("Gemini Flash", G / "saiga_gemini.png", "Gemini Flash"), ("SD 3.5 Large", G / "saiga_sd35-large.jpg", "SD 3.5 Large"),
+            ("SD 3.5 Large Turbo", G / "saiga_sd35-large-turbo.jpg", "SD 3.5 Large Turbo"), ("FLUX.2 klein", G / "saiga_flux2-klein.jpg", "FLUX.2 klein"),
+            ("HiDream-I1", G / "saiga_hidream-i1.jpg", "HiDream-I1"), ("RealVisXL", G / "saiga_realvisxl.jpg", "RealVisXL Lightning"),
         ]
+        gen_map = {name: mean for name, mean, _, _ in D.GENERATORS}
         tiles_ = Group()
-        for name, path, color in gallery:
+        for name, path, gen in gallery:
             ph = photo(path, width=3.15, aspect=4 / 3)
-            tiles_.add(Group(ph, pill(name, 16, fill=color).move_to(ph.get_corner(DL), aligned_edge=DL).shift(UR * 0.1)))
+            label = name if gen is None else f"{name} · mAP {D.pct(gen_map[gen])}"
+            tiles_.add(Group(ph, pill(label, 15, fill=SKY if gen is None else WHITE).move_to(ph.get_corner(DL), aligned_edge=DL).shift(UR * 0.1)))
         tiles_.arrange_in_grid(rows=2, cols=4, buff=(0.2, 0.2)).move_to(DOWN * 0.45)
         self.play(*[FadeOut(m) for m in (names, heads, hm, rare_box, rare_l)])
         self.play(FadeIn(tiles_[0]))
         self.play(LaggedStart(*[FadeIn(t, shift=UP * 0.15) for t in tiles_[1:]], lag_ratio=0.15), run_time=1.6)
-        self.snap("blind_spot")
         self.next_slide()
 
 
@@ -574,33 +596,27 @@ class Generative(Talk2):
 # =================================================================================
 class Bands2(Talk2):
     def build(self):
-        # 18 — The production set
+        # 17 — The production set
         sheet = photo(IMG / "generators/grevys_synthetic_wall.png", width=FRAME_W - 0.6, radius=0).move_to(DOWN * 0.25)
         n = pill("23,850 synthetic images", 44, bold=True).move_to(sheet)
         self.play(FadeIn(sheet, scale=1.05), run_time=1.2)
         self.play(FadeIn(n, scale=1.2))
         self.page()
 
-        # 19 — Final dataset, built up: real images → bands → synthetic train → synthetic test
+        # 18 — Final dataset, built up: real images → bands → synthetic train → synthetic test
         head = title("Final Dataset")
         self.play(FadeIn(head))
         with open(REPO / "reports/class_split_counts.csv") as f:
             rows = list(csv.DictReader(f))
         order = {"A": 0, "B": 1, "C": 2, "D": 3}
         rows.sort(key=lambda r: (order[r["band"]], int(r["effective_pool"])))
-        cap, chart_h, left, width, base = 1000, 4.0, -5.6, 12.1, -2.9
+        # linear axis to 2,000 images; the largest classes (1,500 real train + 500 real test
+        # + 50 synthetic test) reach 2,050 and overshoot the top line slightly
+        cap, chart_h, left, width, base = 2000, 4.0, -5.6, 12.1, -2.9
         bw = width / len(rows)
 
         def stack(i, parts):
-            """One class column: a rectangle per (count, colour), stacked bottom to top.
-
-            Columns over the cap squeeze their real training images (index 1), so the
-            test images on top stay visible; the axis tops out at "≥ 1,000".
-            """
-            parts = list(parts)
-            over = sum(v for v, _ in parts) - cap
-            if over > 0:
-                parts[1] = (max(0, parts[1][0] - over), parts[1][1])
+            """One class column: a rectangle per (count, colour), stacked bottom to top."""
             y, out = base, []
             for v, color in parts:
                 h = v / cap * chart_h
@@ -612,16 +628,14 @@ class Bands2(Talk2):
         cols, after = [], []
         for i, r in enumerate(rows):
             tr, ts, te = int(r["train_real"]), int(r["train_synth"]), int(r["test_real"])
-            # the 50 synthetic test images are counted from the start, so the squeeze never changes
-            squeeze = max(0, ts + tr + te + 50 - cap)
-            cols.append(VGroup(*stack(i, [(0, GREEN), (tr - squeeze, MIST), (te, MIST), (0, SYNTH_TEST)])))
+            cols.append(VGroup(*stack(i, [(0, GREEN), (tr, MIST), (te, MIST), (0, SYNTH_TEST)])))
             after.append(stack(i, [(ts, GREEN), (tr, MIST), (te, SKY), (50, SYNTH_TEST)]))  # 50 synthetic test images per class
         grid, img_labels = VGroup(), VGroup()
-        for v in (200, 400, 600, 800, 1000):
+        for v in (500, 1000, 1500, 2000):
             yy = base + v / cap * chart_h
             ln = Line([left, yy, 0], [left + width, yy, 0]).set_stroke(MIST, 1, 0.2)
             grid.add(ln)
-            img_labels.add(axis_label(f"{v}" if v < 1000 else "≥ 1,000").next_to(ln, LEFT, buff=0.1))
+            img_labels.add(axis_label(f"{v:,}").next_to(ln, LEFT, buff=0.1))
         seps, labs, spans, i0 = VGroup(), VGroup(), {}, 0
         for b in "ABCD":
             n_b = sum(1 for r in rows if r["band"] == b)
@@ -657,12 +671,11 @@ class Bands2(Talk2):
         # step 4: 50 synthetic test images per class
         tests = VGroup(*[a[3] for a in after])
         self.play(FadeIn(leg["synthetic test"]), LaggedStart(*[GrowFromEdge(t, DOWN) for t in tests], lag_ratio=0.004), run_time=1.6)
-        self.snap("band_design")
         self.next_slide()
 
-        # 20 — Results on top of the same chart: the dataset greys out, the bands stay
+        # 19 — Results on top of the same chart: the dataset greys out, the bands stay
         bars_all = VGroup(*cols, tests)
-        map_labels = VGroup(*[axis_label(f"{v / cap:.1f}").move_to(l, aligned_edge=RIGHT) for v, l in zip((200, 400, 600, 800, 1000), img_labels)])
+        map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((500, 1000, 1500, 2000), img_labels)])
         note = txt("YOLO26n · mAP on real photos", 18, MIST).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
         self.play(
             Transform(head, title("Recognition Results")),
@@ -671,18 +684,22 @@ class Bands2(Talk2):
             Transform(img_labels, map_labels),
             FadeIn(note),
         )
+        # band mAP = mean of the per-class AP shown as dots on the next click
+        per_class = D.per_class_real_ap()
+        band_map = {b: float(np.mean([v for _, v in items])) for b, items in per_class.items()}
+        assert all(abs(band_map[b] - D.BAND_REAL_TEST[b]) < 5e-4 for b in "ABCD")
         res, vals = VGroup(), VGroup()
-        for b, v in D.BAND_REAL.items():
+        for b, v in band_map.items():
             x_lo, x_hi = spans[b]
             r = Rectangle(width=x_hi - x_lo - 0.16, height=v * chart_h).set_fill(GREEN, 0.38).set_stroke(GREEN, 3)
             res.add(r.move_to([(x_lo + x_hi) / 2, base, 0], aligned_edge=DOWN))
-            vals.add(txt(f"{v:.2f}", 30, bold=True).next_to(r, UP, buff=0.12))
+            vals.add(txt(f"mAP\n{D.pct(v)}", 22, bold=True, line_spacing=0.8).next_to(r, UP, buff=0.12))
         self.play(LaggedStart(*[GrowFromEdge(r, DOWN) for r in res], lag_ratio=0.25), run_time=1.8)
         self.play(FadeIn(vals))
         self.snap("band_results")
         self.next_slide()
-        # Per-class AP as dots, each at its own column; white line = band median
-        pc = {name: v for items in D.per_class_real_ap().values() for name, v in items}
+        # Per-class AP as dots, each at its own column; white line = band mean (the bar top)
+        pc = {name: v for items in per_class.values() for name, v in items}
         dots, special = VGroup(), {}
         for i, r in enumerate(rows):
             v = pc.get(r["class"])
@@ -693,16 +710,15 @@ class Bands2(Talk2):
                 special[r["class"]] = d
             dots.add(d)
         meds = VGroup()
-        for b, items in D.per_class_real_ap().items():
-            med = float(np.median([v for _, v in items]))
+        for b, med in band_map.items():
             x_lo, x_hi = spans[b]
             meds.add(Line([x_lo + 0.08, base + med * chart_h, 0], [x_hi - 0.08, base + med * chart_h, 0]).set_stroke(WHITE, 5))
         self.play(res.animate.set_fill(GREEN, 0.18), FadeOut(vals))
         self.play(LaggedStart(*[GrowFromCenter(d) for d in dots], lag_ratio=0.004), run_time=1.6)
         self.play(*[Create(m) for m in meds])
         self.next_slide()
-        hy = labelled(photo(IMG / "bands/synthetic_striped_hyaena.png", height=1.15, aspect=4 / 3), "hyaena · 0.48", DL, 12)
-        mg = labelled(photo(IMG / "bands/synthetic_mangabeys.png", height=1.15, aspect=4 / 3), "mangabeys · 0.01", DL, 12)
+        hy = labelled(photo(IMG / "bands/synthetic_striped_hyaena.png", height=1.15, aspect=4 / 3), f"hyaena · AP {D.pct(pc['striped hyaena'], 0)}", DL, 12)
+        mg = labelled(photo(IMG / "bands/synthetic_mangabeys.png", height=1.15, aspect=4 / 3), f"mangabeys · AP {D.pct(pc['mangabeys genus'], 0)}", DL, 12)
         # above the chart, over band A
         pair = Group(mg, hy).arrange(RIGHT, buff=0.15)  # same left-to-right order as their dots
         pair.move_to([spans["A"][0], base + chart_h + 0.12, 0], aligned_edge=DL)
@@ -714,10 +730,10 @@ class Bands2(Talk2):
         self.play(FadeIn(pair), FadeIn(foot), Create(l1), Create(l2))
         self.page()
 
-        # 21 — Test data: three synthetic test images against three real photos
+        # 20 — Test data: three synthetic test images against three real photos
         G = IMG / "generators"
         syn = Group(*[photo(G / f, height=2.05, aspect=4 / 3) for f in ("zebra_grevys_gemini.png", "zebra_mountain_gemini.png", "zebra_plains_gemini.png")]).arrange(RIGHT, buff=0.15)
-        real = Group(*[photo(IMG / "bands" / f, height=2.05, aspect=4 / 3) for f in ("real_grevys_zebra_foal.jpg", "real_mountain_zebras_far.jpg", "real_test_zebra_herd.jpg")]).arrange(RIGHT, buff=0.15)
+        real = Group(*[photo(IMG / "bands" / f, height=2.05, aspect=4 / 3) for f in ("real_test_grevys_zebra.jpg", "real_test_mountain_zebra.jpg", "real_test_plains_zebra.jpg")]).arrange(RIGHT, buff=0.15)
         sl = pill("synthetic test images", 20).move_to(syn.get_corner(DL), aligned_edge=DL).shift(UR * 0.12)
         rl = pill("real photos", 20, fill=SKY).move_to(real.get_corner(DL), aligned_edge=DL).shift(UR * 0.12)
         block = Group(Group(syn, sl), Group(real, rl)).arrange(DOWN, buff=0.3).move_to(DOWN * 0.4)
@@ -731,11 +747,11 @@ class Bands2(Talk2):
             x = 0.9 + k * 1.65
             s = vbar(D.BAND_SYNTH_TEST[b], 1.0, L, w=0.6, color=SYNTH_TEST).move_to([x - 0.33, base, 0], aligned_edge=DOWN)
             r = vbar(D.BAND_REAL_TEST[b], 1.0, L, w=0.6, color=SKY).move_to([x + 0.33, base, 0], aligned_edge=DOWN)
-            sv = txt(f"{D.BAND_SYNTH_TEST[b]:.2f}", 17, MIST).next_to(s, UP, buff=0.08)
-            rv = txt(f"{D.BAND_REAL_TEST[b]:.2f}", 17).next_to(r, UP, buff=0.08)
+            sv = txt(D.pct(D.BAND_SYNTH_TEST[b], 0), 16, MIST).next_to(s, UP, buff=0.08)
+            rv = txt(D.pct(D.BAND_REAL_TEST[b], 0), 16).next_to(r, UP, buff=0.08)
             lab = txt(b, 28, bold=True).move_to([x, base - 0.4, 0])
             bars.add(VGroup(s, r, sv, rv, lab))
-        leg2 = VGroup(pill("synthetic test", 18, fill=SYNTH_TEST), pill("real test", 18, fill=SKY)).arrange(RIGHT, buff=0.2)
+        leg2 = VGroup(pill("synthetic test · mAP", 18, fill=SYNTH_TEST), pill("real test · mAP", 18, fill=SKY)).arrange(RIGHT, buff=0.2)
         leg2.next_to(bars, UP, buff=0.35).align_to(bars, LEFT).shift(UP * 0.4)
         self.play(FadeIn(leg2), *[FadeIn(g[4]) for g in bars])
         self.play(LaggedStart(*[a for g in bars for a in (GrowFromEdge(g[0], DOWN), GrowFromEdge(g[1], DOWN))], lag_ratio=0.1), run_time=1.6)
@@ -748,7 +764,7 @@ class Bands2(Talk2):
 # =================================================================================
 class ModelsV2(Talk2):
     def build(self):
-        # 22 — Three candidates
+        # 21 — Three candidates
         self.play(FadeIn(title("Three candidates")))
         R = 2.45
         specs = [("MegaDetector + SpeciesNet", 193, "193 M", -2.6, BLUE), ("YOLOv5s", 7.63, "7.6 M", 2.7, MIST), ("YOLO26n", 2.71, "2.7 M", 5.0, GREEN)]
@@ -765,58 +781,98 @@ class ModelsV2(Talk2):
         self.play(*[FadeIn(c[1]) for c in circles], *[FadeIn(c[2]) for c in circles])
         self.page()
 
-        # 23 — Accuracy, size and time per frame
-        self.play(FadeIn(title("Accuracy on real photos")))
-        L, vmax, x0 = 6.0, 0.7, -2.4
+        # 22 — Accuracy (species mAP), then detection mAP, size and time per frame
+        self.play(FadeIn(title("Accuracy on real photos (mAP)")))
+        L, vmax, x0 = 5.0, 1.0, -2.4
         rows = VGroup()
         for k, (name, m, p, t) in enumerate(D.MODELS):
-            y = 1.3 - k * 1.15
+            y = 1.15 - k * 1.15
             color = GREEN if name == "YOLO26n" else MIST
             lab = txt(name, 24, bold=name == "YOLO26n").move_to([x0 - 0.3, y, 0], aligned_edge=RIGHT)
-            bar = hbar(m, vmax, L, h=0.55, color=color, opacity=1 if color == GREEN else 0.75).move_to([x0, y, 0], aligned_edge=LEFT)
-            val = txt(f"{m:.2f}" + ("*" if k == 0 else ""), 26, bold=True).next_to(bar, RIGHT, buff=0.2)
-            rows.add(VGroup(lab, bar, val))
-        self.play(LaggedStart(*[FadeIn(r[0]) for r in rows], lag_ratio=0.1))
+            bar = hbar(m, vmax, L, h=0.42, color=color, opacity=1 if color == GREEN else 0.75).move_to([x0, y - 0.13, 0], aligned_edge=LEFT)
+            val = txt(D.pct(m) + ("*" if k == 0 else ""), 24, bold=True).next_to(bar, RIGHT, buff=0.2)
+            det = D.MODELS_DETECT[name]
+            dbar = hbar(det, vmax, L, h=0.18, color=WHITE, opacity=0.4).move_to([x0, y + 0.25, 0], aligned_edge=LEFT)
+            dval = txt(D.pct(det), 17, MIST).next_to(dbar, RIGHT, buff=0.2)
+            rows.add(VGroup(lab, bar, val, dbar, dval))
+        leg = VGroup(pill("species mAP", 18, fill=MIST), pill("detection mAP (any animal)", 18, fill=WHITE))
+        leg.arrange(RIGHT, buff=0.2).move_to([LEFT_X, 2.05, 0], aligned_edge=LEFT)
+        self.play(FadeIn(leg[0]), LaggedStart(*[FadeIn(r[0]) for r in rows], lag_ratio=0.1))
         self.play(LaggedStart(*[GrowFromEdge(r[1], LEFT) for r in rows], lag_ratio=0.15), run_time=1.5)
         self.play(*[FadeIn(r[2]) for r in rows])
         star = txt("* upper bound: MegaDetector drew the ground-truth boxes", 16, MIST).to_corner(DL, buff=0.4)
         self.play(FadeIn(star))
         self.next_slide()
+        self.play(FadeIn(leg[1]), LaggedStart(*[GrowFromEdge(r[3], LEFT) for r in rows], lag_ratio=0.15), run_time=1.3)
+        self.play(*[FadeIn(r[4]) for r in rows])
+        self.next_slide()
         side = VGroup()
         for r, (name, m, p, t) in zip(rows, D.MODELS):
             sec = f"{t:.0f} s" if t >= 10 else f"{t:.2f} s"
-            side.add(pill(f"{p:g} M · {sec}", 20, fill=GREEN if name == "YOLO26n" else WHITE).move_to([5.6, r.get_y(), 0]))
+            side.add(pill(f"{p:g} M · {sec}", 20, fill=GREEN if name == "YOLO26n" else WHITE).move_to([5.6, r[1].get_y() + 0.06, 0]))
         watch = stopwatch(0.32).next_to(side, UP, buff=0.25)
         foot = txt("time per frame: Raspberry Pi 400 CPU (proxy for the QCS605), full precision", 16, MIST).next_to(star, UP, buff=0.08).align_to(star, LEFT)
         self.play(FadeIn(watch), LaggedStart(*[FadeIn(s, shift=LEFT * 0.2) for s in side], lag_ratio=0.15), FadeIn(foot))
         self.next_slide()
-        call = pill("83× faster · 71× smaller · −0.07 mAP", 28, fill=GREEN, bold=True).move_to([1.0, -3.0, 0])
+        gap = round((D.MODELS[0][1] - D.MODELS[3][1]) * 100)
+        call = pill(f"83× faster · 71× smaller · −{gap} pp species mAP", 28, fill=GREEN, bold=True).move_to([1.0, -3.3, 0])
         self.play(FadeOut(star), FadeOut(foot), FadeIn(call, scale=1.1))
         self.snap("models")
         self.page()
 
-        # 24 — Finding vs naming
-        self.play(FadeIn(title("Finding is easy. Naming is hard.")))
-        a = big_number(f"{D.DETECT_REAL:.2f}", "finds the animal", size=110)
-        b = big_number(f"{D.FINE_REAL:.2f}", "names the species", size=110)
-        ab = VGroup(a, b).arrange(RIGHT, buff=2.2).move_to(DOWN * 0.2)
+        # 23 — Similar species: finding vs naming, then the zebras, then the elephants
+        self.play(FadeIn(title("Similar Species")))
+        a = big_number(D.pct(D.DETECT_REAL), "finds the animal\n(detection mAP)", size=100)
+        b = big_number(D.pct(D.FINE_REAL), "names the species\n(species mAP)", size=100)
+        ab = VGroup(a, b).arrange(RIGHT, buff=2.0, aligned_edge=UP).move_to(DOWN * 0.2)
         ar = arrow(a[0].get_right(), b[0].get_left(), color=GREEN, buff=0.35)
         self.play(FadeIn(a, shift=UP * 0.2))
         self.play(Create(ar), FadeIn(b, shift=UP * 0.2))
         self.next_slide()
-        self.play(VGroup(ab, ar).animate.scale(0.4).to_corner(UR, buff=0.4).shift(DOWN * 0.15))
+        self.play(VGroup(ab, ar).animate.scale(0.38).to_corner(UR, buff=0.4).shift(DOWN * 0.1))
+        # three real test photos; arrows = how often one zebra was named as another
+        zeb = Group()
+        for name, f in (("Grévy's zebra", "real_test_grevys_zebra.jpg"), ("Mountain zebra", "real_test_mountain_zebra.jpg"), ("Plains zebra", "real_test_plains_zebra.jpg")):
+            ph = photo(IMG / "bands" / f, height=2.4, aspect=4 / 3)
+            zeb.add(Group(ph, pill(f"{name} · AP {D.pct(D.ZEBRA_AP[name])}", 18).next_to(ph, DOWN, buff=0.18)))
+        zeb.arrange(RIGHT, buff=1.25).move_to(DOWN * 0.55)
+        idx = {"Grévy's zebra": 0, "Mountain zebra": 1, "Plains zebra": 2}
+        links = VGroup()
+        for src, dst, n_ in D.ZEBRA_CONFUSION:
+            i, j = idx[src], idx[dst]
+            p_i, p_j = zeb[i][0], zeb[j][0]
+            if abs(i - j) == 2:  # Grévy's -> plains, over the top
+                a_ = curved_arrow(p_i.get_top() + UP * 0.1, p_j.get_top() + UP * 0.1, angle=-0.55, color=GREEN)
+                lab = pill(f"{n_}×", 24, fill=GREEN, bold=True).next_to(a_, UP, buff=0.04)
+            else:  # neighbours: rightwards in the upper half, leftwards in the lower half
+                y_ = p_i.get_y() + (0.35 if j > i else -0.35)
+                x_a = (p_i.get_right() if j > i else p_i.get_left())[0]
+                x_b = (p_j.get_left() if j > i else p_j.get_right())[0]
+                a_ = arrow([x_a, y_, 0], [x_b, y_, 0], buff=0.08)
+                lab = txt(f"{n_}×", 18, bold=True).next_to(a_, UP if j > i else DOWN, buff=0.06)
+            links.add(VGroup(a_, lab))
+        rate = pill(f"zebras: {D.pct(D.GROUP_CONFUSION['zebra'])} mixed up", 20, fill=GREEN, bold=True)
+        rate.move_to([LEFT_X, 2.0, 0], aligned_edge=LEFT)
+        cfoot = txt("confusion counts: YOLO26n, mixed test set (real + synthetic)", 14, MIST).to_corner(DL, buff=0.3)
+        self.play(LaggedStart(*[FadeIn(z, shift=UP * 0.15) for z in zeb], lag_ratio=0.2), run_time=1.2)
+        self.play(LaggedStart(*[Create(l_[0]) for l_ in links], lag_ratio=0.2), *[FadeIn(l_[1]) for l_ in links], FadeIn(cfoot), run_time=1.4)
+        self.play(FadeIn(rate, shift=UP * 0.15))
+        self.next_slide()
         asian = labelled(photo(IMG / "models/asian_elephant.jpg", height=3.3, aspect=1.0), "Asian elephant", DL, 20).move_to([-3.0, -1.0, 0])
         african = labelled(photo(IMG / "models/african_elephant.jpg", height=3.3, aspect=1.0), "African elephant", DR, 20).move_to([4.0, -1.0, 0])
         fwd = curved_arrow(asian.get_top() + RIGHT * 0.6 + UP * 0.1, african.get_top() + LEFT * 0.6 + UP * 0.1, angle=-0.9, color=GREEN)
         rev = curved_arrow(african.get_bottom() + LEFT * 0.6 + DOWN * 0.1, asian.get_bottom() + RIGHT * 0.6 + DOWN * 0.1, angle=-0.6, color=MIST)
         fl = pill(f"{D.ELEPHANT_FWD:,}×", 30, fill=GREEN, bold=True).next_to(fwd, UP, buff=0.05)
         rl = pill(f"{D.ELEPHANT_REV}×", 22).next_to(rev, DOWN, buff=0.02)
-        self.play(FadeIn(asian), FadeIn(african))
+        rate2 = pill(f"elephants: {D.pct(D.GROUP_CONFUSION['elephant'])} mixed up", 20, fill=GREEN, bold=True)
+        rate2.move_to(rate, aligned_edge=LEFT)
+        self.play(FadeOut(zeb), FadeOut(links))
+        self.play(FadeIn(asian), FadeIn(african), Transform(rate, rate2))
         self.play(Create(fwd), FadeIn(fl))
         self.play(Create(rev), FadeIn(rl))
         self.page()
 
-        # 25 — Can the big model teach the small one?
+        # 24 — Can the big model teach the small one?
         self.play(FadeIn(title("Can a big model teach a small one?")))
         teacher = pill("teacher · 193 M", 20)
         student = pill("student · 2.7 M", 20, fill=GREEN)
@@ -831,11 +887,11 @@ class ModelsV2(Talk2):
             kd, direct = D.KD_BANDS[bnd]
             s = vbar(kd, 0.8, L, w=0.9, color=MIST, opacity=0.6).move_to([x - 0.5, base, 0], aligned_edge=DOWN)
             r = vbar(direct, 0.8, L, w=0.9, color=GREEN).move_to([x + 0.5, base, 0], aligned_edge=DOWN)
-            sv = txt(f"{kd:.2f}", 20, MIST).next_to(s, UP, buff=0.1)
-            rv = txt(f"{direct:.2f}", 20, bold=True).next_to(r, UP, buff=0.1)
+            sv = txt(D.pct(kd), 18, MIST).next_to(s, UP, buff=0.1)
+            rv = txt(D.pct(direct), 18, bold=True).next_to(r, UP, buff=0.1)
             lab = txt(bnd, 30, bold=True).move_to([x, base - 0.45, 0])
             bars.add(VGroup(s, r, sv, rv, lab))
-        leg = VGroup(pill("with teacher", 20, fill=MIST), pill("direct training", 20, fill=GREEN)).arrange(RIGHT, buff=0.25)
+        leg = VGroup(pill("with teacher · mAP", 20, fill=MIST), pill("direct training · mAP", 20, fill=GREEN)).arrange(RIGHT, buff=0.25)
         leg.move_to([LEFT_X, 1.75, 0], aligned_edge=LEFT)
         self.play(FadeIn(leg), *[FadeIn(g[4]) for g in bars])
         self.play(LaggedStart(*[GrowFromEdge(g[0], DOWN) for g in bars], lag_ratio=0.1), run_time=1.2)
@@ -853,17 +909,11 @@ class ModelsV2(Talk2):
 # Act 6 — Summary: one picture from every step, in order
 # =================================================================================
 SUMMARY = [
-    ("mammalid", "MammalID today"),
-    ("challenges", "Data · hardware · speed"),
-    ("classes", "225 classes"),
-    ("images_per_class", "Too few images"),
-    ("is_animal", "Data quality"),
-    ("local_vs_gemini", "Local vs. Gemini"),
-    ("prompt_regimes", "Prompt length"),
-    ("ranking", "Training set comparison"),
-    ("blind_spot", "Rare-animal blind spot"),
-    ("band_design", "Final dataset"),
-    ("band_results", "Half synthetic is fine"),
+    ("birdid", "Motivation: species ID in the binocular"),
+    ("images_per_class", "Too few real images"),
+    ("local_vs_gemini", "Generate the missing ones"),
+    ("ranking", "API generators win"),
+    ("band_results", "Synthetic helps, can't replace all real"),
     ("models", "Small, fast, close"),
 ]
 
@@ -880,16 +930,16 @@ def _content_crop(path):
 
 class Summary(Talk2):
     def build(self):
-        # 26 — Summary
+        # 25 — Summary
         self.play(FadeIn(title("Summary")))
-        tw, aspect = 2.85, 16 / 9 / 0.8  # snapshots minus their top 20 % (logo and title)
+        tw, aspect = 4.0, 16 / 9 / 0.8  # snapshots minus their top 20 % (logo and title)
         cells = Group()
         for name, caption in SUMMARY:
             m = photo(_content_crop(SNAPS / f"{name}.png"), width=tw, aspect=aspect, radius=0.05)
             frame = RoundedRectangle(corner_radius=0.08, width=tw + 0.04, height=tw / aspect + 0.04).set_stroke(MIST, 1.5, 0.7)
-            cap = pill(caption, 14, bold=True)
+            cap = pill(caption, 17, bold=True)
             cells.add(Group(frame, m.move_to(frame), cap.next_to(frame, DOWN, buff=0.1)))
-        cells.arrange_in_grid(rows=3, cols=4, buff=(0.3, 0.2)).move_to(DOWN * 0.7)
+        cells.arrange_in_grid(rows=2, cols=3, buff=(0.35, 0.35)).move_to(DOWN * 0.45)
         for k, cell in enumerate(cells):  # one click per picture, so each gets its sentence
             if k:
                 self.next_slide()
@@ -897,7 +947,7 @@ class Summary(Talk2):
         self.next_slide()
         self.clear()
 
-        # 27 — Thank you
+        # 26 — Thank you
         thanks = txt("Thank you", 80, bold=True).move_to(UP * 0.5)
         qs = pill("Questions?", 34, fill=GREEN, bold=True).next_to(thanks, DOWN, buff=0.5)
         self.play(FadeIn(thanks, shift=UP * 0.2))
