@@ -28,6 +28,7 @@ colleagues working as data/AI engineers.
 | `final-talk-storyline.md` | Storyline for the final talk: seven acts with a time budget, each interim slide mapped to keep/merge/cut, the new slides needed and where their material lives, and the evaluation pitfalls to settle. |
 | `interim-deck-analysis.md` | Visual and structural analysis of the interim pptx: the inovex design system, what to keep and change, the speaker notes, and the image assets. |
 | `results-slides-strategy.md` | Slide-by-slide plan for the results part: generator comparison, bands, model comparison with the embedded benchmark as a side note, with the source of every number. |
+| `final-talk-script.md` | German speaker script for the final talk, slide by slide and click by click, matching `slides/talk.py`, with a time plan and short answers to likely questions. |
 | `slides/` | The final talk as manim / manim-slides animations: 7 scenes, 34 slides. See `slides/README.md`. |
 
 `interim-presentation.pptx` and `interim-presentation-images/` (~250 MB, and slides 4–6
