@@ -1,5 +1,18 @@
 # Final Talk Slides (manim)
 
+> **Fallback if the presenter misbehaves (wrong screen size, Qt issues, venue machine):**
+> present the deck as an offline HTML page in a browser, which always scales the video to
+> the screen.
+>
+> ```
+> uv run manim-slides convert --offline Intro Problem Data Generators Bands Models Close build/talk.html
+> ```
+>
+> Open `build/talk.html` in the browser and press `F` for full screen (← / → to navigate).
+> `--offline` also stores reveal.js locally, so no internet is needed. To present from
+> another machine, copy `talk.html` **and** the `talk_assets/` folder next to it (~190 MB
+> at 4K).
+
 The 20-minute final presentation, built as animations with
 [manim](https://www.manim.community/) and presented with
 [manim-slides](https://manim-slides.eertmans.be/). The story follows
@@ -44,7 +57,7 @@ Inputs that are not in git:
 ```
 uv run manim render -qk --frame_rate 30 talk.py Intro Problem Data Generators Bands Models Close
 uv run python present.py -F Intro Problem Data Generators Bands Models Close
-uv run manim-slides convert Intro Problem Data Generators Bands Models Close build/talk.html
+uv run manim-slides convert --offline Intro Problem Data Generators Bands Models Close build/talk.html
 ```
 
 - **Render at 4K for the real thing** (`-qk`, about 10 minutes for the whole talk at 30 fps).
