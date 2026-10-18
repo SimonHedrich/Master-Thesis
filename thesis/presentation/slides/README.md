@@ -5,12 +5,12 @@
 > the screen.
 >
 > ```
-> uv run manim-slides convert --offline Intro Problem Data Generators Bands Models Close build/talk.html
+> uv run manim-slides convert --offline UseCase DataV2 Generative Bands2 ModelsV2 Summary build/talk_v2.html
 > ```
 >
-> Open `build/talk.html` in the browser and press `F` for full screen (← / → to navigate).
+> Open `build/talk_v2.html` in the browser and press `F` for full screen (← / → to navigate).
 > `--offline` also stores reveal.js locally, so no internet is needed. To present from
-> another machine, copy `talk.html` **and** the `talk_assets/` folder next to it (~190 MB
+> another machine, copy `talk_v2.html` **and** the `talk_v2_assets/` folder next to it (~200 MB
 > at 4K).
 
 The 20-minute final presentation, built as animations with
@@ -22,6 +22,25 @@ This is a separate uv project, not part of the repo-root environment. The root p
 the Linux/CUDA training container, while manim renders natively on the Mac (Cairo, Pango,
 ffmpeg) and the presenter needs a Qt window.
 
+## Two versions
+
+- **`talk_v2.py` (current):** the reworked talk. It builds up step by step: use case →
+  data → generated images → bands → models on the hardware → a summary that replays one
+  picture from every step. It has six scenes (`UseCase`, `DataV2`, `Generative`, `Bands2`,
+  `ModelsV2`, `Summary`) and 33 slides. Images come from `../images/` (run
+  `collect_images.py` first). The speaker script is `../final-talk-script-v2.md`.
+- **`talk.py`:** the first version, told chronologically (plan → what happened). Kept as is.
+
+```
+uv run python extract_assets.py && uv run python collect_images.py
+uv run manim render -qk --frame_rate 30 talk_v2.py UseCase DataV2 Generative Bands2 ModelsV2 Summary
+uv run python present.py -F UseCase DataV2 Generative Bands2 ModelsV2 Summary
+uv run manim-slides convert --offline UseCase DataV2 Generative Bands2 ModelsV2 Summary build/talk_v2.html
+```
+
+Render all six v2 scenes in one command, in this order. `Summary` reuses snapshots that
+the earlier scenes save while rendering (`build/cache/snaps/`).
+
 ## Files
 
 | File | Role |
@@ -29,6 +48,9 @@ ffmpeg) and the presenter needs a Qt window.
 | `talk.py` | The slides: seven scenes (`Intro`, `Problem`, `Data`, `Generators`, `Bands`, `Models`, `Close`), one per act, 34 slides in total |
 | `theme.py` | inovex look: colours, Atkinson Hyperlegible, gradient background, pills, rounded photos, bars, drawn icons |
 | `data.py` | Every number and asset path, each number with its thesis/report source |
+| `talk_v2.py` | The reworked talk (see above) |
+| `collect_images.py` | Builds `../images/` (gitignored): copies and downscales every picture `talk_v2.py` uses, Swarovski-internal ones under `nda/` |
+| `assets/prompts/` | The four lion prompts (compressed, maxlen 256/512, full) from the manuscript appendix, for the prompt-length slide |
 | `extract_assets.py` | Pulls the pictures out of the interim pptx into `assets/interim/` |
 | `present.py` | Starts the presenter with a fix for 4K renders: manim-slides forces its window to at least the video resolution, so a 4K deck showed only the top-left quarter on a 1080p screen. Takes all `manim-slides present` options |
 | `qa_frames.py` | Writes the last frame of every slide to `build/qa/` plus contact sheets, for layout review |

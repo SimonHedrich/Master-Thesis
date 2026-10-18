@@ -18,7 +18,9 @@ from manim import (
     RIGHT,
     UP,
     Arc,
+    Arrow,
     Circle,
+    CurvedArrow,
     DashedVMobject,
     Group,
     ImageMobject,
@@ -125,8 +127,8 @@ def big_number(s: str, caption: str | None = None, size: float = 96, color: str 
 
 
 # --- images --------------------------------------------------------------------
-def _cached(src: Path, aspect: float | None, radius: float, max_px: int) -> Path:
-    key = hashlib.md5(f"{src}|{src.stat().st_mtime}|{aspect}|{radius}|{max_px}".encode()).hexdigest()[:16]
+def _cached(src: Path, aspect: float | None, radius: float, max_px: int, top: bool = False) -> Path:
+    key = hashlib.md5(f"{src}|{src.stat().st_mtime}|{aspect}|{radius}|{max_px}|{top}".encode()).hexdigest()[:16]
     out = CACHE / f"{key}.png"
     if out.exists():
         return out
@@ -139,7 +141,8 @@ def _cached(src: Path, aspect: float | None, radius: float, max_px: int) -> Path
             im = im.crop(((w - nw) // 2, 0, (w - nw) // 2 + nw, h))
         else:
             nh = int(w / aspect)
-            im = im.crop((0, (h - nh) // 2, w, (h - nh) // 2 + nh))
+            y0 = 0 if top else (h - nh) // 2
+            im = im.crop((0, y0, w, y0 + nh))
     im.thumbnail((max_px, max_px), Image.LANCZOS)
     if radius > 0:
         r = int(min(im.size) * radius)
@@ -174,8 +177,12 @@ def photo(
     aspect: float | None = None,
     radius: float = 0.05,
     max_px: int | None = None,
+    top: bool = False,
 ):
-    """A rounded-corner photo, or a labelled placeholder if the file is missing."""
+    """A rounded-corner photo, or a labelled placeholder if the file is missing.
+
+    aspect centre-crops to width/height; top=True keeps the top instead (screenshots).
+    """
     src = Path(src)
     if not src.exists():
         a = aspect or 4 / 3
@@ -183,7 +190,7 @@ def photo(
         return placeholder(src.name, h * a, h)
     if max_px is None:
         max_px = _pixels_needed(src, height, width, aspect)
-    m = ImageMobject(str(_cached(src, aspect, radius, max_px)))
+    m = ImageMobject(str(_cached(src, aspect, radius, max_px, top)))
     if height is not None:
         m.scale_to_fit_height(height)
     elif width is not None:
@@ -218,6 +225,33 @@ def background() -> ImageMobject:
     m = ImageMobject(str(out))
     m.stretch_to_fit_width(FRAME_W).stretch_to_fit_height(FRAME_H).move_to(ORIGIN)
     return m
+
+
+# --- arrows: one stroke width and one tip size on every slide ------------------
+ARROW_STROKE = 4
+ARROW_TIP = 0.22
+
+
+def arrow(start, end, color: str = WHITE, buff: float = 0.12) -> Arrow:
+    """Straight arrow whose width and tip never scale with its length."""
+    return Arrow(
+        start, end, buff=buff, color=color, stroke_width=ARROW_STROKE, tip_length=ARROW_TIP,
+        max_tip_length_to_length_ratio=1.0, max_stroke_width_to_length_ratio=1000,
+    )
+
+
+def curved_arrow(start, end, angle: float, color: str = WHITE) -> CurvedArrow:
+    a = CurvedArrow(start, end, angle=angle, color=color, stroke_width=ARROW_STROKE)
+    a.pop_tips()
+    a.add_tip(tip_length=ARROW_TIP, tip_width=ARROW_TIP)
+    return a.set_stroke(width=ARROW_STROKE)
+
+
+def pptx_box(x: float, y: float, w: float, h: float) -> tuple[np.ndarray, float, float]:
+    """Interim-deck geometry (inches on a 10 x 5.625 page, top-left origin) to manim."""
+    s = FRAME_W / 10
+    centre = np.array([(x + w / 2) * s - FRAME_W / 2, FRAME_H / 2 - (y + h / 2) * s, 0])
+    return centre, w * s, h * s
 
 
 # --- small drawn icons ---------------------------------------------------------

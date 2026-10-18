@@ -29,7 +29,10 @@ colleagues working as data/AI engineers.
 | `interim-deck-analysis.md` | Visual and structural analysis of the interim pptx: the inovex design system, what to keep and change, the speaker notes, and the image assets. |
 | `results-slides-strategy.md` | Slide-by-slide plan for the results part: generator comparison, bands, model comparison with the embedded benchmark as a side note, with the source of every number. |
 | `final-talk-script.md` | German speaker script for the final talk, slide by slide and click by click, matching `slides/talk.py`, with a time plan and short answers to likely questions. |
+| `final-talk-script-v2.md` | German speaker script for the reworked deck (`slides/talk_v2.py`), slide by slide and click by click, with a time plan and answers to likely questions. |
 | `slides/` | The final talk as manim / manim-slides animations: 7 scenes, 34 slides. See `slides/README.md`. |
 
 `interim-presentation.pptx` and `interim-presentation-images/` (~250 MB, and slides 4–6
-are under NDA) stay local and are gitignored.
+are under NDA) stay local and are gitignored. So does `images/`, the picture folder for
+the v2 deck: `slides/collect_images.py` rebuilds it from the interim deck, `data/` and the
+manuscript figures, with the Swarovski-internal pictures under `images/nda/`.

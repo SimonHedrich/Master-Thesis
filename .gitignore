@@ -34,3 +34,6 @@ thesis/docs/old_bachelor_thesis/
 # Presentation source files: large, and partly under NDA
 thesis/presentation/interim-presentation.pptx
 thesis/presentation/interim-presentation-images/
+
+# Built by slides/collect_images.py (includes NDA pictures under images/nda/)
+thesis/presentation/images/
