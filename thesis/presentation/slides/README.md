@@ -41,6 +41,28 @@ uv run manim-slides convert --offline UseCase DataV2 Generative Bands2 ModelsV2 
 Render all six v2 scenes in one command, in this order. `Summary` reuses snapshots that
 the earlier scenes save while rendering (`build/cache/snaps/`).
 
+## Scroll-through export (slides stacked under each other)
+
+For reading or reviewing rather than presenting: one HTML page with every slide step
+stacked vertically, plus a sticky bar of section links at the top.
+
+```
+uv run python export_scroll.py UseCase DataV2 Generative Bands2 ModelsV2 Summary
+uv run python export_scroll.py --static --out build/scroll_static UseCase DataV2 Generative Bands2 ModelsV2 Summary
+```
+
+- **Default (`build/scroll/`, ~240 MB at 4K):** each card shows the step's final frame.
+  When the card scrolls into view, its animation plays once and stops on the last frame.
+  Click a card to replay it.
+- **`--static` (`build/scroll_static/`, ~16 MB):** final frames only. A light handout that
+  is easy to send around.
+- **Sharing:** both folders are self-contained. Copy the whole folder and open
+  `index.html`. Both include the NDA slides (BirdID, MammalID), so check before you share.
+
+reveal.js's own scroll view (via a custom `manim-slides convert` template) was tried and
+dropped. It gives every slide a full screen-height page, and its videos start on their
+first, mostly empty frame.
+
 ## Files
 
 | File | Role |
@@ -53,6 +75,7 @@ the earlier scenes save while rendering (`build/cache/snaps/`).
 | `assets/prompts/` | The four lion prompts (compressed, maxlen 256/512, full) from the manuscript appendix, for the prompt-length slide |
 | `extract_assets.py` | Pulls the pictures out of the interim pptx into `assets/interim/` |
 | `present.py` | Starts the presenter with a fix for 4K renders: manim-slides forces its window to at least the video resolution, so a 4K deck showed only the top-left quarter on a 1080p screen. Takes all `manim-slides present` options |
+| `export_scroll.py` | Builds the scroll-through HTML page (see above) |
 | `qa_frames.py` | Writes the last frame of every slide to `build/qa/` plus contact sheets, for layout review |
 | `assets/fonts/` | Atkinson Hyperlegible (SIL Open Font License) |
 | `assets/prompt_grevys_zebra.txt` | The full generation prompt shown on the prompt slide |
