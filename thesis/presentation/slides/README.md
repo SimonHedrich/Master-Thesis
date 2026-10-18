@@ -17,6 +17,7 @@ ffmpeg) and the presenter needs a Qt window.
 | `theme.py` | inovex look: colours, Atkinson Hyperlegible, gradient background, pills, rounded photos, bars, drawn icons |
 | `data.py` | Every number and asset path, each number with its thesis/report source |
 | `extract_assets.py` | Pulls the pictures out of the interim pptx into `assets/interim/` |
+| `present.py` | Starts the presenter with a fix for 4K renders: manim-slides forces its window to at least the video resolution, so a 4K deck showed only the top-left quarter on a 1080p screen. Takes all `manim-slides present` options |
 | `qa_frames.py` | Writes the last frame of every slide to `build/qa/` plus contact sheets, for layout review |
 | `assets/fonts/` | Atkinson Hyperlegible (SIL Open Font License) |
 | `assets/prompt_grevys_zebra.txt` | The full generation prompt shown on the prompt slide |
@@ -42,7 +43,7 @@ Inputs that are not in git:
 
 ```
 uv run manim render -qk --frame_rate 30 talk.py Intro Problem Data Generators Bands Models Close
-uv run manim-slides present -F Intro Problem Data Generators Bands Models Close
+uv run python present.py -F Intro Problem Data Generators Bands Models Close
 uv run manim-slides convert Intro Problem Data Generators Bands Models Close build/talk.html
 ```
 
@@ -53,6 +54,9 @@ uv run manim-slides convert Intro Problem Data Generators Bands Models Close bui
   Otherwise the compression blurs fine text and coloured edges on the static slides.
 - Photos are resized from the render resolution, so a 4K render gets 4K-sharp photos and
   a `-ql` draft stays fast.
+- Present with `present.py`, not `manim-slides present`. Stock manim-slides 5.7 sets the
+  presenter's minimum size to the video resolution, so a 4K render overflows any smaller
+  screen. The launcher removes that minimum, so the video scales to the window.
 - `-F` starts the presenter full screen. Use `--screen N` to choose the display. If the
   window isn't full screen, Qt scales the video and it looks soft again.
 - Render with plain `manim render`, not `manim-slides render`. The `Slide` base class writes

@@ -6,7 +6,7 @@ results-slides-strategy.md. Each `self.next_slide()` is one click in the present
 Render (from thesis/presentation/slides/):
     uv run manim render -qk --frame_rate 30 talk.py Intro Problem Data Generators Bands Models Close
 Present:
-    uv run manim-slides present -F Intro Problem Data Generators Bands Models Close
+    uv run python present.py -F Intro Problem Data Generators Bands Models Close
 Export a self-contained HTML deck:
     uv run manim-slides convert Intro Problem Data Generators Bands Models Close build/talk.html
 """
