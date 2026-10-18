@@ -30,9 +30,56 @@ colleagues working as data/AI engineers.
 | `results-slides-strategy.md` | Slide-by-slide plan for the results part: generator comparison, bands, model comparison with the embedded benchmark as a side note, with the source of every number. |
 | `final-talk-script.md` | German speaker script for the final talk, slide by slide and click by click, matching `slides/talk.py`, with a time plan and short answers to likely questions. |
 | `final-talk-script-v2.md` | German speaker script for the reworked deck (`slides/talk_v2.py`), slide by slide and click by click, with a time plan and answers to likely questions. |
-| `slides/` | The final talk as manim / manim-slides animations: 7 scenes, 34 slides. See `slides/README.md`. |
+| `slides/` | The final talk as manim / manim-slides animations. Current version `talk_v2.py` (6 scenes, 27 slides); `talk.py` is the first version (7 scenes, 34 slides). See `slides/README.md`. |
 
 `interim-presentation.pptx` and `interim-presentation-images/` (~250 MB, and slides 4–6
 are under NDA) stay local and are gitignored. So does `images/`, the picture folder for
 the v2 deck: `slides/collect_images.py` rebuilds it from the interim deck, `data/` and the
 manuscript figures, with the Swarovski-internal pictures under `images/nda/`.
+
+## Working on the slides (handoff)
+
+Read `slides/README.md` first. This is the short version.
+
+**Current version: `slides/talk_v2.py`**
+- Six scenes, always rendered together in this order:
+  `UseCase DataV2 Generative Bands2 ModelsV2 Summary`.
+- 27 slides, 64 click states.
+- `Summary` reuses snapshots that the earlier scenes save with `self.snap()` while
+  rendering (`slides/build/cache/snaps/`), which is why all scenes render in one run.
+- `talk.py` is the old v1. Keep it unchanged.
+- German speaker script: `final-talk-script-v2.md`, with 63 `[Klick]` markers (one per
+  `next_slide()`, none after the last slide). Keep it in sync when the clicks change.
+  The slides stay English, the talk is German.
+
+**Project setup**
+- `slides/` is a separate uv project, not the repo-root environment. Run everything
+  from `slides/`.
+- Pins: `manim<0.20` (manim-slides 5.7 breaks on 0.22), `pillow<12`.
+- Shared code: `theme.py` (inovex colours, Atkinson Hyperlegible, pills, `photo()`,
+  uniform `arrow()`/`curved_arrow()`, `pptx_box()`, the crf-12 encoder override).
+  Every number on a slide comes from `data.py`, with its source.
+- Images: `images/` (gitignored), rebuilt with
+  `uv run python extract_assets.py && uv run python collect_images.py`. NDA pictures
+  are under `images/nda/`.
+
+**Commands** (from `slides/`)
+- Draft: `uv run manim render -ql talk_v2.py <scenes>`
+- Final: `uv run manim render -qk --frame_rate 30 talk_v2.py <scenes>`. Use plain
+  `manim render`; `manim-slides render` misparses `-qk`.
+- Present: `uv run python present.py -F <scenes>`. It patches a manim-slides bug where a
+  4K render overflows smaller screens.
+- HTML fallback: `uv run manim-slides convert --offline <scenes> build/talk_v2.html`
+- Scroll export: `uv run python export_scroll.py [--static --out build/scroll_static] <scenes>`
+- Layout QA: `uv run python qa_frames.py <scenes>` writes the last frame of every slide
+  plus contact sheets to `slides/build/qa/`. Look at them after every change.
+
+**Conventions**
+- Images and graphics first, minimal text. What is not on the slide is in the script.
+- All accuracy numbers on real photos only.
+- One highlight colour: green `#7DF381`. Other colours only mark categories: sky blue
+  for API generators and real test images, `SOURCE_COLORS` for the image sources,
+  yellow `SYNTH_TEST` for synthetic test images (same colour in chart and legend).
+- All arrows go through `arrow()`/`curved_arrow()`, so they have the same width everywhere.
+- Repo rules (CLAUDE.md): commit straight to `main` and push; stage only your own files;
+  never commit rendered media, `images/`, the pptx, or NDA content.
