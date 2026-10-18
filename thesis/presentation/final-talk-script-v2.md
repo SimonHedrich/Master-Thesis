@@ -8,22 +8,26 @@ Die Geschichte ist diesmal nicht chronologisch erzählt, sondern als Vorgehen, d
 für Schritt aufeinander aufbaut: Anwendungsfall → Daten → generierte Bilder → Ergänzung
 der Klassen → Modelle auf der Hardware → Zusammenfassung.
 
+Die Folien zeigen bewusst wenig Text. Was dort nicht steht (Kamerafallen, Nashörner, was
+hinter den drei Herausforderungen steckt, woher die Artenlabels kommen), steht hier im
+Sprechtext.
+
 Alle Genauigkeitswerte sind mAP@[.5:.95] auf **echten** Fotos, außer es steht etwas
-anderes dabei. Quellen: `slides/data.py` und Kapitel 4 des Manuskripts.
+anderes dabei. Quellen: `slides/data.py` und Kapitel 3 und 4 des Manuskripts.
 
 ## Zeitplan
 
 | Akt | Szene | Folien | Zeit | kumuliert |
 |-----|-------|--------|------|-----------|
-| 1 Anwendungsfall | `UseCase` | 1–7 | 3:30 | 3:30 |
-| 2 Daten | `DataV2` | 8–12 | 3:00 | 6:30 |
-| 3 Generierte Bilder | `Generative` | 13–21 | 5:30 | 12:00 |
-| 4 Klassen ergänzen | `Bands2` | 22–27 | 3:30 | 15:30 |
-| 5 Modelle & Hardware | `ModelsV2` | 28–31 | 3:00 | 18:30 |
-| 6 Zusammenfassung | `Summary` | 32–33 | 1:30 | 20:00 |
+| 1 Anwendungsfall | `UseCase` | 1–6 | 3:30 | 3:30 |
+| 2 Daten | `DataV2` | 7–11 | 3:15 | 6:45 |
+| 3 Generierte Bilder | `Generative` | 12–17 | 4:40 | 11:25 |
+| 4 Klassen ergänzen | `Bands2` | 18–21 | 3:50 | 15:15 |
+| 5 Modelle & Hardware | `ModelsV2` | 22–25 | 2:50 | 18:05 |
+| 6 Zusammenfassung | `Summary` | 26–27 | 1:25 | 19:30 |
 
-**Wenn die Zeit knapp wird:** Folie 13 (Zeitleiste), Folie 25 (Punktwolke pro Klasse) und
-Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Folie 29
+**Wenn die Zeit knapp wird:** Folie 9 (Klassenliste), die Punktwolke auf Folie 20 und
+Folie 24 (Elefanten) mit je einem Satz durchklicken. Folie 21 (Testdaten) und Folie 23
 (Modelle) nicht kürzen.
 
 ---
@@ -71,12 +75,11 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 **[Klick]**
 
 > Dahinter stehen bisher zwei frei verfügbare Modelle: MegaDetector, der Tiere auf Bildern
-> findet, und SpeciesNet von Google, das sie bestimmt. Beide wurden für Kamerafallen
-> entwickelt, also für solche Bilder hier.
+> findet, und SpeciesNet von Google, das sie bestimmt.
 
 **[Klick]**
 
-### Folie 5 — Two models, one answer · 0:40
+### Folie 5 — Model Ensemble · 1:15
 
 > So arbeiten die beiden zusammen. Hier ein Bild aus einer Kamerafalle.
 
@@ -88,30 +91,20 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 **[Klick]**
 
 > Zusammen sind das rund 193 Millionen Parameter. Das merken wir uns für später.
-
-**[Klick]**
-
-### Folie 6 — Built for camera traps · 0:45
-
-> Das Problem: SpeciesNet ist für Kamerafallen gebaut, also für nächtliche Infrarotbilder
-> aus festen Kameras. Durch ein Fernglas sieht man aber etwas anderes: Tageslicht, große
-> Entfernung, und andere Tiere.
-
-**[Klick]**
-
-> Ein Beispiel sind Nashörner. Die sind in den Trainingsdaten von SpeciesNet praktisch
-> nicht vertreten. In meinen Daten hat SpeciesNet von 1.510 Nashornfotos gerade einmal
-> 40 als Nashorn erkannt.
-
-**[Klick]**
-
+>
+> Wichtig ist, wofür dieses Ensemble gebaut wurde: für Kamerafallen, also für Bilder wie
+> dieses, oft nachts im Infrarot, aus fest montierten Kameras. Durch ein Fernglas sieht
+> man etwas anderes: Tageslicht, große Entfernung und zum Teil andere Tiere. Ein Beispiel
+> sind Nashörner. Die sind in den Trainingsdaten von SpeciesNet praktisch nicht
+> vertreten. In meinen Daten hat SpeciesNet von 1.510 Nashornfotos gerade einmal 40 als
+> Nashorn erkannt.
 > Meine Hoffnung war deshalb: Ein Modell, das gezielt auf diesen Anwendungsfall trainiert
 > wird, also auf Säugetiere, die man mit einem Fernglas beobachtet, kann für die Nutzer
 > bessere Ergebnisse liefern.
 
 **[Klick]**
 
-### Folie 7 — Three challenges · 0:30
+### Folie 6 — Three challenges · 0:30
 
 > Dafür gibt es drei Herausforderungen. Erstens die Daten: 225 Säugetierklassen, von
 > denen viele kaum fotografiert werden. Zweitens die Hardware: ein mobiler Chip, offline.
@@ -125,19 +118,17 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 ## Akt 2 — Daten (`DataV2`)
 
-### Folie 8 — Which animals? · 0:30
+### Folie 7 — SpeciesNet · 0:40
 
 > Zuerst muss man festlegen, was das Modell überhaupt erkennen soll. SpeciesNet kennt rund
 > zweieinhalbtausend Arten, sortiert nach der biologischen Hierarchie von Stamm bis Art.
+> Darunter sind nicht nur Säugetiere, sondern auch Vögel, Reptilien, Amphibien und sogar
+> Spinnen. Für das Fernglas braucht man davon nur die Säugetiere, die man draußen
+> tatsächlich durch ein Fernglas sieht.
 
 **[Klick]**
 
-> Für das Fernglas braucht man davon nur die Säugetiere, die man draußen tatsächlich durch
-> ein Fernglas sieht.
-
-**[Klick]**
-
-### Folie 9 — Igel · 0:25
+### Folie 8 — Igel · 0:25
 
 > Die zweite Frage ist, wie fein man unterscheiden will.
 
@@ -149,28 +140,32 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 **[Klick]**
 
-### Folie 10 — 225 classes · 0:15
+### Folie 9 — 225 Custom Classes · 0:20
 
-> Am Ende stehen 225 Klassen, die meisten davon Raubtiere und Paarhufer. Der Product Owner
-> bei Swarovski hat diese Auswahl abgenommen.
+> Am Ende stehen 225 Klassen, hier alle auf einen Blick, sortiert nach Ordnung. Die meisten
+> davon sind Raubtiere und Paarhufer. Der Product Owner bei Swarovski hat diese Auswahl
+> abgenommen.
 
 **[Klick]**
 
-### Folie 11 — Images per class · 0:45
+### Folie 10 — Images per class · 1:00
 
 > Als Nächstes braucht man Bilder für jede Klasse. Startpunkt waren Fotos aus GBIF, einer
 > großen Biodiversitätsdatenbank. Jeder Balken ist eine Klasse, die Achse ist
 > logarithmisch: 114 Klassen haben weniger als hundert Bilder, 30 gar keine.
 
-**[Klick]** *(weitere Quellen)*
+**[Klick]** *(Quellen farbig gestapelt)*
 
 > Also kamen vier weitere Quellen dazu, und zwar nur Bilder mit Lizenzen, die eine
-> kommerzielle Nutzung erlauben. Das hilft vielen Klassen. Aber 29 Klassen bleiben unter
-> hundert Bildern, und für viele weitere reicht es nur knapp.
+> kommerzielle Nutzung erlauben. Jede Farbe ist eine Quelle, gezählt sind die Bilder, die
+> die Filter überstanden haben: GBIF mit rund 32.000, iNaturalist mit Abstand am meisten,
+> rund 400.000, dazu Wikimedia mit 12.500, OpenImages mit 7.700 und images.cv mit 5.500
+> Bildern. Das hilft vielen Klassen. Aber 29 Klassen bleiben unter hundert Bildern, und
+> für viele weitere reicht es nur knapp.
 
 **[Klick]**
 
-### Folie 12 — Is this an animal? · 0:45
+### Folie 11 — Data Quality · 0:50
 
 > Und nicht jedes Bild, das als Tier markiert ist, zeigt auch eines. Das sind echte
 > Wikimedia-Bilder aus den Kategorien Gepard, Schimpanse und Tiger: eine ägyptische
@@ -182,9 +177,6 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 > Deshalb läuft jedes Bild durch eine Filterkette: Metadaten, Bildqualität, MegaDetector,
 > ein Vision-Language-Modell als zweite Meinung und am Ende SpeciesNet. Die unklaren
 > Fälle, knapp achtzehntausend Bilder, habe ich von Hand geprüft.
-
-**[Klick]** *(SpeciesNet hervorgehoben)*
-
 > Wichtig für später: Die Artenlabels stammen damit von SpeciesNet.
 > Und es bleibt das Problem vom Anfang: Für viele Klassen gibt es einfach zu wenige
 > Fotos. Also muss man sich überlegen, wie man sonst an Bilder kommt.
@@ -195,17 +187,10 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 ## Akt 3 — Generierte Bilder (`Generative`)
 
-### Folie 13 — Image generation keeps getting better · 0:25
+### Folie 12 — Synthetic images? – Binturong · 0:50
 
 > Die naheliegende Idee: Bilder generieren. Bildgeneratoren sind in den letzten Jahren
-> enorm besser geworden, von Stable Diffusion 2022 über SDXL, SD 3 und FLUX bis zu den
-> aktuellen Modellen wie Gemini oder gpt-image-2.
-
-**[Klick]**
-
-### Folie 14 — Lokale Modelle vs. Gemini · 0:45
-
-> Hier ein Binturong, ein Marderbär. Links echte Fotos.
+> enorm besser geworden. Hier ein Binturong, ein Marderbär. Links echte Fotos.
 
 **[Klick]** *(lokale Modelle)*
 
@@ -220,82 +205,67 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 **[Klick]**
 
-### Folie 15 — Three zebras · 0:20
+### Folie 13 — Drei Zebras · 0:35
 
-> Wie genau die Bilder sein müssen, zeigen Zebras: Grévyzebra, Bergzebra, Steppenzebra.
-> Der Unterschied liegt in den Streifen. Genau diese Details muss der Generator treffen.
+> Wie genau die Bilder sein müssen, zeigen Zebras: Grévyzebra, Bergzebra, Steppenzebra,
+> jeweils in einer anderen Umgebung. Der Unterschied liegt in den Streifen. Genau diese
+> Details muss der Generator treffen.
 
-**[Klick]**
+**[Klick]** *(Titel „Gemini 3.1 Flash Image“)*
 
-### Folie 16 — Der Prompt · 0:30
-
-> Deshalb sind die Prompts lang. Das hier ist ein Prompt für ein einziges Bild: die
-> Artbeschreibung aus Wikipedia, Lebensraum, Verhalten und eine Szene mit Pose, Umgebung,
-> Licht und Entfernung.
+> Alle drei Bilder hat Gemini 3.1 Flash Image erzeugt.
 
 **[Klick]**
 
-> Dazu die Merkmale, an denen man die Art erkennt, beim Grévyzebra etwa die schmalen
-> Streifen und der weiße Bauch. Im Schnitt etwa 1.300 Wörter pro Bild.
+### Folie 14 — Prompt · 0:50
+
+> Damit der Generator diese Details trifft, sind die Prompts lang. Das ist der Prompt für
+> einen einzigen Löwen bei Gemini: die Artbeschreibung aus Wikipedia, Lebensraum,
+> Verhalten, eine Szene mit Pose, Umgebung, Licht und Entfernung und die Merkmale, an denen
+> man die Art erkennt. Über viertausend Wörter, im Schnitt sind es etwa 1.300 Wörter pro
+> Bild.
+
+**[Klick]** *(immer kürzere Prompts)*
+
+> Das Problem: Nicht jeder Generator liest so viel. FLUX.2 klein liest höchstens 512
+> Tokens, Stable Diffusion 3.5 Medium 256, und RealVisXL nur 75 Tokens, das ist alles,
+> was ältere Text-Encoder lesen. Man muss den Text nicht lesen können. Wichtig ist der
+> Unterschied in der Länge.
 
 **[Klick]**
 
-### Folie 17 — How much does the generator read? · 0:40
-
-> Das Problem: Nicht jeder Generator liest so viel. Hier derselbe Löwe mit vier
-> verschiedenen Prompts. Ganz links eine Kurzfassung mit höchstens 75 Tokens, das ist
-> alles, was ältere Text-Encoder lesen. Dann Fassungen mit 256 und 512 Tokens für die
-> neueren lokalen Modelle. Und ganz rechts der volle Prompt mit über viertausend Wörtern,
-> den nur die API-Modelle verarbeiten.
-> Man muss den Text nicht lesen können. Wichtig ist der Unterschied in der Länge.
-
-**[Klick]**
-
-### Folie 18 — Der Versuchsaufbau · 0:35
+### Folie 15 — Training set comparison · 1:00
 
 > Ob die Bilder optisch gut aussehen, ist aber nicht die eigentliche Frage. Die Frage ist:
-> Lernt ein Detektor daraus, echte Tiere zu erkennen? Dafür habe ich acht Quellen
-> verglichen, hier am Beispiel Löwe.
+> Lernt ein Detektor daraus, echte Tiere zu erkennen? Dafür habe ich zehn Generator-Einstellungen
+> verglichen: jeweils 1.200 Bilder für dieselben zwölf Klassen, rechts ein Beispiel, ein
+> Löwe. Derselbe Detektor, dasselbe Training, und bewertet wird auf 9.742 echten Fotos.
+>
+> Blau die API-Modelle, grau die lokalen. Alle API-Modelle liegen vor allen lokalen
+> Modellen. Gemini, mit dem ich den Datensatz erzeugt habe, landet auf Platz drei. Der
+> optische Eindruck war also kein schlechter, aber auch kein verlässlicher Ratgeber.
+>
+> Rechts daneben die Kosten pro Bild. Platz eins ist gpt-image-2 in der günstigsten Stufe,
+> 1,7 Cent pro Bild. Die doppelt so teure mittlere Stufe ist nicht besser. Bei den lokalen
+> Modellen steht dort die Rechenzeit pro Bild auf meiner GPU, einer A40: Das aufwendigste,
+> HiDream, braucht 144 Sekunden pro Bild und landet auf dem vorletzten Platz. Der Preis
+> sagt also nichts über die Qualität der Trainingsdaten.
 
-**[Klick]** *(Aufbau)*
+**[Klick]** *(nur gpt-image-2 low und Gemini Flash-Lite bleiben)*
 
-> Zwölf Konfigurationen, jeweils 1.200 Bilder für dieselben zwölf Klassen, derselbe
-> Detektor, dasselbe Training, und bewertet wird auf 9.742 echten Fotos.
+### Folie 16 — Training set comparison: kürzerer Prompt · 0:35
 
-**[Klick]**
+> Was dagegen zählt, zeigt dieser Versuch: Zwei der Modelle, jeweils mit vollem Prompt…
 
-### Folie 19 — Ranking · 0:45
+**[Klick]** *(Kurzprompt, −45 % und −48 %)*
 
-> Das Ergebnis: Blau die API-Modelle, grau die lokalen. Alle API-Modelle liegen vor allen
-> lokalen Modellen.
-
-**[Klick]** *(„production choice: #3“)*
-
-> Gemini, mit dem ich den Datensatz erzeugt habe, landet auf Platz drei. Der optische
-> Eindruck war also kein schlechter, aber auch kein verlässlicher Ratgeber.
-
-**[Klick]** *(„#1 = cheapest setting“)*
-
-> Platz eins ist gpt-image-2 in der günstigsten Stufe. Die fast dreimal so teure mittlere
-> Stufe ist nicht besser, und bei den lokalen Modellen landet das aufwendigste, HiDream,
-> auf dem vorletzten Platz. Der Preis sagt also nichts über die Qualität der
-> Trainingsdaten.
-
-**[Klick]**
-
-### Folie 20 — Shorter prompt, worse data · 0:30
-
-> Was dagegen zählt, zeigt dieser Versuch: dasselbe Modell, einmal mit vollem Prompt…
-
-**[Klick]** *(Kurzprompt)*
-
-> …und einmal mit der Kurzfassung. Der Detektor verliert fast die Hälfte seiner
-> Genauigkeit, bei beiden Modellen. Wie viel der Generator über ein Tier erfährt, ist
-> wichtiger als die Wahl des Generators.
+> …und einmal mit der Kurzfassung von höchstens 75 Tokens. Der Detektor verliert fast die
+> Hälfte seiner Genauigkeit, bei beiden Modellen: minus 45 und minus 48 Prozent. Wie viel
+> der Generator über ein Tier erfährt, ist wichtiger als die Wahl des Generators.
 
 **[Klick]**
 
-### Folie 21 — Rare animals are a blind spot · 0:45
+### Folie 17 — Rare animals are a blind spot · 0:50
 
 > Eine wichtige Einschränkung. Das ist die Genauigkeit pro Klasse und Generator, je
 > heller, desto besser.
@@ -305,11 +275,12 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 > Die oberen sechs Zeilen sind seltene Arten, also genau die, für die man generierte
 > Bilder am dringendsten braucht. Dort liegt jeder Generator unter 0,07.
 
-**[Klick]** *(Saiga)*
+**[Klick]** *(Saiga von allen Generatoren)*
 
-> Warum, sieht man hier: die Saiga-Antilope mit ihrer rüsselartigen Nase. Die lokalen
-> Generatoren zeichnen stattdessen eine gewöhnliche Gazelle. Ein Generator kann nur
-> zeichnen, was er oft genug gesehen hat.
+> Warum, sieht man hier: die Saiga-Antilope mit ihrer rüsselartigen Nase. Links oben ein
+> echtes Foto, daneben Gemini, dann die lokalen Generatoren. Die zeichnen stattdessen eher
+> eine gewöhnliche Gazelle, ohne diese Nase. Ein Generator kann nur zeichnen, was er oft
+> genug gesehen hat.
 
 **[Klick]**
 
@@ -317,55 +288,52 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 ## Akt 4 — Die Klassen ergänzen (`Bands2`)
 
-### Folie 22 — 23,850 synthetic images · 0:15
+### Folie 18 — 23,850 synthetic images · 0:20
 
 > Für den eigentlichen Datensatz habe ich mit Gemini 23.850 Bilder erzeugt, zum
-> Listenpreis rund 785 Dollar.
+> Listenpreis rund 785 Dollar. Hier ein Ausschnitt: Grévyzebras.
 
 **[Klick]**
 
-### Folie 23 — Same budget, different mix · 0:40
+### Folie 19 — Final Dataset · 1:15
 
-> Verteilt wurden sie nach Datenlage, in vier Bänder. Jedes Quadrat steht für zehn
-> Trainingsbilder, grün umrandet heißt synthetisch.
-> Band A, die 50 Klassen mit den wenigsten Fotos, bekommt nur synthetische Bilder. Band B
-> halb echte, halb synthetische. Band C nur echte. Und Band D, die gut dokumentierten
-> Arten, bis zu 1.500 echte Bilder.
+> So sieht der fertige Datensatz aus. Jeder Balken ist eine Klasse, zunächst nur mit ihren
+> echten Fotos, sortiert nach der Anzahl.
 
-**[Klick]** *(„200 images each“)*
+**[Klick]** *(Bänder A–D)*
 
-> A, B und C bekommen gleich viele Bilder, je 200. Nur die Mischung unterscheidet sich.
-> So kann man echte und künstliche Bilder direkt vergleichen. Einschränkend: In jedem Band
-> stecken andere Arten.
+> Nach dieser Anzahl teile ich die Klassen in vier Bänder: A sind die 50 Klassen mit den
+> wenigsten Fotos, D die gut dokumentierten Arten.
+
+**[Klick]** *(synthetische Trainingsbilder)*
+
+> Jetzt kommen die synthetischen Trainingsbilder dazu, in grün. Band A bekommt nur
+> synthetische Bilder, 200 pro Klasse, und alle echten Fotos werden zu Testbildern, hier
+> in blau. Band B bekommt halb echte, halb synthetische Bilder. Band C nur echte. A, B und
+> C haben also gleich viele Trainingsbilder, je 200, nur die Mischung unterscheidet sich.
+> So kann man echte und künstliche Bilder direkt vergleichen. Band D bekommt bis zu 1.500
+> echte Bilder.
+
+**[Klick]** *(synthetische Testbilder)*
+
+> Und oben drauf kommen 50 synthetische Testbilder pro Klasse, in gelb.
 
 **[Klick]**
 
-### Folie 24 — Every class, train and test · 0:30
+### Folie 20 — Recognition Results · 1:30
 
-> Hier das Ganze für jede einzelne Klasse: hellgrau echte Trainingsbilder, grün
-> synthetische, blau die echten Testbilder, und blassgrün oben 50 synthetische Testbilder
-> pro Klasse. Man sieht schön, wie die Bänder von links nach rechts immer mehr echte Bilder
-> bekommen.
-
-**[Klick]**
-
-### Folie 25 — Ergebnisse pro Band · 0:40
-
-> Und das ist das Ergebnis des kleinen Detektors auf echten Fotos. Band B, halb
-> synthetisch: 0,59. Band C, nur echte Fotos: ebenfalls 0,59.
-
-**[Klick]** *(„=“ und „½“)*
-
+> Und das ist das Ergebnis des kleinen Detektors auf echten Fotos, direkt über denselben
+> Bändern. Band A, nur synthetisch trainiert: 0,30. Band B, halb synthetisch: 0,59.
+> Band C, nur echte Fotos: ebenfalls 0,59. Und Band D mit viel mehr echten Bildern: 0,74.
 > Die Hälfte eines kleinen echten Datensatzes lässt sich also durch synthetische Bilder
-> ersetzen, ohne messbaren Verlust. Nur synthetisch, in Band A, erreicht man aber nur etwa
-> die Hälfte. Synthetische Daten strecken einen echten Datensatz, sie ersetzen ihn nicht.
+> ersetzen, ohne messbaren Verlust. Nur synthetisch erreicht man aber nur etwa die Hälfte.
+> Synthetische Daten strecken einen echten Datensatz, sie ersetzen ihn nicht.
+> Einschränkend: In jedem Band stecken andere Arten.
 
-**[Klick]**
+**[Klick]** *(ein Punkt pro Klasse)*
 
-### Folie 26 — Not every animal is the same · 0:30
-
-> Hinter den Durchschnitten steckt viel Streuung. Jeder Punkt ist eine Klasse, der weiße
-> Strich der Median.
+> Hinter den Durchschnitten steckt viel Streuung. Jeder Punkt ist eine Klasse, an ihrer
+> Stelle im Diagramm, der weiße Strich ist der Median pro Band.
 
 **[Klick]** *(Hyäne und Mangaben)*
 
@@ -375,19 +343,16 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 **[Klick]**
 
-### Folie 27 — Was the test fair? · 0:45
+### Folie 21 — Test Data · 0:45
 
-> Noch ein Wort zur Messung selbst. Links ein synthetisches Testbild: ein Tier, mittig,
-> freie Sicht. Rechts ein echtes: mehrere Tiere, teilweise verdeckt.
+> Noch ein Wort zur Messung selbst. Oben synthetische Testbilder: ein Tier, mittig, freie
+> Sicht. Unten echte Fotos: mehrere Tiere, teilweise verdeckt oder weit weg.
 
 **[Klick]** *(Balken)*
 
 > Auf synthetischen Testbildern schneiden alle Modelle viel besser ab, in Band A mit 0,93
 > gegenüber 0,20. Selbst das Ensemble, das nie ein generiertes Bild gesehen hat, ist dort
 > um etwa 0,2 besser. Die synthetischen Testbilder sind schlicht leichter.
-
-**[Klick]**
-
 > Deshalb berichte ich alle Werte auf echten Fotos. Nur die sagen etwas über den Einsatz
 > im Feld aus.
 
@@ -397,19 +362,16 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 ## Akt 5 — Modelle und Hardware (`ModelsV2`)
 
-### Folie 28 — Three candidates · 0:25
+### Folie 22 — Three candidates · 0:20
 
 > Damit zum letzten Schritt: dem Modell. Drei Kandidaten, die Kreisfläche entspricht der
 > Parameterzahl: das Ensemble aus MegaDetector und SpeciesNet mit 193 Millionen, YOLOv5s
-> mit 7,6 Millionen und YOLO26n mit 2,7 Millionen.
+> mit 7,6 Millionen, die Architektur, die heute schon im Fernglas läuft, und YOLO26n mit
+> 2,7 Millionen.
 
 **[Klick]**
 
-> YOLOv5s ist die Architektur, die heute schon im Fernglas läuft.
-
-**[Klick]**
-
-### Folie 29 — Accuracy on real photos · 1:00
+### Folie 23 — Accuracy on real photos · 1:00
 
 > Die Genauigkeit auf echten Fotos: Vorne liegt das auf meine Daten feinjustierte Ensemble
 > mit 0,60. Der Stern heißt, das ist eine Obergrenze, weil MegaDetector auch die
@@ -431,7 +393,7 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 **[Klick]**
 
-### Folie 30 — Finding is easy. Naming is hard. · 0:40
+### Folie 24 — Finding is easy. Naming is hard. · 0:40
 
 > Wo verliert das kleine Modell seine Genauigkeit? Ob es das Tier findet, egal welche Art:
 > 0,78. Mit der richtigen Art: 0,53.
@@ -444,7 +406,7 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 **[Klick]**
 
-### Folie 31 — Can a big model teach a small one? · 0:50
+### Folie 25 — Can a big model teach a small one? · 0:50
 
 > Eine naheliegende Idee, um das kleine Modell besser zu machen: Knowledge Distillation.
 > Das große Ensemble ist der Lehrer, das kleine Modell der Schüler. In grau der Schüler,
@@ -466,7 +428,7 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 ## Akt 6 — Zusammenfassung (`Summary`)
 
-### Folie 32 — Summary · 1:15
+### Folie 26 — Summary · 1:15
 
 *(Pro Klick erscheint eine Kachel. Die erste ist sofort da.)*
 
@@ -507,7 +469,7 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 **[Klick]**
 
-> Dann die Bänder, mit gleichem Budget und unterschiedlicher Mischung…
+> Dann der fertige Datensatz mit seinen vier Bändern…
 
 **[Klick]**
 
@@ -521,7 +483,7 @@ Folie 30 (Elefanten) mit je einem Satz durchklicken. Folie 27 (Testset) und Foli
 
 **[Klick]**
 
-### Folie 33 — Thank you · 0:10
+### Folie 27 — Thank you · 0:10
 
 > Vielen Dank für die Aufmerksamkeit. Ich freue mich auf Ihre Fragen.
 

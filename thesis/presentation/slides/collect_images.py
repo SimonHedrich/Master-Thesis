@@ -62,9 +62,10 @@ SOURCES: dict[str, Path] = {
     "data/reject_boar_painting.jpg": WIKI / "wild_boar/Tennō_Yūryaku_detail.jpg",
     "data/reject_elephant_mosaic.jpg": WIKI / "african_elephant/14_Piazzale_delle_Corporazioni_Ostia_Antica_2006-09-08.jpg",
     # --- generators ---
-    "generators/zebra_grevys_gemini.png": OLD_IMAGES / "Gemini_Generated_Grévy_s zebra.png",
-    "generators/zebra_mountain_gemini.png": OLD_IMAGES / "Gemini_Generated_mountain zebra.png",
-    "generators/zebra_plains_gemini.png": OLD_IMAGES / "Gemini_Generated_plains zebra.png",
+    # three Gemini test-set zebras, each in a different scene (also on the test-data slide)
+    "generators/zebra_grevys_gemini.png": OLD_IMAGES / "t_grevy_s_zebra_007.png",
+    "generators/zebra_mountain_gemini.png": OLD_IMAGES / "t_mountain_zebra_004.png",
+    "generators/zebra_plains_gemini.png": OLD_IMAGES / "t_plains_zebra_009.png",
     "generators/lion_real.jpg": GEN / "appendix/lion_real.jpg",
     "generators/lion_sd35-large.jpg": GEN / "appendix/lion_sd35-large.jpg",
     "generators/lion_sd35m.jpg": GEN / "appendix/lion_sd35m.jpg",
@@ -81,9 +82,15 @@ SOURCES: dict[str, Path] = {
     "generators/saiga_sd35-large.jpg": GEN / "appendix/saiga_sd35-large.jpg",
     "generators/saiga_flux2-klein.jpg": GEN / "appendix/saiga_flux2-klein-9b.jpg",
     "generators/saiga_hidream-i1.jpg": GEN / "appendix/saiga_hidream-i1.jpg",
+    "generators/saiga_sd35m.jpg": GEN / "appendix/saiga_sd35m.jpg",
+    "generators/saiga_sd35-large-turbo.jpg": GEN / "appendix/saiga_sd35-large-turbo.jpg",
+    "generators/saiga_realvisxl.jpg": GEN / "appendix/saiga_realvisxl-lightning.jpg",
+    "generators/saiga_gemini.png": DATA / "synthetic/images/band_a/saiga/a_saiga_003.png",  # production set
     # --- bands ---
     "bands/synthetic_test_plains_zebra.png": OLD_IMAGES / "t_plains_zebra_009.png",
     "bands/real_test_zebra_herd.jpg": DATA / "inaturalist/images/plains zebra/inat_527331480.jpg",
+    "bands/real_grevys_zebra_foal.jpg": DATA / "inaturalist/images/grevy's zebra/inat_264890163.jpeg",
+    "bands/real_mountain_zebras_far.jpg": DATA / "inaturalist/images/mountain zebra/inat_417603145.jpeg",
     "bands/synthetic_striped_hyaena.png": DATA / "synthetic/images/band_a/striped_hyaena/a_striped_hyaena_008.png",
     # --- models ---
     "models/asian_elephant.jpg": DATA / "inaturalist/images/asian elephant/inat_351716828.jpeg",
@@ -128,15 +135,15 @@ def main() -> None:
     mangabeys = sorted((DATA / "synthetic/images/band_a/mangabeys_genus").glob("*.png"))
     if mangabeys:
         ok += _copy(mangabeys[min(7, len(mangabeys) - 1)], OUT / "bands/synthetic_mangabeys.png")
-    # The 96-image Grévy's zebra wall, pre-rendered (96 single files would be ~60 MB).
-    grevys = sorted((OLD_IMAGES / "grevy_s_zebra").glob("*.png"))[:96]
+    # The Grévy's zebra wall (24 images, large enough to see the animals), pre-rendered.
+    grevys = sorted((OLD_IMAGES / "grevy_s_zebra").glob("*.png"))[:24]
     if grevys:
         import sys
 
         sys.path.insert(0, str(HERE))
         from theme import mosaic  # noqa: E402
 
-        shutil.copyfile(mosaic(grevys, cols=12, tile_px=400), OUT / "generators/grevys_synthetic_wall.png")
+        shutil.copyfile(mosaic(grevys, cols=6, tile_px=800), OUT / "generators/grevys_synthetic_wall.png")
         ok += 1
     total = sum(p.stat().st_size for p in OUT.rglob("*") if p.is_file())
     print(f"{ok} images in {OUT} ({total / 1e6:.0f} MB)")

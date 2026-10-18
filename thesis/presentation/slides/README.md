@@ -27,7 +27,7 @@ ffmpeg) and the presenter needs a Qt window.
 - **`talk_v2.py` (current):** the reworked talk. It builds up step by step: use case →
   data → generated images → bands → models on the hardware → a summary that replays one
   picture from every step. It has six scenes (`UseCase`, `DataV2`, `Generative`, `Bands2`,
-  `ModelsV2`, `Summary`) and 33 slides. Images come from `../images/` (run
+  `ModelsV2`, `Summary`) and 27 slides (64 click states). Images come from `../images/` (run
   `collect_images.py` first). The speaker script is `../final-talk-script-v2.md`.
 - **`talk.py`:** the first version, told chronologically (plan → what happened). Kept as is.
 
@@ -95,7 +95,7 @@ Inputs that are not in git:
 - `data/` at the repo root (inaturalist, wikimedia, synthetic images), for the photos.
 - **Missing:** `assets/extra/lion_gpt-image-2-low.jpg`, one lion from the
   `gpt-image-2-low-full` cell (`data/synthetic_model_comparison/train/` on the GPU
-  server). Until it exists, the lineup slide shows a dashed placeholder.
+  server). Until it exists, the v1 lineup slide (`talk.py`) shows a dashed placeholder; v2 does not use it.
 
 ## Render, present, export
 

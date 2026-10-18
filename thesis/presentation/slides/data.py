@@ -126,6 +126,77 @@ ORDERS = {
 }
 
 
+# The 225 class names by order, as listed on the interim deck's class table (slide 15).
+CLASS_TABLE = {
+    "Carnivora": [
+        "Giant panda", "Sun bear", "Sloth bear", "Spectacled bear", "American black bear",
+        "Brown / grizzly bear", "Asiatic black bear", "Red panda", "Grey wolf", "Coyote",
+        "Domestic dog", "Dingo", "Black-backed jackal", "Golden jackal", "Red fox",
+        "Grey fox", "African wild dog", "Maned wolf", "Dhole", "Raccoon dog",
+        "Bat-eared fox", "South American foxes", "Lion", "Leopard", "Tiger", "Jaguar",
+        "Snow leopard", "Cheetah", "Puma / cougar", "Bobcat", "Canada lynx",
+        "Eurasian lynx", "Domestic cat", "Wildcat", "Serval", "Caracal", "Clouded leopard",
+        "Leopard cat", "Leopardus cats", "Ocelot", "Wolverine", "Honey badger",
+        "American badger", "Eurasian badger", "N. American river otter", "Eurasian otter",
+        "Sea otter", "Giant otter", "American mink", "Fisher", "Tayra", "Martens",
+        "Weasels", "Hog badgers", "Spotted hyena", "Striped hyena", "Brown hyena",
+        "Aardwolf", "Northern raccoon", "Ringtail", "White-nosed coati",
+        "South American coati", "Kinkajou", "Mongooses", "Meerkat", "Striped skunk",
+        "Spotted skunks", "Seals and sea lions", "Elephant seals", "Eared seals", "Walrus",
+        "African civet", "Binturong", "Genets", "Fossa",
+    ],
+    "Cetartiodactyla": [
+        "White-tailed deer", "Mule deer", "Elk / wapiti", "Red deer", "Sika deer", "Moose",
+        "Reindeer / caribou", "European roe deer", "Common fallow deer",
+        "Chital / spotted deer", "Water deer", "Sambar", "Muntjacs", "Red brocket",
+        "Impala", "Blue wildebeest", "Black wildebeest", "Thomson's gazelle",
+        "Grant's gazelle", "Springbok", "Gemsbok", "Gerenuk", "Hartebeest", "Waterbuck",
+        "Kob", "Common eland", "Greater kudu", "Nyala", "Bushbuck", "Bongo",
+        "Sable antelope", "Roan antelope", "Steenbok", "Kirk's dik-dik", "Common duiker",
+        "Klipspringer", "Blesbok / bontebok", "Reedbucks", "Forest duikers",
+        "Bighorn sheep", "Domestic sheep", "Mouflon", "Mountain goat", "Alpine ibex",
+        "Domestic goat", "Northern chamois", "Blackbuck", "Nilgai", "Saiga",
+        "African buffalo", "American bison", "European bison", "Domestic cattle", "Yak",
+        "Domestic water buffalo", "Hippopotamus", "Giraffe", "Wild boar", "Domestic pig",
+        "Common warthog", "Red river hog", "Collared peccary", "Dromedary camel",
+        "Llamas and alpacas", "Pronghorn",
+    ],
+    "Perissodactyla": [
+        "Domestic horse", "Domestic donkey", "Plains zebra", "Grevy's zebra",
+        "Mountain zebra", "Asiatic wild ass", "Lowland tapir", "Malay tapir",
+        "Baird's tapir", "Rhinoceroses",
+    ],
+    "Primates": [
+        "Human", "Chimpanzee", "Bornean orangutan", "Vervet monkey", "Ring-tailed lemur",
+        "Japanese macaque", "Drill", "Patas monkey", "Aye-aye", "Gorillas", "Baboons",
+        "Howler monkeys", "Leaf monkeys / langurs", "Mangabeys", "Titi monkeys", "Macaques",
+        "Guenons", "Colobus monkeys", "Spider monkeys", "Capuchins", "Tamarins",
+        "True lemurs", "Squirrel monkeys", "Marmosets",
+    ],
+    "Rodentia": [
+        "Eastern gray squirrel", "Eastern fox squirrel", "Western gray squirrel",
+        "Eurasian red squirrel", "American red squirrel", "Golden-mantled ground squirrel",
+        "California ground squirrel", "Groundhog / woodchuck", "Alpine marmot",
+        "Yellow-bellied marmot", "Black-tailed prairie dog", "N. American porcupine",
+        "Capybara", "Muskrat", "Nutria / coypu", "Chipmunks", "Flying squirrels", "Agoutis",
+        "Beavers", "Rats", "Old World mice / rats", "Squirrel family (fallback)",
+        "New World mice / voles", "Old World porcupines",
+    ],
+    "Marsupials and Monotremes": [
+        "Red kangaroo", "Eastern grey kangaroo", "Swamp wallaby", "Red-necked wallaby",
+        "Quokka", "Common wombat", "Koala", "Kangaroos / / wallabies",
+        "Short-beaked echidna",
+    ],
+    "Other Orders": [
+        "African elephant", "Asian elephant", "Giant anteater", "Brown-throated sloth",
+        "Hoffmann's two-toed sloth", "Pangolins", "Nine-banded armadillo",
+        "Giant armadillo", "European rabbit", "Hares / jackrabbits", "European hare",
+        "Cottontail rabbits", "Eastern cottontail", "Pikas", "Aardvark", "Rock hyrax",
+        "Hedgehogs", "Opossums",
+    ],
+}
+
+
 def gbif_counts() -> list[int]:
     """Images per class in the initial GBIF corpus, sorted ascending (114 < 100, 30 = 0)."""
     with open(REPORTS / "gbif_image_counts_all.csv") as f:
@@ -137,6 +208,23 @@ def source_counts() -> list[tuple[int, int]]:
     with open(REPORTS / "coverage_analysis.csv") as f:
         rows = [(int(r["gbif_pass"]), int(r["total_pass"])) for r in csv.DictReader(f)]
     return sorted(rows, key=lambda r: r[1])
+
+
+# Usable images per class and source (reports/coverage_analysis.csv), stacked bottom to top.
+SOURCES = [
+    ("GBIF", "gbif_pass"),
+    ("iNaturalist", "inaturalist_pass"),
+    ("Wikimedia", "wikimedia_pass"),
+    ("OpenImages", "openimages_pass"),
+    ("images.cv", "images_cv_pass"),
+]
+
+
+def source_stack() -> list[list[int]]:
+    """Per class, usable images per source in SOURCES order; classes sorted by total."""
+    with open(REPORTS / "coverage_analysis.csv") as f:
+        rows = [[int(r[col]) for _, col in SOURCES] for r in csv.DictReader(f)]
+    return sorted(rows, key=sum)
 
 
 # --- data: generator comparison (tab:generator-ranking) ----------------------------
@@ -153,6 +241,20 @@ GENERATORS = [
     ("HiDream-I1", 0.029, 0.002, "local"),
     ("RealVisXL Lightning", 0.023, 0.001, "local"),
 ]
+# Cost per image: API cells at the batch list price (tab:generator-api-cost, $ per 1,200
+# images / 1,200); local cells as seconds per image on one NVIDIA A40 (tab:generator-throughput).
+GENERATOR_COST = {
+    "gpt-image-2 low": "$0.017",
+    "gpt-image-2 medium": "$0.033",
+    "Gemini Flash": "$0.033",
+    "Gemini Flash-Lite": "$0.017",
+    "SD 3.5 Large": "54 s",
+    "SD 3.5 Medium": "24 s",
+    "SD 3.5 Large Turbo": "25 s",
+    "FLUX.2 klein": "31 s",
+    "HiDream-I1": "144 s",
+    "RealVisXL Lightning": "0.9 s",
+}
 # tab:prompt-length-ablation: full vs compressed prompt, same generator.
 PROMPT_ABLATION = [("gpt-image-2 low", 0.134, 0.074), ("Gemini Flash-Lite", 0.095, 0.049)]
 FULL_PROMPT_TOKENS = 2600  # ~1,300 words (scripts/synthetic_model_comparison/1e-generate_images_openai.py)
