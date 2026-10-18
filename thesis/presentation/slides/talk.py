@@ -8,7 +8,7 @@ Render (from thesis/presentation/slides/):
 Present:
     uv run python present.py -F Intro Problem Data Generators Bands Models Close
 Export a self-contained HTML deck:
-    uv run manim-slides convert Intro Problem Data Generators Bands Models Close build/talk.html
+    uv run manim-slides convert --offline Intro Problem Data Generators Bands Models Close build/talk.html
 """
 
 from __future__ import annotations
