@@ -378,17 +378,25 @@ MODELS_DETECT = {
     "YOLO26n": 0.782,
 }
 
-# Look-alikes, YOLO26n direct-FT (EVAL_YOLO26N): real-test AP per zebra class (tier3_per_class),
-# within-group confusion counts (tier2_within_group_confusion.pairs, true -> predicted) and
-# group confusion rates (tab:lookalike-group-confusion-excerpt).
+# Look-alikes, YOLO26n direct-FT (EVAL_YOLO26N): real-test AP per zebra class (tier3_per_class).
 ZEBRA_AP = {"Grévy's zebra": 0.575, "Mountain zebra": 0.805, "Plains zebra": 0.739}
-ZEBRA_CONFUSION = [
-    ("Grévy's zebra", "Plains zebra", 112),
-    ("Grévy's zebra", "Mountain zebra", 21),
-    ("Mountain zebra", "Plains zebra", 14),
-    ("Mountain zebra", "Grévy's zebra", 12),
-]
-GROUP_CONFUSION = {"zebra": 0.095, "elephant": 0.508}
 # Compressed cells are not in tab:generator-api-cost; same output price, ~5,850 fewer input
 # tokens, so at most the full-prompt batch price.
 GENERATOR_COST_COMPRESSED = {"gpt-image-2 low · compressed": "≤ $0.017", "Gemini Flash-Lite · compressed": "≤ $0.017"}
+
+# Per-species within-group confusion on the REAL test set, YOLO26n direct-FT: of the
+# correctly localised detections of a true species that land in its look-alike group, the
+# share named as the other species. Same greedy IoU-0.5 matching as
+# eval_suite.scoring.within_group_confusion, tallied per true species from the run's
+# predictions_real.json (GPU server). Counts: true species -> (predicted, n, matched).
+# On the mixed set the same code reproduces the report (zebras 161/1,687, elephants 1,554/3,057).
+SPECIES_CONFUSION_REAL = [
+    ("Grévy's zebra", "Plains zebra", 112, 280),
+    ("Grévy's zebra", "Mountain zebra", 21, 280),
+    ("Mountain zebra", "Plains zebra", 12, 148),
+    ("Asian elephant", "African elephant", 1545, 1959),
+    ("African elephant", "Asian elephant", 2, 998),
+]
+# tab:kd-vs-direct, Setup A (distilled from the fine-tuned teacher), real test set
+MODEL_DISTILLED = ("YOLO26n, distilled", 0.479, 2.71, 0.423)
+MODEL_DISTILLED_DETECT = 0.745

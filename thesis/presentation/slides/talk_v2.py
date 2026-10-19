@@ -610,16 +610,16 @@ class Bands2(Talk2):
             rows = list(csv.DictReader(f))
         order = {"A": 0, "B": 1, "C": 2, "D": 3}
         rows.sort(key=lambda r: (order[r["band"]], int(r["effective_pool"])))
-        # linear axis to 2,000 images; the largest classes (1,500 real train + 500 real test
-        # + 50 synthetic test) reach 2,050 and overshoot the top line slightly
-        cap, chart_h, left, width, base = 2000, 4.0, -5.6, 12.1, -2.9
+        # linear axis cut at 1,200 images so bands A–C read large; band D columns (up to
+        # 1,500 real train + 500 real test + 50 synthetic test = 2,050) are clipped at the top
+        cap, chart_h, left, width, base = 1200, 4.0, -5.6, 12.1, -2.9
         bw = width / len(rows)
 
         def stack(i, parts):
-            """One class column: a rectangle per (count, colour), stacked bottom to top."""
+            """One class column: a rectangle per (count, colour), stacked bottom to top, clipped at the cap."""
             y, out = base, []
             for v, color in parts:
-                h = v / cap * chart_h
+                h = max(0.0, min(v / cap * chart_h, base + chart_h - y))
                 r = Rectangle(width=bw * 0.78, height=max(h, 0.001)).set_stroke(width=0).set_fill(color, 1 if h > 0 else 0)
                 out.append(r.move_to([left + (i + 0.5) * bw, y, 0], aligned_edge=DOWN))
                 y += h
@@ -631,7 +631,7 @@ class Bands2(Talk2):
             cols.append(VGroup(*stack(i, [(0, GREEN), (tr, MIST), (te, MIST), (0, SYNTH_TEST)])))
             after.append(stack(i, [(ts, GREEN), (tr, MIST), (te, SKY), (50, SYNTH_TEST)]))  # 50 synthetic test images per class
         grid, img_labels = VGroup(), VGroup()
-        for v in (500, 1000, 1500, 2000):
+        for v in (300, 600, 900, 1200):
             yy = base + v / cap * chart_h
             ln = Line([left, yy, 0], [left + width, yy, 0]).set_stroke(MIST, 1, 0.2)
             grid.add(ln)
@@ -653,8 +653,9 @@ class Bands2(Talk2):
         }
         VGroup(*[leg[k] for k in ("real train", "synthetic train", "real test", "synthetic test")]).arrange(RIGHT, buff=0.18).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
         leg["real"].move_to(leg["real train"], aligned_edge=LEFT)
+        cut = txt("cut at 1,200 · largest classes reach 2,050", 15, MIST).move_to([sum(spans["D"]) / 2, base + chart_h + 0.22, 0])
         # step 1: the real images per class
-        self.play(FadeIn(grid), FadeIn(img_labels), FadeIn(leg["real"]))
+        self.play(FadeIn(grid), FadeIn(img_labels), FadeIn(leg["real"]), FadeIn(cut))
         self.play(LaggedStart(*[GrowFromEdge(VGroup(c[1], c[2]), DOWN) for c in cols], lag_ratio=0.006), run_time=2.2)
         self.next_slide()
         # step 2: the bands
@@ -675,12 +676,13 @@ class Bands2(Talk2):
 
         # 19 — Results on top of the same chart: the dataset greys out, the bands stay
         bars_all = VGroup(*cols, tests)
-        map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((500, 1000, 1500, 2000), img_labels)])
+        map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((300, 600, 900, 1200), img_labels)])
         note = txt("YOLO26n · mAP on real photos", 18, MIST).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
         self.play(
             Transform(head, title("Recognition Results")),
             bars_all.animate.set_fill(MIST, 0.16),
             *[FadeOut(leg[k]) for k in ("real", "synthetic train", "real test", "synthetic test")],
+            FadeOut(cut),
             Transform(img_labels, map_labels),
             FadeIn(note),
         )
@@ -762,6 +764,41 @@ class Bands2(Talk2):
 # =================================================================================
 # Act 5 — Models: accuracy, size and speed on embedded hardware
 # =================================================================================
+MODEL_ORDER = ["Ensemble, off the shelf", "Ensemble, fine-tuned", "YOLOv5s", "YOLO26n"]
+
+
+def accuracy_chart(order: list[str], extra: bool = False) -> dict:
+    """Species-mAP bars with thin detection-mAP bars above, plus size/time pills per model.
+
+    extra=True appends the distilled YOLO26n as a fifth row (the knowledge-distillation slide).
+    """
+    models = {name: (m, p, t) for name, m, p, t in D.MODELS}
+    detect = dict(D.MODELS_DETECT)
+    entries = [(name, *models[name], detect[name]) for name in order]
+    if extra:
+        name, m, p, t = D.MODEL_DISTILLED
+        entries.append((name, m, p, t, D.MODEL_DISTILLED_DETECT))
+    L, vmax, x0 = 5.0, 1.0, -2.4
+    step = 0.95 if extra else 1.15
+    rows, side = VGroup(), VGroup()
+    for k, (name, m, p, t, det) in enumerate(entries):
+        y = 1.15 - k * step
+        hi = name == "YOLO26n"
+        color = GREEN if hi else MIST
+        lab = txt(name, 24, bold=hi or name == D.MODEL_DISTILLED[0]).move_to([x0 - 0.3, y, 0], aligned_edge=RIGHT)
+        bar = hbar(m, vmax, L, h=0.42, color=color, opacity=1 if hi else 0.75).move_to([x0, y - 0.13, 0], aligned_edge=LEFT)
+        val = txt(D.pct(m), 24, bold=True).next_to(bar, RIGHT, buff=0.2)
+        dbar = hbar(det, vmax, L, h=0.18, color=WHITE, opacity=0.4).move_to([x0, y + 0.25, 0], aligned_edge=LEFT)
+        dval = txt(D.pct(det), 17, MIST).next_to(dbar, RIGHT, buff=0.2)
+        rows.add(VGroup(lab, bar, val, dbar, dval))
+        sec = f"{t:.0f} s" if t >= 10 else f"{t:.2f} s"
+        side.add(pill(f"{p:g} M · {sec}", 20, fill=GREEN if hi else WHITE).move_to([5.6, y - 0.07, 0]))
+    leg = VGroup(pill("species mAP", 18, fill=MIST), pill("detection mAP (any animal)", 18, fill=WHITE))
+    leg.arrange(RIGHT, buff=0.2).move_to([LEFT_X, 2.05, 0], aligned_edge=LEFT)
+    watch = stopwatch(0.32).next_to(side, UP, buff=0.25)
+    return {"leg": leg, "rows": rows, "side": side, "watch": watch}
+
+
 class ModelsV2(Talk2):
     def build(self):
         # 21 — Three candidates
@@ -783,54 +820,28 @@ class ModelsV2(Talk2):
 
         # 22 — Accuracy (species mAP), then detection mAP, size and time per frame
         self.play(FadeIn(title("Accuracy on real photos (mAP)")))
-        L, vmax, x0 = 5.0, 1.0, -2.4
-        rows = VGroup()
-        for k, (name, m, p, t) in enumerate(D.MODELS):
-            y = 1.15 - k * 1.15
-            color = GREEN if name == "YOLO26n" else MIST
-            lab = txt(name, 24, bold=name == "YOLO26n").move_to([x0 - 0.3, y, 0], aligned_edge=RIGHT)
-            bar = hbar(m, vmax, L, h=0.42, color=color, opacity=1 if color == GREEN else 0.75).move_to([x0, y - 0.13, 0], aligned_edge=LEFT)
-            val = txt(D.pct(m) + ("*" if k == 0 else ""), 24, bold=True).next_to(bar, RIGHT, buff=0.2)
-            det = D.MODELS_DETECT[name]
-            dbar = hbar(det, vmax, L, h=0.18, color=WHITE, opacity=0.4).move_to([x0, y + 0.25, 0], aligned_edge=LEFT)
-            dval = txt(D.pct(det), 17, MIST).next_to(dbar, RIGHT, buff=0.2)
-            rows.add(VGroup(lab, bar, val, dbar, dval))
-        leg = VGroup(pill("species mAP", 18, fill=MIST), pill("detection mAP (any animal)", 18, fill=WHITE))
-        leg.arrange(RIGHT, buff=0.2).move_to([LEFT_X, 2.05, 0], aligned_edge=LEFT)
+        chart = accuracy_chart(MODEL_ORDER)
+        leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
         self.play(FadeIn(leg[0]), LaggedStart(*[FadeIn(r[0]) for r in rows], lag_ratio=0.1))
         self.play(LaggedStart(*[GrowFromEdge(r[1], LEFT) for r in rows], lag_ratio=0.15), run_time=1.5)
         self.play(*[FadeIn(r[2]) for r in rows])
-        star = txt("* upper bound: MegaDetector drew the ground-truth boxes", 16, MIST).to_corner(DL, buff=0.4)
-        self.play(FadeIn(star))
         self.next_slide()
         self.play(FadeIn(leg[1]), LaggedStart(*[GrowFromEdge(r[3], LEFT) for r in rows], lag_ratio=0.15), run_time=1.3)
         self.play(*[FadeIn(r[4]) for r in rows])
         self.next_slide()
-        side = VGroup()
-        for r, (name, m, p, t) in zip(rows, D.MODELS):
-            sec = f"{t:.0f} s" if t >= 10 else f"{t:.2f} s"
-            side.add(pill(f"{p:g} M · {sec}", 20, fill=GREEN if name == "YOLO26n" else WHITE).move_to([5.6, r[1].get_y() + 0.06, 0]))
-        watch = stopwatch(0.32).next_to(side, UP, buff=0.25)
-        foot = txt("time per frame: Raspberry Pi 400 CPU (proxy for the QCS605), full precision", 16, MIST).next_to(star, UP, buff=0.08).align_to(star, LEFT)
-        self.play(FadeIn(watch), LaggedStart(*[FadeIn(s, shift=LEFT * 0.2) for s in side], lag_ratio=0.15), FadeIn(foot))
+        foot = txt("time per frame: Raspberry Pi 400 CPU (proxy for the QCS605), full precision", 16, MIST).to_corner(DL, buff=0.4)
+        self.play(FadeIn(watch), LaggedStart(*[FadeIn(s_, shift=LEFT * 0.2) for s_ in side], lag_ratio=0.15), FadeIn(foot))
         self.next_slide()
-        gap = round((D.MODELS[0][1] - D.MODELS[3][1]) * 100)
+        m = {name: v for name, v, _, _ in D.MODELS}
+        gap = round((m["Ensemble, fine-tuned"] - m["YOLO26n"]) * 100)
         call = pill(f"83× faster · 71× smaller · −{gap} pp species mAP", 28, fill=GREEN, bold=True).move_to([1.0, -3.3, 0])
-        self.play(FadeOut(star), FadeOut(foot), FadeIn(call, scale=1.1))
+        self.play(FadeOut(foot), FadeIn(call, scale=1.1))
         self.snap("models")
         self.page()
 
-        # 23 — Similar species: finding vs naming, then the zebras, then the elephants
+        # 23 — Similar species: the zebras, then how often each is named as another; then the elephants
         self.play(FadeIn(title("Similar Species")))
-        a = big_number(D.pct(D.DETECT_REAL), "finds the animal\n(detection mAP)", size=100)
-        b = big_number(D.pct(D.FINE_REAL), "names the species\n(species mAP)", size=100)
-        ab = VGroup(a, b).arrange(RIGHT, buff=2.0, aligned_edge=UP).move_to(DOWN * 0.2)
-        ar = arrow(a[0].get_right(), b[0].get_left(), color=GREEN, buff=0.35)
-        self.play(FadeIn(a, shift=UP * 0.2))
-        self.play(Create(ar), FadeIn(b, shift=UP * 0.2))
-        self.next_slide()
-        self.play(VGroup(ab, ar).animate.scale(0.38).to_corner(UR, buff=0.4).shift(DOWN * 0.1))
-        # three real test photos; arrows = how often one zebra was named as another
+        conf = {(t, p_): n_ / m_ for t, p_, n_, m_ in D.SPECIES_CONFUSION_REAL}
         zeb = Group()
         for name, f in (("Grévy's zebra", "real_test_grevys_zebra.jpg"), ("Mountain zebra", "real_test_mountain_zebra.jpg"), ("Plains zebra", "real_test_plains_zebra.jpg")):
             ph = photo(IMG / "bands" / f, height=2.4, aspect=4 / 3)
@@ -838,69 +849,48 @@ class ModelsV2(Talk2):
         zeb.arrange(RIGHT, buff=1.25).move_to(DOWN * 0.55)
         idx = {"Grévy's zebra": 0, "Mountain zebra": 1, "Plains zebra": 2}
         links = VGroup()
-        for src, dst, n_ in D.ZEBRA_CONFUSION:
+        for (src, dst), share in conf.items():
+            if src not in idx:
+                continue
             i, j = idx[src], idx[dst]
             p_i, p_j = zeb[i][0], zeb[j][0]
             if abs(i - j) == 2:  # Grévy's -> plains, over the top
                 a_ = curved_arrow(p_i.get_top() + UP * 0.1, p_j.get_top() + UP * 0.1, angle=-0.55, color=GREEN)
-                lab = pill(f"{n_}×", 24, fill=GREEN, bold=True).next_to(a_, UP, buff=0.04)
-            else:  # neighbours: rightwards in the upper half, leftwards in the lower half
-                y_ = p_i.get_y() + (0.35 if j > i else -0.35)
-                x_a = (p_i.get_right() if j > i else p_i.get_left())[0]
-                x_b = (p_j.get_left() if j > i else p_j.get_right())[0]
-                a_ = arrow([x_a, y_, 0], [x_b, y_, 0], buff=0.08)
-                lab = txt(f"{n_}×", 18, bold=True).next_to(a_, UP if j > i else DOWN, buff=0.06)
+                lab = pill(D.pct(share), 24, fill=GREEN, bold=True).next_to(a_, UP, buff=0.04)
+            else:  # neighbours, left to right
+                y_ = p_i.get_y() + 0.35
+                a_ = arrow([p_i.get_right()[0], y_, 0], [p_j.get_left()[0], y_, 0], buff=0.08)
+                lab = txt(D.pct(share), 18, bold=True).next_to(a_, UP, buff=0.06)
             links.add(VGroup(a_, lab))
-        rate = pill(f"zebras: {D.pct(D.GROUP_CONFUSION['zebra'])} mixed up", 20, fill=GREEN, bold=True)
-        rate.move_to([LEFT_X, 2.0, 0], aligned_edge=LEFT)
-        cfoot = txt("confusion counts: YOLO26n, mixed test set (real + synthetic)", 14, MIST).to_corner(DL, buff=0.3)
+        cfoot = txt("share of a species' found animals named as the other species · YOLO26n, real test photos", 14, MIST).to_corner(DL, buff=0.3)
         self.play(LaggedStart(*[FadeIn(z, shift=UP * 0.15) for z in zeb], lag_ratio=0.2), run_time=1.2)
-        self.play(LaggedStart(*[Create(l_[0]) for l_ in links], lag_ratio=0.2), *[FadeIn(l_[1]) for l_ in links], FadeIn(cfoot), run_time=1.4)
-        self.play(FadeIn(rate, shift=UP * 0.15))
         self.next_slide()
-        asian = labelled(photo(IMG / "models/asian_elephant.jpg", height=3.3, aspect=1.0), "Asian elephant", DL, 20).move_to([-3.0, -1.0, 0])
-        african = labelled(photo(IMG / "models/african_elephant.jpg", height=3.3, aspect=1.0), "African elephant", DR, 20).move_to([4.0, -1.0, 0])
+        self.play(LaggedStart(*[Create(l_[0]) for l_ in links], lag_ratio=0.2), *[FadeIn(l_[1]) for l_ in links], FadeIn(cfoot), run_time=1.4)
+        self.next_slide()
+        asian = labelled(photo(IMG / "models/synthetic_asian_elephant.jpg", height=3.0, aspect=4 / 3), "Asian elephant", DL, 20).move_to([-3.2, -0.9, 0])
+        african = labelled(photo(IMG / "models/synthetic_african_elephant.jpg", height=3.0, aspect=4 / 3), "African elephant", DR, 20).move_to([3.6, -0.9, 0])
         fwd = curved_arrow(asian.get_top() + RIGHT * 0.6 + UP * 0.1, african.get_top() + LEFT * 0.6 + UP * 0.1, angle=-0.9, color=GREEN)
         rev = curved_arrow(african.get_bottom() + LEFT * 0.6 + DOWN * 0.1, asian.get_bottom() + RIGHT * 0.6 + DOWN * 0.1, angle=-0.6, color=MIST)
-        fl = pill(f"{D.ELEPHANT_FWD:,}×", 30, fill=GREEN, bold=True).next_to(fwd, UP, buff=0.05)
-        rl = pill(f"{D.ELEPHANT_REV}×", 22).next_to(rev, DOWN, buff=0.02)
-        rate2 = pill(f"elephants: {D.pct(D.GROUP_CONFUSION['elephant'])} mixed up", 20, fill=GREEN, bold=True)
-        rate2.move_to(rate, aligned_edge=LEFT)
+        fl = pill(D.pct(conf[("Asian elephant", "African elephant")]), 30, fill=GREEN, bold=True).next_to(fwd, UP, buff=0.05)
+        rl = pill(D.pct(conf[("African elephant", "Asian elephant")]), 22).next_to(rev, DOWN, buff=0.02)
+        syn = txt("pictures: synthetic test images", 14, MIST).to_corner(DR, buff=0.3)
         self.play(FadeOut(zeb), FadeOut(links))
-        self.play(FadeIn(asian), FadeIn(african), Transform(rate, rate2))
+        self.play(FadeIn(asian), FadeIn(african), FadeIn(syn))
         self.play(Create(fwd), FadeIn(fl))
         self.play(Create(rev), FadeIn(rl))
         self.page()
 
-        # 24 — Can the big model teach the small one?
+        # 24 — Can the big model teach the small one? The accuracy chart again, plus the distilled student
         self.play(FadeIn(title("Can a big model teach a small one?")))
-        teacher = pill("teacher · 193 M", 20)
-        student = pill("student · 2.7 M", 20, fill=GREEN)
-        diag = VGroup(teacher, student).arrange(RIGHT, buff=1.6).to_corner(UR, buff=0.4).shift(DOWN * 1.3)
-        da = arrow(teacher.get_right(), student.get_left(), buff=0.1)
-        dl = txt("distillation", 16, MIST).next_to(da, UP, buff=0.06)
-        self.play(FadeIn(diag), Create(da), FadeIn(dl))
-        L, base = 4.3, -2.6
-        bars = VGroup()
-        for k, bnd in enumerate("ABCD"):
-            x = -3.9 + k * 2.6
-            kd, direct = D.KD_BANDS[bnd]
-            s = vbar(kd, 0.8, L, w=0.9, color=MIST, opacity=0.6).move_to([x - 0.5, base, 0], aligned_edge=DOWN)
-            r = vbar(direct, 0.8, L, w=0.9, color=GREEN).move_to([x + 0.5, base, 0], aligned_edge=DOWN)
-            sv = txt(D.pct(kd), 18, MIST).next_to(s, UP, buff=0.1)
-            rv = txt(D.pct(direct), 18, bold=True).next_to(r, UP, buff=0.1)
-            lab = txt(bnd, 30, bold=True).move_to([x, base - 0.45, 0])
-            bars.add(VGroup(s, r, sv, rv, lab))
-        leg = VGroup(pill("with teacher · mAP", 20, fill=MIST), pill("direct training · mAP", 20, fill=GREEN)).arrange(RIGHT, buff=0.25)
-        leg.move_to([LEFT_X, 1.75, 0], aligned_edge=LEFT)
-        self.play(FadeIn(leg), *[FadeIn(g[4]) for g in bars])
-        self.play(LaggedStart(*[GrowFromEdge(g[0], DOWN) for g in bars], lag_ratio=0.1), run_time=1.2)
-        self.play(*[FadeIn(g[2]) for g in bars])
+        chart = accuracy_chart(MODEL_ORDER, extra=True)
+        leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
+        self.play(FadeIn(leg), FadeIn(rows[:-1]), FadeIn(side[:-1]), FadeIn(watch))
         self.next_slide()
-        self.play(LaggedStart(*[GrowFromEdge(g[1], DOWN) for g in bars], lag_ratio=0.1), run_time=1.2)
-        self.play(*[FadeIn(g[3]) for g in bars])
+        self.play(FadeIn(rows[-1][0], shift=RIGHT * 0.2), GrowFromEdge(rows[-1][1], LEFT), GrowFromEdge(rows[-1][3], LEFT), FadeIn(side[-1]))
+        self.play(FadeIn(rows[-1][2]), FadeIn(rows[-1][4]))
         self.next_slide()
-        verdict = pill("direct training wins in every band", 26, fill=GREEN, bold=True).move_to([0, -3.6, 0])
+        d_gap = round((m["YOLO26n"] - D.MODEL_DISTILLED[1]) * 100)
+        verdict = pill(f"direct training wins: +{d_gap} pp species mAP", 26, fill=GREEN, bold=True).move_to([1.0, -3.45, 0])
         self.play(FadeIn(verdict, shift=DOWN * 0.2))
         self.next_slide()
 

@@ -96,6 +96,9 @@ SOURCES: dict[str, Path] = {
     "bands/real_test_plains_zebra.jpg": HERE / "assets/extra/real_test_plains_zebra.jpg",
     "bands/synthetic_striped_hyaena.png": DATA / "synthetic/images/band_a/striped_hyaena/a_striped_hyaena_008.png",
     # --- models ---
+    # synthetic test images (data/synthetic/images/test/ on the GPU server: t_asian_elephant_009, t_african_elephant_008)
+    "models/synthetic_asian_elephant.jpg": HERE / "assets/extra/synthetic_asian_elephant.jpg",
+    "models/synthetic_african_elephant.jpg": HERE / "assets/extra/synthetic_african_elephant.jpg",
     "models/asian_elephant.jpg": DATA / "inaturalist/images/asian elephant/inat_351716828.jpeg",
     "models/african_elephant.jpg": DATA / "inaturalist/images/african elephant/inat_544037112.jpg",
 }

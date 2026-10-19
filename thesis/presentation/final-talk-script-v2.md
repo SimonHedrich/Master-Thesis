@@ -317,8 +317,8 @@ Folie 22 (Modelle) nicht kürzen.
 > in blau. Band B bekommt halb echte, halb synthetische Bilder. Band C nur echte. A, B und
 > C haben also gleich viele Trainingsbilder, je 200, nur die Mischung unterscheidet sich.
 > So kann man echte und künstliche Bilder direkt vergleichen. Band D bekommt bis zu 1.500
-> echte Trainingsbilder und bis zu 500 echte Testbilder; deshalb ist die Achse hier
-> linear bis 2.000.
+> echte Trainingsbilder und bis zu 500 echte Testbilder, zusammen über 2.000; die Achse
+> ist bei 1.200 abgeschnitten, damit man die kleinen Bänder erkennt.
 
 **[Klick]** *(synthetische Testbilder)*
 
@@ -381,16 +381,17 @@ Folie 22 (Modelle) nicht kürzen.
 
 ### Folie 22 — Accuracy on real photos (mAP) · 1:10
 
-> Die Genauigkeit auf echten Fotos, mit der richtigen Art: Vorne liegt das auf meine Daten
-> feinjustierte Ensemble mit 59,9 Prozent. Der Stern heißt, das ist eine Obergrenze, weil
-> MegaDetector auch die Referenzboxen erzeugt hat. YOLO26n kommt auf 52,9 Prozent. Das ist
-> besser als SpeciesNet ohne Anpassung und besser als das größere YOLOv5s.
+> Die Genauigkeit auf echten Fotos, mit der richtigen Art. Oben das Ensemble, wie es
+> heute im Fernglas genutzt würde, ohne Anpassung: 44,5 Prozent. Auf meine Daten
+> feinjustiert: 59,9 Prozent. Beide Ensemble-Werte sind eine Obergrenze, weil MegaDetector
+> auch die Referenzboxen erzeugt hat. YOLO26n kommt auf 52,9 Prozent, besser als das
+> Ensemble ohne Anpassung und besser als das größere YOLOv5s.
 
 **[Klick]** *(Detection-mAP darüber)*
 
 > Darüber, dünn, die Detection-mAP: Wird das Tier gefunden, egal welche Art? Hier liegt das
 > Ensemble bei rund 95 Prozent, auch wegen der Referenzboxen; YOLO26n bei 78, YOLOv5s bei
-> 75 Prozent.
+> 75 Prozent. Finden ist also deutlich leichter als Benennen.
 
 **[Klick]** *(Größe und Zeit pro Bild)*
 
@@ -401,49 +402,51 @@ Folie 22 (Modelle) nicht kürzen.
 
 **[Klick]** *(„83× faster · 71× smaller · −7 pp species mAP“)*
 
-> 83-mal schneller, 71-mal kleiner, und dabei nur 7 Prozentpunkte weniger Genauigkeit.
-> Echtzeit ist das noch nicht. Dafür fehlen Quantisierung und der Beschleuniger des Chips.
-> Aber wir sind von einer halben Minute pro Bild bei unter einer halben Sekunde angekommen.
+> 83-mal schneller, 71-mal kleiner, und gegenüber dem feinjustierten Ensemble nur 7
+> Prozentpunkte weniger Genauigkeit. Echtzeit ist das noch nicht. Dafür fehlen
+> Quantisierung und der Beschleuniger des Chips. Aber wir sind von einer halben Minute pro
+> Bild bei unter einer halben Sekunde angekommen.
 
 **[Klick]**
 
 ### Folie 23 — Similar Species · 1:00
 
-> Wo verliert das kleine Modell seine Genauigkeit? Ob es das Tier findet, egal welche Art:
-> 78 Prozent. Mit der richtigen Art: 53 Prozent.
+> Ein Teil der Lücke zwischen Finden und Benennen sind ähnliche Arten. Die Zebras vom
+> Anfang, jetzt als echte Testfotos, mit der Genauigkeit pro Art.
 
-**[Klick]** *(die drei Zebras als echte Testfotos, mit Verwechslungen)*
+**[Klick]** *(Pfeile mit Verwechslungsanteilen)*
 
-> Ein Teil davon sind ähnliche Arten. Die Zebras vom Anfang, jetzt als echte Testfotos, mit
-> der Genauigkeit pro Art. Die Pfeile zeigen, wie oft eine Art als eine andere erkannt
-> wurde: Das Grévyzebra wird 112-mal für ein Steppenzebra gehalten, die anderen Richtungen
-> sind selten. Insgesamt werden nur 9,5 Prozent der gefundenen Zebras falsch benannt, die
-> Zebras sind also eine der leichteren Gruppen.
+> Die Pfeile zeigen, welcher Anteil der gefundenen Tiere einer Art als die andere Art
+> benannt wird. Beim Grévyzebra sind es 40 Prozent, die als Steppenzebra durchgehen, dazu
+> 7,5 Prozent als Bergzebra. Das Bergzebra landet zu 8 Prozent beim Steppenzebra. Das
+> Steppenzebra dagegen wird praktisch nie verwechselt. Die Fehler laufen also in eine
+> Richtung: hin zur häufigsten Art.
 
 **[Klick]** *(Elefanten)*
 
-> Das deutlichste Gegenbeispiel: Bei den Elefanten ist es jeder zweite. Asiatische
-> Elefanten werden 1.545-mal als Afrikanische erkannt, umgekehrt nur neunmal. An der Zahl
-> der Testbilder liegt es nicht, von den Asiatischen gibt es sogar mehr. Die
-> Verwechslungszahlen sind auf dem gemischten Testset gezählt, echte und synthetische Bilder.
+> Noch deutlicher bei den Elefanten, hier als synthetische Bilder: 79 Prozent der
+> gefundenen Asiatischen Elefanten werden als Afrikanische benannt, umgekehrt 0,2 Prozent.
+> Das Modell unterscheidet die beiden kaum, es fällt auf eine Art zurück. An der Zahl der
+> Testbilder liegt es nicht, von den Asiatischen gibt es sogar mehr.
 
 **[Klick]**
 
-### Folie 24 — Can a big model teach a small one? · 0:50
+### Folie 24 — Can a big model teach a small one? · 0:45
 
 > Eine naheliegende Idee, um das kleine Modell besser zu machen: Knowledge Distillation.
-> Das große Ensemble ist der Lehrer, das kleine Modell der Schüler. In grau der Schüler,
-> der vom Lehrer gelernt hat.
+> Das große Ensemble ist der Lehrer, YOLO26n der Schüler. Hier noch einmal der Vergleich
+> von eben.
 
-**[Klick]**
+**[Klick]** *(YOLO26n, distilled)*
 
-> In grün derselbe Schüler, einfach direkt auf den Daten trainiert.
+> Und unten derselbe Schüler, der zusätzlich vom Lehrer gelernt hat: 47,9 Prozent,
+> also schlechter als ohne Lehrer, auch beim reinen Finden.
 
-**[Klick]**
+**[Klick]** *(„direct training wins: +5 pp species mAP“)*
 
-> Direktes Training gewinnt in jedem Band. Der Grund liegt in den Daten: Die Labels kamen
-> von SpeciesNet, also vom Lehrer selbst. Er kann dem Schüler kaum etwas beibringen, was
-> nicht schon in den Labels steht. Getestet habe ich allerdings nur eine Konfiguration.
+> Direktes Training gewinnt, um 5 Prozentpunkte. Der Grund liegt in den Daten: Die Labels
+> kamen von SpeciesNet, also vom Lehrer selbst. Er kann dem Schüler kaum etwas beibringen,
+> was nicht schon in den Labels steht. Getestet habe ich allerdings nur eine Konfiguration.
 
 **[Klick]**
 
@@ -498,6 +501,7 @@ Folie 22 (Modelle) nicht kürzen.
 | Wie kommt man auf Echtzeit? | Quantisierung, idealerweise quantisierungsbewusstes Training, dann der Integer-Pfad des Chips. Laut Hersteller schafft YOLO26n auf einem Raspberry Pi 5 etwa 68 ms. Gemessen habe ich das nicht. |
 | Warum nur ein Lauf pro Modell? | Jeder Lauf dauerte auf einer A40 zwischen 21 Stunden und 8,8 Tagen. Konfidenzintervalle fehlen deshalb, Unterschiede unter etwa 3 Prozentpunkten sind nicht belastbar. Im Generatorvergleich hat sich ein Abstand dieser Größe mit mehr Seeds sogar umgedreht (6,4 → 9,0 → 10,5 %). |
 | Warum stehen auf Folie 19 andere Bandwerte als in der Arbeit (30,0 / 58,8 / 59,1 / 74,2 %)? | Die Folie zeigt den Mittelwert der AP pro Klasse aus der gemeinsamen Auswertung aller 225 Klassen, also genau die Punkte. Die Tabelle der Arbeit wertet jedes Band nur auf seinen eigenen Bildern aus; Fehlalarme auf Bildern anderer Bänder zählen dort nicht. |
+| Wie sind die Verwechslungsanteile auf Folie 23 berechnet? | Pro Art: von allen Detektionen, die ein echtes Tier dieser Art richtig lokalisieren (IoU ≥ 0,5) und in der richtigen Ähnlichkeitsgruppe landen, der Anteil mit der falschen Art. Gleiches Matching wie die Auswertung der Arbeit, nur pro Art statt pro Gruppe ausgezählt, auf den echten Testfotos. |
 | Warum ist das Ensemble eine Obergrenze? | MegaDetector hat die Ground-Truth-Boxen erzeugt. Beim Ensemble ist mAP gleich mAP50, was kein anderer Detektor erreicht. Die Lokalisierung wird also teilweise gegen die eigene Ausgabe bewertet. |
 | Warum ursprünglich ein gemischtes Testset? | Die 50 synthetischen Testbilder pro Klasse sollten seltene Klassen mit wenigen echten Testbildern stabilisieren. Die Analyse hat gezeigt, dass sie alle Werte nach oben verzerren, deshalb nur reale Werte. |
 | Wurden die synthetischen Bilder automatisch annotiert? | Ja, die Boxen kamen von MegaDetector. Im Generatorvergleich betrifft das alle Konfigurationen gleich, die Rangfolge bleibt gültig, die absoluten Werte sind vorläufig. |

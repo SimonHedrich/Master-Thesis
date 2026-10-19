@@ -99,6 +99,8 @@ Inputs that are not in git:
   - `real_test_{grevys,mountain,plains}_zebra.jpg`: one-zebra photos from the real test
     split (`real/annotations_test.json`, single box): `gbif_grevy's_zebra_00075`,
     `gbif_mountain_zebra_00069`, `gbif_plains_zebra_00064`
+  - `synthetic_{asian,african}_elephant.jpg`: synthetic test images
+    `synthetic/images/test/{asian,african}_elephant/t_*_elephant_{009,008}.png`
 
 ## Render, present, export
 
