@@ -425,3 +425,5 @@ COMPARISON_CLASSES = [
 # the run's predictions_real.json (GPU server, 2026-10-19); on the mixed set the same call
 # reproduces the report's 0.193 (tier2_within_group_confusion.overall_confusion_rate).
 WITHIN_GROUP_CONFUSION_REAL = (5528, 28000)  # 19.7 %
+# The same, per look-alike group (real test set): confused / matched.
+WITHIN_GROUP_CONFUSION_REAL_GROUPS = {"zebras": (147, 1538), "elephants": (1547, 2957)}  # 9.6 %, 52.3 %

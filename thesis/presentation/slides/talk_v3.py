@@ -1,8 +1,8 @@
 """Final thesis presentation, version 3: talk_v2 cut down towards 20 minutes.
 
 Same six acts as talk_v2.py. Changes: Swarovski Optik logo and the BirdID clip on the
-product slide, the model ensemble folded into the MammalID slide (with YOLOv5 as the
-detector in the AX Visio), the prompt and the production-set wall moved before the
+product slide instead of a BirdID slide, the model ensemble folded into the MammalID
+slide (with YOLOv5 as the detector in the AX Visio), the prompt and the production-set wall moved before the
 zebras, a twelve-species slide before the generator ranking, no rare-animals slide, and
 a summary with six named steps. Scene names end in 3 so v2's slide files stay intact.
 Images come from thesis/presentation/images/ (built by collect_images.py); numbers from
@@ -237,7 +237,7 @@ class UseCase3(Talk3):
         shop = photo(IMG / "deck/shop_ax_visio.png", width=12.4, radius=0.02).move_to(DOWN * 0.25)
         # the Swarovski Optik logo over the web page's own logo, top left
         so = photo(IMG / "deck/swarovski_optik_logo.png", height=1.35, radius=0.04)
-        so.move_to(shop.get_corner(UL) + np.array([0.55, -0.55, 0]))
+        so.move_to(shop.get_corner(UL) + np.array([0.3, -0.55, 0]))
         note = copyright_note().next_to(shop, DOWN, buff=0.1).align_to(shop, LEFT)
         self.play(FadeIn(shop, scale=0.96), FadeIn(so), FadeIn(note))
         self.next_slide()
@@ -246,46 +246,11 @@ class UseCase3(Talk3):
         frames = video_frames(clip, 1280)
         vid = ImageMobject(str(frames[0])).scale_to_fit_width(6.6)
         vid.move_to([FRAME_W / 2 - 0.3, -FRAME_H / 2 + 0.3, 0], aligned_edge=DR)
-        rim = RoundedRectangle(corner_radius=0.12, width=vid.width + 0.06, height=vid.height + 0.06).set_stroke(WHITE, 3).move_to(vid)
-        self.play(FadeIn(vid, scale=0.9), FadeIn(rim), run_time=0.4)
+        self.play(FadeIn(vid, scale=0.9), run_time=0.4)
         self.play(PlayVideo(vid, frames))
         self.page()
 
-        # 3 — BirdID: optics and display meet in the eyepiece
-        self.play(FadeIn(title("BirdID")))
-        bird = photo(IMG / "usecase/barn_swallow.png", height=1.7).move_to([-4.6, 0.95, 0])
-        bird_l = pill("bird", 20).next_to(bird, LEFT, buff=0.15).align_to(bird, UP)
-        cam = photo(IMG / "nda/ax_visio.jpg", height=1.9).move_to([-0.9, 1.0, 0])
-        cam_l = pill("camera", 20).next_to(cam, DOWN, buff=0.15)
-        nn = Group(card(1.6, 1.6), photo(IMG / "deck/icon_neural_net.png", height=1.3, radius=0)).move_to([3.4, 1.0, 0])
-        nn_l = pill("neural network", 20).next_to(nn, DOWN, buff=0.15)
-        overlay = photo(IMG / "nda/overlay_display.png", height=1.55).move_to([3.4, -2.2, 0])
-        ov_l = pill("overlay display", 20).next_to(overlay, DOWN, buff=0.15)
-        view = photo(IMG / "nda/eyepiece_view.jpg", height=2.5, aspect=1.0, radius=0.5).move_to([-4.6, -1.95, 0])
-        view_l = pill("view through the eyepiece", 20).move_to([-1.0, -2.75, 0])
-        result = pill("Barn swallow", 24, fill=GREEN, bold=True).move_to(view.get_bottom() + UP * 0.25)
-
-        a_cam = arrow(bird.get_right(), cam.get_left())
-        a_nn = arrow(cam.get_right(), nn.get_left())
-        a_ov = arrow(nn_l.get_bottom(), overlay.get_top())
-        a_disp = arrow(overlay.get_left(), view.get_right())
-        a_opt = arrow(bird.get_bottom(), view.get_top(), buff=0.1)
-        opt_l = txt("optics", 18, MIST).next_to(a_opt, LEFT, buff=0.15)
-        disp_l = txt("display", 18, MIST).next_to(a_disp, UP, buff=0.08)
-
-        self.play(FadeIn(bird), FadeIn(bird_l))
-        self.play(Create(a_cam), FadeIn(cam), FadeIn(cam_l))
-        self.next_slide()
-        self.play(Create(a_nn), FadeIn(nn), FadeIn(nn_l))
-        self.play(Create(a_ov), FadeIn(overlay), FadeIn(ov_l))
-        self.next_slide()
-        self.play(FadeIn(view), Create(a_opt), FadeIn(opt_l))
-        self.play(Create(a_disp), FadeIn(disp_l), FadeIn(view_l))
-        self.play(FadeIn(result, scale=1.1))
-        self.snap("birdid")
-        self.page()
-
-        # 4 — MammalID: the AX Visio (the mode is pointed at by hand), then the model
+        # 3 — MammalID: the AX Visio (the mode is pointed at by hand), then the model
         # ensemble behind the mode in one go, then YOLOv5 as the detector in the device
         self.play(FadeIn(title("MammalID")))
         ax = photo(IMG / "deck/ax_visio_top.jpg", height=4.6, radius=0.04).move_to([-4.0, -0.4, 0])
@@ -309,15 +274,14 @@ class UseCase3(Talk3):
             Create(a2), FadeIn(out, scale=1.1), run_time=1.2,
         )
         self.next_slide()
-        # in the AX Visio a YOLOv5 model is the detector, not MegaDetector
-        strike = Line(md.get_left() + LEFT * 0.05, md.get_right() + RIGHT * 0.05).set_stroke(RED, 5)
+        # in the AX Visio a YOLOv5 model is the detector: MegaDetector greys out into the background
         yolo = pill("YOLOv5 · in the AX Visio", 20, fill=GREEN, bold=True).next_to(md, DOWN, buff=0.25)
         link = curved_arrow(ax.get_right() + DOWN * 1.2, yolo.get_left() + LEFT * 0.1, angle=0.5, color=GREEN)
-        self.play(md.animate.set_opacity(0.45), Create(strike))
+        self.play(md.animate.set_opacity(0.35))
         self.play(Create(link), FadeIn(yolo, shift=UP * 0.15))
         self.page()
 
-        # 5 — Three challenges (what each one means is said, not written)
+        # 4 — Three challenges (what each one means is said, not written)
         self.play(FadeIn(title("Three challenges")))
         items = [
             (icon(IMG / "deck/icon_image.png", 0.95), "Data"),
@@ -340,14 +304,14 @@ class UseCase3(Talk3):
 # =================================================================================
 class Data3(Talk3):
     def build(self):
-        # 6 — SpeciesNet's taxonomy
+        # 5 — SpeciesNet's taxonomy
         tree = photo(IMG / "data/taxonomy_hierarchy.png", height=5.2).move_to([-2.6, -0.4, 0])
         n = big_number("~2,500", "species SpeciesNet knows").move_to([3.7, 0.3, 0])
         self.play(FadeIn(title("SpeciesNet")), FadeIn(tree))
         self.play(FadeIn(n, shift=UP * 0.2))
         self.page()
 
-        # 7 — Hedgehogs: how fine to distinguish
+        # 6 — Hedgehogs: how fine to distinguish
         hedgehogs = sorted((IMG / "data/hedgehogs").glob("*.*"))
         grid = collage(hedgehogs, cols=6, cell_w=2.05).move_to(DOWN * 0.35)
         lbl = pill("17 species  →  1 class", 34, fill=GREEN, bold=True).move_to(grid).shift(DOWN * 0.3)
@@ -356,7 +320,7 @@ class Data3(Talk3):
         self.play(FadeIn(lbl, scale=1.15))
         self.page()
 
-        # 8 — 225 custom classes: every name, grouped by order (shown, not meant to be read)
+        # 7 — 225 custom classes: every name, grouped by order (shown, not meant to be read)
         self.play(FadeIn(title("225 Custom Classes")))
         lines, heads_ = [], set()
         for order, names in D.CLASS_TABLE.items():
@@ -384,7 +348,7 @@ class Data3(Talk3):
         self.play(LaggedStart(*[FadeIn(col, shift=UP * 0.15) for col in table], lag_ratio=0.15), run_time=2.2)
         self.page()
 
-        # 9 — Images per class: GBIF, then four more sources, each in its own colour
+        # 8 — Images per class: GBIF, then four more sources, each in its own colour
         self.play(FadeIn(title("Images per class")))
         counts = D.gbif_counts()
         chart_w, chart_h = 12.4, 4.6
@@ -444,7 +408,7 @@ class Data3(Talk3):
         self.snap("images_per_class")
         self.page()
 
-        # 10 — Data quality: not every "animal" is an animal (photos shown uncropped)
+        # 9 — Data quality: not every "animal" is an animal (photos shown uncropped)
         rejects = [photo(p, height=2.25, radius=0.04) for p in sorted((IMG / "data").glob("reject_*"))]
         rows_ = Group(Group(*rejects[:4]).arrange(RIGHT, buff=0.15), Group(*rejects[4:]).arrange(RIGHT, buff=0.15))
         for r in rows_:
@@ -467,7 +431,7 @@ class Data3(Talk3):
 # =================================================================================
 class Generative3(Talk3):
     def build(self):
-        # 11 — Local generators vs Gemini (binturong)
+        # 10 — Local generators vs Gemini (binturong)
         B = IMG / "generators/binturong"
         cols = [
             ("Real", [B / f"binturong_real_{i}.jpg" for i in (1, 2, 3)], SKY),
@@ -492,7 +456,7 @@ class Generative3(Talk3):
         self.snap("local_vs_gemini")
         self.page()
 
-        # 12 — Prompt: the full prompt first, then ever shorter ones
+        # 11 — Prompt: the full prompt first, then ever shorter ones
         self.play(FadeIn(title("Prompt")))
         regimes = [
             ("full", "prompt_full_gemini.jpg", "Gemini", "full · 4,642 words"),
@@ -516,12 +480,12 @@ class Generative3(Talk3):
             self.play(FadeIn(im), FadeIn(tag), GrowFromEdge(pc, UP), run_time=0.8)
         self.page()
 
-        # 13 — The production set (no caption: the pictures speak)
+        # 12 — The production set (no caption: the pictures speak)
         sheet = photo(IMG / "generators/grevys_synthetic_wall.png", width=FRAME_W - 0.6, radius=0).move_to(DOWN * 0.25)
         self.play(FadeIn(sheet, scale=1.05), run_time=1.2)
         self.page()
 
-        # 14 — Three zebras: details decide; the generator's name comes in on the click
+        # 13 — Three zebras: details decide; the generator's name comes in on the click
         zs = Group()
         for path, name in (("zebra_grevys_gemini.png", "Grévy's zebra"), ("zebra_mountain_gemini.png", "Mountain zebra"), ("zebra_plains_gemini.png", "Plains zebra")):
             ph = photo(IMG / "generators" / path, width=4.1, aspect=4 / 3)
@@ -532,20 +496,20 @@ class Generative3(Talk3):
         self.play(FadeIn(title("Gemini 3.1 Flash Image"), shift=UP * 0.15))
         self.page()
 
-        # 15 — The twelve species of the generator comparison (one gpt-image-2 low picture each)
+        # 14 — The twelve species of the generator comparison (one gpt-image-2 low picture each)
         head = title("Training Images Comparison")
         self.play(FadeIn(head))
         T = IMG / "generators/twelve"
         animals = Group()
         for folder, name in D.COMPARISON_CLASSES:
             ph = photo(T / f"{folder}.png", width=2.15, aspect=4 / 3)
-            animals.add(Group(ph, pill(name, 15).move_to(ph.get_corner(DL), aligned_edge=DL).shift(UR * 0.08)))
-        animals.arrange_in_grid(rows=2, cols=6, buff=(0.12, 0.15)).move_to(DOWN * 0.5)
+            animals.add(Group(ph, pill(name, 15).move_to(ph.get_bottom() + UP * 0.05)))  # centred, slightly on the picture
+        animals.arrange_in_grid(rows=2, cols=6, buff=(0.12, 0.35)).move_to(DOWN * 0.5)
         self.play(LaggedStart(*[FadeIn(a, scale=0.95) for a in animals], lag_ratio=0.08), run_time=1.4)
         self.next_slide()
         self.play(FadeOut(animals))
 
-        # 16 — Training images comparison: detector accuracy per generator, cost per image and
+        # 15 — Training images comparison: detector accuracy per generator, cost per image and
         # prompt length, the same lion from six generators; then the two compressed-prompt
         # cells drop into the ranking.
         vmax, L, bars_x = 0.15, 2.9, -3.0
@@ -624,7 +588,7 @@ class Generative3(Talk3):
 # =================================================================================
 class Bands3(Talk3):
     def build(self):
-        # 17 — Final dataset, built up: real images → bands → synthetic train → synthetic test
+        # 16 — Final dataset, built up: real images → bands → synthetic train → synthetic test
         head = title("Final Dataset")
         self.play(FadeIn(head))
         with open(REPO / "reports/class_split_counts.csv") as f:
@@ -694,7 +658,7 @@ class Bands3(Talk3):
         self.play(FadeIn(leg["synthetic test"]), LaggedStart(*[GrowFromEdge(t, DOWN) for t in tests], lag_ratio=0.004), run_time=1.6)
         self.next_slide()
 
-        # 18 — Results on top of the same chart: the dataset greys out, the bands stay
+        # 17 — Results on top of the same chart: the dataset greys out, the bands stay
         bars_all = VGroup(*cols, tests)
         map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((200, 400, 600, 800), img_labels)])
         note = txt("YOLO26n · mAP on real photos", 18, MIST).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
@@ -719,7 +683,7 @@ class Bands3(Talk3):
         self.play(FadeIn(vals))
         self.snap("band_results")
         self.next_slide()
-        # Per-class AP as dots, each at its own column; white line = band mean (the bar top)
+        # Per-class AP as dots, each at its own column (the bar top is the band mean)
         pc = {name: v for items in per_class.values() for name, v in items}
         dots, special = VGroup(), {}
         for i, r in enumerate(rows):
@@ -730,13 +694,8 @@ class Bands3(Talk3):
             if r["class"] in ("striped hyaena", "mangabeys genus"):
                 special[r["class"]] = d
             dots.add(d)
-        meds = VGroup()
-        for b, med in band_map.items():
-            x_lo, x_hi = spans[b]
-            meds.add(Line([x_lo + 0.08, base + med * chart_h, 0], [x_hi - 0.08, base + med * chart_h, 0]).set_stroke(WHITE, 5))
         self.play(res.animate.set_fill(GREEN, 0.18), FadeOut(vals))
         self.play(LaggedStart(*[GrowFromCenter(d) for d in dots], lag_ratio=0.004), run_time=1.6)
-        self.play(*[Create(m) for m in meds])
         self.next_slide()
         hy = labelled(photo(IMG / "bands/synthetic_striped_hyaena.png", height=1.15, aspect=4 / 3), f"hyaena · AP {D.pct(pc['striped hyaena'], 0)}", DL, 12)
         mg = labelled(photo(IMG / "bands/synthetic_mangabeys.png", height=1.15, aspect=4 / 3), f"mangabeys · AP {D.pct(pc['mangabeys genus'], 0)}", DL, 12)
@@ -751,13 +710,15 @@ class Bands3(Talk3):
         self.play(FadeIn(pair), FadeIn(foot), Create(l1), Create(l2))
         self.page()
 
-        # 19 — Test data: three synthetic test images against three real photos
+        # 18 — Test data: three synthetic test images against three real photos
         G = IMG / "generators"
         syn = Group(*[photo(G / f, height=2.05, aspect=4 / 3) for f in ("zebra_grevys_gemini.png", "zebra_mountain_gemini.png", "zebra_plains_gemini.png")]).arrange(RIGHT, buff=0.15)
         real = Group(*[photo(IMG / "bands" / f, height=2.05, aspect=4 / 3) for f in ("real_test_grevys_zebra.jpg", "real_test_mountain_zebra.jpg", "real_test_plains_zebra.jpg")]).arrange(RIGHT, buff=0.15)
-        sl = pill("synthetic test images", 20, fill=SYNTH_TEST).move_to(syn.get_corner(DL), aligned_edge=DL).shift(UR * 0.12)
-        rl = pill("real photos", 20, fill=SKY).move_to(real.get_corner(DL), aligned_edge=DL).shift(UR * 0.12)
-        block = Group(Group(syn, sl), Group(real, rl)).arrange(DOWN, buff=0.3).move_to(DOWN * 0.4)
+        sl = pill("synthetic test images", 20, fill=SYNTH_TEST)
+        sl.move_to(syn.get_bottom() + UP * 0.08).align_to(syn, LEFT).shift(RIGHT * 0.12)  # slightly on the picture
+        rl = pill("real photos", 20, fill=SKY)
+        rl.move_to(real.get_bottom() + UP * 0.08).align_to(real, LEFT).shift(RIGHT * 0.12)
+        block = Group(Group(syn, sl), Group(real, rl)).arrange(DOWN, buff=0.35).move_to(DOWN * 0.4)
         self.play(FadeIn(title("Test Data")), LaggedStart(*[FadeIn(t, shift=UP * 0.15) for t in syn], lag_ratio=0.2), FadeIn(sl))
         self.play(LaggedStart(*[FadeIn(t, shift=UP * 0.15) for t in real], lag_ratio=0.2), FadeIn(rl))
         self.next_slide()
@@ -792,7 +753,7 @@ def band_glyph(band: str, size: float = 0.17) -> VGroup:
 
 MODEL_ORDER = ["Ensemble, off the shelf", "Ensemble, fine-tuned", "YOLOv5s", "YOLO26n"]
 # names on the slide (data.py keeps the names of the thesis tables)
-MODEL_LABEL = {"Ensemble, off the shelf": "MD+SN", "Ensemble, fine-tuned": "MD+SN, SN fine-tuned"}
+MODEL_LABEL = {"Ensemble, off the shelf": "MD+SN, off the shelf", "Ensemble, fine-tuned": "MD+SN, SN fine-tuned"}
 
 
 def accuracy_chart(order: list[str], extra: bool = False) -> dict:
@@ -826,15 +787,19 @@ def accuracy_chart(order: list[str], extra: bool = False) -> dict:
         c_ = colors.get(name, GREEN)
         dot = Circle(radius=0.32 * np.sqrt(p / 193)).set_fill(c_, 0.45 if c_ == BLUE else 0.9).set_stroke(MIST if c_ == BLUE else c_, 2)
         dots.add(dot.move_to([4.05, y - 0.07, 0]))
-    leg = VGroup(pill("species mAP", 18, fill=MIST), pill("detection mAP (any animal)", 18, fill=WHITE))
-    leg.arrange(RIGHT, buff=0.2).move_to([LEFT_X, 2.05, 0], aligned_edge=LEFT)
+    # legend = a sample of each bar (thick species bar, thin translucent detection bar), so it reads like the chart
+    leg = VGroup(
+        VGroup(hbar(1, 1, 0.6, h=0.42, color=MIST, opacity=0.75), txt("species mAP", 18)).arrange(RIGHT, buff=0.15),
+        VGroup(hbar(1, 1, 0.6, h=0.18, color=WHITE, opacity=0.4), txt("detection mAP (any animal)", 18, MIST)).arrange(RIGHT, buff=0.15),
+    )
+    leg.arrange(RIGHT, buff=0.5).move_to([LEFT_X, 2.05, 0], aligned_edge=LEFT)
     watch = stopwatch(0.32).next_to(side, UP, buff=0.25)
     return {"leg": leg, "rows": rows, "side": side, "watch": watch, "dots": dots}
 
 
 class Models3(Talk3):
     def build(self):
-        # 20 — Three candidates
+        # 19 — Three candidates
         head = title("Three candidates")
         self.play(FadeIn(head))
         R = 2.45
@@ -852,7 +817,7 @@ class Models3(Talk3):
         self.play(*[FadeIn(c[1]) for c in circles], *[FadeIn(c[2]) for c in circles])
         self.next_slide()
 
-        # 21 — Accuracy (species mAP), then detection mAP, size and time per frame. The
+        # 20 — Accuracy (species mAP), then detection mAP, size and time per frame. The
         # candidate circles shrink into a column next to their rows (the ensemble twice).
         chart = accuracy_chart(MODEL_ORDER)
         leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
@@ -882,7 +847,7 @@ class Models3(Talk3):
         self.snap("models")
         self.page()
 
-        # 22 — Similar species: the zebras, then how often each is named as another; then the elephants
+        # 21 — Similar species: the zebras, then how often each is named as another; then the elephants
         self.play(FadeIn(title("Similar Species")))
         conf = {(t, p_): n_ / m_ for t, p_, n_, m_ in D.SPECIES_CONFUSION_REAL}
         zeb = Group()
@@ -908,9 +873,12 @@ class Models3(Talk3):
         cfoot = txt("share of a species' found animals named as the other species · YOLO26n, real test photos", 14, MIST).to_corner(DL, buff=0.3)
         self.play(LaggedStart(*[FadeIn(z, shift=UP * 0.15) for z in zeb], lag_ratio=0.2), run_time=1.2)
         self.next_slide()
-        n_conf, n_match = D.WITHIN_GROUP_CONFUSION_REAL
-        overall = pill(f"all look-alike groups: {D.pct(n_conf / n_match)} confused", 22).move_to([FRAME_W / 2 - 0.4, title("x").get_y(), 0], aligned_edge=RIGHT)
-        self.play(LaggedStart(*[Create(l_[0]) for l_ in links], lag_ratio=0.2), *[FadeIn(l_[1]) for l_ in links], FadeIn(cfoot), FadeIn(overall), run_time=1.4)
+        def group_rate(group):  # the look-alike group's confusion rate, top right
+            n_conf, n_match = D.WITHIN_GROUP_CONFUSION_REAL_GROUPS[group]
+            return pill(f"{group}: {D.pct(n_conf / n_match)} confused", 22).move_to([FRAME_W / 2 - 0.4, title("x").get_y(), 0], aligned_edge=RIGHT)
+
+        rate = group_rate("zebras")
+        self.play(LaggedStart(*[Create(l_[0]) for l_ in links], lag_ratio=0.2), *[FadeIn(l_[1]) for l_ in links], FadeIn(cfoot), FadeIn(rate), run_time=1.4)
         self.next_slide()
         asian = labelled(photo(IMG / "models/synthetic_asian_elephant.jpg", height=3.0, aspect=4 / 3), f"Asian elephant · band {D.SPECIES_BAND['Asian elephant']}", DL, 20).move_to([-3.2, -0.9, 0])
         african = labelled(photo(IMG / "models/synthetic_african_elephant.jpg", height=3.0, aspect=4 / 3), f"African elephant · band {D.SPECIES_BAND['African elephant']}", DR, 20).move_to([3.6, -0.9, 0])
@@ -919,13 +887,13 @@ class Models3(Talk3):
         fl = pill(D.pct(conf[("Asian elephant", "African elephant")]), 30, fill=GREEN, bold=True).next_to(fwd, UP, buff=0.05)
         rl = pill(D.pct(conf[("African elephant", "Asian elephant")]), 22).next_to(rev, DOWN, buff=0.02)
         syn = txt("pictures: synthetic test images", 14, MIST).to_corner(DR, buff=0.3)
-        self.play(FadeOut(zeb), FadeOut(links))
+        self.play(FadeOut(zeb), FadeOut(links), Transform(rate, group_rate("elephants")))
         self.play(FadeIn(asian), FadeIn(african), FadeIn(syn))
         self.play(Create(fwd), FadeIn(fl))
         self.play(Create(rev), FadeIn(rl))
         self.page()
 
-        # 23 — Knowledge distillation: can the big model teach the small one? The accuracy chart again, plus the distilled student
+        # 22 — Knowledge distillation: can the big model teach the small one? The accuracy chart again, plus the distilled student
         self.play(FadeIn(title("Knowledge Distillation")))
         chart = accuracy_chart(MODEL_ORDER, extra=True)
         leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
@@ -971,7 +939,7 @@ def _content_crop(path):
 
 class Summary3(Talk3):
     def build(self):
-        # 24 — Summary
+        # 23 — Summary
         self.play(FadeIn(title("Summary")))
         tw, aspect = 4.0, 16 / 9 / 0.8  # snapshots minus their top 20 % (logo and title)
         cells = Group()
