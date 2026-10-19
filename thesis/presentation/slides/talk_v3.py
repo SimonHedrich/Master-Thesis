@@ -788,8 +788,9 @@ class Bands3(Talk3):
             Restore(bars_all), Transform(img_labels, count_labels), Transform(head, title("Test Data")),
             *[FadeIn(leg[k]) for k in ("real train", "synthetic train", "real test", "synthetic test")],
         )
-        not_synth_test = VGroup(*[c[k] for c in cols for k in (0, 1, 2)])
-        self.play(not_synth_test.animate.set_opacity(0.15), leg["synthetic test"].animate.scale(1.1, about_edge=RIGHT))
+        # both test sets lit (their comparison is what the slide is about), training greyed out
+        train = VGroup(*[c[k] for c in cols for k in (0, 1)])
+        self.play(train.animate.set_opacity(0.15), leg["real train"].animate.set_opacity(0.35), leg["synthetic train"].animate.set_opacity(0.35))
         self.next_slide()
         G = IMG / "generators"
         syn = Group(*[photo(G / f, height=2.05, aspect=4 / 3) for f in ("zebra_grevys_gemini.png", "zebra_mountain_gemini.png", "zebra_plains_gemini.png")]).arrange(RIGHT, buff=0.15)

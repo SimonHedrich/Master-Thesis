@@ -259,9 +259,10 @@ Elefanten auf Folie 21 weglassen.
 > In Band A schafft die Streifenhyäne 48 Prozent, die Mangaben fast null. Meine
 > Hypothese: Einheitlich aussehende Arten lassen sich gut generieren, vielfältige nicht.
 
-**[Klick]** *(der Datensatz noch einmal, die synthetischen Testbilder hell)*
+**[Klick]** *(der Datensatz noch einmal, echte und synthetische Testbilder hell)*
 
-> Zurück zum Datensatz: Was ist mit den gelben, synthetischen Testbildern?
+> Zurück zum Datensatz: Wie schneiden die gelben, synthetischen Testbilder im Vergleich zu
+> den echten ab?
 
 **[Klick]** *(die beiden Test-Etiketten wandern zu den Zebras)*
 
