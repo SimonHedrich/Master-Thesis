@@ -10,7 +10,7 @@
 >
 > Open `build/talk_v3.html` in the browser and press `F` for full screen (← / → to navigate).
 > `--offline` also stores reveal.js locally, so no internet is needed. To present from
-> another machine, copy `talk_v3.html` **and** the `talk_v3_assets/` folder next to it (~400 MB
+> another machine, copy `talk_v3.html` **and** the `talk_v3_assets/` folder next to it (~200 MB
 > at 4K). The v2 deck as shown on 2026-10-19 stays available as `build/talk_v2.html`
 > (+ `talk_v2_assets/`), built from the v2 scenes `UseCase DataV2 Generative Bands2 ModelsV2 Summary`.
 
