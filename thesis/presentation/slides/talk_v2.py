@@ -42,6 +42,7 @@ from manim import (
     Line,
     Rectangle,
     RoundedRectangle,
+    Square,
     SurroundingRectangle,
     Transform,
     VGroup,
@@ -129,9 +130,6 @@ class Talk2(Slide):
         SNAPS.mkdir(parents=True, exist_ok=True)
         Image.fromarray(self.renderer.get_frame()).convert("RGB").save(SNAPS / f"{name}.png")
 
-    @staticmethod
-    def nda():
-        return pill("NDA", 16).to_corner(UR, buff=0.3)
 
 
 def disc(inner, r: float = 0.95) -> Group:
@@ -194,7 +192,7 @@ class UseCase(Talk2):
         self.page()
 
         # 3 — BirdID: optics and display meet in the eyepiece
-        self.play(FadeIn(title("BirdID")), FadeIn(self.nda()))
+        self.play(FadeIn(title("BirdID")))
         bird = photo(IMG / "usecase/barn_swallow.png", height=1.7).move_to([-4.6, 0.95, 0])
         bird_l = pill("bird", 20).next_to(bird, LEFT, buff=0.15).align_to(bird, UP)
         cam = photo(IMG / "nda/ax_visio.jpg", height=1.9).move_to([-0.9, 1.0, 0])
@@ -228,7 +226,7 @@ class UseCase(Talk2):
         self.page()
 
         # 4 — MammalID, laid out as in the interim deck (slide 6)
-        self.play(FadeIn(title("MammalID")), FadeIn(self.nda()))
+        self.play(FadeIn(title("MammalID")))
         c, w, h = pptx_box(0.47, 1.73, 2.99, 2.1)
         dial = photo(IMG / "nda/mode_dial.png", width=w, aspect=w / h).move_to(c)
         c, w, h = pptx_box(2.06, 1.83, 0.38, 0.35)
@@ -610,9 +608,9 @@ class Bands2(Talk2):
             rows = list(csv.DictReader(f))
         order = {"A": 0, "B": 1, "C": 2, "D": 3}
         rows.sort(key=lambda r: (order[r["band"]], int(r["effective_pool"])))
-        # linear axis cut at 1,200 images so bands A–C read large; band D columns (up to
+        # linear axis cut at 1,000 images so bands A–C read large; band D columns (up to
         # 1,500 real train + 500 real test + 50 synthetic test = 2,050) are clipped at the top
-        cap, chart_h, left, width, base = 1200, 4.0, -5.6, 12.1, -2.9
+        cap, chart_h, left, width, base = 1000, 4.0, -5.6, 12.1, -2.9
         bw = width / len(rows)
 
         def stack(i, parts):
@@ -631,7 +629,7 @@ class Bands2(Talk2):
             cols.append(VGroup(*stack(i, [(0, GREEN), (tr, MIST), (te, MIST), (0, SYNTH_TEST)])))
             after.append(stack(i, [(ts, GREEN), (tr, MIST), (te, SKY), (50, SYNTH_TEST)]))  # 50 synthetic test images per class
         grid, img_labels = VGroup(), VGroup()
-        for v in (300, 600, 900, 1200):
+        for v in (250, 500, 750, 1000):
             yy = base + v / cap * chart_h
             ln = Line([left, yy, 0], [left + width, yy, 0]).set_stroke(MIST, 1, 0.2)
             grid.add(ln)
@@ -653,9 +651,8 @@ class Bands2(Talk2):
         }
         VGroup(*[leg[k] for k in ("real train", "synthetic train", "real test", "synthetic test")]).arrange(RIGHT, buff=0.18).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
         leg["real"].move_to(leg["real train"], aligned_edge=LEFT)
-        cut = txt("cut at 1,200 · largest classes reach 2,050", 15, MIST).move_to([sum(spans["D"]) / 2, base + chart_h + 0.22, 0])
         # step 1: the real images per class
-        self.play(FadeIn(grid), FadeIn(img_labels), FadeIn(leg["real"]), FadeIn(cut))
+        self.play(FadeIn(grid), FadeIn(img_labels), FadeIn(leg["real"]))
         self.play(LaggedStart(*[GrowFromEdge(VGroup(c[1], c[2]), DOWN) for c in cols], lag_ratio=0.006), run_time=2.2)
         self.next_slide()
         # step 2: the bands
@@ -676,13 +673,12 @@ class Bands2(Talk2):
 
         # 19 — Results on top of the same chart: the dataset greys out, the bands stay
         bars_all = VGroup(*cols, tests)
-        map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((300, 600, 900, 1200), img_labels)])
+        map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((250, 500, 750, 1000), img_labels)])
         note = txt("YOLO26n · mAP on real photos", 18, MIST).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
         self.play(
             Transform(head, title("Recognition Results")),
             bars_all.animate.set_fill(MIST, 0.16),
             *[FadeOut(leg[k]) for k in ("real", "synthetic train", "real test", "synthetic test")],
-            FadeOut(cut),
             Transform(img_labels, map_labels),
             FadeIn(note),
         )
@@ -751,7 +747,7 @@ class Bands2(Talk2):
             r = vbar(D.BAND_REAL_TEST[b], 1.0, L, w=0.6, color=SKY).move_to([x + 0.33, base, 0], aligned_edge=DOWN)
             sv = txt(D.pct(D.BAND_SYNTH_TEST[b], 0), 16, MIST).next_to(s, UP, buff=0.08)
             rv = txt(D.pct(D.BAND_REAL_TEST[b], 0), 16).next_to(r, UP, buff=0.08)
-            lab = txt(b, 28, bold=True).move_to([x, base - 0.4, 0])
+            lab = VGroup(txt(b, 28, bold=True), band_glyph(b)).arrange(RIGHT, buff=0.14).move_to([x, base - 0.4, 0])
             bars.add(VGroup(s, r, sv, rv, lab))
         leg2 = VGroup(pill("synthetic test · mAP", 18, fill=SYNTH_TEST), pill("real test · mAP", 18, fill=SKY)).arrange(RIGHT, buff=0.2)
         leg2.next_to(bars, UP, buff=0.35).align_to(bars, LEFT).shift(UP * 0.4)
@@ -764,6 +760,13 @@ class Bands2(Talk2):
 # =================================================================================
 # Act 5 — Models: accuracy, size and speed on embedded hardware
 # =================================================================================
+def band_glyph(band: str, size: float = 0.17) -> VGroup:
+    """Training-set composition of a band as squares: green = 100 synthetic, white = 100 real
+    images (A: 200 synthetic, B: 100 + 100, C: 200 real, D: many real)."""
+    fills = {"A": [GREEN, GREEN], "B": [GREEN, WHITE], "C": [WHITE, WHITE], "D": [WHITE] * 5}[band]
+    return VGroup(*[Square(side_length=size).set_fill(f, 1).set_stroke(width=0) for f in fills]).arrange(RIGHT, buff=0.04)
+
+
 MODEL_ORDER = ["Ensemble, off the shelf", "Ensemble, fine-tuned", "YOLOv5s", "YOLO26n"]
 
 
@@ -780,7 +783,8 @@ def accuracy_chart(order: list[str], extra: bool = False) -> dict:
         entries.append((name, m, p, t, D.MODEL_DISTILLED_DETECT))
     L, vmax, x0 = 5.0, 1.0, -2.4
     step = 0.95 if extra else 1.15
-    rows, side = VGroup(), VGroup()
+    rows, side, dots = VGroup(), VGroup(), VGroup()
+    colors = {"Ensemble, off the shelf": BLUE, "Ensemble, fine-tuned": BLUE, "YOLOv5s": MIST}
     for k, (name, m, p, t, det) in enumerate(entries):
         y = 1.15 - k * step
         hi = name == "YOLO26n"
@@ -793,16 +797,21 @@ def accuracy_chart(order: list[str], extra: bool = False) -> dict:
         rows.add(VGroup(lab, bar, val, dbar, dval))
         sec = f"{t:.0f} s" if t >= 10 else f"{t:.2f} s"
         side.add(pill(f"{p:g} M · {sec}", 20, fill=GREEN if hi else WHITE).move_to([5.6, y - 0.07, 0]))
+        # the candidate circles, small: area still proportional to the parameter count
+        c_ = colors.get(name, GREEN)
+        dot = Circle(radius=0.32 * np.sqrt(p / 193)).set_fill(c_, 0.45 if c_ == BLUE else 0.9).set_stroke(MIST if c_ == BLUE else c_, 2)
+        dots.add(dot.move_to([4.05, y - 0.07, 0]))
     leg = VGroup(pill("species mAP", 18, fill=MIST), pill("detection mAP (any animal)", 18, fill=WHITE))
     leg.arrange(RIGHT, buff=0.2).move_to([LEFT_X, 2.05, 0], aligned_edge=LEFT)
     watch = stopwatch(0.32).next_to(side, UP, buff=0.25)
-    return {"leg": leg, "rows": rows, "side": side, "watch": watch}
+    return {"leg": leg, "rows": rows, "side": side, "watch": watch, "dots": dots}
 
 
 class ModelsV2(Talk2):
     def build(self):
         # 21 — Three candidates
-        self.play(FadeIn(title("Three candidates")))
+        head = title("Three candidates")
+        self.play(FadeIn(head))
         R = 2.45
         specs = [("MegaDetector + SpeciesNet", 193, "193 M", -2.6, BLUE), ("YOLOv5s", 7.63, "7.6 M", 2.7, MIST), ("YOLO26n", 2.71, "2.7 M", 5.0, GREEN)]
         circles = VGroup()
@@ -816,12 +825,21 @@ class ModelsV2(Talk2):
             circles.add(VGroup(c, n, lab))
         self.play(LaggedStart(*[GrowFromCenter(c[0]) for c in circles], lag_ratio=0.4), run_time=1.8)
         self.play(*[FadeIn(c[1]) for c in circles], *[FadeIn(c[2]) for c in circles])
-        self.page()
+        self.next_slide()
 
-        # 22 — Accuracy (species mAP), then detection mAP, size and time per frame
-        self.play(FadeIn(title("Accuracy on real photos (mAP)")))
+        # 22 — Accuracy (species mAP), then detection mAP, size and time per frame. The
+        # candidate circles shrink into a column next to their rows (the ensemble twice).
         chart = accuracy_chart(MODEL_ORDER)
         leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
+        ens2 = circles[0][0].copy()
+        self.add(ens2)
+        sources = [circles[0][0], ens2, circles[1][0], circles[2][0]]
+        self.play(
+            Transform(head, title("Accuracy on real photos (mAP)")),
+            *[FadeOut(c[1]) for c in circles], *[FadeOut(c[2]) for c in circles],
+            *[Transform(src, dot) for src, dot in zip(sources, chart["dots"])],
+            run_time=1.4,
+        )
         self.play(FadeIn(leg[0]), LaggedStart(*[FadeIn(r[0]) for r in rows], lag_ratio=0.1))
         self.play(LaggedStart(*[GrowFromEdge(r[1], LEFT) for r in rows], lag_ratio=0.15), run_time=1.5)
         self.play(*[FadeIn(r[2]) for r in rows])
@@ -844,9 +862,9 @@ class ModelsV2(Talk2):
         conf = {(t, p_): n_ / m_ for t, p_, n_, m_ in D.SPECIES_CONFUSION_REAL}
         zeb = Group()
         for name, f in (("Grévy's zebra", "real_test_grevys_zebra.jpg"), ("Mountain zebra", "real_test_mountain_zebra.jpg"), ("Plains zebra", "real_test_plains_zebra.jpg")):
-            ph = photo(IMG / "bands" / f, height=2.4, aspect=4 / 3)
-            zeb.add(Group(ph, pill(f"{name} · AP {D.pct(D.ZEBRA_AP[name])}", 18).next_to(ph, DOWN, buff=0.18)))
-        zeb.arrange(RIGHT, buff=1.25).move_to(DOWN * 0.55)
+            ph = photo(IMG / "bands" / f, height=2.3, aspect=4 / 3)
+            zeb.add(Group(ph, pill(f"{name} · band {D.SPECIES_BAND[name]} · AP {D.pct(D.ZEBRA_AP[name])}", 15).next_to(ph, DOWN, buff=0.18)))
+        zeb.arrange(RIGHT, buff=0.75).move_to(DOWN * 0.55)
         idx = {"Grévy's zebra": 0, "Mountain zebra": 1, "Plains zebra": 2}
         links = VGroup()
         for (src, dst), share in conf.items():
@@ -867,8 +885,8 @@ class ModelsV2(Talk2):
         self.next_slide()
         self.play(LaggedStart(*[Create(l_[0]) for l_ in links], lag_ratio=0.2), *[FadeIn(l_[1]) for l_ in links], FadeIn(cfoot), run_time=1.4)
         self.next_slide()
-        asian = labelled(photo(IMG / "models/synthetic_asian_elephant.jpg", height=3.0, aspect=4 / 3), "Asian elephant", DL, 20).move_to([-3.2, -0.9, 0])
-        african = labelled(photo(IMG / "models/synthetic_african_elephant.jpg", height=3.0, aspect=4 / 3), "African elephant", DR, 20).move_to([3.6, -0.9, 0])
+        asian = labelled(photo(IMG / "models/synthetic_asian_elephant.jpg", height=3.0, aspect=4 / 3), f"Asian elephant · band {D.SPECIES_BAND['Asian elephant']}", DL, 20).move_to([-3.2, -0.9, 0])
+        african = labelled(photo(IMG / "models/synthetic_african_elephant.jpg", height=3.0, aspect=4 / 3), f"African elephant · band {D.SPECIES_BAND['African elephant']}", DR, 20).move_to([3.6, -0.9, 0])
         fwd = curved_arrow(asian.get_top() + RIGHT * 0.6 + UP * 0.1, african.get_top() + LEFT * 0.6 + UP * 0.1, angle=-0.9, color=GREEN)
         rev = curved_arrow(african.get_bottom() + LEFT * 0.6 + DOWN * 0.1, asian.get_bottom() + RIGHT * 0.6 + DOWN * 0.1, angle=-0.6, color=MIST)
         fl = pill(D.pct(conf[("Asian elephant", "African elephant")]), 30, fill=GREEN, bold=True).next_to(fwd, UP, buff=0.05)
@@ -884,9 +902,10 @@ class ModelsV2(Talk2):
         self.play(FadeIn(title("Can a big model teach a small one?")))
         chart = accuracy_chart(MODEL_ORDER, extra=True)
         leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
-        self.play(FadeIn(leg), FadeIn(rows[:-1]), FadeIn(side[:-1]), FadeIn(watch))
+        dots = chart["dots"]
+        self.play(FadeIn(leg), FadeIn(rows[:-1]), FadeIn(side[:-1]), FadeIn(watch), FadeIn(dots[:-1]))
         self.next_slide()
-        self.play(FadeIn(rows[-1][0], shift=RIGHT * 0.2), GrowFromEdge(rows[-1][1], LEFT), GrowFromEdge(rows[-1][3], LEFT), FadeIn(side[-1]))
+        self.play(FadeIn(rows[-1][0], shift=RIGHT * 0.2), GrowFromEdge(rows[-1][1], LEFT), GrowFromEdge(rows[-1][3], LEFT), FadeIn(side[-1]), FadeIn(dots[-1]))
         self.play(FadeIn(rows[-1][2]), FadeIn(rows[-1][4]))
         self.next_slide()
         d_gap = round((m["YOLO26n"] - D.MODEL_DISTILLED[1]) * 100)

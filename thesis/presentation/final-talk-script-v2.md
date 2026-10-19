@@ -318,7 +318,7 @@ Folie 22 (Modelle) nicht kürzen.
 > C haben also gleich viele Trainingsbilder, je 200, nur die Mischung unterscheidet sich.
 > So kann man echte und künstliche Bilder direkt vergleichen. Band D bekommt bis zu 1.500
 > echte Trainingsbilder und bis zu 500 echte Testbilder, zusammen über 2.000; die Achse
-> ist bei 1.200 abgeschnitten, damit man die kleinen Bänder erkennt.
+> ist bei 1.000 abgeschnitten, damit man die kleinen Bänder erkennt.
 
 **[Klick]** *(synthetische Testbilder)*
 
@@ -355,6 +355,8 @@ Folie 22 (Modelle) nicht kürzen.
 > Noch ein Wort zur Messung selbst. Oben synthetische Testbilder, unten echte Testfotos
 > derselben drei Zebraarten, jeweils mit einem einzelnen Tier. Das generierte Bild ist
 > mittig, scharf und frei sichtbar; das echte Foto hat Gegenlicht, Farbstich, Gestrüpp.
+> Neben den Bandbuchstaben steht noch einmal, womit trainiert wurde: grün synthetisch,
+> weiß echt.
 
 **[Klick]** *(Balken)*
 
@@ -381,7 +383,8 @@ Folie 22 (Modelle) nicht kürzen.
 
 ### Folie 22 — Accuracy on real photos (mAP) · 1:10
 
-> Die Genauigkeit auf echten Fotos, mit der richtigen Art. Oben das Ensemble, wie es
+> Die Kreise von eben wandern als kleine Größenmarken mit. Die Genauigkeit auf echten
+> Fotos, mit der richtigen Art. Oben das Ensemble, wie es
 > heute im Fernglas genutzt würde, ohne Anpassung: 44,5 Prozent. Auf meine Daten
 > feinjustiert: 59,9 Prozent. Beide Ensemble-Werte sind eine Obergrenze, weil MegaDetector
 > auch die Referenzboxen erzeugt hat. YOLO26n kommt auf 52,9 Prozent, besser als das
@@ -412,7 +415,8 @@ Folie 22 (Modelle) nicht kürzen.
 ### Folie 23 — Similar Species · 1:00
 
 > Ein Teil der Lücke zwischen Finden und Benennen sind ähnliche Arten. Die Zebras vom
-> Anfang, jetzt als echte Testfotos, mit der Genauigkeit pro Art.
+> Anfang, jetzt als echte Testfotos, mit ihrem Band und der Genauigkeit pro Art. Das
+> Grévyzebra liegt in Band B, ist also zur Hälfte mit synthetischen Bildern trainiert.
 
 **[Klick]** *(Pfeile mit Verwechslungsanteilen)*
 
@@ -424,7 +428,8 @@ Folie 22 (Modelle) nicht kürzen.
 
 **[Klick]** *(Elefanten)*
 
-> Noch deutlicher bei den Elefanten, hier als synthetische Bilder: 79 Prozent der
+> Noch deutlicher bei den Elefanten, hier als synthetische Bilder. Der Asiatische liegt in
+> Band B, der Afrikanische in Band D: 79 Prozent der
 > gefundenen Asiatischen Elefanten werden als Afrikanische benannt, umgekehrt 0,2 Prozent.
 > Das Modell unterscheidet die beiden kaum, es fällt auf eine Art zurück. An der Zahl der
 > Testbilder liegt es nicht, von den Asiatischen gibt es sogar mehr.

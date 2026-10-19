@@ -400,3 +400,5 @@ SPECIES_CONFUSION_REAL = [
 # tab:kd-vs-direct, Setup A (distilled from the fine-tuned teacher), real test set
 MODEL_DISTILLED = ("YOLO26n, distilled", 0.479, 2.71, 0.423)
 MODEL_DISTILLED_DETECT = 0.745
+# Training band per look-alike species (reports/class_split_counts.csv)
+SPECIES_BAND = {"Grévy's zebra": "B", "Mountain zebra": "D", "Plains zebra": "D", "Asian elephant": "B", "African elephant": "D"}
