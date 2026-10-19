@@ -608,9 +608,9 @@ class Bands2(Talk2):
             rows = list(csv.DictReader(f))
         order = {"A": 0, "B": 1, "C": 2, "D": 3}
         rows.sort(key=lambda r: (order[r["band"]], int(r["effective_pool"])))
-        # linear axis cut at 1,000 images so bands A–C read large; band D columns (up to
+        # linear axis cut at 800 images so bands A–C read large; band D columns (up to
         # 1,500 real train + 500 real test + 50 synthetic test = 2,050) are clipped at the top
-        cap, chart_h, left, width, base = 1000, 4.0, -5.6, 12.1, -2.9
+        cap, chart_h, left, width, base = 800, 4.0, -5.6, 12.1, -2.9
         bw = width / len(rows)
 
         def stack(i, parts):
@@ -629,7 +629,7 @@ class Bands2(Talk2):
             cols.append(VGroup(*stack(i, [(0, GREEN), (tr, MIST), (te, MIST), (0, SYNTH_TEST)])))
             after.append(stack(i, [(ts, GREEN), (tr, MIST), (te, SKY), (50, SYNTH_TEST)]))  # 50 synthetic test images per class
         grid, img_labels = VGroup(), VGroup()
-        for v in (250, 500, 750, 1000):
+        for v in (200, 400, 600, 800):
             yy = base + v / cap * chart_h
             ln = Line([left, yy, 0], [left + width, yy, 0]).set_stroke(MIST, 1, 0.2)
             grid.add(ln)
@@ -673,7 +673,7 @@ class Bands2(Talk2):
 
         # 19 — Results on top of the same chart: the dataset greys out, the bands stay
         bars_all = VGroup(*cols, tests)
-        map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((250, 500, 750, 1000), img_labels)])
+        map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((200, 400, 600, 800), img_labels)])
         note = txt("YOLO26n · mAP on real photos", 18, MIST).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
         self.play(
             Transform(head, title("Recognition Results")),
@@ -898,8 +898,8 @@ class ModelsV2(Talk2):
         self.play(Create(rev), FadeIn(rl))
         self.page()
 
-        # 24 — Can the big model teach the small one? The accuracy chart again, plus the distilled student
-        self.play(FadeIn(title("Can a big model teach a small one?")))
+        # 24 — Knowledge distillation: can the big model teach the small one? The accuracy chart again, plus the distilled student
+        self.play(FadeIn(title("Knowledge Distillation")))
         chart = accuracy_chart(MODEL_ORDER, extra=True)
         leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
         dots = chart["dots"]
@@ -953,12 +953,4 @@ class Summary(Talk2):
             if k:
                 self.next_slide()
             self.play(FadeIn(cell, scale=0.9), run_time=0.45)
-        self.next_slide()
-        self.clear()
-
-        # 26 — Thank you
-        thanks = txt("Thank you", 80, bold=True).move_to(UP * 0.5)
-        qs = pill("Questions?", 34, fill=GREEN, bold=True).next_to(thanks, DOWN, buff=0.5)
-        self.play(FadeIn(thanks, shift=UP * 0.2))
-        self.play(FadeIn(qs, scale=1.1))
         self.next_slide()

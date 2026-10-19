@@ -30,7 +30,7 @@ colleagues working as data/AI engineers.
 | `results-slides-strategy.md` | Slide-by-slide plan for the results part: generator comparison, bands, model comparison with the embedded benchmark as a side note, with the source of every number. |
 | `final-talk-script.md` | German speaker script for the final talk, slide by slide and click by click, matching `slides/talk.py`, with a time plan and short answers to likely questions. |
 | `final-talk-script-v2.md` | German speaker script for the reworked deck (`slides/talk_v2.py`), slide by slide and click by click, with a time plan and answers to likely questions. |
-| `slides/` | The final talk as manim / manim-slides animations. Current version `talk_v2.py` (6 scenes, 26 slides); `talk.py` is the first version (7 scenes, 34 slides). See `slides/README.md`. |
+| `slides/` | The final talk as manim / manim-slides animations. Current version `talk_v2.py` (6 scenes, 25 slides); `talk.py` is the first version (7 scenes, 34 slides). See `slides/README.md`. |
 
 `interim-presentation.pptx` and `interim-presentation-images/` (~250 MB, and slides 4–6
 are under NDA) stay local and are gitignored. So does `images/`, the picture folder for
@@ -44,11 +44,11 @@ Read `slides/README.md` first. This is the short version.
 **Current version: `slides/talk_v2.py`**
 - Six scenes, always rendered together in this order:
   `UseCase DataV2 Generative Bands2 ModelsV2 Summary`.
-- 26 slides, 60 click states.
+- 25 slides, 59 click states.
 - `Summary` reuses snapshots that the earlier scenes save with `self.snap()` while
   rendering (`slides/build/cache/snaps/`), which is why all scenes render in one run.
 - `talk.py` is the old v1. Keep it unchanged.
-- German speaker script: `final-talk-script-v2.md`, with 59 `[Klick]` markers (one per
+- German speaker script: `final-talk-script-v2.md`, with 58 `[Klick]` markers (one per
   `next_slide()`, none after the last slide). Keep it in sync when the clicks change.
   The slides stay English, the talk is German.
 

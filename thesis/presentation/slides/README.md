@@ -27,7 +27,7 @@ ffmpeg) and the presenter needs a Qt window.
 - **`talk_v2.py` (current):** the reworked talk. It builds up step by step: use case →
   data → generated images → bands → models on the hardware → a summary that replays one
   picture from every step. It has six scenes (`UseCase`, `DataV2`, `Generative`, `Bands2`,
-  `ModelsV2`, `Summary`) and 26 slides (60 click states). Images come from `../images/` (run
+  `ModelsV2`, `Summary`) and 25 slides (59 click states). Images come from `../images/` (run
   `collect_images.py` first). The speaker script is `../final-talk-script-v2.md`.
 - **`talk.py`:** the first version, told chronologically (plan → what happened). Kept as is.
 

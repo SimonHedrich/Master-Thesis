@@ -24,7 +24,7 @@ anderes dabei. Auf den Folien und im Sprechtext stehen sie in Prozent. Quellen: 
 | 3 Generierte Bilder | `Generative` | 12–16 | 4:25 | 11:20 |
 | 4 Klassen ergänzen | `Bands2` | 17–20 | 3:50 | 15:10 |
 | 5 Modelle & Hardware | `ModelsV2` | 21–24 | 3:20 | 18:30 |
-| 6 Zusammenfassung | `Summary` | 25–26 | 1:00 | 19:30 |
+| 6 Zusammenfassung | `Summary` | 25 | 1:00 | 19:30 |
 
 **Wenn die Zeit knapp wird:** Folie 9 (Klassenliste), die Punktwolke auf Folie 19 und
 die Elefanten auf Folie 23 mit je einem Satz durchklicken. Folie 20 (Testdaten) und
@@ -318,7 +318,7 @@ Folie 22 (Modelle) nicht kürzen.
 > C haben also gleich viele Trainingsbilder, je 200, nur die Mischung unterscheidet sich.
 > So kann man echte und künstliche Bilder direkt vergleichen. Band D bekommt bis zu 1.500
 > echte Trainingsbilder und bis zu 500 echte Testbilder, zusammen über 2.000; die Achse
-> ist bei 1.000 abgeschnitten, damit man die kleinen Bänder erkennt.
+> ist bei 800 abgeschnitten, damit man die kleinen Bänder erkennt.
 
 **[Klick]** *(synthetische Testbilder)*
 
@@ -436,7 +436,7 @@ Folie 22 (Modelle) nicht kürzen.
 
 **[Klick]**
 
-### Folie 24 — Can a big model teach a small one? · 0:45
+### Folie 24 — Knowledge Distillation · 0:45
 
 > Eine naheliegende Idee, um das kleine Modell besser zu machen: Knowledge Distillation.
 > Das große Ensemble ist der Lehrer, YOLO26n der Schüler. Hier noch einmal der Vergleich
@@ -488,12 +488,10 @@ Folie 22 (Modelle) nicht kürzen.
 > Und am Ende der Modellvergleich: Ein Modell, das klein und schnell genug für das Gerät
 > ist und trotzdem nah an das große Ensemble herankommt. Der nächste Schritt wäre die
 > Optimierung für den Chip, damit daraus echte Echtzeit wird.
-
-**[Klick]**
-
-### Folie 26 — Thank you · 0:10
-
+>
 > Vielen Dank für die Aufmerksamkeit. Ich freue mich auf Ihre Fragen.
+
+*(Letzte Folie, die Zusammenfassung bleibt für die Fragen stehen.)*
 
 ---
 
