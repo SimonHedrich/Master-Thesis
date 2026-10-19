@@ -31,6 +31,7 @@ colleagues working as data/AI engineers.
 | `final-talk-script.md` | German speaker script for the final talk, slide by slide and click by click, matching `slides/talk.py`, with a time plan and short answers to likely questions. |
 | `final-talk-script-v2.md` | German speaker script for the reworked deck (`slides/talk_v2.py`), slide by slide and click by click, with a time plan and answers to likely questions. |
 | `2026-10-19_abschlusspraesentation_transcript.txt` | Timestamped German transcript of the recorded final presentation (2026-10-19, ~38 min): local Whisper, then cleaned up by hand; `[...]` marks garbled passages. The recording itself stays local. |
+| `2026-10-19_talk-timing-analysis.md` | Time per slide and per act in the recorded final talk (37:58) against the plan in `final-talk-script-v2.md` (19:30), with where the overrun came from. |
 | `slides/` | The final talk as manim / manim-slides animations. Current version `talk_v2.py` (6 scenes, 25 slides); `talk.py` is the first version (7 scenes, 34 slides). See `slides/README.md`. |
 
 `interim-presentation.pptx` and `interim-presentation-images/` (~250 MB, and slides 4–6
