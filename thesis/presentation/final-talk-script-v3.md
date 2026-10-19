@@ -2,7 +2,7 @@
 
 Sprechtext auf Deutsch zur gekürzten Fassung der Folien (`slides/talk_v3.py`, Szenen
 `UseCase3`, `Data3`, `Generative3`, `Bands3`, `Models3`, `Summary3`). Die Folien selbst
-sind englisch. Jeder **[Klick]** entspricht einem `next_slide()` (53 Klicks, 23 Folien).
+sind englisch. Jeder **[Klick]** entspricht einem `next_slide()` (48 Klicks, 23 Folien).
 
 **Warum diese Fassung kürzer ist.** Der Probelauf am 19.10. mit v2 dauerte 37:58 statt
 19:30 (`2026-10-19_talk-timing-analysis.md`): 57 % mehr Wörter als im Skript, gesprochen
@@ -344,30 +344,15 @@ Test-Etiketten wandern zu den Zebras)*
 
 ### Folie 23 — Summary · 1:00
 
-*(Pro Klick eine Kachel, die erste ist sofort da.)*
+*(Die sechs Kacheln erscheinen von selbst nacheinander, in gut drei Sekunden. Der Text
+läuft über sie hinweg, ohne Klick.)*
 
-> Zusammengefasst: Erstens MammalID, Tiere direkt im Fernglas bestimmen.
-
-**[Klick]**
-
-> Zweitens die Datensammlung: Für viele Klassen gibt es zu wenige echte Bilder.
-
-**[Klick]**
-
-> Drittens die Bildgenerierung, um diese Lücke zu füllen.
-
-**[Klick]**
-
-> Viertens der Generatorvergleich: API-Modelle mit langem Prompt gewinnen.
-
-**[Klick]**
-
-> Fünftens das Training: Synthetische Bilder strecken echte Daten, ersetzen sie aber nicht.
-
-**[Klick]**
-
-> Und sechstens der Modellvergleich: ein kleines, schnelles Modell nah am großen Ensemble.
-> Nächster Schritt ist die Optimierung für den Chip.
+> Zusammengefasst: Erstens MammalID, Tiere direkt im Fernglas bestimmen. Zweitens die
+> Datensammlung: Für viele Klassen gibt es zu wenige echte Bilder. Drittens die
+> Bildgenerierung, um diese Lücke zu füllen. Viertens der Generatorvergleich: API-Modelle
+> mit langem Prompt gewinnen. Fünftens das Training: Synthetische Bilder strecken echte
+> Daten, ersetzen sie aber nicht. Und sechstens der Modellvergleich: ein kleines, schnelles
+> Modell nah am großen Ensemble. Nächster Schritt ist die Optimierung für den Chip.
 >
 > Vielen Dank, ich freue mich auf Ihre Fragen.
 

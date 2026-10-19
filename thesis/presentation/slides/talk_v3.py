@@ -137,6 +137,14 @@ class Talk3(Slide):
         self.next_slide()
         self.clear()
 
+    def play(self, *args, **kwargs):
+        """Animations without their own run time take 0.7 s instead of manim's 1 s: shorter
+        pauses, e.g. between a title and the content that follows it."""
+        # (.animate builders answer every getattr, so only real Animations are asked for theirs)
+        if "run_time" not in kwargs and all(a.run_time == 1.0 for a in args if isinstance(a, Animation)):
+            kwargs["run_time"] = 0.7
+        super().play(*args, **kwargs)
+
     def snap(self, name: str):
         """Save the current frame; the summary scene shows it again."""
         SNAPS.mkdir(parents=True, exist_ok=True)
@@ -258,23 +266,25 @@ class UseCase3(Talk3):
         # ensemble behind the mode in one go (over SpeciesNet's blog post), then YOLOv5 as
         # the detector in the device
         self.play(FadeIn(title("MammalID")))
-        ax = photo(IMG / "deck/ax_visio_top.jpg", height=4.6, radius=0.04).move_to([-4.0, -0.4, 0])
+        ax = photo(IMG / "deck/ax_visio_top.jpg", height=3.6, radius=0.04).move_to([-4.6, -0.2, 0])
         note = copyright_note().next_to(ax, DOWN, buff=0.1).align_to(ax, LEFT)
         self.play(FadeIn(ax), FadeIn(note))
         self.next_slide()
-        blog = photo(IMG / "usecase/speciesnet_blog.png", width=5.4, aspect=5.4 / 4.2, top=True, radius=0.03).move_to([2.85, 0.2, 0])
-        frame = photo(IMG / "usecase/ocelot.jpg", height=2.6).move_to([1.0, -0.55, 0])
+        # the blog post on top, detection -> classification -> result in one line below it
+        blog = photo(IMG / "usecase/speciesnet_blog.png", width=5.8, aspect=5.8 / 3.0, top=True, radius=0.03).move_to([3.0, 1.85, 0])
+        row_y = -1.55
+        frame = photo(IMG / "usecase/ocelot.jpg", height=2.0).move_to([-1.0, row_y, 0])
         W, H = frame.width, frame.height
         x0, y0 = frame.get_left()[0], frame.get_top()[1]
         bx = D.OCELOT_BBOX
         bbox = Rectangle(width=(bx[2] - bx[0]) / 800 * W, height=(bx[3] - bx[1]) / 600 * H).set_stroke(GREEN, 5)
         bbox.move_to([x0 + (bx[0] + bx[2]) / 2 / 800 * W, y0 - (bx[1] + bx[3]) / 2 / 600 * H, 0])
         md = pill("MegaDetector · 94 %", 20).next_to(frame, DOWN, buff=0.2)
-        crop = photo(IMG / "usecase/ocelot_crop.jpg", height=1.9).move_to([4.95, -0.55, 0])
+        crop = photo(IMG / "usecase/ocelot_crop.jpg", height=1.6).move_to([1.75, row_y, 0])
         sn = pill("SpeciesNet", 20).next_to(crop, DOWN, buff=0.2)
-        out = pill("Ocelot · 98.8 %", 26, fill=GREEN, bold=True).move_to([4.95, -3.25, 0])
+        out = pill("Ocelot · 98.8 %", 24, fill=GREEN, bold=True).move_to([0, row_y, 0]).align_to([6.75, 0, 0], RIGHT)
         a1 = arrow(bbox.get_right(), crop.get_left())
-        a2 = arrow(sn.get_bottom(), out.get_top(), buff=0.1)
+        a2 = arrow(crop.get_right(), out.get_left())
         self.play(FadeIn(blog, shift=UP * 0.2), run_time=0.6)
         self.play(
             FadeIn(frame), Create(bbox), FadeIn(md), Create(a1), FadeIn(crop, shift=RIGHT * 0.3), FadeIn(sn),
@@ -283,7 +293,7 @@ class UseCase3(Talk3):
         self.next_slide()
         # in the AX Visio a YOLOv5 model is the detector: MegaDetector greys out into the background
         yolo = pill("YOLOv5 · in the AX Visio", 20, fill=GREEN, bold=True).next_to(md, DOWN, buff=0.25)
-        link = curved_arrow(ax.get_right() + DOWN * 1.2, yolo.get_left() + LEFT * 0.1, angle=0.5, color=GREEN)
+        link = curved_arrow(ax.get_bottom() + RIGHT * 1.2 + DOWN * 0.1, yolo.get_left() + LEFT * 0.1, angle=0.6, color=GREEN)
         self.play(md.animate.set_opacity(0.35))
         self.play(Create(link), FadeIn(yolo, shift=UP * 0.15))
         self.page()
@@ -708,7 +718,7 @@ class Bands3(Talk3):
             x_lo, x_hi = spans[b]
             r = Rectangle(width=x_hi - x_lo - 0.16, height=v * chart_h).set_fill(REAL_TEST, 0.38).set_stroke(REAL_TEST, 3)
             res.add(r.move_to([(x_lo + x_hi) / 2, base, 0], aligned_edge=DOWN))
-            vals.add(txt(f"mAP\n{D.pct(v)}", 22, bold=True, line_spacing=0.8).next_to(r, UP, buff=0.12))
+            vals.add(txt(D.pct(v), 22, bold=True).next_to(r, UP, buff=0.12))
         self.play(LaggedStart(*[GrowFromEdge(r, DOWN) for r in res], lag_ratio=0.25), run_time=1.8)
         self.play(FadeIn(vals))
         self.snap("band_results")
@@ -727,12 +737,16 @@ class Bands3(Talk3):
         self.play(res.animate.set_fill(REAL_TEST, 0.18), FadeOut(vals))
         self.play(LaggedStart(*[GrowFromCenter(d) for d in dots], lag_ratio=0.004), run_time=1.6)
         self.next_slide()
-        hy = labelled(photo(IMG / "bands/synthetic_striped_hyaena.png", height=1.0, aspect=4 / 3), f"hyaena · AP {D.pct(pc['striped hyaena'], 0)}", DL, 12)
-        mg = labelled(photo(IMG / "bands/synthetic_mangabeys.png", height=1.0, aspect=4 / 3), f"mangabeys · AP {D.pct(pc['mangabeys genus'], 0)}", DL, 12)
+        def example(path, label):  # label centred on the picture's bottom edge
+            ph = photo(path, height=1.05, aspect=4 / 3)
+            return Group(ph, pill(label, 12).move_to(ph.get_bottom()))
+
+        hy = example(IMG / "bands/synthetic_striped_hyaena.png", f"hyaena · AP {D.pct(pc['striped hyaena'], 0)}")
+        mg = example(IMG / "bands/synthetic_mangabeys.png", f"mangabeys · AP {D.pct(pc['mangabeys genus'], 0)}")
         # inside the chart, in the empty upper half of band A
         pair = Group(mg, hy).arrange(RIGHT, buff=0.12)  # same left-to-right order as their dots
-        pair.move_to([spans["A"][0] + 0.05, base + 0.6 * chart_h, 0], aligned_edge=DL)
-        foot = txt("both trained on\nsynthetic images only", 15, MIST).next_to(pair, UP, buff=0.12).align_to(pair, LEFT)
+        pair.move_to([spans["A"][0], base + chart_h + 0.06, 0], aligned_edge=DL)  # above the chart, over band A
+        foot = txt("both trained on\nsynthetic images only", 15, MIST).next_to(pair, RIGHT, buff=0.25)
         hl = [special[k].copy().set_color(GREEN).scale(2.0) for k in ("striped hyaena", "mangabeys genus")]
         l1 = Line(hl[0].get_center(), hy.get_bottom(), buff=0.1).set_stroke(GREEN, 2)
         l2 = Line(hl[1].get_center(), mg.get_bottom(), buff=0.1).set_stroke(GREEN, 2)
@@ -1011,8 +1025,6 @@ class Summary3(Talk3):
             cap = pill(f"{k}. {caption}", 17, bold=True)
             cells.add(Group(frame, m.move_to(frame), cap.next_to(frame, DOWN, buff=0.1)))
         cells.arrange_in_grid(rows=2, cols=3, buff=(0.35, 0.35)).move_to(DOWN * 0.45)
-        for k, cell in enumerate(cells):  # one click per picture, so each gets its sentence
-            if k:
-                self.next_slide()
-            self.play(FadeIn(cell, scale=0.9), run_time=0.45)
+        # the tiles come in one after another by themselves
+        self.play(LaggedStart(*[FadeIn(cell, scale=0.9) for cell in cells], lag_ratio=0.7), run_time=3.6)
         self.next_slide()

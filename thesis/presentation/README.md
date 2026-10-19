@@ -48,12 +48,12 @@ Read `slides/README.md` first. This is the short version.
 - Six scenes, always rendered together in this order:
   `UseCase3 Data3 Generative3 Bands3 Models3 Summary3`. The scene names differ from v2's,
   so both versions' slide files can live side by side in `slides/slides/`.
-- 23 slides, 54 click states.
+- 23 slides, 49 click states.
 - `Summary3` reuses snapshots that the earlier scenes save with `self.snap()` while
   rendering (`slides/build/cache/snaps_v3/`), which is why all scenes render in one run.
 - `talk_v2.py` (shown on 2026-10-19; HTML fallback in `slides/build/talk_v2.html`) and
   `talk.py` (v1) are kept unchanged.
-- German speaker script: `final-talk-script-v3.md`, with 53 `[Klick]` markers (one per
+- German speaker script: `final-talk-script-v3.md`, with 48 `[Klick]` markers (one per
   `next_slide()`, none after the last slide). Keep it in sync when the clicks change.
   The slides stay English, the talk is German.
 - v3 also needs Ghostscript (`brew install ghostscript`) for `collect_images.py` to render

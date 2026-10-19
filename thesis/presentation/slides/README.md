@@ -27,7 +27,7 @@ ffmpeg) and the presenter needs a Qt window.
 
 - **`talk_v3.py` (current):** v2 cut towards 20 minutes after the 38-minute run of
   2026-10-19 (`../2026-10-19_talk-timing-analysis.md`). Scenes `UseCase3`, `Data3`,
-  `Generative3`, `Bands3`, `Models3`, `Summary3`; 23 slides (54 click states). Changes
+  `Generative3`, `Bands3`, `Models3`, `Summary3`; 23 slides (49 click states). Changes
   against v2: the Swarovski Optik logo and the BirdID clip (plays after a click, stops on
   its last frame) on the product slide instead of the BirdID slide; MammalID shows the AX Visio photo, then the whole
   model ensemble on one click, then YOLOv5 as the detector inside the AX Visio while MegaDetector greys out (the
@@ -35,7 +35,7 @@ ffmpeg) and the presenter needs a Qt window.
   23,850-image wall (no caption) → zebras → the twelve comparison species → ranking, where
   the two compressed cells' originals light up too; no rare-animals slide; "MD+SN" names
   and "fine-tuned" labels on the model charts; the zebra and elephant group confusion rates on
-  real photos (9.6 % and 52.3 %); a summary with six numbered steps. Speaker script:
+  real photos (9.6 % and 52.3 %); a summary whose six numbered tiles come in by themselves. Speaker script:
   `../final-talk-script-v3.md`.
 - **`talk_v2.py` (shown on 2026-10-19):** the reworked talk. It builds up step by step: use case →
   data → generated images → bands → models on the hardware → a summary that replays one
