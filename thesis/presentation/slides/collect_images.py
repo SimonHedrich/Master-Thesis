@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import re
 import shutil
+import subprocess
 from pathlib import Path
 
 from PIL import Image, ImageOps
@@ -28,6 +29,11 @@ GEN = REPO / "thesis/manuscript/figures/images/generator_comparison"
 FIGS = REPO / "thesis/manuscript/figures/images"
 WIKI = DATA / "wikimedia/images"
 MAX_PX = 2400
+PRES = HERE.parent
+TWELVE = DATA / "synthetic_model_comparison/train/gpt-image-2-low/full/images"
+SO_LOGO_EPS = PRES / "K17_SO_Logo_Gruener_Logotraeger_CMYK_01.eps"
+BIRDID_CLIP = PRES / "AX_Visio_BirdID.mp4"
+SWAROVSKI = {"deck/ax_visio_top.jpg": PRES / "K22_AX_Visio_10_Backside_Top_13_CMYK(JPG_Print_High-Res).jpg"}
 
 # target path (relative to images/) -> source
 SOURCES: dict[str, Path] = {
@@ -150,6 +156,27 @@ def main() -> None:
         from theme import mosaic  # noqa: E402
 
         shutil.copyfile(mosaic(grevys, cols=6, tile_px=800), OUT / "generators/grevys_synthetic_wall.png")
+        ok += 1
+    # v3: the twelve species of the generator comparison, one gpt-image-2 low picture each.
+    for d in sorted(TWELVE.iterdir()):
+        if d.is_dir():
+            ok += _copy(sorted(d.glob("*.png"))[0], OUT / "generators/twelve" / f"{d.name}.png")
+    # v3: Swarovski Optik press material (logo, AX Visio photo, BirdID clip), from
+    # thesis/presentation/ (local only). The EPS logo needs Ghostscript (brew install ghostscript).
+    for rel, src in SWAROVSKI.items():
+        ok += _copy(src, OUT / rel)
+    if SO_LOGO_EPS.exists():
+        dst = OUT / "deck/swarovski_optik_logo.png"
+        subprocess.run(
+            ["gs", "-q", "-dSAFER", "-dBATCH", "-dNOPAUSE", "-dEPSCrop", "-sDEVICE=png16m", "-r1200",
+             f"-sOutputFile={dst}", str(SO_LOGO_EPS)],
+            check=True,
+        )
+        ok += 1
+    else:
+        print(f"  missing: deck/swarovski_optik_logo.png  <- {SO_LOGO_EPS}")
+    if BIRDID_CLIP.exists():
+        shutil.copyfile(BIRDID_CLIP, OUT / "deck/ax_visio_birdid.mp4")
         ok += 1
     total = sum(p.stat().st_size for p in OUT.rglob("*") if p.is_file())
     print(f"{ok} images in {OUT} ({total / 1e6:.0f} MB)")

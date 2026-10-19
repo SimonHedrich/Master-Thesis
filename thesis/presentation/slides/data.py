@@ -402,3 +402,26 @@ MODEL_DISTILLED = ("YOLO26n, distilled", 0.479, 2.71, 0.423)
 MODEL_DISTILLED_DETECT = 0.745
 # Training band per look-alike species (reports/class_split_counts.csv)
 SPECIES_BAND = {"Grévy's zebra": "B", "Mountain zebra": "D", "Plains zebra": "D", "Asian elephant": "B", "African elephant": "D"}
+
+# The twelve species of the generator comparison (reports/model_comparison_classes.csv,
+# same order): image folder under data/synthetic_model_comparison/train/<cell>/full/images/
+# and the name on the slide.
+COMPARISON_CLASSES = [
+    ("plains_zebra", "Plains zebra"),
+    ("grevy_s_zebra", "Grévy's zebra"),
+    ("mountain_zebra", "Mountain zebra"),
+    ("red_fox", "Red fox"),
+    ("american_black_bear", "American black bear"),
+    ("lion", "Lion"),
+    ("kinkajou", "Kinkajou"),
+    ("water_deer", "Water deer"),
+    ("ringtail", "Ringtail"),
+    ("saiga", "Saiga"),
+    ("aye_aye", "Aye-aye"),
+    ("pangolin_family", "Pangolins"),
+]
+# Within-group confusion over all 30 look-alike groups, YOLO26n direct-FT (EVAL_YOLO26N's
+# run), REAL test set only: confused / matched. eval_suite.scoring.within_group_confusion on
+# the run's predictions_real.json (GPU server, 2026-10-19); on the mixed set the same call
+# reproduces the report's 0.193 (tier2_within_group_confusion.overall_confusion_rate).
+WITHIN_GROUP_CONFUSION_REAL = (5528, 28000)  # 19.7 %

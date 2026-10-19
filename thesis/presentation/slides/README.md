@@ -5,13 +5,14 @@
 > the screen.
 >
 > ```
-> uv run manim-slides convert --offline UseCase DataV2 Generative Bands2 ModelsV2 Summary build/talk_v2.html
+> uv run manim-slides convert --offline UseCase3 Data3 Generative3 Bands3 Models3 Summary3 build/talk_v3.html
 > ```
 >
-> Open `build/talk_v2.html` in the browser and press `F` for full screen (← / → to navigate).
+> Open `build/talk_v3.html` in the browser and press `F` for full screen (← / → to navigate).
 > `--offline` also stores reveal.js locally, so no internet is needed. To present from
-> another machine, copy `talk_v2.html` **and** the `talk_v2_assets/` folder next to it (~200 MB
-> at 4K).
+> another machine, copy `talk_v3.html` **and** the `talk_v3_assets/` folder next to it (~400 MB
+> at 4K). The v2 deck as shown on 2026-10-19 stays available as `build/talk_v2.html`
+> (+ `talk_v2_assets/`), built from the v2 scenes `UseCase DataV2 Generative Bands2 ModelsV2 Summary`.
 
 The 20-minute final presentation, built as animations with
 [manim](https://www.manim.community/) and presented with
@@ -22,9 +23,21 @@ This is a separate uv project, not part of the repo-root environment. The root p
 the Linux/CUDA training container, while manim renders natively on the Mac (Cairo, Pango,
 ffmpeg) and the presenter needs a Qt window.
 
-## Two versions
+## Three versions
 
-- **`talk_v2.py` (current):** the reworked talk. It builds up step by step: use case →
+- **`talk_v3.py` (current):** v2 cut towards 20 minutes after the 38-minute run of
+  2026-10-19 (`../2026-10-19_talk-timing-analysis.md`). Scenes `UseCase3`, `Data3`,
+  `Generative3`, `Bands3`, `Models3`, `Summary3`; 24 slides (56 click states). Changes
+  against v2: the Swarovski Optik logo and the BirdID clip (plays after a click, stops on
+  its last frame) on the product slide; MammalID shows the AX Visio photo, then the whole
+  model ensemble on one click, then YOLOv5 as the detector inside the AX Visio (the
+  separate ensemble slide and its parameter count are gone); order binturong → prompt →
+  23,850-image wall (no caption) → zebras → the twelve comparison species → ranking, where
+  the two compressed cells' originals light up too; no rare-animals slide; "MD+SN" names
+  and "fine-tuned" labels on the model charts; the overall look-alike confusion rate (19.7 %
+  on real photos); a summary with six numbered steps. Speaker script:
+  `../final-talk-script-v3.md`.
+- **`talk_v2.py` (shown on 2026-10-19):** the reworked talk. It builds up step by step: use case →
   data → generated images → bands → models on the hardware → a summary that replays one
   picture from every step. It has six scenes (`UseCase`, `DataV2`, `Generative`, `Bands2`,
   `ModelsV2`, `Summary`) and 25 slides (59 click states). Images come from `../images/` (run
@@ -33,6 +46,10 @@ ffmpeg) and the presenter needs a Qt window.
 
 ```
 uv run python extract_assets.py && uv run python collect_images.py
+uv run manim render -qk --frame_rate 30 talk_v3.py UseCase3 Data3 Generative3 Bands3 Models3 Summary3
+uv run python present.py -F UseCase3 Data3 Generative3 Bands3 Models3 Summary3
+uv run manim-slides convert --offline UseCase3 Data3 Generative3 Bands3 Models3 Summary3 build/talk_v3.html
+# v2:
 uv run manim render -qk --frame_rate 30 talk_v2.py UseCase DataV2 Generative Bands2 ModelsV2 Summary
 uv run python present.py -F UseCase DataV2 Generative Bands2 ModelsV2 Summary
 uv run manim-slides convert --offline UseCase DataV2 Generative Bands2 ModelsV2 Summary build/talk_v2.html
@@ -71,7 +88,8 @@ first, mostly empty frame.
 | `theme.py` | inovex look: colours, Atkinson Hyperlegible, gradient background, pills, rounded photos, bars, drawn icons |
 | `data.py` | Every number and asset path, each number with its thesis/report source |
 | `talk_v2.py` | The reworked talk (see above) |
-| `collect_images.py` | Builds `../images/` (gitignored): copies and downscales every picture `talk_v2.py` uses, Swarovski-internal ones under `nda/` |
+| `talk_v3.py` | The 20-minute cut of `talk_v2.py` (see above) |
+| `collect_images.py` | Builds `../images/` (gitignored): copies and downscales every picture `talk_v2.py`/`talk_v3.py` use, Swarovski-internal ones under `nda/`. For v3 it also renders the Swarovski Optik EPS logo (needs Ghostscript) and copies the AX Visio photo and the BirdID clip from `../` |
 | `assets/prompts/` | The four lion prompts (compressed, maxlen 256/512, full) from the manuscript appendix, for the prompt-length slide |
 | `extract_assets.py` | Pulls the pictures out of the interim pptx into `assets/interim/` |
 | `present.py` | Starts the presenter with a fix for 4K renders: manim-slides forces its window to at least the video resolution, so a 4K deck showed only the top-left quarter on a 1080p screen. Takes all `manim-slides present` options |
