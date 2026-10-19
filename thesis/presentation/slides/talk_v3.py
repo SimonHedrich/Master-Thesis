@@ -47,6 +47,7 @@ from manim import (
     LaggedStart,
     Line,
     Rectangle,
+    ReplacementTransform,
     Restore,
     RoundedRectangle,
     Square,
@@ -280,9 +281,10 @@ class UseCase3(Talk3):
         bbox = Rectangle(width=(bx[2] - bx[0]) / 800 * W, height=(bx[3] - bx[1]) / 600 * H).set_stroke(GREEN, 5)
         bbox.move_to([x0 + (bx[0] + bx[2]) / 2 / 800 * W, y0 - (bx[1] + bx[3]) / 2 / 600 * H, 0])
         md = pill("MegaDetector · 94 %", 20).next_to(frame, DOWN, buff=0.2)
-        crop = photo(IMG / "usecase/ocelot_crop.jpg", height=1.6).move_to([1.75, row_y, 0])
-        sn = pill("SpeciesNet", 20).next_to(crop, DOWN, buff=0.2)
         out = pill("Ocelot · 98.8 %", 24, fill=GREEN, bold=True).move_to([0, row_y, 0]).align_to([6.75, 0, 0], RIGHT)
+        # the crop at the size of the green box, halfway between the frame and the result
+        crop = photo(IMG / "usecase/ocelot_crop.jpg", height=bbox.height).move_to([(frame.get_right()[0] + out.get_left()[0]) / 2, row_y, 0])
+        sn = pill("SpeciesNet", 20).next_to(crop, DOWN, buff=0.2)
         a1 = arrow(bbox.get_right(), crop.get_left())
         a2 = arrow(crop.get_right(), out.get_left())
         self.play(FadeIn(blog, shift=UP * 0.2), run_time=0.6)
@@ -575,8 +577,10 @@ class Generative3(Talk3):
         lions = Group()
         for name, *_x in D.GENERATORS:
             ph = photo(G / lion_file[name], width=1.6, aspect=4 / 3)
-            lions.add(Group(ph, pill(name, 11).move_to(ph.get_corner(DL), aligned_edge=DL).shift(UR * 0.05)))
-        lions.arrange_in_grid(rows=5, cols=2, buff=(0.08, 0.08)).move_to([5.25, -0.55, 0])
+            # the label low on the picture, hanging a little over its bottom edge
+            lab_ = pill(name, 11)
+            lions.add(Group(ph, lab_.move_to(ph.get_corner(DL) + UP * 0.05, aligned_edge=LEFT).shift(RIGHT * 0.05)))
+        lions.arrange_in_grid(rows=5, cols=2, buff=(0.08, 0.1)).move_to([5.25, -0.55, 0])
         self.play(FadeIn(legend), LaggedStart(*[FadeIn(r[0]) for r in rows], lag_ratio=0.05))
         self.play(LaggedStart(*[GrowFromEdge(r[1], LEFT) for r in rows], lag_ratio=0.08), run_time=1.6)
         self.play(*[FadeIn(r[2]) for r in rows], *[FadeIn(r[3]) for r in rows], FadeIn(heads[0]))
@@ -684,6 +688,26 @@ class Bands3(Talk3):
         # step 4: 50 synthetic test images per class
         tests = VGroup(*[a[3] for a in after])
         self.play(FadeIn(leg["synthetic test"]), LaggedStart(*[GrowFromEdge(t, DOWN) for t in tests], lag_ratio=0.004), run_time=1.6)
+        # ... and each band's training images condense into the squares of its glyph (the same
+        # glyph as on the test-data slide), which settle next to the band letter
+        glyphs = VGroup()
+        pieces = []
+        for b, lab in zip("ABCD", labs):
+            idx = [i for i, r in enumerate(rows) if r["band"] == b]
+            g = band_glyph(b)
+            shift = (g.width + 0.12) / 2
+            g.next_to(lab, RIGHT, buff=0.12).shift(LEFT * shift)
+            glyphs.add(g)
+            # source columns for each square: green squares take the synthetic, white ones the
+            # real training segments, split evenly across the band's columns
+            for color_k, squares in ((0, [q for q, (c_, _o) in zip(g, band_fills(b)) if c_ == GREEN]), (1, [q for q, (c_, _o) in zip(g, band_fills(b)) if c_ == WHITE])):
+                for n_, q in enumerate(squares):
+                    part = idx[n_ * len(idx) // len(squares):(n_ + 1) * len(idx) // len(squares)]
+                    pieces.append((VGroup(*[cols[i][color_k].copy() for i in part]), q))
+        self.play(*[lab.animate.shift(LEFT * ((g.width + 0.12) / 2)) for lab, g in zip(labs, glyphs)],
+                  *[ReplacementTransform(src, q) for src, q in pieces], run_time=1.4)
+        self.remove(*[q for _src, q in pieces])  # one glyph group per band from here on
+        self.add(glyphs)
         self.next_slide()
 
         # step 5: only the real test images count: they stay lit, and their legend pill
@@ -766,7 +790,7 @@ class Bands3(Talk3):
         )
         not_synth_test = VGroup(*[c[k] for c in cols for k in (0, 1, 2)])
         self.play(not_synth_test.animate.set_opacity(0.15), leg["synthetic test"].animate.scale(1.1, about_edge=RIGHT))
-        self.wait(0.6)
+        self.next_slide()
         G = IMG / "generators"
         syn = Group(*[photo(G / f, height=2.05, aspect=4 / 3) for f in ("zebra_grevys_gemini.png", "zebra_mountain_gemini.png", "zebra_plains_gemini.png")]).arrange(RIGHT, buff=0.15)
         real = Group(*[photo(IMG / "bands" / f, height=2.05, aspect=4 / 3) for f in ("real_test_grevys_zebra.jpg", "real_test_mountain_zebra.jpg", "real_test_plains_zebra.jpg")]).arrange(RIGHT, buff=0.15)
@@ -775,7 +799,7 @@ class Bands3(Talk3):
         rl = pill("real test images", 20, fill=REAL_TEST)
         rl.move_to(real.get_bottom() + UP * 0.08).align_to(real, LEFT).shift(RIGHT * 0.12)
         block = Group(Group(syn, sl), Group(real, rl)).arrange(DOWN, buff=0.35).move_to(DOWN * 0.4)
-        chart = VGroup(grid, img_labels, seps, labs, bars_all)
+        chart = VGroup(grid, img_labels, seps, labs, glyphs, bars_all)
         leg["synthetic test"].set_z_index(5)
         leg["real test"].set_z_index(5)
         self.play(
@@ -814,8 +838,12 @@ def band_glyph(band: str, size: float = 0.17) -> VGroup:
     """Training-set composition of a band as stacked squares, bottom to top like the dataset
     chart: green = 100 synthetic, white = 100 real images (A: 200 synthetic, B: 100 + 100,
     C: 200 real, D: many real, the top square fading out because the stack goes on)."""
-    fills = {"A": [(GREEN, 1)] * 2, "B": [(GREEN, 1), (WHITE, 1)], "C": [(WHITE, 1)] * 2, "D": [(WHITE, 1)] * 2 + [(WHITE, 0.3)]}[band]
-    return VGroup(*[Square(side_length=size).set_fill(f, o).set_stroke(width=0) for f, o in fills]).arrange(UP, buff=0.04)
+    return VGroup(*[Square(side_length=size).set_fill(f, o).set_stroke(width=0) for f, o in band_fills(band)]).arrange(UP, buff=0.04)
+
+
+def band_fills(band: str) -> list:
+    """(colour, opacity) per glyph square, bottom to top."""
+    return {"A": [(GREEN, 1)] * 2, "B": [(GREEN, 1), (WHITE, 1)], "C": [(WHITE, 1)] * 2, "D": [(WHITE, 1)] * 2 + [(WHITE, 0.3)]}[band]
 
 
 def band_mix(species: str) -> str:

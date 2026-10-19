@@ -27,7 +27,7 @@ ffmpeg) and the presenter needs a Qt window.
 
 - **`talk_v3.py` (current):** v2 cut towards 20 minutes after the 38-minute run of
   2026-10-19 (`../2026-10-19_talk-timing-analysis.md`). Scenes `UseCase3`, `Data3`,
-  `Generative3`, `Bands3`, `Models3`, `Summary3`; 23 slides (49 click states). Changes
+  `Generative3`, `Bands3`, `Models3`, `Summary3`; 23 slides (50 click states). Changes
   against v2: the Swarovski Optik logo and the BirdID clip (plays after a click, stops on
   its last frame) on the product slide instead of the BirdID slide; MammalID shows the AX Visio photo, then the whole
   model ensemble on one click, then YOLOv5 as the detector inside the AX Visio while MegaDetector greys out (the

@@ -2,7 +2,7 @@
 
 Sprechtext auf Deutsch zur gekürzten Fassung der Folien (`slides/talk_v3.py`, Szenen
 `UseCase3`, `Data3`, `Generative3`, `Bands3`, `Models3`, `Summary3`). Die Folien selbst
-sind englisch. Jeder **[Klick]** entspricht einem `next_slide()` (48 Klicks, 23 Folien).
+sind englisch. Jeder **[Klick]** entspricht einem `next_slide()` (49 Klicks, 23 Folien).
 
 **Warum diese Fassung kürzer ist.** Der Probelauf am 19.10. mit v2 dauerte 37:58 statt
 19:30 (`2026-10-19_talk-timing-analysis.md`): 57 % mehr Wörter als im Skript, gesprochen
@@ -235,7 +235,8 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-> Dazu 50 synthetische Testbilder pro Klasse, in gelb.
+> Dazu 50 synthetische Testbilder pro Klasse, in gelb. Und die Trainingsbilder jedes Bands
+> werden zu Kästchen neben dem Buchstaben: grün je 100 synthetische, weiß je 100 echte.
 
 **[Klick]** *(nur die echten Testbilder bleiben hell, ihr Etikett wandert nach oben)*
 
@@ -258,8 +259,11 @@ Elefanten auf Folie 21 weglassen.
 > In Band A schafft die Streifenhyäne 48 Prozent, die Mangaben fast null. Meine
 > Hypothese: Einheitlich aussehende Arten lassen sich gut generieren, vielfältige nicht.
 
-**[Klick]** *(der Datensatz noch einmal, die synthetischen Testbilder hell; die beiden
-Test-Etiketten wandern zu den Zebras)*
+**[Klick]** *(der Datensatz noch einmal, die synthetischen Testbilder hell)*
+
+> Zurück zum Datensatz: Was ist mit den gelben, synthetischen Testbildern?
+
+**[Klick]** *(die beiden Test-Etiketten wandern zu den Zebras)*
 
 ### Folie 18 — Test Data · 0:45
 
