@@ -2,7 +2,7 @@
 
 Sprechtext auf Deutsch zur gekürzten Fassung der Folien (`slides/talk_v3.py`, Szenen
 `UseCase3`, `Data3`, `Generative3`, `Bands3`, `Models3`, `Summary3`). Die Folien selbst
-sind englisch. Jeder **[Klick]** entspricht einem `next_slide()` (52 Klicks, 23 Folien).
+sind englisch. Jeder **[Klick]** entspricht einem `next_slide()` (53 Klicks, 23 Folien).
 
 **Warum diese Fassung kürzer ist.** Der Probelauf am 19.10. mit v2 dauerte 37:58 statt
 19:30 (`2026-10-19_talk-timing-analysis.md`): 57 % mehr Wörter als im Skript, gesprochen
@@ -65,17 +65,18 @@ Elefanten auf Folie 21 weglassen.
 
 > Auf dem Wahlrad gibt es auch einen Modus für Säugetiere. *(auf das Symbol zeigen)*
 
-**[Klick]** *(Ensemble erscheint komplett)*
+**[Klick]** *(SpeciesNet-Blogpost im Hintergrund, darüber das Ensemble komplett)*
 
 > Dahinter stehen zwei frei verfügbare Modelle: MegaDetector findet das Tier, hier mit 94
 > Prozent, und SpeciesNet von Google bestimmt den Ausschnitt: Ozelot. Beide sind für
 > Kamerafallen gebaut, oft nachts im Infrarot. Durch ein Fernglas sieht man anderes:
 > Tageslicht, große Entfernung, zum Teil andere Tiere.
 
-**[Klick]** *(YOLOv5 statt MegaDetector)*
+**[Klick]** *(MegaDetector wird grau, YOLOv5 erscheint)*
 
-> Im Fernglas selbst läuft als Detektor statt MegaDetector ein kleineres YOLOv5-Modell. Meine Frage war: Kann ein Modell, das gezielt auf Säugetiere im Fernglas
-> trainiert ist, das besser?
+> Im Fernglas selbst läuft als Detektor statt MegaDetector ein kleineres YOLOv5-Modell.
+> Meine Frage war: Kann ein Modell, das gezielt auf Säugetiere im Fernglas trainiert ist,
+> das besser?
 
 **[Klick]**
 
@@ -137,8 +138,9 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-> Deshalb eine Filterkette bis hin zu SpeciesNet, das am Ende auch die Artenlabels
-> liefert. Das Grundproblem bleibt: Für viele Klassen gibt es zu wenige Fotos.
+> Deshalb eine Filterkette bis zur Durchsicht von Hand. Zwei Stufen liefern gleich die
+> Labels: MegaDetector die Bounding Boxes, SpeciesNet die Art. Das Grundproblem bleibt:
+> Für viele Klassen gibt es zu wenige Fotos.
 
 **[Klick]**
 
@@ -192,7 +194,7 @@ Elefanten auf Folie 21 weglassen.
 ### Folie 14 — Training Images Comparison (zwölf Arten) · 0:40
 
 > Aber sieht gut aus heißt nicht, dass ein Detektor daraus lernt. Deshalb ein Vergleich:
-> diese zwölf Arten, von häufig bis selten, jeweils 1.200 Bilder pro Generator. Gleicher
+> diese zwölf Arten, von häufig bis selten, je 100 Bilder, also 1.200 pro Generator. Gleicher
 > Detektor, gleiches Training, bewertet auf echten Fotos.
 
 **[Klick]**
@@ -235,11 +237,15 @@ Elefanten auf Folie 21 weglassen.
 
 > Dazu 50 synthetische Testbilder pro Klasse, in gelb.
 
+**[Klick]** *(nur die echten Testbilder bleiben hell, ihr Etikett wandert nach oben)*
+
+> Gemessen wird ab jetzt nur auf den echten Testfotos, in pink.
+
 **[Klick]**
 
 ### Folie 17 — Recognition Results · 1:15
 
-> Das Ergebnis auf echten Fotos: A, nur synthetisch, 20 Prozent. B, halb synthetisch, 51.
+> Das Ergebnis auf echten Testfotos: A, nur synthetisch, 20 Prozent. B, halb synthetisch, 51.
 > C, nur echt, 54. D 66 Prozent. Die Hälfte durch synthetische Bilder zu ersetzen kostet
 > wenig, alles zu ersetzen funktioniert nicht.
 
@@ -252,7 +258,8 @@ Elefanten auf Folie 21 weglassen.
 > In Band A schafft die Streifenhyäne 48 Prozent, die Mangaben fast null. Meine
 > Hypothese: Einheitlich aussehende Arten lassen sich gut generieren, vielfältige nicht.
 
-**[Klick]**
+**[Klick]** *(der Datensatz noch einmal, die synthetischen Testbilder hell; die beiden
+Test-Etiketten wandern zu den Zebras)*
 
 ### Folie 18 — Test Data · 0:45
 

@@ -80,6 +80,10 @@ SOURCES: dict[str, Path] = {
     "generators/lion_realvisxl.jpg": GEN / "appendix/lion_realvisxl-lightning.jpg",
     "generators/lion_gemini.jpg": GEN / "appendix/lion_001_full_gemini.jpg",
     "generators/lion_gpt-image-2-low.jpg": HERE / "assets/extra/lion_gpt-image-2-low.jpg",  # from the GPU server
+    # v3: the lion from the other full-prompt cells of the generator comparison
+    "generators/lion_gpt-image-2-medium.jpg": DATA / "synthetic_model_comparison/train/gpt-image-2-medium/full/images/lion/d_lion_001.png",
+    "generators/lion_gemini-flash-lite.jpg": DATA / "synthetic_model_comparison/train/gemini-3.1-flash-lite-image/full/images/lion/d_lion_001.png",
+    "generators/lion_sd35-large-turbo.jpg": GEN / "appendix/lion_sd35-large-turbo.jpg",
     "generators/prompt_compressed_sd35m.jpg": GEN / "appendix/lion_001_compressed_sd35m.jpg",
     "generators/prompt_maxlen256_sd35m.jpg": GEN / "appendix/lion_001_maxlen256_sd35m.jpg",
     "generators/prompt_maxlen512_flux2-klein.jpg": GEN / "appendix/lion_001_maxlen512_flux2-klein-9b.jpg",

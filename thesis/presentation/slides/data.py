@@ -427,3 +427,8 @@ COMPARISON_CLASSES = [
 WITHIN_GROUP_CONFUSION_REAL = (5528, 28000)  # 19.7 %
 # The same, per look-alike group (real test set): confused / matched.
 WITHIN_GROUP_CONFUSION_REAL_GROUPS = {"zebras": (147, 1538), "elephants": (1547, 2957)}  # 9.6 %, 52.3 %
+# Training images per look-alike species: (synthetic, real) (reports/class_split_counts.csv)
+SPECIES_TRAIN = {
+    "Grévy's zebra": (100, 100), "Mountain zebra": (0, 374), "Plains zebra": (0, 1500),
+    "Asian elephant": (100, 100), "African elephant": (0, 1500),
+}

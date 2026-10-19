@@ -47,6 +47,7 @@ from manim import (
     LaggedStart,
     Line,
     Rectangle,
+    Restore,
     RoundedRectangle,
     Square,
     SurroundingRectangle,
@@ -100,6 +101,9 @@ PROMPTS = HERE / "assets" / "prompts"
 SOURCE_COLORS = [SKY, "#FFD45C", "#FF8A3D", MIST, RED]
 # Synthetic test images (final-dataset chart and its legend).
 SYNTH_TEST = "#FFD45C"
+# Real test images and the results measured on them: pink, which stands out on the blue
+# background better than sky blue and is not used for anything else.
+REAL_TEST = "#FF79C6"
 
 
 # =================================================================================
@@ -251,24 +255,27 @@ class UseCase3(Talk3):
         self.page()
 
         # 3 — MammalID: the AX Visio (the mode is pointed at by hand), then the model
-        # ensemble behind the mode in one go, then YOLOv5 as the detector in the device
+        # ensemble behind the mode in one go (over SpeciesNet's blog post), then YOLOv5 as
+        # the detector in the device
         self.play(FadeIn(title("MammalID")))
         ax = photo(IMG / "deck/ax_visio_top.jpg", height=4.6, radius=0.04).move_to([-4.0, -0.4, 0])
         note = copyright_note().next_to(ax, DOWN, buff=0.1).align_to(ax, LEFT)
         self.play(FadeIn(ax), FadeIn(note))
         self.next_slide()
-        frame = photo(IMG / "usecase/ocelot.jpg", height=2.6).move_to([1.0, 0.3, 0])
+        blog = photo(IMG / "usecase/speciesnet_blog.png", width=5.4, aspect=5.4 / 4.2, top=True, radius=0.03).move_to([2.85, 0.2, 0])
+        frame = photo(IMG / "usecase/ocelot.jpg", height=2.6).move_to([1.0, -0.55, 0])
         W, H = frame.width, frame.height
         x0, y0 = frame.get_left()[0], frame.get_top()[1]
         bx = D.OCELOT_BBOX
         bbox = Rectangle(width=(bx[2] - bx[0]) / 800 * W, height=(bx[3] - bx[1]) / 600 * H).set_stroke(GREEN, 5)
         bbox.move_to([x0 + (bx[0] + bx[2]) / 2 / 800 * W, y0 - (bx[1] + bx[3]) / 2 / 600 * H, 0])
         md = pill("MegaDetector · 94 %", 20).next_to(frame, DOWN, buff=0.2)
-        crop = photo(IMG / "usecase/ocelot_crop.jpg", height=1.9).move_to([4.95, 0.3, 0])
+        crop = photo(IMG / "usecase/ocelot_crop.jpg", height=1.9).move_to([4.95, -0.55, 0])
         sn = pill("SpeciesNet", 20).next_to(crop, DOWN, buff=0.2)
-        out = pill("Ocelot · 98.8 %", 26, fill=GREEN, bold=True).move_to([4.95, -2.45, 0])
+        out = pill("Ocelot · 98.8 %", 26, fill=GREEN, bold=True).move_to([4.95, -3.25, 0])
         a1 = arrow(bbox.get_right(), crop.get_left())
         a2 = arrow(sn.get_bottom(), out.get_top(), buff=0.1)
+        self.play(FadeIn(blog, shift=UP * 0.2), run_time=0.6)
         self.play(
             FadeIn(frame), Create(bbox), FadeIn(md), Create(a1), FadeIn(crop, shift=RIGHT * 0.3), FadeIn(sn),
             Create(a2), FadeIn(out, scale=1.1), run_time=1.2,
@@ -418,11 +425,13 @@ class Data3(Talk3):
         self.play(FadeIn(title("Data Quality")))
         self.play(LaggedStart(*[FadeIn(t, scale=0.9) for r in rej for t in r], lag_ratio=0.12), run_time=1.6)
         self.next_slide()
-        stages = ["Metadata", "Heuristics", "MegaDetector", "VLM check", "SpeciesNet"]
-        chips = VGroup(*[pill(s, 22) for s in stages]).arrange(RIGHT, buff=0.6).move_to(DOWN * 3.15)
+        stages = ["Metadata", "Heuristics", "MegaDetector", "VLM", "SpeciesNet", "Manual review"]
+        chips = VGroup(*[pill(s, 21) for s in stages]).arrange(RIGHT, buff=0.45).move_to(DOWN * 3.0)
         arrs = VGroup(*[arrow(a.get_right(), b.get_left(), buff=0.08) for a, b in zip(chips, chips[1:])])
+        bbox_l = txt("= bbox label", 16, GREEN).next_to(chips[2], DOWN, buff=0.1)  # MegaDetector's boxes are the labels
         self.play(rej.animate.scale(0.82).shift(UP * 0.45))
         self.play(LaggedStart(*[FadeIn(c, shift=RIGHT * 0.2) for c in chips], lag_ratio=0.2), Create(arrs), run_time=1.5)
+        self.play(FadeIn(bbox_l, shift=UP * 0.1))
         self.next_slide()
 
 
@@ -505,9 +514,11 @@ class Generative3(Talk3):
             ph = photo(T / f"{folder}.png", width=2.15, aspect=4 / 3)
             animals.add(Group(ph, pill(name, 15).move_to(ph.get_bottom() + UP * 0.05)))  # centred, slightly on the picture
         animals.arrange_in_grid(rows=2, cols=6, buff=(0.12, 0.35)).move_to(DOWN * 0.5)
+        each = pill("100 images each", 26, fill=GREEN, bold=True).next_to(animals, DOWN, buff=0.4)
         self.play(LaggedStart(*[FadeIn(a, scale=0.95) for a in animals], lag_ratio=0.08), run_time=1.4)
+        self.play(FadeIn(each, scale=1.1))
         self.next_slide()
-        self.play(FadeOut(animals))
+        self.play(FadeOut(animals), FadeOut(each))
 
         # 15 — Training images comparison: detector accuracy per generator, cost per image and
         # prompt length, the same lion from six generators; then the two compressed-prompt
@@ -542,17 +553,20 @@ class Generative3(Talk3):
         foot = txt("per image: API = batch list price · local = seconds on one NVIDIA A40", 14, MIST).to_corner(DL, buff=0.3)
         legend = VGroup(pill("API", 16, fill=SKY), pill("local", 16, fill=MIST)).arrange(RIGHT, buff=0.15)
         legend.move_to([x_prompt + 0.9, foot.get_y(), 0], aligned_edge=RIGHT)
-        # The same lion prompt, one picture per generator (the cheapest API cell first).
+        # The same lion prompt, one picture per full-prompt cell, in ranking order.
         G = IMG / "generators"
+        lion_file = {
+            "gpt-image-2 low": "lion_gpt-image-2-low.jpg", "gpt-image-2 medium": "lion_gpt-image-2-medium.jpg",
+            "Gemini Flash": "lion_gemini.jpg", "Gemini Flash-Lite": "lion_gemini-flash-lite.jpg",
+            "SD 3.5 Large": "lion_sd35-large.jpg", "SD 3.5 Medium": "lion_sd35m.jpg",
+            "SD 3.5 Large Turbo": "lion_sd35-large-turbo.jpg", "FLUX.2 klein": "lion_flux2-klein.jpg",
+            "HiDream-I1": "lion_hidream-i1.jpg", "RealVisXL Lightning": "lion_realvisxl.jpg",
+        }
         lions = Group()
-        for name, f in (
-            ("gpt-image-2 low", "lion_gpt-image-2-low.jpg"), ("Gemini Flash", "lion_gemini.jpg"),
-            ("SD 3.5 Large", "lion_sd35-large.jpg"), ("FLUX.2 klein", "lion_flux2-klein.jpg"),
-            ("HiDream-I1", "lion_hidream-i1.jpg"), ("RealVisXL", "lion_realvisxl.jpg"),
-        ):
-            ph = photo(G / f, width=1.8, aspect=4 / 3)
-            lions.add(Group(ph, pill(name, 12).move_to(ph.get_corner(DL), aligned_edge=DL).shift(UR * 0.06)))
-        lions.arrange_in_grid(rows=3, cols=2, buff=(0.1, 0.12)).move_to([5.15, -0.45, 0])
+        for name, *_x in D.GENERATORS:
+            ph = photo(G / lion_file[name], width=1.6, aspect=4 / 3)
+            lions.add(Group(ph, pill(name, 11).move_to(ph.get_corner(DL), aligned_edge=DL).shift(UR * 0.05)))
+        lions.arrange_in_grid(rows=5, cols=2, buff=(0.08, 0.08)).move_to([5.25, -0.55, 0])
         self.play(FadeIn(legend), LaggedStart(*[FadeIn(r[0]) for r in rows], lag_ratio=0.05))
         self.play(LaggedStart(*[GrowFromEdge(r[1], LEFT) for r in rows], lag_ratio=0.08), run_time=1.6)
         self.play(*[FadeIn(r[2]) for r in rows], *[FadeIn(r[3]) for r in rows], FadeIn(heads[0]))
@@ -614,7 +628,7 @@ class Bands3(Talk3):
         for i, r in enumerate(rows):
             tr, ts, te = int(r["train_real"]), int(r["train_synth"]), int(r["test_real"])
             cols.append(VGroup(*stack(i, [(0, GREEN), (tr, MIST), (te, MIST), (0, SYNTH_TEST)])))
-            after.append(stack(i, [(ts, GREEN), (tr, MIST), (te, SKY), (50, SYNTH_TEST)]))  # 50 synthetic test images per class
+            after.append(stack(i, [(ts, GREEN), (tr, MIST), (te, REAL_TEST), (50, SYNTH_TEST)]))  # 50 synthetic test images per class
         grid, img_labels = VGroup(), VGroup()
         for v in (200, 400, 600, 800):
             yy = base + v / cap * chart_h
@@ -629,15 +643,19 @@ class Bands3(Talk3):
             if i0:
                 seps.add(DashedLine([left + i0 * bw, base, 0], [left + i0 * bw, base + chart_h, 0]).set_stroke(WHITE, 2, 0.6))
             i0 += n_b
-        leg = {
-            "real": pill("real", 17, fill=MIST),
-            "real train": pill("real train", 17, fill=MIST),
-            "synthetic train": pill("synthetic train", 17, fill=GREEN),
-            "real test": pill("real test", 17, fill=SKY),
-            "synthetic test": pill("synthetic test", 17, fill=SYNTH_TEST),
-        }
-        VGroup(*[leg[k] for k in ("real train", "synthetic train", "real test", "synthetic test")]).arrange(RIGHT, buff=0.18).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
-        leg["real"].move_to(leg["real train"], aligned_edge=LEFT)
+        def legend():
+            leg = {
+                "real": pill("real", 17, fill=MIST),
+                "real train": pill("real train", 17, fill=MIST),
+                "synthetic train": pill("synthetic train", 17, fill=GREEN),
+                "real test": pill("real test", 17, fill=REAL_TEST),
+                "synthetic test": pill("synthetic test", 17, fill=SYNTH_TEST),
+            }
+            VGroup(*[leg[k] for k in ("real train", "synthetic train", "real test", "synthetic test")]).arrange(RIGHT, buff=0.18).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
+            leg["real"].move_to(leg["real train"], aligned_edge=LEFT)
+            return leg
+
+        leg = legend()
         # step 1: the real images per class
         self.play(FadeIn(grid), FadeIn(img_labels), FadeIn(leg["real"]))
         self.play(LaggedStart(*[GrowFromEdge(VGroup(c[1], c[2]), DOWN) for c in cols], lag_ratio=0.006), run_time=2.2)
@@ -645,7 +663,7 @@ class Bands3(Talk3):
         # step 2: the bands
         self.play(*[Create(s) for s in seps], FadeIn(labs))
         self.next_slide()
-        # step 3: synthetic training images push the real test images up; test turns blue
+        # step 3: synthetic training images push the real test images up; test gets its colour
         self.add(*[c[0] for c in cols])
         self.play(
             *[Transform(c[k], after[i][k]) for i, c in enumerate(cols) for k in range(3)],
@@ -658,16 +676,28 @@ class Bands3(Talk3):
         self.play(FadeIn(leg["synthetic test"]), LaggedStart(*[GrowFromEdge(t, DOWN) for t in tests], lag_ratio=0.004), run_time=1.6)
         self.next_slide()
 
-        # 17 — Results on top of the same chart: the dataset greys out, the bands stay
+        # step 5: only the real test images count: they stay lit, and their legend pill
+        # becomes the label of the results that follow
         bars_all = VGroup(*cols, tests)
+        bars_all.save_state()
+        not_real_test = VGroup(*[c[k] for c in cols for k in (0, 1)], tests)
+        note_pill = pill("real test photos", 17, fill=REAL_TEST)
+        note = VGroup(txt("YOLO26n · mAP on", 18, MIST), note_pill).arrange(RIGHT, buff=0.15).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
+        self.play(
+            not_real_test.animate.set_opacity(0.15),
+            *[FadeOut(leg[k]) for k in ("real", "synthetic train", "synthetic test")],
+            leg["real test"].animate.scale(1.15),
+        )
+        self.play(Transform(leg["real test"], note_pill), FadeIn(note[0], shift=LEFT * 0.2))
+        self.next_slide()
+
+        # 17 — Results on top of the same chart: the dataset greys out, the bands stay
         map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((200, 400, 600, 800), img_labels)])
-        note = txt("YOLO26n · mAP on real photos", 18, MIST).to_corner(UR, buff=0.4).shift(DOWN * 1.25)
+        count_labels = img_labels.copy()
         self.play(
             Transform(head, title("Recognition Results")),
             bars_all.animate.set_fill(MIST, 0.16),
-            *[FadeOut(leg[k]) for k in ("real", "synthetic train", "real test", "synthetic test")],
             Transform(img_labels, map_labels),
-            FadeIn(note),
         )
         # band mAP = mean of the per-class AP shown as dots on the next click
         per_class = D.per_class_real_ap()
@@ -676,7 +706,7 @@ class Bands3(Talk3):
         res, vals = VGroup(), VGroup()
         for b, v in band_map.items():
             x_lo, x_hi = spans[b]
-            r = Rectangle(width=x_hi - x_lo - 0.16, height=v * chart_h).set_fill(GREEN, 0.38).set_stroke(GREEN, 3)
+            r = Rectangle(width=x_hi - x_lo - 0.16, height=v * chart_h).set_fill(REAL_TEST, 0.38).set_stroke(REAL_TEST, 3)
             res.add(r.move_to([(x_lo + x_hi) / 2, base, 0], aligned_edge=DOWN))
             vals.add(txt(f"mAP\n{D.pct(v)}", 22, bold=True, line_spacing=0.8).next_to(r, UP, buff=0.12))
         self.play(LaggedStart(*[GrowFromEdge(r, DOWN) for r in res], lag_ratio=0.25), run_time=1.8)
@@ -694,46 +724,68 @@ class Bands3(Talk3):
             if r["class"] in ("striped hyaena", "mangabeys genus"):
                 special[r["class"]] = d
             dots.add(d)
-        self.play(res.animate.set_fill(GREEN, 0.18), FadeOut(vals))
+        self.play(res.animate.set_fill(REAL_TEST, 0.18), FadeOut(vals))
         self.play(LaggedStart(*[GrowFromCenter(d) for d in dots], lag_ratio=0.004), run_time=1.6)
         self.next_slide()
-        hy = labelled(photo(IMG / "bands/synthetic_striped_hyaena.png", height=1.15, aspect=4 / 3), f"hyaena · AP {D.pct(pc['striped hyaena'], 0)}", DL, 12)
-        mg = labelled(photo(IMG / "bands/synthetic_mangabeys.png", height=1.15, aspect=4 / 3), f"mangabeys · AP {D.pct(pc['mangabeys genus'], 0)}", DL, 12)
-        # above the chart, over band A
-        pair = Group(mg, hy).arrange(RIGHT, buff=0.15)  # same left-to-right order as their dots
-        pair.move_to([spans["A"][0], base + chart_h + 0.12, 0], aligned_edge=DL)
-        foot = txt("both trained on\nsynthetic images only", 15, MIST).next_to(pair, RIGHT, buff=0.25)
+        hy = labelled(photo(IMG / "bands/synthetic_striped_hyaena.png", height=1.0, aspect=4 / 3), f"hyaena · AP {D.pct(pc['striped hyaena'], 0)}", DL, 12)
+        mg = labelled(photo(IMG / "bands/synthetic_mangabeys.png", height=1.0, aspect=4 / 3), f"mangabeys · AP {D.pct(pc['mangabeys genus'], 0)}", DL, 12)
+        # inside the chart, in the empty upper half of band A
+        pair = Group(mg, hy).arrange(RIGHT, buff=0.12)  # same left-to-right order as their dots
+        pair.move_to([spans["A"][0] + 0.05, base + 0.6 * chart_h, 0], aligned_edge=DL)
+        foot = txt("both trained on\nsynthetic images only", 15, MIST).next_to(pair, UP, buff=0.12).align_to(pair, LEFT)
         hl = [special[k].copy().set_color(GREEN).scale(2.0) for k in ("striped hyaena", "mangabeys genus")]
         l1 = Line(hl[0].get_center(), hy.get_bottom(), buff=0.1).set_stroke(GREEN, 2)
         l2 = Line(hl[1].get_center(), mg.get_bottom(), buff=0.1).set_stroke(GREEN, 2)
         self.play(*[FadeIn(h, scale=1.5) for h in hl])
         self.play(FadeIn(pair), FadeIn(foot), Create(l1), Create(l2))
-        self.page()
+        self.next_slide()
 
-        # 18 — Test data: three synthetic test images against three real photos
+        # 18 — Test data. First the dataset chart once more with the synthetic test images
+        # lit; then the two test legend pills move onto the zebra rows as their labels.
+        morphed = leg["real test"]  # the "real test photos" pill of the results note
+        leg = legend()
+        self.play(
+            FadeOut(res), FadeOut(dots), *[FadeOut(h) for h in hl], FadeOut(pair), FadeOut(foot), FadeOut(l1), FadeOut(l2),
+            FadeOut(note[0]), FadeOut(morphed),
+            Restore(bars_all), Transform(img_labels, count_labels), Transform(head, title("Test Data")),
+            *[FadeIn(leg[k]) for k in ("real train", "synthetic train", "real test", "synthetic test")],
+        )
+        not_synth_test = VGroup(*[c[k] for c in cols for k in (0, 1, 2)])
+        self.play(not_synth_test.animate.set_opacity(0.15), leg["synthetic test"].animate.scale(1.1, about_edge=RIGHT))
+        self.wait(0.6)
         G = IMG / "generators"
         syn = Group(*[photo(G / f, height=2.05, aspect=4 / 3) for f in ("zebra_grevys_gemini.png", "zebra_mountain_gemini.png", "zebra_plains_gemini.png")]).arrange(RIGHT, buff=0.15)
         real = Group(*[photo(IMG / "bands" / f, height=2.05, aspect=4 / 3) for f in ("real_test_grevys_zebra.jpg", "real_test_mountain_zebra.jpg", "real_test_plains_zebra.jpg")]).arrange(RIGHT, buff=0.15)
         sl = pill("synthetic test images", 20, fill=SYNTH_TEST)
         sl.move_to(syn.get_bottom() + UP * 0.08).align_to(syn, LEFT).shift(RIGHT * 0.12)  # slightly on the picture
-        rl = pill("real photos", 20, fill=SKY)
+        rl = pill("real test images", 20, fill=REAL_TEST)
         rl.move_to(real.get_bottom() + UP * 0.08).align_to(real, LEFT).shift(RIGHT * 0.12)
         block = Group(Group(syn, sl), Group(real, rl)).arrange(DOWN, buff=0.35).move_to(DOWN * 0.4)
-        self.play(FadeIn(title("Test Data")), LaggedStart(*[FadeIn(t, shift=UP * 0.15) for t in syn], lag_ratio=0.2), FadeIn(sl))
-        self.play(LaggedStart(*[FadeIn(t, shift=UP * 0.15) for t in real], lag_ratio=0.2), FadeIn(rl))
+        chart = VGroup(grid, img_labels, seps, labs, bars_all)
+        leg["synthetic test"].set_z_index(5)
+        leg["real test"].set_z_index(5)
+        self.play(
+            FadeOut(chart), FadeOut(leg["real train"]), FadeOut(leg["synthetic train"]),
+            Transform(leg["synthetic test"], sl), Transform(leg["real test"], rl),
+            run_time=1.2,
+        )
+        self.play(LaggedStart(*[FadeIn(t, shift=UP * 0.15) for t in (*syn, *real)], lag_ratio=0.12), run_time=1.2)
+        # hand over to the block's own labels, drawn on top of their photos
+        self.remove(leg["synthetic test"], leg["real test"])
+        self.add(sl.set_z_index(5), rl.set_z_index(5))
         self.next_slide()
-        self.play(block.animate.scale(0.6).to_edge(LEFT, buff=0.4).set_y(-0.2))
+        self.play(block.animate.scale(0.75).to_edge(LEFT, buff=0.4).set_y(-0.3))
         L, base = 4.6, -2.6
         bars = VGroup()
         for k, b in enumerate("ABCD"):
             x = 0.9 + k * 1.65
             s = vbar(D.BAND_SYNTH_TEST[b], 1.0, L, w=0.6, color=SYNTH_TEST).move_to([x - 0.33, base, 0], aligned_edge=DOWN)
-            r = vbar(D.BAND_REAL_TEST[b], 1.0, L, w=0.6, color=SKY).move_to([x + 0.33, base, 0], aligned_edge=DOWN)
+            r = vbar(D.BAND_REAL_TEST[b], 1.0, L, w=0.6, color=REAL_TEST).move_to([x + 0.33, base, 0], aligned_edge=DOWN)
             sv = txt(D.pct(D.BAND_SYNTH_TEST[b], 0), 16, MIST).next_to(s, UP, buff=0.08)
             rv = txt(D.pct(D.BAND_REAL_TEST[b], 0), 16).next_to(r, UP, buff=0.08)
-            lab = VGroup(txt(b, 28, bold=True), band_glyph(b)).arrange(RIGHT, buff=0.14).move_to([x, base - 0.4, 0])
+            lab = VGroup(txt(b, 28, bold=True), band_glyph(b)).arrange(RIGHT, buff=0.14).move_to([x, base - 0.45, 0])
             bars.add(VGroup(s, r, sv, rv, lab))
-        leg2 = VGroup(pill("synthetic test · mAP", 18, fill=SYNTH_TEST), pill("real test · mAP", 18, fill=SKY)).arrange(RIGHT, buff=0.2)
+        leg2 = VGroup(pill("synthetic test · mAP", 18, fill=SYNTH_TEST), pill("real test · mAP", 18, fill=REAL_TEST)).arrange(RIGHT, buff=0.2)
         leg2.next_to(bars, UP, buff=0.35).align_to(bars, LEFT).shift(UP * 0.4)
         self.play(FadeIn(leg2), *[FadeIn(g[4]) for g in bars])
         self.play(LaggedStart(*[a for g in bars for a in (GrowFromEdge(g[0], DOWN), GrowFromEdge(g[1], DOWN))], lag_ratio=0.1), run_time=1.6)
@@ -745,10 +797,17 @@ class Bands3(Talk3):
 # Act 5 — Models: accuracy, size and speed on embedded hardware
 # =================================================================================
 def band_glyph(band: str, size: float = 0.17) -> VGroup:
-    """Training-set composition of a band as squares: green = 100 synthetic, white = 100 real
-    images (A: 200 synthetic, B: 100 + 100, C: 200 real, D: many real)."""
-    fills = {"A": [GREEN, GREEN], "B": [GREEN, WHITE], "C": [WHITE, WHITE], "D": [WHITE] * 5}[band]
-    return VGroup(*[Square(side_length=size).set_fill(f, 1).set_stroke(width=0) for f in fills]).arrange(RIGHT, buff=0.04)
+    """Training-set composition of a band as stacked squares, bottom to top like the dataset
+    chart: green = 100 synthetic, white = 100 real images (A: 200 synthetic, B: 100 + 100,
+    C: 200 real, D: many real, the top square fading out because the stack goes on)."""
+    fills = {"A": [(GREEN, 1)] * 2, "B": [(GREEN, 1), (WHITE, 1)], "C": [(WHITE, 1)] * 2, "D": [(WHITE, 1)] * 2 + [(WHITE, 0.3)]}[band]
+    return VGroup(*[Square(side_length=size).set_fill(f, o).set_stroke(width=0) for f, o in fills]).arrange(UP, buff=0.04)
+
+
+def band_mix(species: str) -> str:
+    """Band and training mix of a species, e.g. "B (100/100)" = 100 synthetic / 100 real train images."""
+    n_syn, n_real = D.SPECIES_TRAIN[species]
+    return f"{D.SPECIES_BAND[species]} ({n_syn:,}/{n_real:,})"
 
 
 MODEL_ORDER = ["Ensemble, off the shelf", "Ensemble, fine-tuned", "YOLOv5s", "YOLO26n"]
@@ -853,7 +912,7 @@ class Models3(Talk3):
         zeb = Group()
         for name, f in (("Grévy's zebra", "real_test_grevys_zebra.jpg"), ("Mountain zebra", "real_test_mountain_zebra.jpg"), ("Plains zebra", "real_test_plains_zebra.jpg")):
             ph = photo(IMG / "bands" / f, height=2.3, aspect=4 / 3)
-            zeb.add(Group(ph, pill(f"{name} · band {D.SPECIES_BAND[name]} · AP {D.pct(D.ZEBRA_AP[name])}", 15).next_to(ph, DOWN, buff=0.18)))
+            zeb.add(Group(ph, pill(f"{name} · {band_mix(name)} · AP {D.pct(D.ZEBRA_AP[name])}", 15).next_to(ph, DOWN, buff=0.18)))
         zeb.arrange(RIGHT, buff=0.75).move_to(DOWN * 0.55)
         idx = {"Grévy's zebra": 0, "Mountain zebra": 1, "Plains zebra": 2}
         links = VGroup()
@@ -880,8 +939,8 @@ class Models3(Talk3):
         rate = group_rate("zebras")
         self.play(LaggedStart(*[Create(l_[0]) for l_ in links], lag_ratio=0.2), *[FadeIn(l_[1]) for l_ in links], FadeIn(cfoot), FadeIn(rate), run_time=1.4)
         self.next_slide()
-        asian = labelled(photo(IMG / "models/synthetic_asian_elephant.jpg", height=3.0, aspect=4 / 3), f"Asian elephant · band {D.SPECIES_BAND['Asian elephant']}", DL, 20).move_to([-3.2, -0.9, 0])
-        african = labelled(photo(IMG / "models/synthetic_african_elephant.jpg", height=3.0, aspect=4 / 3), f"African elephant · band {D.SPECIES_BAND['African elephant']}", DR, 20).move_to([3.6, -0.9, 0])
+        asian = labelled(photo(IMG / "models/synthetic_asian_elephant.jpg", height=3.0, aspect=4 / 3), f"Asian elephant · {band_mix('Asian elephant')}", DL, 20).move_to([-3.2, -0.9, 0])
+        african = labelled(photo(IMG / "models/synthetic_african_elephant.jpg", height=3.0, aspect=4 / 3), f"African elephant · {band_mix('African elephant')}", DR, 20).move_to([3.6, -0.9, 0])
         fwd = curved_arrow(asian.get_top() + RIGHT * 0.6 + UP * 0.1, african.get_top() + LEFT * 0.6 + UP * 0.1, angle=-0.9, color=GREEN)
         rev = curved_arrow(african.get_bottom() + LEFT * 0.6 + DOWN * 0.1, asian.get_bottom() + RIGHT * 0.6 + DOWN * 0.1, angle=-0.6, color=MIST)
         fl = pill(D.pct(conf[("Asian elephant", "African elephant")]), 30, fill=GREEN, bold=True).next_to(fwd, UP, buff=0.05)
