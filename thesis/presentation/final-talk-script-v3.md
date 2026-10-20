@@ -303,6 +303,8 @@ Elefanten auf Folie 21 weglassen.
 
 ### Folie 20 — Knowledge Distillation · 0:50
 
+*(Das Diagramm bleibt stehen: die Blase verschwindet, der Titel wechselt.)*
+
 > Kann das große Ensemble das kleine Modell verbessern, per Knowledge Distillation?
 
 **[Klick]**

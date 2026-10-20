@@ -928,24 +928,26 @@ class Models3(Talk3):
         call = pill(f"83× faster · 71× smaller · −{gap} pp species mAP", 28, fill=GREEN, bold=True).move_to([1.0, -3.3, 0])
         self.play(FadeOut(foot), FadeIn(call, scale=1.1))
         self.snap("models")
-        self.page()
-
-        # 20 — Knowledge distillation: can the big model teach the small one? The accuracy chart again, plus the distilled student
-        self.play(FadeIn(title("Knowledge Distillation")))
-        chart = accuracy_chart(MODEL_ORDER, extra=True)
-        leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
-        dots = chart["dots"]
-        self.play(FadeIn(leg), FadeIn(rows[:-1]), FadeIn(side[:-1]), FadeIn(watch), FadeIn(dots[:-1]))
         self.next_slide()
-        tuned = [rows[MODEL_ORDER.index(n_)][0] for n_ in ("YOLOv5s", "YOLO26n")]
+
+        # 20 — Knowledge distillation: can the big model teach the small one? The accuracy
+        # chart stays: the bubble goes, the title changes and the rows close up for a fifth one.
+        kd = accuracy_chart(MODEL_ORDER, extra=True)
         self.play(
-            FadeIn(rows[-1][0], shift=RIGHT * 0.2), GrowFromEdge(rows[-1][1], LEFT), GrowFromEdge(rows[-1][3], LEFT), FadeIn(side[-1]), FadeIn(dots[-1]),
+            FadeOut(call), Transform(head, title("Knowledge Distillation")),
+            *[Transform(a, b) for a, b in zip(rows, kd["rows"][:-1])],
+            *[Transform(a, b) for a, b in zip(side, kd["side"][:-1])],
+            *[Transform(a, b) for a, b in zip(sources, kd["dots"][:-1])],
+            Transform(watch, kd["watch"]),
+        )
+        self.next_slide()
+        new, tuned = kd["rows"][-1], [rows[MODEL_ORDER.index(n_)][0] for n_ in ("YOLOv5s", "YOLO26n")]
+        self.play(
+            FadeIn(new[0], shift=RIGHT * 0.2), GrowFromEdge(new[1], LEFT), GrowFromEdge(new[3], LEFT), FadeIn(kd["side"][-1]), FadeIn(kd["dots"][-1]),
             *[Transform(l_, txt(f"{l_.text}, fine-tuned", 24, bold=n_ == "YOLO26n").move_to(l_, aligned_edge=RIGHT)) for l_, n_ in zip(tuned, ("YOLOv5s", "YOLO26n"))],
         )
-        self.play(FadeIn(rows[-1][2]), FadeIn(rows[-1][4]))
+        self.play(FadeIn(new[2]), FadeIn(new[4]))
         self.page()
-
-
 
         # 21 — Similar species: the zebras, then how often each is named as another; then the elephants
         self.play(FadeIn(title("Similar Species")))
