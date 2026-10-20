@@ -2,12 +2,12 @@
 
 Sprechtext auf Deutsch zur gekürzten Fassung der Folien (`slides/talk_v3.py`, Szenen
 `UseCase3`, `Data3`, `Generative3`, `Bands3`, `Models3`, `Summary3`). Die Folien selbst
-sind englisch. Jeder **[Klick]** entspricht einem `next_slide()` (49 Klicks, 23 Folien).
+sind englisch. Jeder **[Klick]** entspricht einem `next_slide()` (46 Klicks, 22 Folien).
 
 **Warum diese Fassung kürzer ist.** Der Probelauf am 19.10. mit v2 dauerte 37:58 statt
 19:30 (`2026-10-19_talk-timing-analysis.md`): 57 % mehr Wörter als im Skript, gesprochen
 mit etwa 105 statt 130 Wörtern pro Minute. Dieses Skript hat rund 1.150 Wörter, also
-etwa 11 Minuten bei 105 Wörtern pro Minute. Die Folienzeiten unten (zusammen 19:15)
+etwa 11 Minuten bei 105 Wörtern pro Minute. Die Folienzeiten unten (zusammen 18:15)
 lassen damit gut 8 Minuten für Animationen, das Video, Zeigen und freies Ergänzen; in
 v2 kamen beim Sprechen 57 % Text dazu. Faustregel: **pro Folie eine Aussage**, Details
 nur auf Nachfrage.
@@ -20,21 +20,21 @@ anderes dabei. Quellen: `slides/data.py` und Kapitel 3 und 4 des Manuskripts.
 | Akt | Szene | Folien | Zeit | kumuliert |
 |-----|-------|--------|------|-----------|
 | 1 Anwendungsfall | `UseCase3` | 1–4 | 2:45 | 2:45 |
-| 2 Daten | `Data3` | 5–9 | 3:30 | 6:15 |
-| 3 Generierte Bilder | `Generative3` | 10–15 | 4:45 | 11:00 |
-| 4 Klassen ergänzen | `Bands3` | 16–18 | 3:30 | 14:30 |
-| 5 Modelle & Hardware | `Models3` | 19–22 | 3:45 | 18:15 |
-| 6 Zusammenfassung | `Summary3` | 23 | 1:00 | 19:15 |
+| 2 Daten | `Data3` | 5–8 | 2:45 | 5:30 |
+| 3 Generierte Bilder | `Generative3` | 9–14 | 4:45 | 10:15 |
+| 4 Klassen ergänzen | `Bands3` | 15–17 | 3:30 | 13:45 |
+| 5 Modelle & Hardware | `Models3` | 18–21 | 3:30 | 17:15 |
+| 6 Zusammenfassung | `Summary3` | 22 | 1:00 | 18:15 |
 
-**Kontrollpunkte:** Folie 10 (Binturong) spätestens bei **6:30**, Folie 16 (Final
-Dataset) bei **11:00**, Folie 19 (Three candidates) bei **14:30**. Liegt man hinten:
-Folie 7 (Klassenliste) und die Punktwolke auf Folie 17 mit einem Satz durchklicken, die
+**Kontrollpunkte:** Folie 9 (Binturong) spätestens bei **5:45**, Folie 15 (Final
+Dataset) bei **10:15**, Folie 18 (Three candidates) bei **13:45**. Liegt man hinten:
+Folie 7 (Klassenliste) und die Punktwolke auf Folie 16 mit einem Satz durchklicken, die
 Elefanten auf Folie 21 weglassen.
 
 **Wo v2 die meiste Zeit verlor, und was hier anders ist:**
-- *Data Quality:* nur die Filterkette nennen, nicht jede Stufe erklären.
+- *Data Quality:* die Folie ist weg; ein Satz auf Folie 8 genügt.
 - *Prompt:* nur die Länge. Der Versuchsaufbau (zwölf Arten, 1.200 Bilder) kommt erst auf
-  Folie 14, die genau dafür da ist.
+  Folie 13, die genau dafür da ist.
 - *Knowledge Distillation:* das Ergebnis einmal sagen und einen Grund nennen.
 
 ---
@@ -127,20 +127,9 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-> Neu sortiert: Viele Klassen profitieren, aber 29 bleiben unter hundert Bildern.
-
-**[Klick]**
-
-### Folie 9 — Data Quality · 0:50
-
-> Und nicht jedes Bild unter „Tier“ zeigt eines: eine ägyptische Wandmalerei, ein
-> Maskottchen, eine Verbreitungskarte.
-
-**[Klick]**
-
-> Deshalb eine Filterkette bis zur Durchsicht von Hand. Zwei Stufen liefern gleich die
-> Labels: MegaDetector die Bounding Boxes, SpeciesNet die Art. Das Grundproblem bleibt:
-> Für viele Klassen gibt es zu wenige Fotos.
+> Neu sortiert: Viele Klassen profitieren, aber 29 bleiben unter hundert Bildern. Und
+> jedes Bild lief noch durch eine Filterkette; die Labels kamen dabei von MegaDetector, die
+> Boxen, und SpeciesNet, die Art.
 
 **[Klick]**
 
@@ -148,7 +137,7 @@ Elefanten auf Folie 21 weglassen.
 
 ## Akt 3 — Generierte Bilder (`Generative3`)
 
-### Folie 10 — Synthetic images? – Binturong · 0:45
+### Folie 9 — Synthetic images? – Binturong · 0:45
 
 > Die naheliegende Idee: Bilder generieren. Ein Binturong, links echte Fotos.
 
@@ -162,7 +151,7 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-### Folie 11 — Prompt · 0:40
+### Folie 10 — Prompt · 0:40
 
 > Damit die Details stimmen, sind die Prompts lang: Artbeschreibung, Lebensraum, Szene,
 > Erkennungsmerkmale. Hier über viertausend Wörter für einen Löwen.
@@ -174,13 +163,13 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-### Folie 12 — Synthetischer Datensatz · 0:15
+### Folie 11 — Synthetischer Datensatz · 0:15
 
 > So entstanden 23.850 Bilder, hier Grévyzebras, für rund 785 Dollar.
 
 **[Klick]**
 
-### Folie 13 — Drei Zebras · 0:30
+### Folie 12 — Drei Zebras · 0:30
 
 > Wie genau das sein muss, zeigen Zebras: Grévy-, Berg- und Steppenzebra unterscheiden
 > sich nur in den Streifen.
@@ -191,7 +180,7 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-### Folie 14 — Training Images Comparison (zwölf Arten) · 0:40
+### Folie 13 — Training Images Comparison (zwölf Arten) · 0:40
 
 > Aber sieht gut aus heißt nicht, dass ein Detektor daraus lernt. Deshalb ein Vergleich:
 > diese zwölf Arten, von häufig bis selten, je 100 Bilder, also 1.200 pro Generator. Gleicher
@@ -199,7 +188,7 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-### Folie 15 — Training Images Comparison (Rangliste) · 1:55
+### Folie 14 — Training Images Comparison (Rangliste) · 1:55
 
 > Blau die API-Modelle, grau die lokalen. Alle API-Modelle liegen vor allen lokalen.
 > Platz eins ist gpt-image-2 in der günstigsten Stufe, 1,7 Cent pro Bild, 13,4 Prozent.
@@ -219,7 +208,7 @@ Elefanten auf Folie 21 weglassen.
 
 ## Akt 4 — Die Klassen ergänzen (`Bands3`)
 
-### Folie 16 — Final Dataset · 1:10
+### Folie 15 — Final Dataset · 1:10
 
 > Der fertige Datensatz. Jeder Balken eine Klasse, nach Anzahl echter Fotos sortiert.
 
@@ -244,7 +233,7 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-### Folie 17 — Recognition Results · 1:15
+### Folie 16 — Recognition Results · 1:15
 
 > Das Ergebnis auf echten Testfotos: A, nur synthetisch, 20 Prozent. B, halb synthetisch, 51.
 > C, nur echt, 54. D 66 Prozent. Die Hälfte durch synthetische Bilder zu ersetzen kostet
@@ -266,7 +255,7 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]** *(die beiden Test-Etiketten wandern zu den Zebras)*
 
-### Folie 18 — Test Data · 0:45
+### Folie 17 — Test Data · 0:45
 
 > Warum nur echte Fotos? Oben synthetische Testbilder, unten echte: Gegenlicht, Gestrüpp,
 > Farbstich.
@@ -282,14 +271,14 @@ Elefanten auf Folie 21 weglassen.
 
 ## Akt 5 — Modelle und Hardware (`Models3`)
 
-### Folie 19 — Three candidates · 0:20
+### Folie 18 — Three candidates · 0:20
 
 > Drei Kandidaten, Kreisfläche gleich Parameterzahl: MegaDetector plus SpeciesNet mit 193
 > Millionen, YOLOv5s mit 7,6 Millionen, YOLO26n mit 2,7 Millionen.
 
 **[Klick]**
 
-### Folie 20 — Accuracy on real photos (mAP) · 1:30
+### Folie 19 — Accuracy on real photos (mAP) · 1:30
 
 > Artgenauigkeit auf echten Fotos. MD plus SN, off the shelf: 44,5 Prozent. Mit
 > feinjustiertem SpeciesNet: 59,9. YOLO26n: 52,9, besser als das Original-Ensemble und
@@ -312,6 +301,18 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
+### Folie 20 — Knowledge Distillation · 0:50
+
+> Kann das große Ensemble das kleine Modell verbessern, per Knowledge Distillation?
+
+**[Klick]**
+
+> Der distillierte Schüler, unten: 47,9 Prozent, 5 Prozentpunkte schlechter als direkt
+> feinjustiert. Der Grund: Die Labels kamen schon von SpeciesNet, der Lehrer hat dem
+> Schüler nichts Neues beizubringen.
+
+**[Klick]**
+
 ### Folie 21 — Similar Species · 1:05
 
 > Ein Teil der Lücke sind ähnliche Arten. Die drei Zebras als echte Fotos.
@@ -328,26 +329,11 @@ Elefanten auf Folie 21 weglassen.
 
 **[Klick]**
 
-### Folie 22 — Knowledge Distillation · 0:50
-
-> Kann das große Ensemble das kleine Modell verbessern, per Knowledge Distillation?
-
-**[Klick]**
-
-> Der distillierte Schüler, unten: 47,9 Prozent, schlechter als direkt feinjustiert.
-
-**[Klick]**
-
-> Direktes Training gewinnt um 5 Prozentpunkte. Der Grund: Die Labels kamen schon von
-> SpeciesNet, der Lehrer hat dem Schüler nichts Neues beizubringen.
-
-**[Klick]**
-
 ---
 
 ## Akt 6 — Zusammenfassung (`Summary3`)
 
-### Folie 23 — Summary · 1:00
+### Folie 22 — Summary · 1:00
 
 *(Die sechs Kacheln erscheinen von selbst nacheinander, in gut drei Sekunden. Der Text
 läuft über sie hinweg, ohne Klick.)*
@@ -372,7 +358,7 @@ Was auf den Folien von v2 stand und hier fehlt, gehört in die Antworten.
 | Frage | Antwort |
 |-------|---------|
 | Ist SpeciesNet wirklich nicht auf Nashörnern trainiert? | Von 1.510 Nashornfotos hat SpeciesNet nur 40 (2,6 %) richtig zugeordnet. Eine Rückfallregel in der Filterkette hat rund 14.500 Bilder aus 17 Klassen gerettet. |
-| Wie groß ist das Ensemble? | Rund 193 Millionen Parameter (Folie 19). |
+| Wie groß ist das Ensemble? | Rund 193 Millionen Parameter (Folie 18). |
 | Welche Stufen hat die Filterkette? | Metadaten, Bildqualität (Unschärfe, weiße Pixel), MegaDetector, ein Vision-Language-Modell als zweite Meinung, SpeciesNet. Knapp 18.000 unklare Fälle von Hand geprüft. |
 | Und seltene Arten? | Die sechs seltenen Arten im Vergleich liegen bei jedem Generator unter 7 % AP. Beispiel Saiga: Die lokalen Generatoren zeichnen eine gewöhnliche Gazelle ohne die rüsselartige Nase. Ein Generator zeichnet nur, was er oft genug gesehen hat. |
 | Warum Raspberry Pi statt QCS605? | Der Hexagon-DSP hängt an einer Toolchain von 2018 mit schlecht dokumentierter Operator-Unterstützung. Der Pi 400 ist etwa 10–15 % langsamer als die Kryo-CPU des QCS605. |
@@ -381,7 +367,7 @@ Was auf den Folien von v2 stand und hier fehlt, gehört in die Antworten.
 | Warum ist das Ensemble eine Obergrenze? | MegaDetector hat die Ground-Truth-Boxen erzeugt. Beim Ensemble ist mAP gleich mAP50, was kein anderer Detektor erreicht. |
 | Woher kommen die Gruppenwerte auf Folie 21 (Zebras 9,6 %, Elefanten 52,3 %)? | YOLO26n, echte Testfotos: von den richtig lokalisierten und in die richtige Gruppe sortierten Tieren der Anteil mit der falschen Art (Zebras 147 von 1.538, Elefanten 1.547 von 2.957). Über alle 30 Gruppen sind es 19,7 % (5.528 von 28.000), auf dem gemischten Testset 19,3 % (Manuskript). |
 | Wie sind die Pfeil-Werte auf Folie 21 berechnet? | Pro Art: von allen richtig lokalisierten (IoU ≥ 0,5) Tieren dieser Art in der richtigen Gruppe der Anteil mit der falschen Art, auf den echten Testfotos. |
-| Warum stehen auf Folie 17 andere Bandwerte als in der Arbeit (30,0 / 58,8 / 59,1 / 74,2 %)? | Die Folie zeigt den Mittelwert der AP pro Klasse aus der gemeinsamen Auswertung aller 225 Klassen. Die Tabelle der Arbeit wertet jedes Band nur auf seinen eigenen Bildern aus. |
+| Warum stehen auf Folie 16 andere Bandwerte als in der Arbeit (30,0 / 58,8 / 59,1 / 74,2 %)? | Die Folie zeigt den Mittelwert der AP pro Klasse aus der gemeinsamen Auswertung aller 225 Klassen. Die Tabelle der Arbeit wertet jedes Band nur auf seinen eigenen Bildern aus. |
 | Warum nur ein Lauf pro Modell? | Ein Lauf dauerte auf einer A40 21 Stunden bis 8,8 Tage. Unterschiede unter etwa 3 Prozentpunkten sind nicht belastbar. |
 | Wurden die synthetischen Bilder automatisch annotiert? | Ja, mit MegaDetector. Im Generatorvergleich betrifft das alle gleich, die Rangfolge bleibt gültig. |
 | Warum keine NanoDet, PicoDet usw.? | Aus Zeitgründen; die Detektorfamilie war durch das Produkt vorgegeben. |

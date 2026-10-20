@@ -33,7 +33,7 @@ colleagues working as data/AI engineers.
 | `final-talk-script-v3.md` | German speaker script for the 20-minute cut (`slides/talk_v3.py`), slide by slide and click by click, about 1,150 words, with checkpoints and the cut material moved into the Q&A table. |
 | `2026-10-19_abschlusspraesentation_transcript.txt` | Timestamped German transcript of the recorded final presentation (2026-10-19, ~38 min): local Whisper, then cleaned up by hand; `[...]` marks garbled passages. The recording itself stays local. |
 | `2026-10-19_talk-timing-analysis.md` | Time per slide and per act in the recorded final talk (37:58) against the plan in `final-talk-script-v2.md` (19:30), with where the overrun came from. |
-| `slides/` | The final talk as manim / manim-slides animations. Current version `talk_v3.py` (6 scenes, 23 slides), cut to 20 minutes; `talk_v2.py` is the version of the 2026-10-19 run, `talk.py` the first version. See `slides/README.md`. |
+| `slides/` | The final talk as manim / manim-slides animations. Current version `talk_v3.py` (6 scenes, 22 slides), cut to 20 minutes; `talk_v2.py` is the version of the 2026-10-19 run, `talk.py` the first version. See `slides/README.md`. |
 
 `interim-presentation.pptx` and `interim-presentation-images/` (~250 MB, and slides 4–6
 are under NDA) stay local and are gitignored. So does `images/`, the picture folder for
@@ -48,12 +48,12 @@ Read `slides/README.md` first. This is the short version.
 - Six scenes, always rendered together in this order:
   `UseCase3 Data3 Generative3 Bands3 Models3 Summary3`. The scene names differ from v2's,
   so both versions' slide files can live side by side in `slides/slides/`.
-- 23 slides, 50 click states.
+- 22 slides, 47 click states.
 - `Summary3` reuses snapshots that the earlier scenes save with `self.snap()` while
   rendering (`slides/build/cache/snaps_v3/`), which is why all scenes render in one run.
 - `talk_v2.py` (shown on 2026-10-19; HTML fallback in `slides/build/talk_v2.html`) and
   `talk.py` (v1) are kept unchanged.
-- German speaker script: `final-talk-script-v3.md`, with 49 `[Klick]` markers (one per
+- German speaker script: `final-talk-script-v3.md`, with 46 `[Klick]` markers (one per
   `next_slide()`, none after the last slide). Keep it in sync when the clicks change.
   The slides stay English, the talk is German.
 - v3 also needs Ghostscript (`brew install ghostscript`) for `collect_images.py` to render

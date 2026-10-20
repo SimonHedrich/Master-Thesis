@@ -272,7 +272,7 @@ class UseCase3(Talk3):
         self.play(FadeIn(ax), FadeIn(note))
         self.next_slide()
         # the blog post on top, detection -> classification -> result in one line below it
-        blog = photo(IMG / "usecase/speciesnet_blog.png", width=5.8, aspect=5.8 / 3.0, top=True, radius=0.03).move_to([3.0, 1.85, 0])
+        blog = photo(IMG / "usecase/speciesnet_blog.png", width=5.8, aspect=5.8 / 3.6, top=True, radius=0.03).move_to([3.0, 1.55, 0])
         row_y = -1.55
         frame = photo(IMG / "usecase/ocelot.jpg", height=2.0).move_to([-1.0, row_y, 0])
         W, H = frame.width, frame.height
@@ -425,25 +425,6 @@ class Data3(Talk3):
         self.play(*[c.animate.set_x(left + (rank[i] + 0.5) * bw) for i, c in enumerate(columns_)], run_time=2.2)
         self.play(FadeIn(p3, scale=1.1))
         self.snap("images_per_class")
-        self.page()
-
-        # 9 — Data quality: not every "animal" is an animal (photos shown uncropped)
-        rejects = [photo(p, height=2.25, radius=0.04) for p in sorted((IMG / "data").glob("reject_*"))]
-        rows_ = Group(Group(*rejects[:4]).arrange(RIGHT, buff=0.15), Group(*rejects[4:]).arrange(RIGHT, buff=0.15))
-        for r in rows_:
-            if r.width > FRAME_W - 1.0:
-                r.scale_to_fit_width(FRAME_W - 1.0)
-        rej = rows_.arrange(DOWN, buff=0.15).move_to(DOWN * 0.3)
-        self.play(FadeIn(title("Data Quality")))
-        self.play(LaggedStart(*[FadeIn(t, scale=0.9) for r in rej for t in r], lag_ratio=0.12), run_time=1.6)
-        self.next_slide()
-        stages = ["Metadata", "Heuristics", "MegaDetector", "VLM", "SpeciesNet", "Manual review"]
-        chips = VGroup(*[pill(s, 21) for s in stages]).arrange(RIGHT, buff=0.45).move_to(DOWN * 3.0)
-        arrs = VGroup(*[arrow(a.get_right(), b.get_left(), buff=0.08) for a, b in zip(chips, chips[1:])])
-        bbox_l = txt("= bbox label", 16, GREEN).next_to(chips[2], DOWN, buff=0.1)  # MegaDetector's boxes are the labels
-        self.play(rej.animate.scale(0.82).shift(UP * 0.45))
-        self.play(LaggedStart(*[FadeIn(c, shift=RIGHT * 0.2) for c in chips], lag_ratio=0.2), Create(arrs), run_time=1.5)
-        self.play(FadeIn(bbox_l, shift=UP * 0.1))
         self.next_slide()
 
 
@@ -452,7 +433,7 @@ class Data3(Talk3):
 # =================================================================================
 class Generative3(Talk3):
     def build(self):
-        # 10 — Local generators vs Gemini (binturong)
+        # 9 — Local generators vs Gemini (binturong)
         B = IMG / "generators/binturong"
         cols = [
             ("Real", [B / f"binturong_real_{i}.jpg" for i in (1, 2, 3)], SKY),
@@ -477,7 +458,7 @@ class Generative3(Talk3):
         self.snap("local_vs_gemini")
         self.page()
 
-        # 11 — Prompt: the full prompt first, then ever shorter ones
+        # 10 — Prompt: the full prompt first, then ever shorter ones
         self.play(FadeIn(title("Prompt")))
         regimes = [
             ("full", "prompt_full_gemini.jpg", "Gemini", "full · 4,642 words"),
@@ -501,12 +482,12 @@ class Generative3(Talk3):
             self.play(FadeIn(im), FadeIn(tag), GrowFromEdge(pc, UP), run_time=0.8)
         self.page()
 
-        # 12 — The production set (no caption: the pictures speak)
+        # 11 — The production set (no caption: the pictures speak)
         sheet = photo(IMG / "generators/grevys_synthetic_wall.png", width=FRAME_W - 0.6, radius=0).move_to(DOWN * 0.25)
         self.play(FadeIn(sheet, scale=1.05), run_time=1.2)
         self.page()
 
-        # 13 — Three zebras: details decide; the generator's name comes in on the click
+        # 12 — Three zebras: details decide; the generator's name comes in on the click
         zs = Group()
         for path, name in (("zebra_grevys_gemini.png", "Grévy's zebra"), ("zebra_mountain_gemini.png", "Mountain zebra"), ("zebra_plains_gemini.png", "Plains zebra")):
             ph = photo(IMG / "generators" / path, width=4.1, aspect=4 / 3)
@@ -517,7 +498,7 @@ class Generative3(Talk3):
         self.play(FadeIn(title("Gemini 3.1 Flash Image"), shift=UP * 0.15))
         self.page()
 
-        # 14 — The twelve species of the generator comparison (one gpt-image-2 low picture each)
+        # 13 — The twelve species of the generator comparison (one gpt-image-2 low picture each)
         head = title("Training Images Comparison")
         self.play(FadeIn(head))
         T = IMG / "generators/twelve"
@@ -532,7 +513,7 @@ class Generative3(Talk3):
         self.next_slide()
         self.play(FadeOut(animals), FadeOut(each))
 
-        # 15 — Training images comparison: detector accuracy per generator, cost per image and
+        # 14 — Training images comparison: detector accuracy per generator, cost per image and
         # prompt length, the same lion from six generators; then the two compressed-prompt
         # cells drop into the ranking.
         vmax, L, bars_x = 0.15, 2.9, -3.0
@@ -616,7 +597,7 @@ class Generative3(Talk3):
 # =================================================================================
 class Bands3(Talk3):
     def build(self):
-        # 16 — Final dataset, built up: real images → bands → synthetic train → synthetic test
+        # 15 — Final dataset, built up: real images → bands → synthetic train → synthetic test
         head = title("Final Dataset")
         self.play(FadeIn(head))
         with open(REPO / "reports/class_split_counts.csv") as f:
@@ -725,7 +706,7 @@ class Bands3(Talk3):
         self.play(Transform(leg["real test"], note_pill), FadeIn(note[0], shift=LEFT * 0.2))
         self.next_slide()
 
-        # 17 — Results on top of the same chart: the dataset greys out, the bands stay
+        # 16 — Results on top of the same chart: the dataset greys out, the bands stay
         map_labels = VGroup(*[axis_label(f"{v / cap * 100:.0f} %").move_to(l, aligned_edge=RIGHT) for v, l in zip((200, 400, 600, 800), img_labels)])
         count_labels = img_labels.copy()
         self.play(
@@ -778,7 +759,7 @@ class Bands3(Talk3):
         self.play(FadeIn(pair), FadeIn(foot), Create(l1), Create(l2))
         self.next_slide()
 
-        # 18 — Test data. First the dataset chart once more with the synthetic test images
+        # 17 — Test data. First the dataset chart once more with the synthetic test images
         # lit; then the two test legend pills move onto the zebra rows as their labels.
         morphed = leg["real test"]  # the "real test photos" pill of the results note
         leg = legend()
@@ -901,7 +882,7 @@ def accuracy_chart(order: list[str], extra: bool = False) -> dict:
 
 class Models3(Talk3):
     def build(self):
-        # 19 — Three candidates
+        # 18 — Three candidates
         head = title("Three candidates")
         self.play(FadeIn(head))
         R = 2.45
@@ -919,7 +900,7 @@ class Models3(Talk3):
         self.play(*[FadeIn(c[1]) for c in circles], *[FadeIn(c[2]) for c in circles])
         self.next_slide()
 
-        # 20 — Accuracy (species mAP), then detection mAP, size and time per frame. The
+        # 19 — Accuracy (species mAP), then detection mAP, size and time per frame. The
         # candidate circles shrink into a column next to their rows (the ensemble twice).
         chart = accuracy_chart(MODEL_ORDER)
         leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
@@ -948,6 +929,23 @@ class Models3(Talk3):
         self.play(FadeOut(foot), FadeIn(call, scale=1.1))
         self.snap("models")
         self.page()
+
+        # 20 — Knowledge distillation: can the big model teach the small one? The accuracy chart again, plus the distilled student
+        self.play(FadeIn(title("Knowledge Distillation")))
+        chart = accuracy_chart(MODEL_ORDER, extra=True)
+        leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
+        dots = chart["dots"]
+        self.play(FadeIn(leg), FadeIn(rows[:-1]), FadeIn(side[:-1]), FadeIn(watch), FadeIn(dots[:-1]))
+        self.next_slide()
+        tuned = [rows[MODEL_ORDER.index(n_)][0] for n_ in ("YOLOv5s", "YOLO26n")]
+        self.play(
+            FadeIn(rows[-1][0], shift=RIGHT * 0.2), GrowFromEdge(rows[-1][1], LEFT), GrowFromEdge(rows[-1][3], LEFT), FadeIn(side[-1]), FadeIn(dots[-1]),
+            *[Transform(l_, txt(f"{l_.text}, fine-tuned", 24, bold=n_ == "YOLO26n").move_to(l_, aligned_edge=RIGHT)) for l_, n_ in zip(tuned, ("YOLOv5s", "YOLO26n"))],
+        )
+        self.play(FadeIn(rows[-1][2]), FadeIn(rows[-1][4]))
+        self.page()
+
+
 
         # 21 — Similar species: the zebras, then how often each is named as another; then the elephants
         self.play(FadeIn(title("Similar Species")))
@@ -993,25 +991,6 @@ class Models3(Talk3):
         self.play(FadeIn(asian), FadeIn(african), FadeIn(syn))
         self.play(Create(fwd), FadeIn(fl))
         self.play(Create(rev), FadeIn(rl))
-        self.page()
-
-        # 22 — Knowledge distillation: can the big model teach the small one? The accuracy chart again, plus the distilled student
-        self.play(FadeIn(title("Knowledge Distillation")))
-        chart = accuracy_chart(MODEL_ORDER, extra=True)
-        leg, rows, side, watch = chart["leg"], chart["rows"], chart["side"], chart["watch"]
-        dots = chart["dots"]
-        self.play(FadeIn(leg), FadeIn(rows[:-1]), FadeIn(side[:-1]), FadeIn(watch), FadeIn(dots[:-1]))
-        self.next_slide()
-        tuned = [rows[MODEL_ORDER.index(n_)][0] for n_ in ("YOLOv5s", "YOLO26n")]
-        self.play(
-            FadeIn(rows[-1][0], shift=RIGHT * 0.2), GrowFromEdge(rows[-1][1], LEFT), GrowFromEdge(rows[-1][3], LEFT), FadeIn(side[-1]), FadeIn(dots[-1]),
-            *[Transform(l_, txt(f"{l_.text}, fine-tuned", 24, bold=n_ == "YOLO26n").move_to(l_, aligned_edge=RIGHT)) for l_, n_ in zip(tuned, ("YOLOv5s", "YOLO26n"))],
-        )
-        self.play(FadeIn(rows[-1][2]), FadeIn(rows[-1][4]))
-        self.next_slide()
-        d_gap = round((m["YOLO26n"] - D.MODEL_DISTILLED[1]) * 100)
-        verdict = pill(f"direct training wins: +{d_gap} pp species mAP", 26, fill=GREEN, bold=True).move_to([1.0, -3.45, 0])
-        self.play(FadeIn(verdict, shift=DOWN * 0.2))
         self.next_slide()
 
 
@@ -1041,7 +1020,7 @@ def _content_crop(path):
 
 class Summary3(Talk3):
     def build(self):
-        # 23 — Summary
+        # 22 — Summary
         self.play(FadeIn(title("Summary")))
         tw, aspect = 4.0, 16 / 9 / 0.8  # snapshots minus their top 20 % (logo and title)
         cells = Group()
