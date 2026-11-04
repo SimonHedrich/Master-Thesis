@@ -34,6 +34,7 @@ manuscript/
   figures/plots/                  — charts copied from `reports/`
   appendices/
 presentation/                     — final presentation material (see presentation/README.md)
+blog/                             — inovex blog article on the thesis (see blog/README.md)
 ```
 
 `references.bib` is the manuscript's only bibliography and the only file registered with
@@ -61,6 +62,7 @@ Empty output means every cited key resolves.
 |------|-------------|
 | `manuscript/` | The LaTeX project (see layout above). |
 | `presentation/` | Material for the 20-minute final presentation: goals, slide style, and a description of the interim deck. See `presentation/README.md`. |
+| `blog/` | The inovex blog article presenting the thesis: style analysis of the inovex blog, outline with the source of every claim and visual, and later the draft, charts and manim clips. See `blog/README.md`. |
 | `docs/` | Documentation on producing the document itself — toolchain and publishing pipeline, as opposed to the research notes in the repo-root `docs/`. See `docs/README.md`. |
 | `bachelor-thesis-analysis.md` | Detailed analysis of the bachelor thesis's document structure, LaTeX setup, chapter-by-chapter content patterns, and academic writing style — with explicit notes on what to carry over as-is vs. what needs to change for the Master's thesis. The conventions in §7 and the rough edges in §8 are half of the style contract (see below). |
 | `writing/2026-09-17_manuscript-baseline.md` | Measurement of the drafted chapters taken before the writing skill existed: sentence and paragraph length per file, the longest sentences quoted, terminology drift counts, and the mechanical defects found. Exists so a later revision pass has a number to move — only the delta is meaningful. |
