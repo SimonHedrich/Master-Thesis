@@ -112,22 +112,19 @@ On the generated test images, Band A scores 0.99. On real photos, the same class
 
 ## Making it small: one nano detector instead of two networks
 
-With the dataset fixed, three candidates competed:
+With the dataset fixed, three candidates competed. The first is the large reference: MegaDetector, an open detector built for camera traps, finds the animals, and SpeciesNet names each crop. Together they have about 193 million parameters. We ran it once off the shelf and once with SpeciesNet fine-tuned on our 225 classes. The other two candidates are single detectors that find and name the animal in one pass, both trained on all 225 classes with the same data and schedule: YOLOv5s with 7.6 million parameters, and the newer YOLO26n with 2.7 million.
 
-| Model | Parameters | mAP on real photos | Time per frame |
-|-------|-----------:|-------------------:|---------------:|
-| MegaDetector + SpeciesNet, classifier fine-tuned | ≈ 193 M | 0.599 | ≈ 35 s |
-| MegaDetector + SpeciesNet, off the shelf | ≈ 193 M | 0.445 | ≈ 35 s |
-| YOLOv5s, fine-tuned | 7.63 M | 0.407 | 0.95 s |
-| **YOLO26n, fine-tuned** | **2.71 M** | **0.529** | **0.42 s** |
-
-The first two rows are the big reference ensemble that also produced our labels, so its score is an upper bound more than a competitor. YOLO26n is the smallest model in the table, and it beats the nearly three times larger YOLOv5s by 0.12 mAP on the same data and schedule. Two generations of architecture progress outweighed anything we could have tuned on the older model.
-
-We measured speed on a Raspberry Pi 400, whose CPU is a slightly slower stand-in for the CPU cores of the QCS605: ONNX Runtime, four threads, full 32-bit precision, timed from JPEG to final boxes. YOLO26n needs 423 ms per frame and 284 MB of memory. YOLOv5s needs 949 ms. MegaDetector alone needs 31 seconds. Put together, the reference ensemble lands at about 35 seconds per frame and a YOLOv5s-plus-SpeciesNet pipeline at about 5.4 seconds.
-
-That makes the single nano detector **83 times faster** than the ensemble and **13 times faster** than the two-stage pipeline, with 71 times fewer parameters than the former, at a cost of 0.07 mAP.
+To measure speed, we ran every model on a Raspberry Pi 400, whose CPU is a slightly slower stand-in for the CPU cores of the QCS605. All models ran in ONNX Runtime with four threads at full 32-bit precision, and the clock ran from the JPEG file to the final boxes.
 
 [Figure 9: plots/out/latency_vs_map.png]
+
+The chart puts both measurements together. Up means more accurate, left means faster, and the time axis is logarithmic: each gridline to the right is about three times slower. The best place is the top left.
+
+The fine-tuned ensemble is the most accurate model with an mAP of 0.599, but it needs about 35 seconds per frame; MegaDetector alone takes 31 of them. By the time it answers, the animal is long gone. Its score is also an upper bound more than a fair competitor, because MegaDetector drew the boxes in our test labels. YOLO26n answers in 423 ms with 284 MB of memory and reaches 0.529. That makes it **83 times faster** than the ensemble with 71 times fewer parameters, for 0.07 mAP. It even beats the ensemble as it comes off the shelf (0.445).
+
+YOLOv5s sits below and to the right of YOLO26n: at 949 ms it is slower, and at 0.407 it is clearly less accurate, although it has nearly three times as many parameters. Two generations of architecture progress outweighed anything we could have tuned on the older model.
+
+The chart leaves out the two-stage pipeline from the beginning, a YOLOv5s that only finds animals, followed by SpeciesNet for each crop. With SpeciesNet running on 1.7 crops per image on average, it adds up to about 5.4 seconds per frame, so the single YOLO26n is **13 times faster** than that, too.
 
 A side note from the benchmark: decoding and resizing one native 4192 × 3120 camera frame took 256–275 ms on the same device, more than half of the model's own runtime. On the edge, the pre-processing is part of the model.
 
@@ -206,6 +203,7 @@ A single detector with 2.7 million parameters can find and name 225 mammal speci
 | Latency | 423 ms, 949 ms, 31 s; ≈ 35 s, ≈ 5.4 s; 83×, 13×, 71× | R `tab:embedded-latency`, l.452–454 |
 | Memory | 284 MB | R `tab:embedded-latency` |
 | Decode of a native frame | 256–275 ms | R l.467 |
+| Pipeline estimate | detector pass + 1.7 classifier crops per image on average | R l.452 |
 | Distillation | 0.479 vs 0.529 | R `tab:kd-vs-direct` |
 | Detection vs species mAP | 0.782 vs 0.529 | R `tab:headline-cross-model` |
 | Within-group confusion, real photos | 19.7 % overall, zebras 9.6 %, elephants 52.3 % | `data.WITHIN_GROUP_CONFUSION_REAL*` (the manuscript's 19.3 / 9.5 / 50.8 % are on the mixed set) |
