@@ -61,6 +61,15 @@ the same patterns were then found in every other section.
     `4-Results.tex` hedges ("a demonstrated effect rather than a general law", "a resolution
     limit of the evaluation axis"), the article keeps the hedge in plain words.
 
+11. **The TL;DR opens with the context, then the findings.** A reader who stops after the
+    TL;DR has to know what was built and why images were generated before "half generated"
+    or "the reference system" mean anything. Keep it to one short paragraph, and name
+    there every term the bullets use.
+12. **mAP in percent.** Write 58.8 %, not 0.588, in the text, the charts, the captions and
+    the alt texts. A difference between two scores is in percentage points ("7 percentage
+    points of mAP"), a relative change is put in words ("almost half", "about a quarter
+    higher"), so that the two cannot be confused. The thesis tables hold fractions.
+
 ## How to check a draft
 
 Go through the text once per question, not once for all:

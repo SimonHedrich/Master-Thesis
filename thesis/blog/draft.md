@@ -10,14 +10,18 @@ Every number is traced in the "Sources" table at the end of this file (not part 
 Read writing-rules.md before editing: it holds the review of v1 and the rules this draft follows.
 -->
 
-**TL;DR: Key findings**
+**TL;DR**
+
+The AX Visio binocular by Swarovski Optik names the animal you are looking at, on a small chip inside the device. For my Master's thesis I trained one small object detector that finds and names 225 mammal species and is meant for hardware of that size. For the 50 rarest species there were too few photos to train on, so we generated the missing images with AI image generators. Three experiments followed: we compared ten generator configurations, some called through an API and some run on our own GPU. We varied how much of a class's training data was generated. And we measured accuracy and speed on a Raspberry Pi against a far larger reference system of two networks.
+
+Accuracy is given as mAP (mean average precision), the usual measure for object detectors. It runs from 0 to 100 % and rewards finding the animal, drawing the box in the right place and naming the right species.
+
+**Key findings**
 
 - **Both the generator and the prompt decide how useful generated images are.** In a controlled comparison, images from API models trained a clearly better detector than images from models we ran locally. Cutting the prompt of two API models to 75 tokens cost each of them almost half of that accuracy.
-- **Generated images replaced half of a small training set at almost no cost, but not all of it.** Classes trained on 100 real and 100 generated images reached an mAP of 0.588 on real photos, against 0.591 for classes with 200 real images. Classes trained on generated images alone reached 0.300.
-- **Scores on generated test images are far too high.** The classes that score 0.99 on generated test images score 0.30 on real photos.
-- **One nano-scale detector can do the work of two networks.** A YOLO26n with 2.7 million parameters is about 13 times faster than a detector-plus-classifier pipeline and about 83 times faster than the large reference ensemble, and loses 0.07 mAP against that ensemble on real photos.
-
-(mAP, mean average precision, is the usual accuracy measure for object detectors. It runs from 0 to 1 and rewards finding the animal, drawing the box in the right place and naming the right species.)
+- **Generated images replaced half of a small training set at almost no cost, but not all of it.** Classes trained on 100 real and 100 generated images reached an mAP of 58.8 % on real photos, against 59.1 % for classes with 200 real images. Classes trained on generated images alone reached 30.0 %.
+- **Scores on generated test images are far too high.** The classes that score 99 % on generated test images score 30 % on real photos.
+- **One nano-scale detector can do the work of two networks.** A YOLO26n with 2.7 million parameters is about 13 times faster than a detector-plus-classifier pipeline and about 83 times faster than the large reference system, and loses 7 percentage points of mAP against it on real photos.
 
 ---
 
@@ -62,9 +66,9 @@ By eye, the verdict was clear: the API model was far better than the local ones.
 
 [Figure 4: plots/out/ranking.png]
 
-The numbers confirm the impression. With its full prompt, every API model beat every local model, and by a wide margin: the weakest API configuration reached an mAP of 0.095, the best local model, Stable Diffusion 3.5 Large, 0.055. (These absolute values are low because each detector saw only 1,200 images. They rank the generators and say nothing about the accuracy of the final model.)
+The numbers confirm the impression. With its full prompt, every API model beat every local model, and by a wide margin: the weakest API configuration reached an mAP of 9.5 %, the best local model, Stable Diffusion 3.5 Large, 5.5 %. (These absolute values are low because each detector saw only 1,200 images. They rank the generators and say nothing about the accuracy of the final model.)
 
-The numbers also show what the eye could not. Among the API models, the two quality settings of gpt-image-2 lead with 0.134 and 0.126, ahead of Gemini 3.1 Flash Image with 0.105 and Gemini 3.1 Flash-Lite with 0.095. The differences within each pair are smaller than the spread between training runs, so the comparison cannot separate the two variants of either model. gpt-image-2 is ahead of Gemini, clearly so against Flash-Lite. The three runs of Gemini Flash spread widely (between 0.064 and about 0.13), which makes its distance to gpt-image-2 less certain.
+The numbers also show what the eye could not. Among the API models, the two quality settings of gpt-image-2 lead with 13.4 % and 12.6 %, ahead of Gemini 3.1 Flash Image with 10.5 % and Gemini 3.1 Flash-Lite with 9.5 %. The differences within each pair are smaller than the spread between training runs, so the comparison cannot separate the two variants of either model. gpt-image-2 is ahead of Gemini, clearly so against Flash-Lite. The three runs of Gemini Flash spread widely (between 6.4 % and about 13 %), which makes its distance to gpt-image-2 less certain.
 
 One consequence for the rest of this article: our complete synthetic dataset was generated with Gemini 3.1 Flash Image, which was the easiest to integrate into our setup. In this comparison gpt-image-2 scored about a quarter higher on average. We did not repeat the later experiments with it, but the results below were probably not obtained with the best generator available, and gpt-image-2 would likely have done somewhat better.
 
@@ -82,7 +86,7 @@ For a project this means: price narrows the field, and the final choice between 
 
 Our prompts were long. Each one described the species, its distinguishing marks, the habitat, the pose and the camera position, at about 5,900 tokens on average. The API models read all of it. The text encoders of the local models stop at 75 to 512 tokens. So the ranking above compares two things at once: the models and the amount of description they were able to take in.
 
-To separate the two, we gave two of the API models the same short prompt of at most 75 tokens. Both lost almost half of their accuracy: gpt-image-2 dropped from 0.134 to 0.074, Gemini Flash-Lite from 0.095 to 0.049. Confusion between the three zebra species nearly doubled at the same time. The long prompt evidently carries details that make a Grévy's zebra a Grévy's zebra.
+To separate the two, we gave two of the API models the same short prompt of at most 75 tokens. Both lost almost half of their accuracy: gpt-image-2 dropped from 13.4 % to 7.4 %, Gemini Flash-Lite from 9.5 % to 4.9 %. Confusion between the three zebra species nearly doubled at the same time. The long prompt evidently carries details that make a Grévy's zebra a Grévy's zebra.
 
 The model still carries a lot of weight. With the short prompt, gpt-image-2 stays ahead of every local model, including those that read up to 512 tokens, while Gemini Flash-Lite lands in the middle of the local field. Part of the gap between API and local models is therefore prompt capacity, and part is the model. We tested the short prompt on two models and could not test a long one on the local models, so we cannot put a number on the two shares.
 
@@ -92,7 +96,7 @@ For a project this means: choose a generator that can read a detailed descriptio
 
 ### 3. For the rare species, the comparison cannot rank the generators
 
-The ranking comes almost entirely from the well-photographed species among the twelve, such as the American black bear and the zebras. For five of the six rare species, every generator scores below 0.05, and the differences between them are too small to interpret. This is a limit of the measurement and not a verdict on the images: 100 generated images per species and a small real test set do not give enough resolution.
+The ranking comes almost entirely from the well-photographed species among the twelve, such as the American black bear and the zebras. For five of the six rare species, every generator scores below 5 %, and the differences between them are too small to interpret. This is a limit of the measurement and not a verdict on the images: 100 generated images per species and a small real test set do not give enough resolution.
 
 The kinkajou shows what that means in practice. It is a golden-brown relative of the raccoon with a plain tail. FLUX.2 klein consistently drew it with a ringed tail and a spotted coat, closer to a genet, while two other local models drew it correctly from the same prompt. All three score close to zero on the kinkajou. The measurement does not register an error that anyone with a reference photo sees at once.
 
@@ -100,7 +104,7 @@ The kinkajou shows what that means in practice. It is a golden-brown relative of
 
 So the numbers and the eye cover different ground. The numbers rank generators on species with enough real test photos, and they can separate candidates that all look good. For the rare species, which are the reason for generating images in the first place, we had nothing better than comparing samples with reference photos. A structured version of that check, with several raters who do not know which generator made which image, was planned and not carried out. It is what we would add first.
 
-One more observation concerns the method. After a single training run per generator, Gemini Flash stood at 0.064, well behind its cheaper sibling. With a second run its average rose to 0.090 and with a third to 0.105, and the order reversed. With single runs we would have reported a difference that is not there.
+One more observation concerns the method. After a single training run per generator, Gemini Flash stood at 6.4 %, well behind its cheaper sibling. With a second run its average rose to 9.0 % and with a third to 10.5 %, and the order reversed. With single runs we would have reported a difference that is not there.
 
 The complete synthetic dataset, 23,850 images of all 225 classes, cost about $785 at list price.
 
@@ -110,13 +114,13 @@ To measure what generated images are worth in training, we sorted the 225 classe
 
 [Figure 7: plots/out/bands.png]
 
-On real test photos, the YOLO26n detector reaches an mAP of 0.588 on Band B and 0.591 on Band C. Band A, trained on generated images only, reaches 0.300, and the data-rich Band D 0.742.
+On real test photos, the YOLO26n detector reaches an mAP of 58.8 % on Band B and 59.1 % on Band C. Band A, trained on generated images only, reaches 30.0 %, and the data-rich Band D 74.2 %.
 
-For YOLO26n, the classes with half of their training images generated did as well as the classes with real images only. The large reference model showed the same pattern (0.638 against 0.639). The older YOLOv5s did lose something (0.341 against 0.386). Each model was trained once and the two bands hold different species, so we read this as good evidence that generated images can stand in for a part of a small real training set, and not as proof that they are equivalent.
+For YOLO26n, the classes with half of their training images generated did as well as the classes with real images only. The large reference model showed the same pattern (63.8 % against 63.9 %). The older YOLOv5s did lose something (34.1 % against 38.6 %). Each model was trained once and the two bands hold different species, so we read this as good evidence that generated images can stand in for a part of a small real training set, and not as proof that they are equivalent.
 
 Band A reaches about half the score of Bands B and C. Two things differ here at once: the training images are all generated, and the species are the rarest ones, with few real test photos. We cannot say how much of the drop each one explains. What the result does show is that generated images alone teach the detector something that transfers to real photos. Without them, these 50 classes would be missing from the model.
 
-Inside Band A the spread is large. The striped hyena, trained on generated images only, reaches an AP of 0.48 on real photos. The mangabeys, a genus of monkeys with several quite different-looking species, stay near zero. One possible explanation is that animals with a uniform appearance are easier to generate convincingly than varied ones. We did not test it.
+Inside Band A the spread is large. The striped hyena, trained on generated images only, reaches an AP of 48 % on real photos. The mangabeys, a genus of monkeys with several quite different-looking species, stay near zero. One possible explanation is that animals with a uniform appearance are easier to generate convincingly than varied ones. We did not test it.
 
 ## A generated test set scores far too high
 
@@ -124,7 +128,7 @@ Rare classes are hard to evaluate for the same reason they are hard to train: so
 
 [Figure 8: plots/out/synthetic_vs_real.png]
 
-On the generated test images, Band A scores 0.99. On real photos, the same classes score 0.30. For YOLO26n the generated score is higher in every band, and the gap is widest where the training images were generated too. Even the off-the-shelf reference model, which was not trained on any of our images, scores about 0.2 mAP higher on the generated set.
+On the generated test images, Band A scores 99 %. On real photos, the same classes score 30 %. For YOLO26n the generated score is higher in every band, and the gap is widest where the training images were generated too. Even the off-the-shelf reference model, which was not trained on any of our images, scores about 20 percentage points higher on the generated set.
 
 We see two likely reasons. The generated test images are easier: they show one clearly visible animal each, while the real photos contain 1.44 animals on average, along with backlight and bushes. And a model trained on images from one generator is tested here on more images from the same generator.
 
@@ -140,9 +144,9 @@ To measure speed, we ran every model on a [Raspberry Pi 400](https://www.raspber
 
 The chart puts both measurements together. Up means more accurate, left means faster, and the time axis is logarithmic: each gridline to the right is about three times slower. The best place is the top left.
 
-The fine-tuned ensemble is the most accurate model with an mAP of 0.599, but it needs about 35 seconds per frame, an estimate composed from the measured times of its two networks. MegaDetector alone takes 31 of them. By the time it answers, the animal is gone. Its score is also favoured by the test set, because MegaDetector drew the boxes in our test labels. YOLO26n answers in 423 ms with 284 MB of memory and reaches 0.529. That makes it about **83 times faster** than the ensemble with 71 times fewer parameters, at a cost of 0.07 mAP. It is more accurate than the ensemble as it comes off the shelf (0.445).
+The fine-tuned ensemble is the most accurate model with an mAP of 59.9 %, but it needs about 35 seconds per frame, an estimate composed from the measured times of its two networks. MegaDetector alone takes 31 of them. By the time it answers, the animal is gone. Its score is also favoured by the test set, because MegaDetector drew the boxes in our test labels. YOLO26n answers in 423 ms with 284 MB of memory and reaches 52.9 %. That makes it about **83 times faster** than the ensemble with 71 times fewer parameters, at a cost of 7 percentage points of mAP. It is more accurate than the ensemble as it comes off the shelf (44.5 %).
 
-YOLOv5s sits below and to the right of YOLO26n: at 949 ms it is slower, and at 0.407 it is clearly less accurate, although it has nearly three times as many parameters. Each model was trained once, but a gap of 0.12 mAP together with half the runtime makes the newer architecture the clear choice here.
+YOLOv5s sits below and to the right of YOLO26n: at 949 ms it is slower, and at 40.7 % it is clearly less accurate, although it has nearly three times as many parameters. Each model was trained once, but a gap of 12 percentage points together with half the runtime makes the newer architecture the clear choice here.
 
 The chart leaves out the two-stage pipeline from the beginning, a YOLOv5s that only finds animals, followed by SpeciesNet for each crop. With SpeciesNet running on 1.7 crops per image on average, it adds up to an estimated 5.4 seconds per frame. The single YOLO26n is about **13 times faster** than that.
 
@@ -150,13 +154,13 @@ A side note from the benchmark: decoding and resizing one native 4192 × 3120 ca
 
 ### Distillation did not help in our setup
 
-A common way to make a small model better is [knowledge distillation](https://en.wikipedia.org/wiki/Knowledge_distillation), in which the big ensemble teaches the small detector by passing on its full class probabilities instead of a single label. We tried it. The distilled YOLO26n reached 0.479, the directly trained one 0.529, and direct training was ahead in every band.
+A common way to make a small model better is [knowledge distillation](https://en.wikipedia.org/wiki/Knowledge_distillation), in which the big ensemble teaches the small detector by passing on its full class probabilities instead of a single label. We tried it. The distilled YOLO26n reached 47.9 %, the directly trained one 52.9 %, and direct training was ahead in every band.
 
 A plausible reason: our species labels came from the same classifier pipeline that later acted as the teacher, so the teacher's probabilities largely repeated what the labels already said, and differed from them mostly where the teacher was wrong. We tested one configuration in single runs. That speaks against this setup and says little about distillation in general. If your labels come from the model you want to distil from, expect less from it.
 
 ## Where it still fails: look-alikes
 
-*Finding* the animal is the easier part. If the detector only has to say "there is an animal", it reaches an mAP of 0.782 on real photos. *Naming* it brings the score down to 0.529.
+*Finding* the animal is the easier part. If the detector only has to say "there is an animal", it reaches an mAP of 78.2 % on real photos. *Naming* it brings the score down to 52.9 %.
 
 Part of that gap sits between species that look alike. We grouped such species (three zebras, two elephants, six dogs and wolves, and so on) and counted how often the detector finds the animal, lands in the right group and still picks the wrong member. Across all 30 groups this happens in about one of five cases.
 
@@ -172,7 +176,7 @@ The generators will also keep changing, and a ranking like ours ages quickly. Th
 
 ## Conclusion
 
-A single detector with 2.7 million parameters can find and name 225 mammal species at an accuracy 0.07 mAP below an ensemble 71 times its size, and it runs about 83 times faster on a small CPU. Generated images brought 50 species into the model that had too few photos to train on. Where they supplemented real photos, we measured almost no loss. Where they had to replace real photos entirely, the classes reached about half the accuracy. Which generator draws the rarest animals best is a question our comparison could not answer. What it did show is that the generator and the prompt both matter, and that the results here probably leave room for improvement with a stronger generator.
+A single detector with 2.7 million parameters can find and name 225 mammal species at an accuracy 7 percentage points of mAP below an ensemble 71 times its size, and it runs about 83 times faster on a small CPU. Generated images brought 50 species into the model that had too few photos to train on. Where they supplemented real photos, we measured almost no loss. Where they had to replace real photos entirely, the classes reached about half the accuracy. Which generator draws the rarest animals best is a question our comparison could not answer. What it did show is that the generator and the prompt both matter, and that the results here probably leave room for improvement with a stronger generator.
 
 ### Takeaways for your next project
 
@@ -199,46 +203,49 @@ A single detector with 2.7 million parameters can find and name 225 mammal speci
 `R` = `thesis/manuscript/chapters/4-Results.tex`, `M3x` = the Methods chapter files,
 `data` = `thesis/presentation/slides/data.py`. Checked on 2026-11-11.
 
+The sources hold mAP as a fraction (0.588). The article and this table give it in percent
+(58.8 %) and differences in percentage points ("points").
+
 | Claim | Value | Source |
 |---|---|---|
-| Prompt ablation | 0.134 → 0.074 (−45 %), 0.095 → 0.049 (−48 %) | R `tab:prompt-length-ablation` |
+| Prompt ablation | 13.4 % → 7.4 % (−45 % relative), 9.5 % → 4.9 % (−48 % relative) | R `tab:prompt-length-ablation` |
 | Price of the gpt-image-2 tiers | $20.21 vs $39.47 per 1,200 images (batch) = $0.017 vs $0.033 | M35 `tab:generator-api-cost`, `data.GENERATOR_COST`. **R l.80 says $10.11 vs $29.36 (factor 2.9); the manuscript disagrees with itself here.** |
-| Band mAP on real photos | A 0.300, B 0.588, C 0.591, D 0.742 | R `tab:band-grid-real`, `data.BAND_REAL` |
-| Ensemble and YOLOv5s, B vs C | 0.638 / 0.639, 0.341 / 0.386 | R `tab:band-grid-real` |
-| Band A on the synthetic test set | 0.991 | R `tab:kd-vs-direct-bands`, column B (direct), synthetic. Same per-band scoring as `tab:band-grid-real`. The outline used 0.931 vs 0.202 from `tab:domain-shift-delta`, which scores per class on the full test domain; the draft keeps one scoring throughout. |
-| Off-the-shelf ensemble higher on synthetic by ≈ 0.2 | 0.205–0.266 | R `tab:domain-shift-delta` |
+| Band mAP on real photos | A 30.0 %, B 58.8 %, C 59.1 %, D 74.2 % | R `tab:band-grid-real`, `data.BAND_REAL` |
+| Ensemble and YOLOv5s, B vs C | 63.8 % / 63.9 %, 34.1 % / 38.6 % | R `tab:band-grid-real` |
+| Band A on the synthetic test set | 99.1 % | R `tab:kd-vs-direct-bands`, column B (direct), synthetic. Same per-band scoring as `tab:band-grid-real`. The outline used 93.1 % vs 20.2 % from `tab:domain-shift-delta`, which scores per class on the full test domain; the draft keeps one scoring throughout. |
+| Off-the-shelf ensemble higher on synthetic by ≈ 20 points | 20.5–26.6 points | R `tab:domain-shift-delta` |
 | Animals per real test image | 1.44 | R l.313 |
 | GBIF start, after five sources | 114 classes < 100, 30 with none; 29 still < 100 | `data.gbif_counts`, talk script v3 slide 8 |
 | Candidates, filtered, final | 580,817; 465,242; 222,073 real images, 63,802 test | M31 `tab:source-funnel`, M32 l.158 |
 | Band A real photos per class | ≈ 67 | M33 l.31 |
 | Comparison setup | 12 species × 100 images, 9,742 real test photos | R l.10 |
-| Ranking | 0.134, 0.126, 0.105, 0.095, 0.055 … | R `tab:generator-ranking` |
+| Ranking | 13.4 %, 12.6 %, 10.5 %, 9.5 %, 5.5 % … | R `tab:generator-ranking` |
 | HiDream, rank 11 | ≈ 48 GPU-hours | R l.71 |
-| gpt-image-2 against the production generator | 0.134 vs 0.105, production generator ≈ 28 % behind (gpt-image-2 ≈ 1.28×) | R `sec:results_practicability_verdict` |
-| Ties within the API pairs | gpt-image-2: gap 0.008 vs combined SD ≈ 0.018; Gemini: 0.105 ± 0.036 vs 0.095 ± 0.006 | R `sec:results_cost_vs_quality`, `tab:generator-ranking` |
-| Gemini Flash, spread of the three runs | single-seed 0.064; mean 0.105 ± 0.036, so the third run is ≈ 0.13 (derived, check against the run logs) | R l.150, `tab:generator-ranking` |
+| gpt-image-2 against the production generator | 13.4 % vs 10.5 %, production generator ≈ 28 % behind (gpt-image-2 ≈ 1.28×) | R `sec:results_practicability_verdict` |
+| Ties within the API pairs | gpt-image-2: gap 0.8 points vs combined SD ≈ 1.8 points; Gemini: 10.5 ± 3.6 % vs 9.5 ± 0.6 % | R `sec:results_cost_vs_quality`, `tab:generator-ranking` |
+| Gemini Flash, spread of the three runs | single-seed 6.4 %; mean 10.5 ± 3.6 %, so the third run is ≈ 13 % (derived, check against the run logs) | R l.150, `tab:generator-ranking` |
 | Runs per generator set | 3 for the API cells, 2 for the local cells | R `tab:generator-ranking` |
 | Local generation time | 54 / 24 / 25 / 31 / 144 / 0.9 s per image | `data.GENERATOR_COST` |
-| Short-prompt cells against the local models | 0.074 above SD 3.5 Large 0.055; 0.049 between SD 3.5 Medium 0.054 and Turbo 0.043 | R `tab:generator-ranking` |
-| Where the ranking comes from | data-rich classes and zebras; black bear 0.072–0.326 | R `sec:results_per_class_structure` |
+| Short-prompt cells against the local models | 7.4 % above SD 3.5 Large 5.5 %; 4.9 % between SD 3.5 Medium 5.4 % and Turbo 4.3 % | R `tab:generator-ranking` |
+| Where the ranking comes from | data-rich classes and zebras; black bear 7.2 %–32.6 % | R `sec:results_per_class_structure` |
 | Blind rater rubric planned, not run | | R `sec:results_rubric_not_executed` |
 | Binturong | Band A, 36 real photos | `eval_per_class.csv` of the model exports |
 | Animals per generated test image | 11,264 boxes on 11,250 images | R l.155 |
 | Distillation, likely reason | labels and teacher from the same classifier pipeline | Ch. 5 l.56 |
 | Thesis headline = mixed test set, real-only alongside | | `CLAUDE.md`, R `sec:results_headline_mixed` |
 | Prompt lengths | ≈ 5,900 tokens; 75–512 tokens | `data.GENERATOR_PROMPT` |
-| Zebra confusion with the short prompt | 0.253 → 0.457, 0.218 → 0.405 | R l.64 |
-| Rare classes | five below 0.05, water deer peaks at 0.066 | R l.85 |
-| Seeds | 0.064 → 0.090 → 0.105 | R l.150 |
+| Zebra confusion with the short prompt (a confusion rate, not mAP) | 0.253 → 0.457, 0.218 → 0.405 | R l.64 |
+| Rare classes | five below 5 %, water deer peaks at 6.6 % | R l.85 |
+| Seeds | 6.4 % → 9.0 % → 10.5 % | R l.150 |
 | Synthetic dataset | 23,850 images, ≈ $785 | M33, Ch. 5 l.49 |
-| Hyena and mangabeys | AP 0.48 and ≈ 0.01 | talk script v3 slide 16, `data.per_class_real_ap` |
+| Hyena and mangabeys | AP 48 % and ≈ 1 % | talk script v3 slide 16, `data.per_class_real_ap` |
 | Model table | params, real mAP | R `tab:headline-cross-model` |
 | Latency | 423 ms, 949 ms, 31 s; ≈ 35 s, ≈ 5.4 s; 83×, 13×, 71× | R `tab:embedded-latency`, l.452–454 |
 | Memory | 284 MB | R `tab:embedded-latency` |
 | Decode of a native frame | 256–275 ms | R l.467 |
 | Pipeline estimate | detector pass + 1.7 classifier crops per image on average | R l.452 |
-| Distillation | 0.479 vs 0.529 | R `tab:kd-vs-direct` |
-| Detection vs species mAP | 0.782 vs 0.529 | R `tab:headline-cross-model` |
+| Distillation | 47.9 % vs 52.9 % | R `tab:kd-vs-direct` |
+| Detection vs species mAP | 78.2 % vs 52.9 % | R `tab:headline-cross-model` |
 | Within-group confusion, real photos | 19.7 % overall, zebras 9.6 %, elephants 52.3 % | `data.WITHIN_GROUP_CONFUSION_REAL*` (the manuscript's 19.3 / 9.5 / 50.8 % are on the mixed set) |
 | Elephant direction | 1,545 of 1,959 (78.9 %) vs 2 of 998 (0.2 %) | `data.SPECIES_CONFUSION_REAL` |
 | Elephant training images | 100 + 100 vs 1,500 | `data.SPECIES_TRAIN` |

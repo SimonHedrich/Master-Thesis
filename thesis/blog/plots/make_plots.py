@@ -13,7 +13,8 @@ Writes 1600 px wide PNGs (2x for retina) to thesis/blog/plots/out/:
 
 Every number is copied from thesis/manuscript/chapters/4-Results.tex (table labels in the
 comments); the slides' data.py holds the same values but imports manim, so it is not
-imported here.
+imported here. The tables hold mAP as a fraction (0.588); the charts, like the article,
+show it in percent (58.8 %) and differences in percentage points.
 
 PEP 723 script rather than the repo-root uv project: that project is the Linux/CUDA
 training environment, and these charts are drawn natively on the Mac next to the slides.
@@ -71,6 +72,11 @@ def title(fig, t: dict, head: str, sub: str) -> None:
     fig.text(0.04, 0.955 - 0.42 / fig.get_figheight(), sub, fontsize=BASE, va="top", color=t["muted"])
 
 
+def pct(v: float, decimals: int = 1) -> str:
+    """mAP fraction as the article writes it: 0.588 -> '58.8 %'."""
+    return f"{v * 100:.{decimals}f} %"
+
+
 def save(fig, name: str) -> None:
     OUT.mkdir(exist_ok=True)
     fig.savefig(OUT / name, dpi=DPI)
@@ -101,7 +107,7 @@ def ranking(t: dict, name: str) -> None:
     fig = plt.figure(figsize=(W_IN, 7.0))
     ax = fig.add_axes((0.36, 0.09, 0.40, 0.70))
     title(fig, t, "Which generator teaches a detector best?",
-          "mAP on 9,742 real photos after training on 1,200 generated images")
+          "mAP in percent on 9,742 real photos after training on 1,200 generated images")
     n = len(RANKING)
     for i, (label, m, sd, tier, tok) in enumerate(RANKING):
         y = n - 1 - i
@@ -112,7 +118,7 @@ def ranking(t: dict, name: str) -> None:
             bar.set_edgecolor(t["bg"])
             bar.set_linewidth(0)
         ax.errorbar(m, y, xerr=sd, color=t["ink"], lw=1.2, capsize=0, zorder=4)
-        ax.text(m + sd + 0.004, y, f"{m:.3f}", va="center", fontsize=BASE - 1, color=t["ink"])
+        ax.text(m + sd + 0.004, y, pct(m), va="center", fontsize=BASE - 1, color=t["ink"])
         ax.text(-0.004, y, label, va="center", ha="right", fontsize=BASE - 1, color=t["ink"],
                 fontweight="bold" if tier == "short" else "normal")
         ax.text(0.222, y, tok, va="center", ha="right", fontsize=BASE - 1, color=t["muted"], clip_on=False)
@@ -121,6 +127,7 @@ def ranking(t: dict, name: str) -> None:
     ax.set_ylim(-0.6, n - 0.4)
     ax.set_yticks([])
     ax.set_xticks([0, 0.05, 0.10, 0.15])
+    ax.set_xticklabels(["0 %", "5 %", "10 %", "15 %"])
     ax.xaxis.grid(True, color=t["grid"], lw=1, zorder=0)
     ax.spines["left"].set_visible(False)
     ax.tick_params(length=0)
@@ -162,10 +169,10 @@ def bands(t: dict) -> None:
     fig = plt.figure(figsize=(W_IN, 6.1))
     ax = fig.add_axes((0.10, 0.375, 0.86, 0.43))
     title(fig, t, "Half generated works. All generated does not.",
-          "YOLO26n, mAP on real test photos, by how each class was trained")
+          "YOLO26n, mAP in percent on real test photos, by how each class was trained")
     for i, (b, n, real, _, g, r, cap) in enumerate(BANDS):
         ax.bar(i, real, width=0.5, color=t["real"], zorder=3)
-        ax.text(i, real + 0.02, f"{real:.3f}", ha="center", fontsize=BASE + 2, fontweight="bold")
+        ax.text(i, real + 0.02, pct(real), ha="center", fontsize=BASE + 2, fontweight="bold")
         ax.text(i, -0.07, f"Band {b}", ha="center", va="top", fontsize=BASE + 1, fontweight="bold",
                 transform=ax.get_xaxis_transform())
         ax.text(i, -0.18, f"{n} classes", ha="center", va="top", fontsize=BASE - 1, color=t["muted"],
@@ -177,6 +184,7 @@ def bands(t: dict) -> None:
     ax.set_ylim(0, 0.85)
     ax.set_xticks([])
     ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8])
+    ax.set_yticklabels(["0 %", "20 %", "40 %", "60 %", "80 %"])
     ax.yaxis.grid(True, color=t["grid"], lw=1, zorder=0)
     ax.spines["left"].set_visible(False)
     ax.tick_params(length=0)
@@ -193,13 +201,13 @@ def synthetic_vs_real(t: dict) -> None:
     fig = plt.figure(figsize=(W_IN, 5.6))
     ax = fig.add_axes((0.10, 0.20, 0.86, 0.56))
     title(fig, t, "The generated test set flatters every band",
-          "YOLO26n, mAP of the same classes on generated and on real test images")
+          "YOLO26n, mAP in percent of the same classes on generated and on real test images")
     w = 0.3
     for i, (b, _, real, syn, *_rest) in enumerate(BANDS):
         ax.bar(i - w / 2 - 0.012, syn, width=w, color=t["synth_test"], zorder=3)
         ax.bar(i + w / 2 + 0.012, real, width=w, color=t["real_test"], zorder=3)
-        ax.text(i - w / 2 - 0.012, syn + 0.02, f"{syn:.2f}", ha="center", fontsize=BASE)
-        ax.text(i + w / 2 + 0.012, real + 0.02, f"{real:.2f}", ha="center", fontsize=BASE, fontweight="bold")
+        ax.text(i - w / 2 - 0.012, syn + 0.02, pct(syn, 0), ha="center", fontsize=BASE)
+        ax.text(i + w / 2 + 0.012, real + 0.02, pct(real, 0), ha="center", fontsize=BASE, fontweight="bold")
         ax.text(i, -0.06, f"Band {b}", ha="center", va="top", fontsize=BASE + 1, fontweight="bold",
                 transform=ax.get_xaxis_transform())
         ax.text(i, -0.15, BANDS[i][6].replace("\n", " "), ha="center", va="top", fontsize=BASE - 2,
@@ -208,6 +216,7 @@ def synthetic_vs_real(t: dict) -> None:
     ax.set_ylim(0, 1.12)
     ax.set_xticks([])
     ax.set_yticks([0, 0.25, 0.5, 0.75, 1.0])
+    ax.set_yticklabels(["0 %", "25 %", "50 %", "75 %", "100 %"])
     ax.yaxis.grid(True, color=t["grid"], lw=1, zorder=0)
     ax.spines["left"].set_visible(False)
     ax.tick_params(length=0)
@@ -230,7 +239,7 @@ def latency_vs_map(t: dict) -> None:
     setup(t)
     fig = plt.figure(figsize=(W_IN, 5.8))
     ax = fig.add_axes((0.11, 0.15, 0.85, 0.62))
-    title(fig, t, "83× faster for 0.07 mAP",
+    title(fig, t, "83× faster for 7 percentage points of mAP",
           "Species mAP on real photos against time per frame on a Raspberry Pi 400 (CPU, FP32)")
     ax.set_xscale("log")
     for label, s, m, p, kind, (dx, dy) in MODELS:
@@ -247,6 +256,7 @@ def latency_vs_map(t: dict) -> None:
     ax.set_xticklabels(["0.3 s", "1 s", "3 s", "10 s", "30 s"])
     ax.minorticks_off()
     ax.set_yticks([0.4, 0.5, 0.6])
+    ax.set_yticklabels(["40 %", "50 %", "60 %"])
     ax.set_xlabel("time per frame (log scale)")
     ax.set_ylabel("mAP on real photos")
     ax.grid(True, color=t["grid"], lw=1, zorder=0)

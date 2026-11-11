@@ -54,8 +54,8 @@ Every figure is now one image: charts as PNG, figures with photos as JPEG.
 - 2026-11-04: Directory created. Style analysis and outline written; draft not started.
 - 2026-11-11: First full draft and visual concept written; first versions of the four
   charts rendered. The band figures in the draft follow the thesis's per-band table
-  throughout (Band A 0.99 on generated test images against 0.30 on real ones), not the
-  outline's 0.931 against 0.202. Open: rights for the product photo and the real photos,
+  throughout (Band A 99 % on generated test images against 30 % on real ones), not the
+  outline's 93.1 % against 20.2 %. Open: rights for the product photo and the real photos,
   the video route on the blog, light or dark figures.
 - 2026-11-11 (later): Light figures chosen. Clips dropped in favour of the static charts;
   `media.md` added with title, alt text and caption per image. Three hero candidates built.
@@ -66,6 +66,10 @@ Every figure is now one image: charts as PNG, figures with photos as JPEG.
   setup, with gpt-image-2 about a quarter ahead in the comparison. The review and the
   rules are recorded in `writing-rules.md`. The title stays "No Photos of the Binturong?":
   a question to the reader, not a statement about the dataset.
+- 2026-11-11 (later): mAP is given in percent throughout (text, charts, captions, alt
+  texts), differences in percentage points. The TL;DR now opens with a short context
+  paragraph before the key findings. Both are recorded as rules 11 and 12 in
+  `writing-rules.md`.
 - 2026-11-11 (later): The five photo composites built by `figures/make_figures.py`. Fig. 5
   uses the RealVisXL lion for the 75-token prompt (as in the talk), Fig. 10 the generated
   elephants, so its caption needs no attribution.

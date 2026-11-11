@@ -17,12 +17,12 @@ Detection*
 1. Prompt detail matters more than the generator. Shortening the prompt costs 45–48 % of
    the accuracy (R l.58–59). The 2.9× more expensive gpt-image-2 tier does no better than the
    cheap one.
-2. Synthetic images can replace **half** of a small real set (Band B 0.588 vs Band C
-   0.591 real mAP), but not **all** of it (Band A 0.300) (`data.BAND_REAL`).
-3. Synthetic test images flatter the score: Band A scores 0.931 on synthetic images vs
-   0.202 on real ones (`data.BAND_SYNTH_TEST`, `BAND_REAL_TEST`).
+2. Synthetic images can replace **half** of a small real set (Band B 58.8 % vs Band C
+   59.1 % real mAP), but not **all** of it (Band A 30.0 %) (`data.BAND_REAL`).
+3. Synthetic test images flatter the score: Band A scores 93.1 % on synthetic images vs
+   20.2 % on real ones (`data.BAND_SYNTH_TEST`, `BAND_REAL_TEST`).
 4. A 2.7M-parameter YOLO26n is about 13× faster than a detector + classifier pipeline and
-   83× faster than the large teacher. It costs 0.07 mAP on real photos (R l.454, l.467).
+   83× faster than the large teacher. It costs 7 percentage points of mAP on real photos (R l.454, l.467).
 
 ## 1. Hook (no heading)
 
@@ -70,9 +70,9 @@ Detection*
   on each and scored on **9,742 real photos**. The measure is how useful the images are for
   training, not how good they look.
 - **The ranking** (`data` l.233ff):
-  - gpt-image-2 (low) with the full prompt: 0.134.
-  - Gemini 3.1 Flash Image, the production pick: 0.105, rank 3.
-  - Best local model, SD 3.5 Large: 0.055, rank 6.
+  - gpt-image-2 (low) with the full prompt: 13.4 %.
+  - Gemini 3.1 Flash Image, the production pick: 10.5 %, rank 3.
+  - Best local model, SD 3.5 Large: 5.5 %, rank 6.
   - HiDream: about 48 GPU-hours, rank 11.
 - **The kinkajou story:** FLUX.2-klein draws a ringed tail, which belongs to a different
   animal. Plausible-looking images can teach the wrong features.
@@ -91,16 +91,16 @@ Detection*
   - B (26): 100 real + 100 synthetic;
   - C (26): 200 real;
   - D (122): data-rich.
-- **Results** (YOLO26n, real mAP): B 0.588 ≈ C 0.591 → half synthetic is as good as all
-  real. A 0.300 → synthetic alone isn't enough, though still better than nothing (the first
-  model scored 0.0 on Band A). D 0.742.
+- **Results** (YOLO26n, real mAP): B 58.8 % ≈ C 59.1 % → half synthetic is as good as all
+  real. A 30.0 % → synthetic alone isn't enough, though still better than nothing (the first
+  model scored 0 % on Band A). D 74.2 %.
 - **Clip 2 `BandsDataset`:** 225 bars sorted by real images. Real counts grow in, then
   synthetic fills A completely and half of B, then the mAP per band appears.
 
 ## 6. Don't trust the synthetic test set
 
-- **The gap:** synthetic test images score 0.2–0.7 mAP higher than real ones. Band A:
-  0.931 synthetic vs 0.202 real.
+- **The gap:** synthetic test images score 20–70 percentage points higher than real ones. Band A:
+  93.1 % synthetic vs 20.2 % real.
 - **How we report:** the mixed headline is always shown next to the real-only breakout.
 - **The lesson:** if you generate your test data, you measure your generator, not your model.
 - **Visual:** paired bars per band (synthetic vs real test), re-styled.
@@ -112,9 +112,9 @@ Detection*
   - YOLOv5s (7.63M);
   - YOLO26n (2.71M).
 - **Accuracy on real photos:**
-  - teacher, fine-tuned: 0.599 (an upper bound: its detector produced the boxes);
-  - YOLO26n: 0.529;
-  - YOLOv5s: 0.407.
+  - teacher, fine-tuned: 59.9 % (an upper bound: its detector produced the boxes);
+  - YOLO26n: 52.9 %;
+  - YOLOv5s: 40.7 %.
 - **Speed** on a Raspberry Pi 400 as CPU proxy (ONNX Runtime, FP32, 4 threads, full frame
   time):
   - YOLO26n: 423 ms (2.36 FPS, 284 MB);
@@ -124,14 +124,14 @@ Detection*
   - Result: **83× and 13× faster**.
 - **A side note:** decoding a native 4192×3120 AX Visio frame alone costs 256–275 ms
   (R l.467). Pre-processing matters on the edge.
-- **Distillation, a negative result:** distilling from the teacher scored 0.479 vs 0.529
+- **Distillation, a negative result:** distilling from the teacher scored 47.9 % vs 52.9 %
   for direct training. Caveats: one setting, single runs. Report it plainly.
 - **Visual:** accuracy-vs-latency scatter, log-x (re-styled
   `manuscript/figures/plots/embedded_latency_vs_map.png`). **Clip 1** if it isn't used in §2.
 
 ## 8. Where it still fails: look-alikes
 
-- **Detection vs naming:** finding the animal works (class-agnostic mAP 0.782 on real
+- **Detection vs naming:** finding the animal works (class-agnostic mAP 78.2 % on real
   photos, R l.380). Naming the species is the hard part.
 - **Within look-alike groups:**
   - 19.3 % of correctly grouped detections get the wrong species (teacher 12.9 %).

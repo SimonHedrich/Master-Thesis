@@ -96,8 +96,8 @@ static, because hatched bars show the same thing without asking the reader to wa
   twice as large, at most one idea per clip.
 - **Numbers differ on purpose.** The talk's band slides show the per-class mean over the
   full test set (20.2 / 50.6 / 53.9 / 66.4 %, generated test 93 / 97 / 86 / 87 %). The
-  article uses the thesis's per-band table throughout (0.300 / 0.588 / 0.591 / 0.742,
-  generated test 0.99 / 0.99 / 0.93 / 0.87), so that the B-against-C comparison is the one
+  article uses the thesis's per-band table throughout (30.0 % / 58.8 % / 59.1 % / 74.2 %,
+  generated test 99 % / 99 % / 93 % / 87 %), so that the B-against-C comparison is the one
   from the thesis. A clip cut straight from the talk render would show the other set.
 
 ## Open points before production
