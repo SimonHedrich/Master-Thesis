@@ -3,7 +3,8 @@
 <!--
 Draft v1, 2026-11-11. About 2,550 words of body text.
 Label: Artificial Intelligence Expert. Tags: Computer Vision, Generative AI, Edge AI, Object Detection.
-[Figure N] / [Clip N] blocks are placeholders; visuals.md specifies each one.
+[Figure N: file] blocks are placeholders. media.md holds the WordPress title, alt text and
+caption of each one; visuals.md the concept. All visuals are static images (no clips).
 Every number is traced in the "Sources" table at the end of this file (not part of the article).
 -->
 
@@ -22,7 +23,7 @@ The [AX Visio](https://www.swarovskioptik.com/) by Swarovski Optik is a binocula
 
 In my Master's thesis, carried out at inovex together with Swarovski Optik, I asked how to build that detector under two constraints that show up in many computer vision projects: the hardware is small, and for a good part of the classes there are hardly any photos.
 
-[Figure 1: hero image]
+[Figure 1: figures/hero/hero_b.jpg (featured image)]
 
 ## Two problems: rare animals and a small chip
 
@@ -32,15 +33,13 @@ The second problem is compute. The fastest route to a working product is a pipel
 
 So the thesis question was: **can one small detector do both jobs, finding the animal and naming the species, if part of its training data is generated?**
 
-[Clip 1: one frame through the two-stage pipeline and through a single detector]
-
 ## Collecting real photos, and what you throw away
 
 Before generating anything, we collected what exists. Five sources with licences that allow commercial use (iNaturalist, GBIF, Wikimedia Commons, Open Images and stock imagery) yielded about 580,000 candidate images, 400,000 of them from iNaturalist alone.
 
 A folder named after a species holds a lot of things that are not that species. Our filter chain threw out a Tutankhamun wall painting filed under "cheetah", a university's tiger mascot, a wooden aardvark mask from a museum and a range map of the African buffalo. After metadata checks, blur heuristics, an animal detector, a vision-language model as a second opinion and a species classifier, 465,242 images were left, and the per-class caps reduced them to a final set of 222,073 real photos. We held back 63,802 of them as the test set.
 
-[Figure 2: collage of rejected images]
+[Figure 2: figures/rejects.jpg]
 
 More sources helped the middle of the distribution, not the tail. 29 classes still had fewer than 100 images. The 50 rarest classes averaged about 67 usable photos each, which is not enough to train on and barely enough to test with.
 
@@ -48,7 +47,7 @@ More sources helped the middle of the distribution, not the tail. 29 classes sti
 
 The obvious idea in 2026 is to generate the missing photos. The first attempts showed why this is harder than it sounds. Asked for a binturong, three open-weight models running on our own GPU all drew something closer to a small bear. Gemini, called through an API, drew a binturong.
 
-[Figure 3: binturong, real photos next to four generators]
+[Figure 3: figures/binturong.jpg]
 
 But "looks right to me" is a weak criterion, especially for animals that the person judging has never seen. We wanted to know which images a detector actually *learns* from. So we set up a comparison in which the generator was the only thing that changed:
 
@@ -57,7 +56,7 @@ But "looks right to me" is a weak criterion, especially for animals that the per
 - the same YOLO26n detector trained on each set of 1,200 images with the same schedule,
 - scored on the same 9,742 **real** photos.
 
-[Figure 4: generator ranking]
+[Figure 4: plots/out/ranking.png]
 
 Every API model beat every local model. The cheapest tier of gpt-image-2 came first with an mAP of 0.134. Gemini 3.1 Flash Image, the model we had picked by eye months earlier and used for the production dataset, came third with 0.105. The best local model, Stable Diffusion 3.5 Large, reached 0.055. (These absolute values are low because each detector saw only 1,200 images. They rank the generators and say nothing about the accuracy of the final model.)
 
@@ -73,13 +72,13 @@ Our prompts were long. Each one described the species, its distinguishing marks,
 
 To separate the model from the prompt, we gave two of the API models the same short prompt of at most 75 tokens. Both lost almost half of their accuracy: gpt-image-2 dropped from 0.134 to 0.074, Gemini Flash-Lite from 0.095 to 0.049. That is a bigger step than most differences between generators, and it moved the winner down to fifth place. Confusion between the three zebra species nearly doubled at the same time. The long prompt carries the details that make a Grévy's zebra a Grévy's zebra.
 
-[Figure 5: the same lion from four prompt lengths]
+[Figure 5: figures/lion_prompts.jpg]
 
 ### 3. A generator can draw the wrong animal and get away with it
 
 The kinkajou is a golden-brown relative of the raccoon with a plain tail. FLUX.2 klein consistently drew it with a ringed tail and a spotted coat, closer to a genet. Two other local models got it right from the same prompt. In the numbers, this error is invisible. All three score close to zero on the kinkajou, because 100 generated images are too few for any of them.
 
-[Figure 6: kinkajou, real photo and three generators]
+[Figure 6: figures/kinkajou.jpg]
 
 This is the uncomfortable part of the result. Our measure can rank generators on well-photographed species. On the rare species, the ones we wanted the generated images for, every generator scores below 0.07 and they cannot be told apart. A generator only draws well what it has seen often enough, and that is the same long tail we started with.
 
@@ -98,14 +97,11 @@ To measure what generated images are worth in training, we sorted the 225 classe
 | C | 26 | 200 real |
 | D | 122 | up to 1,500 real |
 
-[Clip 2: the dataset, band by band]
+The YOLO26n detector then scores as follows on real test photos:
 
-The result on real test photos, for the YOLO26n detector:
+[Figure 7: plots/out/bands.png]
 
-- **Band C** (all real): mAP 0.591
-- **Band B** (half generated): 0.588
-- **Band A** (all generated): 0.300
-- **Band D** (data-rich): 0.742
+Band B, half generated, reaches an mAP of 0.588. Band C, all real, reaches 0.591. Band A, all generated, reaches 0.300, and the data-rich Band D 0.742.
 
 Replacing half of a small real training set with generated images cost nothing measurable. The large reference model showed the same pattern (0.638 against 0.639), the older YOLOv5s lost a little (0.341 against 0.386). Replacing *all* of it halved the accuracy. That is still far better than nothing, since those 50 classes would otherwise be missing from the model entirely, but it is a ceiling to plan for.
 
@@ -117,7 +113,7 @@ Two caveats belong here. Each model was trained once, and the bands contain diff
 
 Rare classes are hard to evaluate for the same reason they are hard to train: some of ours have six real test photos. Generating a balanced test set of 50 images per class looked like an elegant fix. It was a mistake to rely on it, and a useful one.
 
-[Figure 7: generated and real test images, and the scores on each]
+[Figure 8: plots/out/synthetic_vs_real.png]
 
 On the generated test images, Band A scores 0.99. On real photos, the same classes score 0.30. The gap exists in every band and for every model. Even the off-the-shelf reference model, which has never seen a generated image, scores about 0.2 mAP higher on them. Generated test images show one well-lit animal in the centre of the frame. Real photos have backlight, bushes and, on average, 1.44 animals per image. On top of that, a model trained on images from one generator is tested on more images from the same generator.
 
@@ -138,11 +134,9 @@ The first two rows are the big reference ensemble that also produced our labels,
 
 We measured speed on a Raspberry Pi 400, whose CPU is a slightly slower stand-in for the CPU cores of the QCS605: ONNX Runtime, four threads, full 32-bit precision, timed from JPEG to final boxes. YOLO26n needs 423 ms per frame and 284 MB of memory. YOLOv5s needs 949 ms. MegaDetector alone needs 31 seconds. Put together, the reference ensemble lands at about 35 seconds per frame and a YOLOv5s-plus-SpeciesNet pipeline at about 5.4 seconds.
 
-[Clip 3: the three pipelines racing through one frame]
-
 That makes the single nano detector **83 times faster** than the ensemble and **13 times faster** than the two-stage pipeline, with 71 times fewer parameters than the former, at a cost of 0.07 mAP.
 
-[Figure 8: accuracy against time per frame]
+[Figure 9: plots/out/latency_vs_map.png]
 
 A side note from the benchmark: decoding and resizing one native 4192 × 3120 camera frame took 256–275 ms on the same device, more than half of the model's own runtime. On the edge, the pre-processing is part of the model.
 
@@ -158,7 +152,7 @@ The likely reason is mundane. Our species labels came from the very classifier t
 
 Part of that gap sits between species that look alike. We grouped such species (three zebras, two elephants, six dogs and wolves, and so on) and counted how often the detector finds the animal, lands in the right group and still picks the wrong member. Across all 30 groups this happens in about one of five cases.
 
-[Figure 9: Asian and African elephant with confusion arrows]
+[Figure 10: figures/elephants.jpg]
 
 The groups differ enormously. The zebras, which we had worried about most, are confused in fewer than 10 % of cases. The elephants are wrong every second time, and almost always in one direction: 79 % of the Asian elephants are named African elephants, and 0.2 % the other way round. The model had seen 1,500 real photos of African elephants and only 100 real plus 100 generated ones of Asian elephants. When in doubt, it names the species it knows better. That points to the next fix, more balanced data for exactly these pairs, or a model that may answer "elephant" when it is not sure.
 

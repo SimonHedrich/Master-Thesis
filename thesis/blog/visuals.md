@@ -1,5 +1,12 @@
 # Blog Article: Visual Concept
 
+> **Update 2026-11-11: no clips.** The article uses static images only. Clip C1 (pipeline
+> against single detector) is dropped, C2 is replaced by the chart `plots/out/bands.png`,
+> and C3 by `plots/out/latency_vs_map.png`. The clip rows and the section "Why three clips
+> and not more" below are kept as the record of the earlier plan. The final figure list,
+> with the numbering used in `draft.md` and the WordPress title, alt text and caption of
+> each image, is in `media.md`.
+
 What the article shows, in which format, and where each piece comes from. Written on
 2026-11-11 together with `draft.md`; the `[Figure N]` and `[Clip N]` markers in the draft
 refer to the table below.
