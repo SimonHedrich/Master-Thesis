@@ -159,8 +159,8 @@ def squares(ax, t: dict, x: float, y: float, n_gen: int, n_real: int, s: float =
 
 def bands(t: dict) -> None:
     setup(t)
-    fig = plt.figure(figsize=(W_IN, 6.6))
-    ax = fig.add_axes((0.10, 0.42, 0.86, 0.40))
+    fig = plt.figure(figsize=(W_IN, 6.1))
+    ax = fig.add_axes((0.10, 0.375, 0.86, 0.43))
     title(fig, t, "Half generated works. All generated does not.",
           "YOLO26n, mAP on real test photos, by how each class was trained")
     for i, (b, n, real, _, g, r, cap) in enumerate(BANDS):
