@@ -43,9 +43,9 @@ The thesis is presented to a wider audience as an article on the
 | `media.md` | The ten images in article order with file, status and the WordPress fields: title, alternative text and caption. |
 | `visuals.md` | Visual concept: what WordPress allows, the design rules (one colour code, light figures), each visual with format, source and effort, and the open points on rights. The clips it planned were dropped on 2026-11-11. |
 | `plots/make_plots.py` | Draws the article's static charts (generator ranking, bands, generated vs real test set, accuracy vs latency) as 1600 px PNGs into `plots/out/`. Run: `uv run --script thesis/blog/plots/make_plots.py`. |
-| `figures/hero/` | Three candidates for the featured image (`hero_a.jpg` photo wall, `hero_b.jpg` images → chip → detection, `hero_c.jpg` eyepiece view), 1600×939, built from generated animal images only in the blog's house style (radial blue-to-navy gradient, isometric objects, lime accents). Run: `uv run --script thesis/blog/figures/hero/make_hero.py`. |
+| `figures/hero/` | The featured image `hero.jpg` (AI-generated photo cards of a binturong, the binturong in a detection box, a binocular looking at it) and the alternative `hero_alt.jpg` (a binocular looking at a detected binturong that dissolves into pixels), 1600×939. Both are isometric illustrations in the blog's house style (radial blue-to-navy gradient, white objects, lime accents), generated with Gemini; the binocular is a generic one, not the AX Visio. `generate_hero.py` holds the prompts and the crop step. Run (GPU server, for the key): `uv run --script thesis/blog/figures/hero/generate_hero.py --concept cards`. |
 | `figures/make_figures.py` | Combines the source photos into one labelled image per figure (navy pill = real photo, green pill = AI-generated): `rejects.jpg`, `binturong.jpg`, `lion_prompts.jpg`, `kinkajou.jpg`, `elephants.jpg`, 1600 px wide, into `figures/` and into each figure's folder under `images/`. The two composites with uncleared real photos (rejects, binturong) are gitignored. Run: `uv run --script thesis/blog/figures/make_figures.py`. |
-| `images/` | Every image of the article in one place, one folder per figure (`fig01_hero` … `fig10_elephants`): the charts and hero candidates as built, and the five photo composites next to their source photos. The generated binturong PNGs are stored as 1024 px JPEGs. Real photos without cleared licence (`fig02_rejects/`, the real binturongs and elephants) are local only (gitignored). |
+| `images/` | Every image of the article in one place, one folder per figure (`fig01_hero` … `fig10_elephants`): the charts and the hero as built, and the five photo composites next to their source photos. The generated binturong PNGs are stored as 1024 px JPEGs. Real photos without cleared licence (`fig02_rejects/`, the real binturongs and elephants) are local only (gitignored). |
 
 Every figure is now one image: charts as PNG, figures with photos as JPEG.
 
@@ -58,7 +58,7 @@ Every figure is now one image: charts as PNG, figures with photos as JPEG.
   outline's 93.1 % against 20.2 %. Open: rights for the product photo and the real photos,
   the video route on the blog, light or dark figures.
 - 2026-11-11 (later): Light figures chosen. Clips dropped in favour of the static charts;
-  `media.md` added with title, alt text and caption per image. Three hero candidates built.
+  `media.md` added with title, alt text and caption per image. Three hero candidates built (replaced on the same day, see below).
 - 2026-11-11 (v2): Draft revised after review. Claims brought in line with their evidence
   (generator choice, price, prompt against model, rare-class limit of the comparison, band
   and test-set confounds), slogan headings replaced, TL;DR and takeaways rewritten to match,
@@ -73,3 +73,9 @@ Every figure is now one image: charts as PNG, figures with photos as JPEG.
 - 2026-11-11 (later): The five photo composites built by `figures/make_figures.py`. Fig. 5
   uses the RealVisXL lion for the 75-token prompt (as in the talk), Fig. 10 the generated
   elephants, so its caption needs no attribution.
+- 2026-11-11 (hero): The three hero candidates are replaced, because they did not show the
+  subject of the article. The new hero (`figures/hero/hero.jpg`) shows a binocular looking
+  at a binturong in a detection box, with AI-generated photo cards of the animal above it;
+  `hero_alt.jpg` is the simpler alternative. Both are illustrations generated with Gemini
+  (`figures/hero/generate_hero.py`), with a generic binocular, so the product photo and
+  Swarovski's OK are no longer needed for the hero.

@@ -31,7 +31,7 @@ The [AX Visio](https://www.swarovskioptik.com/) by Swarovski Optik is a binocula
 
 In my Master's thesis, carried out at inovex together with Swarovski Optik, I asked how to build that detector under two constraints that show up in many computer vision projects: the hardware is small, and for a good part of the classes there are hardly any photos.
 
-[Figure 1: figures/hero/hero_b.jpg (featured image)]
+[Figure 1: figures/hero/hero.jpg (featured image)]
 
 ## Two problems: rare animals and a small chip
 

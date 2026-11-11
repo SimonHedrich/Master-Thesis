@@ -44,7 +44,7 @@ refer to the table below.
 
 | # | Section | Visual | Format | Source and effort | Status |
 |---|---|---|---|---|---|
-| 1 | Hook | **Hero: "none of these animals exist".** A wall of generated animals (one per class, 6×3) with the AX Visio cut out in front, or the plain product photo as the fallback. | photo composite, 1600×840 | `presentation/images/generators/twelve/`, `grevys_synthetic_wall.png`, synthetic set on the GPU server; press photo `K22_AX_Visio_…jpg`. Half a day. | to build; **needs Swarovski's OK for the photo** |
+| 1 | Hook | **Hero: "none of these animals exist".** A wall of generated animals (one per class, 6×3) with the AX Visio cut out in front, or the plain product photo as the fallback. | photo composite, 1600×840 | `presentation/images/generators/twelve/`, `grevys_synthetic_wall.png`, synthetic set on the GPU server; press photo `K22_AX_Visio_…jpg`. Half a day. | **done differently**, see open point 3: `figures/hero/hero.jpg`, a generated illustration without the product photo |
 | C1 | Two problems | **Pipeline vs single detector.** A frame with three zebras. Top lane: detector draws boxes, three crops queue at the classifier one by one. Bottom lane: one network, boxes with names at once. | clip, 8 s loop | new manim scene; the talk's `UseCase3` click 4–5 (MegaDetector → SpeciesNet → "ocelot") is the model for the top lane. One day. | to build |
 | 2 | Collecting | **What a species folder contains.** Four rejected images: Tutankhamun "cheetah", Ostia elephant mosaic, aardvark mask, buffalo range map. | collage, one image | `presentation/images/data/reject_*`; layout as on talk slide `Data3_08`. One hour plus licence check. | **check the four Wikimedia licences**, attribution goes into the caption |
 | 3 | Generators | **Binturong: real, three local generators, Gemini.** The article's title picture. 3 rows × 5 columns, column labels as pills. | collage, one image | `presentation/images/generators/binturong/`; talk slide `Generative3_03` recomposed for the column. One hour. | to build; the three real photos need attribution |
@@ -106,9 +106,14 @@ static, because hatched bars show the same thing without asking the reader to wa
    Wikimedia rejects and every real animal photo (licence and attribution per image).
 2. **Video route:** ask the blog editors whether self-hosted MP4 with autoplay/loop is
    possible. If not, the clips go in as animated WebP, or as posters linking to YouTube.
-3. **Hero:** pick one of the three candidates in `figures/hero/`. The blog's featured
-   images are 1500×880 isometric vector illustrations on a radial gradient from #2D5DFF to
-   #061B59 with lime accents, without text or logos; the candidates follow that, with
-   generated animal images as the one photographic element.
+3. **Hero:** done, `figures/hero/hero.jpg` (alternative: `hero_alt.jpg`). The first three
+   candidates (a card wall, cards → chip → card, a two-circle eyepiece view) were dropped
+   because they did not show what the article is about. The rule for the hero since then:
+   it has to show the three things of the title as objects a reader recognises without the
+   text, a **binocular**, an **animal in a detection box**, and **AI-generated images**
+   (photo cards that are still partly pixels, with sparkles). The style is still the
+   blog's: an isometric illustration on a radial gradient from #2D5DFF to #061B59 with
+   lime accents, without text or logos. The whole image is an illustration generated with
+   Gemini; the binocular is generic, so no Swarovski product photo is needed.
 
 Decided on 2026-11-11: light figures (`ranking_dark.png` stays only as the comparison).

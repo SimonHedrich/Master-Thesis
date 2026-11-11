@@ -15,15 +15,14 @@ to link to.
 
 ## Figure 1: featured image
 
-- **File:** `figures/hero/hero_b.jpg` (exists; candidate, not yet chosen)
-- **Title:** Generated wildlife images, a small chip and a detected binturong
-- **Alternative text:** Illustration on a blue background: a stack of AI-generated animal photos with a zebra on top is connected by a line to a small computer chip, which is connected to a photo of a binturong on a branch with a green detection box around it.
+- **File:** `figures/hero/hero.jpg` (exists; generated with Gemini by `figures/hero/generate_hero.py`)
+- **Title:** A binocular detects a binturong made from AI-generated photos
+- **Alternative text:** Illustration on a blue background: on the right, a white binocular looks along a beam of light at a black binturong standing on a mossy branch. A green detection box frames the animal. Above it float five photo cards of binturongs that are partly still made of pixels, with green sparkles around them, the sign for AI-generated images.
 - **Caption:** none (featured images are shown without a caption).
 
-If another candidate is chosen:
+If the alternative is chosen:
 
-- `hero_a.jpg`. **Title:** A wall of generated wildlife images. **Alternative text:** Illustration on a blue background: twelve AI-generated animal photos, among them a lion, zebras, a fox and a bear, stand as a wall of cards on a round platform. Four of them carry a green detection box.
-- `hero_c.jpg`. **Title:** A binturong seen through a binocular. **Alternative text:** Illustration on a blue background: the two overlapping circles of a binocular view show an AI-generated binturong walking along a mossy branch, with a green detection box around it. Four small generated animal photos float around the view.
+- `hero_alt.jpg`. **Title:** A binocular looks at a half-generated binturong. **Alternative text:** Illustration on a blue background: on the left, a white binocular looks along a beam of light at a black binturong walking on a mossy branch inside a green detection box. The rear half of the animal and its tail break up into small square pixels and green sparkles, the sign for an AI-generated image.
 
 ## Figure 2: rejected images
 
