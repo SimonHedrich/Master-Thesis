@@ -37,3 +37,9 @@ thesis/presentation/interim-presentation-images/
 
 # Built by slides/collect_images.py (includes NDA pictures under images/nda/)
 thesis/presentation/images/
+
+# Blog article: real photos whose licence and attribution are not cleared yet (see thesis/blog/media.md)
+thesis/blog/images/fig02_rejects/
+thesis/blog/images/fig03_binturong/binturong_real_*
+thesis/blog/images/fig10_elephants/asian_elephant.jpg
+thesis/blog/images/fig10_elephants/african_elephant.jpg

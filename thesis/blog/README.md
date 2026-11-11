@@ -43,6 +43,7 @@ The thesis is presented to a wider audience as an article on the
 | `visuals.md` | Visual concept: what WordPress allows, the design rules (one colour code, light figures), each visual with format, source and effort, and the open points on rights. The clips it planned were dropped on 2026-11-11. |
 | `plots/make_plots.py` | Draws the article's static charts (generator ranking, bands, generated vs real test set, accuracy vs latency) as 1600 px PNGs into `plots/out/`. Run: `uv run --script thesis/blog/plots/make_plots.py`. |
 | `figures/hero/` | Three candidates for the featured image (`hero_a.jpg` photo wall, `hero_b.jpg` images → chip → detection, `hero_c.jpg` eyepiece view), 1600×939, built from generated animal images only in the blog's house style (radial blue-to-navy gradient, isometric objects, lime accents). Run: `uv run --script thesis/blog/figures/hero/make_hero.py`. |
+| `images/` | Every image of the article in one place, one folder per figure (`fig01_hero` … `fig10_elephants`): the charts and hero candidates as built, and the source photos of the five composites that are still to build. The generated binturong PNGs are stored as 1024 px JPEGs. Real photos without cleared licence (`fig02_rejects/`, the real binturongs and elephants) are local only (gitignored). |
 
 Planned next: the five photo composites listed in `media.md` (`figures/rejects.jpg`,
 `binturong.jpg`, `lion_prompts.jpg`, `kinkajou.jpg`, `elephants.jpg`).
