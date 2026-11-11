@@ -41,6 +41,7 @@ The thesis is presented to a wider audience as an article on the
 | `draft.md` | The article, first full draft (about 2,550 words), with `[Figure N]` / `[Clip N]` placeholders and a table at the end that traces every number to its source. |
 | `visuals.md` | Visual concept: what WordPress allows, the design rules (one colour code, light figures, three clips), each visual with format, source, effort and status, and the open points on rights and video hosting. |
 | `plots/make_plots.py` | Draws the article's static charts (generator ranking, bands, generated vs real test set, accuracy vs latency) as 1600 px PNGs into `plots/out/`. Run: `uv run --script thesis/blog/plots/make_plots.py`. |
+| `figures/hero/` | Three candidates for the featured image (`hero_a.jpg` photo wall, `hero_b.jpg` images → chip → detection, `hero_c.jpg` eyepiece view), 1600×939, built from generated animal images only in the blog's house style (radial blue-to-navy gradient, isometric objects, lime accents). Run: `uv run --script thesis/blog/figures/hero/make_hero.py`. |
 
 Planned next: the photo collages and composites of `visuals.md`, `clips/` (its own uv
 project with the three manim clips, reusing `thesis/presentation/slides/theme.py` and

@@ -99,7 +99,9 @@ static, because hatched bars show the same thing without asking the reader to wa
    Wikimedia rejects and every real animal photo (licence and attribution per image).
 2. **Video route:** ask the blog editors whether self-hosted MP4 with autoplay/loop is
    possible. If not, the clips go in as animated WebP, or as posters linking to YouTube.
-3. **Hero:** candidates are being built in `figures/hero/`, in the style of the blog's
-   other featured images.
+3. **Hero:** pick one of the three candidates in `figures/hero/`. The blog's featured
+   images are 1500×880 isometric vector illustrations on a radial gradient from #2D5DFF to
+   #061B59 with lime accents, without text or logos; the candidates follow that, with
+   generated animal images as the one photographic element.
 
 Decided on 2026-11-11: light figures (`ranking_dark.png` stays only as the comparison).
