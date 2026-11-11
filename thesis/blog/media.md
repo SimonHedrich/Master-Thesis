@@ -9,8 +9,9 @@ for on upload. All are static images.
 - **Caption** is shown under the image. It says what to see and carries the attribution.
 
 "Exists" means the file is in the repo. "To build" means the text describes the planned
-image (`visuals.md`) and has to be checked against the finished one. `[attribution]` marks
-real photos whose author and licence still have to be filled in.
+image (`visuals.md`) and has to be checked against the finished one. Real photos carry their
+author and licence in the caption; the **Sources** table under the figure has the file pages
+to link to.
 
 ## Figure 1: featured image
 
@@ -29,14 +30,31 @@ If another candidate is chosen:
 - **File:** `figures/rejects.jpg` (exists; built by `figures/make_figures.py`)
 - **Title:** Rejected images from scraped species folders
 - **Alternative text:** Four images that a scraper filed under animal species and that show no living animal: an ancient Egyptian wall painting filed under cheetah, a Roman floor mosaic of an elephant, a carved wooden aardvark mask in a museum, and a map of Africa showing the range of the African buffalo.
-- **Caption:** Filed under "cheetah", "African elephant", "aardvark" and "African buffalo": four of the roughly 115,000 images our filter chain threw out. Images: `[attribution]`, via Wikimedia Commons.
+- **Caption:** Filed under "cheetah", "African elephant", "aardvark" and "African buffalo": four of the roughly 115,000 images our filter chain threw out. Images via Wikimedia Commons, from left: tomb painting from the tomb of Tutankhamun (public domain); photo by Marie-Lan Nguyen (CC BY 2.5); photo by Daderot (CC0); map by Altaileopard (CC BY 3.0).
+- **Sources** (link each credit in the caption to its file page; the local files are byte-identical to the Commons originals, the figure only scales them down):
+
+  | Image | Commons file page | Author | Licence |
+  |---|---|---|---|
+  | Tomb painting | [Opening of the Mouth - Tutankhamun and Aja.jpg](https://commons.wikimedia.org/wiki/File:Opening_of_the_Mouth_-_Tutankhamun_and_Aja.jpg) | ancient Egyptian artist; faithful reproduction of a two-dimensional work | public domain |
+  | Elephant mosaic | [14 Piazzale delle Corporazioni Ostia Antica 2006-09-08.jpg](https://commons.wikimedia.org/wiki/File:14_Piazzale_delle_Corporazioni_Ostia_Antica_2006-09-08.jpg) | Marie-Lan Nguyen (User:Jastrow) | [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) |
+  | Aardvark mask | [Aardvark mask and costume, Cameroon grassland, wood - Naturhistorisches Museum Nürnberg - DSC03948.jpg](https://commons.wikimedia.org/wiki/File:Aardvark_mask_and_costume,_Cameroon_grassland,_wood_-_Naturhistorisches_Museum_N%C3%BCrnberg_-_Nuremberg,_Germany_-_DSC03948.jpg) | Daderot | [CC0](https://creativecommons.org/publicdomain/zero/1.0/deed.en) |
+  | Buffalo range map | [Syncerus range map.png](https://commons.wikimedia.org/wiki/File:Syncerus_range_map.png) | Altaileopard | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0) |
 
 ## Figure 3: binturong
 
 - **File:** `figures/binturong.jpg` (exists; built by `figures/make_figures.py`)
 - **Title:** Binturong: real photos and four image generators
 - **Alternative text:** Grid of fifteen images in five columns of three. First column: real photos of a binturong, a dark shaggy animal with a long tail in a tree. Columns two to four, from the generators RealVisXL, SD 3.5 Medium and FLUX.1 schnell: animals that look like small black bears. Fifth column, from Gemini: animals that match the real binturong.
-- **Caption:** Asked for a binturong, three models running locally drew something closer to a bear. Only Gemini (right) matched the real animal (left). Real photos: `[attribution]`; all other images are AI-generated.
+- **Caption:** Asked for a binturong, three models running locally drew something closer to a bear. Only Gemini (right) matched the real animal (left). Real photos, cropped, via Wikimedia Commons, from top: sheilaellen (CC BY 2.0), Tassilo Rau (CC BY-SA 3.0), Terence Ong (CC BY 2.5); all other images are AI-generated.
+- **Sources** (link each credit in the caption to its file page; the three photos were identified by comparing them with every 4:3 and same-size file in the Commons category *Arctictis binturong*):
+
+  | Image | Commons file page | Author | Licence |
+  |---|---|---|---|
+  | `binturong_real_1.jpg` (top) | [Binturong.jpg](https://commons.wikimedia.org/wiki/File:Binturong.jpg) | sheilaellen ([Flickr original](https://www.flickr.com/photos/sheilaellen/1122131130/)) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) |
+  | `binturong_real_2.jpg` (middle) | [Binturong in Overloon.jpg](https://commons.wikimedia.org/wiki/File:Binturong_in_Overloon.jpg) | Tassilo Rau | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+  | `binturong_real_3.jpg` (bottom) | [Arctictis binturong, Singapore Zoo - 20061122.jpg](https://commons.wikimedia.org/wiki/File:Arctictis_binturong,_Singapore_Zoo_-_20061122.jpg) | Terence Ong | [CC BY 2.5](https://creativecommons.org/licenses/by/2.5) |
+
+  The middle photo is ShareAlike and is cropped in the figure. Either state under the figure that the cropped photo stays under CC BY-SA 3.0, or swap it for a CC BY photo.
 
 ## Figure 4: generator ranking
 
@@ -57,7 +75,12 @@ If another candidate is chosen:
 - **File:** `figures/kinkajou.jpg` (exists; built by `figures/make_figures.py`)
 - **Title:** Kinkajou: real photo and three generators
 - **Alternative text:** Four images side by side. A real photo of a kinkajou, a small golden-brown animal with a plain tail. Next to it three AI-generated kinkajous: the one from FLUX.2 klein has a spotted coat and a ringed tail, which is marked with a circle. The ones from SD 3.5 Large and HiDream-I1 have plain coats and tails like the real animal.
-- **Caption:** A real kinkajou has a plain tail. FLUX.2 klein gives it rings and spots, closer to a genet. All three generators score near zero on this species, so the measurement does not register the error. Real photo: `[attribution]`; the other three images are AI-generated.
+- **Caption:** A real kinkajou has a plain tail. FLUX.2 klein gives it rings and spots, closer to a genet. All three generators score near zero on this species, so the measurement does not register the error. Real photo: Kristof Zyskowski via iNaturalist (CC BY 4.0), cropped; the other three images are AI-generated.
+- **Source** (link the credit in the caption to the observation; identified by comparing the photo with all GBIF images of *Potos flavus*, a single exact match):
+
+  | Image | Source page | Author | Licence |
+  |---|---|---|---|
+  | `kinkajou_real.jpg` | [iNaturalist observation 44818134](https://www.inaturalist.org/observations/44818134), [photo 71048382](https://www.inaturalist.org/photos/71048382); GBIF occurrence [2620029702](https://www.gbif.org/occurrence/2620029702). Magdalena, Colombia, 2015-01-04 | Kristof Zyskowski | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
 
 ## Figure 7: bands
 

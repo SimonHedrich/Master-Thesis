@@ -207,7 +207,7 @@ git history.
 | `generator_comparison/appendix/saiga_real.jpg` | Wikimedia `Saiga_antelope_at_the_Stepnoi_Sanctuary.jpg` | Andrey Giljov | CC BY-SA 4.0 |
 | `generator_comparison/appendix/plains_zebra_real.jpg` | Wikimedia `2012-02-Cayo_Saetia_Zebras_01_anagoria.JPG` | Anagoria | CC BY 3.0 |
 | `generator_comparison/appendix/lion_real.jpg` | Wikimedia `2012-09-15_Tierpark_Berlin_39.jpg` | uploader L. Beck, artist field reads "Meine Mutter (Erlaubnis liegt vor)" | CC BY-SA 4.0 |
-| `generator_comparison/kinkajou_real.jpg` | GBIF `gbif_kinkajou_00017.jpg` | **UNRECOVERABLE** | **UNKNOWN** |
+| `generator_comparison/kinkajou_real.jpg` | GBIF `gbif_kinkajou_00017.jpg` = GBIF occurrence 2620029702, [iNaturalist observation 44818134](https://www.inaturalist.org/observations/44818134) (recovered 2026-11-11, see below) | Kristof Zyskowski | CC BY 4.0 |
 | `ax_visio/ax_visio_near.jpg` | `resources/AX_Visio_images/AXV_20241121-143038.012.jpeg` | Swarovski Optik (supplied by the AX Visio PO) | **NONE RECORDED** |
 | `ax_visio/ax_visio_far.jpg` | `resources/AX_Visio_images/AXV_20241115-174745.987.jpeg` | Swarovski Optik (supplied by the AX Visio PO) | **NONE RECORDED** |
 
@@ -223,6 +223,10 @@ Two blockers remain, both escalated rather than fixed:
   mapping, and the original download directory no longer exists. The ID must not be guessed.
   Recommended fix is to swap the panel for a Wikimedia kinkajou of known attribution, since
   `fig:kinkajou-generator-samples` does not depend on which real photograph is used.
+  **Resolved 2026-11-11:** the photo was recovered by comparing it with all 3,060 GBIF
+  images of *Potos flavus*; exactly one matches (pixel difference 0.1, next best 22). It is
+  iNaturalist photo 71048382 by Kristof Zyskowski, CC BY 4.0. The credit line still has to
+  be added to the caption of `fig:kinkajou-generator-samples`.
 - **The AX Visio pair is a rights-clearance problem, not a missing credit.**
   `docs/progress_notes/2026-03-11_dataset-stakeholder-meeting-and-model-architecture.md:23`
   records that the ten frames were shared by the AX Visio Product Owner at Swarovski Optik.
