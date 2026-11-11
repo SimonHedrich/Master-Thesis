@@ -88,20 +88,11 @@ The complete synthetic dataset, 23,850 images of all 225 classes, cost about $78
 
 ## How much synthetic data is too much? The band experiment
 
-To measure what generated images are worth in training, we sorted the 225 classes by the number of real photos available and cut them into four bands. Bands A to C get the same budget of 200 training images per class and differ only in where those images come from:
-
-| Band | Classes | Training images per class |
-|------|---------|---------------------------|
-| A | 50 | 200 generated |
-| B | 26 | 100 real + 100 generated |
-| C | 26 | 200 real |
-| D | 122 | up to 1,500 real |
-
-The YOLO26n detector then scores as follows on real test photos:
+To measure what generated images are worth in training, we sorted the 225 classes by the number of real photos available and cut them into four bands. The 50 classes with the fewest photos form Band A. Their few real photos are all needed for testing, so Band A trains on 200 generated images per class and nothing else. The next 26 classes form Band B, which trains on 100 real and 100 generated images. Band C, the 26 classes after that, trains on 200 real photos. Bands A to C thus share the same budget of 200 training images per class and differ only in where those images come from, which makes them directly comparable. The remaining 122 well-photographed classes form Band D, which trains on up to 1,500 real photos per class and serves as the reference.
 
 [Figure 7: plots/out/bands.png]
 
-Band B, half generated, reaches an mAP of 0.588. Band C, all real, reaches 0.591. Band A, all generated, reaches 0.300, and the data-rich Band D 0.742.
+On real test photos, the YOLO26n detector reaches an mAP of 0.588 on Band B and 0.591 on Band C. Band A, trained on generated images only, reaches 0.300, and the data-rich Band D 0.742.
 
 Replacing half of a small real training set with generated images cost nothing measurable. The large reference model showed the same pattern (0.638 against 0.639), the older YOLOv5s lost a little (0.341 against 0.386). Replacing *all* of it halved the accuracy. That is still far better than nothing, since those 50 classes would otherwise be missing from the model entirely, but it is a ceiling to plan for.
 
