@@ -38,12 +38,19 @@ The thesis is presented to a wider audience as an article on the
 |------|-------------|
 | `style-analysis.md` | Analysis of 9 inovex blog posts (length, structure, tone, visuals, CTAs) and the style rules derived from it for this article. |
 | `outline.md` | Section-by-section outline of the article, with each claim and visual mapped to its source in the repo. |
+| `draft.md` | The article, first full draft (about 2,550 words), with `[Figure N]` / `[Clip N]` placeholders and a table at the end that traces every number to its source. |
+| `visuals.md` | Visual concept: what WordPress allows, the design rules (one colour code, light figures, three clips), each visual with format, source, effort and status, and the open points on rights and video hosting. |
+| `plots/make_plots.py` | Draws the article's static charts (generator ranking, bands, generated vs real test set, accuracy vs latency) as 1600 px PNGs into `plots/out/`. Run: `uv run --script thesis/blog/plots/make_plots.py`. |
 
-Planned next: `draft.md` (the article), `plots/` (matplotlib re-styles of the thesis
-charts), `clips/` (its own uv project with the manim clips, reusing
-`thesis/presentation/slides/theme.py` and `data.py`), and `figures/` (final media for
-submission).
+Planned next: the photo collages and composites of `visuals.md`, `clips/` (its own uv
+project with the three manim clips, reusing `thesis/presentation/slides/theme.py` and
+`data.py`), and `figures/` (final media for submission).
 
 ## Status
 
 - 2026-11-04: Directory created. Style analysis and outline written; draft not started.
+- 2026-11-11: First full draft and visual concept written; first versions of the four
+  charts rendered. The band figures in the draft follow the thesis's per-band table
+  throughout (Band A 0.99 on generated test images against 0.30 on real ones), not the
+  outline's 0.931 against 0.202. Open: rights for the product photo and the real photos,
+  the video route on the blog, light or dark figures.
