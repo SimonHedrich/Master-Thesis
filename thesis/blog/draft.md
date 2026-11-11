@@ -41,7 +41,7 @@ So the thesis question was: **can one small detector do both jobs, finding the a
 
 Before generating anything, we collected what exists. Five sources with licences that allow commercial use ([iNaturalist](https://www.inaturalist.org/), GBIF, [Wikimedia Commons](https://commons.wikimedia.org/), [Open Images](https://storage.googleapis.com/openimages/web/index.html) and stock imagery) yielded about 580,000 candidate images, 400,000 of them from iNaturalist alone.
 
-A folder named after a species holds a lot of things that are not that species. Our filter chain threw out a Tutankhamun wall painting filed under "cheetah", a university's tiger mascot, a wooden aardvark mask from a museum and a range map of the African buffalo. After metadata checks, blur heuristics, an animal detector, a vision-language model as a second opinion and a species classifier, 465,242 images were left, and the per-class caps reduced them to a final set of 222,073 real photos. We held back 63,802 of them as the test set.
+A folder named after a species holds a lot of things that are not that species. Our filter chain threw out a Tutankhamun wall painting filed under "cheetah", a Roman floor mosaic filed under "African elephant", a wooden aardvark mask from a museum and a range map of the African buffalo. After metadata checks, blur heuristics, an animal detector, a vision-language model as a second opinion and a species classifier, 465,242 images were left, and the per-class caps reduced them to a final set of 222,073 real photos. We held back 63,802 of them as the test set.
 
 [Figure 2: figures/rejects.jpg]
 

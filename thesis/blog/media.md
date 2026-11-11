@@ -28,8 +28,8 @@ If another candidate is chosen:
 
 - **File:** `figures/rejects.jpg` (exists; built by `figures/make_figures.py`)
 - **Title:** Rejected images from scraped species folders
-- **Alternative text:** Four images that a scraper filed under animal species and that show no living animal: an ancient Egyptian wall painting filed under cheetah, a person in a tiger mascot costume, a carved wooden aardvark mask in a museum, and a map of Africa showing the range of the African buffalo.
-- **Caption:** Filed under "cheetah", "tiger", "aardvark" and "African buffalo": four of the roughly 115,000 images our filter chain threw out. Images: `[attribution]`, via Wikimedia Commons.
+- **Alternative text:** Four images that a scraper filed under animal species and that show no living animal: an ancient Egyptian wall painting filed under cheetah, a Roman floor mosaic of an elephant, a carved wooden aardvark mask in a museum, and a map of Africa showing the range of the African buffalo.
+- **Caption:** Filed under "cheetah", "African elephant", "aardvark" and "African buffalo": four of the roughly 115,000 images our filter chain threw out. Images: `[attribution]`, via Wikimedia Commons.
 
 ## Figure 3: binturong
 

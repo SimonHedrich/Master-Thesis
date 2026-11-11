@@ -130,7 +130,7 @@ def load(folder: str, name: str) -> Image.Image:
 def rejects() -> None:
     items = [  # (file, species folder, what it actually shows)
         ("reject_tutankhamun_cheetah.jpg", "cheetah", "a tomb painting"),
-        ("reject_tiger_mascot.jpg", "tiger", "a mascot costume"),
+        ("reject_elephant_mosaic.jpg", "African elephant", "a floor mosaic"),
         ("reject_aardvark_mask.jpg", "aardvark", "a carved mask"),
         ("reject_buffalo_range_map.png", "African buffalo", "a range map"),
     ]
