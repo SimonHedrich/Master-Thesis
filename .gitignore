@@ -43,3 +43,7 @@ thesis/blog/images/fig02_rejects/
 thesis/blog/images/fig03_binturong/binturong_real_*
 thesis/blog/images/fig10_elephants/asian_elephant.jpg
 thesis/blog/images/fig10_elephants/african_elephant.jpg
+# ... and the composites built from them (thesis/blog/figures/make_figures.py)
+thesis/blog/figures/rejects.jpg
+thesis/blog/figures/binturong.jpg
+thesis/blog/images/fig03_binturong/binturong.jpg
