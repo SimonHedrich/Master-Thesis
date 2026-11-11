@@ -37,8 +37,9 @@ The thesis is presented to a wider audience as an article on the
 | File | Description |
 |------|-------------|
 | `style-analysis.md` | Analysis of 9 inovex blog posts (length, structure, tone, visuals, CTAs) and the style rules derived from it for this article. |
+| `writing-rules.md` | **Read before editing the draft.** The review of draft v1 (claims stronger than their evidence, slogan headings, invented drama), the rules derived from it and a checklist for finding the same problems. |
 | `outline.md` | Section-by-section outline of the article, with each claim and visual mapped to its source in the repo. |
-| `draft.md` | The article, second draft (about 3,900 words, writing rules in its header comment), with `[Figure N: file]` placeholders and a table at the end that traces every number to its source. |
+| `draft.md` | The article, second draft (about 3,900 words, written to `writing-rules.md`), with `[Figure N: file]` placeholders and a table at the end that traces every number to its source. |
 | `media.md` | The ten images in article order with file, status and the WordPress fields: title, alternative text and caption. |
 | `visuals.md` | Visual concept: what WordPress allows, the design rules (one colour code, light figures), each visual with format, source and effort, and the open points on rights. The clips it planned were dropped on 2026-11-11. |
 | `plots/make_plots.py` | Draws the article's static charts (generator ranking, bands, generated vs real test set, accuracy vs latency) as 1600 px PNGs into `plots/out/`. Run: `uv run --script thesis/blog/plots/make_plots.py`. |
@@ -62,5 +63,6 @@ Planned next: the five photo composites listed in `media.md` (`figures/rejects.j
   (generator choice, price, prompt against model, rare-class limit of the comparison, band
   and test-set confounds), slogan headings replaced, TL;DR and takeaways rewritten to match,
   links added on first mention. The production generator is now described as the easier
-  setup, with gpt-image-2 about a quarter ahead in the comparison. Title changed to
-  "Too Few Photos of the Binturong?" (the binturong has 36 real photos, not none).
+  setup, with gpt-image-2 about a quarter ahead in the comparison. The review and the
+  rules are recorded in `writing-rules.md`. The title stays "No Photos of the Binturong?":
+  a question to the reader, not a statement about the dataset.

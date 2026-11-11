@@ -1,4 +1,4 @@
-# Too Few Photos of the Binturong? Training a Wildlife Detector for a Binocular with AI-Generated Images
+# No Photos of the Binturong? Training a Wildlife Detector for a Binocular with AI-Generated Images
 
 <!--
 Draft v2, 2026-11-11. About 3,900 words of body text (v1: about 2,900 by the same count).
@@ -7,15 +7,7 @@ Label: Artificial Intelligence Expert. Tags: Computer Vision, Generative AI, Edg
 caption of each one; visuals.md the concept. All visuals are static images (no clips).
 Every number is traced in the "Sources" table at the end of this file (not part of the article).
 
-Writing rules of v2 (after the review of v1):
-1. A claim is as strong as its evidence. No "nothing", "never", "no trend" from a handful of
-   models or single runs; say how many models and runs a statement rests on.
-2. Headings and bold lines state the finding. No slogans that the article's own numbers contradict.
-3. What we did and why is told as it happened. No invented surprises, mistakes or motives.
-4. Every point ends in something a reader can use. An observation without a consequence is cut
-   or attached to the point it illustrates.
-5. Confounds are named where the claim is made, not in a later caveat.
-6. TL;DR, body and takeaways say the same thing.
+Read writing-rules.md before editing: it holds the review of v1 and the rules this draft follows.
 -->
 
 **TL;DR: Key findings**
