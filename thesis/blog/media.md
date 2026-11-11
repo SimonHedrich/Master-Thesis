@@ -43,7 +43,7 @@ If another candidate is chosen:
 - **File:** `plots/out/ranking.png` (exists)
 - **Title:** Generator ranking by detector accuracy on real photos
 - **Alternative text:** Bar chart titled "Which generator teaches a detector best?", showing mAP on 9,742 real photos after training on 1,200 generated images. API models with prompts of about 5,900 tokens lead: gpt-image-2 low 0.134, gpt-image-2 medium 0.126, Gemini 3.1 Flash Image 0.105, Gemini 3.1 Flash-Lite 0.095. With a short prompt of at most 75 tokens, gpt-image-2 low drops to 0.074 and Gemini Flash-Lite to 0.049. Models that run locally, with prompts of 75 to 512 tokens: SD 3.5 Large 0.055, SD 3.5 Medium 0.054, SD 3.5 Large Turbo 0.043, FLUX.2 klein 0.037, HiDream-I1 0.029, RealVisXL Lightning 0.023.
-- **Caption:** Every API model (blue) beats every local model (grey). The hatched bars are the same two API models with a short prompt: they lose almost half of their accuracy. Lines show the spread across training runs.
+- **Caption:** With its full prompt, every API model (blue) beats every local model (grey). The hatched bars are the same two API models with a short prompt: they lose almost half of their accuracy. Lines show the spread across training runs.
 
 ## Figure 5: one lion, four prompt lengths
 
@@ -57,14 +57,14 @@ If another candidate is chosen:
 - **File:** `figures/kinkajou.jpg` (to build)
 - **Title:** Kinkajou: real photo and three generators
 - **Alternative text:** Four images side by side. A real photo of a kinkajou, a small golden-brown animal with a plain tail. Next to it three AI-generated kinkajous: the one from FLUX.2 klein has a spotted coat and a ringed tail, which is marked with a circle. The ones from SD 3.5 Large and HiDream-I1 have plain coats and tails like the real animal.
-- **Caption:** A real kinkajou has a plain tail. FLUX.2 klein gives it rings and spots, closer to a genet, and the accuracy numbers do not show it. Real photo: `[attribution]`; the other three images are AI-generated.
+- **Caption:** A real kinkajou has a plain tail. FLUX.2 klein gives it rings and spots, closer to a genet. All three generators score near zero on this species, so the measurement does not register the error. Real photo: `[attribution]`; the other three images are AI-generated.
 
 ## Figure 7: bands
 
 - **File:** `plots/out/bands.png` (exists)
 - **Title:** Detector accuracy by share of generated training images
 - **Alternative text:** Bar chart titled "Half generated works. All generated does not.", showing the mAP of YOLO26n on real test photos for four groups of classes. Band A, 50 classes trained on 200 generated images each: 0.300. Band B, 26 classes with 100 real and 100 generated images: 0.588. Band C, 26 classes with 200 real images: 0.591. Band D, 122 classes with up to 1,500 real images: 0.742.
-- **Caption:** With the same budget of 200 training images per class, half generated (Band B) is as good as all real (Band C). All generated (Band A) reaches about half of that.
+- **Caption:** With the same budget of 200 training images per class, the half-generated classes (Band B) score as high as the all-real ones (Band C). The all-generated classes (Band A) reach about half of that. The bands hold different species.
 
 ## Figure 8: generated against real test set
 
