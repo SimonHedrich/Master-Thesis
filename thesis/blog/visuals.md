@@ -99,5 +99,7 @@ static, because hatched bars show the same thing without asking the reader to wa
    Wikimedia rejects and every real animal photo (licence and attribution per image).
 2. **Video route:** ask the blog editors whether self-hosted MP4 with autoplay/loop is
    possible. If not, the clips go in as animated WebP, or as posters linking to YouTube.
-3. **Light or dark:** compare `plots/out/ranking.png` and `ranking_dark.png`.
-4. **Hero:** composite or plain product photo.
+3. **Hero:** candidates are being built in `figures/hero/`, in the style of the blog's
+   other featured images.
+
+Decided on 2026-11-11: light figures (`ranking_dark.png` stays only as the comparison).

@@ -170,8 +170,8 @@ def bands(t: dict) -> None:
                 transform=ax.get_xaxis_transform())
         ax.text(i, -0.18, f"{n} classes", ha="center", va="top", fontsize=BASE - 1, color=t["muted"],
                 transform=ax.get_xaxis_transform())
-        squares(ax, t, i, -0.36, g, r)
-        ax.text(i, -0.50 if b != "D" else -0.60, cap, ha="center", va="top", fontsize=BASE - 1,
+        squares(ax, t, i, -0.30 if b == "D" else -0.36, g, r)
+        ax.text(i, -0.50, cap, ha="center", va="top", fontsize=BASE - 1,
                 color=t["ink"], transform=ax.get_xaxis_transform())
     ax.set_xlim(-0.5, 3.5)
     ax.set_ylim(0, 0.85)
