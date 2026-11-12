@@ -30,9 +30,9 @@ necessarily a script bug. Disk is also at 95% (29GB free) — check headroom
 before queuing the largest generation cells.
 
 The RTX 3060 (12GB) is confirmed already set up with the repo and dataset.
-**Host alias confirmed live (2026-08-04):** the Makefile's `REMOTE_HOST`
-(`gpu.local`) doesn't resolve from the A40 — use the Tailscale MagicDNS
-name `gpu-server.taile550ef.ts.net` instead (same pattern as `ICS_HOST`).
+**Host (2026-08-04):** the Makefile's `REMOTE_HOST` is the Tailscale MagicDNS
+name `gpu-server.taile550ef.ts.net` (same pattern as `ICS_HOST`), because a
+laptop SSH alias doesn't resolve from the A40.
 Login user is `debian`, not `ubuntu` (the A40's own `ICS_HOST` user) —
 `ssh-copy-id` was needed first, key auth wasn't already in place from the
 A40 side. Verified via `nvidia-smi` (RTX 3060, 12288MiB) and an existing

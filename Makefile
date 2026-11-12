@@ -156,7 +156,7 @@ overleaf-force-push:
 # ─── Sync ─────────────────────────────────────────────────────────────────────
 
 # Remote server configuration
-REMOTE_HOST := gpu.local
+REMOTE_HOST := debian@gpu-server.taile550ef.ts.net
 REMOTE_PATH := ~/Master-Thesis/
 
 # NAS backup (RAID 1, always-on) — prerequisite: ssh-copy-id debian@data-server.taile550ef.ts.net

@@ -155,7 +155,7 @@ Three details worth recording:
 
 - **They live in their own `─── Thesis: Overleaf ───` section, deliberately
   separate from the existing `─── Sync ───` block.** That block is unrelated —
-  it rsyncs gitignored data to `gpu.local`, the NAS and `ics-server`. Two things
+  it rsyncs gitignored data to the gpu-server, the NAS and `ics-server`. Two things
   called "sync" in one Makefile is exactly the sort of collision that gets the
   wrong one run at 2 a.m., so the names are `overleaf-*` throughout and the
   sections do not touch.
