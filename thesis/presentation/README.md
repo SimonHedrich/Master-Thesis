@@ -76,6 +76,13 @@ Read `slides/README.md` first. This is the short version.
   `manim render`; `manim-slides render` misparses `-qk`.
 - Present: `uv run python present.py -F <scenes>`. It patches a manim-slides bug where a
   4K render overflows smaller screens.
+- Copy-paste for v3 (all six scenes, final render, then present):
+
+  ```bash
+  cd thesis/presentation/slides
+  uv run manim render -qk --frame_rate 30 talk_v3.py UseCase3 Data3 Generative3 Bands3 Models3 Summary3
+  uv run python present.py -F UseCase3 Data3 Generative3 Bands3 Models3 Summary3
+  ```
 - HTML fallback: `uv run manim-slides convert --offline <scenes> build/talk_v3.html`
 - Scroll export: `uv run python export_scroll.py [--static --out build/scroll_static] <scenes>`
 - Layout QA: `uv run python qa_frames.py <scenes>` writes the last frame of every slide
