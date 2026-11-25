@@ -163,13 +163,6 @@ REMOTE_PATH := ~/Master-Thesis/
 NAS_HOST := debian@data-server.taile550ef.ts.net
 NAS_PATH  := /data/raid1_6t/Master-Thesis/
 
-# ics-server — second repo instance (repo already cloned, only missing gitignored files)
-# prerequisite: ssh-copy-id ubuntu@ics-server.taile550ef.ts.net
-# Note: the A40's OS hostname is "thesis", but its Tailscale DNS name is
-# "ics-server" (confirmed via `tailscale status --json`) — use the latter.
-ICS_HOST := ubuntu@ics-server.taile550ef.ts.net
-ICS_PATH  := /home/ubuntu/Master-Thesis/
-
 # Set to true to skip files already present on the remote, false to overwrite
 IGNORE_EXISTING := true
 
@@ -193,19 +186,6 @@ sync:
 # Uses git to discover ignored files, then rsyncs each one preserving directory structure.
 sync-ignored:
 	@git ls-files --others --ignored --exclude-standard | rsync -avh --progress --ignore-existing --files-from=- . $(REMOTE_HOST):$(REMOTE_PATH)
-
-# Populate gitignored files on ics-server (repo already cloned there).
-# Skips existing files; safe to re-run. Excludes data/ — use sync-ics-data for that.
-sync-ics:
-	@git ls-files --others --ignored --exclude-standard \
-	  | grep -v '^data/' \
-	  | rsync -avh --progress --ignore-existing --inplace \
-	      --files-from=- . $(ICS_HOST):$(ICS_PATH)
-
-# Sync the 186 GB dataset to ics-server. Safe to interrupt and resume.
-sync-ics-data:
-	rsync -a --no-i-r --no-owner --no-group --info=progress2 --ignore-existing --inplace \
-	  /home/debian/Master-Thesis/data/ $(ICS_HOST):$(ICS_PATH)data/
 
 
 # ─── Disk ─────────────────────────────────────────────────────────────────────

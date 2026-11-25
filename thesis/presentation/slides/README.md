@@ -111,7 +111,7 @@ Inputs that are not in git:
 - `../interim-presentation.pptx` and `../interim-presentation-images/`. They are gitignored
   because of size and the NDA slides.
 - `data/` at the repo root (inaturalist, wikimedia, synthetic images), for the photos.
-- `assets/extra/` (gitignored), copied from the GPU server (`ubuntu@100.97.174.47`,
+- `assets/extra/` (gitignored), copied from the gpu-server (`debian@gpu-server.taile550ef.ts.net`,
   `~/Master-Thesis/data/`):
   - `lion_gpt-image-2-low.jpg` and `saiga_gpt-image-2-low.jpg`: `synthetic_model_comparison/train/gpt-image-2-low/full/images/{lion/d_lion_001,saiga/a_saiga_001}.png`
   - `real_test_{grevys,mountain,plains}_zebra.jpg`: one-zebra photos from the real test

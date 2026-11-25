@@ -169,9 +169,9 @@ smoke test. This is separate from the already-documented
 `--full-eval` and any `mixed`-domain evaluation degrade gracefully to
 real-only with a warning (same behavior as
 `yolov5s/eval_suite/run_evaluation.py`'s `evaluate_checkpoint`), but for the
-genuine mixed-domain report, sync the synthetic data in first (see the
-`Makefile`'s `sync`/`sync-ics-data` targets, or extract `data/synthetic.zip`
-if present). This blocks the full evaluation report, not training itself
+genuine mixed-domain report, copy `data/synthetic/` in first from the
+gpu-server (`debian@gpu-server.taile550ef.ts.net:~/Master-Thesis/data/synthetic/`),
+which holds the complete dataset. This blocks the full evaluation report, not training itself
 (training only touches `data/real/`).
 
 ## MLflow logging contract
